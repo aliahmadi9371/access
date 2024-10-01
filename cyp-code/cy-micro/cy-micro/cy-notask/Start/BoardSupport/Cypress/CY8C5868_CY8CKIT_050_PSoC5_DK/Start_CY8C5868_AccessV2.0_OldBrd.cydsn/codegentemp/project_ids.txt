@@ -1,0 +1,8 @@
+C:\Users\ali\Desktop\cy-micro\cy-micro\cy-notask\Start\BoardSupport\Cypress\CY8C5868_CY8CKIT_050_PSoC5_DK\Start_CY8C5868_AccessV2.0_OldBrd.cydsn\Start_CY8C5868_AccessV2.0_OldBrd.cyprj|756ece14-c709-4872-8d35-bab8a313b833
+C:\Users\ali\Desktop\cy-micro\cy-micro\cy-notask\Start\BoardSupport\Cypress\CY8C5868_CY8CKIT_050_PSoC5_DK\View\View\View.cylib\View.cyprj|7d91175a-70aa-4891-a704-ca6ac07f4fad
+C:\Users\ali\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|965a8858-50fa-48c7-b1b5-ef90ebbb5702
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|71be85f4-1f69-48a8-b077-fe31c98c0f36
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|3020f0fe-a26f-4aff-a6c8-cbbfc56595a7
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|2e5df334-2513-4636-a863-4ffd176093fe
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|c850f601-6d77-44f7-83e9-b548fe96aeaf
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|28804722-3a73-4a31-b7e2-6c93676b2b16

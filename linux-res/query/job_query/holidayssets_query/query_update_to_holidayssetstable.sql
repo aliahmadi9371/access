@@ -1,0 +1,38 @@
+UPDATE
+	%1.HolidaysSetsTable
+SET
+	%1.HolidaysSetsTable.code = %2,
+	%1.HolidaysSetsTable.uuid01_HolidaysTableUuid = %3,
+	%1.HolidaysSetsTable.uuid02_HolidaysTableUuid = %4,
+	%1.HolidaysSetsTable.uuid03_HolidaysTableUuid = %5,
+	%1.HolidaysSetsTable.uuid04_HolidaysTableUuid = %6,
+	%1.HolidaysSetsTable.uuid05_HolidaysTableUuid = %7,
+	%1.HolidaysSetsTable.uuid06_HolidaysTableUuid = %8,
+	%1.HolidaysSetsTable.uuid07_HolidaysTableUuid = %9,
+	%1.HolidaysSetsTable.uuid08_HolidaysTableUuid = %10,
+	%1.HolidaysSetsTable.uuid09_HolidaysTableUuid = %11,
+	%1.HolidaysSetsTable.uuid10_HolidaysTableUuid = %12,
+	%1.HolidaysSetsTable.uuid11_HolidaysTableUuid = %13,
+	%1.HolidaysSetsTable.uuid12_HolidaysTableUuid = %14,
+	%1.HolidaysSetsTable.uuid13_HolidaysTableUuid = %15,
+	%1.HolidaysSetsTable.uuid14_HolidaysTableUuid = %16,
+	%1.HolidaysSetsTable.uuid15_HolidaysTableUuid = %17,
+	%1.HolidaysSetsTable.uuid16_HolidaysTableUuid = %18,
+	%1.HolidaysSetsTable.uuid17_HolidaysTableUuid = %19,
+	%1.HolidaysSetsTable.uuid18_HolidaysTableUuid = %20,
+	%1.HolidaysSetsTable.uuid19_HolidaysTableUuid = %21,
+	%1.HolidaysSetsTable.uuid20_HolidaysTableUuid = %22,
+	%1.HolidaysSetsTable.uuid21_HolidaysTableUuid = %23,
+	%1.HolidaysSetsTable.uuid22_HolidaysTableUuid = %24,
+	%1.HolidaysSetsTable.uuid23_HolidaysTableUuid = %25,
+	%1.HolidaysSetsTable.uuid24_HolidaysTableUuid = %26,
+	%1.HolidaysSetsTable.uuid25_HolidaysTableUuid = %27,
+	%1.HolidaysSetsTable.uuid26_HolidaysTableUuid = %28,
+	%1.HolidaysSetsTable.uuid27_HolidaysTableUuid = %29,
+	%1.HolidaysSetsTable.uuid28_HolidaysTableUuid = %30,
+	%1.HolidaysSetsTable.uuid29_HolidaysTableUuid = %31,
+	%1.HolidaysSetsTable.uuid30_HolidaysTableUuid = %32,
+	%1.HolidaysSetsTable.uuid31_HolidaysTableUuid = %33,
+	%1.HolidaysSetsTable.uuid32_HolidaysTableUuid = %34
+WHERE
+	%1.HolidaysSetsTable.UUID = '%35'

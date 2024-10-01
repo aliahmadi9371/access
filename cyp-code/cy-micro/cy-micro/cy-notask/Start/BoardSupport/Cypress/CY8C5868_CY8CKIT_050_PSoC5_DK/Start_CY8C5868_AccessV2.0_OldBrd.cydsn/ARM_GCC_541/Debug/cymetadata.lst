@@ -1,0 +1,2148 @@
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cymetadata.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	cy_meta_loadable
+  20              		.section	.cyloadablemeta,"a",%progbits
+  21              		.align	2
+  22              		.type	cy_meta_loadable, %object
+  23              		.size	cy_meta_loadable, 64
+  24              	cy_meta_loadable:
+  25 0000 00000000 		.space	64
+  25      00000000 
+  25      00000000 
+  25      00000000 
+  25      00000000 
+  26              		.global	cy_meta_configecc
+  27              		.section	.cyconfigecc,"a",%progbits
+  28              		.align	2
+  29              		.type	cy_meta_configecc, %object
+  30              		.size	cy_meta_configecc, 1664
+  31              	cy_meta_configecc:
+  32 0000 06       		.byte	6
+  33 0001 45       		.byte	69
+  34 0002 00       		.byte	0
+  35 0003 40       		.byte	64
+  36 0004 02       		.byte	2
+  37 0005 52       		.byte	82
+  38 0006 00       		.byte	0
+  39 0007 40       		.byte	64
+  40 0008 03       		.byte	3
+  41 0009 64       		.byte	100
+  42 000a 00       		.byte	0
+  43 000b 40       		.byte	64
+  44 000c 03       		.byte	3
+  45 000d 65       		.byte	101
+  46 000e 00       		.byte	0
+  47 000f 40       		.byte	64
+  48 0010 2D       		.byte	45
+  49 0011 02       		.byte	2
+  50 0012 01       		.byte	1
+  51 0013 40       		.byte	64
+  52 0014 23       		.byte	35
+  53 0015 03       		.byte	3
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 2
+
+
+  54 0016 01       		.byte	1
+  55 0017 40       		.byte	64
+  56 0018 55       		.byte	85
+  57 0019 04       		.byte	4
+  58 001a 01       		.byte	1
+  59 001b 40       		.byte	64
+  60 001c 3F       		.byte	63
+  61 001d 05       		.byte	5
+  62 001e 01       		.byte	1
+  63 001f 40       		.byte	64
+  64 0020 5F       		.byte	95
+  65 0021 06       		.byte	6
+  66 0022 01       		.byte	1
+  67 0023 40       		.byte	64
+  68 0024 3D       		.byte	61
+  69 0025 07       		.byte	7
+  70 0026 01       		.byte	1
+  71 0027 40       		.byte	64
+  72 0028 15       		.byte	21
+  73 0029 14       		.byte	20
+  74 002a 01       		.byte	1
+  75 002b 40       		.byte	64
+  76 002c 3F       		.byte	63
+  77 002d 15       		.byte	21
+  78 002e 01       		.byte	1
+  79 002f 40       		.byte	64
+  80 0030 54       		.byte	84
+  81 0031 16       		.byte	22
+  82 0032 01       		.byte	1
+  83 0033 40       		.byte	64
+  84 0034 43       		.byte	67
+  85 0035 17       		.byte	23
+  86 0036 01       		.byte	1
+  87 0037 40       		.byte	64
+  88 0038 06       		.byte	6
+  89 0039 40       		.byte	64
+  90 003a 01       		.byte	1
+  91 003b 40       		.byte	64
+  92 003c 04       		.byte	4
+  93 003d 41       		.byte	65
+  94 003e 01       		.byte	1
+  95 003f 40       		.byte	64
+  96 0040 0A       		.byte	10
+  97 0041 42       		.byte	66
+  98 0042 01       		.byte	1
+  99 0043 40       		.byte	64
+ 100 0044 04       		.byte	4
+ 101 0045 43       		.byte	67
+ 102 0046 01       		.byte	1
+ 103 0047 40       		.byte	64
+ 104 0048 09       		.byte	9
+ 105 0049 48       		.byte	72
+ 106 004a 01       		.byte	1
+ 107 004b 40       		.byte	64
+ 108 004c 0A       		.byte	10
+ 109 004d 49       		.byte	73
+ 110 004e 01       		.byte	1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 3
+
+
+ 111 004f 40       		.byte	64
+ 112 0050 09       		.byte	9
+ 113 0051 50       		.byte	80
+ 114 0052 01       		.byte	1
+ 115 0053 40       		.byte	64
+ 116 0054 02       		.byte	2
+ 117 0055 51       		.byte	81
+ 118 0056 01       		.byte	1
+ 119 0057 40       		.byte	64
+ 120 0058 11       		.byte	17
+ 121 0059 02       		.byte	2
+ 122 005a 12       		.byte	18
+ 123 005b 02       		.byte	2
+ 124 005c 13       		.byte	19
+ 125 005d 02       		.byte	2
+ 126 005e 34       		.byte	52
+ 127 005f 02       		.byte	2
+ 128 0060 35       		.byte	53
+ 129 0061 02       		.byte	2
+ 130 0062 36       		.byte	54
+ 131 0063 02       		.byte	2
+ 132 0064 18       		.byte	24
+ 133 0065 01       		.byte	1
+ 134 0066 61       		.byte	97
+ 135 0067 02       		.byte	2
+ 136 0068 82       		.byte	-126
+ 137 0069 72       		.byte	114
+ 138 006a 85       		.byte	-123
+ 139 006b 38       		.byte	56
+ 140 006c 87       		.byte	-121
+ 141 006d 0F       		.byte	15
+ 142 006e 84       		.byte	-124
+ 143 006f 72       		.byte	114
+ 144 0070 86       		.byte	-122
+ 145 0071 0F       		.byte	15
+ 146 0072 87       		.byte	-121
+ 147 0073 38       		.byte	56
+ 148 0074 01       		.byte	1
+ 149 0075 7F       		.byte	127
+ 150 0076 02       		.byte	2
+ 151 0077 40       		.byte	64
+ 152 0078 04       		.byte	4
+ 153 0079 01       		.byte	1
+ 154 007a 05       		.byte	5
+ 155 007b 01       		.byte	1
+ 156 007c 08       		.byte	8
+ 157 007d 04       		.byte	4
+ 158 007e 09       		.byte	9
+ 159 007f 10       		.byte	16
+ 160 0080 0C       		.byte	12
+ 161 0081 08       		.byte	8
+ 162 0082 0D       		.byte	13
+ 163 0083 70       		.byte	112
+ 164 0084 0F       		.byte	15
+ 165 0085 0F       		.byte	15
+ 166 0086 10       		.byte	16
+ 167 0087 4F       		.byte	79
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 4
+
+
+ 168 0088 12       		.byte	18
+ 169 0089 90       		.byte	-112
+ 170 008a 13       		.byte	19
+ 171 008b 0B       		.byte	11
+ 172 008c 14       		.byte	20
+ 173 008d 4C       		.byte	76
+ 174 008e 15       		.byte	21
+ 175 008f 03       		.byte	3
+ 176 0090 16       		.byte	22
+ 177 0091 A3       		.byte	-93
+ 178 0092 18       		.byte	24
+ 179 0093 F3       		.byte	-13
+ 180 0094 19       		.byte	25
+ 181 0095 30       		.byte	48
+ 182 0096 1A       		.byte	26
+ 183 0097 0C       		.byte	12
+ 184 0098 1D       		.byte	29
+ 185 0099 20       		.byte	32
+ 186 009a 1E       		.byte	30
+ 187 009b B3       		.byte	-77
+ 188 009c 20       		.byte	32
+ 189 009d 42       		.byte	66
+ 190 009e 24       		.byte	36
+ 191 009f 03       		.byte	3
+ 192 00a0 25       		.byte	37
+ 193 00a1 4F       		.byte	79
+ 194 00a2 27       		.byte	39
+ 195 00a3 30       		.byte	48
+ 196 00a4 28       		.byte	40
+ 197 00a5 0C       		.byte	12
+ 198 00a6 29       		.byte	41
+ 199 00a7 78       		.byte	120
+ 200 00a8 2B       		.byte	43
+ 201 00a9 07       		.byte	7
+ 202 00aa 2C       		.byte	44
+ 203 00ab FF       		.byte	-1
+ 204 00ac 2D       		.byte	45
+ 205 00ad 02       		.byte	2
+ 206 00ae 30       		.byte	48
+ 207 00af 8C       		.byte	-116
+ 208 00b0 31       		.byte	49
+ 209 00b1 04       		.byte	4
+ 210 00b2 32       		.byte	50
+ 211 00b3 7C       		.byte	124
+ 212 00b4 33       		.byte	51
+ 213 00b5 40       		.byte	64
+ 214 00b6 34       		.byte	52
+ 215 00b7 0F       		.byte	15
+ 216 00b8 35       		.byte	53
+ 217 00b9 38       		.byte	56
+ 218 00ba 37       		.byte	55
+ 219 00bb 03       		.byte	3
+ 220 00bc 39       		.byte	57
+ 221 00bd 02       		.byte	2
+ 222 00be 3A       		.byte	58
+ 223 00bf AA       		.byte	-86
+ 224 00c0 3F       		.byte	63
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 5
+
+
+ 225 00c1 04       		.byte	4
+ 226 00c2 56       		.byte	86
+ 227 00c3 02       		.byte	2
+ 228 00c4 57       		.byte	87
+ 229 00c5 12       		.byte	18
+ 230 00c6 58       		.byte	88
+ 231 00c7 04       		.byte	4
+ 232 00c8 59       		.byte	89
+ 233 00c9 04       		.byte	4
+ 234 00ca 5B       		.byte	91
+ 235 00cb 04       		.byte	4
+ 236 00cc 5F       		.byte	95
+ 237 00cd 01       		.byte	1
+ 238 00ce 04       		.byte	4
+ 239 00cf 06       		.byte	6
+ 240 00d0 05       		.byte	5
+ 241 00d1 40       		.byte	64
+ 242 00d2 06       		.byte	6
+ 243 00d3 04       		.byte	4
+ 244 00d4 0D       		.byte	13
+ 245 00d5 20       		.byte	32
+ 246 00d6 0E       		.byte	14
+ 247 00d7 62       		.byte	98
+ 248 00d8 16       		.byte	22
+ 249 00d9 82       		.byte	-126
+ 250 00da 17       		.byte	23
+ 251 00db 14       		.byte	20
+ 252 00dc 1D       		.byte	29
+ 253 00dd 20       		.byte	32
+ 254 00de 1E       		.byte	30
+ 255 00df 61       		.byte	97
+ 256 00e0 1F       		.byte	31
+ 257 00e1 28       		.byte	40
+ 258 00e2 24       		.byte	36
+ 259 00e3 88       		.byte	-120
+ 260 00e4 26       		.byte	38
+ 261 00e5 04       		.byte	4
+ 262 00e6 27       		.byte	39
+ 263 00e7 02       		.byte	2
+ 264 00e8 2F       		.byte	47
+ 265 00e9 29       		.byte	41
+ 266 00ea 35       		.byte	53
+ 267 00eb 40       		.byte	64
+ 268 00ec 36       		.byte	54
+ 269 00ed 01       		.byte	1
+ 270 00ee 37       		.byte	55
+ 271 00ef 14       		.byte	20
+ 272 00f0 3C       		.byte	60
+ 273 00f1 24       		.byte	36
+ 274 00f2 3D       		.byte	61
+ 275 00f3 0A       		.byte	10
+ 276 00f4 3E       		.byte	62
+ 277 00f5 43       		.byte	67
+ 278 00f6 5E       		.byte	94
+ 279 00f7 08       		.byte	8
+ 280 00f8 6D       		.byte	109
+ 281 00f9 14       		.byte	20
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 6
+
+
+ 282 00fa 6E       		.byte	110
+ 283 00fb 14       		.byte	20
+ 284 00fc 6F       		.byte	111
+ 285 00fd 01       		.byte	1
+ 286 00fe 74       		.byte	116
+ 287 00ff 10       		.byte	16
+ 288 0100 75       		.byte	117
+ 289 0101 40       		.byte	64
+ 290 0102 76       		.byte	118
+ 291 0103 04       		.byte	4
+ 292 0104 77       		.byte	119
+ 293 0105 10       		.byte	16
+ 294 0106 C0       		.byte	-64
+ 295 0107 F0       		.byte	-16
+ 296 0108 C2       		.byte	-62
+ 297 0109 F0       		.byte	-16
+ 298 010a C4       		.byte	-60
+ 299 010b F0       		.byte	-16
+ 300 010c CA       		.byte	-54
+ 301 010d 70       		.byte	112
+ 302 010e CC       		.byte	-52
+ 303 010f F0       		.byte	-16
+ 304 0110 CE       		.byte	-50
+ 305 0111 F0       		.byte	-16
+ 306 0112 D6       		.byte	-42
+ 307 0113 40       		.byte	64
+ 308 0114 03       		.byte	3
+ 309 0115 03       		.byte	3
+ 310 0116 04       		.byte	4
+ 311 0117 01       		.byte	1
+ 312 0118 05       		.byte	5
+ 313 0119 0C       		.byte	12
+ 314 011a 06       		.byte	6
+ 315 011b 0E       		.byte	14
+ 316 011c 07       		.byte	7
+ 317 011d 11       		.byte	17
+ 318 011e 08       		.byte	8
+ 319 011f 01       		.byte	1
+ 320 0120 0A       		.byte	10
+ 321 0121 26       		.byte	38
+ 322 0122 0C       		.byte	12
+ 323 0123 2C       		.byte	44
+ 324 0124 0D       		.byte	13
+ 325 0125 1C       		.byte	28
+ 326 0126 0E       		.byte	14
+ 327 0127 03       		.byte	3
+ 328 0128 0F       		.byte	15
+ 329 0129 02       		.byte	2
+ 330 012a 15       		.byte	21
+ 331 012b 10       		.byte	16
+ 332 012c 16       		.byte	22
+ 333 012d 2C       		.byte	44
+ 334 012e 17       		.byte	23
+ 335 012f 0C       		.byte	12
+ 336 0130 19       		.byte	25
+ 337 0131 09       		.byte	9
+ 338 0132 1B       		.byte	27
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 7
+
+
+ 339 0133 10       		.byte	16
+ 340 0134 1D       		.byte	29
+ 341 0135 10       		.byte	16
+ 342 0136 22       		.byte	34
+ 343 0137 08       		.byte	8
+ 344 0138 2A       		.byte	42
+ 345 0139 03       		.byte	3
+ 346 013a 2C       		.byte	44
+ 347 013b 10       		.byte	16
+ 348 013c 2D       		.byte	45
+ 349 013d 14       		.byte	20
+ 350 013e 30       		.byte	48
+ 351 013f 0F       		.byte	15
+ 352 0140 31       		.byte	49
+ 353 0141 1F       		.byte	31
+ 354 0142 34       		.byte	52
+ 355 0143 2A       		.byte	42
+ 356 0144 36       		.byte	54
+ 357 0145 10       		.byte	16
+ 358 0146 3A       		.byte	58
+ 359 0147 22       		.byte	34
+ 360 0148 3E       		.byte	62
+ 361 0149 40       		.byte	64
+ 362 014a 58       		.byte	88
+ 363 014b 04       		.byte	4
+ 364 014c 59       		.byte	89
+ 365 014d 04       		.byte	4
+ 366 014e 5C       		.byte	92
+ 367 014f 11       		.byte	17
+ 368 0150 5F       		.byte	95
+ 369 0151 01       		.byte	1
+ 370 0152 85       		.byte	-123
+ 371 0153 1F       		.byte	31
+ 372 0154 86       		.byte	-122
+ 373 0155 01       		.byte	1
+ 374 0156 89       		.byte	-119
+ 375 0157 1F       		.byte	31
+ 376 0158 8A       		.byte	-118
+ 377 0159 04       		.byte	4
+ 378 015a 8E       		.byte	-114
+ 379 015b 04       		.byte	4
+ 380 015c 95       		.byte	-107
+ 381 015d 01       		.byte	1
+ 382 015e 96       		.byte	-106
+ 383 015f 01       		.byte	1
+ 384 0160 97       		.byte	-105
+ 385 0161 26       		.byte	38
+ 386 0162 99       		.byte	-103
+ 387 0163 0A       		.byte	10
+ 388 0164 9B       		.byte	-101
+ 389 0165 51       		.byte	81
+ 390 0166 A0       		.byte	-96
+ 391 0167 02       		.byte	2
+ 392 0168 A4       		.byte	-92
+ 393 0169 02       		.byte	2
+ 394 016a A8       		.byte	-88
+ 395 016b 02       		.byte	2
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 8
+
+
+ 396 016c AD       		.byte	-83
+ 397 016d 14       		.byte	20
+ 398 016e AF       		.byte	-81
+ 399 016f C9       		.byte	-55
+ 400 0170 B0       		.byte	-80
+ 401 0171 01       		.byte	1
+ 402 0172 B1       		.byte	-79
+ 403 0173 60       		.byte	96
+ 404 0174 B2       		.byte	-78
+ 405 0175 04       		.byte	4
+ 406 0176 B3       		.byte	-77
+ 407 0177 18       		.byte	24
+ 408 0178 B5       		.byte	-75
+ 409 0179 07       		.byte	7
+ 410 017a B6       		.byte	-74
+ 411 017b 02       		.byte	2
+ 412 017c B7       		.byte	-73
+ 413 017d 80       		.byte	-128
+ 414 017e BE       		.byte	-66
+ 415 017f 05       		.byte	5
+ 416 0180 BF       		.byte	-65
+ 417 0181 01       		.byte	1
+ 418 0182 C0       		.byte	-64
+ 419 0183 25       		.byte	37
+ 420 0184 C1       		.byte	-63
+ 421 0185 04       		.byte	4
+ 422 0186 C2       		.byte	-62
+ 423 0187 03       		.byte	3
+ 424 0188 C4       		.byte	-60
+ 425 0189 01       		.byte	1
+ 426 018a C6       		.byte	-58
+ 427 018b C0       		.byte	-64
+ 428 018c C7       		.byte	-57
+ 429 018d 0E       		.byte	14
+ 430 018e C8       		.byte	-56
+ 431 018f 18       		.byte	24
+ 432 0190 C9       		.byte	-55
+ 433 0191 FF       		.byte	-1
+ 434 0192 CA       		.byte	-54
+ 435 0193 FF       		.byte	-1
+ 436 0194 CB       		.byte	-53
+ 437 0195 FF       		.byte	-1
+ 438 0196 CC       		.byte	-52
+ 439 0197 62       		.byte	98
+ 440 0198 CD       		.byte	-51
+ 441 0199 A0       		.byte	-96
+ 442 019a CE       		.byte	-50
+ 443 019b F0       		.byte	-16
+ 444 019c CF       		.byte	-49
+ 445 019d 41       		.byte	65
+ 446 019e D0       		.byte	-48
+ 447 019f 0C       		.byte	12
+ 448 01a0 D4       		.byte	-44
+ 449 01a1 18       		.byte	24
+ 450 01a2 D6       		.byte	-42
+ 451 01a3 04       		.byte	4
+ 452 01a4 D8       		.byte	-40
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 9
+
+
+ 453 01a5 04       		.byte	4
+ 454 01a6 D9       		.byte	-39
+ 455 01a7 04       		.byte	4
+ 456 01a8 DA       		.byte	-38
+ 457 01a9 04       		.byte	4
+ 458 01aa DB       		.byte	-37
+ 459 01ab 04       		.byte	4
+ 460 01ac DF       		.byte	-33
+ 461 01ad 01       		.byte	1
+ 462 01ae E6       		.byte	-26
+ 463 01af 40       		.byte	64
+ 464 01b0 E7       		.byte	-25
+ 465 01b1 02       		.byte	2
+ 466 01b2 E9       		.byte	-23
+ 467 01b3 10       		.byte	16
+ 468 01b4 EA       		.byte	-22
+ 469 01b5 30       		.byte	48
+ 470 01b6 EB       		.byte	-21
+ 471 01b7 10       		.byte	16
+ 472 01b8 ED       		.byte	-19
+ 473 01b9 10       		.byte	16
+ 474 01ba EE       		.byte	-18
+ 475 01bb 10       		.byte	16
+ 476 01bc EF       		.byte	-17
+ 477 01bd 12       		.byte	18
+ 478 01be 00       		.byte	0
+ 479 01bf 44       		.byte	68
+ 480 01c0 03       		.byte	3
+ 481 01c1 08       		.byte	8
+ 482 01c2 04       		.byte	4
+ 483 01c3 88       		.byte	-120
+ 484 01c4 06       		.byte	6
+ 485 01c5 14       		.byte	20
+ 486 01c6 0A       		.byte	10
+ 487 01c7 20       		.byte	32
+ 488 01c8 0F       		.byte	15
+ 489 01c9 20       		.byte	32
+ 490 01ca 10       		.byte	16
+ 491 01cb 88       		.byte	-120
+ 492 01cc 12       		.byte	18
+ 493 01cd 02       		.byte	2
+ 494 01ce 15       		.byte	21
+ 495 01cf 14       		.byte	20
+ 496 01d0 17       		.byte	23
+ 497 01d1 01       		.byte	1
+ 498 01d2 18       		.byte	24
+ 499 01d3 44       		.byte	68
+ 500 01d4 19       		.byte	25
+ 501 01d5 40       		.byte	64
+ 502 01d6 1E       		.byte	30
+ 503 01d7 42       		.byte	66
+ 504 01d8 1F       		.byte	31
+ 505 01d9 84       		.byte	-124
+ 506 01da 21       		.byte	33
+ 507 01db 01       		.byte	1
+ 508 01dc 22       		.byte	34
+ 509 01dd 02       		.byte	2
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 10
+
+
+ 510 01de 24       		.byte	36
+ 511 01df 02       		.byte	2
+ 512 01e0 25       		.byte	37
+ 513 01e1 04       		.byte	4
+ 514 01e2 27       		.byte	39
+ 515 01e3 64       		.byte	100
+ 516 01e4 2A       		.byte	42
+ 517 01e5 40       		.byte	64
+ 518 01e6 2B       		.byte	43
+ 519 01e7 C0       		.byte	-64
+ 520 01e8 2F       		.byte	47
+ 521 01e9 01       		.byte	1
+ 522 01ea 30       		.byte	48
+ 523 01eb 80       		.byte	-128
+ 524 01ec 32       		.byte	50
+ 525 01ed 10       		.byte	16
+ 526 01ee 33       		.byte	51
+ 527 01ef 08       		.byte	8
+ 528 01f0 37       		.byte	55
+ 529 01f1 24       		.byte	36
+ 530 01f2 38       		.byte	56
+ 531 01f3 44       		.byte	68
+ 532 01f4 39       		.byte	57
+ 533 01f5 02       		.byte	2
+ 534 01f6 3E       		.byte	62
+ 535 01f7 14       		.byte	20
+ 536 01f8 45       		.byte	69
+ 537 01f9 21       		.byte	33
+ 538 01fa 46       		.byte	70
+ 539 01fb 10       		.byte	16
+ 540 01fc 47       		.byte	71
+ 541 01fd 40       		.byte	64
+ 542 01fe 4F       		.byte	79
+ 543 01ff 80       		.byte	-128
+ 544 0200 56       		.byte	86
+ 545 0201 04       		.byte	4
+ 546 0202 57       		.byte	87
+ 547 0203 10       		.byte	16
+ 548 0204 5D       		.byte	93
+ 549 0205 80       		.byte	-128
+ 550 0206 5E       		.byte	94
+ 551 0207 40       		.byte	64
+ 552 0208 5F       		.byte	95
+ 553 0209 02       		.byte	2
+ 554 020a 65       		.byte	101
+ 555 020b 81       		.byte	-127
+ 556 020c 67       		.byte	103
+ 557 020d 48       		.byte	72
+ 558 020e 81       		.byte	-127
+ 559 020f 01       		.byte	1
+ 560 0210 87       		.byte	-121
+ 561 0211 40       		.byte	64
+ 562 0212 90       		.byte	-112
+ 563 0213 88       		.byte	-120
+ 564 0214 91       		.byte	-111
+ 565 0215 14       		.byte	20
+ 566 0216 92       		.byte	-110
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 11
+
+
+ 567 0217 14       		.byte	20
+ 568 0218 94       		.byte	-108
+ 569 0219 02       		.byte	2
+ 570 021a 97       		.byte	-105
+ 571 021b 02       		.byte	2
+ 572 021c 9B       		.byte	-101
+ 573 021d 03       		.byte	3
+ 574 021e 9E       		.byte	-98
+ 575 021f 80       		.byte	-128
+ 576 0220 9F       		.byte	-97
+ 577 0221 04       		.byte	4
+ 578 0222 A1       		.byte	-95
+ 579 0223 21       		.byte	33
+ 580 0224 A5       		.byte	-91
+ 581 0225 04       		.byte	4
+ 582 0226 A6       		.byte	-90
+ 583 0227 01       		.byte	1
+ 584 0228 C0       		.byte	-64
+ 585 0229 E7       		.byte	-25
+ 586 022a C2       		.byte	-62
+ 587 022b 24       		.byte	36
+ 588 022c C4       		.byte	-60
+ 589 022d 7B       		.byte	123
+ 590 022e CA       		.byte	-54
+ 591 022f 18       		.byte	24
+ 592 0230 CC       		.byte	-52
+ 593 0231 6E       		.byte	110
+ 594 0232 CE       		.byte	-50
+ 595 0233 6B       		.byte	107
+ 596 0234 D0       		.byte	-48
+ 597 0235 F0       		.byte	-16
+ 598 0236 D2       		.byte	-46
+ 599 0237 10       		.byte	16
+ 600 0238 D6       		.byte	-42
+ 601 0239 80       		.byte	-128
+ 602 023a D8       		.byte	-40
+ 603 023b B0       		.byte	-80
+ 604 023c 01       		.byte	1
+ 605 023d 20       		.byte	32
+ 606 023e 04       		.byte	4
+ 607 023f 07       		.byte	7
+ 608 0240 05       		.byte	5
+ 609 0241 10       		.byte	16
+ 610 0242 09       		.byte	9
+ 611 0243 09       		.byte	9
+ 612 0244 0B       		.byte	11
+ 613 0245 10       		.byte	16
+ 614 0246 10       		.byte	16
+ 615 0247 02       		.byte	2
+ 616 0248 11       		.byte	17
+ 617 0249 10       		.byte	16
+ 618 024a 12       		.byte	18
+ 619 024b 04       		.byte	4
+ 620 024c 13       		.byte	19
+ 621 024d 0C       		.byte	12
+ 622 024e 15       		.byte	21
+ 623 024f 0C       		.byte	12
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 12
+
+
+ 624 0250 17       		.byte	23
+ 625 0251 11       		.byte	17
+ 626 0252 19       		.byte	25
+ 627 0253 40       		.byte	64
+ 628 0254 1B       		.byte	27
+ 629 0255 03       		.byte	3
+ 630 0256 1C       		.byte	28
+ 631 0257 08       		.byte	8
+ 632 0258 1E       		.byte	30
+ 633 0259 01       		.byte	1
+ 634 025a 20       		.byte	32
+ 635 025b 07       		.byte	7
+ 636 025c 25       		.byte	37
+ 637 025d 14       		.byte	20
+ 638 025e 2D       		.byte	45
+ 639 025f 1C       		.byte	28
+ 640 0260 2F       		.byte	47
+ 641 0261 02       		.byte	2
+ 642 0262 32       		.byte	50
+ 643 0263 0C       		.byte	12
+ 644 0264 33       		.byte	51
+ 645 0265 1F       		.byte	31
+ 646 0266 34       		.byte	52
+ 647 0267 03       		.byte	3
+ 648 0268 35       		.byte	53
+ 649 0269 20       		.byte	32
+ 650 026a 37       		.byte	55
+ 651 026b 40       		.byte	64
+ 652 026c 38       		.byte	56
+ 653 026d 28       		.byte	40
+ 654 026e 3E       		.byte	62
+ 655 026f 10       		.byte	16
+ 656 0270 3F       		.byte	63
+ 657 0271 50       		.byte	80
+ 658 0272 40       		.byte	64
+ 659 0273 02       		.byte	2
+ 660 0274 47       		.byte	71
+ 661 0275 04       		.byte	4
+ 662 0276 49       		.byte	73
+ 663 0277 FF       		.byte	-1
+ 664 0278 4A       		.byte	74
+ 665 0279 07       		.byte	7
+ 666 027a 4B       		.byte	75
+ 667 027b FF       		.byte	-1
+ 668 027c 4C       		.byte	76
+ 669 027d 40       		.byte	64
+ 670 027e 4D       		.byte	77
+ 671 027f 20       		.byte	32
+ 672 0280 4E       		.byte	78
+ 673 0281 F0       		.byte	-16
+ 674 0282 4F       		.byte	79
+ 675 0283 05       		.byte	5
+ 676 0284 50       		.byte	80
+ 677 0285 08       		.byte	8
+ 678 0286 56       		.byte	86
+ 679 0287 08       		.byte	8
+ 680 0288 58       		.byte	88
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 13
+
+
+ 681 0289 04       		.byte	4
+ 682 028a 59       		.byte	89
+ 683 028b 04       		.byte	4
+ 684 028c 5A       		.byte	90
+ 685 028d 04       		.byte	4
+ 686 028e 5B       		.byte	91
+ 687 028f 04       		.byte	4
+ 688 0290 5D       		.byte	93
+ 689 0291 90       		.byte	-112
+ 690 0292 5F       		.byte	95
+ 691 0293 01       		.byte	1
+ 692 0294 60       		.byte	96
+ 693 0295 40       		.byte	64
+ 694 0296 61       		.byte	97
+ 695 0297 A8       		.byte	-88
+ 696 0298 62       		.byte	98
+ 697 0299 40       		.byte	64
+ 698 029a 63       		.byte	99
+ 699 029b 20       		.byte	32
+ 700 029c 84       		.byte	-124
+ 701 029d 03       		.byte	3
+ 702 029e 85       		.byte	-123
+ 703 029f 1B       		.byte	27
+ 704 02a0 86       		.byte	-122
+ 705 02a1 04       		.byte	4
+ 706 02a2 88       		.byte	-120
+ 707 02a3 03       		.byte	3
+ 708 02a4 8A       		.byte	-118
+ 709 02a5 0C       		.byte	12
+ 710 02a6 8B       		.byte	-117
+ 711 02a7 01       		.byte	1
+ 712 02a8 8C       		.byte	-116
+ 713 02a9 0A       		.byte	10
+ 714 02aa 8D       		.byte	-115
+ 715 02ab 10       		.byte	16
+ 716 02ac 8E       		.byte	-114
+ 717 02ad 04       		.byte	4
+ 718 02ae 8F       		.byte	-113
+ 719 02af 03       		.byte	3
+ 720 02b0 95       		.byte	-107
+ 721 02b1 04       		.byte	4
+ 722 02b2 96       		.byte	-106
+ 723 02b3 08       		.byte	8
+ 724 02b4 97       		.byte	-105
+ 725 02b5 09       		.byte	9
+ 726 02b6 A4       		.byte	-92
+ 727 02b7 03       		.byte	3
+ 728 02b8 A5       		.byte	-91
+ 729 02b9 1B       		.byte	27
+ 730 02ba A6       		.byte	-90
+ 731 02bb 04       		.byte	4
+ 732 02bc AA       		.byte	-86
+ 733 02bd 05       		.byte	5
+ 734 02be B1       		.byte	-79
+ 735 02bf 01       		.byte	1
+ 736 02c0 B2       		.byte	-78
+ 737 02c1 0F       		.byte	15
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 14
+
+
+ 738 02c2 B3       		.byte	-77
+ 739 02c3 18       		.byte	24
+ 740 02c4 B5       		.byte	-75
+ 741 02c5 06       		.byte	6
+ 742 02c6 B9       		.byte	-71
+ 743 02c7 28       		.byte	40
+ 744 02c8 BA       		.byte	-70
+ 745 02c9 08       		.byte	8
+ 746 02ca BF       		.byte	-65
+ 747 02cb 05       		.byte	5
+ 748 02cc C0       		.byte	-64
+ 749 02cd 36       		.byte	54
+ 750 02ce C1       		.byte	-63
+ 751 02cf 02       		.byte	2
+ 752 02d0 C5       		.byte	-59
+ 753 02d1 E0       		.byte	-32
+ 754 02d2 C6       		.byte	-58
+ 755 02d3 CB       		.byte	-53
+ 756 02d4 C8       		.byte	-56
+ 757 02d5 0E       		.byte	14
+ 758 02d6 C9       		.byte	-55
+ 759 02d7 FF       		.byte	-1
+ 760 02d8 CA       		.byte	-54
+ 761 02d9 FF       		.byte	-1
+ 762 02da CB       		.byte	-53
+ 763 02db FF       		.byte	-1
+ 764 02dc CE       		.byte	-50
+ 765 02dd F0       		.byte	-16
+ 766 02de CF       		.byte	-49
+ 767 02df 44       		.byte	68
+ 768 02e0 D0       		.byte	-48
+ 769 02e1 0C       		.byte	12
+ 770 02e2 D4       		.byte	-44
+ 771 02e3 01       		.byte	1
+ 772 02e4 D6       		.byte	-42
+ 773 02e5 04       		.byte	4
+ 774 02e6 D8       		.byte	-40
+ 775 02e7 04       		.byte	4
+ 776 02e8 D9       		.byte	-39
+ 777 02e9 04       		.byte	4
+ 778 02ea DA       		.byte	-38
+ 779 02eb 04       		.byte	4
+ 780 02ec DB       		.byte	-37
+ 781 02ed 04       		.byte	4
+ 782 02ee DC       		.byte	-36
+ 783 02ef 11       		.byte	17
+ 784 02f0 DD       		.byte	-35
+ 785 02f1 11       		.byte	17
+ 786 02f2 DF       		.byte	-33
+ 787 02f3 01       		.byte	1
+ 788 02f4 E6       		.byte	-26
+ 789 02f5 C0       		.byte	-64
+ 790 02f6 EA       		.byte	-22
+ 791 02f7 40       		.byte	64
+ 792 02f8 EB       		.byte	-21
+ 793 02f9 02       		.byte	2
+ 794 02fa 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 15
+
+
+ 795 02fb 44       		.byte	68
+ 796 02fc 03       		.byte	3
+ 797 02fd 08       		.byte	8
+ 798 02fe 05       		.byte	5
+ 799 02ff 04       		.byte	4
+ 800 0300 0A       		.byte	10
+ 801 0301 20       		.byte	32
+ 802 0302 0D       		.byte	13
+ 803 0303 80       		.byte	-128
+ 804 0304 0E       		.byte	14
+ 805 0305 40       		.byte	64
+ 806 0306 0F       		.byte	15
+ 807 0307 02       		.byte	2
+ 808 0308 10       		.byte	16
+ 809 0309 38       		.byte	56
+ 810 030a 17       		.byte	23
+ 811 030b 01       		.byte	1
+ 812 030c 19       		.byte	25
+ 813 030d 08       		.byte	8
+ 814 030e 1B       		.byte	27
+ 815 030f 08       		.byte	8
+ 816 0310 1C       		.byte	28
+ 817 0311 10       		.byte	16
+ 818 0312 1D       		.byte	29
+ 819 0313 20       		.byte	32
+ 820 0314 21       		.byte	33
+ 821 0315 01       		.byte	1
+ 822 0316 22       		.byte	34
+ 823 0317 18       		.byte	24
+ 824 0318 27       		.byte	39
+ 825 0319 26       		.byte	38
+ 826 031a 29       		.byte	41
+ 827 031b 08       		.byte	8
+ 828 031c 2E       		.byte	46
+ 829 031d 40       		.byte	64
+ 830 031e 2F       		.byte	47
+ 831 031f 20       		.byte	32
+ 832 0320 30       		.byte	48
+ 833 0321 08       		.byte	8
+ 834 0322 35       		.byte	53
+ 835 0323 04       		.byte	4
+ 836 0324 37       		.byte	55
+ 837 0325 21       		.byte	33
+ 838 0326 38       		.byte	56
+ 839 0327 64       		.byte	100
+ 840 0328 3C       		.byte	60
+ 841 0329 10       		.byte	16
+ 842 032a 3E       		.byte	62
+ 843 032b 08       		.byte	8
+ 844 032c 3F       		.byte	63
+ 845 032d 01       		.byte	1
+ 846 032e 40       		.byte	64
+ 847 032f 84       		.byte	-124
+ 848 0330 41       		.byte	65
+ 849 0331 01       		.byte	1
+ 850 0332 43       		.byte	67
+ 851 0333 08       		.byte	8
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 16
+
+
+ 852 0334 45       		.byte	69
+ 853 0335 20       		.byte	32
+ 854 0336 48       		.byte	72
+ 855 0337 08       		.byte	8
+ 856 0338 49       		.byte	73
+ 857 0339 01       		.byte	1
+ 858 033a 4B       		.byte	75
+ 859 033b 01       		.byte	1
+ 860 033c 4F       		.byte	79
+ 861 033d 02       		.byte	2
+ 862 033e 50       		.byte	80
+ 863 033f 30       		.byte	48
+ 864 0340 52       		.byte	82
+ 865 0341 40       		.byte	64
+ 866 0342 56       		.byte	86
+ 867 0343 0C       		.byte	12
+ 868 0344 58       		.byte	88
+ 869 0345 90       		.byte	-112
+ 870 0346 59       		.byte	89
+ 871 0347 01       		.byte	1
+ 872 0348 5B       		.byte	91
+ 873 0349 04       		.byte	4
+ 874 034a 5D       		.byte	93
+ 875 034b 40       		.byte	64
+ 876 034c 61       		.byte	97
+ 877 034d 02       		.byte	2
+ 878 034e 66       		.byte	102
+ 879 034f 80       		.byte	-128
+ 880 0350 67       		.byte	103
+ 881 0351 02       		.byte	2
+ 882 0352 90       		.byte	-112
+ 883 0353 44       		.byte	68
+ 884 0354 96       		.byte	-106
+ 885 0355 20       		.byte	32
+ 886 0356 97       		.byte	-105
+ 887 0357 02       		.byte	2
+ 888 0358 9E       		.byte	-98
+ 889 0359 C0       		.byte	-64
+ 890 035a A4       		.byte	-92
+ 891 035b 88       		.byte	-120
+ 892 035c A7       		.byte	-89
+ 893 035d 08       		.byte	8
+ 894 035e AD       		.byte	-83
+ 895 035f 40       		.byte	64
+ 896 0360 C0       		.byte	-64
+ 897 0361 27       		.byte	39
+ 898 0362 C2       		.byte	-62
+ 899 0363 94       		.byte	-108
+ 900 0364 C4       		.byte	-60
+ 901 0365 16       		.byte	22
+ 902 0366 CA       		.byte	-54
+ 903 0367 52       		.byte	82
+ 904 0368 CC       		.byte	-52
+ 905 0369 E2       		.byte	-30
+ 906 036a CE       		.byte	-50
+ 907 036b EE       		.byte	-18
+ 908 036c D0       		.byte	-48
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 17
+
+
+ 909 036d 26       		.byte	38
+ 910 036e D2       		.byte	-46
+ 911 036f 04       		.byte	4
+ 912 0370 D6       		.byte	-42
+ 913 0371 1F       		.byte	31
+ 914 0372 D8       		.byte	-40
+ 915 0373 11       		.byte	17
+ 916 0374 83       		.byte	-125
+ 917 0375 01       		.byte	1
+ 918 0376 8C       		.byte	-116
+ 919 0377 01       		.byte	1
+ 920 0378 8E       		.byte	-114
+ 921 0379 26       		.byte	38
+ 922 037a 94       		.byte	-108
+ 923 037b 0A       		.byte	10
+ 924 037c 96       		.byte	-106
+ 925 037d 51       		.byte	81
+ 926 037e 9C       		.byte	-100
+ 927 037f 14       		.byte	20
+ 928 0380 9E       		.byte	-98
+ 929 0381 49       		.byte	73
+ 930 0382 A4       		.byte	-92
+ 931 0383 1F       		.byte	31
+ 932 0384 A8       		.byte	-88
+ 933 0385 1F       		.byte	31
+ 934 0386 B0       		.byte	-80
+ 935 0387 60       		.byte	96
+ 936 0388 B2       		.byte	-78
+ 937 0389 18       		.byte	24
+ 938 038a B6       		.byte	-74
+ 939 038b 07       		.byte	7
+ 940 038c B7       		.byte	-73
+ 941 038d 01       		.byte	1
+ 942 038e BE       		.byte	-66
+ 943 038f 01       		.byte	1
+ 944 0390 D6       		.byte	-42
+ 945 0391 08       		.byte	8
+ 946 0392 D8       		.byte	-40
+ 947 0393 04       		.byte	4
+ 948 0394 D9       		.byte	-39
+ 949 0395 04       		.byte	4
+ 950 0396 DB       		.byte	-37
+ 951 0397 04       		.byte	4
+ 952 0398 DC       		.byte	-36
+ 953 0399 11       		.byte	17
+ 954 039a DD       		.byte	-35
+ 955 039b 90       		.byte	-112
+ 956 039c DF       		.byte	-33
+ 957 039d 01       		.byte	1
+ 958 039e 00       		.byte	0
+ 959 039f 40       		.byte	64
+ 960 03a0 02       		.byte	2
+ 961 03a1 20       		.byte	32
+ 962 03a2 03       		.byte	3
+ 963 03a3 88       		.byte	-120
+ 964 03a4 05       		.byte	5
+ 965 03a5 40       		.byte	64
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 18
+
+
+ 966 03a6 06       		.byte	6
+ 967 03a7 01       		.byte	1
+ 968 03a8 08       		.byte	8
+ 969 03a9 01       		.byte	1
+ 970 03aa 09       		.byte	9
+ 971 03ab 40       		.byte	64
+ 972 03ac 0A       		.byte	10
+ 973 03ad 14       		.byte	20
+ 974 03ae 0E       		.byte	14
+ 975 03af 20       		.byte	32
+ 976 03b0 0F       		.byte	15
+ 977 03b1 01       		.byte	1
+ 978 03b2 10       		.byte	16
+ 979 03b3 A8       		.byte	-88
+ 980 03b4 12       		.byte	18
+ 981 03b5 01       		.byte	1
+ 982 03b6 17       		.byte	23
+ 983 03b7 14       		.byte	20
+ 984 03b8 18       		.byte	24
+ 985 03b9 40       		.byte	64
+ 986 03ba 19       		.byte	25
+ 987 03bb 15       		.byte	21
+ 988 03bc 1A       		.byte	26
+ 989 03bd 14       		.byte	20
+ 990 03be 1B       		.byte	27
+ 991 03bf 80       		.byte	-128
+ 992 03c0 1D       		.byte	29
+ 993 03c1 42       		.byte	66
+ 994 03c2 1E       		.byte	30
+ 995 03c3 20       		.byte	32
+ 996 03c4 20       		.byte	32
+ 997 03c5 04       		.byte	4
+ 998 03c6 21       		.byte	33
+ 999 03c7 01       		.byte	1
+ 1000 03c8 22       		.byte	34
+ 1001 03c9 14       		.byte	20
+ 1002 03ca 23       		.byte	35
+ 1003 03cb 02       		.byte	2
+ 1004 03cc 25       		.byte	37
+ 1005 03cd 40       		.byte	64
+ 1006 03ce 29       		.byte	41
+ 1007 03cf 55       		.byte	85
+ 1008 03d0 2A       		.byte	42
+ 1009 03d1 02       		.byte	2
+ 1010 03d2 30       		.byte	48
+ 1011 03d3 11       		.byte	17
+ 1012 03d4 33       		.byte	51
+ 1013 03d5 88       		.byte	-120
+ 1014 03d6 34       		.byte	52
+ 1015 03d7 10       		.byte	16
+ 1016 03d8 36       		.byte	54
+ 1017 03d9 30       		.byte	48
+ 1018 03da 38       		.byte	56
+ 1019 03db A8       		.byte	-88
+ 1020 03dc 3F       		.byte	63
+ 1021 03dd 01       		.byte	1
+ 1022 03de 40       		.byte	64
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 19
+
+
+ 1023 03df 04       		.byte	4
+ 1024 03e0 41       		.byte	65
+ 1025 03e1 02       		.byte	2
+ 1026 03e2 42       		.byte	66
+ 1027 03e3 02       		.byte	2
+ 1028 03e4 43       		.byte	67
+ 1029 03e5 08       		.byte	8
+ 1030 03e6 48       		.byte	72
+ 1031 03e7 10       		.byte	16
+ 1032 03e8 49       		.byte	73
+ 1033 03e9 10       		.byte	16
+ 1034 03ea 53       		.byte	83
+ 1035 03eb 10       		.byte	16
+ 1036 03ec 5A       		.byte	90
+ 1037 03ed 08       		.byte	8
+ 1038 03ee 5C       		.byte	92
+ 1039 03ef 80       		.byte	-128
+ 1040 03f0 64       		.byte	100
+ 1041 03f1 01       		.byte	1
+ 1042 03f2 67       		.byte	103
+ 1043 03f3 01       		.byte	1
+ 1044 03f4 69       		.byte	105
+ 1045 03f5 54       		.byte	84
+ 1046 03f6 6B       		.byte	107
+ 1047 03f7 14       		.byte	20
+ 1048 03f8 70       		.byte	112
+ 1049 03f9 FC       		.byte	-4
+ 1050 03fa 84       		.byte	-124
+ 1051 03fb 80       		.byte	-128
+ 1052 03fc 95       		.byte	-107
+ 1053 03fd 56       		.byte	86
+ 1054 03fe 96       		.byte	-106
+ 1055 03ff 20       		.byte	32
+ 1056 0400 97       		.byte	-105
+ 1057 0401 20       		.byte	32
+ 1058 0402 9F       		.byte	-97
+ 1059 0403 02       		.byte	2
+ 1060 0404 A3       		.byte	-93
+ 1061 0405 08       		.byte	8
+ 1062 0406 A4       		.byte	-92
+ 1063 0407 10       		.byte	16
+ 1064 0408 C0       		.byte	-64
+ 1065 0409 8F       		.byte	-113
+ 1066 040a C2       		.byte	-62
+ 1067 040b AF       		.byte	-81
+ 1068 040c C4       		.byte	-60
+ 1069 040d 6F       		.byte	111
+ 1070 040e CA       		.byte	-54
+ 1071 040f 0F       		.byte	15
+ 1072 0410 CC       		.byte	-52
+ 1073 0411 0F       		.byte	15
+ 1074 0412 CE       		.byte	-50
+ 1075 0413 8E       		.byte	-114
+ 1076 0414 D0       		.byte	-48
+ 1077 0415 0F       		.byte	15
+ 1078 0416 D2       		.byte	-46
+ 1079 0417 04       		.byte	4
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 20
+
+
+ 1080 0418 D6       		.byte	-42
+ 1081 0419 12       		.byte	18
+ 1082 041a D8       		.byte	-40
+ 1083 041b 10       		.byte	16
+ 1084 041c 00       		.byte	0
+ 1085 041d 1C       		.byte	28
+ 1086 041e 02       		.byte	2
+ 1087 041f 03       		.byte	3
+ 1088 0420 03       		.byte	3
+ 1089 0421 2A       		.byte	42
+ 1090 0422 05       		.byte	5
+ 1091 0423 06       		.byte	6
+ 1092 0424 07       		.byte	7
+ 1093 0425 28       		.byte	40
+ 1094 0426 0A       		.byte	10
+ 1095 0427 1C       		.byte	28
+ 1096 0428 0B       		.byte	11
+ 1097 0429 10       		.byte	16
+ 1098 042a 0C       		.byte	12
+ 1099 042b 01       		.byte	1
+ 1100 042c 0E       		.byte	14
+ 1101 042d 16       		.byte	22
+ 1102 042e 11       		.byte	17
+ 1103 042f 26       		.byte	38
+ 1104 0430 13       		.byte	19
+ 1105 0431 18       		.byte	24
+ 1106 0432 14       		.byte	20
+ 1107 0433 01       		.byte	1
+ 1108 0434 15       		.byte	21
+ 1109 0435 26       		.byte	38
+ 1110 0436 16       		.byte	22
+ 1111 0437 0E       		.byte	14
+ 1112 0438 17       		.byte	23
+ 1113 0439 08       		.byte	8
+ 1114 043a 1D       		.byte	29
+ 1115 043b 01       		.byte	1
+ 1116 043c 1E       		.byte	30
+ 1117 043d 03       		.byte	3
+ 1118 043e 2A       		.byte	42
+ 1119 043f 08       		.byte	8
+ 1120 0440 2D       		.byte	45
+ 1121 0441 14       		.byte	20
+ 1122 0442 2F       		.byte	47
+ 1123 0443 28       		.byte	40
+ 1124 0444 30       		.byte	48
+ 1125 0445 0F       		.byte	15
+ 1126 0446 31       		.byte	49
+ 1127 0447 20       		.byte	32
+ 1128 0448 32       		.byte	50
+ 1129 0449 1A       		.byte	26
+ 1130 044a 35       		.byte	53
+ 1131 044b 01       		.byte	1
+ 1132 044c 37       		.byte	55
+ 1133 044d 1E       		.byte	30
+ 1134 044e 3A       		.byte	58
+ 1135 044f 0A       		.byte	10
+ 1136 0450 3B       		.byte	59
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 21
+
+
+ 1137 0451 80       		.byte	-128
+ 1138 0452 3F       		.byte	63
+ 1139 0453 11       		.byte	17
+ 1140 0454 40       		.byte	64
+ 1141 0455 41       		.byte	65
+ 1142 0456 41       		.byte	65
+ 1143 0457 03       		.byte	3
+ 1144 0458 45       		.byte	69
+ 1145 0459 EC       		.byte	-20
+ 1146 045a 46       		.byte	70
+ 1147 045b B0       		.byte	-80
+ 1148 045c 48       		.byte	72
+ 1149 045d 0B       		.byte	11
+ 1150 045e 49       		.byte	73
+ 1151 045f FF       		.byte	-1
+ 1152 0460 4A       		.byte	74
+ 1153 0461 FF       		.byte	-1
+ 1154 0462 4B       		.byte	75
+ 1155 0463 FF       		.byte	-1
+ 1156 0464 4E       		.byte	78
+ 1157 0465 F0       		.byte	-16
+ 1158 0466 4F       		.byte	79
+ 1159 0467 44       		.byte	68
+ 1160 0468 50       		.byte	80
+ 1161 0469 0C       		.byte	12
+ 1162 046a 54       		.byte	84
+ 1163 046b 01       		.byte	1
+ 1164 046c 56       		.byte	86
+ 1165 046d 04       		.byte	4
+ 1166 046e 58       		.byte	88
+ 1167 046f 04       		.byte	4
+ 1168 0470 59       		.byte	89
+ 1169 0471 04       		.byte	4
+ 1170 0472 5A       		.byte	90
+ 1171 0473 04       		.byte	4
+ 1172 0474 5B       		.byte	91
+ 1173 0475 04       		.byte	4
+ 1174 0476 5F       		.byte	95
+ 1175 0477 01       		.byte	1
+ 1176 0478 66       		.byte	102
+ 1177 0479 C0       		.byte	-64
+ 1178 047a 6A       		.byte	106
+ 1179 047b 40       		.byte	64
+ 1180 047c 6B       		.byte	107
+ 1181 047d 02       		.byte	2
+ 1182 047e 83       		.byte	-125
+ 1183 047f 01       		.byte	1
+ 1184 0480 8A       		.byte	-118
+ 1185 0481 02       		.byte	2
+ 1186 0482 8B       		.byte	-117
+ 1187 0483 01       		.byte	1
+ 1188 0484 8C       		.byte	-116
+ 1189 0485 01       		.byte	1
+ 1190 0486 96       		.byte	-106
+ 1191 0487 02       		.byte	2
+ 1192 0488 A4       		.byte	-92
+ 1193 0489 01       		.byte	1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 22
+
+
+ 1194 048a A8       		.byte	-88
+ 1195 048b 01       		.byte	1
+ 1196 048c B0       		.byte	-80
+ 1197 048d 02       		.byte	2
+ 1198 048e B2       		.byte	-78
+ 1199 048f 01       		.byte	1
+ 1200 0490 B5       		.byte	-75
+ 1201 0491 01       		.byte	1
+ 1202 0492 BE       		.byte	-66
+ 1203 0493 01       		.byte	1
+ 1204 0494 BF       		.byte	-65
+ 1205 0495 10       		.byte	16
+ 1206 0496 C0       		.byte	-64
+ 1207 0497 06       		.byte	6
+ 1208 0498 C6       		.byte	-58
+ 1209 0499 04       		.byte	4
+ 1210 049a C9       		.byte	-55
+ 1211 049b FF       		.byte	-1
+ 1212 049c CA       		.byte	-54
+ 1213 049d 07       		.byte	7
+ 1214 049e CB       		.byte	-53
+ 1215 049f FF       		.byte	-1
+ 1216 04a0 CC       		.byte	-52
+ 1217 04a1 40       		.byte	64
+ 1218 04a2 CD       		.byte	-51
+ 1219 04a3 20       		.byte	32
+ 1220 04a4 CE       		.byte	-50
+ 1221 04a5 F0       		.byte	-16
+ 1222 04a6 CF       		.byte	-49
+ 1223 04a7 05       		.byte	5
+ 1224 04a8 D0       		.byte	-48
+ 1225 04a9 08       		.byte	8
+ 1226 04aa D4       		.byte	-44
+ 1227 04ab 18       		.byte	24
+ 1228 04ac D6       		.byte	-42
+ 1229 04ad 04       		.byte	4
+ 1230 04ae D8       		.byte	-40
+ 1231 04af 04       		.byte	4
+ 1232 04b0 D9       		.byte	-39
+ 1233 04b1 04       		.byte	4
+ 1234 04b2 DA       		.byte	-38
+ 1235 04b3 04       		.byte	4
+ 1236 04b4 DB       		.byte	-37
+ 1237 04b5 04       		.byte	4
+ 1238 04b6 DC       		.byte	-36
+ 1239 04b7 01       		.byte	1
+ 1240 04b8 DD       		.byte	-35
+ 1241 04b9 11       		.byte	17
+ 1242 04ba DF       		.byte	-33
+ 1243 04bb 01       		.byte	1
+ 1244 04bc E0       		.byte	-32
+ 1245 04bd 40       		.byte	64
+ 1246 04be E1       		.byte	-31
+ 1247 04bf A8       		.byte	-88
+ 1248 04c0 E2       		.byte	-30
+ 1249 04c1 40       		.byte	64
+ 1250 04c2 E3       		.byte	-29
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 23
+
+
+ 1251 04c3 20       		.byte	32
+ 1252 04c4 00       		.byte	0
+ 1253 04c5 20       		.byte	32
+ 1254 04c6 01       		.byte	1
+ 1255 04c7 40       		.byte	64
+ 1256 04c8 04       		.byte	4
+ 1257 04c9 10       		.byte	16
+ 1258 04ca 05       		.byte	5
+ 1259 04cb 01       		.byte	1
+ 1260 04cc 07       		.byte	7
+ 1261 04cd 01       		.byte	1
+ 1262 04ce 08       		.byte	8
+ 1263 04cf 20       		.byte	32
+ 1264 04d0 0A       		.byte	10
+ 1265 04d1 20       		.byte	32
+ 1266 04d2 0B       		.byte	11
+ 1267 04d3 04       		.byte	4
+ 1268 04d4 0D       		.byte	13
+ 1269 04d5 88       		.byte	-120
+ 1270 04d6 11       		.byte	17
+ 1271 04d7 14       		.byte	20
+ 1272 04d8 16       		.byte	22
+ 1273 04d9 04       		.byte	4
+ 1274 04da 1B       		.byte	27
+ 1275 04db 09       		.byte	9
+ 1276 04dc 1D       		.byte	29
+ 1277 04dd 0D       		.byte	13
+ 1278 04de 1E       		.byte	30
+ 1279 04df 40       		.byte	64
+ 1280 04e0 20       		.byte	32
+ 1281 04e1 04       		.byte	4
+ 1282 04e2 27       		.byte	39
+ 1283 04e3 89       		.byte	-119
+ 1284 04e4 2E       		.byte	46
+ 1285 04e5 40       		.byte	64
+ 1286 04e6 35       		.byte	53
+ 1287 04e7 04       		.byte	4
+ 1288 04e8 36       		.byte	54
+ 1289 04e9 80       		.byte	-128
+ 1290 04ea 37       		.byte	55
+ 1291 04eb 01       		.byte	1
+ 1292 04ec 39       		.byte	57
+ 1293 04ed 02       		.byte	2
+ 1294 04ee 3B       		.byte	59
+ 1295 04ef 20       		.byte	32
+ 1296 04f0 3C       		.byte	60
+ 1297 04f1 10       		.byte	16
+ 1298 04f2 3E       		.byte	62
+ 1299 04f3 02       		.byte	2
+ 1300 04f4 3F       		.byte	63
+ 1301 04f5 04       		.byte	4
+ 1302 04f6 45       		.byte	69
+ 1303 04f7 88       		.byte	-120
+ 1304 04f8 46       		.byte	70
+ 1305 04f9 02       		.byte	2
+ 1306 04fa 47       		.byte	71
+ 1307 04fb 01       		.byte	1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 24
+
+
+ 1308 04fc 4A       		.byte	74
+ 1309 04fd 08       		.byte	8
+ 1310 04fe 4D       		.byte	77
+ 1311 04ff 01       		.byte	1
+ 1312 0500 4E       		.byte	78
+ 1313 0501 80       		.byte	-128
+ 1314 0502 4F       		.byte	79
+ 1315 0503 04       		.byte	4
+ 1316 0504 50       		.byte	80
+ 1317 0505 88       		.byte	-120
+ 1318 0506 57       		.byte	87
+ 1319 0507 20       		.byte	32
+ 1320 0508 5B       		.byte	91
+ 1321 0509 02       		.byte	2
+ 1322 050a 5C       		.byte	92
+ 1323 050b 20       		.byte	32
+ 1324 050c 5D       		.byte	93
+ 1325 050d 01       		.byte	1
+ 1326 050e 5F       		.byte	95
+ 1327 050f 88       		.byte	-120
+ 1328 0510 60       		.byte	96
+ 1329 0511 44       		.byte	68
+ 1330 0512 63       		.byte	99
+ 1331 0513 02       		.byte	2
+ 1332 0514 67       		.byte	103
+ 1333 0515 40       		.byte	64
+ 1334 0516 80       		.byte	-128
+ 1335 0517 40       		.byte	64
+ 1336 0518 87       		.byte	-121
+ 1337 0519 40       		.byte	64
+ 1338 051a 90       		.byte	-112
+ 1339 051b 10       		.byte	16
+ 1340 051c 96       		.byte	-106
+ 1341 051d 40       		.byte	64
+ 1342 051e 9A       		.byte	-102
+ 1343 051f 04       		.byte	4
+ 1344 0520 9D       		.byte	-99
+ 1345 0521 04       		.byte	4
+ 1346 0522 9F       		.byte	-97
+ 1347 0523 01       		.byte	1
+ 1348 0524 A1       		.byte	-95
+ 1349 0525 80       		.byte	-128
+ 1350 0526 A2       		.byte	-94
+ 1351 0527 08       		.byte	8
+ 1352 0528 A4       		.byte	-92
+ 1353 0529 88       		.byte	-120
+ 1354 052a A7       		.byte	-89
+ 1355 052b 20       		.byte	32
+ 1356 052c B5       		.byte	-75
+ 1357 052d 42       		.byte	66
+ 1358 052e B7       		.byte	-73
+ 1359 052f 02       		.byte	2
+ 1360 0530 C0       		.byte	-64
+ 1361 0531 D3       		.byte	-45
+ 1362 0532 C2       		.byte	-62
+ 1363 0533 A4       		.byte	-92
+ 1364 0534 C4       		.byte	-60
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 25
+
+
+ 1365 0535 46       		.byte	70
+ 1366 0536 CA       		.byte	-54
+ 1367 0537 10       		.byte	16
+ 1368 0538 CC       		.byte	-52
+ 1369 0539 D0       		.byte	-48
+ 1370 053a CE       		.byte	-50
+ 1371 053b E5       		.byte	-27
+ 1372 053c D0       		.byte	-48
+ 1373 053d D0       		.byte	-48
+ 1374 053e D2       		.byte	-46
+ 1375 053f 04       		.byte	4
+ 1376 0540 D6       		.byte	-42
+ 1377 0541 F1       		.byte	-15
+ 1378 0542 D8       		.byte	-40
+ 1379 0543 8D       		.byte	-115
+ 1380 0544 E8       		.byte	-24
+ 1381 0545 40       		.byte	64
+ 1382 0546 EA       		.byte	-22
+ 1383 0547 10       		.byte	16
+ 1384 0548 EE       		.byte	-18
+ 1385 0549 10       		.byte	16
+ 1386 054a 30       		.byte	48
+ 1387 054b 02       		.byte	2
+ 1388 054c 33       		.byte	51
+ 1389 054d 80       		.byte	-128
+ 1390 054e 37       		.byte	55
+ 1391 054f 82       		.byte	-126
+ 1392 0550 3B       		.byte	59
+ 1393 0551 20       		.byte	32
+ 1394 0552 CC       		.byte	-52
+ 1395 0553 F0       		.byte	-16
+ 1396 0554 CE       		.byte	-50
+ 1397 0555 10       		.byte	16
+ 1398 0556 97       		.byte	-105
+ 1399 0557 20       		.byte	32
+ 1400 0558 9F       		.byte	-97
+ 1401 0559 82       		.byte	-126
+ 1402 055a A4       		.byte	-92
+ 1403 055b 02       		.byte	2
+ 1404 055c A7       		.byte	-89
+ 1405 055d 80       		.byte	-128
+ 1406 055e 52       		.byte	82
+ 1407 055f 80       		.byte	-128
+ 1408 0560 80       		.byte	-128
+ 1409 0561 02       		.byte	2
+ 1410 0562 87       		.byte	-121
+ 1411 0563 10       		.byte	16
+ 1412 0564 97       		.byte	-105
+ 1413 0565 20       		.byte	32
+ 1414 0566 9F       		.byte	-97
+ 1415 0567 82       		.byte	-126
+ 1416 0568 A4       		.byte	-92
+ 1417 0569 02       		.byte	2
+ 1418 056a A7       		.byte	-89
+ 1419 056b 80       		.byte	-128
+ 1420 056c D4       		.byte	-44
+ 1421 056d 20       		.byte	32
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 26
+
+
+ 1422 056e E2       		.byte	-30
+ 1423 056f 20       		.byte	32
+ 1424 0570 E6       		.byte	-26
+ 1425 0571 40       		.byte	64
+ 1426 0572 9F       		.byte	-97
+ 1427 0573 82       		.byte	-126
+ 1428 0574 A7       		.byte	-89
+ 1429 0575 80       		.byte	-128
+ 1430 0576 AE       		.byte	-82
+ 1431 0577 80       		.byte	-128
+ 1432 0578 EE       		.byte	-18
+ 1433 0579 10       		.byte	16
+ 1434 057a 83       		.byte	-125
+ 1435 057b 80       		.byte	-128
+ 1436 057c 87       		.byte	-121
+ 1437 057d 02       		.byte	2
+ 1438 057e 9D       		.byte	-99
+ 1439 057f 02       		.byte	2
+ 1440 0580 9F       		.byte	-97
+ 1441 0581 02       		.byte	2
+ 1442 0582 A3       		.byte	-93
+ 1443 0583 08       		.byte	8
+ 1444 0584 A7       		.byte	-89
+ 1445 0585 80       		.byte	-128
+ 1446 0586 B5       		.byte	-75
+ 1447 0587 02       		.byte	2
+ 1448 0588 B7       		.byte	-73
+ 1449 0589 88       		.byte	-120
+ 1450 058a E6       		.byte	-26
+ 1451 058b 60       		.byte	96
+ 1452 058c 05       		.byte	5
+ 1453 058d 02       		.byte	2
+ 1454 058e 12       		.byte	18
+ 1455 058f 20       		.byte	32
+ 1456 0590 57       		.byte	87
+ 1457 0591 08       		.byte	8
+ 1458 0592 86       		.byte	-122
+ 1459 0593 20       		.byte	32
+ 1460 0594 9D       		.byte	-99
+ 1461 0595 02       		.byte	2
+ 1462 0596 A3       		.byte	-93
+ 1463 0597 08       		.byte	8
+ 1464 0598 C0       		.byte	-64
+ 1465 0599 20       		.byte	32
+ 1466 059a C4       		.byte	-60
+ 1467 059b 10       		.byte	16
+ 1468 059c D4       		.byte	-44
+ 1469 059d 40       		.byte	64
+ 1470 059e E4       		.byte	-28
+ 1471 059f 40       		.byte	64
+ 1472 05a0 00       		.byte	0
+ 1473 05a1 03       		.byte	3
+ 1474 05a2 01       		.byte	1
+ 1475 05a3 01       		.byte	1
+ 1476 05a4 08       		.byte	8
+ 1477 05a5 01       		.byte	1
+ 1478 05a6 0A       		.byte	10
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 27
+
+
+ 1479 05a7 03       		.byte	3
+ 1480 05a8 0B       		.byte	11
+ 1481 05a9 01       		.byte	1
+ 1482 05aa 10       		.byte	16
+ 1483 05ab 03       		.byte	3
+ 1484 05ac 11       		.byte	17
+ 1485 05ad 01       		.byte	1
+ 1486 05ae 1A       		.byte	26
+ 1487 05af 03       		.byte	3
+ 1488 05b0 1B       		.byte	27
+ 1489 05b1 01       		.byte	1
+ 1490 05b2 00       		.byte	0
+ 1491 05b3 FF       		.byte	-1
+ 1492 05b4 01       		.byte	1
+ 1493 05b5 03       		.byte	3
+ 1494 05b6 00       		.byte	0
+ 1495 05b7 00       		.byte	0
+ 1496 05b8 4C       		.byte	76
+ 1497 05b9 00       		.byte	0
+ 1498 05ba A3       		.byte	-93
+ 1499 05bb 00       		.byte	0
+ 1500 05bc 01       		.byte	1
+ 1501 05bd 30       		.byte	48
+ 1502 05be 00       		.byte	0
+ 1503 05bf 00       		.byte	0
+ 1504 05c0 00       		.byte	0
+ 1505 05c1 10       		.byte	16
+ 1506 05c2 B3       		.byte	-77
+ 1507 05c3 00       		.byte	0
+ 1508 05c4 F3       		.byte	-13
+ 1509 05c5 20       		.byte	32
+ 1510 05c6 0C       		.byte	12
+ 1511 05c7 00       		.byte	0
+ 1512 05c8 42       		.byte	66
+ 1513 05c9 02       		.byte	2
+ 1514 05ca 00       		.byte	0
+ 1515 05cb 00       		.byte	0
+ 1516 05cc 4F       		.byte	79
+ 1517 05cd 00       		.byte	0
+ 1518 05ce 90       		.byte	-112
+ 1519 05cf 0B       		.byte	11
+ 1520 05d0 FF       		.byte	-1
+ 1521 05d1 01       		.byte	1
+ 1522 05d2 00       		.byte	0
+ 1523 05d3 00       		.byte	0
+ 1524 05d4 00       		.byte	0
+ 1525 05d5 78       		.byte	120
+ 1526 05d6 40       		.byte	64
+ 1527 05d7 07       		.byte	7
+ 1528 05d8 08       		.byte	8
+ 1529 05d9 4F       		.byte	79
+ 1530 05da 00       		.byte	0
+ 1531 05db 30       		.byte	48
+ 1532 05dc 04       		.byte	4
+ 1533 05dd 70       		.byte	112
+ 1534 05de 00       		.byte	0
+ 1535 05df 0F       		.byte	15
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 28
+
+
+ 1536 05e0 0C       		.byte	12
+ 1537 05e1 7F       		.byte	127
+ 1538 05e2 00       		.byte	0
+ 1539 05e3 00       		.byte	0
+ 1540 05e4 03       		.byte	3
+ 1541 05e5 03       		.byte	3
+ 1542 05e6 00       		.byte	0
+ 1543 05e7 00       		.byte	0
+ 1544 05e8 0F       		.byte	15
+ 1545 05e9 04       		.byte	4
+ 1546 05ea 8C       		.byte	-116
+ 1547 05eb 40       		.byte	64
+ 1548 05ec 00       		.byte	0
+ 1549 05ed 38       		.byte	56
+ 1550 05ee 7C       		.byte	124
+ 1551 05ef 03       		.byte	3
+ 1552 05f0 00       		.byte	0
+ 1553 05f1 02       		.byte	2
+ 1554 05f2 AA       		.byte	-86
+ 1555 05f3 00       		.byte	0
+ 1556 05f4 00       		.byte	0
+ 1557 05f5 00       		.byte	0
+ 1558 05f6 00       		.byte	0
+ 1559 05f7 04       		.byte	4
+ 1560 05f8 13       		.byte	19
+ 1561 05f9 06       		.byte	6
+ 1562 05fa 02       		.byte	2
+ 1563 05fb 00       		.byte	0
+ 1564 05fc 04       		.byte	4
+ 1565 05fd 0C       		.byte	12
+ 1566 05fe E0       		.byte	-32
+ 1567 05ff 00       		.byte	0
+ 1568 0600 09       		.byte	9
+ 1569 0601 FF       		.byte	-1
+ 1570 0602 FF       		.byte	-1
+ 1571 0603 FF       		.byte	-1
+ 1572 0604 62       		.byte	98
+ 1573 0605 A0       		.byte	-96
+ 1574 0606 F0       		.byte	-16
+ 1575 0607 41       		.byte	65
+ 1576 0608 0C       		.byte	12
+ 1577 0609 00       		.byte	0
+ 1578 060a 00       		.byte	0
+ 1579 060b 00       		.byte	0
+ 1580 060c 00       		.byte	0
+ 1581 060d 00       		.byte	0
+ 1582 060e 02       		.byte	2
+ 1583 060f 12       		.byte	18
+ 1584 0610 04       		.byte	4
+ 1585 0611 04       		.byte	4
+ 1586 0612 04       		.byte	4
+ 1587 0613 04       		.byte	4
+ 1588 0614 11       		.byte	17
+ 1589 0615 11       		.byte	17
+ 1590 0616 00       		.byte	0
+ 1591 0617 01       		.byte	1
+ 1592 0618 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 29
+
+
+ 1593 0619 00       		.byte	0
+ 1594 061a 00       		.byte	0
+ 1595 061b 00       		.byte	0
+ 1596 061c 00       		.byte	0
+ 1597 061d 00       		.byte	0
+ 1598 061e 40       		.byte	64
+ 1599 061f 02       		.byte	2
+ 1600 0620 00       		.byte	0
+ 1601 0621 10       		.byte	16
+ 1602 0622 30       		.byte	48
+ 1603 0623 10       		.byte	16
+ 1604 0624 00       		.byte	0
+ 1605 0625 10       		.byte	16
+ 1606 0626 10       		.byte	16
+ 1607 0627 12       		.byte	18
+ 1608 0628 00       		.byte	0
+ 1609 0629 00       		.byte	0
+ 1610 062a 00       		.byte	0
+ 1611 062b 00       		.byte	0
+ 1612 062c 00       		.byte	0
+ 1613 062d 00       		.byte	0
+ 1614 062e 00       		.byte	0
+ 1615 062f 00       		.byte	0
+ 1616 0630 00       		.byte	0
+ 1617 0631 00       		.byte	0
+ 1618 0632 00       		.byte	0
+ 1619 0633 00       		.byte	0
+ 1620 0634 00       		.byte	0
+ 1621 0635 00       		.byte	0
+ 1622 0636 00       		.byte	0
+ 1623 0637 00       		.byte	0
+ 1624 0638 00       		.byte	0
+ 1625 0639 70       		.byte	112
+ 1626 063a 70       		.byte	112
+ 1627 063b 00       		.byte	0
+ 1628 063c 00       		.byte	0
+ 1629 063d 00       		.byte	0
+ 1630 063e 00       		.byte	0
+ 1631 063f 00       		.byte	0
+ 1632 0640 02       		.byte	2
+ 1633 0641 00       		.byte	0
+ 1634 0642 01       		.byte	1
+ 1635 0643 02       		.byte	2
+ 1636 0644 02       		.byte	2
+ 1637 0645 00       		.byte	0
+ 1638 0646 02       		.byte	2
+ 1639 0647 00       		.byte	0
+ 1640 0648 00       		.byte	0
+ 1641 0649 00       		.byte	0
+ 1642 064a 00       		.byte	0
+ 1643 064b 00       		.byte	0
+ 1644 064c 00       		.byte	0
+ 1645 064d 0B       		.byte	11
+ 1646 064e 0B       		.byte	11
+ 1647 064f 00       		.byte	0
+ 1648 0650 00       		.byte	0
+ 1649 0651 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 30
+
+
+ 1650 0652 00       		.byte	0
+ 1651 0653 00       		.byte	0
+ 1652 0654 9E       		.byte	-98
+ 1653 0655 00       		.byte	0
+ 1654 0656 00       		.byte	0
+ 1655 0657 DE       		.byte	-34
+ 1656 0658 40       		.byte	64
+ 1657 0659 00       		.byte	0
+ 1658 065a 00       		.byte	0
+ 1659 065b 00       		.byte	0
+ 1660 065c 00       		.byte	0
+ 1661 065d 00       		.byte	0
+ 1662 065e 00       		.byte	0
+ 1663 065f 00       		.byte	0
+ 1664 0660 01       		.byte	1
+ 1665 0661 00       		.byte	0
+ 1666 0662 02       		.byte	2
+ 1667 0663 01       		.byte	1
+ 1668 0664 01       		.byte	1
+ 1669 0665 00       		.byte	0
+ 1670 0666 01       		.byte	1
+ 1671 0667 00       		.byte	0
+ 1672 0668 00       		.byte	0
+ 1673 0669 00       		.byte	0
+ 1674 066a 00       		.byte	0
+ 1675 066b 00       		.byte	0
+ 1676 066c 00       		.byte	0
+ 1677 066d 01       		.byte	1
+ 1678 066e 01       		.byte	1
+ 1679 066f 00       		.byte	0
+ 1680 0670 00       		.byte	0
+ 1681 0671 00       		.byte	0
+ 1682 0672 00       		.byte	0
+ 1683 0673 00       		.byte	0
+ 1684 0674 70       		.byte	112
+ 1685 0675 00       		.byte	0
+ 1686 0676 00       		.byte	0
+ 1687 0677 70       		.byte	112
+ 1688 0678 00       		.byte	0
+ 1689 0679 00       		.byte	0
+ 1690 067a 00       		.byte	0
+ 1691 067b 00       		.byte	0
+ 1692 067c 00       		.byte	0
+ 1693 067d 00       		.byte	0
+ 1694 067e 00       		.byte	0
+ 1695 067f 00       		.byte	0
+ 1696              		.text
+ 1697              	.Letext0:
+ 1698              		.file 1 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1699              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1700              		.file 3 "Generated_Source\\PSoC5\\cymetadata.c"
+ 1701              		.section	.debug_info,"",%progbits
+ 1702              	.Ldebug_info0:
+ 1703 0000 CF000000 		.4byte	0xcf
+ 1704 0004 0400     		.2byte	0x4
+ 1705 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1706 000a 04       		.byte	0x4
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 31
+
+
+ 1707 000b 01       		.uleb128 0x1
+ 1708 000c 0A000000 		.4byte	.LASF14
+ 1709 0010 0C       		.byte	0xc
+ 1710 0011 F2010000 		.4byte	.LASF15
+ 1711 0015 CB000000 		.4byte	.LASF16
+ 1712 0019 00000000 		.4byte	.Ldebug_line0
+ 1713 001d 02       		.uleb128 0x2
+ 1714 001e 01       		.byte	0x1
+ 1715 001f 06       		.byte	0x6
+ 1716 0020 E6010000 		.4byte	.LASF0
+ 1717 0024 03       		.uleb128 0x3
+ 1718 0025 00000000 		.4byte	.LASF9
+ 1719 0029 01       		.byte	0x1
+ 1720 002a 1D       		.byte	0x1d
+ 1721 002b 2F000000 		.4byte	0x2f
+ 1722 002f 02       		.uleb128 0x2
+ 1723 0030 01       		.byte	0x1
+ 1724 0031 08       		.byte	0x8
+ 1725 0032 98000000 		.4byte	.LASF1
+ 1726 0036 02       		.uleb128 0x2
+ 1727 0037 02       		.byte	0x2
+ 1728 0038 05       		.byte	0x5
+ 1729 0039 D3010000 		.4byte	.LASF2
+ 1730 003d 02       		.uleb128 0x2
+ 1731 003e 02       		.byte	0x2
+ 1732 003f 07       		.byte	0x7
+ 1733 0040 B8000000 		.4byte	.LASF3
+ 1734 0044 02       		.uleb128 0x2
+ 1735 0045 04       		.byte	0x4
+ 1736 0046 05       		.byte	0x5
+ 1737 0047 DD010000 		.4byte	.LASF4
+ 1738 004b 02       		.uleb128 0x2
+ 1739 004c 04       		.byte	0x4
+ 1740 004d 07       		.byte	0x7
+ 1741 004e A6000000 		.4byte	.LASF5
+ 1742 0052 02       		.uleb128 0x2
+ 1743 0053 08       		.byte	0x8
+ 1744 0054 05       		.byte	0x5
+ 1745 0055 C5010000 		.4byte	.LASF6
+ 1746 0059 02       		.uleb128 0x2
+ 1747 005a 08       		.byte	0x8
+ 1748 005b 07       		.byte	0x7
+ 1749 005c 8C010000 		.4byte	.LASF7
+ 1750 0060 04       		.uleb128 0x4
+ 1751 0061 04       		.byte	0x4
+ 1752 0062 05       		.byte	0x5
+ 1753 0063 696E7400 		.ascii	"int\000"
+ 1754 0067 02       		.uleb128 0x2
+ 1755 0068 04       		.byte	0x4
+ 1756 0069 07       		.byte	0x7
+ 1757 006a 7F010000 		.4byte	.LASF8
+ 1758 006e 03       		.uleb128 0x3
+ 1759 006f A3010000 		.4byte	.LASF10
+ 1760 0073 02       		.byte	0x2
+ 1761 0074 18       		.byte	0x18
+ 1762 0075 24000000 		.4byte	0x24
+ 1763 0079 05       		.uleb128 0x5
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 32
+
+
+ 1764 007a 90000000 		.4byte	0x90
+ 1765 007e 89000000 		.4byte	0x89
+ 1766 0082 06       		.uleb128 0x6
+ 1767 0083 89000000 		.4byte	0x89
+ 1768 0087 3F       		.byte	0x3f
+ 1769 0088 00       		.byte	0
+ 1770 0089 02       		.uleb128 0x2
+ 1771 008a 04       		.byte	0x4
+ 1772 008b 07       		.byte	0x7
+ 1773 008c BC010000 		.4byte	.LASF11
+ 1774 0090 07       		.uleb128 0x7
+ 1775 0091 6E000000 		.4byte	0x6e
+ 1776 0095 08       		.uleb128 0x8
+ 1777 0096 AB010000 		.4byte	.LASF12
+ 1778 009a 03       		.byte	0x3
+ 1779 009b 1F       		.byte	0x1f
+ 1780 009c A6000000 		.4byte	0xa6
+ 1781 00a0 05       		.uleb128 0x5
+ 1782 00a1 03       		.byte	0x3
+ 1783 00a2 00000000 		.4byte	cy_meta_loadable
+ 1784 00a6 07       		.uleb128 0x7
+ 1785 00a7 79000000 		.4byte	0x79
+ 1786 00ab 05       		.uleb128 0x5
+ 1787 00ac 90000000 		.4byte	0x90
+ 1788 00b0 BC000000 		.4byte	0xbc
+ 1789 00b4 09       		.uleb128 0x9
+ 1790 00b5 89000000 		.4byte	0x89
+ 1791 00b9 7F06     		.2byte	0x67f
+ 1792 00bb 00       		.byte	0
+ 1793 00bc 08       		.uleb128 0x8
+ 1794 00bd 6D010000 		.4byte	.LASF13
+ 1795 00c1 03       		.byte	0x3
+ 1796 00c2 34       		.byte	0x34
+ 1797 00c3 CD000000 		.4byte	0xcd
+ 1798 00c7 05       		.uleb128 0x5
+ 1799 00c8 03       		.byte	0x3
+ 1800 00c9 00000000 		.4byte	cy_meta_configecc
+ 1801 00cd 07       		.uleb128 0x7
+ 1802 00ce AB000000 		.4byte	0xab
+ 1803 00d2 00       		.byte	0
+ 1804              		.section	.debug_abbrev,"",%progbits
+ 1805              	.Ldebug_abbrev0:
+ 1806 0000 01       		.uleb128 0x1
+ 1807 0001 11       		.uleb128 0x11
+ 1808 0002 01       		.byte	0x1
+ 1809 0003 25       		.uleb128 0x25
+ 1810 0004 0E       		.uleb128 0xe
+ 1811 0005 13       		.uleb128 0x13
+ 1812 0006 0B       		.uleb128 0xb
+ 1813 0007 03       		.uleb128 0x3
+ 1814 0008 0E       		.uleb128 0xe
+ 1815 0009 1B       		.uleb128 0x1b
+ 1816 000a 0E       		.uleb128 0xe
+ 1817 000b 10       		.uleb128 0x10
+ 1818 000c 17       		.uleb128 0x17
+ 1819 000d 00       		.byte	0
+ 1820 000e 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 33
+
+
+ 1821 000f 02       		.uleb128 0x2
+ 1822 0010 24       		.uleb128 0x24
+ 1823 0011 00       		.byte	0
+ 1824 0012 0B       		.uleb128 0xb
+ 1825 0013 0B       		.uleb128 0xb
+ 1826 0014 3E       		.uleb128 0x3e
+ 1827 0015 0B       		.uleb128 0xb
+ 1828 0016 03       		.uleb128 0x3
+ 1829 0017 0E       		.uleb128 0xe
+ 1830 0018 00       		.byte	0
+ 1831 0019 00       		.byte	0
+ 1832 001a 03       		.uleb128 0x3
+ 1833 001b 16       		.uleb128 0x16
+ 1834 001c 00       		.byte	0
+ 1835 001d 03       		.uleb128 0x3
+ 1836 001e 0E       		.uleb128 0xe
+ 1837 001f 3A       		.uleb128 0x3a
+ 1838 0020 0B       		.uleb128 0xb
+ 1839 0021 3B       		.uleb128 0x3b
+ 1840 0022 0B       		.uleb128 0xb
+ 1841 0023 49       		.uleb128 0x49
+ 1842 0024 13       		.uleb128 0x13
+ 1843 0025 00       		.byte	0
+ 1844 0026 00       		.byte	0
+ 1845 0027 04       		.uleb128 0x4
+ 1846 0028 24       		.uleb128 0x24
+ 1847 0029 00       		.byte	0
+ 1848 002a 0B       		.uleb128 0xb
+ 1849 002b 0B       		.uleb128 0xb
+ 1850 002c 3E       		.uleb128 0x3e
+ 1851 002d 0B       		.uleb128 0xb
+ 1852 002e 03       		.uleb128 0x3
+ 1853 002f 08       		.uleb128 0x8
+ 1854 0030 00       		.byte	0
+ 1855 0031 00       		.byte	0
+ 1856 0032 05       		.uleb128 0x5
+ 1857 0033 01       		.uleb128 0x1
+ 1858 0034 01       		.byte	0x1
+ 1859 0035 49       		.uleb128 0x49
+ 1860 0036 13       		.uleb128 0x13
+ 1861 0037 01       		.uleb128 0x1
+ 1862 0038 13       		.uleb128 0x13
+ 1863 0039 00       		.byte	0
+ 1864 003a 00       		.byte	0
+ 1865 003b 06       		.uleb128 0x6
+ 1866 003c 21       		.uleb128 0x21
+ 1867 003d 00       		.byte	0
+ 1868 003e 49       		.uleb128 0x49
+ 1869 003f 13       		.uleb128 0x13
+ 1870 0040 2F       		.uleb128 0x2f
+ 1871 0041 0B       		.uleb128 0xb
+ 1872 0042 00       		.byte	0
+ 1873 0043 00       		.byte	0
+ 1874 0044 07       		.uleb128 0x7
+ 1875 0045 26       		.uleb128 0x26
+ 1876 0046 00       		.byte	0
+ 1877 0047 49       		.uleb128 0x49
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 34
+
+
+ 1878 0048 13       		.uleb128 0x13
+ 1879 0049 00       		.byte	0
+ 1880 004a 00       		.byte	0
+ 1881 004b 08       		.uleb128 0x8
+ 1882 004c 34       		.uleb128 0x34
+ 1883 004d 00       		.byte	0
+ 1884 004e 03       		.uleb128 0x3
+ 1885 004f 0E       		.uleb128 0xe
+ 1886 0050 3A       		.uleb128 0x3a
+ 1887 0051 0B       		.uleb128 0xb
+ 1888 0052 3B       		.uleb128 0x3b
+ 1889 0053 0B       		.uleb128 0xb
+ 1890 0054 49       		.uleb128 0x49
+ 1891 0055 13       		.uleb128 0x13
+ 1892 0056 3F       		.uleb128 0x3f
+ 1893 0057 19       		.uleb128 0x19
+ 1894 0058 02       		.uleb128 0x2
+ 1895 0059 18       		.uleb128 0x18
+ 1896 005a 00       		.byte	0
+ 1897 005b 00       		.byte	0
+ 1898 005c 09       		.uleb128 0x9
+ 1899 005d 21       		.uleb128 0x21
+ 1900 005e 00       		.byte	0
+ 1901 005f 49       		.uleb128 0x49
+ 1902 0060 13       		.uleb128 0x13
+ 1903 0061 2F       		.uleb128 0x2f
+ 1904 0062 05       		.uleb128 0x5
+ 1905 0063 00       		.byte	0
+ 1906 0064 00       		.byte	0
+ 1907 0065 00       		.byte	0
+ 1908              		.section	.debug_aranges,"",%progbits
+ 1909 0000 14000000 		.4byte	0x14
+ 1910 0004 0200     		.2byte	0x2
+ 1911 0006 00000000 		.4byte	.Ldebug_info0
+ 1912 000a 04       		.byte	0x4
+ 1913 000b 00       		.byte	0
+ 1914 000c 0000     		.2byte	0
+ 1915 000e 0000     		.2byte	0
+ 1916 0010 00000000 		.4byte	0
+ 1917 0014 00000000 		.4byte	0
+ 1918              		.section	.debug_line,"",%progbits
+ 1919              	.Ldebug_line0:
+ 1920 0000 3D010000 		.section	.debug_str,"MS",%progbits,1
+ 1920      02003701 
+ 1920      00000201 
+ 1920      FB0E0D00 
+ 1920      01010101 
+ 1921              	.LASF9:
+ 1922 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 1922      6E74385F 
+ 1922      7400
+ 1923              	.LASF14:
+ 1924 000a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1924      43313120 
+ 1924      352E342E 
+ 1924      31203230 
+ 1924      31363036 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 35
+
+
+ 1925 003d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1925      20726576 
+ 1925      6973696F 
+ 1925      6E203233 
+ 1925      37373135 
+ 1926 0070 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1926      66756E63 
+ 1926      74696F6E 
+ 1926      2D736563 
+ 1926      74696F6E 
+ 1927              	.LASF1:
+ 1928 0098 756E7369 		.ascii	"unsigned char\000"
+ 1928      676E6564 
+ 1928      20636861 
+ 1928      7200
+ 1929              	.LASF5:
+ 1930 00a6 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1930      20756E73 
+ 1930      69676E65 
+ 1930      6420696E 
+ 1930      7400
+ 1931              	.LASF3:
+ 1932 00b8 73686F72 		.ascii	"short unsigned int\000"
+ 1932      7420756E 
+ 1932      7369676E 
+ 1932      65642069 
+ 1932      6E7400
+ 1933              	.LASF16:
+ 1934 00cb 453A5C49 		.ascii	"E:\\IroTeam\\Developing Projects\\Cypress\\100 PIN\\"
+ 1934      726F5465 
+ 1934      616D5C44 
+ 1934      6576656C 
+ 1934      6F70696E 
+ 1935 00fa 63792D6D 		.ascii	"cy-micro\\cy-notask\\Start\\BoardSupport\\Cypress\\"
+ 1935      6963726F 
+ 1935      5C63792D 
+ 1935      6E6F7461 
+ 1935      736B5C53 
+ 1936 0128 43593843 		.ascii	"CY8C5868_CY8CKIT_050_PSoC5_DK\\Start_CY8C5868_Acces"
+ 1936      35383638 
+ 1936      5F435938 
+ 1936      434B4954 
+ 1936      5F303530 
+ 1937 015a 7356322E 		.ascii	"sV2.0_OldBrd.cydsn\000"
+ 1937      305F4F6C 
+ 1937      64427264 
+ 1937      2E637964 
+ 1937      736E00
+ 1938              	.LASF13:
+ 1939 016d 63795F6D 		.ascii	"cy_meta_configecc\000"
+ 1939      6574615F 
+ 1939      636F6E66 
+ 1939      69676563 
+ 1939      6300
+ 1940              	.LASF8:
+ 1941 017f 756E7369 		.ascii	"unsigned int\000"
+ 1941      676E6564 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCogIs4.s 			page 36
+
+
+ 1941      20696E74 
+ 1941      00
+ 1942              	.LASF7:
+ 1943 018c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1943      206C6F6E 
+ 1943      6720756E 
+ 1943      7369676E 
+ 1943      65642069 
+ 1944              	.LASF10:
+ 1945 01a3 75696E74 		.ascii	"uint8_t\000"
+ 1945      385F7400 
+ 1946              	.LASF12:
+ 1947 01ab 63795F6D 		.ascii	"cy_meta_loadable\000"
+ 1947      6574615F 
+ 1947      6C6F6164 
+ 1947      61626C65 
+ 1947      00
+ 1948              	.LASF11:
+ 1949 01bc 73697A65 		.ascii	"sizetype\000"
+ 1949      74797065 
+ 1949      00
+ 1950              	.LASF6:
+ 1951 01c5 6C6F6E67 		.ascii	"long long int\000"
+ 1951      206C6F6E 
+ 1951      6720696E 
+ 1951      7400
+ 1952              	.LASF2:
+ 1953 01d3 73686F72 		.ascii	"short int\000"
+ 1953      7420696E 
+ 1953      7400
+ 1954              	.LASF4:
+ 1955 01dd 6C6F6E67 		.ascii	"long int\000"
+ 1955      20696E74 
+ 1955      00
+ 1956              	.LASF0:
+ 1957 01e6 7369676E 		.ascii	"signed char\000"
+ 1957      65642063 
+ 1957      68617200 
+ 1958              	.LASF15:
+ 1959 01f2 47656E65 		.ascii	"Generated_Source\\PSoC5\\cymetadata.c\000"
+ 1959      72617465 
+ 1959      645F536F 
+ 1959      75726365 
+ 1959      5C50536F 
+ 1960              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

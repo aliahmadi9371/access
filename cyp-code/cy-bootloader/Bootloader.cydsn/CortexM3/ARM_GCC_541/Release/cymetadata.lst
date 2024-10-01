@@ -1,0 +1,538 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccX8DAP4.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cymetadata.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	cy_metadata
+  20              		.global	cy_meta_flashprotect
+  21              		.global	cy_meta_wonvl
+  22              		.global	cy_meta_custnvl
+  23              		.global	cy_meta_loader
+  24              		.section	.cywolatch,"a",%progbits
+  25              		.type	cy_meta_wonvl, %object
+  26              		.size	cy_meta_wonvl, 4
+  27              	cy_meta_wonvl:
+  28 0000 BC       		.byte	-68
+  29 0001 90       		.byte	-112
+  30 0002 AC       		.byte	-84
+  31 0003 AF       		.byte	-81
+  32              		.section	.cyloadermeta,"a",%progbits
+  33              		.type	cy_meta_loader, %object
+  34              		.size	cy_meta_loader, 64
+  35              	cy_meta_loader:
+  36 0000 00       		.byte	0
+  37 0001 00       		.byte	0
+  38 0002 00       		.byte	0
+  39 0003 00       		.byte	0
+  40 0004 00       		.byte	0
+  41 0005 00       		.byte	0
+  42 0006 00       		.byte	0
+  43 0007 00       		.byte	0
+  44 0008 00       		.byte	0
+  45 0009 00       		.byte	0
+  46 000a 00       		.byte	0
+  47 000b 00       		.byte	0
+  48 000c 00       		.byte	0
+  49 000d 00       		.byte	0
+  50 000e 00       		.byte	0
+  51 000f 00       		.byte	0
+  52 0010 00       		.byte	0
+  53 0011 00       		.byte	0
+  54 0012 00       		.byte	0
+  55 0013 00       		.byte	0
+  56 0014 01       		.byte	1
+  57 0015 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccX8DAP4.s 			page 2
+
+
+  58 0016 00       		.byte	0
+  59 0017 00       		.byte	0
+  60 0018 00       		.byte	0
+  61 0019 00       		.byte	0
+  62 001a 00       		.byte	0
+  63 001b 00       		.byte	0
+  64 001c 00       		.byte	0
+  65 001d 00       		.byte	0
+  66 001e 00       		.byte	0
+  67 001f 00       		.byte	0
+  68 0020 00       		.byte	0
+  69 0021 00       		.byte	0
+  70 0022 00       		.byte	0
+  71 0023 00       		.byte	0
+  72 0024 00       		.byte	0
+  73 0025 00       		.byte	0
+  74 0026 00       		.byte	0
+  75 0027 00       		.byte	0
+  76 0028 00       		.byte	0
+  77 0029 00       		.byte	0
+  78 002a 00       		.byte	0
+  79 002b 00       		.byte	0
+  80 002c 00       		.byte	0
+  81 002d 00       		.byte	0
+  82 002e 00       		.byte	0
+  83 002f 00       		.byte	0
+  84 0030 00       		.byte	0
+  85 0031 00       		.byte	0
+  86 0032 00       		.byte	0
+  87 0033 00       		.byte	0
+  88 0034 00       		.byte	0
+  89 0035 00       		.byte	0
+  90 0036 00       		.byte	0
+  91 0037 00       		.byte	0
+  92 0038 00       		.byte	0
+  93 0039 00       		.byte	0
+  94 003a 00       		.byte	0
+  95 003b 00       		.byte	0
+  96 003c 00       		.byte	0
+  97 003d 00       		.byte	0
+  98 003e 00       		.byte	0
+  99 003f 00       		.byte	0
+ 100              		.section	.cycustnvl,"a",%progbits
+ 101              		.type	cy_meta_custnvl, %object
+ 102              		.size	cy_meta_custnvl, 4
+ 103              	cy_meta_custnvl:
+ 104 0000 00       		.byte	0
+ 105 0001 00       		.byte	0
+ 106 0002 40       		.byte	64
+ 107 0003 0D       		.byte	13
+ 108              		.section	.cymeta,"a",%progbits
+ 109              		.type	cy_metadata, %object
+ 110              		.size	cy_metadata, 12
+ 111              	cy_metadata:
+ 112 0000 00       		.byte	0
+ 113 0001 01       		.byte	1
+ 114 0002 2E       		.byte	46
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccX8DAP4.s 			page 3
+
+
+ 115 0003 12       		.byte	18
+ 116 0004 30       		.byte	48
+ 117 0005 69       		.byte	105
+ 118 0006 00       		.byte	0
+ 119 0007 01       		.byte	1
+ 120 0008 00       		.byte	0
+ 121 0009 00       		.byte	0
+ 122 000a 00       		.byte	0
+ 123 000b 00       		.byte	0
+ 124              		.section	.cyflashprotect,"a",%progbits
+ 125              		.type	cy_meta_flashprotect, %object
+ 126              		.size	cy_meta_flashprotect, 256
+ 127              	cy_meta_flashprotect:
+ 128 0000 00000000 		.space	256
+ 128      00000000 
+ 128      00000000 
+ 128      00000000 
+ 128      00000000 
+ 129              		.text
+ 130              	.Letext0:
+ 131              		.file 1 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 132              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 133              		.file 3 "Generated_Source\\PSoC5\\cymetadata.c"
+ 134              		.section	.debug_info,"",%progbits
+ 135              	.Ldebug_info0:
+ 136 0000 30010000 		.4byte	0x130
+ 137 0004 0400     		.2byte	0x4
+ 138 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 139 000a 04       		.byte	0x4
+ 140 000b 01       		.uleb128 0x1
+ 141 000c 8C000000 		.4byte	.LASF17
+ 142 0010 0C       		.byte	0xc
+ 143 0011 C1010000 		.4byte	.LASF18
+ 144 0015 66010000 		.4byte	.LASF19
+ 145 0019 00000000 		.4byte	.Ldebug_line0
+ 146 001d 02       		.uleb128 0x2
+ 147 001e 01       		.byte	0x1
+ 148 001f 06       		.byte	0x6
+ 149 0020 B5010000 		.4byte	.LASF0
+ 150 0024 03       		.uleb128 0x3
+ 151 0025 00000000 		.4byte	.LASF9
+ 152 0029 01       		.byte	0x1
+ 153 002a 1D       		.byte	0x1d
+ 154 002b 2F000000 		.4byte	0x2f
+ 155 002f 02       		.uleb128 0x2
+ 156 0030 01       		.byte	0x1
+ 157 0031 08       		.byte	0x8
+ 158 0032 3C000000 		.4byte	.LASF1
+ 159 0036 02       		.uleb128 0x2
+ 160 0037 02       		.byte	0x2
+ 161 0038 05       		.byte	0x5
+ 162 0039 5C010000 		.4byte	.LASF2
+ 163 003d 02       		.uleb128 0x2
+ 164 003e 02       		.byte	0x2
+ 165 003f 07       		.byte	0x7
+ 166 0040 5C000000 		.4byte	.LASF3
+ 167 0044 02       		.uleb128 0x2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccX8DAP4.s 			page 4
+
+
+ 168 0045 04       		.byte	0x4
+ 169 0046 05       		.byte	0x5
+ 170 0047 AC010000 		.4byte	.LASF4
+ 171 004b 02       		.uleb128 0x2
+ 172 004c 04       		.byte	0x4
+ 173 004d 07       		.byte	0x7
+ 174 004e 4A000000 		.4byte	.LASF5
+ 175 0052 02       		.uleb128 0x2
+ 176 0053 08       		.byte	0x8
+ 177 0054 05       		.byte	0x5
+ 178 0055 4E010000 		.4byte	.LASF6
+ 179 0059 02       		.uleb128 0x2
+ 180 005a 08       		.byte	0x8
+ 181 005b 07       		.byte	0x7
+ 182 005c 25000000 		.4byte	.LASF7
+ 183 0060 04       		.uleb128 0x4
+ 184 0061 04       		.byte	0x4
+ 185 0062 05       		.byte	0x5
+ 186 0063 696E7400 		.ascii	"int\000"
+ 187 0067 02       		.uleb128 0x2
+ 188 0068 04       		.byte	0x4
+ 189 0069 07       		.byte	0x7
+ 190 006a 7F000000 		.4byte	.LASF8
+ 191 006e 03       		.uleb128 0x3
+ 192 006f 1A010000 		.4byte	.LASF10
+ 193 0073 02       		.byte	0x2
+ 194 0074 18       		.byte	0x18
+ 195 0075 24000000 		.4byte	0x24
+ 196 0079 05       		.uleb128 0x5
+ 197 007a 90000000 		.4byte	0x90
+ 198 007e 89000000 		.4byte	0x89
+ 199 0082 06       		.uleb128 0x6
+ 200 0083 89000000 		.4byte	0x89
+ 201 0087 3F       		.byte	0x3f
+ 202 0088 00       		.byte	0
+ 203 0089 02       		.uleb128 0x2
+ 204 008a 04       		.byte	0x4
+ 205 008b 07       		.byte	0x7
+ 206 008c 45010000 		.4byte	.LASF11
+ 207 0090 07       		.uleb128 0x7
+ 208 0091 6E000000 		.4byte	0x6e
+ 209 0095 08       		.uleb128 0x8
+ 210 0096 0A000000 		.4byte	.LASF12
+ 211 009a 03       		.byte	0x3
+ 212 009b 1F       		.byte	0x1f
+ 213 009c A6000000 		.4byte	0xa6
+ 214 00a0 05       		.uleb128 0x5
+ 215 00a1 03       		.byte	0x3
+ 216 00a2 00000000 		.4byte	cy_meta_loader
+ 217 00a6 07       		.uleb128 0x7
+ 218 00a7 79000000 		.4byte	0x79
+ 219 00ab 05       		.uleb128 0x5
+ 220 00ac 90000000 		.4byte	0x90
+ 221 00b0 BB000000 		.4byte	0xbb
+ 222 00b4 06       		.uleb128 0x6
+ 223 00b5 89000000 		.4byte	0x89
+ 224 00b9 03       		.byte	0x3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccX8DAP4.s 			page 5
+
+
+ 225 00ba 00       		.byte	0
+ 226 00bb 08       		.uleb128 0x8
+ 227 00bc 6F000000 		.4byte	.LASF13
+ 228 00c0 03       		.byte	0x3
+ 229 00c1 34       		.byte	0x34
+ 230 00c2 CC000000 		.4byte	0xcc
+ 231 00c6 05       		.uleb128 0x5
+ 232 00c7 03       		.byte	0x3
+ 233 00c8 00000000 		.4byte	cy_meta_custnvl
+ 234 00cc 07       		.uleb128 0x7
+ 235 00cd AB000000 		.4byte	0xab
+ 236 00d1 08       		.uleb128 0x8
+ 237 00d2 37010000 		.4byte	.LASF14
+ 238 00d6 03       		.byte	0x3
+ 239 00d7 42       		.byte	0x42
+ 240 00d8 E2000000 		.4byte	0xe2
+ 241 00dc 05       		.uleb128 0x5
+ 242 00dd 03       		.byte	0x3
+ 243 00de 00000000 		.4byte	cy_meta_wonvl
+ 244 00e2 07       		.uleb128 0x7
+ 245 00e3 AB000000 		.4byte	0xab
+ 246 00e7 05       		.uleb128 0x5
+ 247 00e8 90000000 		.4byte	0x90
+ 248 00ec F7000000 		.4byte	0xf7
+ 249 00f0 06       		.uleb128 0x6
+ 250 00f1 89000000 		.4byte	0x89
+ 251 00f5 FF       		.byte	0xff
+ 252 00f6 00       		.byte	0
+ 253 00f7 08       		.uleb128 0x8
+ 254 00f8 22010000 		.4byte	.LASF15
+ 255 00fc 03       		.byte	0x3
+ 256 00fd 50       		.byte	0x50
+ 257 00fe 08010000 		.4byte	0x108
+ 258 0102 05       		.uleb128 0x5
+ 259 0103 03       		.byte	0x3
+ 260 0104 00000000 		.4byte	cy_meta_flashprotect
+ 261 0108 07       		.uleb128 0x7
+ 262 0109 E7000000 		.4byte	0xe7
+ 263 010d 05       		.uleb128 0x5
+ 264 010e 90000000 		.4byte	0x90
+ 265 0112 1D010000 		.4byte	0x11d
+ 266 0116 06       		.uleb128 0x6
+ 267 0117 89000000 		.4byte	0x89
+ 268 011b 0B       		.byte	0xb
+ 269 011c 00       		.byte	0
+ 270 011d 08       		.uleb128 0x8
+ 271 011e 19000000 		.4byte	.LASF16
+ 272 0122 03       		.byte	0x3
+ 273 0123 7D       		.byte	0x7d
+ 274 0124 2E010000 		.4byte	0x12e
+ 275 0128 05       		.uleb128 0x5
+ 276 0129 03       		.byte	0x3
+ 277 012a 00000000 		.4byte	cy_metadata
+ 278 012e 07       		.uleb128 0x7
+ 279 012f 0D010000 		.4byte	0x10d
+ 280 0133 00       		.byte	0
+ 281              		.section	.debug_abbrev,"",%progbits
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccX8DAP4.s 			page 6
+
+
+ 282              	.Ldebug_abbrev0:
+ 283 0000 01       		.uleb128 0x1
+ 284 0001 11       		.uleb128 0x11
+ 285 0002 01       		.byte	0x1
+ 286 0003 25       		.uleb128 0x25
+ 287 0004 0E       		.uleb128 0xe
+ 288 0005 13       		.uleb128 0x13
+ 289 0006 0B       		.uleb128 0xb
+ 290 0007 03       		.uleb128 0x3
+ 291 0008 0E       		.uleb128 0xe
+ 292 0009 1B       		.uleb128 0x1b
+ 293 000a 0E       		.uleb128 0xe
+ 294 000b 10       		.uleb128 0x10
+ 295 000c 17       		.uleb128 0x17
+ 296 000d 00       		.byte	0
+ 297 000e 00       		.byte	0
+ 298 000f 02       		.uleb128 0x2
+ 299 0010 24       		.uleb128 0x24
+ 300 0011 00       		.byte	0
+ 301 0012 0B       		.uleb128 0xb
+ 302 0013 0B       		.uleb128 0xb
+ 303 0014 3E       		.uleb128 0x3e
+ 304 0015 0B       		.uleb128 0xb
+ 305 0016 03       		.uleb128 0x3
+ 306 0017 0E       		.uleb128 0xe
+ 307 0018 00       		.byte	0
+ 308 0019 00       		.byte	0
+ 309 001a 03       		.uleb128 0x3
+ 310 001b 16       		.uleb128 0x16
+ 311 001c 00       		.byte	0
+ 312 001d 03       		.uleb128 0x3
+ 313 001e 0E       		.uleb128 0xe
+ 314 001f 3A       		.uleb128 0x3a
+ 315 0020 0B       		.uleb128 0xb
+ 316 0021 3B       		.uleb128 0x3b
+ 317 0022 0B       		.uleb128 0xb
+ 318 0023 49       		.uleb128 0x49
+ 319 0024 13       		.uleb128 0x13
+ 320 0025 00       		.byte	0
+ 321 0026 00       		.byte	0
+ 322 0027 04       		.uleb128 0x4
+ 323 0028 24       		.uleb128 0x24
+ 324 0029 00       		.byte	0
+ 325 002a 0B       		.uleb128 0xb
+ 326 002b 0B       		.uleb128 0xb
+ 327 002c 3E       		.uleb128 0x3e
+ 328 002d 0B       		.uleb128 0xb
+ 329 002e 03       		.uleb128 0x3
+ 330 002f 08       		.uleb128 0x8
+ 331 0030 00       		.byte	0
+ 332 0031 00       		.byte	0
+ 333 0032 05       		.uleb128 0x5
+ 334 0033 01       		.uleb128 0x1
+ 335 0034 01       		.byte	0x1
+ 336 0035 49       		.uleb128 0x49
+ 337 0036 13       		.uleb128 0x13
+ 338 0037 01       		.uleb128 0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccX8DAP4.s 			page 7
+
+
+ 339 0038 13       		.uleb128 0x13
+ 340 0039 00       		.byte	0
+ 341 003a 00       		.byte	0
+ 342 003b 06       		.uleb128 0x6
+ 343 003c 21       		.uleb128 0x21
+ 344 003d 00       		.byte	0
+ 345 003e 49       		.uleb128 0x49
+ 346 003f 13       		.uleb128 0x13
+ 347 0040 2F       		.uleb128 0x2f
+ 348 0041 0B       		.uleb128 0xb
+ 349 0042 00       		.byte	0
+ 350 0043 00       		.byte	0
+ 351 0044 07       		.uleb128 0x7
+ 352 0045 26       		.uleb128 0x26
+ 353 0046 00       		.byte	0
+ 354 0047 49       		.uleb128 0x49
+ 355 0048 13       		.uleb128 0x13
+ 356 0049 00       		.byte	0
+ 357 004a 00       		.byte	0
+ 358 004b 08       		.uleb128 0x8
+ 359 004c 34       		.uleb128 0x34
+ 360 004d 00       		.byte	0
+ 361 004e 03       		.uleb128 0x3
+ 362 004f 0E       		.uleb128 0xe
+ 363 0050 3A       		.uleb128 0x3a
+ 364 0051 0B       		.uleb128 0xb
+ 365 0052 3B       		.uleb128 0x3b
+ 366 0053 0B       		.uleb128 0xb
+ 367 0054 49       		.uleb128 0x49
+ 368 0055 13       		.uleb128 0x13
+ 369 0056 3F       		.uleb128 0x3f
+ 370 0057 19       		.uleb128 0x19
+ 371 0058 02       		.uleb128 0x2
+ 372 0059 18       		.uleb128 0x18
+ 373 005a 00       		.byte	0
+ 374 005b 00       		.byte	0
+ 375 005c 00       		.byte	0
+ 376              		.section	.debug_aranges,"",%progbits
+ 377 0000 14000000 		.4byte	0x14
+ 378 0004 0200     		.2byte	0x2
+ 379 0006 00000000 		.4byte	.Ldebug_info0
+ 380 000a 04       		.byte	0x4
+ 381 000b 00       		.byte	0
+ 382 000c 0000     		.2byte	0
+ 383 000e 0000     		.2byte	0
+ 384 0010 00000000 		.4byte	0
+ 385 0014 00000000 		.4byte	0
+ 386              		.section	.debug_line,"",%progbits
+ 387              	.Ldebug_line0:
+ 388 0000 3D010000 		.section	.debug_str,"MS",%progbits,1
+ 388      02003701 
+ 388      00000201 
+ 388      FB0E0D00 
+ 388      01010101 
+ 389              	.LASF9:
+ 390 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 390      6E74385F 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccX8DAP4.s 			page 8
+
+
+ 390      7400
+ 391              	.LASF12:
+ 392 000a 63795F6D 		.ascii	"cy_meta_loader\000"
+ 392      6574615F 
+ 392      6C6F6164 
+ 392      657200
+ 393              	.LASF16:
+ 394 0019 63795F6D 		.ascii	"cy_metadata\000"
+ 394      65746164 
+ 394      61746100 
+ 395              	.LASF7:
+ 396 0025 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 396      206C6F6E 
+ 396      6720756E 
+ 396      7369676E 
+ 396      65642069 
+ 397              	.LASF1:
+ 398 003c 756E7369 		.ascii	"unsigned char\000"
+ 398      676E6564 
+ 398      20636861 
+ 398      7200
+ 399              	.LASF5:
+ 400 004a 6C6F6E67 		.ascii	"long unsigned int\000"
+ 400      20756E73 
+ 400      69676E65 
+ 400      6420696E 
+ 400      7400
+ 401              	.LASF3:
+ 402 005c 73686F72 		.ascii	"short unsigned int\000"
+ 402      7420756E 
+ 402      7369676E 
+ 402      65642069 
+ 402      6E7400
+ 403              	.LASF13:
+ 404 006f 63795F6D 		.ascii	"cy_meta_custnvl\000"
+ 404      6574615F 
+ 404      63757374 
+ 404      6E766C00 
+ 405              	.LASF8:
+ 406 007f 756E7369 		.ascii	"unsigned int\000"
+ 406      676E6564 
+ 406      20696E74 
+ 406      00
+ 407              	.LASF17:
+ 408 008c 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 408      43313120 
+ 408      352E342E 
+ 408      31203230 
+ 408      31363036 
+ 409 00bf 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 409      20726576 
+ 409      6973696F 
+ 409      6E203233 
+ 409      37373135 
+ 410 00f2 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 410      66756E63 
+ 410      74696F6E 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccX8DAP4.s 			page 9
+
+
+ 410      2D736563 
+ 410      74696F6E 
+ 411              	.LASF10:
+ 412 011a 75696E74 		.ascii	"uint8_t\000"
+ 412      385F7400 
+ 413              	.LASF15:
+ 414 0122 63795F6D 		.ascii	"cy_meta_flashprotect\000"
+ 414      6574615F 
+ 414      666C6173 
+ 414      6870726F 
+ 414      74656374 
+ 415              	.LASF14:
+ 416 0137 63795F6D 		.ascii	"cy_meta_wonvl\000"
+ 416      6574615F 
+ 416      776F6E76 
+ 416      6C00
+ 417              	.LASF11:
+ 418 0145 73697A65 		.ascii	"sizetype\000"
+ 418      74797065 
+ 418      00
+ 419              	.LASF6:
+ 420 014e 6C6F6E67 		.ascii	"long long int\000"
+ 420      206C6F6E 
+ 420      6720696E 
+ 420      7400
+ 421              	.LASF2:
+ 422 015c 73686F72 		.ascii	"short int\000"
+ 422      7420696E 
+ 422      7400
+ 423              	.LASF19:
+ 424 0166 433A5C55 		.ascii	"C:\\Users\\ali\\Desktop\\cy-micro\\cy-micro\\cy-boo"
+ 424      73657273 
+ 424      5C616C69 
+ 424      5C446573 
+ 424      6B746F70 
+ 425 0193 746C6F61 		.ascii	"tloader\\Bootloader.cydsn\000"
+ 425      6465725C 
+ 425      426F6F74 
+ 425      6C6F6164 
+ 425      65722E63 
+ 426              	.LASF4:
+ 427 01ac 6C6F6E67 		.ascii	"long int\000"
+ 427      20696E74 
+ 427      00
+ 428              	.LASF0:
+ 429 01b5 7369676E 		.ascii	"signed char\000"
+ 429      65642063 
+ 429      68617200 
+ 430              	.LASF18:
+ 431 01c1 47656E65 		.ascii	"Generated_Source\\PSoC5\\cymetadata.c\000"
+ 431      72617465 
+ 431      645F536F 
+ 431      75726365 
+ 431      5C50536F 
+ 432              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,104 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccGVMaNI.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Relay_Port2.c"
+  16              		.section	.text.Relay_Port2_Write,"ax",%progbits
+  17              		.align	2
+  18              		.global	Relay_Port2_Write
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	Relay_Port2_Write, %function
+  22              	Relay_Port2_Write:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 044A     		ldr	r2, .L2
+  27 0002 00F00100 		and	r0, r0, #1
+  28 0006 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  29 0008 03F0FE03 		and	r3, r3, #254
+  30 000c 1843     		orrs	r0, r0, r3
+  31 000e 1070     		strb	r0, [r2]
+  32 0010 7047     		bx	lr
+  33              	.L3:
+  34 0012 00BF     		.align	2
+  35              	.L2:
+  36 0014 50510040 		.word	1073762640
+  37              		.size	Relay_Port2_Write, .-Relay_Port2_Write
+  38              		.section	.text.Relay_Port2_SetDriveMode,"ax",%progbits
+  39              		.align	2
+  40              		.global	Relay_Port2_SetDriveMode
+  41              		.thumb
+  42              		.thumb_func
+  43              		.type	Relay_Port2_SetDriveMode, %function
+  44              	Relay_Port2_SetDriveMode:
+  45              		@ args = 0, pretend = 0, frame = 0
+  46              		@ frame_needed = 0, uses_anonymous_args = 0
+  47              		@ link register save eliminated.
+  48 0000 044A     		ldr	r2, .L5
+  49 0002 00F00E00 		and	r0, r0, #14
+  50 0006 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  51 0008 03F0F103 		and	r3, r3, #241
+  52 000c 1843     		orrs	r0, r0, r3
+  53 000e 1070     		strb	r0, [r2]
+  54 0010 7047     		bx	lr
+  55              	.L6:
+  56 0012 00BF     		.align	2
+  57              	.L5:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccGVMaNI.s 			page 2
+
+
+  58 0014 28500040 		.word	1073762344
+  59              		.size	Relay_Port2_SetDriveMode, .-Relay_Port2_SetDriveMode
+  60              		.section	.text.Relay_Port2_Read,"ax",%progbits
+  61              		.align	2
+  62              		.global	Relay_Port2_Read
+  63              		.thumb
+  64              		.thumb_func
+  65              		.type	Relay_Port2_Read, %function
+  66              	Relay_Port2_Read:
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69              		@ link register save eliminated.
+  70 0000 024B     		ldr	r3, .L8
+  71 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+  72 0004 00F00100 		and	r0, r0, #1
+  73 0008 7047     		bx	lr
+  74              	.L9:
+  75 000a 00BF     		.align	2
+  76              	.L8:
+  77 000c 51510040 		.word	1073762641
+  78              		.size	Relay_Port2_Read, .-Relay_Port2_Read
+  79              		.section	.text.Relay_Port2_ReadDataReg,"ax",%progbits
+  80              		.align	2
+  81              		.global	Relay_Port2_ReadDataReg
+  82              		.thumb
+  83              		.thumb_func
+  84              		.type	Relay_Port2_ReadDataReg, %function
+  85              	Relay_Port2_ReadDataReg:
+  86              		@ args = 0, pretend = 0, frame = 0
+  87              		@ frame_needed = 0, uses_anonymous_args = 0
+  88              		@ link register save eliminated.
+  89 0000 024B     		ldr	r3, .L11
+  90 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+  91 0004 00F00100 		and	r0, r0, #1
+  92 0008 7047     		bx	lr
+  93              	.L12:
+  94 000a 00BF     		.align	2
+  95              	.L11:
+  96 000c 50510040 		.word	1073762640
+  97              		.size	Relay_Port2_ReadDataReg, .-Relay_Port2_ReadDataReg
+  98              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

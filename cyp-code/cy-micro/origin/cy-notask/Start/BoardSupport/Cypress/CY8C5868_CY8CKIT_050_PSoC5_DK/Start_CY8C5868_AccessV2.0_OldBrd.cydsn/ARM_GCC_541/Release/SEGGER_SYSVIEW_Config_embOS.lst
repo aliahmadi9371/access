@@ -1,0 +1,94 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccfqWpZU.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"SEGGER_SYSVIEW_Config_embOS.c"
+  16              		.section	.text._cbSendSystemDesc,"ax",%progbits
+  17              		.align	2
+  18              		.thumb
+  19              		.thumb_func
+  20              		.type	_cbSendSystemDesc, %function
+  21              	_cbSendSystemDesc:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24 0000 08B5     		push	{r3, lr}
+  25 0002 0448     		ldr	r0, .L3
+  26 0004 FFF7FEFF 		bl	SEGGER_SYSVIEW_SendSysDesc
+  27 0008 BDE80840 		pop	{r3, lr}
+  28 000c 0248     		ldr	r0, .L3+4
+  29 000e FFF7FEBF 		b	SEGGER_SYSVIEW_SendSysDesc
+  30              	.L4:
+  31 0012 00BF     		.align	2
+  32              	.L3:
+  33 0014 00000000 		.word	.LC0
+  34 0018 2C000000 		.word	.LC1
+  35              		.size	_cbSendSystemDesc, .-_cbSendSystemDesc
+  36              		.section	.text.SEGGER_SYSVIEW_Conf,"ax",%progbits
+  37              		.align	2
+  38              		.global	SEGGER_SYSVIEW_Conf
+  39              		.thumb
+  40              		.thumb_func
+  41              		.type	SEGGER_SYSVIEW_Conf, %function
+  42              	SEGGER_SYSVIEW_Conf:
+  43              		@ args = 0, pretend = 0, frame = 0
+  44              		@ frame_needed = 0, uses_anonymous_args = 0
+  45 0000 08B5     		push	{r3, lr}
+  46 0002 0B4B     		ldr	r3, .L9
+  47 0004 1A68     		ldr	r2, [r3]
+  48 0006 9101     		lsls	r1, r2, #6
+  49 0008 06D4     		bmi	.L6
+  50 000a 1A68     		ldr	r2, [r3]
+  51 000c D207     		lsls	r2, r2, #31
+  52 000e 03D4     		bmi	.L6
+  53 0010 1A68     		ldr	r2, [r3]
+  54 0012 42F00102 		orr	r2, r2, #1
+  55 0016 1A60     		str	r2, [r3]
+  56              	.L6:
+  57 0018 0649     		ldr	r1, .L9+4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccfqWpZU.s 			page 2
+
+
+  58 001a 074B     		ldr	r3, .L9+8
+  59 001c 0846     		mov	r0, r1
+  60 001e 074A     		ldr	r2, .L9+12
+  61 0020 FFF7FEFF 		bl	SEGGER_SYSVIEW_Init
+  62 0024 BDE80840 		pop	{r3, lr}
+  63 0028 0548     		ldr	r0, .L9+16
+  64 002a FFF7FEBF 		b	OS_TRACE_SetAPI
+  65              	.L10:
+  66 002e 00BF     		.align	2
+  67              	.L9:
+  68 0030 001000E0 		.word	-536866816
+  69 0034 80F0FA02 		.word	50000000
+  70 0038 00000000 		.word	_cbSendSystemDesc
+  71 003c 00000000 		.word	SYSVIEW_X_OS_TraceAPI
+  72 0040 00000000 		.word	embOS_TraceAPI_SYSVIEW
+  73              		.size	SEGGER_SYSVIEW_Conf, .-SEGGER_SYSVIEW_Conf
+  74              		.section	.rodata.str1.4,"aMS",%progbits,1
+  75              		.align	2
+  76              	.LC0:
+  77 0000 4E3D656D 		.ascii	"N=embOS start project,O=embOS,D=CY8C5868\000"
+  77      624F5320 
+  77      73746172 
+  77      74207072 
+  77      6F6A6563 
+  78 0029 000000   		.space	3
+  79              	.LC1:
+  80 002c 49233135 		.ascii	"I#15=SysTick\000"
+  80      3D537973 
+  80      5469636B 
+  80      00
+  81              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

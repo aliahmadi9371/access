@@ -1,0 +1,627 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccSfimwa.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"defines.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.strremove,"ax",%progbits
+  20              		.align	2
+  21              		.global	strremove
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	strremove, %function
+  25              	strremove:
+  26              	.LFB64:
+  27              		.file 1 "defines.c"
+   1:defines.c     **** /* ========================================
+   2:defines.c     ****  *
+   3:defines.c     ****  * Copyright YOUR COMPANY, THE YEAR
+   4:defines.c     ****  * All Rights Reserved
+   5:defines.c     ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:defines.c     ****  *
+   7:defines.c     ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:defines.c     ****  * WHICH IS THE PROPERTY OF your company.
+   9:defines.c     ****  *
+  10:defines.c     ****  * ========================================
+  11:defines.c     **** */
+  12:defines.c     **** // ###################################################### Includes ################################
+  13:defines.c     **** #include "defines.h"
+  14:defines.c     **** // ################################################################################################
+  15:defines.c     **** 
+  16:defines.c     **** // ###################################################### Functions ###############################
+  17:defines.c     **** char* strremove(char *str, const char *sub)
+  18:defines.c     **** {
+  28              		.loc 1 18 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 16
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 90B5     		push	{r4, r7, lr}
+  33              		.cfi_def_cfa_offset 12
+  34              		.cfi_offset 4, -12
+  35              		.cfi_offset 7, -8
+  36              		.cfi_offset 14, -4
+  37 0002 85B0     		sub	sp, sp, #20
+  38              		.cfi_def_cfa_offset 32
+  39 0004 00AF     		add	r7, sp, #0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccSfimwa.s 			page 2
+
+
+  40              		.cfi_def_cfa_register 7
+  41 0006 7860     		str	r0, [r7, #4]
+  42 0008 3960     		str	r1, [r7]
+  19:defines.c     ****     size_t len = strlen(sub);
+  43              		.loc 1 19 0
+  44 000a 3868     		ldr	r0, [r7]
+  45 000c FFF7FEFF 		bl	strlen
+  46 0010 B860     		str	r0, [r7, #8]
+  20:defines.c     ****     if(len > 0){
+  47              		.loc 1 20 0
+  48 0012 BB68     		ldr	r3, [r7, #8]
+  49 0014 002B     		cmp	r3, #0
+  50 0016 1AD0     		beq	.L2
+  51              	.LBB2:
+  21:defines.c     ****         char *p = str;
+  52              		.loc 1 21 0
+  53 0018 7B68     		ldr	r3, [r7, #4]
+  54 001a FB60     		str	r3, [r7, #12]
+  22:defines.c     ****         while((p = strstr(p, sub)) != NULL){
+  55              		.loc 1 22 0
+  56 001c 0FE0     		b	.L3
+  57              	.L4:
+  23:defines.c     ****             memmove(p, p + len, strlen(p + len) + 1);
+  58              		.loc 1 23 0
+  59 001e FA68     		ldr	r2, [r7, #12]
+  60 0020 BB68     		ldr	r3, [r7, #8]
+  61 0022 D418     		adds	r4, r2, r3
+  62 0024 FA68     		ldr	r2, [r7, #12]
+  63 0026 BB68     		ldr	r3, [r7, #8]
+  64 0028 1344     		add	r3, r3, r2
+  65 002a 1846     		mov	r0, r3
+  66 002c FFF7FEFF 		bl	strlen
+  67 0030 0346     		mov	r3, r0
+  68 0032 0133     		adds	r3, r3, #1
+  69 0034 1A46     		mov	r2, r3
+  70 0036 2146     		mov	r1, r4
+  71 0038 F868     		ldr	r0, [r7, #12]
+  72 003a FFF7FEFF 		bl	memmove
+  73              	.L3:
+  22:defines.c     ****         while((p = strstr(p, sub)) != NULL){
+  74              		.loc 1 22 0
+  75 003e 3968     		ldr	r1, [r7]
+  76 0040 F868     		ldr	r0, [r7, #12]
+  77 0042 FFF7FEFF 		bl	strstr
+  78 0046 F860     		str	r0, [r7, #12]
+  79 0048 FB68     		ldr	r3, [r7, #12]
+  80 004a 002B     		cmp	r3, #0
+  81 004c E7D1     		bne	.L4
+  82              	.L2:
+  83              	.LBE2:
+  24:defines.c     ****         }
+  25:defines.c     ****     }
+  26:defines.c     ****     
+  27:defines.c     ****     return str;
+  84              		.loc 1 27 0
+  85 004e 7B68     		ldr	r3, [r7, #4]
+  28:defines.c     **** }
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccSfimwa.s 			page 3
+
+
+  86              		.loc 1 28 0
+  87 0050 1846     		mov	r0, r3
+  88 0052 1437     		adds	r7, r7, #20
+  89              		.cfi_def_cfa_offset 12
+  90 0054 BD46     		mov	sp, r7
+  91              		.cfi_def_cfa_register 13
+  92              		@ sp needed
+  93 0056 90BD     		pop	{r4, r7, pc}
+  94              		.cfi_endproc
+  95              	.LFE64:
+  96              		.size	strremove, .-strremove
+  97              		.text
+  98              	.Letext0:
+  99              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 100              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 101              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 102              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 103              		.section	.debug_info,"",%progbits
+ 104              	.Ldebug_info0:
+ 105 0000 28010000 		.4byte	0x128
+ 106 0004 0400     		.2byte	0x4
+ 107 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 108 000a 04       		.byte	0x4
+ 109 000b 01       		.uleb128 0x1
+ 110 000c 65000000 		.4byte	.LASF17
+ 111 0010 0C       		.byte	0xc
+ 112 0011 28000000 		.4byte	.LASF18
+ 113 0015 23010000 		.4byte	.LASF19
+ 114 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 115 001d 00000000 		.4byte	0
+ 116 0021 00000000 		.4byte	.Ldebug_line0
+ 117 0025 02       		.uleb128 0x2
+ 118 0026 04       		.byte	0x4
+ 119 0027 05       		.byte	0x5
+ 120 0028 696E7400 		.ascii	"int\000"
+ 121 002c 03       		.uleb128 0x3
+ 122 002d 21000000 		.4byte	.LASF7
+ 123 0031 02       		.byte	0x2
+ 124 0032 D8       		.byte	0xd8
+ 125 0033 37000000 		.4byte	0x37
+ 126 0037 04       		.uleb128 0x4
+ 127 0038 04       		.byte	0x4
+ 128 0039 07       		.byte	0x7
+ 129 003a 0F010000 		.4byte	.LASF0
+ 130 003e 04       		.uleb128 0x4
+ 131 003f 08       		.byte	0x8
+ 132 0040 05       		.byte	0x5
+ 133 0041 00000000 		.4byte	.LASF1
+ 134 0045 04       		.uleb128 0x4
+ 135 0046 08       		.byte	0x8
+ 136 0047 04       		.byte	0x4
+ 137 0048 DE010000 		.4byte	.LASF2
+ 138 004c 04       		.uleb128 0x4
+ 139 004d 01       		.byte	0x1
+ 140 004e 06       		.byte	0x6
+ 141 004f D2010000 		.4byte	.LASF3
+ 142 0053 04       		.uleb128 0x4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccSfimwa.s 			page 4
+
+
+ 143 0054 01       		.byte	0x1
+ 144 0055 08       		.byte	0x8
+ 145 0056 F3000000 		.4byte	.LASF4
+ 146 005a 04       		.uleb128 0x4
+ 147 005b 02       		.byte	0x2
+ 148 005c 05       		.byte	0x5
+ 149 005d FA010000 		.4byte	.LASF5
+ 150 0061 04       		.uleb128 0x4
+ 151 0062 02       		.byte	0x2
+ 152 0063 07       		.byte	0x7
+ 153 0064 0E000000 		.4byte	.LASF6
+ 154 0068 03       		.uleb128 0x3
+ 155 0069 EA010000 		.4byte	.LASF8
+ 156 006d 03       		.byte	0x3
+ 157 006e 3F       		.byte	0x3f
+ 158 006f 73000000 		.4byte	0x73
+ 159 0073 04       		.uleb128 0x4
+ 160 0074 04       		.byte	0x4
+ 161 0075 05       		.byte	0x5
+ 162 0076 06010000 		.4byte	.LASF9
+ 163 007a 04       		.uleb128 0x4
+ 164 007b 04       		.byte	0x4
+ 165 007c 07       		.byte	0x7
+ 166 007d 32000000 		.4byte	.LASF10
+ 167 0081 04       		.uleb128 0x4
+ 168 0082 08       		.byte	0x8
+ 169 0083 07       		.byte	0x7
+ 170 0084 44000000 		.4byte	.LASF11
+ 171 0088 04       		.uleb128 0x4
+ 172 0089 04       		.byte	0x4
+ 173 008a 07       		.byte	0x7
+ 174 008b 0C020000 		.4byte	.LASF12
+ 175 008f 05       		.uleb128 0x5
+ 176 0090 04       		.byte	0x4
+ 177 0091 95000000 		.4byte	0x95
+ 178 0095 04       		.uleb128 0x4
+ 179 0096 01       		.byte	0x1
+ 180 0097 08       		.byte	0x8
+ 181 0098 01010000 		.4byte	.LASF13
+ 182 009c 05       		.uleb128 0x5
+ 183 009d 04       		.byte	0x4
+ 184 009e A2000000 		.4byte	0xa2
+ 185 00a2 06       		.uleb128 0x6
+ 186 00a3 95000000 		.4byte	0x95
+ 187 00a7 03       		.uleb128 0x3
+ 188 00a8 04020000 		.4byte	.LASF14
+ 189 00ac 04       		.byte	0x4
+ 190 00ad 2C       		.byte	0x2c
+ 191 00ae 68000000 		.4byte	0x68
+ 192 00b2 04       		.uleb128 0x4
+ 193 00b3 04       		.byte	0x4
+ 194 00b4 04       		.byte	0x4
+ 195 00b5 F4010000 		.4byte	.LASF15
+ 196 00b9 04       		.uleb128 0x4
+ 197 00ba 08       		.byte	0x8
+ 198 00bb 04       		.byte	0x4
+ 199 00bc 1C010000 		.4byte	.LASF16
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccSfimwa.s 			page 5
+
+
+ 200 00c0 07       		.uleb128 0x7
+ 201 00c1 5B000000 		.4byte	.LASF20
+ 202 00c5 01       		.byte	0x1
+ 203 00c6 11       		.byte	0x11
+ 204 00c7 8F000000 		.4byte	0x8f
+ 205 00cb 00000000 		.4byte	.LFB64
+ 206 00cf 58000000 		.4byte	.LFE64-.LFB64
+ 207 00d3 01       		.uleb128 0x1
+ 208 00d4 9C       		.byte	0x9c
+ 209 00d5 1A010000 		.4byte	0x11a
+ 210 00d9 08       		.uleb128 0x8
+ 211 00da 73747200 		.ascii	"str\000"
+ 212 00de 01       		.byte	0x1
+ 213 00df 11       		.byte	0x11
+ 214 00e0 8F000000 		.4byte	0x8f
+ 215 00e4 02       		.uleb128 0x2
+ 216 00e5 91       		.byte	0x91
+ 217 00e6 64       		.sleb128 -28
+ 218 00e7 08       		.uleb128 0x8
+ 219 00e8 73756200 		.ascii	"sub\000"
+ 220 00ec 01       		.byte	0x1
+ 221 00ed 11       		.byte	0x11
+ 222 00ee 9C000000 		.4byte	0x9c
+ 223 00f2 02       		.uleb128 0x2
+ 224 00f3 91       		.byte	0x91
+ 225 00f4 60       		.sleb128 -32
+ 226 00f5 09       		.uleb128 0x9
+ 227 00f6 6C656E00 		.ascii	"len\000"
+ 228 00fa 01       		.byte	0x1
+ 229 00fb 13       		.byte	0x13
+ 230 00fc 2C000000 		.4byte	0x2c
+ 231 0100 02       		.uleb128 0x2
+ 232 0101 91       		.byte	0x91
+ 233 0102 68       		.sleb128 -24
+ 234 0103 0A       		.uleb128 0xa
+ 235 0104 18000000 		.4byte	.LBB2
+ 236 0108 36000000 		.4byte	.LBE2-.LBB2
+ 237 010c 09       		.uleb128 0x9
+ 238 010d 7000     		.ascii	"p\000"
+ 239 010f 01       		.byte	0x1
+ 240 0110 15       		.byte	0x15
+ 241 0111 8F000000 		.4byte	0x8f
+ 242 0115 02       		.uleb128 0x2
+ 243 0116 91       		.byte	0x91
+ 244 0117 6C       		.sleb128 -20
+ 245 0118 00       		.byte	0
+ 246 0119 00       		.byte	0
+ 247 011a 0B       		.uleb128 0xb
+ 248 011b C5010000 		.4byte	.LASF21
+ 249 011f 05       		.byte	0x5
+ 250 0120 1207     		.2byte	0x712
+ 251 0122 26010000 		.4byte	0x126
+ 252 0126 0C       		.uleb128 0xc
+ 253 0127 A7000000 		.4byte	0xa7
+ 254 012b 00       		.byte	0
+ 255              		.section	.debug_abbrev,"",%progbits
+ 256              	.Ldebug_abbrev0:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccSfimwa.s 			page 6
+
+
+ 257 0000 01       		.uleb128 0x1
+ 258 0001 11       		.uleb128 0x11
+ 259 0002 01       		.byte	0x1
+ 260 0003 25       		.uleb128 0x25
+ 261 0004 0E       		.uleb128 0xe
+ 262 0005 13       		.uleb128 0x13
+ 263 0006 0B       		.uleb128 0xb
+ 264 0007 03       		.uleb128 0x3
+ 265 0008 0E       		.uleb128 0xe
+ 266 0009 1B       		.uleb128 0x1b
+ 267 000a 0E       		.uleb128 0xe
+ 268 000b 55       		.uleb128 0x55
+ 269 000c 17       		.uleb128 0x17
+ 270 000d 11       		.uleb128 0x11
+ 271 000e 01       		.uleb128 0x1
+ 272 000f 10       		.uleb128 0x10
+ 273 0010 17       		.uleb128 0x17
+ 274 0011 00       		.byte	0
+ 275 0012 00       		.byte	0
+ 276 0013 02       		.uleb128 0x2
+ 277 0014 24       		.uleb128 0x24
+ 278 0015 00       		.byte	0
+ 279 0016 0B       		.uleb128 0xb
+ 280 0017 0B       		.uleb128 0xb
+ 281 0018 3E       		.uleb128 0x3e
+ 282 0019 0B       		.uleb128 0xb
+ 283 001a 03       		.uleb128 0x3
+ 284 001b 08       		.uleb128 0x8
+ 285 001c 00       		.byte	0
+ 286 001d 00       		.byte	0
+ 287 001e 03       		.uleb128 0x3
+ 288 001f 16       		.uleb128 0x16
+ 289 0020 00       		.byte	0
+ 290 0021 03       		.uleb128 0x3
+ 291 0022 0E       		.uleb128 0xe
+ 292 0023 3A       		.uleb128 0x3a
+ 293 0024 0B       		.uleb128 0xb
+ 294 0025 3B       		.uleb128 0x3b
+ 295 0026 0B       		.uleb128 0xb
+ 296 0027 49       		.uleb128 0x49
+ 297 0028 13       		.uleb128 0x13
+ 298 0029 00       		.byte	0
+ 299 002a 00       		.byte	0
+ 300 002b 04       		.uleb128 0x4
+ 301 002c 24       		.uleb128 0x24
+ 302 002d 00       		.byte	0
+ 303 002e 0B       		.uleb128 0xb
+ 304 002f 0B       		.uleb128 0xb
+ 305 0030 3E       		.uleb128 0x3e
+ 306 0031 0B       		.uleb128 0xb
+ 307 0032 03       		.uleb128 0x3
+ 308 0033 0E       		.uleb128 0xe
+ 309 0034 00       		.byte	0
+ 310 0035 00       		.byte	0
+ 311 0036 05       		.uleb128 0x5
+ 312 0037 0F       		.uleb128 0xf
+ 313 0038 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccSfimwa.s 			page 7
+
+
+ 314 0039 0B       		.uleb128 0xb
+ 315 003a 0B       		.uleb128 0xb
+ 316 003b 49       		.uleb128 0x49
+ 317 003c 13       		.uleb128 0x13
+ 318 003d 00       		.byte	0
+ 319 003e 00       		.byte	0
+ 320 003f 06       		.uleb128 0x6
+ 321 0040 26       		.uleb128 0x26
+ 322 0041 00       		.byte	0
+ 323 0042 49       		.uleb128 0x49
+ 324 0043 13       		.uleb128 0x13
+ 325 0044 00       		.byte	0
+ 326 0045 00       		.byte	0
+ 327 0046 07       		.uleb128 0x7
+ 328 0047 2E       		.uleb128 0x2e
+ 329 0048 01       		.byte	0x1
+ 330 0049 3F       		.uleb128 0x3f
+ 331 004a 19       		.uleb128 0x19
+ 332 004b 03       		.uleb128 0x3
+ 333 004c 0E       		.uleb128 0xe
+ 334 004d 3A       		.uleb128 0x3a
+ 335 004e 0B       		.uleb128 0xb
+ 336 004f 3B       		.uleb128 0x3b
+ 337 0050 0B       		.uleb128 0xb
+ 338 0051 27       		.uleb128 0x27
+ 339 0052 19       		.uleb128 0x19
+ 340 0053 49       		.uleb128 0x49
+ 341 0054 13       		.uleb128 0x13
+ 342 0055 11       		.uleb128 0x11
+ 343 0056 01       		.uleb128 0x1
+ 344 0057 12       		.uleb128 0x12
+ 345 0058 06       		.uleb128 0x6
+ 346 0059 40       		.uleb128 0x40
+ 347 005a 18       		.uleb128 0x18
+ 348 005b 9642     		.uleb128 0x2116
+ 349 005d 19       		.uleb128 0x19
+ 350 005e 01       		.uleb128 0x1
+ 351 005f 13       		.uleb128 0x13
+ 352 0060 00       		.byte	0
+ 353 0061 00       		.byte	0
+ 354 0062 08       		.uleb128 0x8
+ 355 0063 05       		.uleb128 0x5
+ 356 0064 00       		.byte	0
+ 357 0065 03       		.uleb128 0x3
+ 358 0066 08       		.uleb128 0x8
+ 359 0067 3A       		.uleb128 0x3a
+ 360 0068 0B       		.uleb128 0xb
+ 361 0069 3B       		.uleb128 0x3b
+ 362 006a 0B       		.uleb128 0xb
+ 363 006b 49       		.uleb128 0x49
+ 364 006c 13       		.uleb128 0x13
+ 365 006d 02       		.uleb128 0x2
+ 366 006e 18       		.uleb128 0x18
+ 367 006f 00       		.byte	0
+ 368 0070 00       		.byte	0
+ 369 0071 09       		.uleb128 0x9
+ 370 0072 34       		.uleb128 0x34
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccSfimwa.s 			page 8
+
+
+ 371 0073 00       		.byte	0
+ 372 0074 03       		.uleb128 0x3
+ 373 0075 08       		.uleb128 0x8
+ 374 0076 3A       		.uleb128 0x3a
+ 375 0077 0B       		.uleb128 0xb
+ 376 0078 3B       		.uleb128 0x3b
+ 377 0079 0B       		.uleb128 0xb
+ 378 007a 49       		.uleb128 0x49
+ 379 007b 13       		.uleb128 0x13
+ 380 007c 02       		.uleb128 0x2
+ 381 007d 18       		.uleb128 0x18
+ 382 007e 00       		.byte	0
+ 383 007f 00       		.byte	0
+ 384 0080 0A       		.uleb128 0xa
+ 385 0081 0B       		.uleb128 0xb
+ 386 0082 01       		.byte	0x1
+ 387 0083 11       		.uleb128 0x11
+ 388 0084 01       		.uleb128 0x1
+ 389 0085 12       		.uleb128 0x12
+ 390 0086 06       		.uleb128 0x6
+ 391 0087 00       		.byte	0
+ 392 0088 00       		.byte	0
+ 393 0089 0B       		.uleb128 0xb
+ 394 008a 34       		.uleb128 0x34
+ 395 008b 00       		.byte	0
+ 396 008c 03       		.uleb128 0x3
+ 397 008d 0E       		.uleb128 0xe
+ 398 008e 3A       		.uleb128 0x3a
+ 399 008f 0B       		.uleb128 0xb
+ 400 0090 3B       		.uleb128 0x3b
+ 401 0091 05       		.uleb128 0x5
+ 402 0092 49       		.uleb128 0x49
+ 403 0093 13       		.uleb128 0x13
+ 404 0094 3F       		.uleb128 0x3f
+ 405 0095 19       		.uleb128 0x19
+ 406 0096 3C       		.uleb128 0x3c
+ 407 0097 19       		.uleb128 0x19
+ 408 0098 00       		.byte	0
+ 409 0099 00       		.byte	0
+ 410 009a 0C       		.uleb128 0xc
+ 411 009b 35       		.uleb128 0x35
+ 412 009c 00       		.byte	0
+ 413 009d 49       		.uleb128 0x49
+ 414 009e 13       		.uleb128 0x13
+ 415 009f 00       		.byte	0
+ 416 00a0 00       		.byte	0
+ 417 00a1 00       		.byte	0
+ 418              		.section	.debug_aranges,"",%progbits
+ 419 0000 1C000000 		.4byte	0x1c
+ 420 0004 0200     		.2byte	0x2
+ 421 0006 00000000 		.4byte	.Ldebug_info0
+ 422 000a 04       		.byte	0x4
+ 423 000b 00       		.byte	0
+ 424 000c 0000     		.2byte	0
+ 425 000e 0000     		.2byte	0
+ 426 0010 00000000 		.4byte	.LFB64
+ 427 0014 58000000 		.4byte	.LFE64-.LFB64
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccSfimwa.s 			page 9
+
+
+ 428 0018 00000000 		.4byte	0
+ 429 001c 00000000 		.4byte	0
+ 430              		.section	.debug_ranges,"",%progbits
+ 431              	.Ldebug_ranges0:
+ 432 0000 00000000 		.4byte	.LFB64
+ 433 0004 58000000 		.4byte	.LFE64
+ 434 0008 00000000 		.4byte	0
+ 435 000c 00000000 		.4byte	0
+ 436              		.section	.debug_line,"",%progbits
+ 437              	.Ldebug_line0:
+ 438 0000 E1010000 		.section	.debug_str,"MS",%progbits,1
+ 438      0200C401 
+ 438      00000201 
+ 438      FB0E0D00 
+ 438      01010101 
+ 439              	.LASF1:
+ 440 0000 6C6F6E67 		.ascii	"long long int\000"
+ 440      206C6F6E 
+ 440      6720696E 
+ 440      7400
+ 441              	.LASF6:
+ 442 000e 73686F72 		.ascii	"short unsigned int\000"
+ 442      7420756E 
+ 442      7369676E 
+ 442      65642069 
+ 442      6E7400
+ 443              	.LASF7:
+ 444 0021 73697A65 		.ascii	"size_t\000"
+ 444      5F7400
+ 445              	.LASF18:
+ 446 0028 64656669 		.ascii	"defines.c\000"
+ 446      6E65732E 
+ 446      6300
+ 447              	.LASF10:
+ 448 0032 6C6F6E67 		.ascii	"long unsigned int\000"
+ 448      20756E73 
+ 448      69676E65 
+ 448      6420696E 
+ 448      7400
+ 449              	.LASF11:
+ 450 0044 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 450      206C6F6E 
+ 450      6720756E 
+ 450      7369676E 
+ 450      65642069 
+ 451              	.LASF20:
+ 452 005b 73747272 		.ascii	"strremove\000"
+ 452      656D6F76 
+ 452      6500
+ 453              	.LASF17:
+ 454 0065 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 454      43313120 
+ 454      352E342E 
+ 454      31203230 
+ 454      31363036 
+ 455 0098 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 455      20726576 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccSfimwa.s 			page 10
+
+
+ 455      6973696F 
+ 455      6E203233 
+ 455      37373135 
+ 456 00cb 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 456      66756E63 
+ 456      74696F6E 
+ 456      2D736563 
+ 456      74696F6E 
+ 457              	.LASF4:
+ 458 00f3 756E7369 		.ascii	"unsigned char\000"
+ 458      676E6564 
+ 458      20636861 
+ 458      7200
+ 459              	.LASF13:
+ 460 0101 63686172 		.ascii	"char\000"
+ 460      00
+ 461              	.LASF9:
+ 462 0106 6C6F6E67 		.ascii	"long int\000"
+ 462      20696E74 
+ 462      00
+ 463              	.LASF0:
+ 464 010f 756E7369 		.ascii	"unsigned int\000"
+ 464      676E6564 
+ 464      20696E74 
+ 464      00
+ 465              	.LASF16:
+ 466 011c 646F7562 		.ascii	"double\000"
+ 466      6C6500
+ 467              	.LASF19:
+ 468 0123 433A5C55 		.ascii	"C:\\Users\\ali\\Desktop\\no-exp -V1-old board\\new-"
+ 468      73657273 
+ 468      5C616C69 
+ 468      5C446573 
+ 468      6B746F70 
+ 469 0151 63792D6E 		.ascii	"cy-notask\\cy-notask\\Start\\BoardSupport\\Cypress\\"
+ 469      6F746173 
+ 469      6B5C6379 
+ 469      2D6E6F74 
+ 469      61736B5C 
+ 470 0180 43593843 		.ascii	"CY8C5868_CY8CKIT_050_PSoC5_DK\\Start_CY8C5868_Acces"
+ 470      35383638 
+ 470      5F435938 
+ 470      434B4954 
+ 470      5F303530 
+ 471 01b2 7356312E 		.ascii	"sV1.0_OldBrd.cydsn\000"
+ 471      305F4F6C 
+ 471      64427264 
+ 471      2E637964 
+ 471      736E00
+ 472              	.LASF21:
+ 473 01c5 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 473      52784275 
+ 473      66666572 
+ 473      00
+ 474              	.LASF3:
+ 475 01d2 7369676E 		.ascii	"signed char\000"
+ 475      65642063 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccSfimwa.s 			page 11
+
+
+ 475      68617200 
+ 476              	.LASF2:
+ 477 01de 6C6F6E67 		.ascii	"long double\000"
+ 477      20646F75 
+ 477      626C6500 
+ 478              	.LASF8:
+ 479 01ea 5F5F696E 		.ascii	"__int32_t\000"
+ 479      7433325F 
+ 479      7400
+ 480              	.LASF15:
+ 481 01f4 666C6F61 		.ascii	"float\000"
+ 481      7400
+ 482              	.LASF5:
+ 483 01fa 73686F72 		.ascii	"short int\000"
+ 483      7420696E 
+ 483      7400
+ 484              	.LASF14:
+ 485 0204 696E7433 		.ascii	"int32_t\000"
+ 485      325F7400 
+ 486              	.LASF12:
+ 487 020c 73697A65 		.ascii	"sizetype\000"
+ 487      74797065 
+ 487      00
+ 488              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

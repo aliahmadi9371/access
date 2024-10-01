@@ -1,0 +1,485 @@
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccxD9Tbb.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"BSP.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.BSP_Init,"ax",%progbits
+  20              		.align	2
+  21              		.global	BSP_Init
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	BSP_Init, %function
+  25              	BSP_Init:
+  26              	.LFB63:
+  27              		.file 1 "..\\Setup\\BSP.c"
+   1:..\Setup/BSP.c **** /*********************************************************************
+   2:..\Setup/BSP.c **** *                     SEGGER Microcontroller GmbH                    *
+   3:..\Setup/BSP.c **** *                        The Embedded Experts                        *
+   4:..\Setup/BSP.c **** **********************************************************************
+   5:..\Setup/BSP.c **** *                                                                    *
+   6:..\Setup/BSP.c **** *       (c) 1995 - 2022 SEGGER Microcontroller GmbH                  *
+   7:..\Setup/BSP.c **** *                                                                    *
+   8:..\Setup/BSP.c **** *       Internet: segger.com  Support: support_embos@segger.com      *
+   9:..\Setup/BSP.c **** *                                                                    *
+  10:..\Setup/BSP.c **** **********************************************************************
+  11:..\Setup/BSP.c **** *                                                                    *
+  12:..\Setup/BSP.c **** *       embOS * Real time operating system                           *
+  13:..\Setup/BSP.c **** *                                                                    *
+  14:..\Setup/BSP.c **** *       Please note:                                                 *
+  15:..\Setup/BSP.c **** *                                                                    *
+  16:..\Setup/BSP.c **** *       Knowledge of this file may under no circumstances            *
+  17:..\Setup/BSP.c **** *       be used to write a similar product or a real-time            *
+  18:..\Setup/BSP.c **** *       operating system for in-house use.                           *
+  19:..\Setup/BSP.c **** *                                                                    *
+  20:..\Setup/BSP.c **** *       Thank you for your fairness !                                *
+  21:..\Setup/BSP.c **** *                                                                    *
+  22:..\Setup/BSP.c **** **********************************************************************
+  23:..\Setup/BSP.c **** *                                                                    *
+  24:..\Setup/BSP.c **** *       OS version: V5.16.1.0                                        *
+  25:..\Setup/BSP.c **** *                                                                    *
+  26:..\Setup/BSP.c **** **********************************************************************
+  27:..\Setup/BSP.c **** 
+  28:..\Setup/BSP.c **** ----------------------------------------------------------------------
+  29:..\Setup/BSP.c **** File    : BSP.c
+  30:..\Setup/BSP.c **** Purpose : BSP for Cypress DVK with LEDs
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccxD9Tbb.s 			page 2
+
+
+  31:..\Setup/BSP.c **** --------  END-OF-HEADER  ---------------------------------------------
+  32:..\Setup/BSP.c **** */
+  33:..\Setup/BSP.c **** 
+  34:..\Setup/BSP.c **** #include "BSP.h"
+  35:..\Setup/BSP.c **** #include "device.h"
+  36:..\Setup/BSP.c **** 
+  37:..\Setup/BSP.c **** /*********************************************************************
+  38:..\Setup/BSP.c **** *
+  39:..\Setup/BSP.c **** *       Global functions
+  40:..\Setup/BSP.c **** *
+  41:..\Setup/BSP.c **** **********************************************************************
+  42:..\Setup/BSP.c **** */
+  43:..\Setup/BSP.c **** 
+  44:..\Setup/BSP.c **** /*********************************************************************
+  45:..\Setup/BSP.c **** *
+  46:..\Setup/BSP.c **** *       BSP_Init()
+  47:..\Setup/BSP.c **** */
+  48:..\Setup/BSP.c **** void BSP_Init()
+  49:..\Setup/BSP.c **** {
+  28              		.loc 1 49 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 00AF     		add	r7, sp, #0
+  37              		.cfi_def_cfa_register 7
+  50:..\Setup/BSP.c ****     UART_Debug_Start();
+  38              		.loc 1 50 0
+  39 0004 FFF7FEFF 		bl	UART_Debug_Start
+  51:..\Setup/BSP.c ****     UART_Linux_Start();
+  40              		.loc 1 51 0
+  41 0008 FFF7FEFF 		bl	UART_Linux_Start
+  52:..\Setup/BSP.c ****     Internal_EEPROM_Start();
+  42              		.loc 1 52 0
+  43 000c FFF7FEFF 		bl	Internal_EEPROM_Start
+  53:..\Setup/BSP.c ****     
+  54:..\Setup/BSP.c ****     return;
+  44              		.loc 1 54 0
+  45 0010 00BF     		nop
+  55:..\Setup/BSP.c **** }
+  46              		.loc 1 55 0
+  47 0012 80BD     		pop	{r7, pc}
+  48              		.cfi_endproc
+  49              	.LFE63:
+  50              		.size	BSP_Init, .-BSP_Init
+  51              		.text
+  52              	.Letext0:
+  53              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+  54              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+  55              		.file 4 "Generated_Source\\PSoC5/core_cm3.h"
+  56              		.section	.debug_info,"",%progbits
+  57              	.Ldebug_info0:
+  58 0000 C3000000 		.4byte	0xc3
+  59 0004 0400     		.2byte	0x4
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccxD9Tbb.s 			page 3
+
+
+  60 0006 00000000 		.4byte	.Ldebug_abbrev0
+  61 000a 04       		.byte	0x4
+  62 000b 01       		.uleb128 0x1
+  63 000c F9000000 		.4byte	.LASF16
+  64 0010 0C       		.byte	0xc
+  65 0011 E2010000 		.4byte	.LASF17
+  66 0015 2E000000 		.4byte	.LASF18
+  67 0019 00000000 		.4byte	.Ldebug_ranges0+0
+  68 001d 00000000 		.4byte	0
+  69 0021 00000000 		.4byte	.Ldebug_line0
+  70 0025 02       		.uleb128 0x2
+  71 0026 01       		.byte	0x1
+  72 0027 06       		.byte	0x6
+  73 0028 C0010000 		.4byte	.LASF0
+  74 002c 02       		.uleb128 0x2
+  75 002d 01       		.byte	0x1
+  76 002e 08       		.byte	0x8
+  77 002f 87010000 		.4byte	.LASF1
+  78 0033 02       		.uleb128 0x2
+  79 0034 02       		.byte	0x2
+  80 0035 05       		.byte	0x5
+  81 0036 F7010000 		.4byte	.LASF2
+  82 003a 02       		.uleb128 0x2
+  83 003b 02       		.byte	0x2
+  84 003c 07       		.byte	0x7
+  85 003d 0E000000 		.4byte	.LASF3
+  86 0041 03       		.uleb128 0x3
+  87 0042 D8010000 		.4byte	.LASF9
+  88 0046 02       		.byte	0x2
+  89 0047 3F       		.byte	0x3f
+  90 0048 4C000000 		.4byte	0x4c
+  91 004c 02       		.uleb128 0x2
+  92 004d 04       		.byte	0x4
+  93 004e 05       		.byte	0x5
+  94 004f 9A010000 		.4byte	.LASF4
+  95 0053 02       		.uleb128 0x2
+  96 0054 04       		.byte	0x4
+  97 0055 07       		.byte	0x7
+  98 0056 D0000000 		.4byte	.LASF5
+  99 005a 02       		.uleb128 0x2
+ 100 005b 08       		.byte	0x8
+ 101 005c 05       		.byte	0x5
+ 102 005d 00000000 		.4byte	.LASF6
+ 103 0061 02       		.uleb128 0x2
+ 104 0062 08       		.byte	0x8
+ 105 0063 07       		.byte	0x7
+ 106 0064 E2000000 		.4byte	.LASF7
+ 107 0068 04       		.uleb128 0x4
+ 108 0069 04       		.byte	0x4
+ 109 006a 05       		.byte	0x5
+ 110 006b 696E7400 		.ascii	"int\000"
+ 111 006f 02       		.uleb128 0x2
+ 112 0070 04       		.byte	0x4
+ 113 0071 07       		.byte	0x7
+ 114 0072 21000000 		.4byte	.LASF8
+ 115 0076 03       		.uleb128 0x3
+ 116 0077 01020000 		.4byte	.LASF10
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccxD9Tbb.s 			page 4
+
+
+ 117 007b 03       		.byte	0x3
+ 118 007c 2C       		.byte	0x2c
+ 119 007d 41000000 		.4byte	0x41
+ 120 0081 02       		.uleb128 0x2
+ 121 0082 04       		.byte	0x4
+ 122 0083 04       		.byte	0x4
+ 123 0084 F1010000 		.4byte	.LASF11
+ 124 0088 02       		.uleb128 0x2
+ 125 0089 08       		.byte	0x8
+ 126 008a 04       		.byte	0x4
+ 127 008b A3010000 		.4byte	.LASF12
+ 128 008f 02       		.uleb128 0x2
+ 129 0090 01       		.byte	0x1
+ 130 0091 08       		.byte	0x8
+ 131 0092 95010000 		.4byte	.LASF13
+ 132 0096 02       		.uleb128 0x2
+ 133 0097 08       		.byte	0x8
+ 134 0098 04       		.byte	0x4
+ 135 0099 CC010000 		.4byte	.LASF14
+ 136 009d 02       		.uleb128 0x2
+ 137 009e 04       		.byte	0x4
+ 138 009f 07       		.byte	0x7
+ 139 00a0 09020000 		.4byte	.LASF15
+ 140 00a4 05       		.uleb128 0x5
+ 141 00a5 AA010000 		.4byte	.LASF19
+ 142 00a9 01       		.byte	0x1
+ 143 00aa 30       		.byte	0x30
+ 144 00ab 00000000 		.4byte	.LFB63
+ 145 00af 14000000 		.4byte	.LFE63-.LFB63
+ 146 00b3 01       		.uleb128 0x1
+ 147 00b4 9C       		.byte	0x9c
+ 148 00b5 06       		.uleb128 0x6
+ 149 00b6 B3010000 		.4byte	.LASF20
+ 150 00ba 04       		.byte	0x4
+ 151 00bb 1207     		.2byte	0x712
+ 152 00bd C1000000 		.4byte	0xc1
+ 153 00c1 07       		.uleb128 0x7
+ 154 00c2 76000000 		.4byte	0x76
+ 155 00c6 00       		.byte	0
+ 156              		.section	.debug_abbrev,"",%progbits
+ 157              	.Ldebug_abbrev0:
+ 158 0000 01       		.uleb128 0x1
+ 159 0001 11       		.uleb128 0x11
+ 160 0002 01       		.byte	0x1
+ 161 0003 25       		.uleb128 0x25
+ 162 0004 0E       		.uleb128 0xe
+ 163 0005 13       		.uleb128 0x13
+ 164 0006 0B       		.uleb128 0xb
+ 165 0007 03       		.uleb128 0x3
+ 166 0008 0E       		.uleb128 0xe
+ 167 0009 1B       		.uleb128 0x1b
+ 168 000a 0E       		.uleb128 0xe
+ 169 000b 55       		.uleb128 0x55
+ 170 000c 17       		.uleb128 0x17
+ 171 000d 11       		.uleb128 0x11
+ 172 000e 01       		.uleb128 0x1
+ 173 000f 10       		.uleb128 0x10
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccxD9Tbb.s 			page 5
+
+
+ 174 0010 17       		.uleb128 0x17
+ 175 0011 00       		.byte	0
+ 176 0012 00       		.byte	0
+ 177 0013 02       		.uleb128 0x2
+ 178 0014 24       		.uleb128 0x24
+ 179 0015 00       		.byte	0
+ 180 0016 0B       		.uleb128 0xb
+ 181 0017 0B       		.uleb128 0xb
+ 182 0018 3E       		.uleb128 0x3e
+ 183 0019 0B       		.uleb128 0xb
+ 184 001a 03       		.uleb128 0x3
+ 185 001b 0E       		.uleb128 0xe
+ 186 001c 00       		.byte	0
+ 187 001d 00       		.byte	0
+ 188 001e 03       		.uleb128 0x3
+ 189 001f 16       		.uleb128 0x16
+ 190 0020 00       		.byte	0
+ 191 0021 03       		.uleb128 0x3
+ 192 0022 0E       		.uleb128 0xe
+ 193 0023 3A       		.uleb128 0x3a
+ 194 0024 0B       		.uleb128 0xb
+ 195 0025 3B       		.uleb128 0x3b
+ 196 0026 0B       		.uleb128 0xb
+ 197 0027 49       		.uleb128 0x49
+ 198 0028 13       		.uleb128 0x13
+ 199 0029 00       		.byte	0
+ 200 002a 00       		.byte	0
+ 201 002b 04       		.uleb128 0x4
+ 202 002c 24       		.uleb128 0x24
+ 203 002d 00       		.byte	0
+ 204 002e 0B       		.uleb128 0xb
+ 205 002f 0B       		.uleb128 0xb
+ 206 0030 3E       		.uleb128 0x3e
+ 207 0031 0B       		.uleb128 0xb
+ 208 0032 03       		.uleb128 0x3
+ 209 0033 08       		.uleb128 0x8
+ 210 0034 00       		.byte	0
+ 211 0035 00       		.byte	0
+ 212 0036 05       		.uleb128 0x5
+ 213 0037 2E       		.uleb128 0x2e
+ 214 0038 00       		.byte	0
+ 215 0039 3F       		.uleb128 0x3f
+ 216 003a 19       		.uleb128 0x19
+ 217 003b 03       		.uleb128 0x3
+ 218 003c 0E       		.uleb128 0xe
+ 219 003d 3A       		.uleb128 0x3a
+ 220 003e 0B       		.uleb128 0xb
+ 221 003f 3B       		.uleb128 0x3b
+ 222 0040 0B       		.uleb128 0xb
+ 223 0041 11       		.uleb128 0x11
+ 224 0042 01       		.uleb128 0x1
+ 225 0043 12       		.uleb128 0x12
+ 226 0044 06       		.uleb128 0x6
+ 227 0045 40       		.uleb128 0x40
+ 228 0046 18       		.uleb128 0x18
+ 229 0047 9642     		.uleb128 0x2116
+ 230 0049 19       		.uleb128 0x19
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccxD9Tbb.s 			page 6
+
+
+ 231 004a 00       		.byte	0
+ 232 004b 00       		.byte	0
+ 233 004c 06       		.uleb128 0x6
+ 234 004d 34       		.uleb128 0x34
+ 235 004e 00       		.byte	0
+ 236 004f 03       		.uleb128 0x3
+ 237 0050 0E       		.uleb128 0xe
+ 238 0051 3A       		.uleb128 0x3a
+ 239 0052 0B       		.uleb128 0xb
+ 240 0053 3B       		.uleb128 0x3b
+ 241 0054 05       		.uleb128 0x5
+ 242 0055 49       		.uleb128 0x49
+ 243 0056 13       		.uleb128 0x13
+ 244 0057 3F       		.uleb128 0x3f
+ 245 0058 19       		.uleb128 0x19
+ 246 0059 3C       		.uleb128 0x3c
+ 247 005a 19       		.uleb128 0x19
+ 248 005b 00       		.byte	0
+ 249 005c 00       		.byte	0
+ 250 005d 07       		.uleb128 0x7
+ 251 005e 35       		.uleb128 0x35
+ 252 005f 00       		.byte	0
+ 253 0060 49       		.uleb128 0x49
+ 254 0061 13       		.uleb128 0x13
+ 255 0062 00       		.byte	0
+ 256 0063 00       		.byte	0
+ 257 0064 00       		.byte	0
+ 258              		.section	.debug_aranges,"",%progbits
+ 259 0000 1C000000 		.4byte	0x1c
+ 260 0004 0200     		.2byte	0x2
+ 261 0006 00000000 		.4byte	.Ldebug_info0
+ 262 000a 04       		.byte	0x4
+ 263 000b 00       		.byte	0
+ 264 000c 0000     		.2byte	0
+ 265 000e 0000     		.2byte	0
+ 266 0010 00000000 		.4byte	.LFB63
+ 267 0014 14000000 		.4byte	.LFE63-.LFB63
+ 268 0018 00000000 		.4byte	0
+ 269 001c 00000000 		.4byte	0
+ 270              		.section	.debug_ranges,"",%progbits
+ 271              	.Ldebug_ranges0:
+ 272 0000 00000000 		.4byte	.LFB63
+ 273 0004 14000000 		.4byte	.LFE63
+ 274 0008 00000000 		.4byte	0
+ 275 000c 00000000 		.4byte	0
+ 276              		.section	.debug_line,"",%progbits
+ 277              	.Ldebug_line0:
+ 278 0000 61010000 		.section	.debug_str,"MS",%progbits,1
+ 278      02004701 
+ 278      00000201 
+ 278      FB0E0D00 
+ 278      01010101 
+ 279              	.LASF6:
+ 280 0000 6C6F6E67 		.ascii	"long long int\000"
+ 280      206C6F6E 
+ 280      6720696E 
+ 280      7400
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccxD9Tbb.s 			page 7
+
+
+ 281              	.LASF3:
+ 282 000e 73686F72 		.ascii	"short unsigned int\000"
+ 282      7420756E 
+ 282      7369676E 
+ 282      65642069 
+ 282      6E7400
+ 283              	.LASF8:
+ 284 0021 756E7369 		.ascii	"unsigned int\000"
+ 284      676E6564 
+ 284      20696E74 
+ 284      00
+ 285              	.LASF18:
+ 286 002e 453A5C49 		.ascii	"E:\\IroTeam\\Developing Projects\\Cypress\\100 PIN\\"
+ 286      726F5465 
+ 286      616D5C44 
+ 286      6576656C 
+ 286      6F70696E 
+ 287 005d 63792D6D 		.ascii	"cy-micro\\cy-notask\\Start\\BoardSupport\\Cypress\\"
+ 287      6963726F 
+ 287      5C63792D 
+ 287      6E6F7461 
+ 287      736B5C53 
+ 288 008b 43593843 		.ascii	"CY8C5868_CY8CKIT_050_PSoC5_DK\\Start_CY8C5868_Acces"
+ 288      35383638 
+ 288      5F435938 
+ 288      434B4954 
+ 288      5F303530 
+ 289 00bd 7356322E 		.ascii	"sV2.0_OldBrd.cydsn\000"
+ 289      305F4F6C 
+ 289      64427264 
+ 289      2E637964 
+ 289      736E00
+ 290              	.LASF5:
+ 291 00d0 6C6F6E67 		.ascii	"long unsigned int\000"
+ 291      20756E73 
+ 291      69676E65 
+ 291      6420696E 
+ 291      7400
+ 292              	.LASF7:
+ 293 00e2 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 293      206C6F6E 
+ 293      6720756E 
+ 293      7369676E 
+ 293      65642069 
+ 294              	.LASF16:
+ 295 00f9 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 295      43313120 
+ 295      352E342E 
+ 295      31203230 
+ 295      31363036 
+ 296 012c 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 296      20726576 
+ 296      6973696F 
+ 296      6E203233 
+ 296      37373135 
+ 297 015f 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 297      66756E63 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccxD9Tbb.s 			page 8
+
+
+ 297      74696F6E 
+ 297      2D736563 
+ 297      74696F6E 
+ 298              	.LASF1:
+ 299 0187 756E7369 		.ascii	"unsigned char\000"
+ 299      676E6564 
+ 299      20636861 
+ 299      7200
+ 300              	.LASF13:
+ 301 0195 63686172 		.ascii	"char\000"
+ 301      00
+ 302              	.LASF4:
+ 303 019a 6C6F6E67 		.ascii	"long int\000"
+ 303      20696E74 
+ 303      00
+ 304              	.LASF12:
+ 305 01a3 646F7562 		.ascii	"double\000"
+ 305      6C6500
+ 306              	.LASF19:
+ 307 01aa 4253505F 		.ascii	"BSP_Init\000"
+ 307      496E6974 
+ 307      00
+ 308              	.LASF20:
+ 309 01b3 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 309      52784275 
+ 309      66666572 
+ 309      00
+ 310              	.LASF0:
+ 311 01c0 7369676E 		.ascii	"signed char\000"
+ 311      65642063 
+ 311      68617200 
+ 312              	.LASF14:
+ 313 01cc 6C6F6E67 		.ascii	"long double\000"
+ 313      20646F75 
+ 313      626C6500 
+ 314              	.LASF9:
+ 315 01d8 5F5F696E 		.ascii	"__int32_t\000"
+ 315      7433325F 
+ 315      7400
+ 316              	.LASF17:
+ 317 01e2 2E2E5C53 		.ascii	"..\\Setup\\BSP.c\000"
+ 317      65747570 
+ 317      5C425350 
+ 317      2E6300
+ 318              	.LASF11:
+ 319 01f1 666C6F61 		.ascii	"float\000"
+ 319      7400
+ 320              	.LASF2:
+ 321 01f7 73686F72 		.ascii	"short int\000"
+ 321      7420696E 
+ 321      7400
+ 322              	.LASF10:
+ 323 0201 696E7433 		.ascii	"int32_t\000"
+ 323      325F7400 
+ 324              	.LASF15:
+ 325 0209 73697A65 		.ascii	"sizetype\000"
+ 325      74797065 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccxD9Tbb.s 			page 9
+
+
+ 325      00
+ 326              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

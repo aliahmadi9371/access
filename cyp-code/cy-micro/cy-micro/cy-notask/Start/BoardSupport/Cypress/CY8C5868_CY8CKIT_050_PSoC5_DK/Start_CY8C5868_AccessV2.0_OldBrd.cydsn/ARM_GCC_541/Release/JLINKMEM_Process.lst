@@ -1,0 +1,533 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccqPsAbI.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"JLINKMEM_Process.c"
+  16              		.section	.text.JLINKMEM_Process,"ax",%progbits
+  17              		.align	2
+  18              		.global	JLINKMEM_Process
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	JLINKMEM_Process, %function
+  22              	JLINKMEM_Process:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+  26 0004 FFF7FEFF 		bl	OS_IsRunning
+  27 0008 30B3     		cbz	r0, .L1
+  28 000a 664C     		ldr	r4, .L60
+  29 000c 2168     		ldr	r1, [r4]
+  30 000e 0029     		cmp	r1, #0
+  31 0010 70D0     		beq	.L4
+  32 0012 6268     		ldr	r2, [r4, #4]
+  33 0014 A2F11703 		sub	r3, r2, #23
+  34              	.L5:
+  35 0018 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+  36 001a E9B1     		cbz	r1, .L1
+  37 001c 6169     		ldr	r1, [r4, #20]
+  38 001e 6148     		ldr	r0, .L60
+  39 0020 E1B1     		cbz	r1, .L7
+  40 0022 0139     		subs	r1, r1, #1
+  41 0024 4161     		str	r1, [r0, #20]
+  42 0026 C9B9     		cbnz	r1, .L7
+  43              	.L8:
+  44 0028 0021     		movs	r1, #0
+  45 002a 5F4D     		ldr	r5, .L60+4
+  46 002c 1970     		strb	r1, [r3]
+  47 002e 2B68     		ldr	r3, [r5]
+  48 0030 A161     		str	r1, [r4, #24]
+  49 0032 2161     		str	r1, [r4, #16]
+  50 0034 0BB9     		cbnz	r3, .L12
+  51 0036 04E0     		b	.L10
+  52              	.L54:
+  53 0038 2B68     		ldr	r3, [r5]
+  54              	.L12:
+  55 003a 9847     		blx	r3
+  56 003c 0028     		cmp	r0, #0
+  57 003e FBDA     		bge	.L54
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccqPsAbI.s 			page 2
+
+
+  58 0040 6268     		ldr	r2, [r4, #4]
+  59              	.L10:
+  60 0042 0023     		movs	r3, #0
+  61 0044 02F8183C 		strb	r3, [r2, #-24]
+  62 0048 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+  63              	.L21:
+  64 004c 574B     		ldr	r3, .L60+8
+  65 004e 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+  66 0050 03F0FF02 		and	r2, r3, #255
+  67 0054 002B     		cmp	r3, #0
+  68 0056 41D0     		beq	.L22
+  69              	.L1:
+  70 0058 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+  71              	.L7:
+  72 005c A169     		ldr	r1, [r4, #24]
+  73 005e 514D     		ldr	r5, .L60
+  74 0060 0029     		cmp	r1, #0
+  75 0062 E1D1     		bne	.L8
+  76 0064 12F8183C 		ldrb	r3, [r2, #-24]	@ zero_extendqisi2
+  77 0068 A2F11800 		sub	r0, r2, #24
+  78 006c CBB1     		cbz	r3, .L13
+  79 006e 504F     		ldr	r7, .L60+12
+  80 0070 3B68     		ldr	r3, [r7]
+  81 0072 A3B1     		cbz	r3, .L14
+  82 0074 0178     		ldrb	r1, [r0]	@ zero_extendqisi2
+  83 0076 EE68     		ldr	r6, [r5, #12]
+  84 0078 0578     		ldrb	r5, [r0]	@ zero_extendqisi2
+  85 007a C1F10801 		rsb	r1, r1, #8
+  86 007e 0E44     		add	r6, r6, r1
+  87 0080 6DB1     		cbz	r5, .L14
+  88 0082 3546     		mov	r5, r6
+  89 0084 00E0     		b	.L15
+  90              	.L55:
+  91 0086 3B68     		ldr	r3, [r7]
+  92              	.L15:
+  93 0088 15F8010B 		ldrb	r0, [r5], #1	@ zero_extendqisi2
+  94 008c 9847     		blx	r3
+  95 008e 6268     		ldr	r2, [r4, #4]
+  96 0090 AB1B     		subs	r3, r5, r6
+  97 0092 12F8181C 		ldrb	r1, [r2, #-24]	@ zero_extendqisi2
+  98 0096 A2F11800 		sub	r0, r2, #24
+  99 009a 9942     		cmp	r1, r3
+ 100 009c F3DC     		bgt	.L55
+ 101              	.L14:
+ 102 009e 0023     		movs	r3, #0
+ 103 00a0 0370     		strb	r3, [r0]
+ 104              	.L13:
+ 105 00a2 12F8163C 		ldrb	r3, [r2, #-22]	@ zero_extendqisi2
+ 106 00a6 03F0FF02 		and	r2, r3, #255
+ 107 00aa 002B     		cmp	r3, #0
+ 108 00ac D4D1     		bne	.L1
+ 109 00ae 2169     		ldr	r1, [r4, #16]
+ 110 00b0 6261     		str	r2, [r4, #20]
+ 111 00b2 3C4B     		ldr	r3, .L60
+ 112 00b4 0029     		cmp	r1, #0
+ 113 00b6 3ED1     		bne	.L56
+ 114 00b8 3E49     		ldr	r1, .L60+16
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccqPsAbI.s 			page 3
+
+
+ 115 00ba 0A68     		ldr	r2, [r1]
+ 116 00bc 002A     		cmp	r2, #0
+ 117 00be CBD0     		beq	.L1
+ 118              		.syntax unified
+ 119              	@ 210 "..\Setup\JLINKMEM_Process.c" 1
+ 120 00c0 4FF08000 		mov  r0, #128    
+ 121 00c4 80F31188 		msr  basepri, r0 
+ 122 00c8 00BF     		nop              
+ 123 00ca 00BF     		nop              
+ 124              		
+ 125              	@ 0 "" 2
+ 126              		.thumb
+ 127              		.syntax unified
+ 128 00cc 1A6A     		ldr	r2, [r3, #32]
+ 129 00ce 002A     		cmp	r2, #0
+ 130 00d0 BCD1     		bne	.L21
+ 131 00d2 3648     		ldr	r0, .L60+8
+ 132 00d4 0122     		movs	r2, #1
+ 133 00d6 4078     		ldrb	r0, [r0, #1]	@ zero_extendqisi2
+ 134 00d8 1A62     		str	r2, [r3, #32]
+ 135 00da 28B9     		cbnz	r0, .L23
+ 136              	.L22:
+ 137              		.syntax unified
+ 138              	@ 215 "..\Setup\JLINKMEM_Process.c" 1
+ 139 00dc 4FF00000 		mov  r0, #0      
+ 140 00e0 80F31188 		msr  basepri, r0 
+ 141              		
+ 142              	@ 0 "" 2
+ 143              		.thumb
+ 144              		.syntax unified
+ 145 00e4 002A     		cmp	r2, #0
+ 146 00e6 54D0     		beq	.L57
+ 147              	.L23:
+ 148 00e8 0B68     		ldr	r3, [r1]
+ 149 00ea 9847     		blx	r3
+ 150 00ec 0023     		movs	r3, #0
+ 151 00ee 2362     		str	r3, [r4, #32]
+ 152 00f0 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 153              	.L4:
+ 154 00f4 304B     		ldr	r3, .L60+20
+ 155 00f6 0826     		movs	r6, #8
+ 156 00f8 1B68     		ldr	r3, [r3]
+ 157 00fa 1220     		movs	r0, #18
+ 158 00fc 23F03F03 		bic	r3, r3, #63
+ 159 0100 1B68     		ldr	r3, [r3]
+ 160 0102 5225     		movs	r5, #82
+ 161 0104 03F8171C 		strb	r1, [r3, #-23]
+ 162 0108 A3F11507 		sub	r7, r3, #21
+ 163 010c 03F8026C 		strb	r6, [r3, #-2]
+ 164 0110 03F8030C 		strb	r0, [r3, #-3]
+ 165 0114 A3F12006 		sub	r6, r3, #32
+ 166 0118 0120     		movs	r0, #1
+ 167 011a 03F8181C 		strb	r1, [r3, #-24]
+ 168 011e 1A46     		mov	r2, r3
+ 169 0120 03F8161C 		strb	r1, [r3, #-22]
+ 170 0124 6360     		str	r3, [r4, #4]
+ 171 0126 03F8015C 		strb	r5, [r3, #-1]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccqPsAbI.s 			page 4
+
+
+ 172 012a 2161     		str	r1, [r4, #16]
+ 173 012c A760     		str	r7, [r4, #8]
+ 174 012e E660     		str	r6, [r4, #12]
+ 175 0130 173B     		subs	r3, r3, #23
+ 176 0132 2060     		str	r0, [r4]
+ 177 0134 70E7     		b	.L5
+ 178              	.L56:
+ 179 0136 9F68     		ldr	r7, [r3, #8]
+ 180 0138 1B7F     		ldrb	r3, [r3, #28]	@ zero_extendqisi2
+ 181 013a 3E46     		mov	r6, r7
+ 182 013c 1A4D     		ldr	r5, .L60+4
+ 183 013e 06F8013B 		strb	r3, [r6], #1
+ 184 0142 2B68     		ldr	r3, [r5]
+ 185 0144 53B3     		cbz	r3, .L24
+ 186 0146 07F11209 		add	r9, r7, #18
+ 187 014a 00E0     		b	.L19
+ 188              	.L59:
+ 189 014c 2B68     		ldr	r3, [r5]
+ 190              	.L19:
+ 191 014e 9847     		blx	r3
+ 192 0150 0028     		cmp	r0, #0
+ 193 0152 C7EB0608 		rsb	r8, r7, r6
+ 194 0156 1EDB     		blt	.L58
+ 195 0158 06F8010B 		strb	r0, [r6], #1
+ 196 015c 4E45     		cmp	r6, r9
+ 197 015e F5D1     		bne	.L59
+ 198 0160 4FF01208 		mov	r8, #18
+ 199              	.L17:
+ 200              		.syntax unified
+ 201              	@ 286 "..\Setup\JLINKMEM_Process.c" 1
+ 202 0164 4FF08000 		mov  r0, #128    
+ 203 0168 80F31188 		msr  basepri, r0 
+ 204 016c 00BF     		nop              
+ 205 016e 00BF     		nop              
+ 206              		
+ 207              	@ 0 "" 2
+ 208              		.thumb
+ 209              		.syntax unified
+ 210 0170 6268     		ldr	r2, [r4, #4]
+ 211 0172 0E4B     		ldr	r3, .L60+8
+ 212 0174 02F8168C 		strb	r8, [r2, #-22]
+ 213 0178 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 214 017a 4FF47A72 		mov	r2, #1000
+ 215 017e 6261     		str	r2, [r4, #20]
+ 216 0180 1BB9     		cbnz	r3, .L20
+ 217              		.syntax unified
+ 218              	@ 289 "..\Setup\JLINKMEM_Process.c" 1
+ 219 0182 4FF00000 		mov  r0, #0      
+ 220 0186 80F31188 		msr  basepri, r0 
+ 221              		
+ 222              	@ 0 "" 2
+ 223              		.thumb
+ 224              		.syntax unified
+ 225              	.L20:
+ 226 018a 0023     		movs	r3, #0
+ 227 018c 2361     		str	r3, [r4, #16]
+ 228 018e BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccqPsAbI.s 			page 5
+
+
+ 229              	.L57:
+ 230 0192 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 231              	.L58:
+ 232 0196 5FFA88F8 		uxtb	r8, r8
+ 233 019a E3E7     		b	.L17
+ 234              	.L24:
+ 235 019c 4FF00108 		mov	r8, #1
+ 236 01a0 E0E7     		b	.L17
+ 237              	.L61:
+ 238 01a2 00BF     		.align	2
+ 239              	.L60:
+ 240 01a4 00000000 		.word	.LANCHOR0
+ 241 01a8 00000000 		.word	_pfGetNextChar
+ 242 01ac 00000000 		.word	OS_Global
+ 243 01b0 00000000 		.word	_pfOnRx
+ 244 01b4 00000000 		.word	_pfOnTx
+ 245 01b8 08ED00E0 		.word	-536810232
+ 246              		.size	JLINKMEM_Process, .-JLINKMEM_Process
+ 247              		.section	.text.JLINKMEM_SendChar,"ax",%progbits
+ 248              		.align	2
+ 249              		.global	JLINKMEM_SendChar
+ 250              		.thumb
+ 251              		.thumb_func
+ 252              		.type	JLINKMEM_SendChar, %function
+ 253              	JLINKMEM_SendChar:
+ 254              		@ args = 0, pretend = 0, frame = 0
+ 255              		@ frame_needed = 0, uses_anonymous_args = 0
+ 256 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 257 0004 0646     		mov	r6, r0
+ 258 0006 FFF7FEFF 		bl	OS_IsRunning
+ 259 000a 0028     		cmp	r0, #0
+ 260 000c 58D0     		beq	.L63
+ 261 000e 464C     		ldr	r4, .L90
+ 262 0010 2268     		ldr	r2, [r4]
+ 263 0012 002A     		cmp	r2, #0
+ 264 0014 5CD0     		beq	.L64
+ 265 0016 6168     		ldr	r1, [r4, #4]
+ 266 0018 A1F11703 		sub	r3, r1, #23
+ 267              	.L65:
+ 268 001c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 269 001e 002B     		cmp	r3, #0
+ 270 0020 4ED0     		beq	.L63
+ 271 0022 11F8163C 		ldrb	r3, [r1, #-22]	@ zero_extendqisi2
+ 272 0026 23B1     		cbz	r3, .L87
+ 273              	.L66:
+ 274 0028 0123     		movs	r3, #1
+ 275 002a 2677     		strb	r6, [r4, #28]
+ 276 002c 2361     		str	r3, [r4, #16]
+ 277 002e BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 278              	.L87:
+ 279              		.syntax unified
+ 280              	@ 210 "..\Setup\JLINKMEM_Process.c" 1
+ 281 0032 4FF08000 		mov  r0, #128    
+ 282 0036 80F31188 		msr  basepri, r0 
+ 283 003a 00BF     		nop              
+ 284 003c 00BF     		nop              
+ 285              		
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccqPsAbI.s 			page 6
+
+
+ 286              	@ 0 "" 2
+ 287              		.thumb
+ 288              		.syntax unified
+ 289 003e 236A     		ldr	r3, [r4, #32]
+ 290 0040 394A     		ldr	r2, .L90
+ 291 0042 DFF8EC90 		ldr	r9, .L90+8
+ 292 0046 002B     		cmp	r3, #0
+ 293 0048 63D1     		bne	.L67
+ 294 004a 99F80110 		ldrb	r1, [r9, #1]	@ zero_extendqisi2
+ 295 004e 0123     		movs	r3, #1
+ 296 0050 1362     		str	r3, [r2, #32]
+ 297 0052 29B9     		cbnz	r1, .L71
+ 298              	.L68:
+ 299              		.syntax unified
+ 300              	@ 215 "..\Setup\JLINKMEM_Process.c" 1
+ 301 0054 4FF00000 		mov  r0, #0      
+ 302 0058 80F31188 		msr  basepri, r0 
+ 303              		
+ 304              	@ 0 "" 2
+ 305              		.thumb
+ 306              		.syntax unified
+ 307 005c 002B     		cmp	r3, #0
+ 308 005e E3D0     		beq	.L66
+ 309              	.L71:
+ 310 0060 A768     		ldr	r7, [r4, #8]
+ 311 0062 DFF8D080 		ldr	r8, .L90+12
+ 312 0066 3D46     		mov	r5, r7
+ 313 0068 05F8016B 		strb	r6, [r5], #1
+ 314 006c D8F80030 		ldr	r3, [r8]
+ 315 0070 002B     		cmp	r3, #0
+ 316 0072 57D0     		beq	.L77
+ 317 0074 07F1120A 		add	r10, r7, #18
+ 318 0078 01E0     		b	.L70
+ 319              	.L89:
+ 320 007a D8F80030 		ldr	r3, [r8]
+ 321              	.L70:
+ 322 007e 9847     		blx	r3
+ 323 0080 0028     		cmp	r0, #0
+ 324 0082 A5EB0706 		sub	r6, r5, r7
+ 325 0086 4BDB     		blt	.L88
+ 326 0088 05F8010B 		strb	r0, [r5], #1
+ 327 008c AA45     		cmp	r10, r5
+ 328 008e F4D1     		bne	.L89
+ 329 0090 1226     		movs	r6, #18
+ 330              	.L69:
+ 331              		.syntax unified
+ 332              	@ 286 "..\Setup\JLINKMEM_Process.c" 1
+ 333 0092 4FF08000 		mov  r0, #128    
+ 334 0096 80F31188 		msr  basepri, r0 
+ 335 009a 00BF     		nop              
+ 336 009c 00BF     		nop              
+ 337              		
+ 338              	@ 0 "" 2
+ 339              		.thumb
+ 340              		.syntax unified
+ 341 009e 6368     		ldr	r3, [r4, #4]
+ 342 00a0 4FF47A72 		mov	r2, #1000
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccqPsAbI.s 			page 7
+
+
+ 343 00a4 03F8166C 		strb	r6, [r3, #-22]
+ 344 00a8 99F80130 		ldrb	r3, [r9, #1]	@ zero_extendqisi2
+ 345 00ac 6261     		str	r2, [r4, #20]
+ 346 00ae 1BB9     		cbnz	r3, .L74
+ 347              		.syntax unified
+ 348              	@ 289 "..\Setup\JLINKMEM_Process.c" 1
+ 349 00b0 4FF00000 		mov  r0, #0      
+ 350 00b4 80F31188 		msr  basepri, r0 
+ 351              		
+ 352              	@ 0 "" 2
+ 353              		.thumb
+ 354              		.syntax unified
+ 355              	.L74:
+ 356 00b8 0023     		movs	r3, #0
+ 357 00ba 2362     		str	r3, [r4, #32]
+ 358 00bc BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 359              	.L63:
+ 360 00c0 FFF7FEFF 		bl	OS_EnterRegionFunc
+ 361 00c4 FFF7FEFF 		bl	OS_COM_ClearTxActive
+ 362 00c8 BDE8F047 		pop	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 363 00cc FFF7FEBF 		b	OS_TASK_LeaveRegion
+ 364              	.L64:
+ 365 00d0 164B     		ldr	r3, .L90+4
+ 366 00d2 0820     		movs	r0, #8
+ 367 00d4 1B68     		ldr	r3, [r3]
+ 368 00d6 1227     		movs	r7, #18
+ 369 00d8 23F03F03 		bic	r3, r3, #63
+ 370 00dc 1B68     		ldr	r3, [r3]
+ 371 00de 5225     		movs	r5, #82
+ 372 00e0 03F8172C 		strb	r2, [r3, #-23]
+ 373 00e4 03F8020C 		strb	r0, [r3, #-2]
+ 374 00e8 A3F11500 		sub	r0, r3, #21
+ 375 00ec 03F8037C 		strb	r7, [r3, #-3]
+ 376 00f0 A060     		str	r0, [r4, #8]
+ 377 00f2 A3F12007 		sub	r7, r3, #32
+ 378 00f6 0120     		movs	r0, #1
+ 379 00f8 03F8182C 		strb	r2, [r3, #-24]
+ 380 00fc 1946     		mov	r1, r3
+ 381 00fe 03F8162C 		strb	r2, [r3, #-22]
+ 382 0102 6360     		str	r3, [r4, #4]
+ 383 0104 03F8015C 		strb	r5, [r3, #-1]
+ 384 0108 2261     		str	r2, [r4, #16]
+ 385 010a E760     		str	r7, [r4, #12]
+ 386 010c 173B     		subs	r3, r3, #23
+ 387 010e 2060     		str	r0, [r4]
+ 388 0110 84E7     		b	.L65
+ 389              	.L67:
+ 390 0112 99F80120 		ldrb	r2, [r9, #1]	@ zero_extendqisi2
+ 391 0116 02F0FF03 		and	r3, r2, #255
+ 392 011a 002A     		cmp	r2, #0
+ 393 011c 84D1     		bne	.L66
+ 394 011e 99E7     		b	.L68
+ 395              	.L88:
+ 396 0120 F6B2     		uxtb	r6, r6
+ 397 0122 B6E7     		b	.L69
+ 398              	.L77:
+ 399 0124 0126     		movs	r6, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccqPsAbI.s 			page 8
+
+
+ 400 0126 B4E7     		b	.L69
+ 401              	.L91:
+ 402              		.align	2
+ 403              	.L90:
+ 404 0128 00000000 		.word	.LANCHOR0
+ 405 012c 08ED00E0 		.word	-536810232
+ 406 0130 00000000 		.word	OS_Global
+ 407 0134 00000000 		.word	_pfGetNextChar
+ 408              		.size	JLINKMEM_SendChar, .-JLINKMEM_SendChar
+ 409              		.section	.text.JLINKMEM_SetpfOnRx,"ax",%progbits
+ 410              		.align	2
+ 411              		.global	JLINKMEM_SetpfOnRx
+ 412              		.thumb
+ 413              		.thumb_func
+ 414              		.type	JLINKMEM_SetpfOnRx, %function
+ 415              	JLINKMEM_SetpfOnRx:
+ 416              		@ args = 0, pretend = 0, frame = 0
+ 417              		@ frame_needed = 0, uses_anonymous_args = 0
+ 418              		@ link register save eliminated.
+ 419 0000 014B     		ldr	r3, .L93
+ 420 0002 1860     		str	r0, [r3]
+ 421 0004 7047     		bx	lr
+ 422              	.L94:
+ 423 0006 00BF     		.align	2
+ 424              	.L93:
+ 425 0008 00000000 		.word	_pfOnRx
+ 426              		.size	JLINKMEM_SetpfOnRx, .-JLINKMEM_SetpfOnRx
+ 427              		.section	.text.JLINKMEM_SetpfOnTx,"ax",%progbits
+ 428              		.align	2
+ 429              		.global	JLINKMEM_SetpfOnTx
+ 430              		.thumb
+ 431              		.thumb_func
+ 432              		.type	JLINKMEM_SetpfOnTx, %function
+ 433              	JLINKMEM_SetpfOnTx:
+ 434              		@ args = 0, pretend = 0, frame = 0
+ 435              		@ frame_needed = 0, uses_anonymous_args = 0
+ 436              		@ link register save eliminated.
+ 437 0000 014B     		ldr	r3, .L96
+ 438 0002 1860     		str	r0, [r3]
+ 439 0004 7047     		bx	lr
+ 440              	.L97:
+ 441 0006 00BF     		.align	2
+ 442              	.L96:
+ 443 0008 00000000 		.word	_pfOnTx
+ 444              		.size	JLINKMEM_SetpfOnTx, .-JLINKMEM_SetpfOnTx
+ 445              		.section	.text.JLINKMEM_SetpfGetNextChar,"ax",%progbits
+ 446              		.align	2
+ 447              		.global	JLINKMEM_SetpfGetNextChar
+ 448              		.thumb
+ 449              		.thumb_func
+ 450              		.type	JLINKMEM_SetpfGetNextChar, %function
+ 451              	JLINKMEM_SetpfGetNextChar:
+ 452              		@ args = 0, pretend = 0, frame = 0
+ 453              		@ frame_needed = 0, uses_anonymous_args = 0
+ 454              		@ link register save eliminated.
+ 455 0000 014B     		ldr	r3, .L99
+ 456 0002 1860     		str	r0, [r3]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccqPsAbI.s 			page 9
+
+
+ 457 0004 7047     		bx	lr
+ 458              	.L100:
+ 459 0006 00BF     		.align	2
+ 460              	.L99:
+ 461 0008 00000000 		.word	_pfGetNextChar
+ 462              		.size	JLINKMEM_SetpfGetNextChar, .-JLINKMEM_SetpfGetNextChar
+ 463              		.comm	_pfGetNextChar,4,4
+ 464              		.comm	_pfOnTx,4,4
+ 465              		.comm	_pfOnRx,4,4
+ 466              		.bss
+ 467              		.align	2
+ 468              		.set	.LANCHOR0,. + 0
+ 469              		.type	_IsInited, %object
+ 470              		.size	_IsInited, 4
+ 471              	_IsInited:
+ 472 0000 00000000 		.space	4
+ 473              		.type	_BaseAddr, %object
+ 474              		.size	_BaseAddr, 4
+ 475              	_BaseAddr:
+ 476 0004 00000000 		.space	4
+ 477              		.type	_pTxBuf, %object
+ 478              		.size	_pTxBuf, 4
+ 479              	_pTxBuf:
+ 480 0008 00000000 		.space	4
+ 481              		.type	_pRxBuf, %object
+ 482              		.size	_pRxBuf, 4
+ 483              	_pRxBuf:
+ 484 000c 00000000 		.space	4
+ 485              		.type	_TxIsPending, %object
+ 486              		.size	_TxIsPending, 4
+ 487              	_TxIsPending:
+ 488 0010 00000000 		.space	4
+ 489              		.type	_TxTimeoutTimer, %object
+ 490              		.size	_TxTimeoutTimer, 4
+ 491              	_TxTimeoutTimer:
+ 492 0014 00000000 		.space	4
+ 493              		.type	_TxTimeout, %object
+ 494              		.size	_TxTimeout, 4
+ 495              	_TxTimeout:
+ 496 0018 00000000 		.space	4
+ 497              		.type	_TxPendingData, %object
+ 498              		.size	_TxPendingData, 1
+ 499              	_TxPendingData:
+ 500 001c 00       		.space	1
+ 501 001d 000000   		.space	3
+ 502              		.type	_TxBufLocked, %object
+ 503              		.size	_TxBufLocked, 4
+ 504              	_TxBufLocked:
+ 505 0020 00000000 		.space	4
+ 506              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

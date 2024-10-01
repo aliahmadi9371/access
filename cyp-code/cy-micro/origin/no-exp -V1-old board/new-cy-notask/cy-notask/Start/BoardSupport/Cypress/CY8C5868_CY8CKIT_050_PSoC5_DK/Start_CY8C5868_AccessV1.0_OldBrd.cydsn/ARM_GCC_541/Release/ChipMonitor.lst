@@ -1,0 +1,88 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccwJRRMs.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"ChipMonitor.c"
+  16              		.section	.text.cymonitoring_get_lastWtd,"ax",%progbits
+  17              		.align	2
+  18              		.global	cymonitoring_get_lastWtd
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	cymonitoring_get_lastWtd, %function
+  22              	cymonitoring_get_lastWtd:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 084B     		ldr	r3, .L9
+  27 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  28 0004 082B     		cmp	r3, #8
+  29 0006 09D0     		beq	.L3
+  30 0008 202B     		cmp	r3, #32
+  31 000a 04D0     		beq	.L4
+  32 000c 03B1     		cbz	r3, .L8
+  33 000e 7047     		bx	lr
+  34              	.L8:
+  35 0010 0548     		ldr	r0, .L9+4
+  36 0012 FFF7FEBF 		b	UART_Debug_PutString
+  37              	.L4:
+  38 0016 0548     		ldr	r0, .L9+8
+  39 0018 FFF7FEBF 		b	UART_Debug_PutString
+  40              	.L3:
+  41 001c 0448     		ldr	r0, .L9+12
+  42 001e FFF7FEBF 		b	UART_Debug_PutString
+  43              	.L10:
+  44 0022 00BF     		.align	2
+  45              	.L9:
+  46 0024 00000000 		.word	CyResetStatus
+  47 0028 00000000 		.word	.LC0
+  48 002c 80000000 		.word	.LC2
+  49 0030 40000000 		.word	.LC1
+  50              		.size	cymonitoring_get_lastWtd, .-cymonitoring_get_lastWtd
+  51              		.section	.rodata.str1.4,"aMS",%progbits,1
+  52              		.align	2
+  53              	.LC0:
+  54 0000 63796D6F 		.ascii	"cymonitoring_get_lastWtd: last reset cause: Hardwar"
+  54      6E69746F 
+  54      72696E67 
+  54      5F676574 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccwJRRMs.s 			page 2
+
+
+  54      5F6C6173 
+  55 0033 65205265 		.ascii	"e Reset\015\012\000"
+  55      7365740D 
+  55      0A00
+  56 003d 000000   		.space	3
+  57              	.LC1:
+  58 0040 63796D6F 		.ascii	"cymonitoring_get_lastWtd: last reset cause: Watchdo"
+  58      6E69746F 
+  58      72696E67 
+  58      5F676574 
+  58      5F6C6173 
+  59 0073 67205265 		.ascii	"g Reset\015\012\000"
+  59      7365740D 
+  59      0A00
+  60 007d 000000   		.space	3
+  61              	.LC2:
+  62 0080 63796D6F 		.ascii	"cymonitoring_get_lastWtd: last reset cause: Softwar"
+  62      6E69746F 
+  62      72696E67 
+  62      5F676574 
+  62      5F6C6173 
+  63 00b3 65205265 		.ascii	"e Reset\015\012\000"
+  63      7365740D 
+  63      0A00
+  64              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

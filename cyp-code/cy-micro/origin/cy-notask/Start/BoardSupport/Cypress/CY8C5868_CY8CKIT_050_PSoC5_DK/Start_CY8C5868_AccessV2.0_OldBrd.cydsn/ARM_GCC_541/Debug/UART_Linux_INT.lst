@@ -1,0 +1,1164 @@
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"UART_Linux_INT.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.UART_Linux_RXISR,"ax",%progbits
+  20              		.align	2
+  21              		.global	UART_Linux_RXISR
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	UART_Linux_RXISR, %function
+  25              	UART_Linux_RXISR:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\UART_Linux_INT.c"
+   1:Generated_Source\PSoC5/UART_Linux_INT.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/UART_Linux_INT.c **** * File Name: UART_LinuxINT.c
+   3:Generated_Source\PSoC5/UART_Linux_INT.c **** * Version 2.50
+   4:Generated_Source\PSoC5/UART_Linux_INT.c **** *
+   5:Generated_Source\PSoC5/UART_Linux_INT.c **** * Description:
+   6:Generated_Source\PSoC5/UART_Linux_INT.c **** *  This file provides all Interrupt Service functionality of the UART component
+   7:Generated_Source\PSoC5/UART_Linux_INT.c **** *
+   8:Generated_Source\PSoC5/UART_Linux_INT.c **** ********************************************************************************
+   9:Generated_Source\PSoC5/UART_Linux_INT.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  10:Generated_Source\PSoC5/UART_Linux_INT.c **** * You may use this file only in accordance with the license, terms, conditions,
+  11:Generated_Source\PSoC5/UART_Linux_INT.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  12:Generated_Source\PSoC5/UART_Linux_INT.c **** * the software package with which this file was provided.
+  13:Generated_Source\PSoC5/UART_Linux_INT.c **** *******************************************************************************/
+  14:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  15:Generated_Source\PSoC5/UART_Linux_INT.c **** #include "UART_Linux.h"
+  16:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  17:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  18:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  19:Generated_Source\PSoC5/UART_Linux_INT.c **** /***************************************
+  20:Generated_Source\PSoC5/UART_Linux_INT.c **** * Custom Declarations
+  21:Generated_Source\PSoC5/UART_Linux_INT.c **** ***************************************/
+  22:Generated_Source\PSoC5/UART_Linux_INT.c **** /* `#START CUSTOM_DECLARATIONS` Place your declaration here */
+  23:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  24:Generated_Source\PSoC5/UART_Linux_INT.c **** /* `#END` */
+  25:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  26:Generated_Source\PSoC5/UART_Linux_INT.c **** #if (UART_Linux_RX_INTERRUPT_ENABLED && (UART_Linux_RX_ENABLED || UART_Linux_HD_ENABLED))
+  27:Generated_Source\PSoC5/UART_Linux_INT.c ****     /*******************************************************************************
+  28:Generated_Source\PSoC5/UART_Linux_INT.c ****     * Function Name: UART_Linux_RXISR
+  29:Generated_Source\PSoC5/UART_Linux_INT.c ****     ********************************************************************************
+  30:Generated_Source\PSoC5/UART_Linux_INT.c ****     *
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 2
+
+
+  31:Generated_Source\PSoC5/UART_Linux_INT.c ****     * Summary:
+  32:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  Interrupt Service Routine for RX portion of the UART
+  33:Generated_Source\PSoC5/UART_Linux_INT.c ****     *
+  34:Generated_Source\PSoC5/UART_Linux_INT.c ****     * Parameters:
+  35:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  None.
+  36:Generated_Source\PSoC5/UART_Linux_INT.c ****     *
+  37:Generated_Source\PSoC5/UART_Linux_INT.c ****     * Return:
+  38:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  None.
+  39:Generated_Source\PSoC5/UART_Linux_INT.c ****     *
+  40:Generated_Source\PSoC5/UART_Linux_INT.c ****     * Global Variables:
+  41:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  UART_Linux_rxBuffer - RAM buffer pointer for save received data.
+  42:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  UART_Linux_rxBufferWrite - cyclic index for write to rxBuffer,
+  43:Generated_Source\PSoC5/UART_Linux_INT.c ****     *     increments after each byte saved to buffer.
+  44:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  UART_Linux_rxBufferRead - cyclic index for read from rxBuffer,
+  45:Generated_Source\PSoC5/UART_Linux_INT.c ****     *     checked to detect overflow condition.
+  46:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  UART_Linux_rxBufferOverflow - software overflow flag. Set to one
+  47:Generated_Source\PSoC5/UART_Linux_INT.c ****     *     when UART_Linux_rxBufferWrite index overtakes
+  48:Generated_Source\PSoC5/UART_Linux_INT.c ****     *     UART_Linux_rxBufferRead index.
+  49:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  UART_Linux_rxBufferLoopDetect - additional variable to detect overflow.
+  50:Generated_Source\PSoC5/UART_Linux_INT.c ****     *     Set to one when UART_Linux_rxBufferWrite is equal to
+  51:Generated_Source\PSoC5/UART_Linux_INT.c ****     *    UART_Linux_rxBufferRead
+  52:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  UART_Linux_rxAddressMode - this variable contains the Address mode,
+  53:Generated_Source\PSoC5/UART_Linux_INT.c ****     *     selected in customizer or set by UART_SetRxAddressMode() API.
+  54:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  UART_Linux_rxAddressDetected - set to 1 when correct address received,
+  55:Generated_Source\PSoC5/UART_Linux_INT.c ****     *     and analysed to store following addressed data bytes to the buffer.
+  56:Generated_Source\PSoC5/UART_Linux_INT.c ****     *     When not correct address received, set to 0 to skip following data bytes.
+  57:Generated_Source\PSoC5/UART_Linux_INT.c ****     *
+  58:Generated_Source\PSoC5/UART_Linux_INT.c ****     *******************************************************************************/
+  59:Generated_Source\PSoC5/UART_Linux_INT.c ****     CY_ISR(UART_Linux_RXISR)
+  60:Generated_Source\PSoC5/UART_Linux_INT.c ****     {
+  28              		.loc 1 60 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 80B4     		push	{r7}
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 7, -4
+  36 0002 83B0     		sub	sp, sp, #12
+  37              		.cfi_def_cfa_offset 16
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  61:Generated_Source\PSoC5/UART_Linux_INT.c ****         uint8 readData;
+  62:Generated_Source\PSoC5/UART_Linux_INT.c ****         uint8 readStatus;
+  63:Generated_Source\PSoC5/UART_Linux_INT.c ****         uint8 increment_pointer = 0u;
+  40              		.loc 1 63 0
+  41 0006 0023     		movs	r3, #0
+  42 0008 FB71     		strb	r3, [r7, #7]
+  43              	.L6:
+  64:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  65:Generated_Source\PSoC5/UART_Linux_INT.c ****     #if(CY_PSOC3)
+  66:Generated_Source\PSoC5/UART_Linux_INT.c ****         uint8 int_en;
+  67:Generated_Source\PSoC5/UART_Linux_INT.c ****     #endif /* (CY_PSOC3) */
+  68:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  69:Generated_Source\PSoC5/UART_Linux_INT.c ****     #ifdef UART_Linux_RXISR_ENTRY_CALLBACK
+  70:Generated_Source\PSoC5/UART_Linux_INT.c ****         UART_Linux_RXISR_EntryCallback();
+  71:Generated_Source\PSoC5/UART_Linux_INT.c ****     #endif /* UART_Linux_RXISR_ENTRY_CALLBACK */
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 3
+
+
+  72:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  73:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* User code required at start of ISR */
+  74:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* `#START UART_Linux_RXISR_START` */
+  75:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  76:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* `#END` */
+  77:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  78:Generated_Source\PSoC5/UART_Linux_INT.c ****     #if(CY_PSOC3)   /* Make sure nested interrupt is enabled */
+  79:Generated_Source\PSoC5/UART_Linux_INT.c ****         int_en = EA;
+  80:Generated_Source\PSoC5/UART_Linux_INT.c ****         CyGlobalIntEnable;
+  81:Generated_Source\PSoC5/UART_Linux_INT.c ****     #endif /* (CY_PSOC3) */
+  82:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  83:Generated_Source\PSoC5/UART_Linux_INT.c ****         do
+  84:Generated_Source\PSoC5/UART_Linux_INT.c ****         {
+  85:Generated_Source\PSoC5/UART_Linux_INT.c ****             /* Read receiver status register */
+  86:Generated_Source\PSoC5/UART_Linux_INT.c ****             readStatus = UART_Linux_RXSTATUS_REG;
+  44              		.loc 1 86 0
+  45 000a 2C4B     		ldr	r3, .L7
+  46 000c 1B78     		ldrb	r3, [r3]
+  47 000e BB71     		strb	r3, [r7, #6]
+  87:Generated_Source\PSoC5/UART_Linux_INT.c ****             /* Copy the same status to readData variable for backward compatibility support 
+  88:Generated_Source\PSoC5/UART_Linux_INT.c ****             *  of the user code in UART_Linux_RXISR_ERROR` section. 
+  89:Generated_Source\PSoC5/UART_Linux_INT.c ****             */
+  90:Generated_Source\PSoC5/UART_Linux_INT.c ****             readData = readStatus;
+  48              		.loc 1 90 0
+  49 0010 BB79     		ldrb	r3, [r7, #6]
+  50 0012 7B71     		strb	r3, [r7, #5]
+  91:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+  92:Generated_Source\PSoC5/UART_Linux_INT.c ****             if((readStatus & (UART_Linux_RX_STS_BREAK | 
+  93:Generated_Source\PSoC5/UART_Linux_INT.c ****                             UART_Linux_RX_STS_PAR_ERROR |
+  94:Generated_Source\PSoC5/UART_Linux_INT.c ****                             UART_Linux_RX_STS_STOP_ERROR | 
+  95:Generated_Source\PSoC5/UART_Linux_INT.c ****                             UART_Linux_RX_STS_OVERRUN)) != 0u)
+  51              		.loc 1 95 0
+  52 0014 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+  53 0016 03F01E03 		and	r3, r3, #30
+  92:Generated_Source\PSoC5/UART_Linux_INT.c ****                             UART_Linux_RX_STS_PAR_ERROR |
+  54              		.loc 1 92 0
+  55 001a 002B     		cmp	r3, #0
+  56 001c 0CD0     		beq	.L2
+  96:Generated_Source\PSoC5/UART_Linux_INT.c ****             {
+  97:Generated_Source\PSoC5/UART_Linux_INT.c ****                 /* ERROR handling. */
+  98:Generated_Source\PSoC5/UART_Linux_INT.c ****                 UART_Linux_errorStatus |= readStatus & ( UART_Linux_RX_STS_BREAK | 
+  57              		.loc 1 98 0
+  58 001e 97F90630 		ldrsb	r3, [r7, #6]
+  59 0022 03F01E03 		and	r3, r3, #30
+  60 0026 5AB2     		sxtb	r2, r3
+  61 0028 254B     		ldr	r3, .L7+4
+  62 002a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  63 002c 5BB2     		sxtb	r3, r3
+  64 002e 1343     		orrs	r3, r3, r2
+  65 0030 5BB2     		sxtb	r3, r3
+  66 0032 DAB2     		uxtb	r2, r3
+  67 0034 224B     		ldr	r3, .L7+4
+  68 0036 1A70     		strb	r2, [r3]
+  69              	.L2:
+  99:Generated_Source\PSoC5/UART_Linux_INT.c ****                                                             UART_Linux_RX_STS_PAR_ERROR | 
+ 100:Generated_Source\PSoC5/UART_Linux_INT.c ****                                                             UART_Linux_RX_STS_STOP_ERROR | 
+ 101:Generated_Source\PSoC5/UART_Linux_INT.c ****                                                             UART_Linux_RX_STS_OVERRUN);
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 4
+
+
+ 102:Generated_Source\PSoC5/UART_Linux_INT.c ****                 /* `#START UART_Linux_RXISR_ERROR` */
+ 103:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 104:Generated_Source\PSoC5/UART_Linux_INT.c ****                 /* `#END` */
+ 105:Generated_Source\PSoC5/UART_Linux_INT.c ****                 
+ 106:Generated_Source\PSoC5/UART_Linux_INT.c ****             #ifdef UART_Linux_RXISR_ERROR_CALLBACK
+ 107:Generated_Source\PSoC5/UART_Linux_INT.c ****                 UART_Linux_RXISR_ERROR_Callback();
+ 108:Generated_Source\PSoC5/UART_Linux_INT.c ****             #endif /* UART_Linux_RXISR_ERROR_CALLBACK */
+ 109:Generated_Source\PSoC5/UART_Linux_INT.c ****             }
+ 110:Generated_Source\PSoC5/UART_Linux_INT.c ****             
+ 111:Generated_Source\PSoC5/UART_Linux_INT.c ****             if((readStatus & UART_Linux_RX_STS_FIFO_NOTEMPTY) != 0u)
+  70              		.loc 1 111 0
+  71 0038 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+  72 003a 03F02003 		and	r3, r3, #32
+  73 003e 002B     		cmp	r3, #0
+  74 0040 31D0     		beq	.L3
+ 112:Generated_Source\PSoC5/UART_Linux_INT.c ****             {
+ 113:Generated_Source\PSoC5/UART_Linux_INT.c ****                 /* Read data from the RX data register */
+ 114:Generated_Source\PSoC5/UART_Linux_INT.c ****                 readData = UART_Linux_RXDATA_REG;
+  75              		.loc 1 114 0
+  76 0042 204B     		ldr	r3, .L7+8
+  77 0044 1B78     		ldrb	r3, [r3]
+  78 0046 7B71     		strb	r3, [r7, #5]
+ 115:Generated_Source\PSoC5/UART_Linux_INT.c ****             #if (UART_Linux_RXHW_ADDRESS_ENABLED)
+ 116:Generated_Source\PSoC5/UART_Linux_INT.c ****                 if(UART_Linux_rxAddressMode == (uint8)UART_Linux__B_UART__AM_SW_DETECT_TO_BUFFER)
+ 117:Generated_Source\PSoC5/UART_Linux_INT.c ****                 {
+ 118:Generated_Source\PSoC5/UART_Linux_INT.c ****                     if((readStatus & UART_Linux_RX_STS_MRKSPC) != 0u)
+ 119:Generated_Source\PSoC5/UART_Linux_INT.c ****                     {
+ 120:Generated_Source\PSoC5/UART_Linux_INT.c ****                         if ((readStatus & UART_Linux_RX_STS_ADDR_MATCH) != 0u)
+ 121:Generated_Source\PSoC5/UART_Linux_INT.c ****                         {
+ 122:Generated_Source\PSoC5/UART_Linux_INT.c ****                             UART_Linux_rxAddressDetected = 1u;
+ 123:Generated_Source\PSoC5/UART_Linux_INT.c ****                         }
+ 124:Generated_Source\PSoC5/UART_Linux_INT.c ****                         else
+ 125:Generated_Source\PSoC5/UART_Linux_INT.c ****                         {
+ 126:Generated_Source\PSoC5/UART_Linux_INT.c ****                             UART_Linux_rxAddressDetected = 0u;
+ 127:Generated_Source\PSoC5/UART_Linux_INT.c ****                         }
+ 128:Generated_Source\PSoC5/UART_Linux_INT.c ****                     }
+ 129:Generated_Source\PSoC5/UART_Linux_INT.c ****                     if(UART_Linux_rxAddressDetected != 0u)
+ 130:Generated_Source\PSoC5/UART_Linux_INT.c ****                     {   /* Store only addressed data */
+ 131:Generated_Source\PSoC5/UART_Linux_INT.c ****                         UART_Linux_rxBuffer[UART_Linux_rxBufferWrite] = readData;
+ 132:Generated_Source\PSoC5/UART_Linux_INT.c ****                         increment_pointer = 1u;
+ 133:Generated_Source\PSoC5/UART_Linux_INT.c ****                     }
+ 134:Generated_Source\PSoC5/UART_Linux_INT.c ****                 }
+ 135:Generated_Source\PSoC5/UART_Linux_INT.c ****                 else /* Without software addressing */
+ 136:Generated_Source\PSoC5/UART_Linux_INT.c ****                 {
+ 137:Generated_Source\PSoC5/UART_Linux_INT.c ****                     UART_Linux_rxBuffer[UART_Linux_rxBufferWrite] = readData;
+ 138:Generated_Source\PSoC5/UART_Linux_INT.c ****                     increment_pointer = 1u;
+ 139:Generated_Source\PSoC5/UART_Linux_INT.c ****                 }
+ 140:Generated_Source\PSoC5/UART_Linux_INT.c ****             #else  /* Without addressing */
+ 141:Generated_Source\PSoC5/UART_Linux_INT.c ****                 UART_Linux_rxBuffer[UART_Linux_rxBufferWrite] = readData;
+  79              		.loc 1 141 0
+  80 0048 1F4B     		ldr	r3, .L7+12
+  81 004a 1B88     		ldrh	r3, [r3]	@ movhi
+  82 004c 9BB2     		uxth	r3, r3
+  83 004e 1946     		mov	r1, r3
+  84 0050 1E4A     		ldr	r2, .L7+16
+  85 0052 7B79     		ldrb	r3, [r7, #5]
+  86 0054 5354     		strb	r3, [r2, r1]
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 5
+
+
+ 142:Generated_Source\PSoC5/UART_Linux_INT.c ****                 increment_pointer = 1u;
+  87              		.loc 1 142 0
+  88 0056 0123     		movs	r3, #1
+  89 0058 FB71     		strb	r3, [r7, #7]
+ 143:Generated_Source\PSoC5/UART_Linux_INT.c ****             #endif /* (UART_Linux_RXHW_ADDRESS_ENABLED) */
+ 144:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 145:Generated_Source\PSoC5/UART_Linux_INT.c ****                 /* Do not increment buffer pointer when skip not addressed data */
+ 146:Generated_Source\PSoC5/UART_Linux_INT.c ****                 if(increment_pointer != 0u)
+  90              		.loc 1 146 0
+  91 005a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  92 005c 002B     		cmp	r3, #0
+  93 005e 22D0     		beq	.L3
+ 147:Generated_Source\PSoC5/UART_Linux_INT.c ****                 {
+ 148:Generated_Source\PSoC5/UART_Linux_INT.c ****                     if(UART_Linux_rxBufferLoopDetect != 0u)
+  94              		.loc 1 148 0
+  95 0060 1B4B     		ldr	r3, .L7+20
+  96 0062 1B78     		ldrb	r3, [r3]
+  97 0064 DBB2     		uxtb	r3, r3
+  98 0066 002B     		cmp	r3, #0
+  99 0068 02D0     		beq	.L4
+ 149:Generated_Source\PSoC5/UART_Linux_INT.c ****                     {   /* Set Software Buffer status Overflow */
+ 150:Generated_Source\PSoC5/UART_Linux_INT.c ****                         UART_Linux_rxBufferOverflow = 1u;
+ 100              		.loc 1 150 0
+ 101 006a 1A4B     		ldr	r3, .L7+24
+ 102 006c 0122     		movs	r2, #1
+ 103 006e 1A70     		strb	r2, [r3]
+ 104              	.L4:
+ 151:Generated_Source\PSoC5/UART_Linux_INT.c ****                     }
+ 152:Generated_Source\PSoC5/UART_Linux_INT.c ****                     /* Set next pointer. */
+ 153:Generated_Source\PSoC5/UART_Linux_INT.c ****                     UART_Linux_rxBufferWrite++;
+ 105              		.loc 1 153 0
+ 106 0070 154B     		ldr	r3, .L7+12
+ 107 0072 1B88     		ldrh	r3, [r3]	@ movhi
+ 108 0074 9BB2     		uxth	r3, r3
+ 109 0076 0133     		adds	r3, r3, #1
+ 110 0078 9AB2     		uxth	r2, r3
+ 111 007a 134B     		ldr	r3, .L7+12
+ 112 007c 1A80     		strh	r2, [r3]	@ movhi
+ 154:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 155:Generated_Source\PSoC5/UART_Linux_INT.c ****                     /* Check pointer for a loop condition */
+ 156:Generated_Source\PSoC5/UART_Linux_INT.c ****                     if(UART_Linux_rxBufferWrite >= UART_Linux_RX_BUFFER_SIZE)
+ 113              		.loc 1 156 0
+ 114 007e 124B     		ldr	r3, .L7+12
+ 115 0080 1B88     		ldrh	r3, [r3]	@ movhi
+ 116 0082 9BB2     		uxth	r3, r3
+ 117 0084 B3F5806F 		cmp	r3, #1024
+ 118 0088 02D3     		bcc	.L5
+ 157:Generated_Source\PSoC5/UART_Linux_INT.c ****                     {
+ 158:Generated_Source\PSoC5/UART_Linux_INT.c ****                         UART_Linux_rxBufferWrite = 0u;
+ 119              		.loc 1 158 0
+ 120 008a 0F4B     		ldr	r3, .L7+12
+ 121 008c 0022     		movs	r2, #0
+ 122 008e 1A80     		strh	r2, [r3]	@ movhi
+ 123              	.L5:
+ 159:Generated_Source\PSoC5/UART_Linux_INT.c ****                     }
+ 160:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 161:Generated_Source\PSoC5/UART_Linux_INT.c ****                     /* Detect pre-overload condition and set flag */
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 6
+
+
+ 162:Generated_Source\PSoC5/UART_Linux_INT.c ****                     if(UART_Linux_rxBufferWrite == UART_Linux_rxBufferRead)
+ 124              		.loc 1 162 0
+ 125 0090 0D4B     		ldr	r3, .L7+12
+ 126 0092 1B88     		ldrh	r3, [r3]	@ movhi
+ 127 0094 9AB2     		uxth	r2, r3
+ 128 0096 104B     		ldr	r3, .L7+28
+ 129 0098 1B88     		ldrh	r3, [r3]	@ movhi
+ 130 009a 9BB2     		uxth	r3, r3
+ 131 009c 9A42     		cmp	r2, r3
+ 132 009e 02D1     		bne	.L3
+ 163:Generated_Source\PSoC5/UART_Linux_INT.c ****                     {
+ 164:Generated_Source\PSoC5/UART_Linux_INT.c ****                         UART_Linux_rxBufferLoopDetect = 1u;
+ 133              		.loc 1 164 0
+ 134 00a0 0B4B     		ldr	r3, .L7+20
+ 135 00a2 0122     		movs	r2, #1
+ 136 00a4 1A70     		strb	r2, [r3]
+ 137              	.L3:
+ 165:Generated_Source\PSoC5/UART_Linux_INT.c ****                         /* When Hardware Flow Control selected */
+ 166:Generated_Source\PSoC5/UART_Linux_INT.c ****                         #if (UART_Linux_FLOW_CONTROL != 0u)
+ 167:Generated_Source\PSoC5/UART_Linux_INT.c ****                             /* Disable RX interrupt mask, it is enabled when user read data from th
+ 168:Generated_Source\PSoC5/UART_Linux_INT.c ****                             UART_Linux_RXSTATUS_MASK_REG  &= (uint8)~UART_Linux_RX_STS_FIFO_NOTEMPT
+ 169:Generated_Source\PSoC5/UART_Linux_INT.c ****                             CyIntClearPending(UART_Linux_RX_VECT_NUM);
+ 170:Generated_Source\PSoC5/UART_Linux_INT.c ****                             break; /* Break the reading of the FIFO loop, leave the data there for 
+ 171:Generated_Source\PSoC5/UART_Linux_INT.c ****                         #endif /* (UART_Linux_FLOW_CONTROL != 0u) */
+ 172:Generated_Source\PSoC5/UART_Linux_INT.c ****                     }
+ 173:Generated_Source\PSoC5/UART_Linux_INT.c ****                 }
+ 174:Generated_Source\PSoC5/UART_Linux_INT.c ****             }
+ 175:Generated_Source\PSoC5/UART_Linux_INT.c ****         }while((readStatus & UART_Linux_RX_STS_FIFO_NOTEMPTY) != 0u);
+ 138              		.loc 1 175 0
+ 139 00a6 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 140 00a8 03F02003 		and	r3, r3, #32
+ 141 00ac 002B     		cmp	r3, #0
+ 142 00ae ACD1     		bne	.L6
+ 176:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 177:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* User code required at end of ISR (Optional) */
+ 178:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* `#START UART_Linux_RXISR_END` */
+ 179:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 180:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* `#END` */
+ 181:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 182:Generated_Source\PSoC5/UART_Linux_INT.c ****     #ifdef UART_Linux_RXISR_EXIT_CALLBACK
+ 183:Generated_Source\PSoC5/UART_Linux_INT.c ****         UART_Linux_RXISR_ExitCallback();
+ 184:Generated_Source\PSoC5/UART_Linux_INT.c ****     #endif /* UART_Linux_RXISR_EXIT_CALLBACK */
+ 185:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 186:Generated_Source\PSoC5/UART_Linux_INT.c ****     #if(CY_PSOC3)
+ 187:Generated_Source\PSoC5/UART_Linux_INT.c ****         EA = int_en;
+ 188:Generated_Source\PSoC5/UART_Linux_INT.c ****     #endif /* (CY_PSOC3) */
+ 189:Generated_Source\PSoC5/UART_Linux_INT.c ****     }
+ 143              		.loc 1 189 0
+ 144 00b0 00BF     		nop
+ 145 00b2 0C37     		adds	r7, r7, #12
+ 146              		.cfi_def_cfa_offset 4
+ 147 00b4 BD46     		mov	sp, r7
+ 148              		.cfi_def_cfa_register 13
+ 149              		@ sp needed
+ 150 00b6 80BC     		pop	{r7}
+ 151              		.cfi_restore 7
+ 152              		.cfi_def_cfa_offset 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 7
+
+
+ 153 00b8 7047     		bx	lr
+ 154              	.L8:
+ 155 00ba 00BF     		.align	2
+ 156              	.L7:
+ 157 00bc 65640040 		.word	1073767525
+ 158 00c0 00000000 		.word	UART_Linux_errorStatus
+ 159 00c4 45640040 		.word	1073767493
+ 160 00c8 00000000 		.word	UART_Linux_rxBufferWrite
+ 161 00cc 00000000 		.word	UART_Linux_rxBuffer
+ 162 00d0 00000000 		.word	UART_Linux_rxBufferLoopDetect
+ 163 00d4 00000000 		.word	UART_Linux_rxBufferOverflow
+ 164 00d8 00000000 		.word	UART_Linux_rxBufferRead
+ 165              		.cfi_endproc
+ 166              	.LFE0:
+ 167              		.size	UART_Linux_RXISR, .-UART_Linux_RXISR
+ 168              		.section	.text.UART_Linux_TXISR,"ax",%progbits
+ 169              		.align	2
+ 170              		.global	UART_Linux_TXISR
+ 171              		.thumb
+ 172              		.thumb_func
+ 173              		.type	UART_Linux_TXISR, %function
+ 174              	UART_Linux_TXISR:
+ 175              	.LFB1:
+ 190:Generated_Source\PSoC5/UART_Linux_INT.c ****     
+ 191:Generated_Source\PSoC5/UART_Linux_INT.c **** #endif /* (UART_Linux_RX_INTERRUPT_ENABLED && (UART_Linux_RX_ENABLED || UART_Linux_HD_ENABLED)) */
+ 192:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 193:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 194:Generated_Source\PSoC5/UART_Linux_INT.c **** #if (UART_Linux_TX_INTERRUPT_ENABLED && UART_Linux_TX_ENABLED)
+ 195:Generated_Source\PSoC5/UART_Linux_INT.c ****     /*******************************************************************************
+ 196:Generated_Source\PSoC5/UART_Linux_INT.c ****     * Function Name: UART_Linux_TXISR
+ 197:Generated_Source\PSoC5/UART_Linux_INT.c ****     ********************************************************************************
+ 198:Generated_Source\PSoC5/UART_Linux_INT.c ****     *
+ 199:Generated_Source\PSoC5/UART_Linux_INT.c ****     * Summary:
+ 200:Generated_Source\PSoC5/UART_Linux_INT.c ****     * Interrupt Service Routine for the TX portion of the UART
+ 201:Generated_Source\PSoC5/UART_Linux_INT.c ****     *
+ 202:Generated_Source\PSoC5/UART_Linux_INT.c ****     * Parameters:
+ 203:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  None.
+ 204:Generated_Source\PSoC5/UART_Linux_INT.c ****     *
+ 205:Generated_Source\PSoC5/UART_Linux_INT.c ****     * Return:
+ 206:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  None.
+ 207:Generated_Source\PSoC5/UART_Linux_INT.c ****     *
+ 208:Generated_Source\PSoC5/UART_Linux_INT.c ****     * Global Variables:
+ 209:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  UART_Linux_txBuffer - RAM buffer pointer for transmit data from.
+ 210:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  UART_Linux_txBufferRead - cyclic index for read and transmit data
+ 211:Generated_Source\PSoC5/UART_Linux_INT.c ****     *     from txBuffer, increments after each transmitted byte.
+ 212:Generated_Source\PSoC5/UART_Linux_INT.c ****     *  UART_Linux_rxBufferWrite - cyclic index for write to txBuffer,
+ 213:Generated_Source\PSoC5/UART_Linux_INT.c ****     *     checked to detect available for transmission bytes.
+ 214:Generated_Source\PSoC5/UART_Linux_INT.c ****     *
+ 215:Generated_Source\PSoC5/UART_Linux_INT.c ****     *******************************************************************************/
+ 216:Generated_Source\PSoC5/UART_Linux_INT.c ****     CY_ISR(UART_Linux_TXISR)
+ 217:Generated_Source\PSoC5/UART_Linux_INT.c ****     {
+ 176              		.loc 1 217 0
+ 177              		.cfi_startproc
+ 178              		@ args = 0, pretend = 0, frame = 0
+ 179              		@ frame_needed = 1, uses_anonymous_args = 0
+ 180              		@ link register save eliminated.
+ 181 0000 80B4     		push	{r7}
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 8
+
+
+ 182              		.cfi_def_cfa_offset 4
+ 183              		.cfi_offset 7, -4
+ 184 0002 00AF     		add	r7, sp, #0
+ 185              		.cfi_def_cfa_register 7
+ 218:Generated_Source\PSoC5/UART_Linux_INT.c ****     #if(CY_PSOC3)
+ 219:Generated_Source\PSoC5/UART_Linux_INT.c ****         uint8 int_en;
+ 220:Generated_Source\PSoC5/UART_Linux_INT.c ****     #endif /* (CY_PSOC3) */
+ 221:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 222:Generated_Source\PSoC5/UART_Linux_INT.c ****     #ifdef UART_Linux_TXISR_ENTRY_CALLBACK
+ 223:Generated_Source\PSoC5/UART_Linux_INT.c ****         UART_Linux_TXISR_EntryCallback();
+ 224:Generated_Source\PSoC5/UART_Linux_INT.c ****     #endif /* UART_Linux_TXISR_ENTRY_CALLBACK */
+ 225:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 226:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* User code required at start of ISR */
+ 227:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* `#START UART_Linux_TXISR_START` */
+ 228:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 229:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* `#END` */
+ 230:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 231:Generated_Source\PSoC5/UART_Linux_INT.c ****     #if(CY_PSOC3)   /* Make sure nested interrupt is enabled */
+ 232:Generated_Source\PSoC5/UART_Linux_INT.c ****         int_en = EA;
+ 233:Generated_Source\PSoC5/UART_Linux_INT.c ****         CyGlobalIntEnable;
+ 234:Generated_Source\PSoC5/UART_Linux_INT.c ****     #endif /* (CY_PSOC3) */
+ 235:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 236:Generated_Source\PSoC5/UART_Linux_INT.c ****         while((UART_Linux_txBufferRead != UART_Linux_txBufferWrite) &&
+ 186              		.loc 1 236 0
+ 187 0004 18E0     		b	.L10
+ 188              	.L13:
+ 237:Generated_Source\PSoC5/UART_Linux_INT.c ****              ((UART_Linux_TXSTATUS_REG & UART_Linux_TX_STS_FIFO_FULL) == 0u))
+ 238:Generated_Source\PSoC5/UART_Linux_INT.c ****         {
+ 239:Generated_Source\PSoC5/UART_Linux_INT.c ****             /* Check pointer wrap around */
+ 240:Generated_Source\PSoC5/UART_Linux_INT.c ****             if(UART_Linux_txBufferRead >= UART_Linux_TX_BUFFER_SIZE)
+ 189              		.loc 1 240 0
+ 190 0006 154B     		ldr	r3, .L15
+ 191 0008 1B88     		ldrh	r3, [r3]	@ movhi
+ 192 000a 9BB2     		uxth	r3, r3
+ 193 000c B3F5806F 		cmp	r3, #1024
+ 194 0010 02D3     		bcc	.L11
+ 241:Generated_Source\PSoC5/UART_Linux_INT.c ****             {
+ 242:Generated_Source\PSoC5/UART_Linux_INT.c ****                 UART_Linux_txBufferRead = 0u;
+ 195              		.loc 1 242 0
+ 196 0012 124B     		ldr	r3, .L15
+ 197 0014 0022     		movs	r2, #0
+ 198 0016 1A80     		strh	r2, [r3]	@ movhi
+ 199              	.L11:
+ 243:Generated_Source\PSoC5/UART_Linux_INT.c ****             }
+ 244:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 245:Generated_Source\PSoC5/UART_Linux_INT.c ****             UART_Linux_TXDATA_REG = UART_Linux_txBuffer[UART_Linux_txBufferRead];
+ 200              		.loc 1 245 0
+ 201 0018 114B     		ldr	r3, .L15+4
+ 202 001a 104A     		ldr	r2, .L15
+ 203 001c 1288     		ldrh	r2, [r2]	@ movhi
+ 204 001e 92B2     		uxth	r2, r2
+ 205 0020 1146     		mov	r1, r2
+ 206 0022 104A     		ldr	r2, .L15+8
+ 207 0024 525C     		ldrb	r2, [r2, r1]
+ 208 0026 D2B2     		uxtb	r2, r2
+ 209 0028 1A70     		strb	r2, [r3]
+ 246:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 9
+
+
+ 247:Generated_Source\PSoC5/UART_Linux_INT.c ****             /* Set next pointer */
+ 248:Generated_Source\PSoC5/UART_Linux_INT.c ****             UART_Linux_txBufferRead++;
+ 210              		.loc 1 248 0
+ 211 002a 0C4B     		ldr	r3, .L15
+ 212 002c 1B88     		ldrh	r3, [r3]	@ movhi
+ 213 002e 9BB2     		uxth	r3, r3
+ 214 0030 0133     		adds	r3, r3, #1
+ 215 0032 9AB2     		uxth	r2, r3
+ 216 0034 094B     		ldr	r3, .L15
+ 217 0036 1A80     		strh	r2, [r3]	@ movhi
+ 218              	.L10:
+ 236:Generated_Source\PSoC5/UART_Linux_INT.c ****              ((UART_Linux_TXSTATUS_REG & UART_Linux_TX_STS_FIFO_FULL) == 0u))
+ 219              		.loc 1 236 0
+ 220 0038 084B     		ldr	r3, .L15
+ 221 003a 1B88     		ldrh	r3, [r3]	@ movhi
+ 222 003c 9AB2     		uxth	r2, r3
+ 223 003e 0A4B     		ldr	r3, .L15+12
+ 224 0040 1B88     		ldrh	r3, [r3]
+ 225 0042 9A42     		cmp	r2, r3
+ 226 0044 06D0     		beq	.L14
+ 237:Generated_Source\PSoC5/UART_Linux_INT.c ****         {
+ 227              		.loc 1 237 0 discriminator 1
+ 228 0046 094B     		ldr	r3, .L15+16
+ 229 0048 1B78     		ldrb	r3, [r3]
+ 230 004a DBB2     		uxtb	r3, r3
+ 231 004c 03F00403 		and	r3, r3, #4
+ 236:Generated_Source\PSoC5/UART_Linux_INT.c ****              ((UART_Linux_TXSTATUS_REG & UART_Linux_TX_STS_FIFO_FULL) == 0u))
+ 232              		.loc 1 236 0 discriminator 1
+ 233 0050 002B     		cmp	r3, #0
+ 234 0052 D8D0     		beq	.L13
+ 235              	.L14:
+ 249:Generated_Source\PSoC5/UART_Linux_INT.c ****         }
+ 250:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 251:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* User code required at end of ISR (Optional) */
+ 252:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* `#START UART_Linux_TXISR_END` */
+ 253:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 254:Generated_Source\PSoC5/UART_Linux_INT.c ****         /* `#END` */
+ 255:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 256:Generated_Source\PSoC5/UART_Linux_INT.c ****     #ifdef UART_Linux_TXISR_EXIT_CALLBACK
+ 257:Generated_Source\PSoC5/UART_Linux_INT.c ****         UART_Linux_TXISR_ExitCallback();
+ 258:Generated_Source\PSoC5/UART_Linux_INT.c ****     #endif /* UART_Linux_TXISR_EXIT_CALLBACK */
+ 259:Generated_Source\PSoC5/UART_Linux_INT.c **** 
+ 260:Generated_Source\PSoC5/UART_Linux_INT.c ****     #if(CY_PSOC3)
+ 261:Generated_Source\PSoC5/UART_Linux_INT.c ****         EA = int_en;
+ 262:Generated_Source\PSoC5/UART_Linux_INT.c ****     #endif /* (CY_PSOC3) */
+ 263:Generated_Source\PSoC5/UART_Linux_INT.c ****    }
+ 236              		.loc 1 263 0
+ 237 0054 00BF     		nop
+ 238 0056 BD46     		mov	sp, r7
+ 239              		.cfi_def_cfa_register 13
+ 240              		@ sp needed
+ 241 0058 80BC     		pop	{r7}
+ 242              		.cfi_restore 7
+ 243              		.cfi_def_cfa_offset 0
+ 244 005a 7047     		bx	lr
+ 245              	.L16:
+ 246              		.align	2
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 10
+
+
+ 247              	.L15:
+ 248 005c 00000000 		.word	UART_Linux_txBufferRead
+ 249 0060 46650040 		.word	1073767750
+ 250 0064 00000000 		.word	UART_Linux_txBuffer
+ 251 0068 00000000 		.word	UART_Linux_txBufferWrite
+ 252 006c 66650040 		.word	1073767782
+ 253              		.cfi_endproc
+ 254              	.LFE1:
+ 255              		.size	UART_Linux_TXISR, .-UART_Linux_TXISR
+ 256              		.text
+ 257              	.Letext0:
+ 258              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 259              		.file 3 "Generated_Source\\PSoC5\\UART_Linux.h"
+ 260              		.section	.debug_info,"",%progbits
+ 261              	.Ldebug_info0:
+ 262 0000 91010000 		.4byte	0x191
+ 263 0004 0400     		.2byte	0x4
+ 264 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 265 000a 04       		.byte	0x4
+ 266 000b 01       		.uleb128 0x1
+ 267 000c 18000000 		.4byte	.LASF29
+ 268 0010 0C       		.byte	0xc
+ 269 0011 56010000 		.4byte	.LASF30
+ 270 0015 22020000 		.4byte	.LASF31
+ 271 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 272 001d 00000000 		.4byte	0
+ 273 0021 00000000 		.4byte	.Ldebug_line0
+ 274 0025 02       		.uleb128 0x2
+ 275 0026 01       		.byte	0x1
+ 276 0027 06       		.byte	0x6
+ 277 0028 F2020000 		.4byte	.LASF0
+ 278 002c 02       		.uleb128 0x2
+ 279 002d 01       		.byte	0x1
+ 280 002e 08       		.byte	0x8
+ 281 002f 10010000 		.4byte	.LASF1
+ 282 0033 02       		.uleb128 0x2
+ 283 0034 02       		.byte	0x2
+ 284 0035 05       		.byte	0x5
+ 285 0036 18020000 		.4byte	.LASF2
+ 286 003a 02       		.uleb128 0x2
+ 287 003b 02       		.byte	0x2
+ 288 003c 07       		.byte	0x7
+ 289 003d C8000000 		.4byte	.LASF3
+ 290 0041 02       		.uleb128 0x2
+ 291 0042 04       		.byte	0x4
+ 292 0043 05       		.byte	0x5
+ 293 0044 C4020000 		.4byte	.LASF4
+ 294 0048 02       		.uleb128 0x2
+ 295 0049 04       		.byte	0x4
+ 296 004a 07       		.byte	0x7
+ 297 004b 23010000 		.4byte	.LASF5
+ 298 004f 02       		.uleb128 0x2
+ 299 0050 08       		.byte	0x8
+ 300 0051 05       		.byte	0x5
+ 301 0052 E1010000 		.4byte	.LASF6
+ 302 0056 02       		.uleb128 0x2
+ 303 0057 08       		.byte	0x8
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 11
+
+
+ 304 0058 07       		.byte	0x7
+ 305 0059 B0010000 		.4byte	.LASF7
+ 306 005d 03       		.uleb128 0x3
+ 307 005e 04       		.byte	0x4
+ 308 005f 05       		.byte	0x5
+ 309 0060 696E7400 		.ascii	"int\000"
+ 310 0064 02       		.uleb128 0x2
+ 311 0065 04       		.byte	0x4
+ 312 0066 07       		.byte	0x7
+ 313 0067 85010000 		.4byte	.LASF8
+ 314 006b 04       		.uleb128 0x4
+ 315 006c 49010000 		.4byte	.LASF9
+ 316 0070 02       		.byte	0x2
+ 317 0071 E801     		.2byte	0x1e8
+ 318 0073 2C000000 		.4byte	0x2c
+ 319 0077 04       		.uleb128 0x4
+ 320 0078 7E010000 		.4byte	.LASF10
+ 321 007c 02       		.byte	0x2
+ 322 007d E901     		.2byte	0x1e9
+ 323 007f 3A000000 		.4byte	0x3a
+ 324 0083 02       		.uleb128 0x2
+ 325 0084 04       		.byte	0x4
+ 326 0085 04       		.byte	0x4
+ 327 0086 C2000000 		.4byte	.LASF11
+ 328 008a 02       		.uleb128 0x2
+ 329 008b 08       		.byte	0x8
+ 330 008c 04       		.byte	0x4
+ 331 008d 4F010000 		.4byte	.LASF12
+ 332 0091 02       		.uleb128 0x2
+ 333 0092 01       		.byte	0x1
+ 334 0093 08       		.byte	0x8
+ 335 0094 CD020000 		.4byte	.LASF13
+ 336 0098 04       		.uleb128 0x4
+ 337 0099 1E010000 		.4byte	.LASF14
+ 338 009d 02       		.byte	0x2
+ 339 009e 9202     		.2byte	0x292
+ 340 00a0 A4000000 		.4byte	0xa4
+ 341 00a4 05       		.uleb128 0x5
+ 342 00a5 6B000000 		.4byte	0x6b
+ 343 00a9 05       		.uleb128 0x5
+ 344 00aa 77000000 		.4byte	0x77
+ 345 00ae 02       		.uleb128 0x2
+ 346 00af 08       		.byte	0x8
+ 347 00b0 04       		.byte	0x4
+ 348 00b1 E6020000 		.4byte	.LASF15
+ 349 00b5 02       		.uleb128 0x2
+ 350 00b6 04       		.byte	0x4
+ 351 00b7 07       		.byte	0x7
+ 352 00b8 C7010000 		.4byte	.LASF16
+ 353 00bc 06       		.uleb128 0x6
+ 354 00bd D0010000 		.4byte	.LASF32
+ 355 00c1 01       		.byte	0x1
+ 356 00c2 3B       		.byte	0x3b
+ 357 00c3 00000000 		.4byte	.LFB0
+ 358 00c7 DC000000 		.4byte	.LFE0-.LFB0
+ 359 00cb 01       		.uleb128 0x1
+ 360 00cc 9C       		.byte	0x9c
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 12
+
+
+ 361 00cd FC000000 		.4byte	0xfc
+ 362 00d1 07       		.uleb128 0x7
+ 363 00d2 2F030000 		.4byte	.LASF17
+ 364 00d6 01       		.byte	0x1
+ 365 00d7 3D       		.byte	0x3d
+ 366 00d8 6B000000 		.4byte	0x6b
+ 367 00dc 02       		.uleb128 0x2
+ 368 00dd 91       		.byte	0x91
+ 369 00de 75       		.sleb128 -11
+ 370 00df 07       		.uleb128 0x7
+ 371 00e0 EC000000 		.4byte	.LASF18
+ 372 00e4 01       		.byte	0x1
+ 373 00e5 3E       		.byte	0x3e
+ 374 00e6 6B000000 		.4byte	0x6b
+ 375 00ea 02       		.uleb128 0x2
+ 376 00eb 91       		.byte	0x91
+ 377 00ec 76       		.sleb128 -10
+ 378 00ed 07       		.uleb128 0x7
+ 379 00ee EF010000 		.4byte	.LASF19
+ 380 00f2 01       		.byte	0x1
+ 381 00f3 3F       		.byte	0x3f
+ 382 00f4 6B000000 		.4byte	0x6b
+ 383 00f8 02       		.uleb128 0x2
+ 384 00f9 91       		.byte	0x91
+ 385 00fa 77       		.sleb128 -9
+ 386 00fb 00       		.byte	0
+ 387 00fc 08       		.uleb128 0x8
+ 388 00fd DB000000 		.4byte	.LASF33
+ 389 0101 01       		.byte	0x1
+ 390 0102 D8       		.byte	0xd8
+ 391 0103 00000000 		.4byte	.LFB1
+ 392 0107 70000000 		.4byte	.LFE1-.LFB1
+ 393 010b 01       		.uleb128 0x1
+ 394 010c 9C       		.byte	0x9c
+ 395 010d 09       		.uleb128 0x9
+ 396 010e A4000000 		.4byte	0xa4
+ 397 0112 1E010000 		.4byte	0x11e
+ 398 0116 0A       		.uleb128 0xa
+ 399 0117 B5000000 		.4byte	0xb5
+ 400 011b FF03     		.2byte	0x3ff
+ 401 011d 00       		.byte	0
+ 402 011e 0B       		.uleb128 0xb
+ 403 011f D2020000 		.4byte	.LASF20
+ 404 0123 03       		.byte	0x3
+ 405 0124 3801     		.2byte	0x138
+ 406 0126 2A010000 		.4byte	0x12a
+ 407 012a 05       		.uleb128 0x5
+ 408 012b 0D010000 		.4byte	0x10d
+ 409 012f 0B       		.uleb128 0xb
+ 410 0130 FE020000 		.4byte	.LASF21
+ 411 0134 03       		.byte	0x3
+ 412 0135 3901     		.2byte	0x139
+ 413 0137 A9000000 		.4byte	0xa9
+ 414 013b 0B       		.uleb128 0xb
+ 415 013c F7000000 		.4byte	.LASF22
+ 416 0140 03       		.byte	0x3
+ 417 0141 3A01     		.2byte	0x13a
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 13
+
+
+ 418 0143 77000000 		.4byte	0x77
+ 419 0147 0B       		.uleb128 0xb
+ 420 0148 01020000 		.4byte	.LASF23
+ 421 014c 03       		.byte	0x3
+ 422 014d 3D01     		.2byte	0x13d
+ 423 014f 6B000000 		.4byte	0x6b
+ 424 0153 0B       		.uleb128 0xb
+ 425 0154 35010000 		.4byte	.LASF24
+ 426 0158 03       		.byte	0x3
+ 427 0159 3E01     		.2byte	0x13e
+ 428 015b 5F010000 		.4byte	0x15f
+ 429 015f 05       		.uleb128 0x5
+ 430 0160 0D010000 		.4byte	0x10d
+ 431 0164 0B       		.uleb128 0xb
+ 432 0165 00000000 		.4byte	.LASF25
+ 433 0169 03       		.byte	0x3
+ 434 016a 3F01     		.2byte	0x13f
+ 435 016c A9000000 		.4byte	0xa9
+ 436 0170 0B       		.uleb128 0xb
+ 437 0171 16030000 		.4byte	.LASF26
+ 438 0175 03       		.byte	0x3
+ 439 0176 4001     		.2byte	0x140
+ 440 0178 A9000000 		.4byte	0xa9
+ 441 017c 0B       		.uleb128 0xb
+ 442 017d 92010000 		.4byte	.LASF27
+ 443 0181 03       		.byte	0x3
+ 444 0182 4101     		.2byte	0x141
+ 445 0184 A4000000 		.4byte	0xa4
+ 446 0188 0B       		.uleb128 0xb
+ 447 0189 A6000000 		.4byte	.LASF28
+ 448 018d 03       		.byte	0x3
+ 449 018e 4201     		.2byte	0x142
+ 450 0190 A4000000 		.4byte	0xa4
+ 451 0194 00       		.byte	0
+ 452              		.section	.debug_abbrev,"",%progbits
+ 453              	.Ldebug_abbrev0:
+ 454 0000 01       		.uleb128 0x1
+ 455 0001 11       		.uleb128 0x11
+ 456 0002 01       		.byte	0x1
+ 457 0003 25       		.uleb128 0x25
+ 458 0004 0E       		.uleb128 0xe
+ 459 0005 13       		.uleb128 0x13
+ 460 0006 0B       		.uleb128 0xb
+ 461 0007 03       		.uleb128 0x3
+ 462 0008 0E       		.uleb128 0xe
+ 463 0009 1B       		.uleb128 0x1b
+ 464 000a 0E       		.uleb128 0xe
+ 465 000b 55       		.uleb128 0x55
+ 466 000c 17       		.uleb128 0x17
+ 467 000d 11       		.uleb128 0x11
+ 468 000e 01       		.uleb128 0x1
+ 469 000f 10       		.uleb128 0x10
+ 470 0010 17       		.uleb128 0x17
+ 471 0011 00       		.byte	0
+ 472 0012 00       		.byte	0
+ 473 0013 02       		.uleb128 0x2
+ 474 0014 24       		.uleb128 0x24
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 14
+
+
+ 475 0015 00       		.byte	0
+ 476 0016 0B       		.uleb128 0xb
+ 477 0017 0B       		.uleb128 0xb
+ 478 0018 3E       		.uleb128 0x3e
+ 479 0019 0B       		.uleb128 0xb
+ 480 001a 03       		.uleb128 0x3
+ 481 001b 0E       		.uleb128 0xe
+ 482 001c 00       		.byte	0
+ 483 001d 00       		.byte	0
+ 484 001e 03       		.uleb128 0x3
+ 485 001f 24       		.uleb128 0x24
+ 486 0020 00       		.byte	0
+ 487 0021 0B       		.uleb128 0xb
+ 488 0022 0B       		.uleb128 0xb
+ 489 0023 3E       		.uleb128 0x3e
+ 490 0024 0B       		.uleb128 0xb
+ 491 0025 03       		.uleb128 0x3
+ 492 0026 08       		.uleb128 0x8
+ 493 0027 00       		.byte	0
+ 494 0028 00       		.byte	0
+ 495 0029 04       		.uleb128 0x4
+ 496 002a 16       		.uleb128 0x16
+ 497 002b 00       		.byte	0
+ 498 002c 03       		.uleb128 0x3
+ 499 002d 0E       		.uleb128 0xe
+ 500 002e 3A       		.uleb128 0x3a
+ 501 002f 0B       		.uleb128 0xb
+ 502 0030 3B       		.uleb128 0x3b
+ 503 0031 05       		.uleb128 0x5
+ 504 0032 49       		.uleb128 0x49
+ 505 0033 13       		.uleb128 0x13
+ 506 0034 00       		.byte	0
+ 507 0035 00       		.byte	0
+ 508 0036 05       		.uleb128 0x5
+ 509 0037 35       		.uleb128 0x35
+ 510 0038 00       		.byte	0
+ 511 0039 49       		.uleb128 0x49
+ 512 003a 13       		.uleb128 0x13
+ 513 003b 00       		.byte	0
+ 514 003c 00       		.byte	0
+ 515 003d 06       		.uleb128 0x6
+ 516 003e 2E       		.uleb128 0x2e
+ 517 003f 01       		.byte	0x1
+ 518 0040 3F       		.uleb128 0x3f
+ 519 0041 19       		.uleb128 0x19
+ 520 0042 03       		.uleb128 0x3
+ 521 0043 0E       		.uleb128 0xe
+ 522 0044 3A       		.uleb128 0x3a
+ 523 0045 0B       		.uleb128 0xb
+ 524 0046 3B       		.uleb128 0x3b
+ 525 0047 0B       		.uleb128 0xb
+ 526 0048 27       		.uleb128 0x27
+ 527 0049 19       		.uleb128 0x19
+ 528 004a 11       		.uleb128 0x11
+ 529 004b 01       		.uleb128 0x1
+ 530 004c 12       		.uleb128 0x12
+ 531 004d 06       		.uleb128 0x6
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 15
+
+
+ 532 004e 40       		.uleb128 0x40
+ 533 004f 18       		.uleb128 0x18
+ 534 0050 9742     		.uleb128 0x2117
+ 535 0052 19       		.uleb128 0x19
+ 536 0053 01       		.uleb128 0x1
+ 537 0054 13       		.uleb128 0x13
+ 538 0055 00       		.byte	0
+ 539 0056 00       		.byte	0
+ 540 0057 07       		.uleb128 0x7
+ 541 0058 34       		.uleb128 0x34
+ 542 0059 00       		.byte	0
+ 543 005a 03       		.uleb128 0x3
+ 544 005b 0E       		.uleb128 0xe
+ 545 005c 3A       		.uleb128 0x3a
+ 546 005d 0B       		.uleb128 0xb
+ 547 005e 3B       		.uleb128 0x3b
+ 548 005f 0B       		.uleb128 0xb
+ 549 0060 49       		.uleb128 0x49
+ 550 0061 13       		.uleb128 0x13
+ 551 0062 02       		.uleb128 0x2
+ 552 0063 18       		.uleb128 0x18
+ 553 0064 00       		.byte	0
+ 554 0065 00       		.byte	0
+ 555 0066 08       		.uleb128 0x8
+ 556 0067 2E       		.uleb128 0x2e
+ 557 0068 00       		.byte	0
+ 558 0069 3F       		.uleb128 0x3f
+ 559 006a 19       		.uleb128 0x19
+ 560 006b 03       		.uleb128 0x3
+ 561 006c 0E       		.uleb128 0xe
+ 562 006d 3A       		.uleb128 0x3a
+ 563 006e 0B       		.uleb128 0xb
+ 564 006f 3B       		.uleb128 0x3b
+ 565 0070 0B       		.uleb128 0xb
+ 566 0071 27       		.uleb128 0x27
+ 567 0072 19       		.uleb128 0x19
+ 568 0073 11       		.uleb128 0x11
+ 569 0074 01       		.uleb128 0x1
+ 570 0075 12       		.uleb128 0x12
+ 571 0076 06       		.uleb128 0x6
+ 572 0077 40       		.uleb128 0x40
+ 573 0078 18       		.uleb128 0x18
+ 574 0079 9742     		.uleb128 0x2117
+ 575 007b 19       		.uleb128 0x19
+ 576 007c 00       		.byte	0
+ 577 007d 00       		.byte	0
+ 578 007e 09       		.uleb128 0x9
+ 579 007f 01       		.uleb128 0x1
+ 580 0080 01       		.byte	0x1
+ 581 0081 49       		.uleb128 0x49
+ 582 0082 13       		.uleb128 0x13
+ 583 0083 01       		.uleb128 0x1
+ 584 0084 13       		.uleb128 0x13
+ 585 0085 00       		.byte	0
+ 586 0086 00       		.byte	0
+ 587 0087 0A       		.uleb128 0xa
+ 588 0088 21       		.uleb128 0x21
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 16
+
+
+ 589 0089 00       		.byte	0
+ 590 008a 49       		.uleb128 0x49
+ 591 008b 13       		.uleb128 0x13
+ 592 008c 2F       		.uleb128 0x2f
+ 593 008d 05       		.uleb128 0x5
+ 594 008e 00       		.byte	0
+ 595 008f 00       		.byte	0
+ 596 0090 0B       		.uleb128 0xb
+ 597 0091 34       		.uleb128 0x34
+ 598 0092 00       		.byte	0
+ 599 0093 03       		.uleb128 0x3
+ 600 0094 0E       		.uleb128 0xe
+ 601 0095 3A       		.uleb128 0x3a
+ 602 0096 0B       		.uleb128 0xb
+ 603 0097 3B       		.uleb128 0x3b
+ 604 0098 05       		.uleb128 0x5
+ 605 0099 49       		.uleb128 0x49
+ 606 009a 13       		.uleb128 0x13
+ 607 009b 3F       		.uleb128 0x3f
+ 608 009c 19       		.uleb128 0x19
+ 609 009d 3C       		.uleb128 0x3c
+ 610 009e 19       		.uleb128 0x19
+ 611 009f 00       		.byte	0
+ 612 00a0 00       		.byte	0
+ 613 00a1 00       		.byte	0
+ 614              		.section	.debug_aranges,"",%progbits
+ 615 0000 24000000 		.4byte	0x24
+ 616 0004 0200     		.2byte	0x2
+ 617 0006 00000000 		.4byte	.Ldebug_info0
+ 618 000a 04       		.byte	0x4
+ 619 000b 00       		.byte	0
+ 620 000c 0000     		.2byte	0
+ 621 000e 0000     		.2byte	0
+ 622 0010 00000000 		.4byte	.LFB0
+ 623 0014 DC000000 		.4byte	.LFE0-.LFB0
+ 624 0018 00000000 		.4byte	.LFB1
+ 625 001c 70000000 		.4byte	.LFE1-.LFB1
+ 626 0020 00000000 		.4byte	0
+ 627 0024 00000000 		.4byte	0
+ 628              		.section	.debug_ranges,"",%progbits
+ 629              	.Ldebug_ranges0:
+ 630 0000 00000000 		.4byte	.LFB0
+ 631 0004 DC000000 		.4byte	.LFE0
+ 632 0008 00000000 		.4byte	.LFB1
+ 633 000c 70000000 		.4byte	.LFE1
+ 634 0010 00000000 		.4byte	0
+ 635 0014 00000000 		.4byte	0
+ 636              		.section	.debug_line,"",%progbits
+ 637              	.Ldebug_line0:
+ 638 0000 B5000000 		.section	.debug_str,"MS",%progbits,1
+ 638      02005B00 
+ 638      00000201 
+ 638      FB0E0D00 
+ 638      01010101 
+ 639              	.LASF25:
+ 640 0000 55415254 		.ascii	"UART_Linux_rxBufferRead\000"
+ 640      5F4C696E 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 17
+
+
+ 640      75785F72 
+ 640      78427566 
+ 640      66657252 
+ 641              	.LASF29:
+ 642 0018 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 642      43313120 
+ 642      352E342E 
+ 642      31203230 
+ 642      31363036 
+ 643 004b 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 643      20726576 
+ 643      6973696F 
+ 643      6E203233 
+ 643      37373135 
+ 644 007e 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 644      66756E63 
+ 644      74696F6E 
+ 644      2D736563 
+ 644      74696F6E 
+ 645              	.LASF28:
+ 646 00a6 55415254 		.ascii	"UART_Linux_rxBufferOverflow\000"
+ 646      5F4C696E 
+ 646      75785F72 
+ 646      78427566 
+ 646      6665724F 
+ 647              	.LASF11:
+ 648 00c2 666C6F61 		.ascii	"float\000"
+ 648      7400
+ 649              	.LASF3:
+ 650 00c8 73686F72 		.ascii	"short unsigned int\000"
+ 650      7420756E 
+ 650      7369676E 
+ 650      65642069 
+ 650      6E7400
+ 651              	.LASF33:
+ 652 00db 55415254 		.ascii	"UART_Linux_TXISR\000"
+ 652      5F4C696E 
+ 652      75785F54 
+ 652      58495352 
+ 652      00
+ 653              	.LASF18:
+ 654 00ec 72656164 		.ascii	"readStatus\000"
+ 654      53746174 
+ 654      757300
+ 655              	.LASF22:
+ 656 00f7 55415254 		.ascii	"UART_Linux_txBufferWrite\000"
+ 656      5F4C696E 
+ 656      75785F74 
+ 656      78427566 
+ 656      66657257 
+ 657              	.LASF1:
+ 658 0110 756E7369 		.ascii	"unsigned char\000"
+ 658      676E6564 
+ 658      20636861 
+ 658      7200
+ 659              	.LASF14:
+ 660 011e 72656738 		.ascii	"reg8\000"
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 18
+
+
+ 660      00
+ 661              	.LASF5:
+ 662 0123 6C6F6E67 		.ascii	"long unsigned int\000"
+ 662      20756E73 
+ 662      69676E65 
+ 662      6420696E 
+ 662      7400
+ 663              	.LASF24:
+ 664 0135 55415254 		.ascii	"UART_Linux_rxBuffer\000"
+ 664      5F4C696E 
+ 664      75785F72 
+ 664      78427566 
+ 664      66657200 
+ 665              	.LASF9:
+ 666 0149 75696E74 		.ascii	"uint8\000"
+ 666      3800
+ 667              	.LASF12:
+ 668 014f 646F7562 		.ascii	"double\000"
+ 668      6C6500
+ 669              	.LASF30:
+ 670 0156 47656E65 		.ascii	"Generated_Source\\PSoC5\\UART_Linux_INT.c\000"
+ 670      72617465 
+ 670      645F536F 
+ 670      75726365 
+ 670      5C50536F 
+ 671              	.LASF10:
+ 672 017e 75696E74 		.ascii	"uint16\000"
+ 672      313600
+ 673              	.LASF8:
+ 674 0185 756E7369 		.ascii	"unsigned int\000"
+ 674      676E6564 
+ 674      20696E74 
+ 674      00
+ 675              	.LASF27:
+ 676 0192 55415254 		.ascii	"UART_Linux_rxBufferLoopDetect\000"
+ 676      5F4C696E 
+ 676      75785F72 
+ 676      78427566 
+ 676      6665724C 
+ 677              	.LASF7:
+ 678 01b0 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 678      206C6F6E 
+ 678      6720756E 
+ 678      7369676E 
+ 678      65642069 
+ 679              	.LASF16:
+ 680 01c7 73697A65 		.ascii	"sizetype\000"
+ 680      74797065 
+ 680      00
+ 681              	.LASF32:
+ 682 01d0 55415254 		.ascii	"UART_Linux_RXISR\000"
+ 682      5F4C696E 
+ 682      75785F52 
+ 682      58495352 
+ 682      00
+ 683              	.LASF6:
+ 684 01e1 6C6F6E67 		.ascii	"long long int\000"
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 19
+
+
+ 684      206C6F6E 
+ 684      6720696E 
+ 684      7400
+ 685              	.LASF19:
+ 686 01ef 696E6372 		.ascii	"increment_pointer\000"
+ 686      656D656E 
+ 686      745F706F 
+ 686      696E7465 
+ 686      7200
+ 687              	.LASF23:
+ 688 0201 55415254 		.ascii	"UART_Linux_errorStatus\000"
+ 688      5F4C696E 
+ 688      75785F65 
+ 688      72726F72 
+ 688      53746174 
+ 689              	.LASF2:
+ 690 0218 73686F72 		.ascii	"short int\000"
+ 690      7420696E 
+ 690      7400
+ 691              	.LASF31:
+ 692 0222 453A5C49 		.ascii	"E:\\IroTeam\\Developing Projects\\Cypress\\100 PIN\\"
+ 692      726F5465 
+ 692      616D5C44 
+ 692      6576656C 
+ 692      6F70696E 
+ 693 0251 63792D6D 		.ascii	"cy-micro\\cy-notask\\Start\\BoardSupport\\Cypress\\"
+ 693      6963726F 
+ 693      5C63792D 
+ 693      6E6F7461 
+ 693      736B5C53 
+ 694 027f 43593843 		.ascii	"CY8C5868_CY8CKIT_050_PSoC5_DK\\Start_CY8C5868_Acces"
+ 694      35383638 
+ 694      5F435938 
+ 694      434B4954 
+ 694      5F303530 
+ 695 02b1 7356322E 		.ascii	"sV2.0_OldBrd.cydsn\000"
+ 695      305F4F6C 
+ 695      64427264 
+ 695      2E637964 
+ 695      736E00
+ 696              	.LASF4:
+ 697 02c4 6C6F6E67 		.ascii	"long int\000"
+ 697      20696E74 
+ 697      00
+ 698              	.LASF13:
+ 699 02cd 63686172 		.ascii	"char\000"
+ 699      00
+ 700              	.LASF20:
+ 701 02d2 55415254 		.ascii	"UART_Linux_txBuffer\000"
+ 701      5F4C696E 
+ 701      75785F74 
+ 701      78427566 
+ 701      66657200 
+ 702              	.LASF15:
+ 703 02e6 6C6F6E67 		.ascii	"long double\000"
+ 703      20646F75 
+ 703      626C6500 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccB39lNd.s 			page 20
+
+
+ 704              	.LASF0:
+ 705 02f2 7369676E 		.ascii	"signed char\000"
+ 705      65642063 
+ 705      68617200 
+ 706              	.LASF21:
+ 707 02fe 55415254 		.ascii	"UART_Linux_txBufferRead\000"
+ 707      5F4C696E 
+ 707      75785F74 
+ 707      78427566 
+ 707      66657252 
+ 708              	.LASF26:
+ 709 0316 55415254 		.ascii	"UART_Linux_rxBufferWrite\000"
+ 709      5F4C696E 
+ 709      75785F72 
+ 709      78427566 
+ 709      66657257 
+ 710              	.LASF17:
+ 711 032f 72656164 		.ascii	"readData\000"
+ 711      44617461 
+ 711      00
+ 712              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

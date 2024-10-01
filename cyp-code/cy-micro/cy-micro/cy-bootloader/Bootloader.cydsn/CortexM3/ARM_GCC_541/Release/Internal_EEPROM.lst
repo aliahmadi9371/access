@@ -1,0 +1,3612 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Internal_EEPROM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Internal_EEPROM_Enable,"ax",%progbits
+  20              		.align	1
+  21              		.global	Internal_EEPROM_Enable
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Internal_EEPROM_Enable, %function
+  25              	Internal_EEPROM_Enable:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\Internal_EEPROM.c"
+   1:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Internal_EEPROM.c **** * File Name: Internal_EEPROM.c
+   3:Generated_Source\PSoC5/Internal_EEPROM.c **** * Version 3.0
+   4:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+   5:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Description:
+   6:Generated_Source\PSoC5/Internal_EEPROM.c **** *   Provides the source code to the API for the EEPROM component.
+   7:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+   8:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+   9:Generated_Source\PSoC5/Internal_EEPROM.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  10:Generated_Source\PSoC5/Internal_EEPROM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  11:Generated_Source\PSoC5/Internal_EEPROM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  12:Generated_Source\PSoC5/Internal_EEPROM.c **** * the software package with which this file was provided.
+  13:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+  14:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+  15:Generated_Source\PSoC5/Internal_EEPROM.c **** #include "Internal_EEPROM.h"
+  16:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+  17:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+  18:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+  19:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_Enable
+  20:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+  21:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  22:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+  23:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Enable the EEPROM block. Also reads the temperature and stores it for
+  24:Generated_Source\PSoC5/Internal_EEPROM.c **** *  future writes.
+  25:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  26:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+  27:Generated_Source\PSoC5/Internal_EEPROM.c **** *  None
+  28:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  29:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+  30:Generated_Source\PSoC5/Internal_EEPROM.c **** *  None
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 2
+
+
+  31:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  32:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+  33:Generated_Source\PSoC5/Internal_EEPROM.c **** void Internal_EEPROM_Enable(void) 
+  34:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+  28              		.loc 1 34 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  35:Generated_Source\PSoC5/Internal_EEPROM.c ****     /* Read temperature value */
+  36:Generated_Source\PSoC5/Internal_EEPROM.c ****     (void)CySetTemp();
+  36              		.loc 1 36 0
+  37 0002 FFF7FEFF 		bl	CySetTemp
+  38              	.LVL0:
+  37:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+  38:Generated_Source\PSoC5/Internal_EEPROM.c ****     /* Start EEPROM block */
+  39:Generated_Source\PSoC5/Internal_EEPROM.c ****     CyEEPROM_Start();
+  40:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+  39              		.loc 1 40 0
+  40 0006 BDE80840 		pop	{r3, lr}
+  41              		.cfi_restore 14
+  42              		.cfi_restore 3
+  43              		.cfi_def_cfa_offset 0
+  39:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+  44              		.loc 1 39 0
+  45 000a FFF7FEBF 		b	CyEEPROM_Start
+  46              	.LVL1:
+  47              		.cfi_endproc
+  48              	.LFE0:
+  49              		.size	Internal_EEPROM_Enable, .-Internal_EEPROM_Enable
+  50              		.section	.text.Internal_EEPROM_Start,"ax",%progbits
+  51              		.align	1
+  52              		.global	Internal_EEPROM_Start
+  53              		.thumb
+  54              		.thumb_func
+  55              		.type	Internal_EEPROM_Start, %function
+  56              	Internal_EEPROM_Start:
+  57              	.LFB1:
+  41:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+  42:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+  43:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+  44:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_Start
+  45:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+  46:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  47:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+  48:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Starts EEPROM.
+  49:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  50:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+  51:Generated_Source\PSoC5/Internal_EEPROM.c **** *  None
+  52:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  53:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+  54:Generated_Source\PSoC5/Internal_EEPROM.c **** *  None
+  55:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  56:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 3
+
+
+  57:Generated_Source\PSoC5/Internal_EEPROM.c **** void Internal_EEPROM_Start(void) 
+  58:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+  58              		.loc 1 58 0
+  59              		.cfi_startproc
+  60              		@ args = 0, pretend = 0, frame = 0
+  61              		@ frame_needed = 0, uses_anonymous_args = 0
+  62              		@ link register save eliminated.
+  59:Generated_Source\PSoC5/Internal_EEPROM.c ****     Internal_EEPROM_Enable();
+  63              		.loc 1 59 0
+  64 0000 FFF7FEBF 		b	Internal_EEPROM_Enable
+  65              	.LVL2:
+  66              		.cfi_endproc
+  67              	.LFE1:
+  68              		.size	Internal_EEPROM_Start, .-Internal_EEPROM_Start
+  69              		.section	.text.Internal_EEPROM_Stop,"ax",%progbits
+  70              		.align	1
+  71              		.global	Internal_EEPROM_Stop
+  72              		.thumb
+  73              		.thumb_func
+  74              		.type	Internal_EEPROM_Stop, %function
+  75              	Internal_EEPROM_Stop:
+  76              	.LFB2:
+  60:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+  61:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+  62:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+  63:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+  64:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_Stop
+  65:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+  66:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  67:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+  68:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Stops and powers down EEPROM.
+  69:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  70:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+  71:Generated_Source\PSoC5/Internal_EEPROM.c **** *  None
+  72:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  73:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+  74:Generated_Source\PSoC5/Internal_EEPROM.c **** *  None
+  75:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  76:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+  77:Generated_Source\PSoC5/Internal_EEPROM.c **** void Internal_EEPROM_Stop (void) 
+  78:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+  77              		.loc 1 78 0
+  78              		.cfi_startproc
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81              		@ link register save eliminated.
+  79:Generated_Source\PSoC5/Internal_EEPROM.c ****     /* Stop and power down EEPROM block */
+  80:Generated_Source\PSoC5/Internal_EEPROM.c ****     CyEEPROM_Stop();
+  82              		.loc 1 80 0
+  83 0000 FFF7FEBF 		b	CyEEPROM_Stop
+  84              	.LVL3:
+  85              		.cfi_endproc
+  86              	.LFE2:
+  87              		.size	Internal_EEPROM_Stop, .-Internal_EEPROM_Stop
+  88              		.section	.text.Internal_EEPROM_WriteByte,"ax",%progbits
+  89              		.align	1
+  90              		.global	Internal_EEPROM_WriteByte
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 4
+
+
+  91              		.thumb
+  92              		.thumb_func
+  93              		.type	Internal_EEPROM_WriteByte, %function
+  94              	Internal_EEPROM_WriteByte:
+  95              	.LFB3:
+  81:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+  82:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+  83:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+  84:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+  85:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_WriteByte
+  86:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+  87:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  88:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+  89:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Writes a byte of data to the EEPROM. This function blocks until
+  90:Generated_Source\PSoC5/Internal_EEPROM.c **** *  the function is complete. For a reliable write procedure to occur you should
+  91:Generated_Source\PSoC5/Internal_EEPROM.c **** *  call Internal_EEPROM_UpdateTemperature() function if the temperature of the
+  92:Generated_Source\PSoC5/Internal_EEPROM.c **** *  silicon has been changed for more than 10C since the component was started.
+  93:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  94:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+  95:Generated_Source\PSoC5/Internal_EEPROM.c **** *  dataByte:  The byte of data to write to the EEPROM
+  96:Generated_Source\PSoC5/Internal_EEPROM.c **** *  address:   The address of data to be written. The maximum address is dependent
+  97:Generated_Source\PSoC5/Internal_EEPROM.c **** *             on the EEPROM size.
+  98:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+  99:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+ 100:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_SUCCESS, if the operation was successful.
+ 101:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_BAD_PARAM, if the parameter sectorNumber is out of range.
+ 102:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_LOCKED, if the SPC is being used.
+ 103:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_UNKNOWN, if there was an SPC error.
+ 104:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 105:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+ 106:Generated_Source\PSoC5/Internal_EEPROM.c **** cystatus Internal_EEPROM_WriteByte(uint8 dataByte, uint16 address) 
+ 107:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+  96              		.loc 1 107 0
+  97              		.cfi_startproc
+  98              		@ args = 0, pretend = 0, frame = 8
+  99              		@ frame_needed = 0, uses_anonymous_args = 0
+ 100              	.LVL4:
+ 101 0000 37B5     		push	{r0, r1, r2, r4, r5, lr}
+ 102              		.cfi_def_cfa_offset 24
+ 103              		.cfi_offset 4, -12
+ 104              		.cfi_offset 5, -8
+ 105              		.cfi_offset 14, -4
+ 106              		.loc 1 107 0
+ 107 0002 0C46     		mov	r4, r1
+ 108 0004 8DF80700 		strb	r0, [sp, #7]
+ 108:Generated_Source\PSoC5/Internal_EEPROM.c ****     cystatus status;
+ 109:Generated_Source\PSoC5/Internal_EEPROM.c ****     uint16 rowNumber;
+ 110:Generated_Source\PSoC5/Internal_EEPROM.c ****     uint16 byteNumber;
+ 111:Generated_Source\PSoC5/Internal_EEPROM.c ****     
+ 112:Generated_Source\PSoC5/Internal_EEPROM.c ****     CySpcStart();
+ 109              		.loc 1 112 0
+ 110 0008 FFF7FEFF 		bl	CySpcStart
+ 111              	.LVL5:
+ 113:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 114:Generated_Source\PSoC5/Internal_EEPROM.c ****     if (address < CY_EEPROM_SIZE)
+ 112              		.loc 1 114 0
+ 113 000c B4F5006F 		cmp	r4, #2048
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 5
+
+
+ 114 0010 24D2     		bcs	.L13
+ 115              	.LVL6:
+ 115:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 116:Generated_Source\PSoC5/Internal_EEPROM.c ****         rowNumber = address/(uint16)CY_EEPROM_SIZEOF_ROW;
+ 117:Generated_Source\PSoC5/Internal_EEPROM.c ****         byteNumber = address - (rowNumber * ((uint16)CY_EEPROM_SIZEOF_ROW));
+ 118:Generated_Source\PSoC5/Internal_EEPROM.c ****         if(CYRET_SUCCESS == CySpcLock())
+ 116              		.loc 1 118 0
+ 117 0012 FFF7FEFF 		bl	CySpcLock
+ 118              	.LVL7:
+ 119 0016 18BB     		cbnz	r0, .L14
+ 119:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 120:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CySpcLoadMultiByte(CY_SPC_FIRST_EE_ARRAYID, byteNumber, &dataByte, \
+ 120              		.loc 1 120 0
+ 121 0018 04F00F01 		and	r1, r4, #15
+ 122 001c 0123     		movs	r3, #1
+ 123 001e 0DF10702 		add	r2, sp, #7
+ 124              	.LVL8:
+ 125 0022 4020     		movs	r0, #64
+ 126 0024 FFF7FEFF 		bl	CySpcLoadMultiByte
+ 127              	.LVL9:
+ 121:Generated_Source\PSoC5/Internal_EEPROM.c ****                                                                     Internal_EEPROM_SPC_BYTE_WRITE_
+ 122:Generated_Source\PSoC5/Internal_EEPROM.c ****             if (CYRET_STARTED == status)
+ 128              		.loc 1 122 0
+ 129 0028 0728     		cmp	r0, #7
+ 120:Generated_Source\PSoC5/Internal_EEPROM.c ****                                                                     Internal_EEPROM_SPC_BYTE_WRITE_
+ 130              		.loc 1 120 0
+ 131 002a 4FEA1415 		lsr	r5, r4, #4
+ 132 002e 0446     		mov	r4, r0
+ 133              	.LVL10:
+ 134              		.loc 1 122 0
+ 135 0030 0FD1     		bne	.L6
+ 123:Generated_Source\PSoC5/Internal_EEPROM.c ****             {
+ 124:Generated_Source\PSoC5/Internal_EEPROM.c ****                 /* Plan for failure */
+ 125:Generated_Source\PSoC5/Internal_EEPROM.c ****                 status = CYRET_UNKNOWN;
+ 126:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 127:Generated_Source\PSoC5/Internal_EEPROM.c ****                 while(CY_SPC_BUSY)
+ 136              		.loc 1 127 0
+ 137 0032 194A     		ldr	r2, .L25
+ 138              	.L7:
+ 139              		.loc 1 127 0 is_stmt 0 discriminator 1
+ 140 0034 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 141 0036 184C     		ldr	r4, .L25
+ 142 0038 13F0020F 		tst	r3, #2
+ 143 003c FAD0     		beq	.L7
+ 128:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 129:Generated_Source\PSoC5/Internal_EEPROM.c ****                     /* Wait until SPC becomes idle */
+ 130:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 131:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 132:Generated_Source\PSoC5/Internal_EEPROM.c ****                 if(CY_SPC_STATUS_SUCCESS == CY_SPC_READ_STATUS)
+ 144              		.loc 1 132 0 is_stmt 1
+ 145 003e 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 146 0040 9807     		lsls	r0, r3, #30
+ 147              	.LVL11:
+ 148 0042 02D4     		bmi	.L8
+ 149              	.L11:
+ 133:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 134:Generated_Source\PSoC5/Internal_EEPROM.c ****                     status = CYRET_SUCCESS;
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 6
+
+
+ 135:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 136:Generated_Source\PSoC5/Internal_EEPROM.c ****                 /* Command to erase and program the row. */
+ 137:Generated_Source\PSoC5/Internal_EEPROM.c ****                 if(CYRET_SUCCESS == status)
+ 138:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 139:Generated_Source\PSoC5/Internal_EEPROM.c ****                     if(CySpcWriteRow(CY_SPC_FIRST_EE_ARRAYID, (uint16)rowNumber, dieTemperature[0u]
+ 140:Generated_Source\PSoC5/Internal_EEPROM.c ****                     dieTemperature[1u]) == CYRET_STARTED)
+ 141:Generated_Source\PSoC5/Internal_EEPROM.c ****                     {
+ 142:Generated_Source\PSoC5/Internal_EEPROM.c ****                         /* Plan for failure */
+ 143:Generated_Source\PSoC5/Internal_EEPROM.c ****                         status = CYRET_UNKNOWN;
+ 144:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 145:Generated_Source\PSoC5/Internal_EEPROM.c ****                         while(CY_SPC_BUSY)
+ 146:Generated_Source\PSoC5/Internal_EEPROM.c ****                         {
+ 147:Generated_Source\PSoC5/Internal_EEPROM.c ****                             /* Wait until SPC becomes idle */
+ 148:Generated_Source\PSoC5/Internal_EEPROM.c ****                         }
+ 149:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 150:Generated_Source\PSoC5/Internal_EEPROM.c ****                         /* SPC is idle now */
+ 151:Generated_Source\PSoC5/Internal_EEPROM.c ****                         if(CY_SPC_STATUS_SUCCESS == CY_SPC_READ_STATUS)
+ 152:Generated_Source\PSoC5/Internal_EEPROM.c ****                         {
+ 153:Generated_Source\PSoC5/Internal_EEPROM.c ****                             status = CYRET_SUCCESS;
+ 154:Generated_Source\PSoC5/Internal_EEPROM.c ****                         }
+ 155:Generated_Source\PSoC5/Internal_EEPROM.c ****                     }
+ 156:Generated_Source\PSoC5/Internal_EEPROM.c ****                     else
+ 157:Generated_Source\PSoC5/Internal_EEPROM.c ****                     {
+ 158:Generated_Source\PSoC5/Internal_EEPROM.c ****                         status = CYRET_UNKNOWN;
+ 159:Generated_Source\PSoC5/Internal_EEPROM.c ****                     }
+ 160:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 161:Generated_Source\PSoC5/Internal_EEPROM.c ****                 else
+ 162:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 163:Generated_Source\PSoC5/Internal_EEPROM.c ****                     status = CYRET_UNKNOWN;
+ 150              		.loc 1 163 0
+ 151 0044 4FF0FF34 		mov	r4, #-1
+ 152 0048 05E0     		b	.L9
+ 153              	.L8:
+ 132:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 154              		.loc 1 132 0 discriminator 1
+ 155 004a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 156 004c 9B08     		lsrs	r3, r3, #2
+ 157 004e 09D0     		beq	.L10
+ 158 0050 F8E7     		b	.L11
+ 159              	.LVL12:
+ 160              	.L6:
+ 164:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 165:Generated_Source\PSoC5/Internal_EEPROM.c ****             }
+ 166:Generated_Source\PSoC5/Internal_EEPROM.c ****             else
+ 167:Generated_Source\PSoC5/Internal_EEPROM.c ****             {
+ 168:Generated_Source\PSoC5/Internal_EEPROM.c ****                 if (CYRET_BAD_PARAM != status)
+ 161              		.loc 1 168 0
+ 162 0052 0128     		cmp	r0, #1
+ 163 0054 F6D1     		bne	.L11
+ 164              	.LVL13:
+ 165              	.L9:
+ 169:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 170:Generated_Source\PSoC5/Internal_EEPROM.c ****                     status = CYRET_UNKNOWN;
+ 171:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 172:Generated_Source\PSoC5/Internal_EEPROM.c ****             }
+ 173:Generated_Source\PSoC5/Internal_EEPROM.c ****             CySpcUnlock();
+ 166              		.loc 1 173 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 7
+
+
+ 167 0056 FFF7FEFF 		bl	CySpcUnlock
+ 168              	.LVL14:
+ 169 005a 1AE0     		b	.L23
+ 170              	.LVL15:
+ 171              	.L13:
+ 174:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 175:Generated_Source\PSoC5/Internal_EEPROM.c ****         else
+ 176:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 177:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_LOCKED;
+ 178:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 179:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 180:Generated_Source\PSoC5/Internal_EEPROM.c ****     else
+ 181:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 182:Generated_Source\PSoC5/Internal_EEPROM.c ****         status = CYRET_BAD_PARAM;
+ 172              		.loc 1 182 0
+ 173 005c 0124     		movs	r4, #1
+ 174 005e 18E0     		b	.L23
+ 175              	.LVL16:
+ 176              	.L14:
+ 177:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 177              		.loc 1 177 0
+ 178 0060 0424     		movs	r4, #4
+ 179              	.LVL17:
+ 183:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 184:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 185:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 186:Generated_Source\PSoC5/Internal_EEPROM.c ****     return (status);
+ 180              		.loc 1 186 0
+ 181 0062 16E0     		b	.L23
+ 182              	.LVL18:
+ 183              	.L10:
+ 139:Generated_Source\PSoC5/Internal_EEPROM.c ****                     dieTemperature[1u]) == CYRET_STARTED)
+ 184              		.loc 1 139 0
+ 185 0064 0D4A     		ldr	r2, .L25+4
+ 186 0066 2946     		mov	r1, r5
+ 187 0068 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 188 006a 4020     		movs	r0, #64
+ 189 006c 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 190 006e FFF7FEFF 		bl	CySpcWriteRow
+ 191              	.LVL19:
+ 192 0072 0728     		cmp	r0, #7
+ 193 0074 E6D1     		bne	.L11
+ 194              	.L12:
+ 145:Generated_Source\PSoC5/Internal_EEPROM.c ****                         {
+ 195              		.loc 1 145 0 discriminator 1
+ 196 0076 2278     		ldrb	r2, [r4]	@ zero_extendqisi2
+ 197 0078 074B     		ldr	r3, .L25
+ 198 007a 9107     		lsls	r1, r2, #30
+ 199 007c FBD5     		bpl	.L12
+ 151:Generated_Source\PSoC5/Internal_EEPROM.c ****                         {
+ 200              		.loc 1 151 0
+ 201 007e 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 202 0080 9207     		lsls	r2, r2, #30
+ 203 0082 DFD5     		bpl	.L11
+ 151:Generated_Source\PSoC5/Internal_EEPROM.c ****                         {
+ 204              		.loc 1 151 0 is_stmt 0 discriminator 1
+ 205 0084 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 8
+
+
+ 206 0086 9B08     		lsrs	r3, r3, #2
+ 207 0088 14BF     		ite	ne
+ 208 008a 4FF0FF34 		movne	r4, #-1
+ 209 008e 0024     		moveq	r4, #0
+ 210 0090 E1E7     		b	.L9
+ 211              	.LVL20:
+ 212              	.L23:
+ 187:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+ 213              		.loc 1 187 0 is_stmt 1
+ 214 0092 2046     		mov	r0, r4
+ 215 0094 03B0     		add	sp, sp, #12
+ 216              		.cfi_def_cfa_offset 12
+ 217              		@ sp needed
+ 218 0096 30BD     		pop	{r4, r5, pc}
+ 219              	.LVL21:
+ 220              	.L26:
+ 221              		.align	2
+ 222              	.L25:
+ 223 0098 22470040 		.word	1073760034
+ 224 009c 00000000 		.word	dieTemperature
+ 225              		.cfi_endproc
+ 226              	.LFE3:
+ 227              		.size	Internal_EEPROM_WriteByte, .-Internal_EEPROM_WriteByte
+ 228              		.section	.text.Internal_EEPROM_ReadByte,"ax",%progbits
+ 229              		.align	1
+ 230              		.global	Internal_EEPROM_ReadByte
+ 231              		.thumb
+ 232              		.thumb_func
+ 233              		.type	Internal_EEPROM_ReadByte, %function
+ 234              	Internal_EEPROM_ReadByte:
+ 235              	.LFB4:
+ 188:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 189:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 190:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+ 191:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_ReadByte
+ 192:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+ 193:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 194:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+ 195:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Reads and returns a byte of data from the on-chip EEPROM memory. Although
+ 196:Generated_Source\PSoC5/Internal_EEPROM.c **** *  the data is present in the CPU memory space, this function provides an
+ 197:Generated_Source\PSoC5/Internal_EEPROM.c **** *  intuitive user interface, addressing the EEPROM memory as a separate block with
+ 198:Generated_Source\PSoC5/Internal_EEPROM.c **** *  the first EERPOM byte address equal to 0x0000.
+ 199:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 200:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+ 201:Generated_Source\PSoC5/Internal_EEPROM.c **** *  address:   The address of data to be read. The maximum address is limited by the
+ 202:Generated_Source\PSoC5/Internal_EEPROM.c **** *             size of the EEPROM array on a specific device.
+ 203:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 204:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+ 205:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Data located at an address.
+ 206:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 207:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+ 208:Generated_Source\PSoC5/Internal_EEPROM.c **** uint8 Internal_EEPROM_ReadByte(uint16 address) 
+ 209:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+ 236              		.loc 1 209 0
+ 237              		.cfi_startproc
+ 238              		@ args = 0, pretend = 0, frame = 0
+ 239              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 9
+
+
+ 240              	.LVL22:
+ 241 0000 38B5     		push	{r3, r4, r5, lr}
+ 242              		.cfi_def_cfa_offset 16
+ 243              		.cfi_offset 3, -16
+ 244              		.cfi_offset 4, -12
+ 245              		.cfi_offset 5, -8
+ 246              		.cfi_offset 14, -4
+ 247              		.loc 1 209 0
+ 248 0002 0446     		mov	r4, r0
+ 210:Generated_Source\PSoC5/Internal_EEPROM.c ****     uint8 retByte;
+ 211:Generated_Source\PSoC5/Internal_EEPROM.c ****     uint8 interruptState;
+ 212:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 213:Generated_Source\PSoC5/Internal_EEPROM.c ****     interruptState = CyEnterCriticalSection();
+ 249              		.loc 1 213 0
+ 250 0004 FFF7FEFF 		bl	CyEnterCriticalSection
+ 251              	.LVL23:
+ 252 0008 0546     		mov	r5, r0
+ 253              	.LVL24:
+ 214:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 215:Generated_Source\PSoC5/Internal_EEPROM.c ****     /* Request access to EEPROM for reading.
+ 216:Generated_Source\PSoC5/Internal_EEPROM.c ****     This is needed to reserve PHUB for read operation from EEPROM */
+ 217:Generated_Source\PSoC5/Internal_EEPROM.c ****     CyEEPROM_ReadReserve();
+ 254              		.loc 1 217 0
+ 255 000a FFF7FEFF 		bl	CyEEPROM_ReadReserve
+ 256              	.LVL25:
+ 218:Generated_Source\PSoC5/Internal_EEPROM.c ****     
+ 219:Generated_Source\PSoC5/Internal_EEPROM.c ****     retByte = *((reg8 *) (CYDEV_EE_BASE + address));
+ 257              		.loc 1 219 0
+ 258 000e 04F18043 		add	r3, r4, #1073741824
+ 259 0012 03F50043 		add	r3, r3, #32768
+ 260 0016 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 220:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 221:Generated_Source\PSoC5/Internal_EEPROM.c ****     /* Release EEPROM array */
+ 222:Generated_Source\PSoC5/Internal_EEPROM.c ****     CyEEPROM_ReadRelease();
+ 261              		.loc 1 222 0
+ 262 0018 FFF7FEFF 		bl	CyEEPROM_ReadRelease
+ 263              	.LVL26:
+ 219:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 264              		.loc 1 219 0
+ 265 001c E4B2     		uxtb	r4, r4
+ 266              	.LVL27:
+ 223:Generated_Source\PSoC5/Internal_EEPROM.c ****     
+ 224:Generated_Source\PSoC5/Internal_EEPROM.c ****     CyExitCriticalSection(interruptState);
+ 267              		.loc 1 224 0
+ 268 001e 2846     		mov	r0, r5
+ 269 0020 FFF7FEFF 		bl	CyExitCriticalSection
+ 270              	.LVL28:
+ 225:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 226:Generated_Source\PSoC5/Internal_EEPROM.c ****     return (retByte);
+ 227:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+ 271              		.loc 1 227 0
+ 272 0024 2046     		mov	r0, r4
+ 273 0026 38BD     		pop	{r3, r4, r5, pc}
+ 274              		.cfi_endproc
+ 275              	.LFE4:
+ 276              		.size	Internal_EEPROM_ReadByte, .-Internal_EEPROM_ReadByte
+ 277              		.section	.text.Internal_EEPROM_UpdateTemperature,"ax",%progbits
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 10
+
+
+ 278              		.align	1
+ 279              		.global	Internal_EEPROM_UpdateTemperature
+ 280              		.thumb
+ 281              		.thumb_func
+ 282              		.type	Internal_EEPROM_UpdateTemperature, %function
+ 283              	Internal_EEPROM_UpdateTemperature:
+ 284              	.LFB5:
+ 228:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 229:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 230:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+ 231:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_UpdateTemperature
+ 232:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+ 233:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 234:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+ 235:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Updates and stores the temperature value. This function should be called
+ 236:Generated_Source\PSoC5/Internal_EEPROM.c **** *  before EEPROM writes if the temperature may have been changed by more than
+ 237:Generated_Source\PSoC5/Internal_EEPROM.c **** *  10 degrees Celsius.
+ 238:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 239:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+ 240:Generated_Source\PSoC5/Internal_EEPROM.c **** *  None
+ 241:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 242:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+ 243:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Status of operation, 0 if operation complete, non-zero value if error
+ 244:Generated_Source\PSoC5/Internal_EEPROM.c **** *  was detected.
+ 245:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 246:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+ 247:Generated_Source\PSoC5/Internal_EEPROM.c **** uint8 Internal_EEPROM_UpdateTemperature(void) 
+ 248:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+ 285              		.loc 1 248 0
+ 286              		.cfi_startproc
+ 287              		@ args = 0, pretend = 0, frame = 0
+ 288              		@ frame_needed = 0, uses_anonymous_args = 0
+ 289 0000 08B5     		push	{r3, lr}
+ 290              		.cfi_def_cfa_offset 8
+ 291              		.cfi_offset 3, -8
+ 292              		.cfi_offset 14, -4
+ 249:Generated_Source\PSoC5/Internal_EEPROM.c ****     return ((uint8)CySetTemp());
+ 293              		.loc 1 249 0
+ 294 0002 FFF7FEFF 		bl	CySetTemp
+ 295              	.LVL29:
+ 250:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+ 296              		.loc 1 250 0
+ 297 0006 C0B2     		uxtb	r0, r0
+ 298 0008 08BD     		pop	{r3, pc}
+ 299              		.cfi_endproc
+ 300              	.LFE5:
+ 301              		.size	Internal_EEPROM_UpdateTemperature, .-Internal_EEPROM_UpdateTemperature
+ 302              		.section	.text.Internal_EEPROM_EraseSector,"ax",%progbits
+ 303              		.align	1
+ 304              		.global	Internal_EEPROM_EraseSector
+ 305              		.thumb
+ 306              		.thumb_func
+ 307              		.type	Internal_EEPROM_EraseSector, %function
+ 308              	Internal_EEPROM_EraseSector:
+ 309              	.LFB6:
+ 251:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 252:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 11
+
+
+ 253:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+ 254:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_EraseSector
+ 255:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+ 256:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 257:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+ 258:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Erase an EEPROM sector (64 rows). This function blocks until the erase
+ 259:Generated_Source\PSoC5/Internal_EEPROM.c **** *  operation is complete. Using this API helps to erase the EEPROM sector at
+ 260:Generated_Source\PSoC5/Internal_EEPROM.c **** *  a time. This is faster than using individual writes but affects a cycle
+ 261:Generated_Source\PSoC5/Internal_EEPROM.c **** *  recourse of the whole EEPROM row.
+ 262:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 263:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+ 264:Generated_Source\PSoC5/Internal_EEPROM.c **** *  sectorNumber:  The sector number to erase.
+ 265:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 266:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+ 267:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_SUCCESS, if the operation was successful.
+ 268:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_BAD_PARAM, if the parameter sectorNumber is out of range.
+ 269:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_LOCKED, if the SPC is being used.
+ 270:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_UNKNOWN, if there was an SPC error.
+ 271:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 272:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+ 273:Generated_Source\PSoC5/Internal_EEPROM.c **** cystatus Internal_EEPROM_EraseSector(uint8 sectorNumber) 
+ 274:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+ 310              		.loc 1 274 0
+ 311              		.cfi_startproc
+ 312              		@ args = 0, pretend = 0, frame = 0
+ 313              		@ frame_needed = 0, uses_anonymous_args = 0
+ 314              	.LVL30:
+ 315 0000 10B5     		push	{r4, lr}
+ 316              		.cfi_def_cfa_offset 8
+ 317              		.cfi_offset 4, -8
+ 318              		.cfi_offset 14, -4
+ 319              		.loc 1 274 0
+ 320 0002 0446     		mov	r4, r0
+ 275:Generated_Source\PSoC5/Internal_EEPROM.c ****     cystatus status;
+ 276:Generated_Source\PSoC5/Internal_EEPROM.c ****     
+ 277:Generated_Source\PSoC5/Internal_EEPROM.c ****     CySpcStart();
+ 321              		.loc 1 277 0
+ 322 0004 FFF7FEFF 		bl	CySpcStart
+ 323              	.LVL31:
+ 278:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 279:Generated_Source\PSoC5/Internal_EEPROM.c ****     if(sectorNumber < (uint8) Internal_EEPROM_SECTORS_NUMBER)
+ 324              		.loc 1 279 0
+ 325 0008 012C     		cmp	r4, #1
+ 326 000a 1CD8     		bhi	.L33
+ 280:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 281:Generated_Source\PSoC5/Internal_EEPROM.c ****         /* See if we can get SPC. */
+ 282:Generated_Source\PSoC5/Internal_EEPROM.c ****         if(CySpcLock() == CYRET_SUCCESS)
+ 327              		.loc 1 282 0
+ 328 000c FFF7FEFF 		bl	CySpcLock
+ 329              	.LVL32:
+ 330 0010 D8B9     		cbnz	r0, .L34
+ 283:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 284:Generated_Source\PSoC5/Internal_EEPROM.c ****             if(CySpcEraseSector(CY_SPC_FIRST_EE_ARRAYID, sectorNumber) == CYRET_STARTED)
+ 331              		.loc 1 284 0
+ 332 0012 2146     		mov	r1, r4
+ 333 0014 4020     		movs	r0, #64
+ 334 0016 FFF7FEFF 		bl	CySpcEraseSector
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 12
+
+
+ 335              	.LVL33:
+ 336 001a 0728     		cmp	r0, #7
+ 337 001c 0ED1     		bne	.L36
+ 285:Generated_Source\PSoC5/Internal_EEPROM.c ****             {
+ 286:Generated_Source\PSoC5/Internal_EEPROM.c ****                 /* Plan for failure */
+ 287:Generated_Source\PSoC5/Internal_EEPROM.c ****                 status = CYRET_UNKNOWN;
+ 288:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 289:Generated_Source\PSoC5/Internal_EEPROM.c ****                 while(CY_SPC_BUSY)
+ 338              		.loc 1 289 0
+ 339 001e 0C49     		ldr	r1, .L39
+ 340              	.L32:
+ 341              		.loc 1 289 0 is_stmt 0 discriminator 1
+ 342 0020 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 343 0022 0B4B     		ldr	r3, .L39
+ 344 0024 9007     		lsls	r0, r2, #30
+ 345 0026 FBD5     		bpl	.L32
+ 290:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 291:Generated_Source\PSoC5/Internal_EEPROM.c ****                     /* Wait until SPC becomes idle */
+ 292:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 293:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 294:Generated_Source\PSoC5/Internal_EEPROM.c ****                 /* SPC is idle now */
+ 295:Generated_Source\PSoC5/Internal_EEPROM.c ****                 if(CY_SPC_STATUS_SUCCESS == CY_SPC_READ_STATUS)
+ 346              		.loc 1 295 0 is_stmt 1
+ 347 0028 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 348 002a 9207     		lsls	r2, r2, #30
+ 349 002c 06D5     		bpl	.L36
+ 350              		.loc 1 295 0 is_stmt 0 discriminator 1
+ 351 002e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 352 0030 9B08     		lsrs	r3, r3, #2
+ 353 0032 14BF     		ite	ne
+ 354 0034 4FF0FF34 		movne	r4, #-1
+ 355 0038 0024     		moveq	r4, #0
+ 356 003a 01E0     		b	.L31
+ 357              	.L36:
+ 296:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 297:Generated_Source\PSoC5/Internal_EEPROM.c ****                     status = CYRET_SUCCESS;
+ 298:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 299:Generated_Source\PSoC5/Internal_EEPROM.c ****             }
+ 300:Generated_Source\PSoC5/Internal_EEPROM.c ****             else
+ 301:Generated_Source\PSoC5/Internal_EEPROM.c ****             {
+ 302:Generated_Source\PSoC5/Internal_EEPROM.c ****                 status = CYRET_UNKNOWN;
+ 358              		.loc 1 302 0 is_stmt 1
+ 359 003c 4FF0FF34 		mov	r4, #-1
+ 360              	.L31:
+ 361              	.LVL34:
+ 303:Generated_Source\PSoC5/Internal_EEPROM.c ****             }
+ 304:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 305:Generated_Source\PSoC5/Internal_EEPROM.c ****             /* Unlock SPC so that someone else can use it. */
+ 306:Generated_Source\PSoC5/Internal_EEPROM.c ****             CySpcUnlock();
+ 362              		.loc 1 306 0
+ 363 0040 FFF7FEFF 		bl	CySpcUnlock
+ 364              	.LVL35:
+ 365 0044 02E0     		b	.L30
+ 366              	.LVL36:
+ 367              	.L33:
+ 307:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 308:Generated_Source\PSoC5/Internal_EEPROM.c ****         else
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 13
+
+
+ 309:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 310:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_LOCKED;
+ 311:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 312:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 313:Generated_Source\PSoC5/Internal_EEPROM.c ****     else
+ 314:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 315:Generated_Source\PSoC5/Internal_EEPROM.c ****         status = CYRET_BAD_PARAM;
+ 368              		.loc 1 315 0
+ 369 0046 0124     		movs	r4, #1
+ 370 0048 00E0     		b	.L30
+ 371              	.L34:
+ 310:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 372              		.loc 1 310 0
+ 373 004a 0424     		movs	r4, #4
+ 374              	.L30:
+ 375              	.LVL37:
+ 316:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 317:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 318:Generated_Source\PSoC5/Internal_EEPROM.c ****     return(status);
+ 319:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+ 376              		.loc 1 319 0
+ 377 004c 2046     		mov	r0, r4
+ 378 004e 10BD     		pop	{r4, pc}
+ 379              	.LVL38:
+ 380              	.L40:
+ 381              		.align	2
+ 382              	.L39:
+ 383 0050 22470040 		.word	1073760034
+ 384              		.cfi_endproc
+ 385              	.LFE6:
+ 386              		.size	Internal_EEPROM_EraseSector, .-Internal_EEPROM_EraseSector
+ 387              		.section	.text.Internal_EEPROM_Write,"ax",%progbits
+ 388              		.align	1
+ 389              		.global	Internal_EEPROM_Write
+ 390              		.thumb
+ 391              		.thumb_func
+ 392              		.type	Internal_EEPROM_Write, %function
+ 393              	Internal_EEPROM_Write:
+ 394              	.LFB7:
+ 320:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 321:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 322:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+ 323:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_Write
+ 324:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+ 325:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 326:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+ 327:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Writes a row (16 bytes) of data to the EEPROM. This function blocks until
+ 328:Generated_Source\PSoC5/Internal_EEPROM.c **** *  the write operation is complete. Compared to functions that write one byte,
+ 329:Generated_Source\PSoC5/Internal_EEPROM.c **** *  this function allows writing a whole row (16 bytes) at a time. For
+ 330:Generated_Source\PSoC5/Internal_EEPROM.c **** *  a reliable write procedure to occur you should call the
+ 331:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Internal_EEPROM_UpdateTemperature() function if the temperature of the
+ 332:Generated_Source\PSoC5/Internal_EEPROM.c **** *  silicon has changed for more than 10C since component was started.
+ 333:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 334:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+ 335:Generated_Source\PSoC5/Internal_EEPROM.c **** *  rowData:    The address of the data to write to the EEPROM.
+ 336:Generated_Source\PSoC5/Internal_EEPROM.c **** *  rowNumber:  The row number to write.
+ 337:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 14
+
+
+ 338:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+ 339:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_SUCCESS, if the operation was successful.
+ 340:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_BAD_PARAM, if the parameter rowNumber is out of range.
+ 341:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_LOCKED, if the SPC is being used.
+ 342:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_UNKNOWN, if there was an SPC error.
+ 343:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 344:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+ 345:Generated_Source\PSoC5/Internal_EEPROM.c **** cystatus Internal_EEPROM_Write(const uint8 * rowData, uint8 rowNumber) 
+ 346:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+ 395              		.loc 1 346 0
+ 396              		.cfi_startproc
+ 397              		@ args = 0, pretend = 0, frame = 0
+ 398              		@ frame_needed = 0, uses_anonymous_args = 0
+ 399              	.LVL39:
+ 400 0000 38B5     		push	{r3, r4, r5, lr}
+ 401              		.cfi_def_cfa_offset 16
+ 402              		.cfi_offset 3, -16
+ 403              		.cfi_offset 4, -12
+ 404              		.cfi_offset 5, -8
+ 405              		.cfi_offset 14, -4
+ 406              		.loc 1 346 0
+ 407 0002 0D46     		mov	r5, r1
+ 408 0004 0446     		mov	r4, r0
+ 347:Generated_Source\PSoC5/Internal_EEPROM.c ****     cystatus status;
+ 348:Generated_Source\PSoC5/Internal_EEPROM.c ****     
+ 349:Generated_Source\PSoC5/Internal_EEPROM.c ****     CySpcStart();
+ 409              		.loc 1 349 0
+ 410 0006 FFF7FEFF 		bl	CySpcStart
+ 411              	.LVL40:
+ 350:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 351:Generated_Source\PSoC5/Internal_EEPROM.c ****     if(rowNumber < (uint8) CY_EEPROM_NUMBER_ROWS)
+ 412              		.loc 1 351 0
+ 413 000a 2B06     		lsls	r3, r5, #24
+ 414 000c 32D4     		bmi	.L48
+ 352:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 353:Generated_Source\PSoC5/Internal_EEPROM.c ****         /* See if we can get SPC. */
+ 354:Generated_Source\PSoC5/Internal_EEPROM.c ****         if(CySpcLock() == CYRET_SUCCESS)
+ 415              		.loc 1 354 0
+ 416 000e FFF7FEFF 		bl	CySpcLock
+ 417              	.LVL41:
+ 418 0012 0028     		cmp	r0, #0
+ 419 0014 30D1     		bne	.L49
+ 420              	.LVL42:
+ 355:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 356:Generated_Source\PSoC5/Internal_EEPROM.c ****             /* Plan for failure */
+ 357:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_UNKNOWN;
+ 358:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 359:Generated_Source\PSoC5/Internal_EEPROM.c ****             /* Command to load a row of data */
+ 360:Generated_Source\PSoC5/Internal_EEPROM.c ****             if(CySpcLoadRow(CY_SPC_FIRST_EE_ARRAYID, rowData, CYDEV_EEPROM_ROW_SIZE) == CYRET_START
+ 421              		.loc 1 360 0
+ 422 0016 1022     		movs	r2, #16
+ 423 0018 2146     		mov	r1, r4
+ 424 001a 4020     		movs	r0, #64
+ 425 001c FFF7FEFF 		bl	CySpcLoadRow
+ 426              	.LVL43:
+ 427 0020 0728     		cmp	r0, #7
+ 428 0022 08D1     		bne	.L45
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 15
+
+
+ 361:Generated_Source\PSoC5/Internal_EEPROM.c ****             {
+ 362:Generated_Source\PSoC5/Internal_EEPROM.c ****                 while(CY_SPC_BUSY)
+ 429              		.loc 1 362 0
+ 430 0024 164A     		ldr	r2, .L64
+ 431              	.LVL44:
+ 432              	.L43:
+ 433              		.loc 1 362 0 is_stmt 0 discriminator 1
+ 434 0026 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 435 0028 154C     		ldr	r4, .L64
+ 436 002a 13F0020F 		tst	r3, #2
+ 437 002e FAD0     		beq	.L43
+ 363:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 364:Generated_Source\PSoC5/Internal_EEPROM.c ****                     /* Wait until SPC becomes idle */
+ 365:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 366:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 367:Generated_Source\PSoC5/Internal_EEPROM.c ****                 /* SPC is idle now */
+ 368:Generated_Source\PSoC5/Internal_EEPROM.c ****                 if(CY_SPC_STATUS_SUCCESS == CY_SPC_READ_STATUS)
+ 438              		.loc 1 368 0 is_stmt 1
+ 439 0030 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 440 0032 9807     		lsls	r0, r3, #30
+ 441 0034 02D4     		bmi	.L63
+ 442              	.LVL45:
+ 443              	.L45:
+ 357:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 444              		.loc 1 357 0
+ 445 0036 4FF0FF34 		mov	r4, #-1
+ 446 003a 18E0     		b	.L44
+ 447              	.LVL46:
+ 448              	.L63:
+ 449              		.loc 1 368 0 discriminator 1
+ 450 003c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 451 003e 9B08     		lsrs	r3, r3, #2
+ 452 0040 F9D1     		bne	.L45
+ 453              	.LVL47:
+ 369:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 370:Generated_Source\PSoC5/Internal_EEPROM.c ****                     status = CYRET_SUCCESS;
+ 371:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 372:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 373:Generated_Source\PSoC5/Internal_EEPROM.c ****                 /* Command to erase and program the row. */
+ 374:Generated_Source\PSoC5/Internal_EEPROM.c ****                 if(status == CYRET_SUCCESS)
+ 375:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 376:Generated_Source\PSoC5/Internal_EEPROM.c ****                     if(CySpcWriteRow(CY_SPC_FIRST_EE_ARRAYID, (uint16)rowNumber, dieTemperature[0u]
+ 454              		.loc 1 376 0
+ 455 0042 104A     		ldr	r2, .L64+4
+ 456 0044 2946     		mov	r1, r5
+ 457 0046 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 458 0048 4020     		movs	r0, #64
+ 459 004a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 460 004c FFF7FEFF 		bl	CySpcWriteRow
+ 461              	.LVL48:
+ 462 0050 0728     		cmp	r0, #7
+ 463 0052 F0D1     		bne	.L45
+ 464              	.L47:
+ 377:Generated_Source\PSoC5/Internal_EEPROM.c ****                     dieTemperature[1u]) == CYRET_STARTED)
+ 378:Generated_Source\PSoC5/Internal_EEPROM.c ****                     {
+ 379:Generated_Source\PSoC5/Internal_EEPROM.c ****                         /* Plan for failure */
+ 380:Generated_Source\PSoC5/Internal_EEPROM.c ****                         status = CYRET_UNKNOWN;
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 16
+
+
+ 381:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 382:Generated_Source\PSoC5/Internal_EEPROM.c ****                         while(CY_SPC_BUSY)
+ 465              		.loc 1 382 0 discriminator 1
+ 466 0054 2278     		ldrb	r2, [r4]	@ zero_extendqisi2
+ 467 0056 0A4B     		ldr	r3, .L64
+ 468 0058 9107     		lsls	r1, r2, #30
+ 469 005a FBD5     		bpl	.L47
+ 383:Generated_Source\PSoC5/Internal_EEPROM.c ****                         {
+ 384:Generated_Source\PSoC5/Internal_EEPROM.c ****                             /* Wait until SPC becomes idle */
+ 385:Generated_Source\PSoC5/Internal_EEPROM.c ****                         }
+ 386:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 387:Generated_Source\PSoC5/Internal_EEPROM.c ****                         /* SPC is idle now */
+ 388:Generated_Source\PSoC5/Internal_EEPROM.c ****                         if(CY_SPC_STATUS_SUCCESS == CY_SPC_READ_STATUS)
+ 470              		.loc 1 388 0
+ 471 005c 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 472 005e 9207     		lsls	r2, r2, #30
+ 473 0060 E9D5     		bpl	.L45
+ 474              		.loc 1 388 0 is_stmt 0 discriminator 1
+ 475 0062 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 476 0064 9B08     		lsrs	r3, r3, #2
+ 477 0066 14BF     		ite	ne
+ 478 0068 4FF0FF34 		movne	r4, #-1
+ 479 006c 0024     		moveq	r4, #0
+ 480              	.LVL49:
+ 481              	.L44:
+ 389:Generated_Source\PSoC5/Internal_EEPROM.c ****                         {
+ 390:Generated_Source\PSoC5/Internal_EEPROM.c ****                             status = CYRET_SUCCESS;
+ 391:Generated_Source\PSoC5/Internal_EEPROM.c ****                         }
+ 392:Generated_Source\PSoC5/Internal_EEPROM.c ****                     }
+ 393:Generated_Source\PSoC5/Internal_EEPROM.c ****                     else
+ 394:Generated_Source\PSoC5/Internal_EEPROM.c ****                     {
+ 395:Generated_Source\PSoC5/Internal_EEPROM.c ****                         status = CYRET_UNKNOWN;
+ 396:Generated_Source\PSoC5/Internal_EEPROM.c ****                     }
+ 397:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 398:Generated_Source\PSoC5/Internal_EEPROM.c ****                 else
+ 399:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 400:Generated_Source\PSoC5/Internal_EEPROM.c ****                     status = CYRET_UNKNOWN;
+ 401:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 402:Generated_Source\PSoC5/Internal_EEPROM.c ****             }
+ 403:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 404:Generated_Source\PSoC5/Internal_EEPROM.c ****             /* Unlock SPC so that someone else can use it. */
+ 405:Generated_Source\PSoC5/Internal_EEPROM.c ****             CySpcUnlock();
+ 482              		.loc 1 405 0 is_stmt 1
+ 483 006e FFF7FEFF 		bl	CySpcUnlock
+ 484              	.LVL50:
+ 485 0072 02E0     		b	.L62
+ 486              	.LVL51:
+ 487              	.L48:
+ 406:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 407:Generated_Source\PSoC5/Internal_EEPROM.c ****         else
+ 408:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 409:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_LOCKED;
+ 410:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 411:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 412:Generated_Source\PSoC5/Internal_EEPROM.c ****     else
+ 413:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 414:Generated_Source\PSoC5/Internal_EEPROM.c ****         status = CYRET_BAD_PARAM;
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 17
+
+
+ 488              		.loc 1 414 0
+ 489 0074 0124     		movs	r4, #1
+ 490              	.LVL52:
+ 491 0076 00E0     		b	.L62
+ 492              	.LVL53:
+ 493              	.L49:
+ 409:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 494              		.loc 1 409 0
+ 495 0078 0424     		movs	r4, #4
+ 496              	.LVL54:
+ 497              	.L62:
+ 415:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 416:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 417:Generated_Source\PSoC5/Internal_EEPROM.c ****     return(status);
+ 418:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+ 498              		.loc 1 418 0
+ 499 007a 2046     		mov	r0, r4
+ 500 007c 38BD     		pop	{r3, r4, r5, pc}
+ 501              	.L65:
+ 502 007e 00BF     		.align	2
+ 503              	.L64:
+ 504 0080 22470040 		.word	1073760034
+ 505 0084 00000000 		.word	dieTemperature
+ 506              		.cfi_endproc
+ 507              	.LFE7:
+ 508              		.size	Internal_EEPROM_Write, .-Internal_EEPROM_Write
+ 509              		.section	.text.Internal_EEPROM_StartWrite,"ax",%progbits
+ 510              		.align	1
+ 511              		.global	Internal_EEPROM_StartWrite
+ 512              		.thumb
+ 513              		.thumb_func
+ 514              		.type	Internal_EEPROM_StartWrite, %function
+ 515              	Internal_EEPROM_StartWrite:
+ 516              	.LFB8:
+ 419:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 420:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 421:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+ 422:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_StartWrite
+ 423:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+ 424:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 425:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+ 426:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Starts a write of a row (16 bytes) of data to the EEPROM.
+ 427:Generated_Source\PSoC5/Internal_EEPROM.c **** *  This function does not block. The function returns once the SPC has begun
+ 428:Generated_Source\PSoC5/Internal_EEPROM.c **** *  writing the data. This function must be used in combination with
+ 429:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Internal_EEPROM_Query(). Internal_EEPROM_Query() must be called
+ 430:Generated_Source\PSoC5/Internal_EEPROM.c **** *  until it returns a status other than CYRET_STARTED. That indicates that the
+ 431:Generated_Source\PSoC5/Internal_EEPROM.c **** *  write has completed. Until Internal_EEPROM_Query() detects that
+ 432:Generated_Source\PSoC5/Internal_EEPROM.c **** *  the write is complete, the SPC is marked as locked to prevent another
+ 433:Generated_Source\PSoC5/Internal_EEPROM.c **** *  SPC operation from being performed. For a reliable write procedure to occur
+ 434:Generated_Source\PSoC5/Internal_EEPROM.c **** *  you should call Internal_EEPROM_UpdateTemperature() API if the temperature
+ 435:Generated_Source\PSoC5/Internal_EEPROM.c **** *  of the silicon has changed for more than 10C since component was started.
+ 436:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 437:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+ 438:Generated_Source\PSoC5/Internal_EEPROM.c **** *  rowData:    The address of the data to write to the EEPROM.
+ 439:Generated_Source\PSoC5/Internal_EEPROM.c **** *  rowNumber:  The row number to write.
+ 440:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 441:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 18
+
+
+ 442:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_STARTED, if the SPC command to write was successfully started.
+ 443:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_BAD_PARAM, if the parameter rowNumber is out of range.
+ 444:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_LOCKED, if the SPC is being used.
+ 445:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_UNKNOWN, if there was an SPC error.
+ 446:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 447:Generated_Source\PSoC5/Internal_EEPROM.c **** * Side effects:
+ 448:Generated_Source\PSoC5/Internal_EEPROM.c **** *  After calling this API, the device should not be powered down, reset or switched
+ 449:Generated_Source\PSoC5/Internal_EEPROM.c **** *  to low power modes until EEPROM operation is complete. 
+ 450:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Ignoring this recommendation may lead to data corruption or silicon
+ 451:Generated_Source\PSoC5/Internal_EEPROM.c **** *  unexpected behavior.
+ 452:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 453:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+ 454:Generated_Source\PSoC5/Internal_EEPROM.c **** cystatus Internal_EEPROM_StartWrite(const uint8 * rowData, uint8 rowNumber) \
+ 455:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 456:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+ 517              		.loc 1 456 0
+ 518              		.cfi_startproc
+ 519              		@ args = 0, pretend = 0, frame = 0
+ 520              		@ frame_needed = 0, uses_anonymous_args = 0
+ 521              	.LVL55:
+ 522 0000 38B5     		push	{r3, r4, r5, lr}
+ 523              		.cfi_def_cfa_offset 16
+ 524              		.cfi_offset 3, -16
+ 525              		.cfi_offset 4, -12
+ 526              		.cfi_offset 5, -8
+ 527              		.cfi_offset 14, -4
+ 528              		.loc 1 456 0
+ 529 0002 0C46     		mov	r4, r1
+ 530 0004 0546     		mov	r5, r0
+ 457:Generated_Source\PSoC5/Internal_EEPROM.c ****     cystatus status;
+ 458:Generated_Source\PSoC5/Internal_EEPROM.c ****     
+ 459:Generated_Source\PSoC5/Internal_EEPROM.c ****     CySpcStart();
+ 531              		.loc 1 459 0
+ 532 0006 FFF7FEFF 		bl	CySpcStart
+ 533              	.LVL56:
+ 460:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 461:Generated_Source\PSoC5/Internal_EEPROM.c ****     if(rowNumber < (uint8) CY_EEPROM_NUMBER_ROWS)
+ 534              		.loc 1 461 0
+ 535 000a 2306     		lsls	r3, r4, #24
+ 536 000c 17D4     		bmi	.L71
+ 462:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 463:Generated_Source\PSoC5/Internal_EEPROM.c ****         /* See if we can get SPC. */
+ 464:Generated_Source\PSoC5/Internal_EEPROM.c ****         if(CySpcLock() == CYRET_SUCCESS)
+ 537              		.loc 1 464 0
+ 538 000e FFF7FEFF 		bl	CySpcLock
+ 539              	.LVL57:
+ 540 0012 B0B9     		cbnz	r0, .L72
+ 541              	.LVL58:
+ 465:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 466:Generated_Source\PSoC5/Internal_EEPROM.c ****             /* Plan for failure */
+ 467:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_UNKNOWN;
+ 468:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 469:Generated_Source\PSoC5/Internal_EEPROM.c ****             /* Command to load a row of data */
+ 470:Generated_Source\PSoC5/Internal_EEPROM.c ****             if(CySpcLoadRow(CY_SPC_FIRST_EE_ARRAYID, rowData, CYDEV_EEPROM_ROW_SIZE) == CYRET_START
+ 542              		.loc 1 470 0
+ 543 0014 1022     		movs	r2, #16
+ 544 0016 2946     		mov	r1, r5
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 19
+
+
+ 545 0018 4020     		movs	r0, #64
+ 546 001a FFF7FEFF 		bl	CySpcLoadRow
+ 547              	.LVL59:
+ 548 001e 0728     		cmp	r0, #7
+ 549 0020 0AD1     		bne	.L68
+ 471:Generated_Source\PSoC5/Internal_EEPROM.c ****             {
+ 472:Generated_Source\PSoC5/Internal_EEPROM.c ****                 while(CY_SPC_BUSY)
+ 550              		.loc 1 472 0
+ 551 0022 0E49     		ldr	r1, .L80
+ 552              	.L69:
+ 553              		.loc 1 472 0 is_stmt 0 discriminator 1
+ 554 0024 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 555 0026 0D4B     		ldr	r3, .L80
+ 556 0028 9007     		lsls	r0, r2, #30
+ 557 002a FBD5     		bpl	.L69
+ 473:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 474:Generated_Source\PSoC5/Internal_EEPROM.c ****                     /* Wait until SPC becomes idle */
+ 475:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 476:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 477:Generated_Source\PSoC5/Internal_EEPROM.c ****                 /* SPC is idle now */
+ 478:Generated_Source\PSoC5/Internal_EEPROM.c ****                 if(CY_SPC_STATUS_SUCCESS == CY_SPC_READ_STATUS)
+ 558              		.loc 1 478 0 is_stmt 1
+ 559 002c 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 560 002e 9207     		lsls	r2, r2, #30
+ 561 0030 02D5     		bpl	.L68
+ 562              		.loc 1 478 0 is_stmt 0 discriminator 1
+ 563 0032 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 564 0034 9B08     		lsrs	r3, r3, #2
+ 565 0036 06D0     		beq	.L70
+ 566              	.LVL60:
+ 567              	.L68:
+ 479:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 480:Generated_Source\PSoC5/Internal_EEPROM.c ****                     status = CYRET_SUCCESS;
+ 481:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 482:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 483:Generated_Source\PSoC5/Internal_EEPROM.c ****                 /* Command to erase and program the row. */
+ 484:Generated_Source\PSoC5/Internal_EEPROM.c ****                 if(status == CYRET_SUCCESS)
+ 485:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 486:Generated_Source\PSoC5/Internal_EEPROM.c ****                     if(CySpcWriteRow(CY_SPC_FIRST_EE_ARRAYID, (uint16)rowNumber, dieTemperature[0u]
+ 487:Generated_Source\PSoC5/Internal_EEPROM.c ****                     dieTemperature[1u]) == CYRET_STARTED)
+ 488:Generated_Source\PSoC5/Internal_EEPROM.c ****                     {
+ 489:Generated_Source\PSoC5/Internal_EEPROM.c ****                         status = CYRET_STARTED;
+ 490:Generated_Source\PSoC5/Internal_EEPROM.c ****                     }
+ 491:Generated_Source\PSoC5/Internal_EEPROM.c ****                     else
+ 492:Generated_Source\PSoC5/Internal_EEPROM.c ****                     {
+ 493:Generated_Source\PSoC5/Internal_EEPROM.c ****                         status = CYRET_UNKNOWN;
+ 568              		.loc 1 493 0 is_stmt 1
+ 569 0038 4FF0FF30 		mov	r0, #-1
+ 570 003c 38BD     		pop	{r3, r4, r5, pc}
+ 571              	.LVL61:
+ 572              	.L71:
+ 494:Generated_Source\PSoC5/Internal_EEPROM.c ****                     }
+ 495:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 496:Generated_Source\PSoC5/Internal_EEPROM.c ****                 else
+ 497:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 498:Generated_Source\PSoC5/Internal_EEPROM.c ****                     status = CYRET_UNKNOWN;
+ 499:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 20
+
+
+ 500:Generated_Source\PSoC5/Internal_EEPROM.c ****             }
+ 501:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 502:Generated_Source\PSoC5/Internal_EEPROM.c ****         else
+ 503:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 504:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_LOCKED;
+ 505:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 506:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 507:Generated_Source\PSoC5/Internal_EEPROM.c ****     else
+ 508:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 509:Generated_Source\PSoC5/Internal_EEPROM.c ****         status = CYRET_BAD_PARAM;
+ 573              		.loc 1 509 0
+ 574 003e 0120     		movs	r0, #1
+ 575 0040 38BD     		pop	{r3, r4, r5, pc}
+ 576              	.LVL62:
+ 577              	.L72:
+ 504:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 578              		.loc 1 504 0
+ 579 0042 0420     		movs	r0, #4
+ 580 0044 38BD     		pop	{r3, r4, r5, pc}
+ 581              	.LVL63:
+ 582              	.L70:
+ 486:Generated_Source\PSoC5/Internal_EEPROM.c ****                     dieTemperature[1u]) == CYRET_STARTED)
+ 583              		.loc 1 486 0
+ 584 0046 064A     		ldr	r2, .L80+4
+ 585 0048 2146     		mov	r1, r4
+ 586 004a 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 587 004c 4020     		movs	r0, #64
+ 588 004e 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 589 0050 FFF7FEFF 		bl	CySpcWriteRow
+ 590              	.LVL64:
+ 591 0054 0728     		cmp	r0, #7
+ 592 0056 EFD1     		bne	.L68
+ 510:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 511:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 512:Generated_Source\PSoC5/Internal_EEPROM.c ****     return(status);
+ 513:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+ 593              		.loc 1 513 0
+ 594 0058 38BD     		pop	{r3, r4, r5, pc}
+ 595              	.LVL65:
+ 596              	.L81:
+ 597 005a 00BF     		.align	2
+ 598              	.L80:
+ 599 005c 22470040 		.word	1073760034
+ 600 0060 00000000 		.word	dieTemperature
+ 601              		.cfi_endproc
+ 602              	.LFE8:
+ 603              		.size	Internal_EEPROM_StartWrite, .-Internal_EEPROM_StartWrite
+ 604              		.section	.text.Internal_EEPROM_StartErase,"ax",%progbits
+ 605              		.align	1
+ 606              		.global	Internal_EEPROM_StartErase
+ 607              		.thumb
+ 608              		.thumb_func
+ 609              		.type	Internal_EEPROM_StartErase, %function
+ 610              	Internal_EEPROM_StartErase:
+ 611              	.LFB9:
+ 514:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 515:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 21
+
+
+ 516:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+ 517:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_StartErase
+ 518:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+ 519:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 520:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+ 521:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Starts the EEPROM sector erase. This function does not block.
+ 522:Generated_Source\PSoC5/Internal_EEPROM.c **** *  The function returns once the SPC has begun writing the data. This function
+ 523:Generated_Source\PSoC5/Internal_EEPROM.c **** *  must be used in combination with Internal_EEPROM_Query().
+ 524:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Internal_EEPROM_Query() must be called until it returns a status
+ 525:Generated_Source\PSoC5/Internal_EEPROM.c **** *  other than CYRET_STARTED. That indicates the erase has been completed.
+ 526:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Until Internal_EEPROM_Query() detects that the erase is
+ 527:Generated_Source\PSoC5/Internal_EEPROM.c **** *  complete, the SPC is marked as locked to prevent another SPC operation
+ 528:Generated_Source\PSoC5/Internal_EEPROM.c **** *  from being performed.
+ 529:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 530:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+ 531:Generated_Source\PSoC5/Internal_EEPROM.c **** *  sectorNumber:  The sector number to erase.
+ 532:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 533:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+ 534:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_STARTED, if the SPC command to erase was successfully started.
+ 535:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_BAD_PARAM, if the parameter sectorNumber is out of range.
+ 536:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_LOCKED, if the SPC is being used.
+ 537:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_UNKNOWN, if there was an SPC error.
+ 538:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 539:Generated_Source\PSoC5/Internal_EEPROM.c **** * Side effects:
+ 540:Generated_Source\PSoC5/Internal_EEPROM.c **** *  After calling this API, the device should not be powered down, reset or switched
+ 541:Generated_Source\PSoC5/Internal_EEPROM.c **** *  to low power modes until EEPROM operation is complete.
+ 542:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Ignoring this recommendation may lead to data corruption or silicon
+ 543:Generated_Source\PSoC5/Internal_EEPROM.c **** *  unexpected behavior.
+ 544:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 545:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+ 546:Generated_Source\PSoC5/Internal_EEPROM.c **** cystatus Internal_EEPROM_StartErase(uint8 sectorNumber) 
+ 547:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+ 612              		.loc 1 547 0
+ 613              		.cfi_startproc
+ 614              		@ args = 0, pretend = 0, frame = 0
+ 615              		@ frame_needed = 0, uses_anonymous_args = 0
+ 616              	.LVL66:
+ 617 0000 10B5     		push	{r4, lr}
+ 618              		.cfi_def_cfa_offset 8
+ 619              		.cfi_offset 4, -8
+ 620              		.cfi_offset 14, -4
+ 621              		.loc 1 547 0
+ 622 0002 0446     		mov	r4, r0
+ 548:Generated_Source\PSoC5/Internal_EEPROM.c ****     cystatus status;
+ 549:Generated_Source\PSoC5/Internal_EEPROM.c ****     
+ 550:Generated_Source\PSoC5/Internal_EEPROM.c ****     CySpcStart();
+ 623              		.loc 1 550 0
+ 624 0004 FFF7FEFF 		bl	CySpcStart
+ 625              	.LVL67:
+ 551:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 552:Generated_Source\PSoC5/Internal_EEPROM.c ****     if(sectorNumber < (uint8) CY_EEPROM_NUMBER_ARRAYS)
+ 626              		.loc 1 552 0
+ 627 0008 5CB9     		cbnz	r4, .L84
+ 553:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 554:Generated_Source\PSoC5/Internal_EEPROM.c ****         /* See if we can get SPC. */
+ 555:Generated_Source\PSoC5/Internal_EEPROM.c ****         if(CySpcLock() == CYRET_SUCCESS)
+ 628              		.loc 1 555 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 22
+
+
+ 629 000a FFF7FEFF 		bl	CySpcLock
+ 630              	.LVL68:
+ 631 000e 0146     		mov	r1, r0
+ 632 0010 48B9     		cbnz	r0, .L85
+ 633              	.LVL69:
+ 556:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 557:Generated_Source\PSoC5/Internal_EEPROM.c ****             /* Plan for failure */
+ 558:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_UNKNOWN;
+ 559:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 560:Generated_Source\PSoC5/Internal_EEPROM.c ****             /* Command to load a row of data */
+ 561:Generated_Source\PSoC5/Internal_EEPROM.c ****             if(CySpcEraseSector(CY_SPC_FIRST_EE_ARRAYID, sectorNumber) == CYRET_STARTED)
+ 634              		.loc 1 561 0
+ 635 0012 4020     		movs	r0, #64
+ 636 0014 FFF7FEFF 		bl	CySpcEraseSector
+ 637              	.LVL70:
+ 638 0018 0738     		subs	r0, r0, #7
+ 639 001a 18BF     		it	ne
+ 640 001c 4FF0FF30 		movne	r0, #-1
+ 641 0020 10BD     		pop	{r4, pc}
+ 642              	.LVL71:
+ 643              	.L84:
+ 562:Generated_Source\PSoC5/Internal_EEPROM.c ****             {
+ 563:Generated_Source\PSoC5/Internal_EEPROM.c ****                 status = CYRET_SUCCESS;
+ 564:Generated_Source\PSoC5/Internal_EEPROM.c ****             }
+ 565:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 566:Generated_Source\PSoC5/Internal_EEPROM.c ****         else
+ 567:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 568:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_LOCKED;
+ 569:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 570:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 571:Generated_Source\PSoC5/Internal_EEPROM.c ****     else
+ 572:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 573:Generated_Source\PSoC5/Internal_EEPROM.c ****         status = CYRET_BAD_PARAM;
+ 644              		.loc 1 573 0
+ 645 0022 0120     		movs	r0, #1
+ 646 0024 10BD     		pop	{r4, pc}
+ 647              	.L85:
+ 568:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 648              		.loc 1 568 0
+ 649 0026 0420     		movs	r0, #4
+ 650              	.LVL72:
+ 574:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 575:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 576:Generated_Source\PSoC5/Internal_EEPROM.c ****     return(status);
+ 577:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+ 651              		.loc 1 577 0
+ 652 0028 10BD     		pop	{r4, pc}
+ 653              		.cfi_endproc
+ 654              	.LFE9:
+ 655              		.size	Internal_EEPROM_StartErase, .-Internal_EEPROM_StartErase
+ 656              		.section	.text.Internal_EEPROM_Query,"ax",%progbits
+ 657              		.align	1
+ 658              		.global	Internal_EEPROM_Query
+ 659              		.thumb
+ 660              		.thumb_func
+ 661              		.type	Internal_EEPROM_Query, %function
+ 662              	Internal_EEPROM_Query:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 23
+
+
+ 663              	.LFB10:
+ 578:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 579:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 580:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+ 581:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_Query
+ 582:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+ 583:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 584:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+ 585:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Checks the status of an earlier call to Internal_EEPROM_StartWrite() or
+ 586:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Internal_EEPROM_StartErase().
+ 587:Generated_Source\PSoC5/Internal_EEPROM.c **** *  This function must be called until it returns a value other than
+ 588:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_STARTED. Once that occurs, the write or erase has been completed and
+ 589:Generated_Source\PSoC5/Internal_EEPROM.c **** *  the SPC is unlocked.
+ 590:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 591:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+ 592:Generated_Source\PSoC5/Internal_EEPROM.c **** *  None
+ 593:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 594:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+ 595:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_STARTED, if the SPC command is still processing.
+ 596:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_SUCCESS, if the operation was completed successfully.
+ 597:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_UNKNOWN, if there was an SPC error.
+ 598:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 599:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+ 600:Generated_Source\PSoC5/Internal_EEPROM.c **** cystatus Internal_EEPROM_Query(void) 
+ 601:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+ 664              		.loc 1 601 0
+ 665              		.cfi_startproc
+ 666              		@ args = 0, pretend = 0, frame = 0
+ 667              		@ frame_needed = 0, uses_anonymous_args = 0
+ 668 0000 10B5     		push	{r4, lr}
+ 669              		.cfi_def_cfa_offset 8
+ 670              		.cfi_offset 4, -8
+ 671              		.cfi_offset 14, -4
+ 602:Generated_Source\PSoC5/Internal_EEPROM.c ****     cystatus status;
+ 603:Generated_Source\PSoC5/Internal_EEPROM.c ****     
+ 604:Generated_Source\PSoC5/Internal_EEPROM.c ****     CySpcStart();
+ 672              		.loc 1 604 0
+ 673 0002 FFF7FEFF 		bl	CySpcStart
+ 674              	.LVL73:
+ 605:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 606:Generated_Source\PSoC5/Internal_EEPROM.c ****     /* Check if SPC is idle */
+ 607:Generated_Source\PSoC5/Internal_EEPROM.c ****     if(CY_SPC_IDLE)
+ 675              		.loc 1 607 0
+ 676 0006 0B4B     		ldr	r3, .L91
+ 677 0008 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 678 000a 9107     		lsls	r1, r2, #30
+ 679 000c 0ED5     		bpl	.L89
+ 608:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 609:Generated_Source\PSoC5/Internal_EEPROM.c ****         /* SPC is idle now */
+ 610:Generated_Source\PSoC5/Internal_EEPROM.c ****         if(CY_SPC_STATUS_SUCCESS == CY_SPC_READ_STATUS)
+ 680              		.loc 1 610 0
+ 681 000e 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 682 0010 9207     		lsls	r2, r2, #30
+ 683 0012 06D5     		bpl	.L90
+ 684              		.loc 1 610 0 is_stmt 0 discriminator 1
+ 685 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 686 0016 9B08     		lsrs	r3, r3, #2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 24
+
+
+ 687 0018 14BF     		ite	ne
+ 688 001a 4FF0FF34 		movne	r4, #-1
+ 689 001e 0024     		moveq	r4, #0
+ 690 0020 01E0     		b	.L88
+ 691              	.L90:
+ 611:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 612:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_SUCCESS;
+ 613:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 614:Generated_Source\PSoC5/Internal_EEPROM.c ****         else
+ 615:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 616:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_UNKNOWN;
+ 692              		.loc 1 616 0 is_stmt 1
+ 693 0022 4FF0FF34 		mov	r4, #-1
+ 694              	.L88:
+ 695              	.LVL74:
+ 617:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 618:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 619:Generated_Source\PSoC5/Internal_EEPROM.c ****         /* Unlock SPC so that someone else can use it. */
+ 620:Generated_Source\PSoC5/Internal_EEPROM.c ****         CySpcUnlock();
+ 696              		.loc 1 620 0
+ 697 0026 FFF7FEFF 		bl	CySpcUnlock
+ 698              	.LVL75:
+ 699 002a 00E0     		b	.L87
+ 700              	.LVL76:
+ 701              	.L89:
+ 621:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 622:Generated_Source\PSoC5/Internal_EEPROM.c ****     else
+ 623:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 624:Generated_Source\PSoC5/Internal_EEPROM.c ****         status = CYRET_STARTED;
+ 702              		.loc 1 624 0
+ 703 002c 0724     		movs	r4, #7
+ 704              	.L87:
+ 705              	.LVL77:
+ 625:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 626:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 627:Generated_Source\PSoC5/Internal_EEPROM.c ****     return(status);
+ 628:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+ 706              		.loc 1 628 0
+ 707 002e 2046     		mov	r0, r4
+ 708 0030 10BD     		pop	{r4, pc}
+ 709              	.LVL78:
+ 710              	.L92:
+ 711 0032 00BF     		.align	2
+ 712              	.L91:
+ 713 0034 22470040 		.word	1073760034
+ 714              		.cfi_endproc
+ 715              	.LFE10:
+ 716              		.size	Internal_EEPROM_Query, .-Internal_EEPROM_Query
+ 717              		.section	.text.Internal_EEPROM_ByteWritePos,"ax",%progbits
+ 718              		.align	1
+ 719              		.global	Internal_EEPROM_ByteWritePos
+ 720              		.thumb
+ 721              		.thumb_func
+ 722              		.type	Internal_EEPROM_ByteWritePos, %function
+ 723              	Internal_EEPROM_ByteWritePos:
+ 724              	.LFB11:
+ 629:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 25
+
+
+ 630:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 631:Generated_Source\PSoC5/Internal_EEPROM.c **** /*******************************************************************************
+ 632:Generated_Source\PSoC5/Internal_EEPROM.c **** * Function Name: Internal_EEPROM_ByteWritePos
+ 633:Generated_Source\PSoC5/Internal_EEPROM.c **** ********************************************************************************
+ 634:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 635:Generated_Source\PSoC5/Internal_EEPROM.c **** * Summary:
+ 636:Generated_Source\PSoC5/Internal_EEPROM.c **** *  Writes a byte of data to the EEPROM. This is a blocking call. It will not
+ 637:Generated_Source\PSoC5/Internal_EEPROM.c **** *  return until the write operation succeeds or fails.
+ 638:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 639:Generated_Source\PSoC5/Internal_EEPROM.c **** * Parameters:
+ 640:Generated_Source\PSoC5/Internal_EEPROM.c **** *  dataByte:   The byte of data to write to the EEPROM.
+ 641:Generated_Source\PSoC5/Internal_EEPROM.c **** *  rowNumber:  The EEPROM row number to program.
+ 642:Generated_Source\PSoC5/Internal_EEPROM.c **** *  byteNumber: The byte number within the row to program.
+ 643:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 644:Generated_Source\PSoC5/Internal_EEPROM.c **** * Return:
+ 645:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_SUCCESS, if the operation was successful.
+ 646:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_BAD_PARAM, if the parameter rowNumber or byteNumber is out of range.
+ 647:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_LOCKED, if the SPC is being used.
+ 648:Generated_Source\PSoC5/Internal_EEPROM.c **** *  CYRET_UNKNOWN, if there was an SPC error.
+ 649:Generated_Source\PSoC5/Internal_EEPROM.c **** *
+ 650:Generated_Source\PSoC5/Internal_EEPROM.c **** *******************************************************************************/
+ 651:Generated_Source\PSoC5/Internal_EEPROM.c **** cystatus Internal_EEPROM_ByteWritePos(uint8 dataByte, uint8 rowNumber, uint8 byteNumber) \
+ 652:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 653:Generated_Source\PSoC5/Internal_EEPROM.c **** {
+ 725              		.loc 1 653 0
+ 726              		.cfi_startproc
+ 727              		@ args = 0, pretend = 0, frame = 8
+ 728              		@ frame_needed = 0, uses_anonymous_args = 0
+ 729              	.LVL79:
+ 730 0000 37B5     		push	{r0, r1, r2, r4, r5, lr}
+ 731              		.cfi_def_cfa_offset 24
+ 732              		.cfi_offset 4, -12
+ 733              		.cfi_offset 5, -8
+ 734              		.cfi_offset 14, -4
+ 735              		.loc 1 653 0
+ 736 0002 0D46     		mov	r5, r1
+ 737 0004 1446     		mov	r4, r2
+ 738 0006 8DF80700 		strb	r0, [sp, #7]
+ 654:Generated_Source\PSoC5/Internal_EEPROM.c ****     cystatus status;
+ 655:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 656:Generated_Source\PSoC5/Internal_EEPROM.c ****     /* Start SPC */
+ 657:Generated_Source\PSoC5/Internal_EEPROM.c ****     CySpcStart();
+ 739              		.loc 1 657 0
+ 740 000a FFF7FEFF 		bl	CySpcStart
+ 741              	.LVL80:
+ 658:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 659:Generated_Source\PSoC5/Internal_EEPROM.c ****     if((rowNumber < (uint8) CY_EEPROM_NUMBER_ROWS) && (byteNumber < (uint8) SIZEOF_EEPROM_ROW))
+ 742              		.loc 1 659 0
+ 743 000e 2B06     		lsls	r3, r5, #24
+ 744 0010 36D4     		bmi	.L101
+ 745              		.loc 1 659 0 is_stmt 0 discriminator 1
+ 746 0012 0F2C     		cmp	r4, #15
+ 747 0014 34D8     		bhi	.L101
+ 660:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 661:Generated_Source\PSoC5/Internal_EEPROM.c ****         /* See if we can get SPC. */
+ 662:Generated_Source\PSoC5/Internal_EEPROM.c ****         if(CySpcLock() == CYRET_SUCCESS)
+ 748              		.loc 1 662 0 is_stmt 1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 26
+
+
+ 749 0016 FFF7FEFF 		bl	CySpcLock
+ 750              	.LVL81:
+ 751 001a 0028     		cmp	r0, #0
+ 752 001c 32D1     		bne	.L102
+ 753              	.LVL82:
+ 663:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 664:Generated_Source\PSoC5/Internal_EEPROM.c ****             /* Plan for failure */
+ 665:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_UNKNOWN;
+ 666:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 667:Generated_Source\PSoC5/Internal_EEPROM.c ****             /* Command to load byte of data */
+ 668:Generated_Source\PSoC5/Internal_EEPROM.c ****             if(CySpcLoadMultiByte(CY_SPC_FIRST_EE_ARRAYID, (uint16)byteNumber, &dataByte,\
+ 754              		.loc 1 668 0
+ 755 001e 0123     		movs	r3, #1
+ 756 0020 0DF10702 		add	r2, sp, #7
+ 757              	.LVL83:
+ 758 0024 2146     		mov	r1, r4
+ 759 0026 4020     		movs	r0, #64
+ 760 0028 FFF7FEFF 		bl	CySpcLoadMultiByte
+ 761              	.LVL84:
+ 762 002c 0728     		cmp	r0, #7
+ 763 002e 08D1     		bne	.L97
+ 669:Generated_Source\PSoC5/Internal_EEPROM.c ****                                                                 Internal_EEPROM_SPC_BYTE_WRITE_SIZE
+ 670:Generated_Source\PSoC5/Internal_EEPROM.c ****             {
+ 671:Generated_Source\PSoC5/Internal_EEPROM.c ****                 while(CY_SPC_BUSY)
+ 764              		.loc 1 671 0
+ 765 0030 164A     		ldr	r2, .L117
+ 766              	.L95:
+ 767              		.loc 1 671 0 is_stmt 0 discriminator 1
+ 768 0032 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 769 0034 154C     		ldr	r4, .L117
+ 770 0036 13F0020F 		tst	r3, #2
+ 771 003a FAD0     		beq	.L95
+ 672:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 673:Generated_Source\PSoC5/Internal_EEPROM.c ****                     /* Wait until SPC becomes idle */
+ 674:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 675:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 676:Generated_Source\PSoC5/Internal_EEPROM.c ****                 /* SPC is idle now */
+ 677:Generated_Source\PSoC5/Internal_EEPROM.c ****                 if(CY_SPC_STATUS_SUCCESS == CY_SPC_READ_STATUS)
+ 772              		.loc 1 677 0 is_stmt 1
+ 773 003c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 774 003e 9807     		lsls	r0, r3, #30
+ 775 0040 02D4     		bmi	.L116
+ 776              	.LVL85:
+ 777              	.L97:
+ 665:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 778              		.loc 1 665 0
+ 779 0042 4FF0FF34 		mov	r4, #-1
+ 780 0046 18E0     		b	.L96
+ 781              	.LVL86:
+ 782              	.L116:
+ 783              		.loc 1 677 0 discriminator 1
+ 784 0048 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 785 004a 9B08     		lsrs	r3, r3, #2
+ 786 004c F9D1     		bne	.L97
+ 787              	.LVL87:
+ 678:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 679:Generated_Source\PSoC5/Internal_EEPROM.c ****                     status = CYRET_SUCCESS;
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 27
+
+
+ 680:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 681:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 682:Generated_Source\PSoC5/Internal_EEPROM.c ****                 /* Command to erase and program the row. */
+ 683:Generated_Source\PSoC5/Internal_EEPROM.c ****                 if(status == CYRET_SUCCESS)
+ 684:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ 685:Generated_Source\PSoC5/Internal_EEPROM.c ****                     if(CySpcWriteRow(CY_SPC_FIRST_EE_ARRAYID, (uint16)rowNumber, dieTemperature[0u]
+ 788              		.loc 1 685 0
+ 789 004e 104A     		ldr	r2, .L117+4
+ 790 0050 2946     		mov	r1, r5
+ 791 0052 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 792 0054 4020     		movs	r0, #64
+ 793 0056 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 794 0058 FFF7FEFF 		bl	CySpcWriteRow
+ 795              	.LVL88:
+ 796 005c 0728     		cmp	r0, #7
+ 797 005e F0D1     		bne	.L97
+ 798              	.L99:
+ 686:Generated_Source\PSoC5/Internal_EEPROM.c ****                     dieTemperature[1u]) == CYRET_STARTED)
+ 687:Generated_Source\PSoC5/Internal_EEPROM.c ****                     {
+ 688:Generated_Source\PSoC5/Internal_EEPROM.c ****                         /* Plan for failure */
+ 689:Generated_Source\PSoC5/Internal_EEPROM.c ****                         status = CYRET_UNKNOWN;
+ 690:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 691:Generated_Source\PSoC5/Internal_EEPROM.c ****                         while(CY_SPC_BUSY)
+ 799              		.loc 1 691 0 discriminator 1
+ 800 0060 2278     		ldrb	r2, [r4]	@ zero_extendqisi2
+ 801 0062 0A4B     		ldr	r3, .L117
+ 802 0064 9107     		lsls	r1, r2, #30
+ 803 0066 FBD5     		bpl	.L99
+ 692:Generated_Source\PSoC5/Internal_EEPROM.c ****                         {
+ 693:Generated_Source\PSoC5/Internal_EEPROM.c ****                             /* Wait until SPC becomes idle */
+ 694:Generated_Source\PSoC5/Internal_EEPROM.c ****                         }
+ 695:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 696:Generated_Source\PSoC5/Internal_EEPROM.c ****                         /* SPC is idle now */
+ 697:Generated_Source\PSoC5/Internal_EEPROM.c ****                         if(CY_SPC_STATUS_SUCCESS == CY_SPC_READ_STATUS)
+ 804              		.loc 1 697 0
+ 805 0068 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 806 006a 9207     		lsls	r2, r2, #30
+ 807 006c E9D5     		bpl	.L97
+ 808              		.loc 1 697 0 is_stmt 0 discriminator 1
+ 809 006e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 810 0070 9B08     		lsrs	r3, r3, #2
+ 811 0072 14BF     		ite	ne
+ 812 0074 4FF0FF34 		movne	r4, #-1
+ 813 0078 0024     		moveq	r4, #0
+ 814              	.LVL89:
+ 815              	.L96:
+ 698:Generated_Source\PSoC5/Internal_EEPROM.c ****                         {
+ 699:Generated_Source\PSoC5/Internal_EEPROM.c ****                             status = CYRET_SUCCESS;
+ 700:Generated_Source\PSoC5/Internal_EEPROM.c ****                         }
+ 701:Generated_Source\PSoC5/Internal_EEPROM.c ****                     }
+ 702:Generated_Source\PSoC5/Internal_EEPROM.c ****                     else
+ 703:Generated_Source\PSoC5/Internal_EEPROM.c ****                     {
+ 704:Generated_Source\PSoC5/Internal_EEPROM.c ****                         status = CYRET_UNKNOWN;
+ 705:Generated_Source\PSoC5/Internal_EEPROM.c ****                     }
+ 706:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 707:Generated_Source\PSoC5/Internal_EEPROM.c ****                 else
+ 708:Generated_Source\PSoC5/Internal_EEPROM.c ****                 {
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 28
+
+
+ 709:Generated_Source\PSoC5/Internal_EEPROM.c ****                     status = CYRET_UNKNOWN;
+ 710:Generated_Source\PSoC5/Internal_EEPROM.c ****                 }
+ 711:Generated_Source\PSoC5/Internal_EEPROM.c ****             }
+ 712:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 713:Generated_Source\PSoC5/Internal_EEPROM.c ****             /* Unlock SPC so that someone else can use it. */
+ 714:Generated_Source\PSoC5/Internal_EEPROM.c ****             CySpcUnlock();
+ 816              		.loc 1 714 0 is_stmt 1
+ 817 007a FFF7FEFF 		bl	CySpcUnlock
+ 818              	.LVL90:
+ 819 007e 02E0     		b	.L115
+ 820              	.LVL91:
+ 821              	.L101:
+ 715:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 716:Generated_Source\PSoC5/Internal_EEPROM.c ****         else
+ 717:Generated_Source\PSoC5/Internal_EEPROM.c ****         {
+ 718:Generated_Source\PSoC5/Internal_EEPROM.c ****             status = CYRET_LOCKED;
+ 719:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 720:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 721:Generated_Source\PSoC5/Internal_EEPROM.c ****     else
+ 722:Generated_Source\PSoC5/Internal_EEPROM.c ****     {
+ 723:Generated_Source\PSoC5/Internal_EEPROM.c ****         status = CYRET_BAD_PARAM;
+ 822              		.loc 1 723 0
+ 823 0080 0124     		movs	r4, #1
+ 824 0082 00E0     		b	.L115
+ 825              	.L102:
+ 718:Generated_Source\PSoC5/Internal_EEPROM.c ****         }
+ 826              		.loc 1 718 0
+ 827 0084 0424     		movs	r4, #4
+ 828              	.LVL92:
+ 829              	.L115:
+ 724:Generated_Source\PSoC5/Internal_EEPROM.c ****     }
+ 725:Generated_Source\PSoC5/Internal_EEPROM.c **** 
+ 726:Generated_Source\PSoC5/Internal_EEPROM.c ****     return(status);
+ 727:Generated_Source\PSoC5/Internal_EEPROM.c **** }
+ 830              		.loc 1 727 0
+ 831 0086 2046     		mov	r0, r4
+ 832 0088 03B0     		add	sp, sp, #12
+ 833              		.cfi_def_cfa_offset 12
+ 834              		@ sp needed
+ 835 008a 30BD     		pop	{r4, r5, pc}
+ 836              	.LVL93:
+ 837              	.L118:
+ 838              		.align	2
+ 839              	.L117:
+ 840 008c 22470040 		.word	1073760034
+ 841 0090 00000000 		.word	dieTemperature
+ 842              		.cfi_endproc
+ 843              	.LFE11:
+ 844              		.size	Internal_EEPROM_ByteWritePos, .-Internal_EEPROM_ByteWritePos
+ 845              		.text
+ 846              	.Letext0:
+ 847              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 848              		.file 3 "Generated_Source\\PSoC5\\CyFlash.h"
+ 849              		.file 4 "Generated_Source\\PSoC5\\CySpc.h"
+ 850              		.file 5 "Generated_Source\\PSoC5\\CyLib.h"
+ 851              		.section	.debug_info,"",%progbits
+ 852              	.Ldebug_info0:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 29
+
+
+ 853 0000 24060000 		.4byte	0x624
+ 854 0004 0400     		.2byte	0x4
+ 855 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 856 000a 04       		.byte	0x4
+ 857 000b 01       		.uleb128 0x1
+ 858 000c 4E010000 		.4byte	.LASF53
+ 859 0010 0C       		.byte	0xc
+ 860 0011 C1000000 		.4byte	.LASF54
+ 861 0015 87030000 		.4byte	.LASF55
+ 862 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 863 001d 00000000 		.4byte	0
+ 864 0021 00000000 		.4byte	.Ldebug_line0
+ 865 0025 02       		.uleb128 0x2
+ 866 0026 01       		.byte	0x1
+ 867 0027 06       		.byte	0x6
+ 868 0028 0E040000 		.4byte	.LASF0
+ 869 002c 02       		.uleb128 0x2
+ 870 002d 01       		.byte	0x1
+ 871 002e 08       		.byte	0x8
+ 872 002f 17020000 		.4byte	.LASF1
+ 873 0033 02       		.uleb128 0x2
+ 874 0034 02       		.byte	0x2
+ 875 0035 05       		.byte	0x5
+ 876 0036 7D030000 		.4byte	.LASF2
+ 877 003a 02       		.uleb128 0x2
+ 878 003b 02       		.byte	0x2
+ 879 003c 07       		.byte	0x7
+ 880 003d 65000000 		.4byte	.LASF3
+ 881 0041 02       		.uleb128 0x2
+ 882 0042 04       		.byte	0x4
+ 883 0043 05       		.byte	0x5
+ 884 0044 DA030000 		.4byte	.LASF4
+ 885 0048 02       		.uleb128 0x2
+ 886 0049 04       		.byte	0x4
+ 887 004a 07       		.byte	0x7
+ 888 004b 99020000 		.4byte	.LASF5
+ 889 004f 02       		.uleb128 0x2
+ 890 0050 08       		.byte	0x8
+ 891 0051 05       		.byte	0x5
+ 892 0052 54030000 		.4byte	.LASF6
+ 893 0056 02       		.uleb128 0x2
+ 894 0057 08       		.byte	0x8
+ 895 0058 07       		.byte	0x7
+ 896 0059 EA000000 		.4byte	.LASF7
+ 897 005d 03       		.uleb128 0x3
+ 898 005e 04       		.byte	0x4
+ 899 005f 05       		.byte	0x5
+ 900 0060 696E7400 		.ascii	"int\000"
+ 901 0064 02       		.uleb128 0x2
+ 902 0065 04       		.byte	0x4
+ 903 0066 07       		.byte	0x7
+ 904 0067 AB020000 		.4byte	.LASF8
+ 905 006b 04       		.uleb128 0x4
+ 906 006c F9010000 		.4byte	.LASF9
+ 907 0070 02       		.byte	0x2
+ 908 0071 E901     		.2byte	0x1e9
+ 909 0073 2C000000 		.4byte	0x2c
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 30
+
+
+ 910 0077 04       		.uleb128 0x4
+ 911 0078 57020000 		.4byte	.LASF10
+ 912 007c 02       		.byte	0x2
+ 913 007d EA01     		.2byte	0x1ea
+ 914 007f 3A000000 		.4byte	0x3a
+ 915 0083 02       		.uleb128 0x2
+ 916 0084 04       		.byte	0x4
+ 917 0085 04       		.byte	0x4
+ 918 0086 35000000 		.4byte	.LASF11
+ 919 008a 02       		.uleb128 0x2
+ 920 008b 08       		.byte	0x8
+ 921 008c 04       		.byte	0x4
+ 922 008d 25020000 		.4byte	.LASF12
+ 923 0091 02       		.uleb128 0x2
+ 924 0092 01       		.byte	0x1
+ 925 0093 08       		.byte	0x8
+ 926 0094 62030000 		.4byte	.LASF13
+ 927 0098 04       		.uleb128 0x4
+ 928 0099 00000000 		.4byte	.LASF14
+ 929 009d 02       		.byte	0x2
+ 930 009e 8B02     		.2byte	0x28b
+ 931 00a0 48000000 		.4byte	0x48
+ 932 00a4 04       		.uleb128 0x4
+ 933 00a5 09000000 		.4byte	.LASF15
+ 934 00a9 02       		.byte	0x2
+ 935 00aa 9302     		.2byte	0x293
+ 936 00ac B0000000 		.4byte	0xb0
+ 937 00b0 05       		.uleb128 0x5
+ 938 00b1 6B000000 		.4byte	0x6b
+ 939 00b5 02       		.uleb128 0x2
+ 940 00b6 08       		.byte	0x8
+ 941 00b7 04       		.byte	0x4
+ 942 00b8 02040000 		.4byte	.LASF16
+ 943 00bc 02       		.uleb128 0x2
+ 944 00bd 04       		.byte	0x4
+ 945 00be 07       		.byte	0x7
+ 946 00bf 30030000 		.4byte	.LASF17
+ 947 00c3 06       		.uleb128 0x6
+ 948 00c4 3B000000 		.4byte	.LASF18
+ 949 00c8 01       		.byte	0x1
+ 950 00c9 21       		.byte	0x21
+ 951 00ca 00000000 		.4byte	.LFB0
+ 952 00ce 0E000000 		.4byte	.LFE0-.LFB0
+ 953 00d2 01       		.uleb128 0x1
+ 954 00d3 9C       		.byte	0x9c
+ 955 00d4 EB000000 		.4byte	0xeb
+ 956 00d8 07       		.uleb128 0x7
+ 957 00d9 06000000 		.4byte	.LVL0
+ 958 00dd 8D050000 		.4byte	0x58d
+ 959 00e1 08       		.uleb128 0x8
+ 960 00e2 0E000000 		.4byte	.LVL1
+ 961 00e6 98050000 		.4byte	0x598
+ 962 00ea 00       		.byte	0
+ 963 00eb 06       		.uleb128 0x6
+ 964 00ec 41020000 		.4byte	.LASF19
+ 965 00f0 01       		.byte	0x1
+ 966 00f1 39       		.byte	0x39
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 31
+
+
+ 967 00f2 00000000 		.4byte	.LFB1
+ 968 00f6 04000000 		.4byte	.LFE1-.LFB1
+ 969 00fa 01       		.uleb128 0x1
+ 970 00fb 9C       		.byte	0x9c
+ 971 00fc 0A010000 		.4byte	0x10a
+ 972 0100 08       		.uleb128 0x8
+ 973 0101 04000000 		.4byte	.LVL2
+ 974 0105 C3000000 		.4byte	0xc3
+ 975 0109 00       		.byte	0
+ 976 010a 06       		.uleb128 0x6
+ 977 010b E3030000 		.4byte	.LASF20
+ 978 010f 01       		.byte	0x1
+ 979 0110 4D       		.byte	0x4d
+ 980 0111 00000000 		.4byte	.LFB2
+ 981 0115 04000000 		.4byte	.LFE2-.LFB2
+ 982 0119 01       		.uleb128 0x1
+ 983 011a 9C       		.byte	0x9c
+ 984 011b 29010000 		.4byte	0x129
+ 985 011f 08       		.uleb128 0x8
+ 986 0120 04000000 		.4byte	.LVL3
+ 987 0124 A3050000 		.4byte	0x5a3
+ 988 0128 00       		.byte	0
+ 989 0129 09       		.uleb128 0x9
+ 990 012a 68020000 		.4byte	.LASF26
+ 991 012e 01       		.byte	0x1
+ 992 012f 6A       		.byte	0x6a
+ 993 0130 98000000 		.4byte	0x98
+ 994 0134 00000000 		.4byte	.LFB3
+ 995 0138 A0000000 		.4byte	.LFE3-.LFB3
+ 996 013c 01       		.uleb128 0x1
+ 997 013d 9C       		.byte	0x9c
+ 998 013e E6010000 		.4byte	0x1e6
+ 999 0142 0A       		.uleb128 0xa
+ 1000 0143 0E020000 		.4byte	.LASF21
+ 1001 0147 01       		.byte	0x1
+ 1002 0148 6A       		.byte	0x6a
+ 1003 0149 6B000000 		.4byte	0x6b
+ 1004 014d 00000000 		.4byte	.LLST0
+ 1005 0151 0A       		.uleb128 0xa
+ 1006 0152 B8020000 		.4byte	.LASF22
+ 1007 0156 01       		.byte	0x1
+ 1008 0157 6A       		.byte	0x6a
+ 1009 0158 77000000 		.4byte	0x77
+ 1010 015c 43000000 		.4byte	.LLST1
+ 1011 0160 0B       		.uleb128 0xb
+ 1012 0161 94000000 		.4byte	.LASF23
+ 1013 0165 01       		.byte	0x1
+ 1014 0166 6C       		.byte	0x6c
+ 1015 0167 98000000 		.4byte	0x98
+ 1016 016b 64000000 		.4byte	.LLST2
+ 1017 016f 0B       		.uleb128 0xb
+ 1018 0170 F8030000 		.4byte	.LASF24
+ 1019 0174 01       		.byte	0x1
+ 1020 0175 6D       		.byte	0x6d
+ 1021 0176 77000000 		.4byte	0x77
+ 1022 017a A4000000 		.4byte	.LLST3
+ 1023 017e 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 32
+
+
+ 1024 017f B6000000 		.4byte	.LASF25
+ 1025 0183 01       		.byte	0x1
+ 1026 0184 6E       		.byte	0x6e
+ 1027 0185 77000000 		.4byte	0x77
+ 1028 0189 CA000000 		.4byte	.LLST4
+ 1029 018d 07       		.uleb128 0x7
+ 1030 018e 0C000000 		.4byte	.LVL5
+ 1031 0192 AE050000 		.4byte	0x5ae
+ 1032 0196 07       		.uleb128 0x7
+ 1033 0197 16000000 		.4byte	.LVL7
+ 1034 019b B9050000 		.4byte	0x5b9
+ 1035 019f 0C       		.uleb128 0xc
+ 1036 01a0 28000000 		.4byte	.LVL9
+ 1037 01a4 C4050000 		.4byte	0x5c4
+ 1038 01a8 C6010000 		.4byte	0x1c6
+ 1039 01ac 0D       		.uleb128 0xd
+ 1040 01ad 01       		.uleb128 0x1
+ 1041 01ae 50       		.byte	0x50
+ 1042 01af 02       		.uleb128 0x2
+ 1043 01b0 08       		.byte	0x8
+ 1044 01b1 40       		.byte	0x40
+ 1045 01b2 0D       		.uleb128 0xd
+ 1046 01b3 01       		.uleb128 0x1
+ 1047 01b4 51       		.byte	0x51
+ 1048 01b5 04       		.uleb128 0x4
+ 1049 01b6 74       		.byte	0x74
+ 1050 01b7 00       		.sleb128 0
+ 1051 01b8 3F       		.byte	0x3f
+ 1052 01b9 1A       		.byte	0x1a
+ 1053 01ba 0D       		.uleb128 0xd
+ 1054 01bb 01       		.uleb128 0x1
+ 1055 01bc 52       		.byte	0x52
+ 1056 01bd 02       		.uleb128 0x2
+ 1057 01be 91       		.byte	0x91
+ 1058 01bf 6F       		.sleb128 -17
+ 1059 01c0 0D       		.uleb128 0xd
+ 1060 01c1 01       		.uleb128 0x1
+ 1061 01c2 53       		.byte	0x53
+ 1062 01c3 01       		.uleb128 0x1
+ 1063 01c4 31       		.byte	0x31
+ 1064 01c5 00       		.byte	0
+ 1065 01c6 07       		.uleb128 0x7
+ 1066 01c7 5A000000 		.4byte	.LVL14
+ 1067 01cb CF050000 		.4byte	0x5cf
+ 1068 01cf 0E       		.uleb128 0xe
+ 1069 01d0 72000000 		.4byte	.LVL19
+ 1070 01d4 DA050000 		.4byte	0x5da
+ 1071 01d8 0D       		.uleb128 0xd
+ 1072 01d9 01       		.uleb128 0x1
+ 1073 01da 50       		.byte	0x50
+ 1074 01db 02       		.uleb128 0x2
+ 1075 01dc 08       		.byte	0x8
+ 1076 01dd 40       		.byte	0x40
+ 1077 01de 0D       		.uleb128 0xd
+ 1078 01df 01       		.uleb128 0x1
+ 1079 01e0 51       		.byte	0x51
+ 1080 01e1 02       		.uleb128 0x2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 33
+
+
+ 1081 01e2 75       		.byte	0x75
+ 1082 01e3 00       		.sleb128 0
+ 1083 01e4 00       		.byte	0
+ 1084 01e5 00       		.byte	0
+ 1085 01e6 09       		.uleb128 0x9
+ 1086 01e7 1A040000 		.4byte	.LASF27
+ 1087 01eb 01       		.byte	0x1
+ 1088 01ec D0       		.byte	0xd0
+ 1089 01ed 6B000000 		.4byte	0x6b
+ 1090 01f1 00000000 		.4byte	.LFB4
+ 1091 01f5 28000000 		.4byte	.LFE4-.LFB4
+ 1092 01f9 01       		.uleb128 0x1
+ 1093 01fa 9C       		.byte	0x9c
+ 1094 01fb 54020000 		.4byte	0x254
+ 1095 01ff 0A       		.uleb128 0xa
+ 1096 0200 B8020000 		.4byte	.LASF22
+ 1097 0204 01       		.byte	0x1
+ 1098 0205 D0       		.byte	0xd0
+ 1099 0206 77000000 		.4byte	0x77
+ 1100 020a FA000000 		.4byte	.LLST5
+ 1101 020e 0F       		.uleb128 0xf
+ 1102 020f 33040000 		.4byte	.LASF28
+ 1103 0213 01       		.byte	0x1
+ 1104 0214 D2       		.byte	0xd2
+ 1105 0215 6B000000 		.4byte	0x6b
+ 1106 0219 01       		.uleb128 0x1
+ 1107 021a 54       		.byte	0x54
+ 1108 021b 0F       		.uleb128 0xf
+ 1109 021c 3F010000 		.4byte	.LASF29
+ 1110 0220 01       		.byte	0x1
+ 1111 0221 D3       		.byte	0xd3
+ 1112 0222 6B000000 		.4byte	0x6b
+ 1113 0226 01       		.uleb128 0x1
+ 1114 0227 55       		.byte	0x55
+ 1115 0228 07       		.uleb128 0x7
+ 1116 0229 08000000 		.4byte	.LVL23
+ 1117 022d E5050000 		.4byte	0x5e5
+ 1118 0231 07       		.uleb128 0x7
+ 1119 0232 0E000000 		.4byte	.LVL25
+ 1120 0236 F0050000 		.4byte	0x5f0
+ 1121 023a 07       		.uleb128 0x7
+ 1122 023b 1C000000 		.4byte	.LVL26
+ 1123 023f FB050000 		.4byte	0x5fb
+ 1124 0243 0E       		.uleb128 0xe
+ 1125 0244 24000000 		.4byte	.LVL28
+ 1126 0248 06060000 		.4byte	0x606
+ 1127 024c 0D       		.uleb128 0xd
+ 1128 024d 01       		.uleb128 0x1
+ 1129 024e 50       		.byte	0x50
+ 1130 024f 02       		.uleb128 0x2
+ 1131 0250 75       		.byte	0x75
+ 1132 0251 00       		.sleb128 0
+ 1133 0252 00       		.byte	0
+ 1134 0253 00       		.byte	0
+ 1135 0254 09       		.uleb128 0x9
+ 1136 0255 D6020000 		.4byte	.LASF30
+ 1137 0259 01       		.byte	0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 34
+
+
+ 1138 025a F7       		.byte	0xf7
+ 1139 025b 6B000000 		.4byte	0x6b
+ 1140 025f 00000000 		.4byte	.LFB5
+ 1141 0263 0A000000 		.4byte	.LFE5-.LFB5
+ 1142 0267 01       		.uleb128 0x1
+ 1143 0268 9C       		.byte	0x9c
+ 1144 0269 77020000 		.4byte	0x277
+ 1145 026d 07       		.uleb128 0x7
+ 1146 026e 06000000 		.4byte	.LVL29
+ 1147 0272 8D050000 		.4byte	0x58d
+ 1148 0276 00       		.byte	0
+ 1149 0277 10       		.uleb128 0x10
+ 1150 0278 78000000 		.4byte	.LASF31
+ 1151 027c 01       		.byte	0x1
+ 1152 027d 1101     		.2byte	0x111
+ 1153 027f 98000000 		.4byte	0x98
+ 1154 0283 00000000 		.4byte	.LFB6
+ 1155 0287 54000000 		.4byte	.LFE6-.LFB6
+ 1156 028b 01       		.uleb128 0x1
+ 1157 028c 9C       		.byte	0x9c
+ 1158 028d E7020000 		.4byte	0x2e7
+ 1159 0291 11       		.uleb128 0x11
+ 1160 0292 CD030000 		.4byte	.LASF32
+ 1161 0296 01       		.byte	0x1
+ 1162 0297 1101     		.2byte	0x111
+ 1163 0299 6B000000 		.4byte	0x6b
+ 1164 029d 1B010000 		.4byte	.LLST6
+ 1165 02a1 12       		.uleb128 0x12
+ 1166 02a2 94000000 		.4byte	.LASF23
+ 1167 02a6 01       		.byte	0x1
+ 1168 02a7 1301     		.2byte	0x113
+ 1169 02a9 98000000 		.4byte	0x98
+ 1170 02ad 3C010000 		.4byte	.LLST7
+ 1171 02b1 07       		.uleb128 0x7
+ 1172 02b2 08000000 		.4byte	.LVL31
+ 1173 02b6 AE050000 		.4byte	0x5ae
+ 1174 02ba 07       		.uleb128 0x7
+ 1175 02bb 10000000 		.4byte	.LVL32
+ 1176 02bf B9050000 		.4byte	0x5b9
+ 1177 02c3 0C       		.uleb128 0xc
+ 1178 02c4 1A000000 		.4byte	.LVL33
+ 1179 02c8 11060000 		.4byte	0x611
+ 1180 02cc DD020000 		.4byte	0x2dd
+ 1181 02d0 0D       		.uleb128 0xd
+ 1182 02d1 01       		.uleb128 0x1
+ 1183 02d2 50       		.byte	0x50
+ 1184 02d3 02       		.uleb128 0x2
+ 1185 02d4 08       		.byte	0x8
+ 1186 02d5 40       		.byte	0x40
+ 1187 02d6 0D       		.uleb128 0xd
+ 1188 02d7 01       		.uleb128 0x1
+ 1189 02d8 51       		.byte	0x51
+ 1190 02d9 02       		.uleb128 0x2
+ 1191 02da 74       		.byte	0x74
+ 1192 02db 00       		.sleb128 0
+ 1193 02dc 00       		.byte	0
+ 1194 02dd 07       		.uleb128 0x7
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 35
+
+
+ 1195 02de 44000000 		.4byte	.LVL35
+ 1196 02e2 CF050000 		.4byte	0x5cf
+ 1197 02e6 00       		.byte	0
+ 1198 02e7 10       		.uleb128 0x10
+ 1199 02e8 67030000 		.4byte	.LASF33
+ 1200 02ec 01       		.byte	0x1
+ 1201 02ed 5901     		.2byte	0x159
+ 1202 02ef 98000000 		.4byte	0x98
+ 1203 02f3 00000000 		.4byte	.LFB7
+ 1204 02f7 88000000 		.4byte	.LFE7-.LFB7
+ 1205 02fb 01       		.uleb128 0x1
+ 1206 02fc 9C       		.byte	0x9c
+ 1207 02fd 86030000 		.4byte	0x386
+ 1208 0301 11       		.uleb128 0x11
+ 1209 0302 28010000 		.4byte	.LASF34
+ 1210 0306 01       		.byte	0x1
+ 1211 0307 5901     		.2byte	0x159
+ 1212 0309 86030000 		.4byte	0x386
+ 1213 030d 65010000 		.4byte	.LLST8
+ 1214 0311 11       		.uleb128 0x11
+ 1215 0312 F8030000 		.4byte	.LASF24
+ 1216 0316 01       		.byte	0x1
+ 1217 0317 5901     		.2byte	0x159
+ 1218 0319 6B000000 		.4byte	0x6b
+ 1219 031d C3010000 		.4byte	.LLST9
+ 1220 0321 12       		.uleb128 0x12
+ 1221 0322 94000000 		.4byte	.LASF23
+ 1222 0326 01       		.byte	0x1
+ 1223 0327 5B01     		.2byte	0x15b
+ 1224 0329 98000000 		.4byte	0x98
+ 1225 032d E4010000 		.4byte	.LLST10
+ 1226 0331 07       		.uleb128 0x7
+ 1227 0332 0A000000 		.4byte	.LVL40
+ 1228 0336 AE050000 		.4byte	0x5ae
+ 1229 033a 07       		.uleb128 0x7
+ 1230 033b 12000000 		.4byte	.LVL41
+ 1231 033f B9050000 		.4byte	0x5b9
+ 1232 0343 0C       		.uleb128 0xc
+ 1233 0344 20000000 		.4byte	.LVL43
+ 1234 0348 1C060000 		.4byte	0x61c
+ 1235 034c 62030000 		.4byte	0x362
+ 1236 0350 0D       		.uleb128 0xd
+ 1237 0351 01       		.uleb128 0x1
+ 1238 0352 50       		.byte	0x50
+ 1239 0353 02       		.uleb128 0x2
+ 1240 0354 08       		.byte	0x8
+ 1241 0355 40       		.byte	0x40
+ 1242 0356 0D       		.uleb128 0xd
+ 1243 0357 01       		.uleb128 0x1
+ 1244 0358 51       		.byte	0x51
+ 1245 0359 02       		.uleb128 0x2
+ 1246 035a 74       		.byte	0x74
+ 1247 035b 00       		.sleb128 0
+ 1248 035c 0D       		.uleb128 0xd
+ 1249 035d 01       		.uleb128 0x1
+ 1250 035e 52       		.byte	0x52
+ 1251 035f 01       		.uleb128 0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 36
+
+
+ 1252 0360 40       		.byte	0x40
+ 1253 0361 00       		.byte	0
+ 1254 0362 0C       		.uleb128 0xc
+ 1255 0363 50000000 		.4byte	.LVL48
+ 1256 0367 DA050000 		.4byte	0x5da
+ 1257 036b 7C030000 		.4byte	0x37c
+ 1258 036f 0D       		.uleb128 0xd
+ 1259 0370 01       		.uleb128 0x1
+ 1260 0371 50       		.byte	0x50
+ 1261 0372 02       		.uleb128 0x2
+ 1262 0373 08       		.byte	0x8
+ 1263 0374 40       		.byte	0x40
+ 1264 0375 0D       		.uleb128 0xd
+ 1265 0376 01       		.uleb128 0x1
+ 1266 0377 51       		.byte	0x51
+ 1267 0378 02       		.uleb128 0x2
+ 1268 0379 75       		.byte	0x75
+ 1269 037a 00       		.sleb128 0
+ 1270 037b 00       		.byte	0
+ 1271 037c 07       		.uleb128 0x7
+ 1272 037d 72000000 		.4byte	.LVL50
+ 1273 0381 CF050000 		.4byte	0x5cf
+ 1274 0385 00       		.byte	0
+ 1275 0386 13       		.uleb128 0x13
+ 1276 0387 04       		.byte	0x4
+ 1277 0388 8C030000 		.4byte	0x38c
+ 1278 038c 14       		.uleb128 0x14
+ 1279 038d 6B000000 		.4byte	0x6b
+ 1280 0391 10       		.uleb128 0x10
+ 1281 0392 9B000000 		.4byte	.LASF35
+ 1282 0396 01       		.byte	0x1
+ 1283 0397 C601     		.2byte	0x1c6
+ 1284 0399 98000000 		.4byte	0x98
+ 1285 039d 00000000 		.4byte	.LFB8
+ 1286 03a1 64000000 		.4byte	.LFE8-.LFB8
+ 1287 03a5 01       		.uleb128 0x1
+ 1288 03a6 9C       		.byte	0x9c
+ 1289 03a7 23040000 		.4byte	0x423
+ 1290 03ab 11       		.uleb128 0x11
+ 1291 03ac 28010000 		.4byte	.LASF34
+ 1292 03b0 01       		.byte	0x1
+ 1293 03b1 C601     		.2byte	0x1c6
+ 1294 03b3 86030000 		.4byte	0x386
+ 1295 03b7 1D020000 		.4byte	.LLST11
+ 1296 03bb 11       		.uleb128 0x11
+ 1297 03bc F8030000 		.4byte	.LASF24
+ 1298 03c0 01       		.byte	0x1
+ 1299 03c1 C601     		.2byte	0x1c6
+ 1300 03c3 6B000000 		.4byte	0x6b
+ 1301 03c7 49020000 		.4byte	.LLST12
+ 1302 03cb 12       		.uleb128 0x12
+ 1303 03cc 94000000 		.4byte	.LASF23
+ 1304 03d0 01       		.byte	0x1
+ 1305 03d1 C901     		.2byte	0x1c9
+ 1306 03d3 98000000 		.4byte	0x98
+ 1307 03d7 6A020000 		.4byte	.LLST13
+ 1308 03db 07       		.uleb128 0x7
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 37
+
+
+ 1309 03dc 0A000000 		.4byte	.LVL56
+ 1310 03e0 AE050000 		.4byte	0x5ae
+ 1311 03e4 07       		.uleb128 0x7
+ 1312 03e5 12000000 		.4byte	.LVL57
+ 1313 03e9 B9050000 		.4byte	0x5b9
+ 1314 03ed 0C       		.uleb128 0xc
+ 1315 03ee 1E000000 		.4byte	.LVL59
+ 1316 03f2 1C060000 		.4byte	0x61c
+ 1317 03f6 0C040000 		.4byte	0x40c
+ 1318 03fa 0D       		.uleb128 0xd
+ 1319 03fb 01       		.uleb128 0x1
+ 1320 03fc 50       		.byte	0x50
+ 1321 03fd 02       		.uleb128 0x2
+ 1322 03fe 08       		.byte	0x8
+ 1323 03ff 40       		.byte	0x40
+ 1324 0400 0D       		.uleb128 0xd
+ 1325 0401 01       		.uleb128 0x1
+ 1326 0402 51       		.byte	0x51
+ 1327 0403 02       		.uleb128 0x2
+ 1328 0404 75       		.byte	0x75
+ 1329 0405 00       		.sleb128 0
+ 1330 0406 0D       		.uleb128 0xd
+ 1331 0407 01       		.uleb128 0x1
+ 1332 0408 52       		.byte	0x52
+ 1333 0409 01       		.uleb128 0x1
+ 1334 040a 40       		.byte	0x40
+ 1335 040b 00       		.byte	0
+ 1336 040c 0E       		.uleb128 0xe
+ 1337 040d 54000000 		.4byte	.LVL64
+ 1338 0411 DA050000 		.4byte	0x5da
+ 1339 0415 0D       		.uleb128 0xd
+ 1340 0416 01       		.uleb128 0x1
+ 1341 0417 50       		.byte	0x50
+ 1342 0418 02       		.uleb128 0x2
+ 1343 0419 08       		.byte	0x8
+ 1344 041a 40       		.byte	0x40
+ 1345 041b 0D       		.uleb128 0xd
+ 1346 041c 01       		.uleb128 0x1
+ 1347 041d 51       		.byte	0x51
+ 1348 041e 02       		.uleb128 0x2
+ 1349 041f 74       		.byte	0x74
+ 1350 0420 00       		.sleb128 0
+ 1351 0421 00       		.byte	0
+ 1352 0422 00       		.byte	0
+ 1353 0423 10       		.uleb128 0x10
+ 1354 0424 0D010000 		.4byte	.LASF36
+ 1355 0428 01       		.byte	0x1
+ 1356 0429 2202     		.2byte	0x222
+ 1357 042b 98000000 		.4byte	0x98
+ 1358 042f 00000000 		.4byte	.LFB9
+ 1359 0433 2A000000 		.4byte	.LFE9-.LFB9
+ 1360 0437 01       		.uleb128 0x1
+ 1361 0438 9C       		.byte	0x9c
+ 1362 0439 80040000 		.4byte	0x480
+ 1363 043d 11       		.uleb128 0x11
+ 1364 043e CD030000 		.4byte	.LASF32
+ 1365 0442 01       		.byte	0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 38
+
+
+ 1366 0443 2202     		.2byte	0x222
+ 1367 0445 6B000000 		.4byte	0x6b
+ 1368 0449 8B020000 		.4byte	.LLST14
+ 1369 044d 12       		.uleb128 0x12
+ 1370 044e 94000000 		.4byte	.LASF23
+ 1371 0452 01       		.byte	0x1
+ 1372 0453 2402     		.2byte	0x224
+ 1373 0455 98000000 		.4byte	0x98
+ 1374 0459 AC020000 		.4byte	.LLST15
+ 1375 045d 07       		.uleb128 0x7
+ 1376 045e 08000000 		.4byte	.LVL67
+ 1377 0462 AE050000 		.4byte	0x5ae
+ 1378 0466 07       		.uleb128 0x7
+ 1379 0467 0E000000 		.4byte	.LVL68
+ 1380 046b B9050000 		.4byte	0x5b9
+ 1381 046f 0E       		.uleb128 0xe
+ 1382 0470 18000000 		.4byte	.LVL70
+ 1383 0474 11060000 		.4byte	0x611
+ 1384 0478 0D       		.uleb128 0xd
+ 1385 0479 01       		.uleb128 0x1
+ 1386 047a 50       		.byte	0x50
+ 1387 047b 02       		.uleb128 0x2
+ 1388 047c 08       		.byte	0x8
+ 1389 047d 40       		.byte	0x40
+ 1390 047e 00       		.byte	0
+ 1391 047f 00       		.byte	0
+ 1392 0480 10       		.uleb128 0x10
+ 1393 0481 F8020000 		.4byte	.LASF37
+ 1394 0485 01       		.byte	0x1
+ 1395 0486 5802     		.2byte	0x258
+ 1396 0488 98000000 		.4byte	0x98
+ 1397 048c 00000000 		.4byte	.LFB10
+ 1398 0490 38000000 		.4byte	.LFE10-.LFB10
+ 1399 0494 01       		.uleb128 0x1
+ 1400 0495 9C       		.byte	0x9c
+ 1401 0496 BD040000 		.4byte	0x4bd
+ 1402 049a 12       		.uleb128 0x12
+ 1403 049b 94000000 		.4byte	.LASF23
+ 1404 049f 01       		.byte	0x1
+ 1405 04a0 5A02     		.2byte	0x25a
+ 1406 04a2 98000000 		.4byte	0x98
+ 1407 04a6 CC020000 		.4byte	.LLST16
+ 1408 04aa 07       		.uleb128 0x7
+ 1409 04ab 06000000 		.4byte	.LVL73
+ 1410 04af AE050000 		.4byte	0x5ae
+ 1411 04b3 07       		.uleb128 0x7
+ 1412 04b4 2A000000 		.4byte	.LVL75
+ 1413 04b8 CF050000 		.4byte	0x5cf
+ 1414 04bc 00       		.byte	0
+ 1415 04bd 10       		.uleb128 0x10
+ 1416 04be DC010000 		.4byte	.LASF38
+ 1417 04c2 01       		.byte	0x1
+ 1418 04c3 8B02     		.2byte	0x28b
+ 1419 04c5 98000000 		.4byte	0x98
+ 1420 04c9 00000000 		.4byte	.LFB11
+ 1421 04cd 94000000 		.4byte	.LFE11-.LFB11
+ 1422 04d1 01       		.uleb128 0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 39
+
+
+ 1423 04d2 9C       		.byte	0x9c
+ 1424 04d3 72050000 		.4byte	0x572
+ 1425 04d7 11       		.uleb128 0x11
+ 1426 04d8 0E020000 		.4byte	.LASF21
+ 1427 04dc 01       		.byte	0x1
+ 1428 04dd 8B02     		.2byte	0x28b
+ 1429 04df 6B000000 		.4byte	0x6b
+ 1430 04e3 F5020000 		.4byte	.LLST17
+ 1431 04e7 11       		.uleb128 0x11
+ 1432 04e8 F8030000 		.4byte	.LASF24
+ 1433 04ec 01       		.byte	0x1
+ 1434 04ed 8B02     		.2byte	0x28b
+ 1435 04ef 6B000000 		.4byte	0x6b
+ 1436 04f3 38030000 		.4byte	.LLST18
+ 1437 04f7 11       		.uleb128 0x11
+ 1438 04f8 B6000000 		.4byte	.LASF25
+ 1439 04fc 01       		.byte	0x1
+ 1440 04fd 8B02     		.2byte	0x28b
+ 1441 04ff 6B000000 		.4byte	0x6b
+ 1442 0503 59030000 		.4byte	.LLST19
+ 1443 0507 12       		.uleb128 0x12
+ 1444 0508 94000000 		.4byte	.LASF23
+ 1445 050c 01       		.byte	0x1
+ 1446 050d 8E02     		.2byte	0x28e
+ 1447 050f 98000000 		.4byte	0x98
+ 1448 0513 7A030000 		.4byte	.LLST20
+ 1449 0517 07       		.uleb128 0x7
+ 1450 0518 0E000000 		.4byte	.LVL80
+ 1451 051c AE050000 		.4byte	0x5ae
+ 1452 0520 07       		.uleb128 0x7
+ 1453 0521 1A000000 		.4byte	.LVL81
+ 1454 0525 B9050000 		.4byte	0x5b9
+ 1455 0529 0C       		.uleb128 0xc
+ 1456 052a 2C000000 		.4byte	.LVL84
+ 1457 052e C4050000 		.4byte	0x5c4
+ 1458 0532 4E050000 		.4byte	0x54e
+ 1459 0536 0D       		.uleb128 0xd
+ 1460 0537 01       		.uleb128 0x1
+ 1461 0538 50       		.byte	0x50
+ 1462 0539 02       		.uleb128 0x2
+ 1463 053a 08       		.byte	0x8
+ 1464 053b 40       		.byte	0x40
+ 1465 053c 0D       		.uleb128 0xd
+ 1466 053d 01       		.uleb128 0x1
+ 1467 053e 51       		.byte	0x51
+ 1468 053f 02       		.uleb128 0x2
+ 1469 0540 74       		.byte	0x74
+ 1470 0541 00       		.sleb128 0
+ 1471 0542 0D       		.uleb128 0xd
+ 1472 0543 01       		.uleb128 0x1
+ 1473 0544 52       		.byte	0x52
+ 1474 0545 02       		.uleb128 0x2
+ 1475 0546 91       		.byte	0x91
+ 1476 0547 6F       		.sleb128 -17
+ 1477 0548 0D       		.uleb128 0xd
+ 1478 0549 01       		.uleb128 0x1
+ 1479 054a 53       		.byte	0x53
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 40
+
+
+ 1480 054b 01       		.uleb128 0x1
+ 1481 054c 31       		.byte	0x31
+ 1482 054d 00       		.byte	0
+ 1483 054e 0C       		.uleb128 0xc
+ 1484 054f 5C000000 		.4byte	.LVL88
+ 1485 0553 DA050000 		.4byte	0x5da
+ 1486 0557 68050000 		.4byte	0x568
+ 1487 055b 0D       		.uleb128 0xd
+ 1488 055c 01       		.uleb128 0x1
+ 1489 055d 50       		.byte	0x50
+ 1490 055e 02       		.uleb128 0x2
+ 1491 055f 08       		.byte	0x8
+ 1492 0560 40       		.byte	0x40
+ 1493 0561 0D       		.uleb128 0xd
+ 1494 0562 01       		.uleb128 0x1
+ 1495 0563 51       		.byte	0x51
+ 1496 0564 02       		.uleb128 0x2
+ 1497 0565 75       		.byte	0x75
+ 1498 0566 00       		.sleb128 0
+ 1499 0567 00       		.byte	0
+ 1500 0568 07       		.uleb128 0x7
+ 1501 0569 7E000000 		.4byte	.LVL90
+ 1502 056d CF050000 		.4byte	0x5cf
+ 1503 0571 00       		.byte	0
+ 1504 0572 15       		.uleb128 0x15
+ 1505 0573 6B000000 		.4byte	0x6b
+ 1506 0577 82050000 		.4byte	0x582
+ 1507 057b 16       		.uleb128 0x16
+ 1508 057c BC000000 		.4byte	0xbc
+ 1509 0580 01       		.byte	0x1
+ 1510 0581 00       		.byte	0
+ 1511 0582 17       		.uleb128 0x17
+ 1512 0583 FF010000 		.4byte	.LASF56
+ 1513 0587 03       		.byte	0x3
+ 1514 0588 1C       		.byte	0x1c
+ 1515 0589 72050000 		.4byte	0x572
+ 1516 058d 18       		.uleb128 0x18
+ 1517 058e 39030000 		.4byte	.LASF39
+ 1518 0592 39030000 		.4byte	.LASF39
+ 1519 0596 03       		.byte	0x3
+ 1520 0597 46       		.byte	0x46
+ 1521 0598 18       		.uleb128 0x18
+ 1522 0599 30010000 		.4byte	.LASF40
+ 1523 059d 30010000 		.4byte	.LASF40
+ 1524 05a1 03       		.byte	0x3
+ 1525 05a2 55       		.byte	0x55
+ 1526 05a3 18       		.uleb128 0x18
+ 1527 05a4 0E000000 		.4byte	.LASF41
+ 1528 05a8 0E000000 		.4byte	.LASF41
+ 1529 05ac 03       		.byte	0x3
+ 1530 05ad 56       		.byte	0x56
+ 1531 05ae 18       		.uleb128 0x18
+ 1532 05af 1C000000 		.4byte	.LASF42
+ 1533 05b3 1C000000 		.4byte	.LASF42
+ 1534 05b7 04       		.byte	0x4
+ 1535 05b8 22       		.byte	0x22
+ 1536 05b9 18       		.uleb128 0x18
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 41
+
+
+ 1537 05ba 5E020000 		.4byte	.LASF43
+ 1538 05be 5E020000 		.4byte	.LASF43
+ 1539 05c2 04       		.byte	0x4
+ 1540 05c3 31       		.byte	0x31
+ 1541 05c4 18       		.uleb128 0x18
+ 1542 05c5 52000000 		.4byte	.LASF44
+ 1543 05c9 52000000 		.4byte	.LASF44
+ 1544 05cd 04       		.byte	0x4
+ 1545 05ce 25       		.byte	0x25
+ 1546 05cf 18       		.uleb128 0x18
+ 1547 05d0 01010000 		.4byte	.LASF45
+ 1548 05d4 01010000 		.4byte	.LASF45
+ 1549 05d8 04       		.byte	0x4
+ 1550 05d9 32       		.byte	0x32
+ 1551 05da 18       		.uleb128 0x18
+ 1552 05db 27000000 		.4byte	.LASF46
+ 1553 05df 27000000 		.4byte	.LASF46
+ 1554 05e3 04       		.byte	0x4
+ 1555 05e4 2A       		.byte	0x2a
+ 1556 05e5 18       		.uleb128 0x18
+ 1557 05e6 82020000 		.4byte	.LASF47
+ 1558 05ea 82020000 		.4byte	.LASF47
+ 1559 05ee 05       		.byte	0x5
+ 1560 05ef 7D       		.byte	0x7d
+ 1561 05f0 18       		.uleb128 0x18
+ 1562 05f1 0E030000 		.4byte	.LASF48
+ 1563 05f5 0E030000 		.4byte	.LASF48
+ 1564 05f9 03       		.byte	0x3
+ 1565 05fa 58       		.byte	0x58
+ 1566 05fb 18       		.uleb128 0x18
+ 1567 05fc 2C020000 		.4byte	.LASF49
+ 1568 0600 2C020000 		.4byte	.LASF49
+ 1569 0604 03       		.byte	0x3
+ 1570 0605 59       		.byte	0x59
+ 1571 0606 18       		.uleb128 0x18
+ 1572 0607 C0020000 		.4byte	.LASF50
+ 1573 060b C0020000 		.4byte	.LASF50
+ 1574 060f 05       		.byte	0x5
+ 1575 0610 7E       		.byte	0x7e
+ 1576 0611 18       		.uleb128 0x18
+ 1577 0612 43030000 		.4byte	.LASF51
+ 1578 0616 43030000 		.4byte	.LASF51
+ 1579 061a 04       		.byte	0x4
+ 1580 061b 2C       		.byte	0x2c
+ 1581 061c 18       		.uleb128 0x18
+ 1582 061d 23030000 		.4byte	.LASF52
+ 1583 0621 23030000 		.4byte	.LASF52
+ 1584 0625 04       		.byte	0x4
+ 1585 0626 27       		.byte	0x27
+ 1586 0627 00       		.byte	0
+ 1587              		.section	.debug_abbrev,"",%progbits
+ 1588              	.Ldebug_abbrev0:
+ 1589 0000 01       		.uleb128 0x1
+ 1590 0001 11       		.uleb128 0x11
+ 1591 0002 01       		.byte	0x1
+ 1592 0003 25       		.uleb128 0x25
+ 1593 0004 0E       		.uleb128 0xe
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 42
+
+
+ 1594 0005 13       		.uleb128 0x13
+ 1595 0006 0B       		.uleb128 0xb
+ 1596 0007 03       		.uleb128 0x3
+ 1597 0008 0E       		.uleb128 0xe
+ 1598 0009 1B       		.uleb128 0x1b
+ 1599 000a 0E       		.uleb128 0xe
+ 1600 000b 55       		.uleb128 0x55
+ 1601 000c 17       		.uleb128 0x17
+ 1602 000d 11       		.uleb128 0x11
+ 1603 000e 01       		.uleb128 0x1
+ 1604 000f 10       		.uleb128 0x10
+ 1605 0010 17       		.uleb128 0x17
+ 1606 0011 00       		.byte	0
+ 1607 0012 00       		.byte	0
+ 1608 0013 02       		.uleb128 0x2
+ 1609 0014 24       		.uleb128 0x24
+ 1610 0015 00       		.byte	0
+ 1611 0016 0B       		.uleb128 0xb
+ 1612 0017 0B       		.uleb128 0xb
+ 1613 0018 3E       		.uleb128 0x3e
+ 1614 0019 0B       		.uleb128 0xb
+ 1615 001a 03       		.uleb128 0x3
+ 1616 001b 0E       		.uleb128 0xe
+ 1617 001c 00       		.byte	0
+ 1618 001d 00       		.byte	0
+ 1619 001e 03       		.uleb128 0x3
+ 1620 001f 24       		.uleb128 0x24
+ 1621 0020 00       		.byte	0
+ 1622 0021 0B       		.uleb128 0xb
+ 1623 0022 0B       		.uleb128 0xb
+ 1624 0023 3E       		.uleb128 0x3e
+ 1625 0024 0B       		.uleb128 0xb
+ 1626 0025 03       		.uleb128 0x3
+ 1627 0026 08       		.uleb128 0x8
+ 1628 0027 00       		.byte	0
+ 1629 0028 00       		.byte	0
+ 1630 0029 04       		.uleb128 0x4
+ 1631 002a 16       		.uleb128 0x16
+ 1632 002b 00       		.byte	0
+ 1633 002c 03       		.uleb128 0x3
+ 1634 002d 0E       		.uleb128 0xe
+ 1635 002e 3A       		.uleb128 0x3a
+ 1636 002f 0B       		.uleb128 0xb
+ 1637 0030 3B       		.uleb128 0x3b
+ 1638 0031 05       		.uleb128 0x5
+ 1639 0032 49       		.uleb128 0x49
+ 1640 0033 13       		.uleb128 0x13
+ 1641 0034 00       		.byte	0
+ 1642 0035 00       		.byte	0
+ 1643 0036 05       		.uleb128 0x5
+ 1644 0037 35       		.uleb128 0x35
+ 1645 0038 00       		.byte	0
+ 1646 0039 49       		.uleb128 0x49
+ 1647 003a 13       		.uleb128 0x13
+ 1648 003b 00       		.byte	0
+ 1649 003c 00       		.byte	0
+ 1650 003d 06       		.uleb128 0x6
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 43
+
+
+ 1651 003e 2E       		.uleb128 0x2e
+ 1652 003f 01       		.byte	0x1
+ 1653 0040 3F       		.uleb128 0x3f
+ 1654 0041 19       		.uleb128 0x19
+ 1655 0042 03       		.uleb128 0x3
+ 1656 0043 0E       		.uleb128 0xe
+ 1657 0044 3A       		.uleb128 0x3a
+ 1658 0045 0B       		.uleb128 0xb
+ 1659 0046 3B       		.uleb128 0x3b
+ 1660 0047 0B       		.uleb128 0xb
+ 1661 0048 27       		.uleb128 0x27
+ 1662 0049 19       		.uleb128 0x19
+ 1663 004a 11       		.uleb128 0x11
+ 1664 004b 01       		.uleb128 0x1
+ 1665 004c 12       		.uleb128 0x12
+ 1666 004d 06       		.uleb128 0x6
+ 1667 004e 40       		.uleb128 0x40
+ 1668 004f 18       		.uleb128 0x18
+ 1669 0050 9742     		.uleb128 0x2117
+ 1670 0052 19       		.uleb128 0x19
+ 1671 0053 01       		.uleb128 0x1
+ 1672 0054 13       		.uleb128 0x13
+ 1673 0055 00       		.byte	0
+ 1674 0056 00       		.byte	0
+ 1675 0057 07       		.uleb128 0x7
+ 1676 0058 898201   		.uleb128 0x4109
+ 1677 005b 00       		.byte	0
+ 1678 005c 11       		.uleb128 0x11
+ 1679 005d 01       		.uleb128 0x1
+ 1680 005e 31       		.uleb128 0x31
+ 1681 005f 13       		.uleb128 0x13
+ 1682 0060 00       		.byte	0
+ 1683 0061 00       		.byte	0
+ 1684 0062 08       		.uleb128 0x8
+ 1685 0063 898201   		.uleb128 0x4109
+ 1686 0066 00       		.byte	0
+ 1687 0067 11       		.uleb128 0x11
+ 1688 0068 01       		.uleb128 0x1
+ 1689 0069 9542     		.uleb128 0x2115
+ 1690 006b 19       		.uleb128 0x19
+ 1691 006c 31       		.uleb128 0x31
+ 1692 006d 13       		.uleb128 0x13
+ 1693 006e 00       		.byte	0
+ 1694 006f 00       		.byte	0
+ 1695 0070 09       		.uleb128 0x9
+ 1696 0071 2E       		.uleb128 0x2e
+ 1697 0072 01       		.byte	0x1
+ 1698 0073 3F       		.uleb128 0x3f
+ 1699 0074 19       		.uleb128 0x19
+ 1700 0075 03       		.uleb128 0x3
+ 1701 0076 0E       		.uleb128 0xe
+ 1702 0077 3A       		.uleb128 0x3a
+ 1703 0078 0B       		.uleb128 0xb
+ 1704 0079 3B       		.uleb128 0x3b
+ 1705 007a 0B       		.uleb128 0xb
+ 1706 007b 27       		.uleb128 0x27
+ 1707 007c 19       		.uleb128 0x19
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 44
+
+
+ 1708 007d 49       		.uleb128 0x49
+ 1709 007e 13       		.uleb128 0x13
+ 1710 007f 11       		.uleb128 0x11
+ 1711 0080 01       		.uleb128 0x1
+ 1712 0081 12       		.uleb128 0x12
+ 1713 0082 06       		.uleb128 0x6
+ 1714 0083 40       		.uleb128 0x40
+ 1715 0084 18       		.uleb128 0x18
+ 1716 0085 9742     		.uleb128 0x2117
+ 1717 0087 19       		.uleb128 0x19
+ 1718 0088 01       		.uleb128 0x1
+ 1719 0089 13       		.uleb128 0x13
+ 1720 008a 00       		.byte	0
+ 1721 008b 00       		.byte	0
+ 1722 008c 0A       		.uleb128 0xa
+ 1723 008d 05       		.uleb128 0x5
+ 1724 008e 00       		.byte	0
+ 1725 008f 03       		.uleb128 0x3
+ 1726 0090 0E       		.uleb128 0xe
+ 1727 0091 3A       		.uleb128 0x3a
+ 1728 0092 0B       		.uleb128 0xb
+ 1729 0093 3B       		.uleb128 0x3b
+ 1730 0094 0B       		.uleb128 0xb
+ 1731 0095 49       		.uleb128 0x49
+ 1732 0096 13       		.uleb128 0x13
+ 1733 0097 02       		.uleb128 0x2
+ 1734 0098 17       		.uleb128 0x17
+ 1735 0099 00       		.byte	0
+ 1736 009a 00       		.byte	0
+ 1737 009b 0B       		.uleb128 0xb
+ 1738 009c 34       		.uleb128 0x34
+ 1739 009d 00       		.byte	0
+ 1740 009e 03       		.uleb128 0x3
+ 1741 009f 0E       		.uleb128 0xe
+ 1742 00a0 3A       		.uleb128 0x3a
+ 1743 00a1 0B       		.uleb128 0xb
+ 1744 00a2 3B       		.uleb128 0x3b
+ 1745 00a3 0B       		.uleb128 0xb
+ 1746 00a4 49       		.uleb128 0x49
+ 1747 00a5 13       		.uleb128 0x13
+ 1748 00a6 02       		.uleb128 0x2
+ 1749 00a7 17       		.uleb128 0x17
+ 1750 00a8 00       		.byte	0
+ 1751 00a9 00       		.byte	0
+ 1752 00aa 0C       		.uleb128 0xc
+ 1753 00ab 898201   		.uleb128 0x4109
+ 1754 00ae 01       		.byte	0x1
+ 1755 00af 11       		.uleb128 0x11
+ 1756 00b0 01       		.uleb128 0x1
+ 1757 00b1 31       		.uleb128 0x31
+ 1758 00b2 13       		.uleb128 0x13
+ 1759 00b3 01       		.uleb128 0x1
+ 1760 00b4 13       		.uleb128 0x13
+ 1761 00b5 00       		.byte	0
+ 1762 00b6 00       		.byte	0
+ 1763 00b7 0D       		.uleb128 0xd
+ 1764 00b8 8A8201   		.uleb128 0x410a
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 45
+
+
+ 1765 00bb 00       		.byte	0
+ 1766 00bc 02       		.uleb128 0x2
+ 1767 00bd 18       		.uleb128 0x18
+ 1768 00be 9142     		.uleb128 0x2111
+ 1769 00c0 18       		.uleb128 0x18
+ 1770 00c1 00       		.byte	0
+ 1771 00c2 00       		.byte	0
+ 1772 00c3 0E       		.uleb128 0xe
+ 1773 00c4 898201   		.uleb128 0x4109
+ 1774 00c7 01       		.byte	0x1
+ 1775 00c8 11       		.uleb128 0x11
+ 1776 00c9 01       		.uleb128 0x1
+ 1777 00ca 31       		.uleb128 0x31
+ 1778 00cb 13       		.uleb128 0x13
+ 1779 00cc 00       		.byte	0
+ 1780 00cd 00       		.byte	0
+ 1781 00ce 0F       		.uleb128 0xf
+ 1782 00cf 34       		.uleb128 0x34
+ 1783 00d0 00       		.byte	0
+ 1784 00d1 03       		.uleb128 0x3
+ 1785 00d2 0E       		.uleb128 0xe
+ 1786 00d3 3A       		.uleb128 0x3a
+ 1787 00d4 0B       		.uleb128 0xb
+ 1788 00d5 3B       		.uleb128 0x3b
+ 1789 00d6 0B       		.uleb128 0xb
+ 1790 00d7 49       		.uleb128 0x49
+ 1791 00d8 13       		.uleb128 0x13
+ 1792 00d9 02       		.uleb128 0x2
+ 1793 00da 18       		.uleb128 0x18
+ 1794 00db 00       		.byte	0
+ 1795 00dc 00       		.byte	0
+ 1796 00dd 10       		.uleb128 0x10
+ 1797 00de 2E       		.uleb128 0x2e
+ 1798 00df 01       		.byte	0x1
+ 1799 00e0 3F       		.uleb128 0x3f
+ 1800 00e1 19       		.uleb128 0x19
+ 1801 00e2 03       		.uleb128 0x3
+ 1802 00e3 0E       		.uleb128 0xe
+ 1803 00e4 3A       		.uleb128 0x3a
+ 1804 00e5 0B       		.uleb128 0xb
+ 1805 00e6 3B       		.uleb128 0x3b
+ 1806 00e7 05       		.uleb128 0x5
+ 1807 00e8 27       		.uleb128 0x27
+ 1808 00e9 19       		.uleb128 0x19
+ 1809 00ea 49       		.uleb128 0x49
+ 1810 00eb 13       		.uleb128 0x13
+ 1811 00ec 11       		.uleb128 0x11
+ 1812 00ed 01       		.uleb128 0x1
+ 1813 00ee 12       		.uleb128 0x12
+ 1814 00ef 06       		.uleb128 0x6
+ 1815 00f0 40       		.uleb128 0x40
+ 1816 00f1 18       		.uleb128 0x18
+ 1817 00f2 9742     		.uleb128 0x2117
+ 1818 00f4 19       		.uleb128 0x19
+ 1819 00f5 01       		.uleb128 0x1
+ 1820 00f6 13       		.uleb128 0x13
+ 1821 00f7 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 46
+
+
+ 1822 00f8 00       		.byte	0
+ 1823 00f9 11       		.uleb128 0x11
+ 1824 00fa 05       		.uleb128 0x5
+ 1825 00fb 00       		.byte	0
+ 1826 00fc 03       		.uleb128 0x3
+ 1827 00fd 0E       		.uleb128 0xe
+ 1828 00fe 3A       		.uleb128 0x3a
+ 1829 00ff 0B       		.uleb128 0xb
+ 1830 0100 3B       		.uleb128 0x3b
+ 1831 0101 05       		.uleb128 0x5
+ 1832 0102 49       		.uleb128 0x49
+ 1833 0103 13       		.uleb128 0x13
+ 1834 0104 02       		.uleb128 0x2
+ 1835 0105 17       		.uleb128 0x17
+ 1836 0106 00       		.byte	0
+ 1837 0107 00       		.byte	0
+ 1838 0108 12       		.uleb128 0x12
+ 1839 0109 34       		.uleb128 0x34
+ 1840 010a 00       		.byte	0
+ 1841 010b 03       		.uleb128 0x3
+ 1842 010c 0E       		.uleb128 0xe
+ 1843 010d 3A       		.uleb128 0x3a
+ 1844 010e 0B       		.uleb128 0xb
+ 1845 010f 3B       		.uleb128 0x3b
+ 1846 0110 05       		.uleb128 0x5
+ 1847 0111 49       		.uleb128 0x49
+ 1848 0112 13       		.uleb128 0x13
+ 1849 0113 02       		.uleb128 0x2
+ 1850 0114 17       		.uleb128 0x17
+ 1851 0115 00       		.byte	0
+ 1852 0116 00       		.byte	0
+ 1853 0117 13       		.uleb128 0x13
+ 1854 0118 0F       		.uleb128 0xf
+ 1855 0119 00       		.byte	0
+ 1856 011a 0B       		.uleb128 0xb
+ 1857 011b 0B       		.uleb128 0xb
+ 1858 011c 49       		.uleb128 0x49
+ 1859 011d 13       		.uleb128 0x13
+ 1860 011e 00       		.byte	0
+ 1861 011f 00       		.byte	0
+ 1862 0120 14       		.uleb128 0x14
+ 1863 0121 26       		.uleb128 0x26
+ 1864 0122 00       		.byte	0
+ 1865 0123 49       		.uleb128 0x49
+ 1866 0124 13       		.uleb128 0x13
+ 1867 0125 00       		.byte	0
+ 1868 0126 00       		.byte	0
+ 1869 0127 15       		.uleb128 0x15
+ 1870 0128 01       		.uleb128 0x1
+ 1871 0129 01       		.byte	0x1
+ 1872 012a 49       		.uleb128 0x49
+ 1873 012b 13       		.uleb128 0x13
+ 1874 012c 01       		.uleb128 0x1
+ 1875 012d 13       		.uleb128 0x13
+ 1876 012e 00       		.byte	0
+ 1877 012f 00       		.byte	0
+ 1878 0130 16       		.uleb128 0x16
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 47
+
+
+ 1879 0131 21       		.uleb128 0x21
+ 1880 0132 00       		.byte	0
+ 1881 0133 49       		.uleb128 0x49
+ 1882 0134 13       		.uleb128 0x13
+ 1883 0135 2F       		.uleb128 0x2f
+ 1884 0136 0B       		.uleb128 0xb
+ 1885 0137 00       		.byte	0
+ 1886 0138 00       		.byte	0
+ 1887 0139 17       		.uleb128 0x17
+ 1888 013a 34       		.uleb128 0x34
+ 1889 013b 00       		.byte	0
+ 1890 013c 03       		.uleb128 0x3
+ 1891 013d 0E       		.uleb128 0xe
+ 1892 013e 3A       		.uleb128 0x3a
+ 1893 013f 0B       		.uleb128 0xb
+ 1894 0140 3B       		.uleb128 0x3b
+ 1895 0141 0B       		.uleb128 0xb
+ 1896 0142 49       		.uleb128 0x49
+ 1897 0143 13       		.uleb128 0x13
+ 1898 0144 3F       		.uleb128 0x3f
+ 1899 0145 19       		.uleb128 0x19
+ 1900 0146 3C       		.uleb128 0x3c
+ 1901 0147 19       		.uleb128 0x19
+ 1902 0148 00       		.byte	0
+ 1903 0149 00       		.byte	0
+ 1904 014a 18       		.uleb128 0x18
+ 1905 014b 2E       		.uleb128 0x2e
+ 1906 014c 00       		.byte	0
+ 1907 014d 3F       		.uleb128 0x3f
+ 1908 014e 19       		.uleb128 0x19
+ 1909 014f 3C       		.uleb128 0x3c
+ 1910 0150 19       		.uleb128 0x19
+ 1911 0151 6E       		.uleb128 0x6e
+ 1912 0152 0E       		.uleb128 0xe
+ 1913 0153 03       		.uleb128 0x3
+ 1914 0154 0E       		.uleb128 0xe
+ 1915 0155 3A       		.uleb128 0x3a
+ 1916 0156 0B       		.uleb128 0xb
+ 1917 0157 3B       		.uleb128 0x3b
+ 1918 0158 0B       		.uleb128 0xb
+ 1919 0159 00       		.byte	0
+ 1920 015a 00       		.byte	0
+ 1921 015b 00       		.byte	0
+ 1922              		.section	.debug_loc,"",%progbits
+ 1923              	.Ldebug_loc0:
+ 1924              	.LLST0:
+ 1925 0000 00000000 		.4byte	.LVL4
+ 1926 0004 0B000000 		.4byte	.LVL5-1
+ 1927 0008 0100     		.2byte	0x1
+ 1928 000a 50       		.byte	0x50
+ 1929 000b 0B000000 		.4byte	.LVL5-1
+ 1930 000f 22000000 		.4byte	.LVL8
+ 1931 0013 0200     		.2byte	0x2
+ 1932 0015 91       		.byte	0x91
+ 1933 0016 6F       		.sleb128 -17
+ 1934 0017 22000000 		.4byte	.LVL8
+ 1935 001b 27000000 		.4byte	.LVL9-1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 48
+
+
+ 1936 001f 0200     		.2byte	0x2
+ 1937 0021 72       		.byte	0x72
+ 1938 0022 00       		.sleb128 0
+ 1939 0023 27000000 		.4byte	.LVL9-1
+ 1940 0027 98000000 		.4byte	.LVL21
+ 1941 002b 0200     		.2byte	0x2
+ 1942 002d 91       		.byte	0x91
+ 1943 002e 6F       		.sleb128 -17
+ 1944 002f 98000000 		.4byte	.LVL21
+ 1945 0033 A0000000 		.4byte	.LFE3
+ 1946 0037 0200     		.2byte	0x2
+ 1947 0039 7D       		.byte	0x7d
+ 1948 003a 6F       		.sleb128 -17
+ 1949 003b 00000000 		.4byte	0
+ 1950 003f 00000000 		.4byte	0
+ 1951              	.LLST1:
+ 1952 0043 00000000 		.4byte	.LVL4
+ 1953 0047 0B000000 		.4byte	.LVL5-1
+ 1954 004b 0100     		.2byte	0x1
+ 1955 004d 51       		.byte	0x51
+ 1956 004e 0B000000 		.4byte	.LVL5-1
+ 1957 0052 A0000000 		.4byte	.LFE3
+ 1958 0056 0400     		.2byte	0x4
+ 1959 0058 F3       		.byte	0xf3
+ 1960 0059 01       		.uleb128 0x1
+ 1961 005a 51       		.byte	0x51
+ 1962 005b 9F       		.byte	0x9f
+ 1963 005c 00000000 		.4byte	0
+ 1964 0060 00000000 		.4byte	0
+ 1965              	.LLST2:
+ 1966 0064 30000000 		.4byte	.LVL10
+ 1967 0068 42000000 		.4byte	.LVL11
+ 1968 006c 0100     		.2byte	0x1
+ 1969 006e 50       		.byte	0x50
+ 1970 006f 52000000 		.4byte	.LVL12
+ 1971 0073 56000000 		.4byte	.LVL13
+ 1972 0077 0100     		.2byte	0x1
+ 1973 0079 50       		.byte	0x50
+ 1974 007a 56000000 		.4byte	.LVL13
+ 1975 007e 5C000000 		.4byte	.LVL15
+ 1976 0082 0100     		.2byte	0x1
+ 1977 0084 54       		.byte	0x54
+ 1978 0085 62000000 		.4byte	.LVL17
+ 1979 0089 64000000 		.4byte	.LVL18
+ 1980 008d 0100     		.2byte	0x1
+ 1981 008f 54       		.byte	0x54
+ 1982 0090 64000000 		.4byte	.LVL18
+ 1983 0094 92000000 		.4byte	.LVL20
+ 1984 0098 0200     		.2byte	0x2
+ 1985 009a 30       		.byte	0x30
+ 1986 009b 9F       		.byte	0x9f
+ 1987 009c 00000000 		.4byte	0
+ 1988 00a0 00000000 		.4byte	0
+ 1989              	.LLST3:
+ 1990 00a4 12000000 		.4byte	.LVL6
+ 1991 00a8 30000000 		.4byte	.LVL10
+ 1992 00ac 0500     		.2byte	0x5
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 49
+
+
+ 1993 00ae 74       		.byte	0x74
+ 1994 00af 00       		.sleb128 0
+ 1995 00b0 34       		.byte	0x34
+ 1996 00b1 25       		.byte	0x25
+ 1997 00b2 9F       		.byte	0x9f
+ 1998 00b3 60000000 		.4byte	.LVL16
+ 1999 00b7 62000000 		.4byte	.LVL17
+ 2000 00bb 0500     		.2byte	0x5
+ 2001 00bd 74       		.byte	0x74
+ 2002 00be 00       		.sleb128 0
+ 2003 00bf 34       		.byte	0x34
+ 2004 00c0 25       		.byte	0x25
+ 2005 00c1 9F       		.byte	0x9f
+ 2006 00c2 00000000 		.4byte	0
+ 2007 00c6 00000000 		.4byte	0
+ 2008              	.LLST4:
+ 2009 00ca 12000000 		.4byte	.LVL6
+ 2010 00ce 30000000 		.4byte	.LVL10
+ 2011 00d2 0A00     		.2byte	0xa
+ 2012 00d4 74       		.byte	0x74
+ 2013 00d5 00       		.sleb128 0
+ 2014 00d6 74       		.byte	0x74
+ 2015 00d7 00       		.sleb128 0
+ 2016 00d8 34       		.byte	0x34
+ 2017 00d9 25       		.byte	0x25
+ 2018 00da 34       		.byte	0x34
+ 2019 00db 24       		.byte	0x24
+ 2020 00dc 1C       		.byte	0x1c
+ 2021 00dd 9F       		.byte	0x9f
+ 2022 00de 60000000 		.4byte	.LVL16
+ 2023 00e2 62000000 		.4byte	.LVL17
+ 2024 00e6 0A00     		.2byte	0xa
+ 2025 00e8 74       		.byte	0x74
+ 2026 00e9 00       		.sleb128 0
+ 2027 00ea 74       		.byte	0x74
+ 2028 00eb 00       		.sleb128 0
+ 2029 00ec 34       		.byte	0x34
+ 2030 00ed 25       		.byte	0x25
+ 2031 00ee 34       		.byte	0x34
+ 2032 00ef 24       		.byte	0x24
+ 2033 00f0 1C       		.byte	0x1c
+ 2034 00f1 9F       		.byte	0x9f
+ 2035 00f2 00000000 		.4byte	0
+ 2036 00f6 00000000 		.4byte	0
+ 2037              	.LLST5:
+ 2038 00fa 00000000 		.4byte	.LVL22
+ 2039 00fe 07000000 		.4byte	.LVL23-1
+ 2040 0102 0100     		.2byte	0x1
+ 2041 0104 50       		.byte	0x50
+ 2042 0105 07000000 		.4byte	.LVL23-1
+ 2043 0109 28000000 		.4byte	.LFE4
+ 2044 010d 0400     		.2byte	0x4
+ 2045 010f F3       		.byte	0xf3
+ 2046 0110 01       		.uleb128 0x1
+ 2047 0111 50       		.byte	0x50
+ 2048 0112 9F       		.byte	0x9f
+ 2049 0113 00000000 		.4byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 50
+
+
+ 2050 0117 00000000 		.4byte	0
+ 2051              	.LLST6:
+ 2052 011b 00000000 		.4byte	.LVL30
+ 2053 011f 07000000 		.4byte	.LVL31-1
+ 2054 0123 0100     		.2byte	0x1
+ 2055 0125 50       		.byte	0x50
+ 2056 0126 07000000 		.4byte	.LVL31-1
+ 2057 012a 54000000 		.4byte	.LFE6
+ 2058 012e 0400     		.2byte	0x4
+ 2059 0130 F3       		.byte	0xf3
+ 2060 0131 01       		.uleb128 0x1
+ 2061 0132 50       		.byte	0x50
+ 2062 0133 9F       		.byte	0x9f
+ 2063 0134 00000000 		.4byte	0
+ 2064 0138 00000000 		.4byte	0
+ 2065              	.LLST7:
+ 2066 013c 40000000 		.4byte	.LVL34
+ 2067 0140 46000000 		.4byte	.LVL36
+ 2068 0144 0100     		.2byte	0x1
+ 2069 0146 54       		.byte	0x54
+ 2070 0147 4C000000 		.4byte	.LVL37
+ 2071 014b 50000000 		.4byte	.LVL38
+ 2072 014f 0100     		.2byte	0x1
+ 2073 0151 54       		.byte	0x54
+ 2074 0152 50000000 		.4byte	.LVL38
+ 2075 0156 54000000 		.4byte	.LFE6
+ 2076 015a 0100     		.2byte	0x1
+ 2077 015c 50       		.byte	0x50
+ 2078 015d 00000000 		.4byte	0
+ 2079 0161 00000000 		.4byte	0
+ 2080              	.LLST8:
+ 2081 0165 00000000 		.4byte	.LVL39
+ 2082 0169 09000000 		.4byte	.LVL40-1
+ 2083 016d 0100     		.2byte	0x1
+ 2084 016f 50       		.byte	0x50
+ 2085 0170 09000000 		.4byte	.LVL40-1
+ 2086 0174 26000000 		.4byte	.LVL44
+ 2087 0178 0100     		.2byte	0x1
+ 2088 017a 54       		.byte	0x54
+ 2089 017b 26000000 		.4byte	.LVL44
+ 2090 017f 74000000 		.4byte	.LVL51
+ 2091 0183 0400     		.2byte	0x4
+ 2092 0185 F3       		.byte	0xf3
+ 2093 0186 01       		.uleb128 0x1
+ 2094 0187 50       		.byte	0x50
+ 2095 0188 9F       		.byte	0x9f
+ 2096 0189 74000000 		.4byte	.LVL51
+ 2097 018d 76000000 		.4byte	.LVL52
+ 2098 0191 0100     		.2byte	0x1
+ 2099 0193 54       		.byte	0x54
+ 2100 0194 76000000 		.4byte	.LVL52
+ 2101 0198 78000000 		.4byte	.LVL53
+ 2102 019c 0400     		.2byte	0x4
+ 2103 019e F3       		.byte	0xf3
+ 2104 019f 01       		.uleb128 0x1
+ 2105 01a0 50       		.byte	0x50
+ 2106 01a1 9F       		.byte	0x9f
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 51
+
+
+ 2107 01a2 78000000 		.4byte	.LVL53
+ 2108 01a6 7A000000 		.4byte	.LVL54
+ 2109 01aa 0100     		.2byte	0x1
+ 2110 01ac 54       		.byte	0x54
+ 2111 01ad 7A000000 		.4byte	.LVL54
+ 2112 01b1 88000000 		.4byte	.LFE7
+ 2113 01b5 0400     		.2byte	0x4
+ 2114 01b7 F3       		.byte	0xf3
+ 2115 01b8 01       		.uleb128 0x1
+ 2116 01b9 50       		.byte	0x50
+ 2117 01ba 9F       		.byte	0x9f
+ 2118 01bb 00000000 		.4byte	0
+ 2119 01bf 00000000 		.4byte	0
+ 2120              	.LLST9:
+ 2121 01c3 00000000 		.4byte	.LVL39
+ 2122 01c7 09000000 		.4byte	.LVL40-1
+ 2123 01cb 0100     		.2byte	0x1
+ 2124 01cd 51       		.byte	0x51
+ 2125 01ce 09000000 		.4byte	.LVL40-1
+ 2126 01d2 88000000 		.4byte	.LFE7
+ 2127 01d6 0400     		.2byte	0x4
+ 2128 01d8 F3       		.byte	0xf3
+ 2129 01d9 01       		.uleb128 0x1
+ 2130 01da 51       		.byte	0x51
+ 2131 01db 9F       		.byte	0x9f
+ 2132 01dc 00000000 		.4byte	0
+ 2133 01e0 00000000 		.4byte	0
+ 2134              	.LLST10:
+ 2135 01e4 16000000 		.4byte	.LVL42
+ 2136 01e8 36000000 		.4byte	.LVL45
+ 2137 01ec 0300     		.2byte	0x3
+ 2138 01ee 09       		.byte	0x9
+ 2139 01ef FF       		.byte	0xff
+ 2140 01f0 9F       		.byte	0x9f
+ 2141 01f1 3C000000 		.4byte	.LVL46
+ 2142 01f5 42000000 		.4byte	.LVL47
+ 2143 01f9 0300     		.2byte	0x3
+ 2144 01fb 09       		.byte	0x9
+ 2145 01fc FF       		.byte	0xff
+ 2146 01fd 9F       		.byte	0x9f
+ 2147 01fe 42000000 		.4byte	.LVL47
+ 2148 0202 6E000000 		.4byte	.LVL49
+ 2149 0206 0200     		.2byte	0x2
+ 2150 0208 30       		.byte	0x30
+ 2151 0209 9F       		.byte	0x9f
+ 2152 020a 6E000000 		.4byte	.LVL49
+ 2153 020e 74000000 		.4byte	.LVL51
+ 2154 0212 0100     		.2byte	0x1
+ 2155 0214 54       		.byte	0x54
+ 2156 0215 00000000 		.4byte	0
+ 2157 0219 00000000 		.4byte	0
+ 2158              	.LLST11:
+ 2159 021d 00000000 		.4byte	.LVL55
+ 2160 0221 09000000 		.4byte	.LVL56-1
+ 2161 0225 0100     		.2byte	0x1
+ 2162 0227 50       		.byte	0x50
+ 2163 0228 09000000 		.4byte	.LVL56-1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 52
+
+
+ 2164 022c 5A000000 		.4byte	.LVL65
+ 2165 0230 0100     		.2byte	0x1
+ 2166 0232 55       		.byte	0x55
+ 2167 0233 5A000000 		.4byte	.LVL65
+ 2168 0237 64000000 		.4byte	.LFE8
+ 2169 023b 0400     		.2byte	0x4
+ 2170 023d F3       		.byte	0xf3
+ 2171 023e 01       		.uleb128 0x1
+ 2172 023f 50       		.byte	0x50
+ 2173 0240 9F       		.byte	0x9f
+ 2174 0241 00000000 		.4byte	0
+ 2175 0245 00000000 		.4byte	0
+ 2176              	.LLST12:
+ 2177 0249 00000000 		.4byte	.LVL55
+ 2178 024d 09000000 		.4byte	.LVL56-1
+ 2179 0251 0100     		.2byte	0x1
+ 2180 0253 51       		.byte	0x51
+ 2181 0254 09000000 		.4byte	.LVL56-1
+ 2182 0258 64000000 		.4byte	.LFE8
+ 2183 025c 0400     		.2byte	0x4
+ 2184 025e F3       		.byte	0xf3
+ 2185 025f 01       		.uleb128 0x1
+ 2186 0260 51       		.byte	0x51
+ 2187 0261 9F       		.byte	0x9f
+ 2188 0262 00000000 		.4byte	0
+ 2189 0266 00000000 		.4byte	0
+ 2190              	.LLST13:
+ 2191 026a 14000000 		.4byte	.LVL58
+ 2192 026e 3E000000 		.4byte	.LVL61
+ 2193 0272 0300     		.2byte	0x3
+ 2194 0274 09       		.byte	0x9
+ 2195 0275 FF       		.byte	0xff
+ 2196 0276 9F       		.byte	0x9f
+ 2197 0277 46000000 		.4byte	.LVL63
+ 2198 027b 64000000 		.4byte	.LFE8
+ 2199 027f 0200     		.2byte	0x2
+ 2200 0281 30       		.byte	0x30
+ 2201 0282 9F       		.byte	0x9f
+ 2202 0283 00000000 		.4byte	0
+ 2203 0287 00000000 		.4byte	0
+ 2204              	.LLST14:
+ 2205 028b 00000000 		.4byte	.LVL66
+ 2206 028f 07000000 		.4byte	.LVL67-1
+ 2207 0293 0100     		.2byte	0x1
+ 2208 0295 50       		.byte	0x50
+ 2209 0296 07000000 		.4byte	.LVL67-1
+ 2210 029a 2A000000 		.4byte	.LFE9
+ 2211 029e 0400     		.2byte	0x4
+ 2212 02a0 F3       		.byte	0xf3
+ 2213 02a1 01       		.uleb128 0x1
+ 2214 02a2 50       		.byte	0x50
+ 2215 02a3 9F       		.byte	0x9f
+ 2216 02a4 00000000 		.4byte	0
+ 2217 02a8 00000000 		.4byte	0
+ 2218              	.LLST15:
+ 2219 02ac 12000000 		.4byte	.LVL69
+ 2220 02b0 22000000 		.4byte	.LVL71
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 53
+
+
+ 2221 02b4 0300     		.2byte	0x3
+ 2222 02b6 09       		.byte	0x9
+ 2223 02b7 FF       		.byte	0xff
+ 2224 02b8 9F       		.byte	0x9f
+ 2225 02b9 28000000 		.4byte	.LVL72
+ 2226 02bd 2A000000 		.4byte	.LFE9
+ 2227 02c1 0100     		.2byte	0x1
+ 2228 02c3 50       		.byte	0x50
+ 2229 02c4 00000000 		.4byte	0
+ 2230 02c8 00000000 		.4byte	0
+ 2231              	.LLST16:
+ 2232 02cc 26000000 		.4byte	.LVL74
+ 2233 02d0 2C000000 		.4byte	.LVL76
+ 2234 02d4 0100     		.2byte	0x1
+ 2235 02d6 54       		.byte	0x54
+ 2236 02d7 2E000000 		.4byte	.LVL77
+ 2237 02db 32000000 		.4byte	.LVL78
+ 2238 02df 0100     		.2byte	0x1
+ 2239 02e1 54       		.byte	0x54
+ 2240 02e2 32000000 		.4byte	.LVL78
+ 2241 02e6 38000000 		.4byte	.LFE10
+ 2242 02ea 0100     		.2byte	0x1
+ 2243 02ec 50       		.byte	0x50
+ 2244 02ed 00000000 		.4byte	0
+ 2245 02f1 00000000 		.4byte	0
+ 2246              	.LLST17:
+ 2247 02f5 00000000 		.4byte	.LVL79
+ 2248 02f9 0D000000 		.4byte	.LVL80-1
+ 2249 02fd 0100     		.2byte	0x1
+ 2250 02ff 50       		.byte	0x50
+ 2251 0300 0D000000 		.4byte	.LVL80-1
+ 2252 0304 24000000 		.4byte	.LVL83
+ 2253 0308 0200     		.2byte	0x2
+ 2254 030a 91       		.byte	0x91
+ 2255 030b 6F       		.sleb128 -17
+ 2256 030c 24000000 		.4byte	.LVL83
+ 2257 0310 2B000000 		.4byte	.LVL84-1
+ 2258 0314 0200     		.2byte	0x2
+ 2259 0316 72       		.byte	0x72
+ 2260 0317 00       		.sleb128 0
+ 2261 0318 2B000000 		.4byte	.LVL84-1
+ 2262 031c 8C000000 		.4byte	.LVL93
+ 2263 0320 0200     		.2byte	0x2
+ 2264 0322 91       		.byte	0x91
+ 2265 0323 6F       		.sleb128 -17
+ 2266 0324 8C000000 		.4byte	.LVL93
+ 2267 0328 94000000 		.4byte	.LFE11
+ 2268 032c 0200     		.2byte	0x2
+ 2269 032e 7D       		.byte	0x7d
+ 2270 032f 6F       		.sleb128 -17
+ 2271 0330 00000000 		.4byte	0
+ 2272 0334 00000000 		.4byte	0
+ 2273              	.LLST18:
+ 2274 0338 00000000 		.4byte	.LVL79
+ 2275 033c 0D000000 		.4byte	.LVL80-1
+ 2276 0340 0100     		.2byte	0x1
+ 2277 0342 51       		.byte	0x51
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 54
+
+
+ 2278 0343 0D000000 		.4byte	.LVL80-1
+ 2279 0347 94000000 		.4byte	.LFE11
+ 2280 034b 0400     		.2byte	0x4
+ 2281 034d F3       		.byte	0xf3
+ 2282 034e 01       		.uleb128 0x1
+ 2283 034f 51       		.byte	0x51
+ 2284 0350 9F       		.byte	0x9f
+ 2285 0351 00000000 		.4byte	0
+ 2286 0355 00000000 		.4byte	0
+ 2287              	.LLST19:
+ 2288 0359 00000000 		.4byte	.LVL79
+ 2289 035d 0D000000 		.4byte	.LVL80-1
+ 2290 0361 0100     		.2byte	0x1
+ 2291 0363 52       		.byte	0x52
+ 2292 0364 0D000000 		.4byte	.LVL80-1
+ 2293 0368 94000000 		.4byte	.LFE11
+ 2294 036c 0400     		.2byte	0x4
+ 2295 036e F3       		.byte	0xf3
+ 2296 036f 01       		.uleb128 0x1
+ 2297 0370 52       		.byte	0x52
+ 2298 0371 9F       		.byte	0x9f
+ 2299 0372 00000000 		.4byte	0
+ 2300 0376 00000000 		.4byte	0
+ 2301              	.LLST20:
+ 2302 037a 1E000000 		.4byte	.LVL82
+ 2303 037e 42000000 		.4byte	.LVL85
+ 2304 0382 0300     		.2byte	0x3
+ 2305 0384 09       		.byte	0x9
+ 2306 0385 FF       		.byte	0xff
+ 2307 0386 9F       		.byte	0x9f
+ 2308 0387 48000000 		.4byte	.LVL86
+ 2309 038b 4E000000 		.4byte	.LVL87
+ 2310 038f 0300     		.2byte	0x3
+ 2311 0391 09       		.byte	0x9
+ 2312 0392 FF       		.byte	0xff
+ 2313 0393 9F       		.byte	0x9f
+ 2314 0394 4E000000 		.4byte	.LVL87
+ 2315 0398 7A000000 		.4byte	.LVL89
+ 2316 039c 0200     		.2byte	0x2
+ 2317 039e 30       		.byte	0x30
+ 2318 039f 9F       		.byte	0x9f
+ 2319 03a0 7A000000 		.4byte	.LVL89
+ 2320 03a4 80000000 		.4byte	.LVL91
+ 2321 03a8 0100     		.2byte	0x1
+ 2322 03aa 54       		.byte	0x54
+ 2323 03ab 00000000 		.4byte	0
+ 2324 03af 00000000 		.4byte	0
+ 2325              		.section	.debug_aranges,"",%progbits
+ 2326 0000 74000000 		.4byte	0x74
+ 2327 0004 0200     		.2byte	0x2
+ 2328 0006 00000000 		.4byte	.Ldebug_info0
+ 2329 000a 04       		.byte	0x4
+ 2330 000b 00       		.byte	0
+ 2331 000c 0000     		.2byte	0
+ 2332 000e 0000     		.2byte	0
+ 2333 0010 00000000 		.4byte	.LFB0
+ 2334 0014 0E000000 		.4byte	.LFE0-.LFB0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 55
+
+
+ 2335 0018 00000000 		.4byte	.LFB1
+ 2336 001c 04000000 		.4byte	.LFE1-.LFB1
+ 2337 0020 00000000 		.4byte	.LFB2
+ 2338 0024 04000000 		.4byte	.LFE2-.LFB2
+ 2339 0028 00000000 		.4byte	.LFB3
+ 2340 002c A0000000 		.4byte	.LFE3-.LFB3
+ 2341 0030 00000000 		.4byte	.LFB4
+ 2342 0034 28000000 		.4byte	.LFE4-.LFB4
+ 2343 0038 00000000 		.4byte	.LFB5
+ 2344 003c 0A000000 		.4byte	.LFE5-.LFB5
+ 2345 0040 00000000 		.4byte	.LFB6
+ 2346 0044 54000000 		.4byte	.LFE6-.LFB6
+ 2347 0048 00000000 		.4byte	.LFB7
+ 2348 004c 88000000 		.4byte	.LFE7-.LFB7
+ 2349 0050 00000000 		.4byte	.LFB8
+ 2350 0054 64000000 		.4byte	.LFE8-.LFB8
+ 2351 0058 00000000 		.4byte	.LFB9
+ 2352 005c 2A000000 		.4byte	.LFE9-.LFB9
+ 2353 0060 00000000 		.4byte	.LFB10
+ 2354 0064 38000000 		.4byte	.LFE10-.LFB10
+ 2355 0068 00000000 		.4byte	.LFB11
+ 2356 006c 94000000 		.4byte	.LFE11-.LFB11
+ 2357 0070 00000000 		.4byte	0
+ 2358 0074 00000000 		.4byte	0
+ 2359              		.section	.debug_ranges,"",%progbits
+ 2360              	.Ldebug_ranges0:
+ 2361 0000 00000000 		.4byte	.LFB0
+ 2362 0004 0E000000 		.4byte	.LFE0
+ 2363 0008 00000000 		.4byte	.LFB1
+ 2364 000c 04000000 		.4byte	.LFE1
+ 2365 0010 00000000 		.4byte	.LFB2
+ 2366 0014 04000000 		.4byte	.LFE2
+ 2367 0018 00000000 		.4byte	.LFB3
+ 2368 001c A0000000 		.4byte	.LFE3
+ 2369 0020 00000000 		.4byte	.LFB4
+ 2370 0024 28000000 		.4byte	.LFE4
+ 2371 0028 00000000 		.4byte	.LFB5
+ 2372 002c 0A000000 		.4byte	.LFE5
+ 2373 0030 00000000 		.4byte	.LFB6
+ 2374 0034 54000000 		.4byte	.LFE6
+ 2375 0038 00000000 		.4byte	.LFB7
+ 2376 003c 88000000 		.4byte	.LFE7
+ 2377 0040 00000000 		.4byte	.LFB8
+ 2378 0044 64000000 		.4byte	.LFE8
+ 2379 0048 00000000 		.4byte	.LFB9
+ 2380 004c 2A000000 		.4byte	.LFE9
+ 2381 0050 00000000 		.4byte	.LFB10
+ 2382 0054 38000000 		.4byte	.LFE10
+ 2383 0058 00000000 		.4byte	.LFB11
+ 2384 005c 94000000 		.4byte	.LFE11
+ 2385 0060 00000000 		.4byte	0
+ 2386 0064 00000000 		.4byte	0
+ 2387              		.section	.debug_line,"",%progbits
+ 2388              	.Ldebug_line0:
+ 2389 0000 3C020000 		.section	.debug_str,"MS",%progbits,1
+ 2389      02006F00 
+ 2389      00000201 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 56
+
+
+ 2389      FB0E0D00 
+ 2389      01010101 
+ 2390              	.LASF14:
+ 2391 0000 63797374 		.ascii	"cystatus\000"
+ 2391      61747573 
+ 2391      00
+ 2392              	.LASF15:
+ 2393 0009 72656738 		.ascii	"reg8\000"
+ 2393      00
+ 2394              	.LASF41:
+ 2395 000e 43794545 		.ascii	"CyEEPROM_Stop\000"
+ 2395      50524F4D 
+ 2395      5F53746F 
+ 2395      7000
+ 2396              	.LASF42:
+ 2397 001c 43795370 		.ascii	"CySpcStart\000"
+ 2397      63537461 
+ 2397      727400
+ 2398              	.LASF46:
+ 2399 0027 43795370 		.ascii	"CySpcWriteRow\000"
+ 2399      63577269 
+ 2399      7465526F 
+ 2399      7700
+ 2400              	.LASF11:
+ 2401 0035 666C6F61 		.ascii	"float\000"
+ 2401      7400
+ 2402              	.LASF18:
+ 2403 003b 496E7465 		.ascii	"Internal_EEPROM_Enable\000"
+ 2403      726E616C 
+ 2403      5F454550 
+ 2403      524F4D5F 
+ 2403      456E6162 
+ 2404              	.LASF44:
+ 2405 0052 43795370 		.ascii	"CySpcLoadMultiByte\000"
+ 2405      634C6F61 
+ 2405      644D756C 
+ 2405      74694279 
+ 2405      746500
+ 2406              	.LASF3:
+ 2407 0065 73686F72 		.ascii	"short unsigned int\000"
+ 2407      7420756E 
+ 2407      7369676E 
+ 2407      65642069 
+ 2407      6E7400
+ 2408              	.LASF31:
+ 2409 0078 496E7465 		.ascii	"Internal_EEPROM_EraseSector\000"
+ 2409      726E616C 
+ 2409      5F454550 
+ 2409      524F4D5F 
+ 2409      45726173 
+ 2410              	.LASF23:
+ 2411 0094 73746174 		.ascii	"status\000"
+ 2411      757300
+ 2412              	.LASF35:
+ 2413 009b 496E7465 		.ascii	"Internal_EEPROM_StartWrite\000"
+ 2413      726E616C 
+ 2413      5F454550 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 57
+
+
+ 2413      524F4D5F 
+ 2413      53746172 
+ 2414              	.LASF25:
+ 2415 00b6 62797465 		.ascii	"byteNumber\000"
+ 2415      4E756D62 
+ 2415      657200
+ 2416              	.LASF54:
+ 2417 00c1 47656E65 		.ascii	"Generated_Source\\PSoC5\\Internal_EEPROM.c\000"
+ 2417      72617465 
+ 2417      645F536F 
+ 2417      75726365 
+ 2417      5C50536F 
+ 2418              	.LASF7:
+ 2419 00ea 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2419      206C6F6E 
+ 2419      6720756E 
+ 2419      7369676E 
+ 2419      65642069 
+ 2420              	.LASF45:
+ 2421 0101 43795370 		.ascii	"CySpcUnlock\000"
+ 2421      63556E6C 
+ 2421      6F636B00 
+ 2422              	.LASF36:
+ 2423 010d 496E7465 		.ascii	"Internal_EEPROM_StartErase\000"
+ 2423      726E616C 
+ 2423      5F454550 
+ 2423      524F4D5F 
+ 2423      53746172 
+ 2424              	.LASF34:
+ 2425 0128 726F7744 		.ascii	"rowData\000"
+ 2425      61746100 
+ 2426              	.LASF40:
+ 2427 0130 43794545 		.ascii	"CyEEPROM_Start\000"
+ 2427      50524F4D 
+ 2427      5F537461 
+ 2427      727400
+ 2428              	.LASF29:
+ 2429 013f 696E7465 		.ascii	"interruptState\000"
+ 2429      72727570 
+ 2429      74537461 
+ 2429      746500
+ 2430              	.LASF53:
+ 2431 014e 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2431      43313120 
+ 2431      352E342E 
+ 2431      31203230 
+ 2431      31363036 
+ 2432 0181 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2432      20726576 
+ 2432      6973696F 
+ 2432      6E203233 
+ 2432      37373135 
+ 2433 01b4 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 2433      66756E63 
+ 2433      74696F6E 
+ 2433      2D736563 
+ 2433      74696F6E 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 58
+
+
+ 2434              	.LASF38:
+ 2435 01dc 496E7465 		.ascii	"Internal_EEPROM_ByteWritePos\000"
+ 2435      726E616C 
+ 2435      5F454550 
+ 2435      524F4D5F 
+ 2435      42797465 
+ 2436              	.LASF9:
+ 2437 01f9 75696E74 		.ascii	"uint8\000"
+ 2437      3800
+ 2438              	.LASF56:
+ 2439 01ff 64696554 		.ascii	"dieTemperature\000"
+ 2439      656D7065 
+ 2439      72617475 
+ 2439      726500
+ 2440              	.LASF21:
+ 2441 020e 64617461 		.ascii	"dataByte\000"
+ 2441      42797465 
+ 2441      00
+ 2442              	.LASF1:
+ 2443 0217 756E7369 		.ascii	"unsigned char\000"
+ 2443      676E6564 
+ 2443      20636861 
+ 2443      7200
+ 2444              	.LASF12:
+ 2445 0225 646F7562 		.ascii	"double\000"
+ 2445      6C6500
+ 2446              	.LASF49:
+ 2447 022c 43794545 		.ascii	"CyEEPROM_ReadRelease\000"
+ 2447      50524F4D 
+ 2447      5F526561 
+ 2447      6452656C 
+ 2447      65617365 
+ 2448              	.LASF19:
+ 2449 0241 496E7465 		.ascii	"Internal_EEPROM_Start\000"
+ 2449      726E616C 
+ 2449      5F454550 
+ 2449      524F4D5F 
+ 2449      53746172 
+ 2450              	.LASF10:
+ 2451 0257 75696E74 		.ascii	"uint16\000"
+ 2451      313600
+ 2452              	.LASF43:
+ 2453 025e 43795370 		.ascii	"CySpcLock\000"
+ 2453      634C6F63 
+ 2453      6B00
+ 2454              	.LASF26:
+ 2455 0268 496E7465 		.ascii	"Internal_EEPROM_WriteByte\000"
+ 2455      726E616C 
+ 2455      5F454550 
+ 2455      524F4D5F 
+ 2455      57726974 
+ 2456              	.LASF47:
+ 2457 0282 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 2457      74657243 
+ 2457      72697469 
+ 2457      63616C53 
+ 2457      65637469 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 59
+
+
+ 2458              	.LASF5:
+ 2459 0299 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2459      20756E73 
+ 2459      69676E65 
+ 2459      6420696E 
+ 2459      7400
+ 2460              	.LASF8:
+ 2461 02ab 756E7369 		.ascii	"unsigned int\000"
+ 2461      676E6564 
+ 2461      20696E74 
+ 2461      00
+ 2462              	.LASF22:
+ 2463 02b8 61646472 		.ascii	"address\000"
+ 2463      65737300 
+ 2464              	.LASF50:
+ 2465 02c0 43794578 		.ascii	"CyExitCriticalSection\000"
+ 2465      69744372 
+ 2465      69746963 
+ 2465      616C5365 
+ 2465      6374696F 
+ 2466              	.LASF30:
+ 2467 02d6 496E7465 		.ascii	"Internal_EEPROM_UpdateTemperature\000"
+ 2467      726E616C 
+ 2467      5F454550 
+ 2467      524F4D5F 
+ 2467      55706461 
+ 2468              	.LASF37:
+ 2469 02f8 496E7465 		.ascii	"Internal_EEPROM_Query\000"
+ 2469      726E616C 
+ 2469      5F454550 
+ 2469      524F4D5F 
+ 2469      51756572 
+ 2470              	.LASF48:
+ 2471 030e 43794545 		.ascii	"CyEEPROM_ReadReserve\000"
+ 2471      50524F4D 
+ 2471      5F526561 
+ 2471      64526573 
+ 2471      65727665 
+ 2472              	.LASF52:
+ 2473 0323 43795370 		.ascii	"CySpcLoadRow\000"
+ 2473      634C6F61 
+ 2473      64526F77 
+ 2473      00
+ 2474              	.LASF17:
+ 2475 0330 73697A65 		.ascii	"sizetype\000"
+ 2475      74797065 
+ 2475      00
+ 2476              	.LASF39:
+ 2477 0339 43795365 		.ascii	"CySetTemp\000"
+ 2477      7454656D 
+ 2477      7000
+ 2478              	.LASF51:
+ 2479 0343 43795370 		.ascii	"CySpcEraseSector\000"
+ 2479      63457261 
+ 2479      73655365 
+ 2479      63746F72 
+ 2479      00
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 60
+
+
+ 2480              	.LASF6:
+ 2481 0354 6C6F6E67 		.ascii	"long long int\000"
+ 2481      206C6F6E 
+ 2481      6720696E 
+ 2481      7400
+ 2482              	.LASF13:
+ 2483 0362 63686172 		.ascii	"char\000"
+ 2483      00
+ 2484              	.LASF33:
+ 2485 0367 496E7465 		.ascii	"Internal_EEPROM_Write\000"
+ 2485      726E616C 
+ 2485      5F454550 
+ 2485      524F4D5F 
+ 2485      57726974 
+ 2486              	.LASF2:
+ 2487 037d 73686F72 		.ascii	"short int\000"
+ 2487      7420696E 
+ 2487      7400
+ 2488              	.LASF55:
+ 2489 0387 433A5C55 		.ascii	"C:\\Users\\ali\\Desktop\\cy-micro\\cy-micro\\cy-boo"
+ 2489      73657273 
+ 2489      5C616C69 
+ 2489      5C446573 
+ 2489      6B746F70 
+ 2490 03b4 746C6F61 		.ascii	"tloader\\Bootloader.cydsn\000"
+ 2490      6465725C 
+ 2490      426F6F74 
+ 2490      6C6F6164 
+ 2490      65722E63 
+ 2491              	.LASF32:
+ 2492 03cd 73656374 		.ascii	"sectorNumber\000"
+ 2492      6F724E75 
+ 2492      6D626572 
+ 2492      00
+ 2493              	.LASF4:
+ 2494 03da 6C6F6E67 		.ascii	"long int\000"
+ 2494      20696E74 
+ 2494      00
+ 2495              	.LASF20:
+ 2496 03e3 496E7465 		.ascii	"Internal_EEPROM_Stop\000"
+ 2496      726E616C 
+ 2496      5F454550 
+ 2496      524F4D5F 
+ 2496      53746F70 
+ 2497              	.LASF24:
+ 2498 03f8 726F774E 		.ascii	"rowNumber\000"
+ 2498      756D6265 
+ 2498      7200
+ 2499              	.LASF16:
+ 2500 0402 6C6F6E67 		.ascii	"long double\000"
+ 2500      20646F75 
+ 2500      626C6500 
+ 2501              	.LASF0:
+ 2502 040e 7369676E 		.ascii	"signed char\000"
+ 2502      65642063 
+ 2502      68617200 
+ 2503              	.LASF27:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXBIOuB.s 			page 61
+
+
+ 2504 041a 496E7465 		.ascii	"Internal_EEPROM_ReadByte\000"
+ 2504      726E616C 
+ 2504      5F454550 
+ 2504      524F4D5F 
+ 2504      52656164 
+ 2505              	.LASF28:
+ 2506 0433 72657442 		.ascii	"retByte\000"
+ 2506      79746500 
+ 2507              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

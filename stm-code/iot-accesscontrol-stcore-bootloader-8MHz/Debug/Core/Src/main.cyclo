@@ -1,0 +1,14 @@
+../Drivers/CMSIS/Include/core_cm3.h:1600:22:__NVIC_ClearPendingIRQ	2
+../Drivers/CMSIS/Include/core_cm3.h:1762:34:__NVIC_SystemReset	1
+../Core/Src/main.c:97:6:usb_debug_print	1
+../Core/Src/main.c:104:19:ee2_read_byte	4
+../Core/Src/main.c:121:19:ee2_write_byte	5
+../Core/Src/main.c:146:19:internal_flash_write_WORD	1
+../Core/Src/main.c:153:10:internal_flash_read_HALFWORD	1
+../Core/Src/main.c:175:15:reset_cause_get	7
+../Core/Src/main.c:246:14:reset_cause_get_name	8
+../Core/Src/main.c:297:5:main	1
+../Core/Src/main.c:362:6:SystemClock_Config	3
+../Core/Src/main.c:398:6:update_firmware	15
+../Core/Src/main.c:521:13:jump_to_app	3
+../Core/Src/main.c:574:6:Error_Handler	1

@@ -1,0 +1,2 @@
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/GCC/OS_ThreadSafe.c:89:6:__malloc_lock	16	static
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/GCC/OS_ThreadSafe.c:102:6:__malloc_unlock	16	static

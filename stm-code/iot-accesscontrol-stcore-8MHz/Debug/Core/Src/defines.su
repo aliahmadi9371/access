@@ -1,0 +1,8 @@
+../Core/Src/defines.c:39:9:q_put_message	32	static
+../Core/Src/defines.c:55:7:q_get_message	24	static
+../Core/Src/defines.c:68:9:df_hexstring_hex	24	static
+../Core/Src/defines.c:170:6:df_hex_hexstring	24	static
+../Core/Src/defines.c:233:7:strremove	32	static
+../Core/Src/defines.c:246:6:byte_to_binary	24	static
+../Core/Src/defines.c:261:6:swap	24	static
+../Core/Src/defines.c:269:6:selectionSort	32	static

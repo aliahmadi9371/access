@@ -1,0 +1,2279 @@
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.read_e2prom_i2c,"ax",%progbits
+  20              		.align	2
+  21              		.global	read_e2prom_i2c
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	read_e2prom_i2c, %function
+  25              	read_e2prom_i2c:
+  26              	.LFB64:
+  27              		.file 1 "main.c"
+   1:main.c        **** /******************************************************************************
+   2:main.c        **** * File Name: main.c
+   3:main.c        **** *
+   4:main.c        **** * Version 1.10
+   5:main.c        **** *
+   6:main.c        **** * Description: 
+   7:main.c        **** *  This example project demonstrates the basic operation of the Bootloader
+   8:main.c        **** *  Component.
+   9:main.c        **** *
+  10:main.c        **** * Related Document: 
+  11:main.c        **** *  CE221653_PSoC_4_Bootloader_and_Bootloadable.pdf
+  12:main.c        **** *
+  13:main.c        **** * Hardware Dependency: 
+  14:main.c        **** *  See CE221653_PSoC_4_Bootloader_and_Bootloadable.pdf
+  15:main.c        **** *
+  16:main.c        **** *******************************************************************************
+  17:main.c        **** * Copyright (2017-2019), Cypress Semiconductor Corporation. All rights reserved.
+  18:main.c        **** *******************************************************************************
+  19:main.c        **** * This software, including source code, documentation and related materials
+  20:main.c        **** * (“Software”), is owned by Cypress Semiconductor Corporation or one of its
+  21:main.c        **** * subsidiaries (“Cypress”) and is protected by and subject to worldwide patent
+  22:main.c        **** * protection (United States and foreign), United States copyright laws and
+  23:main.c        **** * international treaty provisions. Therefore, you may use this Software only
+  24:main.c        **** * as provided in the license agreement accompanying the software package from
+  25:main.c        **** * which you obtained this Software (“EULA”).
+  26:main.c        **** *
+  27:main.c        **** * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
+  28:main.c        **** * non-transferable license to copy, modify, and compile the Software source
+  29:main.c        **** * code solely for use in connection with Cypress’s integrated circuit products.
+  30:main.c        **** * Any reproduction, modification, translation, compilation, or representation
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 2
+
+
+  31:main.c        **** * of this Software except as specified above is prohibited without the express
+  32:main.c        **** * written permission of Cypress.
+  33:main.c        **** *
+  34:main.c        **** * Disclaimer: THIS SOFTWARE IS PROVIDED AS-IS, WITH NO WARRANTY OF ANY KIND,
+  35:main.c        **** * EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT, IMPLIED
+  36:main.c        **** * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. Cypress
+  37:main.c        **** * reserves the right to make changes to the Software without notice. Cypress
+  38:main.c        **** * does not assume any liability arising out of the application or use of the
+  39:main.c        **** * Software or any product or circuit described in the Software. Cypress does
+  40:main.c        **** * not authorize its products for use in any products where a malfunction or
+  41:main.c        **** * failure of the Cypress product may reasonably be expected to result in
+  42:main.c        **** * significant property damage, injury or death (“High Risk Product”). By
+  43:main.c        **** * including Cypress’s product in a High Risk Product, the manufacturer of such
+  44:main.c        **** * system or application assumes all risk of such use and in doing so agrees to
+  45:main.c        **** * indemnify Cypress against all liability. 
+  46:main.c        **** *******************************************************************************/
+  47:main.c        **** 
+  48:main.c        **** #include "project.h"
+  49:main.c        **** #include <CyFlash.h>
+  50:main.c        **** #include <stdio.h>
+  51:main.c        **** 
+  52:main.c        **** // FOTA
+  53:main.c        **** #define FOTA_START                          1
+  54:main.c        **** #define FOTA_STOP                           0
+  55:main.c        **** #define FOTA_ROW_SIZE                       262
+  56:main.c        **** // external e2prom
+  57:main.c        **** #define EE2_1_CHIP_ADDR                     0x52
+  58:main.c        **** #define EE2_2_CHIP_ADDR                     0x50
+  59:main.c        **** #define EE2_Loc_FOTA_START                  0
+  60:main.c        **** #define EE2_Loc_FOTA_CRC_BYTE0              1
+  61:main.c        **** #define EE2_Loc_FOTA_CRC_BYTE1              2
+  62:main.c        **** #define EE2_Loc_FOTA_CRC_BYTE2              3
+  63:main.c        **** #define EE2_Loc_FOTA_CRC_BYTE3              4
+  64:main.c        **** #define EE2_Loc_FOTA_App_SIZE_BYTE0         5
+  65:main.c        **** #define EE2_Loc_FOTA_App_SIZE_BYTE1         6
+  66:main.c        **** #define EE2_Loc_FOTA_App_SIZE_BYTE2         7    
+  67:main.c        **** #define EE2_Loc_FOTA_App_SIZE_BYTE3         8
+  68:main.c        **** #define EE2_Loc_FOTA_ROW_START              9
+  69:main.c        **** 
+  70:main.c        **** 
+  71:main.c        **** #if (CY_PSOC4_4100MS)
+  72:main.c        ****     #define LED_BLUE_ON     (1u)
+  73:main.c        ****     #define LED_BLUE_OFF    (0u)
+  74:main.c        **** #else
+  75:main.c        ****     #define LED_BLUE_ON     (0u)
+  76:main.c        ****     #define LED_BLUE_OFF    (1u)
+  77:main.c        **** #endif
+  78:main.c        **** 
+  79:main.c        **** 
+  80:main.c        **** /******************************************************************************
+  81:main.c        **** * Function Name: main
+  82:main.c        **** *******************************************************************************
+  83:main.c        **** *
+  84:main.c        **** * Summary:
+  85:main.c        **** *  The main function performs these functions:
+  86:main.c        **** *  1. Shows the Bootloader status by enabling the blue LED.
+  87:main.c        **** *  2. Starts the Bootloader communication.
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 3
+
+
+  88:main.c        **** *
+  89:main.c        **** ******************************************************************************/
+  90:main.c        **** //  Device Address : |1|-|0|-|1|-|0|-|A2|-|A1|-|A0|
+  91:main.c        **** 
+  92:main.c        **** uint8 read_e2prom_i2c(uint8 chipAddr, uint16 MemAddres)
+  93:main.c        **** {  
+  28              		.loc 1 93 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 16
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 84B0     		sub	sp, sp, #16
+  37              		.cfi_def_cfa_offset 24
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  40 0006 0346     		mov	r3, r0
+  41 0008 0A46     		mov	r2, r1
+  42 000a FB71     		strb	r3, [r7, #7]
+  43 000c 1346     		mov	r3, r2	@ movhi
+  44 000e BB80     		strh	r3, [r7, #4]	@ movhi
+  94:main.c        ****     uint8 ret = 1;
+  45              		.loc 1 94 0
+  46 0010 0123     		movs	r3, #1
+  47 0012 FB73     		strb	r3, [r7, #15]
+  95:main.c        ****     
+  96:main.c        ****     I2C_MasterSendStart(chipAddr, I2C_MODE_COMPLETE_XFER);   //Again send start
+  48              		.loc 1 96 0
+  49 0014 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  50 0016 0021     		movs	r1, #0
+  51 0018 1846     		mov	r0, r3
+  52 001a FFF7FEFF 		bl	I2C_MasterSendStart
+  97:main.c        **** 
+  98:main.c        ****     I2C_MasterWriteByte(MemAddres>>8);              //address of eeprom to read data from it
+  53              		.loc 1 98 0
+  54 001e BB88     		ldrh	r3, [r7, #4]
+  55 0020 1B0A     		lsrs	r3, r3, #8
+  56 0022 9BB2     		uxth	r3, r3
+  57 0024 DBB2     		uxtb	r3, r3
+  58 0026 1846     		mov	r0, r3
+  59 0028 FFF7FEFF 		bl	I2C_MasterWriteByte
+  99:main.c        **** 
+ 100:main.c        ****     I2C_MasterWriteByte(MemAddres);                 //address of eeprom to read data from it
+  60              		.loc 1 100 0
+  61 002c BB88     		ldrh	r3, [r7, #4]	@ movhi
+  62 002e DBB2     		uxtb	r3, r3
+  63 0030 1846     		mov	r0, r3
+  64 0032 FFF7FEFF 		bl	I2C_MasterWriteByte
+ 101:main.c        ****     
+ 102:main.c        ****     I2C_MasterSendRestart(chipAddr, I2C_MODE_REPEAT_START);         //Send restart
+  65              		.loc 1 102 0
+  66 0036 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  67 0038 0121     		movs	r1, #1
+  68 003a 1846     		mov	r0, r3
+  69 003c FFF7FEFF 		bl	I2C_MasterSendRestart
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 4
+
+
+ 103:main.c        **** 
+ 104:main.c        ****     ret = I2C_MasterReadByte(I2C_NAK_DATA);                   //receive data bytes with ack
+  70              		.loc 1 104 0
+  71 0040 0020     		movs	r0, #0
+  72 0042 FFF7FEFF 		bl	I2C_MasterReadByte
+  73 0046 0346     		mov	r3, r0
+  74 0048 FB73     		strb	r3, [r7, #15]
+ 105:main.c        **** 
+ 106:main.c        ****     I2C_MasterSendStop();                           //Send stop  
+  75              		.loc 1 106 0
+  76 004a FFF7FEFF 		bl	I2C_MasterSendStop
+ 107:main.c        **** 
+ 108:main.c        ****     //CyDelay(10u);                                   // time must being exist for eeprom time work
+ 109:main.c        ****     
+ 110:main.c        ****     return ret;
+  77              		.loc 1 110 0
+  78 004e FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 111:main.c        **** }
+  79              		.loc 1 111 0
+  80 0050 1846     		mov	r0, r3
+  81 0052 1037     		adds	r7, r7, #16
+  82              		.cfi_def_cfa_offset 8
+  83 0054 BD46     		mov	sp, r7
+  84              		.cfi_def_cfa_register 13
+  85              		@ sp needed
+  86 0056 80BD     		pop	{r7, pc}
+  87              		.cfi_endproc
+  88              	.LFE64:
+  89              		.size	read_e2prom_i2c, .-read_e2prom_i2c
+  90              		.section	.text.write_e2prom_i2c,"ax",%progbits
+  91              		.align	2
+  92              		.global	write_e2prom_i2c
+  93              		.thumb
+  94              		.thumb_func
+  95              		.type	write_e2prom_i2c, %function
+  96              	write_e2prom_i2c:
+  97              	.LFB65:
+ 112:main.c        **** 
+ 113:main.c        **** void write_e2prom_i2c(uint8 chipAddr, uint16 MemAddres, uint8 data)
+ 114:main.c        **** {
+  98              		.loc 1 114 0
+  99              		.cfi_startproc
+ 100              		@ args = 0, pretend = 0, frame = 8
+ 101              		@ frame_needed = 1, uses_anonymous_args = 0
+ 102 0000 80B5     		push	{r7, lr}
+ 103              		.cfi_def_cfa_offset 8
+ 104              		.cfi_offset 7, -8
+ 105              		.cfi_offset 14, -4
+ 106 0002 82B0     		sub	sp, sp, #8
+ 107              		.cfi_def_cfa_offset 16
+ 108 0004 00AF     		add	r7, sp, #0
+ 109              		.cfi_def_cfa_register 7
+ 110 0006 0346     		mov	r3, r0
+ 111 0008 FB71     		strb	r3, [r7, #7]
+ 112 000a 0B46     		mov	r3, r1	@ movhi
+ 113 000c BB80     		strh	r3, [r7, #4]	@ movhi
+ 114 000e 1346     		mov	r3, r2
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 5
+
+
+ 115 0010 BB71     		strb	r3, [r7, #6]
+ 115:main.c        ****     I2C_MasterSendStart(chipAddr, I2C_MODE_COMPLETE_XFER);     //Send start with slaveID 80u & writ
+ 116              		.loc 1 115 0
+ 117 0012 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 118 0014 0021     		movs	r1, #0
+ 119 0016 1846     		mov	r0, r3
+ 120 0018 FFF7FEFF 		bl	I2C_MasterSendStart
+ 116:main.c        **** 
+ 117:main.c        ****     I2C_MasterWriteByte(MemAddres >> 8);                        //address of eeprom on which data n
+ 121              		.loc 1 117 0
+ 122 001c BB88     		ldrh	r3, [r7, #4]
+ 123 001e 1B0A     		lsrs	r3, r3, #8
+ 124 0020 9BB2     		uxth	r3, r3
+ 125 0022 DBB2     		uxtb	r3, r3
+ 126 0024 1846     		mov	r0, r3
+ 127 0026 FFF7FEFF 		bl	I2C_MasterWriteByte
+ 118:main.c        **** 
+ 119:main.c        ****     I2C_MasterWriteByte(MemAddres);                        //address of eeprom on which data needs 
+ 128              		.loc 1 119 0
+ 129 002a BB88     		ldrh	r3, [r7, #4]	@ movhi
+ 130 002c DBB2     		uxtb	r3, r3
+ 131 002e 1846     		mov	r0, r3
+ 132 0030 FFF7FEFF 		bl	I2C_MasterWriteByte
+ 120:main.c        **** 
+ 121:main.c        ****     I2C_MasterWriteByte(data);
+ 133              		.loc 1 121 0
+ 134 0034 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 135 0036 1846     		mov	r0, r3
+ 136 0038 FFF7FEFF 		bl	I2C_MasterWriteByte
+ 122:main.c        ****     
+ 123:main.c        ****     I2C_MasterSendStop();
+ 137              		.loc 1 123 0
+ 138 003c FFF7FEFF 		bl	I2C_MasterSendStop
+ 124:main.c        ****     
+ 125:main.c        ****     CyDelay(5u);   // time must being exist for eeprom time working 
+ 139              		.loc 1 125 0
+ 140 0040 0520     		movs	r0, #5
+ 141 0042 FFF7FEFF 		bl	CyDelay
+ 126:main.c        **** }
+ 142              		.loc 1 126 0
+ 143 0046 00BF     		nop
+ 144 0048 0837     		adds	r7, r7, #8
+ 145              		.cfi_def_cfa_offset 8
+ 146 004a BD46     		mov	sp, r7
+ 147              		.cfi_def_cfa_register 13
+ 148              		@ sp needed
+ 149 004c 80BD     		pop	{r7, pc}
+ 150              		.cfi_endproc
+ 151              	.LFE65:
+ 152              		.size	write_e2prom_i2c, .-write_e2prom_i2c
+ 153              		.global	counter
+ 154 004e 00BF     		.bss
+ 155              		.type	counter, %object
+ 156              		.size	counter, 1
+ 157              	counter:
+ 158 0000 00       		.space	1
+ 159              		.comm	buf,100,4
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 6
+
+
+ 160              		.section	.rodata
+ 161              		.align	2
+ 162              	.LC0:
+ 163 0000 77726F74 		.ascii	"wrote row: %02d\015\012\000"
+ 163      6520726F 
+ 163      773A2025 
+ 163      3032640D 
+ 163      0A00
+ 164 0012 0000     		.align	2
+ 165              	.LC1:
+ 166 0014 466C6173 		.ascii	"Flash writing already in use\015\012\000"
+ 166      68207772 
+ 166      6974696E 
+ 166      6720616C 
+ 166      72656164 
+ 167 0033 00       		.align	2
+ 168              	.LC2:
+ 169 0034 436F6D6D 		.ascii	"Command not accepted\015\012\000"
+ 169      616E6420 
+ 169      6E6F7420 
+ 169      61636365 
+ 169      70746564 
+ 170 004b 00       		.align	2
+ 171              	.LC3:
+ 172 004c 4661696C 		.ascii	"Failure\015\012\000"
+ 172      7572650D 
+ 172      0A00
+ 173              		.section	.text.handleError,"ax",%progbits
+ 174              		.align	2
+ 175              		.global	handleError
+ 176              		.thumb
+ 177              		.thumb_func
+ 178              		.type	handleError, %function
+ 179              	handleError:
+ 180              	.LFB66:
+ 127:main.c        **** 
+ 128:main.c        **** uint8 counter = 0;
+ 129:main.c        **** char buf[100];
+ 130:main.c        **** void handleError(cystatus* value)
+ 131:main.c        **** {
+ 181              		.loc 1 131 0
+ 182              		.cfi_startproc
+ 183              		@ args = 0, pretend = 0, frame = 8
+ 184              		@ frame_needed = 1, uses_anonymous_args = 0
+ 185 0000 80B5     		push	{r7, lr}
+ 186              		.cfi_def_cfa_offset 8
+ 187              		.cfi_offset 7, -8
+ 188              		.cfi_offset 14, -4
+ 189 0002 82B0     		sub	sp, sp, #8
+ 190              		.cfi_def_cfa_offset 16
+ 191 0004 00AF     		add	r7, sp, #0
+ 192              		.cfi_def_cfa_register 7
+ 193 0006 7860     		str	r0, [r7, #4]
+ 132:main.c        ****     if(*value == CYRET_SUCCESS){
+ 194              		.loc 1 132 0
+ 195 0008 7B68     		ldr	r3, [r7, #4]
+ 196 000a 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 7
+
+
+ 197 000c 002B     		cmp	r3, #0
+ 198 000e 13D1     		bne	.L5
+ 133:main.c        **** //        RS232_Debug_PutString("Successful\r\n");
+ 134:main.c        ****         memset(buf, '\0', sizeof(buf));
+ 199              		.loc 1 134 0
+ 200 0010 6422     		movs	r2, #100
+ 201 0012 0021     		movs	r1, #0
+ 202 0014 1448     		ldr	r0, .L10
+ 203 0016 FFF7FEFF 		bl	memset
+ 135:main.c        ****         sprintf(buf, "wrote row: %02d\r\n", counter++);
+ 204              		.loc 1 135 0
+ 205 001a 144B     		ldr	r3, .L10+4
+ 206 001c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 207 001e 5A1C     		adds	r2, r3, #1
+ 208 0020 D1B2     		uxtb	r1, r2
+ 209 0022 124A     		ldr	r2, .L10+4
+ 210 0024 1170     		strb	r1, [r2]
+ 211 0026 1A46     		mov	r2, r3
+ 212 0028 1149     		ldr	r1, .L10+8
+ 213 002a 0F48     		ldr	r0, .L10
+ 214 002c FFF7FEFF 		bl	sprintf
+ 136:main.c        ****         RS485_Sensor_PutString(buf);
+ 215              		.loc 1 136 0
+ 216 0030 0D48     		ldr	r0, .L10
+ 217 0032 FFF7FEFF 		bl	RS485_Sensor_PutString
+ 137:main.c        ****     } 
+ 138:main.c        ****     else if(*value == CYRET_LOCKED){
+ 139:main.c        **** //        RS232_Debug_PutString("Flash writing already in use\r\n");
+ 140:main.c        ****         RS485_Sensor_PutString("Flash writing already in use\r\n");
+ 141:main.c        ****     } 
+ 142:main.c        ****     else if(*value == CYRET_CANCELED){
+ 143:main.c        **** //        RS232_Debug_PutString("Command not accepted\r\n");
+ 144:main.c        ****         RS485_Sensor_PutString("Command not accepted\r\n");
+ 145:main.c        ****     } 
+ 146:main.c        ****     else{
+ 147:main.c        **** //        RS232_Debug_PutString("Failure\r\n");
+ 148:main.c        ****         RS485_Sensor_PutString("Failure\r\n");
+ 149:main.c        ****     }
+ 150:main.c        **** }
+ 218              		.loc 1 150 0
+ 219 0036 12E0     		b	.L9
+ 220              	.L5:
+ 138:main.c        **** //        RS232_Debug_PutString("Flash writing already in use\r\n");
+ 221              		.loc 1 138 0
+ 222 0038 7B68     		ldr	r3, [r7, #4]
+ 223 003a 1B68     		ldr	r3, [r3]
+ 224 003c 042B     		cmp	r3, #4
+ 225 003e 03D1     		bne	.L7
+ 140:main.c        ****     } 
+ 226              		.loc 1 140 0
+ 227 0040 0C48     		ldr	r0, .L10+12
+ 228 0042 FFF7FEFF 		bl	RS485_Sensor_PutString
+ 229              		.loc 1 150 0
+ 230 0046 0AE0     		b	.L9
+ 231              	.L7:
+ 142:main.c        **** //        RS232_Debug_PutString("Command not accepted\r\n");
+ 232              		.loc 1 142 0
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 8
+
+
+ 233 0048 7B68     		ldr	r3, [r7, #4]
+ 234 004a 1B68     		ldr	r3, [r3]
+ 235 004c 092B     		cmp	r3, #9
+ 236 004e 03D1     		bne	.L8
+ 144:main.c        ****     } 
+ 237              		.loc 1 144 0
+ 238 0050 0948     		ldr	r0, .L10+16
+ 239 0052 FFF7FEFF 		bl	RS485_Sensor_PutString
+ 240              		.loc 1 150 0
+ 241 0056 02E0     		b	.L9
+ 242              	.L8:
+ 148:main.c        ****     }
+ 243              		.loc 1 148 0
+ 244 0058 0848     		ldr	r0, .L10+20
+ 245 005a FFF7FEFF 		bl	RS485_Sensor_PutString
+ 246              	.L9:
+ 247              		.loc 1 150 0
+ 248 005e 00BF     		nop
+ 249 0060 0837     		adds	r7, r7, #8
+ 250              		.cfi_def_cfa_offset 8
+ 251 0062 BD46     		mov	sp, r7
+ 252              		.cfi_def_cfa_register 13
+ 253              		@ sp needed
+ 254 0064 80BD     		pop	{r7, pc}
+ 255              	.L11:
+ 256 0066 00BF     		.align	2
+ 257              	.L10:
+ 258 0068 00000000 		.word	buf
+ 259 006c 00000000 		.word	counter
+ 260 0070 00000000 		.word	.LC0
+ 261 0074 14000000 		.word	.LC1
+ 262 0078 34000000 		.word	.LC2
+ 263 007c 4C000000 		.word	.LC3
+ 264              		.cfi_endproc
+ 265              	.LFE66:
+ 266              		.size	handleError, .-handleError
+ 267              		.section	.rodata
+ 268 0056 0000     		.align	2
+ 269              	.LC4:
+ 270 0058 0D0A2D2D 		.ascii	"\015\012--------------------\015\012&&&&& BOOTLOADE"
+ 270      2D2D2D2D 
+ 270      2D2D2D2D 
+ 270      2D2D2D2D 
+ 270      2D2D2D2D 
+ 271 007f 52205354 		.ascii	"R STARTS &&&&&\015\012--------------------\015\012\000"
+ 271      41525453 
+ 271      20262626 
+ 271      26260D0A 
+ 271      2D2D2D2D 
+ 272 00a6 0000     		.align	2
+ 273              	.LC5:
+ 274 00a8 4352433A 		.ascii	"CRC: %08lX\015\012Bootloader status:0x%02X\015\012a"
+ 274      20253038 
+ 274      6C580D0A 
+ 274      426F6F74 
+ 274      6C6F6164 
+ 275 00cf 70702073 		.ascii	"pp size: %ld\015\012\000"
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 9
+
+
+ 275      697A653A 
+ 275      20256C64 
+ 275      0D0A00
+ 276 00de 0000     		.align	2
+ 277              	.LC6:
+ 278 00e0 66697273 		.ascii	"first row address:%04X\015\012row CRC: %02X\015\012"
+ 278      7420726F 
+ 278      77206164 
+ 278      64726573 
+ 278      733A2530 
+ 279 0107 00       		.ascii	"\000"
+ 280              		.align	2
+ 281              	.LC7:
+ 282 0108 6E657743 		.ascii	"newCRC: 0x%08lX\015\012AppCRC: 0x%08lX\015\012\000"
+ 282      52433A20 
+ 282      30782530 
+ 282      386C580D 
+ 282      0A417070 
+ 283 012b 00       		.align	2
+ 284              	.LC8:
+ 285 012c 43524373 		.ascii	"CRCs are OK!\015\012\000"
+ 285      20617265 
+ 285      204F4B21 
+ 285      0D0A00
+ 286 013b 00       		.align	2
+ 287              	.LC9:
+ 288 013c 0D0A2D2D 		.ascii	"\015\012--------------------\015\012&&&&& BOOTLOADE"
+ 288      2D2D2D2D 
+ 288      2D2D2D2D 
+ 288      2D2D2D2D 
+ 288      2D2D2D2D 
+ 289 0163 52205052 		.ascii	"R PROGRAMMED &&&&&\015\012--------------------\015\012"
+ 289      4F475241 
+ 289      4D4D4544 
+ 289      20262626 
+ 289      26260D0A 
+ 290 018d 00       		.ascii	"\000"
+ 291 018e 0000     		.align	2
+ 292              	.LC10:
+ 293 0190 0D0A2D2D 		.ascii	"\015\012--------------------\015\012&&&&& BOOTLOADE"
+ 293      2D2D2D2D 
+ 293      2D2D2D2D 
+ 293      2D2D2D2D 
+ 293      2D2D2D2D 
+ 294 01b7 52204641 		.ascii	"R FAILED!!! &&&&&\015\012--------------------\015\012"
+ 294      494C4544 
+ 294      21212120 
+ 294      26262626 
+ 294      260D0A2D 
+ 295 01e0 00       		.ascii	"\000"
+ 296 01e1 000000   		.align	2
+ 297              	.LC11:
+ 298 01e4 0D0A2D2D 		.ascii	"\015\012--------------------\015\012&&&&& BOOTLOADE"
+ 298      2D2D2D2D 
+ 298      2D2D2D2D 
+ 298      2D2D2D2D 
+ 298      2D2D2D2D 
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 10
+
+
+ 299 020b 5220454E 		.ascii	"R ENDS &&&&&\015\012--------------------\015\012\000"
+ 299      44532026 
+ 299      26262626 
+ 299      0D0A2D2D 
+ 299      2D2D2D2D 
+ 300              		.section	.text.main,"ax",%progbits
+ 301              		.align	2
+ 302              		.global	main
+ 303              		.thumb
+ 304              		.thumb_func
+ 305              		.type	main, %function
+ 306              	main:
+ 307              	.LFB67:
+ 151:main.c        **** 
+ 152:main.c        **** int main()
+ 153:main.c        **** {
+ 308              		.loc 1 153 0
+ 309              		.cfi_startproc
+ 310              		@ args = 0, pretend = 0, frame = 408
+ 311              		@ frame_needed = 1, uses_anonymous_args = 0
+ 312 0000 90B5     		push	{r4, r7, lr}
+ 313              		.cfi_def_cfa_offset 12
+ 314              		.cfi_offset 4, -12
+ 315              		.cfi_offset 7, -8
+ 316              		.cfi_offset 14, -4
+ 317 0002 E9B0     		sub	sp, sp, #420
+ 318              		.cfi_def_cfa_offset 432
+ 319 0004 02AF     		add	r7, sp, #8
+ 320              		.cfi_def_cfa 7, 424
+ 154:main.c        ****     /* Enable the global interrupts */
+ 155:main.c        ****     CyGlobalIntEnable;
+ 321              		.loc 1 155 0
+ 322              		.syntax unified
+ 323              	@ 155 "main.c" 1
+ 324 0006 62B6     		CPSIE   i
+ 325              	@ 0 "" 2
+ 156:main.c        ****     
+ 157:main.c        ****     /* Start the Bootloader communication */
+ 158:main.c        ****     //Bootloader_Start();
+ 159:main.c        ****     
+ 160:main.c        **** //    RS232_Debug_Start();
+ 161:main.c        ****     RS485_Sensor_Start();
+ 326              		.loc 1 161 0
+ 327              		.thumb
+ 328              		.syntax unified
+ 329 0008 FFF7FEFF 		bl	RS485_Sensor_Start
+ 162:main.c        ****     I2C_Start();
+ 330              		.loc 1 162 0
+ 331 000c FFF7FEFF 		bl	I2C_Start
+ 163:main.c        ****     
+ 164:main.c        **** //    RS232_Debug_PutString("\r\n--------------------\r\n&&&&& BOOTLOADER STARTS &&&&&\r\n---------
+ 165:main.c        ****     RS485_Sensor_PutString("\r\n--------------------\r\n&&&&& BOOTLOADER STARTS &&&&&\r\n----------
+ 332              		.loc 1 165 0
+ 333 0010 E148     		ldr	r0, .L28
+ 334 0012 FFF7FEFF 		bl	RS485_Sensor_PutString
+ 166:main.c        ****     
+ 167:main.c        **** //    Bootloader_Exit(Bootloader_EXIT_TO_BTLDB);
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 11
+
+
+ 168:main.c        **** //    
+ 169:main.c        **** //    return 0;
+ 170:main.c        ****     
+ 171:main.c        ****     uint32 newCRC = 0;
+ 335              		.loc 1 171 0
+ 336 0016 0023     		movs	r3, #0
+ 337 0018 C7F89431 		str	r3, [r7, #404]
+ 172:main.c        ****     
+ 173:main.c        ****     char buff[100];
+ 174:main.c        ****     
+ 175:main.c        ****     /* ***************************** METADATA COMES FROM SERVER ***************************** */
+ 176:main.c        ****     uint8 status = read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_START); 
+ 338              		.loc 1 176 0
+ 339 001c 0021     		movs	r1, #0
+ 340 001e 5220     		movs	r0, #82
+ 341 0020 FFF7FEFF 		bl	read_e2prom_i2c
+ 342 0024 0346     		mov	r3, r0
+ 343 0026 87F88331 		strb	r3, [r7, #387]
+ 177:main.c        ****     uint32 appCRC = read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_CRC_BYTE3) << 24 | read_e2prom_i2
+ 344              		.loc 1 177 0
+ 345 002a 0421     		movs	r1, #4
+ 346 002c 5220     		movs	r0, #82
+ 347 002e FFF7FEFF 		bl	read_e2prom_i2c
+ 348 0032 0346     		mov	r3, r0
+ 349 0034 1C06     		lsls	r4, r3, #24
+ 350 0036 0321     		movs	r1, #3
+ 351 0038 5220     		movs	r0, #82
+ 352 003a FFF7FEFF 		bl	read_e2prom_i2c
+ 353 003e 0346     		mov	r3, r0
+ 354 0040 1B04     		lsls	r3, r3, #16
+ 355 0042 1C43     		orrs	r4, r4, r3
+ 356 0044 0221     		movs	r1, #2
+ 357 0046 5220     		movs	r0, #82
+ 358 0048 FFF7FEFF 		bl	read_e2prom_i2c
+ 359 004c 0346     		mov	r3, r0
+ 360 004e 1B02     		lsls	r3, r3, #8
+ 361 0050 1C43     		orrs	r4, r4, r3
+ 362 0052 0121     		movs	r1, #1
+ 363 0054 5220     		movs	r0, #82
+ 364 0056 FFF7FEFF 		bl	read_e2prom_i2c
+ 365 005a 0346     		mov	r3, r0
+ 366 005c 2343     		orrs	r3, r3, r4
+ 367 005e C7F87C31 		str	r3, [r7, #380]
+ 178:main.c        ****     uint32 appSize = read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_App_SIZE_BYTE3) << 24 | read_e2p
+ 368              		.loc 1 178 0
+ 369 0062 0821     		movs	r1, #8
+ 370 0064 5220     		movs	r0, #82
+ 371 0066 FFF7FEFF 		bl	read_e2prom_i2c
+ 372 006a 0346     		mov	r3, r0
+ 373 006c 1C06     		lsls	r4, r3, #24
+ 374 006e 0721     		movs	r1, #7
+ 375 0070 5220     		movs	r0, #82
+ 376 0072 FFF7FEFF 		bl	read_e2prom_i2c
+ 377 0076 0346     		mov	r3, r0
+ 378 0078 1B04     		lsls	r3, r3, #16
+ 379 007a 1C43     		orrs	r4, r4, r3
+ 380 007c 0621     		movs	r1, #6
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 12
+
+
+ 381 007e 5220     		movs	r0, #82
+ 382 0080 FFF7FEFF 		bl	read_e2prom_i2c
+ 383 0084 0346     		mov	r3, r0
+ 384 0086 1B02     		lsls	r3, r3, #8
+ 385 0088 1C43     		orrs	r4, r4, r3
+ 386 008a 0521     		movs	r1, #5
+ 387 008c 5220     		movs	r0, #82
+ 388 008e FFF7FEFF 		bl	read_e2prom_i2c
+ 389 0092 0346     		mov	r3, r0
+ 390 0094 2343     		orrs	r3, r3, r4
+ 391 0096 C7F87831 		str	r3, [r7, #376]
+ 179:main.c        ****     //uint8 appLines = read_e2prom_i2c(EE2_1_CHIP_ADDR, 0xFFFA);
+ 180:main.c        ****     /* ***************************** METADATA COMES FROM SERVER ***************************** */
+ 181:main.c        ****     
+ 182:main.c        ****     // every line has 262 bytes including [1-Byte ArrayID][2-Bytes ArrayAddress][2-Bytes Line Size(
+ 183:main.c        ****     
+ 184:main.c        ****     memset(buff,'\0',sizeof(buff));
+ 392              		.loc 1 184 0
+ 393 009a 07F58673 		add	r3, r7, #268
+ 394 009e 6422     		movs	r2, #100
+ 395 00a0 0021     		movs	r1, #0
+ 396 00a2 1846     		mov	r0, r3
+ 397 00a4 FFF7FEFF 		bl	memset
+ 185:main.c        ****     sprintf(buff,"CRC: %08lX\r\nBootloader status:0x%02X\r\napp size: %ld\r\n", appCRC, status, app
+ 398              		.loc 1 185 0
+ 399 00a8 97F88321 		ldrb	r2, [r7, #387]	@ zero_extendqisi2
+ 400 00ac 07F58670 		add	r0, r7, #268
+ 401 00b0 D7F87831 		ldr	r3, [r7, #376]
+ 402 00b4 0093     		str	r3, [sp]
+ 403 00b6 1346     		mov	r3, r2
+ 404 00b8 D7F87C21 		ldr	r2, [r7, #380]
+ 405 00bc B749     		ldr	r1, .L28+4
+ 406 00be FFF7FEFF 		bl	sprintf
+ 186:main.c        **** //    RS232_Debug_PutString(buff);  
+ 187:main.c        ****     RS485_Sensor_PutString(buff);
+ 407              		.loc 1 187 0
+ 408 00c2 07F58673 		add	r3, r7, #268
+ 409 00c6 1846     		mov	r0, r3
+ 410 00c8 FFF7FEFF 		bl	RS485_Sensor_PutString
+ 188:main.c        **** 
+ 189:main.c        ****     if(status == FOTA_START){
+ 411              		.loc 1 189 0
+ 412 00cc 97F88331 		ldrb	r3, [r7, #387]	@ zero_extendqisi2
+ 413 00d0 012B     		cmp	r3, #1
+ 414 00d2 40F0B381 		bne	.L13
+ 415              	.LBB2:
+ 190:main.c        ****         for (uint i = 0; i < (appSize / FOTA_ROW_SIZE); i++){
+ 416              		.loc 1 190 0
+ 417 00d6 0023     		movs	r3, #0
+ 418 00d8 C7F89031 		str	r3, [r7, #400]
+ 419 00dc 9FE0     		b	.L14
+ 420              	.L17:
+ 421              	.LBB3:
+ 191:main.c        ****             memset(buff,'\0',sizeof(buff));
+ 422              		.loc 1 191 0
+ 423 00de 07F58673 		add	r3, r7, #268
+ 424 00e2 6422     		movs	r2, #100
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 13
+
+
+ 425 00e4 0021     		movs	r1, #0
+ 426 00e6 1846     		mov	r0, r3
+ 427 00e8 FFF7FEFF 		bl	memset
+ 192:main.c        ****             uint16 row_add = (read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + (i * FOTA_R
+ 428              		.loc 1 192 0
+ 429 00ec D7F89031 		ldr	r3, [r7, #400]
+ 430 00f0 9BB2     		uxth	r3, r3
+ 431 00f2 1A46     		mov	r2, r3	@ movhi
+ 432 00f4 9201     		lsls	r2, r2, #6
+ 433 00f6 1A44     		add	r2, r2, r3
+ 434 00f8 5200     		lsls	r2, r2, #1
+ 435 00fa 1344     		add	r3, r3, r2
+ 436 00fc 5B00     		lsls	r3, r3, #1
+ 437 00fe 9BB2     		uxth	r3, r3
+ 438 0100 0A33     		adds	r3, r3, #10
+ 439 0102 9BB2     		uxth	r3, r3
+ 440 0104 1946     		mov	r1, r3
+ 441 0106 5220     		movs	r0, #82
+ 442 0108 FFF7FEFF 		bl	read_e2prom_i2c
+ 443 010c 0346     		mov	r3, r0
+ 444 010e 1B02     		lsls	r3, r3, #8
+ 445 0110 1CB2     		sxth	r4, r3
+ 446 0112 D7F89031 		ldr	r3, [r7, #400]
+ 447 0116 9BB2     		uxth	r3, r3
+ 448 0118 1A46     		mov	r2, r3	@ movhi
+ 449 011a 9201     		lsls	r2, r2, #6
+ 450 011c 1A44     		add	r2, r2, r3
+ 451 011e 5200     		lsls	r2, r2, #1
+ 452 0120 1344     		add	r3, r3, r2
+ 453 0122 5B00     		lsls	r3, r3, #1
+ 454 0124 9BB2     		uxth	r3, r3
+ 455 0126 0B33     		adds	r3, r3, #11
+ 456 0128 9BB2     		uxth	r3, r3
+ 457 012a 1946     		mov	r1, r3
+ 458 012c 5220     		movs	r0, #82
+ 459 012e FFF7FEFF 		bl	read_e2prom_i2c
+ 460 0132 0346     		mov	r3, r0
+ 461 0134 1BB2     		sxth	r3, r3
+ 462 0136 2343     		orrs	r3, r3, r4
+ 463 0138 1BB2     		sxth	r3, r3
+ 464 013a A7F87631 		strh	r3, [r7, #374]	@ movhi
+ 193:main.c        ****             uint8 row_crc = read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + 262 + (i * FO
+ 465              		.loc 1 193 0
+ 466 013e D7F89031 		ldr	r3, [r7, #400]
+ 467 0142 9BB2     		uxth	r3, r3
+ 468 0144 1A46     		mov	r2, r3	@ movhi
+ 469 0146 9201     		lsls	r2, r2, #6
+ 470 0148 1A44     		add	r2, r2, r3
+ 471 014a 5200     		lsls	r2, r2, #1
+ 472 014c 1344     		add	r3, r3, r2
+ 473 014e 5B00     		lsls	r3, r3, #1
+ 474 0150 9BB2     		uxth	r3, r3
+ 475 0152 03F58773 		add	r3, r3, #270
+ 476 0156 9BB2     		uxth	r3, r3
+ 477 0158 1946     		mov	r1, r3
+ 478 015a 5220     		movs	r0, #82
+ 479 015c FFF7FEFF 		bl	read_e2prom_i2c
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 14
+
+
+ 480 0160 0346     		mov	r3, r0
+ 481 0162 87F87531 		strb	r3, [r7, #373]
+ 194:main.c        ****             sprintf(buff,"first row address:%04X\r\nrow CRC: %02X\r\n", row_add, row_crc);
+ 482              		.loc 1 194 0
+ 483 0166 B7F87621 		ldrh	r2, [r7, #374]
+ 484 016a 97F87531 		ldrb	r3, [r7, #373]	@ zero_extendqisi2
+ 485 016e 07F58670 		add	r0, r7, #268
+ 486 0172 8B49     		ldr	r1, .L28+8
+ 487 0174 FFF7FEFF 		bl	sprintf
+ 195:main.c        **** 
+ 196:main.c        **** //            if(i == 116){
+ 197:main.c        **** //                for(int k = 0; k < FOTA_ROW_SIZE; k++){
+ 198:main.c        **** //                    memset(buff, '\0', sizeof(buff));
+ 199:main.c        **** //                    sprintf(buff, "%02X ", read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_STAR
+ 200:main.c        **** //                    RS485_Sensor_PutString(buff);
+ 201:main.c        **** //                    if(k % 64 == 0){
+ 202:main.c        **** //                        RS485_Sensor_PutString("\r\n");       
+ 203:main.c        **** //                    }
+ 204:main.c        **** //                }
+ 205:main.c        **** //            }
+ 206:main.c        **** //            sprintf(buff,"\r\narray id:%02X\r\nfirst row address:%04X\r\nrow size: %04x\r\nfirst 
+ 207:main.c        **** //                read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + (i * FOTA_ROW_SIZE)),
+ 208:main.c        **** //                (read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + (i * FOTA_ROW_SIZE) + 
+ 209:main.c        **** //                read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + (i * FOTA_ROW_SIZE) + 3
+ 210:main.c        **** //                read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + (i * FOTA_ROW_SIZE) + 5
+ 211:main.c        **** //                read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + 262 + (i * FOTA_ROW_SIZ
+ 212:main.c        **** //            );
+ 213:main.c        **** //                RS232_Debug_PutString(buff);    
+ 214:main.c        **** //            RS485_Sensor_PutString(buff);
+ 215:main.c        ****             
+ 216:main.c        **** //                uint16 rowAddress = read_e2prom_i2c(i+1) << 8 | read_e2prom_i2c(i+2) << 0;
+ 217:main.c        **** //                uint8  arrayID    = read_e2prom_i2c(i);
+ 218:main.c        ****             
+ 219:main.c        ****             uint8 dataBuff[FOTA_ROW_SIZE]; // 262
+ 220:main.c        ****             memset(dataBuff, '\0', sizeof(dataBuff));
+ 488              		.loc 1 220 0
+ 489 0178 3B46     		mov	r3, r7
+ 490 017a 4FF48372 		mov	r2, #262
+ 491 017e 0021     		movs	r1, #0
+ 492 0180 1846     		mov	r0, r3
+ 493 0182 FFF7FEFF 		bl	memset
+ 494              	.LBB4:
+ 221:main.c        ****             for(uint j = 0; j < FOTA_ROW_SIZE; j++){
+ 495              		.loc 1 221 0
+ 496 0186 0023     		movs	r3, #0
+ 497 0188 C7F88C31 		str	r3, [r7, #396]
+ 498 018c 3DE0     		b	.L15
+ 499              	.L16:
+ 222:main.c        ****                 dataBuff[j] = read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + (i * FOTA_R
+ 500              		.loc 1 222 0 discriminator 3
+ 501 018e D7F89031 		ldr	r3, [r7, #400]
+ 502 0192 9BB2     		uxth	r3, r3
+ 503 0194 1A46     		mov	r2, r3	@ movhi
+ 504 0196 9201     		lsls	r2, r2, #6
+ 505 0198 1A44     		add	r2, r2, r3
+ 506 019a 5200     		lsls	r2, r2, #1
+ 507 019c 1344     		add	r3, r3, r2
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 15
+
+
+ 508 019e 5B00     		lsls	r3, r3, #1
+ 509 01a0 9AB2     		uxth	r2, r3
+ 510 01a2 D7F88C31 		ldr	r3, [r7, #396]
+ 511 01a6 9BB2     		uxth	r3, r3
+ 512 01a8 1344     		add	r3, r3, r2
+ 513 01aa 9BB2     		uxth	r3, r3
+ 514 01ac 0933     		adds	r3, r3, #9
+ 515 01ae 9BB2     		uxth	r3, r3
+ 516 01b0 1946     		mov	r1, r3
+ 517 01b2 5220     		movs	r0, #82
+ 518 01b4 FFF7FEFF 		bl	read_e2prom_i2c
+ 519 01b8 0346     		mov	r3, r0
+ 520 01ba 1946     		mov	r1, r3
+ 521 01bc 3A46     		mov	r2, r7
+ 522 01be D7F88C31 		ldr	r3, [r7, #396]
+ 523 01c2 1344     		add	r3, r3, r2
+ 524 01c4 0A46     		mov	r2, r1
+ 525 01c6 1A70     		strb	r2, [r3]
+ 223:main.c        ****                 newCRC += read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + (i * FOTA_ROW_S
+ 526              		.loc 1 223 0 discriminator 3
+ 527 01c8 D7F89031 		ldr	r3, [r7, #400]
+ 528 01cc 9BB2     		uxth	r3, r3
+ 529 01ce 1A46     		mov	r2, r3	@ movhi
+ 530 01d0 9201     		lsls	r2, r2, #6
+ 531 01d2 1A44     		add	r2, r2, r3
+ 532 01d4 5200     		lsls	r2, r2, #1
+ 533 01d6 1344     		add	r3, r3, r2
+ 534 01d8 5B00     		lsls	r3, r3, #1
+ 535 01da 9AB2     		uxth	r2, r3
+ 536 01dc D7F88C31 		ldr	r3, [r7, #396]
+ 537 01e0 9BB2     		uxth	r3, r3
+ 538 01e2 1344     		add	r3, r3, r2
+ 539 01e4 9BB2     		uxth	r3, r3
+ 540 01e6 0933     		adds	r3, r3, #9
+ 541 01e8 9BB2     		uxth	r3, r3
+ 542 01ea 1946     		mov	r1, r3
+ 543 01ec 5220     		movs	r0, #82
+ 544 01ee FFF7FEFF 		bl	read_e2prom_i2c
+ 545 01f2 0346     		mov	r3, r0
+ 546 01f4 1A46     		mov	r2, r3
+ 547 01f6 D7F89431 		ldr	r3, [r7, #404]
+ 548 01fa 1344     		add	r3, r3, r2
+ 549 01fc C7F89431 		str	r3, [r7, #404]
+ 221:main.c        ****             for(uint j = 0; j < FOTA_ROW_SIZE; j++){
+ 550              		.loc 1 221 0 discriminator 3
+ 551 0200 D7F88C31 		ldr	r3, [r7, #396]
+ 552 0204 0133     		adds	r3, r3, #1
+ 553 0206 C7F88C31 		str	r3, [r7, #396]
+ 554              	.L15:
+ 221:main.c        ****             for(uint j = 0; j < FOTA_ROW_SIZE; j++){
+ 555              		.loc 1 221 0 is_stmt 0 discriminator 1
+ 556 020a D7F88C31 		ldr	r3, [r7, #396]
+ 557 020e B3F5837F 		cmp	r3, #262
+ 558 0212 BCD3     		bcc	.L16
+ 559              	.LBE4:
+ 560              	.LBE3:
+ 190:main.c        ****             memset(buff,'\0',sizeof(buff));
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 16
+
+
+ 561              		.loc 1 190 0 is_stmt 1 discriminator 2
+ 562 0214 D7F89031 		ldr	r3, [r7, #400]
+ 563 0218 0133     		adds	r3, r3, #1
+ 564 021a C7F89031 		str	r3, [r7, #400]
+ 565              	.L14:
+ 190:main.c        ****             memset(buff,'\0',sizeof(buff));
+ 566              		.loc 1 190 0 is_stmt 0 discriminator 1
+ 567 021e D7F87831 		ldr	r3, [r7, #376]
+ 568 0222 604A     		ldr	r2, .L28+12
+ 569 0224 A2FB0323 		umull	r2, r3, r2, r3
+ 570 0228 1A0A     		lsrs	r2, r3, #8
+ 571 022a D7F89031 		ldr	r3, [r7, #400]
+ 572 022e 9A42     		cmp	r2, r3
+ 573 0230 3FF655AF 		bhi	.L17
+ 574              	.LBE2:
+ 224:main.c        ****             }
+ 225:main.c        ****         }
+ 226:main.c        ****             
+ 227:main.c        ****         newCRC = (~newCRC) + 1;
+ 575              		.loc 1 227 0 is_stmt 1
+ 576 0234 D7F89431 		ldr	r3, [r7, #404]
+ 577 0238 5B42     		negs	r3, r3
+ 578 023a C7F89431 		str	r3, [r7, #404]
+ 228:main.c        ****         
+ 229:main.c        ****         memset(buff,'\0',sizeof(buff));
+ 579              		.loc 1 229 0
+ 580 023e 07F58673 		add	r3, r7, #268
+ 581 0242 6422     		movs	r2, #100
+ 582 0244 0021     		movs	r1, #0
+ 583 0246 1846     		mov	r0, r3
+ 584 0248 FFF7FEFF 		bl	memset
+ 230:main.c        ****         sprintf(buff,"newCRC: 0x%08lX\r\nAppCRC: 0x%08lX\r\n", newCRC, appCRC);
+ 585              		.loc 1 230 0
+ 586 024c 07F58670 		add	r0, r7, #268
+ 587 0250 D7F87C31 		ldr	r3, [r7, #380]
+ 588 0254 D7F89421 		ldr	r2, [r7, #404]
+ 589 0258 5349     		ldr	r1, .L28+16
+ 590 025a FFF7FEFF 		bl	sprintf
+ 231:main.c        **** //        RS232_Debug_PutString(buff);
+ 232:main.c        ****         RS485_Sensor_PutString(buff);
+ 591              		.loc 1 232 0
+ 592 025e 07F58673 		add	r3, r7, #268
+ 593 0262 1846     		mov	r0, r3
+ 594 0264 FFF7FEFF 		bl	RS485_Sensor_PutString
+ 233:main.c        ****         
+ 234:main.c        ****         if(newCRC == appCRC){
+ 595              		.loc 1 234 0
+ 596 0268 D7F89421 		ldr	r2, [r7, #404]
+ 597 026c D7F87C31 		ldr	r3, [r7, #380]
+ 598 0270 9A42     		cmp	r2, r3
+ 599 0272 40F0D480 		bne	.L18
+ 600              	.LBB5:
+ 235:main.c        **** //            RS232_Debug_PutString("CRCs are OK!\r\n");
+ 236:main.c        ****             RS485_Sensor_PutString("CRCs are OK!\r\n");
+ 601              		.loc 1 236 0
+ 602 0276 4D48     		ldr	r0, .L28+20
+ 603 0278 FFF7FEFF 		bl	RS485_Sensor_PutString
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 17
+
+
+ 604              	.LBB6:
+ 237:main.c        ****             
+ 238:main.c        ****             uint8 dataBuff[CY_FLASH_SIZEOF_ROW];
+ 239:main.c        ****             
+ 240:main.c        ****             for (uint i = 0; i < appSize; i++){
+ 605              		.loc 1 240 0
+ 606 027c 0023     		movs	r3, #0
+ 607 027e C7F88831 		str	r3, [r7, #392]
+ 608 0282 B5E0     		b	.L19
+ 609              	.L26:
+ 241:main.c        ****                 if(i % FOTA_ROW_SIZE == 0){
+ 610              		.loc 1 241 0
+ 611 0284 D7F88821 		ldr	r2, [r7, #392]
+ 612 0288 464B     		ldr	r3, .L28+12
+ 613 028a A3FB0213 		umull	r1, r3, r3, r2
+ 614 028e 1B0A     		lsrs	r3, r3, #8
+ 615 0290 4FF48371 		mov	r1, #262
+ 616 0294 01FB03F3 		mul	r3, r1, r3
+ 617 0298 D31A     		subs	r3, r2, r3
+ 618 029a 002B     		cmp	r3, #0
+ 619 029c 40F0A380 		bne	.L20
+ 620              	.LBB7:
+ 242:main.c        ****                     uint16 rowAddress = read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + i
+ 621              		.loc 1 242 0
+ 622 02a0 D7F88831 		ldr	r3, [r7, #392]
+ 623 02a4 9BB2     		uxth	r3, r3
+ 624 02a6 0A33     		adds	r3, r3, #10
+ 625 02a8 9BB2     		uxth	r3, r3
+ 626 02aa 1946     		mov	r1, r3
+ 627 02ac 5220     		movs	r0, #82
+ 628 02ae FFF7FEFF 		bl	read_e2prom_i2c
+ 629 02b2 0346     		mov	r3, r0
+ 630 02b4 1B02     		lsls	r3, r3, #8
+ 631 02b6 1CB2     		sxth	r4, r3
+ 632 02b8 D7F88831 		ldr	r3, [r7, #392]
+ 633 02bc 9BB2     		uxth	r3, r3
+ 634 02be 0B33     		adds	r3, r3, #11
+ 635 02c0 9BB2     		uxth	r3, r3
+ 636 02c2 1946     		mov	r1, r3
+ 637 02c4 5220     		movs	r0, #82
+ 638 02c6 FFF7FEFF 		bl	read_e2prom_i2c
+ 639 02ca 0346     		mov	r3, r0
+ 640 02cc 1BB2     		sxth	r3, r3
+ 641 02ce 2343     		orrs	r3, r3, r4
+ 642 02d0 1BB2     		sxth	r3, r3
+ 643 02d2 A7F87231 		strh	r3, [r7, #370]	@ movhi
+ 243:main.c        ****                     uint8  arrayID    = read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + i
+ 644              		.loc 1 243 0
+ 645 02d6 D7F88831 		ldr	r3, [r7, #392]
+ 646 02da 9BB2     		uxth	r3, r3
+ 647 02dc 0933     		adds	r3, r3, #9
+ 648 02de 9BB2     		uxth	r3, r3
+ 649 02e0 1946     		mov	r1, r3
+ 650 02e2 5220     		movs	r0, #82
+ 651 02e4 FFF7FEFF 		bl	read_e2prom_i2c
+ 652 02e8 0346     		mov	r3, r0
+ 653 02ea 87F87131 		strb	r3, [r7, #369]
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 18
+
+
+ 244:main.c        ****                     uint8  crc        = read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_ROW_START + 2
+ 654              		.loc 1 244 0
+ 655 02ee D7F88831 		ldr	r3, [r7, #392]
+ 656 02f2 9BB2     		uxth	r3, r3
+ 657 02f4 03F58773 		add	r3, r3, #270
+ 658 02f8 9BB2     		uxth	r3, r3
+ 659 02fa 1946     		mov	r1, r3
+ 660 02fc 5220     		movs	r0, #82
+ 661 02fe FFF7FEFF 		bl	read_e2prom_i2c
+ 662 0302 0346     		mov	r3, r0
+ 663 0304 87F87031 		strb	r3, [r7, #368]
+ 245:main.c        ****                     
+ 246:main.c        ****                     memset(dataBuff, '\0', sizeof(dataBuff));
+ 664              		.loc 1 246 0
+ 665 0308 3B46     		mov	r3, r7
+ 666 030a 4FF48072 		mov	r2, #256
+ 667 030e 0021     		movs	r1, #0
+ 668 0310 1846     		mov	r0, r3
+ 669 0312 FFF7FEFF 		bl	memset
+ 670              	.LBB8:
+ 247:main.c        ****                     for(uint j = 0; j < CY_FLASH_SIZEOF_ROW; j++){  // 256
+ 671              		.loc 1 247 0
+ 672 0316 0023     		movs	r3, #0
+ 673 0318 C7F88431 		str	r3, [r7, #388]
+ 674 031c 1AE0     		b	.L21
+ 675              	.L22:
+ 248:main.c        ****                         dataBuff[j] = read_e2prom_i2c(EE2_1_CHIP_ADDR, i + 5 + j);
+ 676              		.loc 1 248 0 discriminator 3
+ 677 031e D7F88831 		ldr	r3, [r7, #392]
+ 678 0322 9AB2     		uxth	r2, r3
+ 679 0324 D7F88431 		ldr	r3, [r7, #388]
+ 680 0328 9BB2     		uxth	r3, r3
+ 681 032a 1344     		add	r3, r3, r2
+ 682 032c 9BB2     		uxth	r3, r3
+ 683 032e 0533     		adds	r3, r3, #5
+ 684 0330 9BB2     		uxth	r3, r3
+ 685 0332 1946     		mov	r1, r3
+ 686 0334 5220     		movs	r0, #82
+ 687 0336 FFF7FEFF 		bl	read_e2prom_i2c
+ 688 033a 0346     		mov	r3, r0
+ 689 033c 1946     		mov	r1, r3
+ 690 033e 3A46     		mov	r2, r7
+ 691 0340 D7F88431 		ldr	r3, [r7, #388]
+ 692 0344 1344     		add	r3, r3, r2
+ 693 0346 0A46     		mov	r2, r1
+ 694 0348 1A70     		strb	r2, [r3]
+ 247:main.c        ****                     for(uint j = 0; j < CY_FLASH_SIZEOF_ROW; j++){  // 256
+ 695              		.loc 1 247 0 discriminator 3
+ 696 034a D7F88431 		ldr	r3, [r7, #388]
+ 697 034e 0133     		adds	r3, r3, #1
+ 698 0350 C7F88431 		str	r3, [r7, #388]
+ 699              	.L21:
+ 247:main.c        ****                     for(uint j = 0; j < CY_FLASH_SIZEOF_ROW; j++){  // 256
+ 700              		.loc 1 247 0 is_stmt 0 discriminator 1
+ 701 0354 D7F88431 		ldr	r3, [r7, #388]
+ 702 0358 FF2B     		cmp	r3, #255
+ 703 035a E0D9     		bls	.L22
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 19
+
+
+ 704              	.LBE8:
+ 249:main.c        ****                     }
+ 250:main.c        ****                     cystatus returnValue = CYRET_UNKNOWN;
+ 705              		.loc 1 250 0 is_stmt 1
+ 706 035c 4FF0FF33 		mov	r3, #-1
+ 707 0360 C7F80831 		str	r3, [r7, #264]
+ 251:main.c        ****                         
+ 252:main.c        ****                     if(CySetTemp() == CYRET_SUCCESS){
+ 708              		.loc 1 252 0
+ 709 0364 FFF7FEFF 		bl	CySetTemp
+ 710 0368 0346     		mov	r3, r0
+ 711 036a 002B     		cmp	r3, #0
+ 712 036c 38D1     		bne	.L23
+ 253:main.c        ****                         if(rowAddress == 0x00FF && arrayID == 0x03) returnValue = CyWriteRowData(ar
+ 713              		.loc 1 253 0
+ 714 036e B7F87231 		ldrh	r3, [r7, #370]
+ 715 0372 FF2B     		cmp	r3, #255
+ 716 0374 1CD1     		bne	.L24
+ 717              		.loc 1 253 0 is_stmt 0 discriminator 1
+ 718 0376 97F87131 		ldrb	r3, [r7, #369]	@ zero_extendqisi2
+ 719 037a 032B     		cmp	r3, #3
+ 720 037c 18D1     		bne	.L24
+ 721              		.loc 1 253 0 discriminator 2
+ 722 037e 3A46     		mov	r2, r7
+ 723 0380 B7F87211 		ldrh	r1, [r7, #370]
+ 724 0384 97F87131 		ldrb	r3, [r7, #369]	@ zero_extendqisi2
+ 725 0388 1846     		mov	r0, r3
+ 726 038a FFF7FEFF 		bl	CyWriteRowData
+ 727 038e 0346     		mov	r3, r0
+ 728 0390 C7F80831 		str	r3, [r7, #264]
+ 729 0394 17E0     		b	.L25
+ 730              	.L29:
+ 731 0396 00BF     		.align	2
+ 732              	.L28:
+ 733 0398 58000000 		.word	.LC4
+ 734 039c A8000000 		.word	.LC5
+ 735 03a0 E0000000 		.word	.LC6
+ 736 03a4 F32C23FA 		.word	-98358029
+ 737 03a8 08010000 		.word	.LC7
+ 738 03ac 2C010000 		.word	.LC8
+ 739              	.L24:
+ 254:main.c        ****                         else returnValue = CyWriteRowData(arrayID, rowAddress, dataBuff);
+ 740              		.loc 1 254 0 is_stmt 1
+ 741 03b0 3A46     		mov	r2, r7
+ 742 03b2 B7F87211 		ldrh	r1, [r7, #370]
+ 743 03b6 97F87131 		ldrb	r3, [r7, #369]	@ zero_extendqisi2
+ 744 03ba 1846     		mov	r0, r3
+ 745 03bc FFF7FEFF 		bl	CyWriteRowData
+ 746 03c0 0346     		mov	r3, r0
+ 747 03c2 C7F80831 		str	r3, [r7, #264]
+ 748              	.L25:
+ 255:main.c        **** //                        returnValue = CyWriteRowData(arrayID, rowAddress, dataBuff);
+ 256:main.c        ****                         handleError(&returnValue);
+ 749              		.loc 1 256 0
+ 750 03c6 07F58473 		add	r3, r7, #264
+ 751 03ca 1846     		mov	r0, r3
+ 752 03cc FFF7FEFF 		bl	handleError
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 20
+
+
+ 257:main.c        ****                             
+ 258:main.c        ****                         if((rowAddress & 0x0000FFFF) == 0x0100)   rowAddress =((rowAddress + 0x0001
+ 753              		.loc 1 258 0
+ 754 03d0 B7F87231 		ldrh	r3, [r7, #370]
+ 755 03d4 B3F5807F 		cmp	r3, #256
+ 756 03d8 02D1     		bne	.L23
+ 757              		.loc 1 258 0 is_stmt 0 discriminator 1
+ 758 03da 0023     		movs	r3, #0
+ 759 03dc A7F87231 		strh	r3, [r7, #370]	@ movhi
+ 760              	.L23:
+ 259:main.c        ****                     }
+ 260:main.c        ****                     CyDelay(50);
+ 761              		.loc 1 260 0 is_stmt 1
+ 762 03e0 3220     		movs	r0, #50
+ 763 03e2 FFF7FEFF 		bl	CyDelay
+ 764              	.L20:
+ 765              	.LBE7:
+ 240:main.c        ****                 if(i % FOTA_ROW_SIZE == 0){
+ 766              		.loc 1 240 0 discriminator 2
+ 767 03e6 D7F88831 		ldr	r3, [r7, #392]
+ 768 03ea 0133     		adds	r3, r3, #1
+ 769 03ec C7F88831 		str	r3, [r7, #392]
+ 770              	.L19:
+ 240:main.c        ****                 if(i % FOTA_ROW_SIZE == 0){
+ 771              		.loc 1 240 0 is_stmt 0 discriminator 1
+ 772 03f0 D7F88821 		ldr	r2, [r7, #392]
+ 773 03f4 D7F87831 		ldr	r3, [r7, #376]
+ 774 03f8 9A42     		cmp	r2, r3
+ 775 03fa FFF443AF 		bcc	.L26
+ 776              	.LBE6:
+ 261:main.c        ****                 }
+ 262:main.c        ****             }
+ 263:main.c        ****             write_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_START, FOTA_STOP);
+ 777              		.loc 1 263 0 is_stmt 1
+ 778 03fe 0022     		movs	r2, #0
+ 779 0400 0021     		movs	r1, #0
+ 780 0402 5220     		movs	r0, #82
+ 781 0404 FFF7FEFF 		bl	write_e2prom_i2c
+ 264:main.c        **** //            RS232_Debug_PutString("\r\n--------------------\r\n&&&&& BOOTLOADER PROGRAMMED &&&&&\
+ 265:main.c        ****             RS485_Sensor_PutString("\r\n--------------------\r\n&&&&& BOOTLOADER PROGRAMMED &&&&&\r
+ 782              		.loc 1 265 0
+ 783 0408 1448     		ldr	r0, .L30
+ 784 040a FFF7FEFF 		bl	RS485_Sensor_PutString
+ 266:main.c        ****             CyDelay(1000);
+ 785              		.loc 1 266 0
+ 786 040e 4FF47A70 		mov	r0, #1000
+ 787 0412 FFF7FEFF 		bl	CyDelay
+ 267:main.c        ****             Bootloader_Exit(Bootloader_EXIT_TO_BTLDB);
+ 788              		.loc 1 267 0
+ 789 0416 0020     		movs	r0, #0
+ 790 0418 FFF7FEFF 		bl	Bootloader_Exit
+ 791              	.LBE5:
+ 792 041c 0EE0     		b	.L13
+ 793              	.L18:
+ 268:main.c        ****         } else {
+ 269:main.c        ****             write_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_START, FOTA_STOP);
+ 794              		.loc 1 269 0
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 21
+
+
+ 795 041e 0022     		movs	r2, #0
+ 796 0420 0021     		movs	r1, #0
+ 797 0422 5220     		movs	r0, #82
+ 798 0424 FFF7FEFF 		bl	write_e2prom_i2c
+ 270:main.c        **** //            RS232_Debug_PutString("\r\n--------------------\r\n&&&&& BOOTLOADER FAILED!!! &&&&&\r
+ 271:main.c        ****             RS485_Sensor_PutString("\r\n--------------------\r\n&&&&& BOOTLOADER FAILED!!! &&&&&\r\
+ 799              		.loc 1 271 0
+ 800 0428 0D48     		ldr	r0, .L30+4
+ 801 042a FFF7FEFF 		bl	RS485_Sensor_PutString
+ 272:main.c        ****             CyDelay(1000);
+ 802              		.loc 1 272 0
+ 803 042e 4FF47A70 		mov	r0, #1000
+ 804 0432 FFF7FEFF 		bl	CyDelay
+ 273:main.c        ****             Bootloader_Exit(Bootloader_EXIT_TO_BTLDB);
+ 805              		.loc 1 273 0
+ 806 0436 0020     		movs	r0, #0
+ 807 0438 FFF7FEFF 		bl	Bootloader_Exit
+ 808              	.L13:
+ 274:main.c        ****         }
+ 275:main.c        ****     }
+ 276:main.c        ****     
+ 277:main.c        **** //    RS232_Debug_PutString("\r\n--------------------\r\n&&&&& BOOTLOADER ENDS &&&&&\r\n-----------
+ 278:main.c        ****     RS485_Sensor_PutString("\r\n--------------------\r\n&&&&& BOOTLOADER ENDS &&&&&\r\n------------
+ 809              		.loc 1 278 0
+ 810 043c 0948     		ldr	r0, .L30+8
+ 811 043e FFF7FEFF 		bl	RS485_Sensor_PutString
+ 279:main.c        ****     
+ 280:main.c        ****     CyDelay(1000);
+ 812              		.loc 1 280 0
+ 813 0442 4FF47A70 		mov	r0, #1000
+ 814 0446 FFF7FEFF 		bl	CyDelay
+ 281:main.c        ****     
+ 282:main.c        ****     Bootloader_Exit(Bootloader_EXIT_TO_BTLDB);
+ 815              		.loc 1 282 0
+ 816 044a 0020     		movs	r0, #0
+ 817 044c FFF7FEFF 		bl	Bootloader_Exit
+ 283:main.c        ****     
+ 284:main.c        ****     return 0;
+ 818              		.loc 1 284 0
+ 819 0450 0023     		movs	r3, #0
+ 285:main.c        **** }
+ 820              		.loc 1 285 0
+ 821 0452 1846     		mov	r0, r3
+ 822 0454 07F5CE77 		add	r7, r7, #412
+ 823              		.cfi_def_cfa_offset 12
+ 824 0458 BD46     		mov	sp, r7
+ 825              		.cfi_def_cfa_register 13
+ 826              		@ sp needed
+ 827 045a 90BD     		pop	{r4, r7, pc}
+ 828              	.L31:
+ 829              		.align	2
+ 830              	.L30:
+ 831 045c 3C010000 		.word	.LC9
+ 832 0460 90010000 		.word	.LC10
+ 833 0464 E4010000 		.word	.LC11
+ 834              		.cfi_endproc
+ 835              	.LFE67:
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 22
+
+
+ 836              		.size	main, .-main
+ 837              		.text
+ 838              	.Letext0:
+ 839              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 840              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 841              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 842              		.file 5 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 843              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 844              		.section	.debug_info,"",%progbits
+ 845              	.Ldebug_info0:
+ 846 0000 3C030000 		.4byte	0x33c
+ 847 0004 0400     		.2byte	0x4
+ 848 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 849 000a 04       		.byte	0x4
+ 850 000b 01       		.uleb128 0x1
+ 851 000c 17000000 		.4byte	.LASF41
+ 852 0010 0C       		.byte	0xc
+ 853 0011 41020000 		.4byte	.LASF42
+ 854 0015 65010000 		.4byte	.LASF43
+ 855 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 856 001d 00000000 		.4byte	0
+ 857 0021 00000000 		.4byte	.Ldebug_line0
+ 858 0025 02       		.uleb128 0x2
+ 859 0026 01       		.byte	0x1
+ 860 0027 06       		.byte	0x6
+ 861 0028 96020000 		.4byte	.LASF0
+ 862 002c 02       		.uleb128 0x2
+ 863 002d 01       		.byte	0x1
+ 864 002e 08       		.byte	0x8
+ 865 002f EA000000 		.4byte	.LASF1
+ 866 0033 02       		.uleb128 0x2
+ 867 0034 02       		.byte	0x2
+ 868 0035 05       		.byte	0x5
+ 869 0036 5E020000 		.4byte	.LASF2
+ 870 003a 02       		.uleb128 0x2
+ 871 003b 02       		.byte	0x2
+ 872 003c 07       		.byte	0x7
+ 873 003d 26010000 		.4byte	.LASF3
+ 874 0041 03       		.uleb128 0x3
+ 875 0042 AB000000 		.4byte	.LASF9
+ 876 0046 02       		.byte	0x2
+ 877 0047 3F       		.byte	0x3f
+ 878 0048 4C000000 		.4byte	0x4c
+ 879 004c 02       		.uleb128 0x2
+ 880 004d 04       		.byte	0x4
+ 881 004e 05       		.byte	0x5
+ 882 004f 79020000 		.4byte	.LASF4
+ 883 0053 02       		.uleb128 0x2
+ 884 0054 04       		.byte	0x4
+ 885 0055 07       		.byte	0x7
+ 886 0056 14010000 		.4byte	.LASF5
+ 887 005a 02       		.uleb128 0x2
+ 888 005b 08       		.byte	0x8
+ 889 005c 05       		.byte	0x5
+ 890 005d 00000000 		.4byte	.LASF6
+ 891 0061 02       		.uleb128 0x2
+ 892 0062 08       		.byte	0x8
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 23
+
+
+ 893 0063 07       		.byte	0x7
+ 894 0064 00020000 		.4byte	.LASF7
+ 895 0068 04       		.uleb128 0x4
+ 896 0069 04       		.byte	0x4
+ 897 006a 05       		.byte	0x5
+ 898 006b 696E7400 		.ascii	"int\000"
+ 899 006f 02       		.uleb128 0x2
+ 900 0070 04       		.byte	0x4
+ 901 0071 07       		.byte	0x7
+ 902 0072 F3010000 		.4byte	.LASF8
+ 903 0076 03       		.uleb128 0x3
+ 904 0077 28020000 		.4byte	.LASF10
+ 905 007b 03       		.byte	0x3
+ 906 007c 2C       		.byte	0x2c
+ 907 007d 41000000 		.4byte	0x41
+ 908 0081 05       		.uleb128 0x5
+ 909 0082 68020000 		.4byte	.LASF11
+ 910 0086 04       		.byte	0x4
+ 911 0087 E901     		.2byte	0x1e9
+ 912 0089 2C000000 		.4byte	0x2c
+ 913 008d 05       		.uleb128 0x5
+ 914 008e E0010000 		.4byte	.LASF12
+ 915 0092 04       		.byte	0x4
+ 916 0093 EA01     		.2byte	0x1ea
+ 917 0095 3A000000 		.4byte	0x3a
+ 918 0099 05       		.uleb128 0x5
+ 919 009a EC010000 		.4byte	.LASF13
+ 920 009e 04       		.byte	0x4
+ 921 009f EB01     		.2byte	0x1eb
+ 922 00a1 53000000 		.4byte	0x53
+ 923 00a5 02       		.uleb128 0x2
+ 924 00a6 04       		.byte	0x4
+ 925 00a7 04       		.byte	0x4
+ 926 00a8 DC000000 		.4byte	.LASF14
+ 927 00ac 02       		.uleb128 0x2
+ 928 00ad 08       		.byte	0x8
+ 929 00ae 04       		.byte	0x4
+ 930 00af C2000000 		.4byte	.LASF15
+ 931 00b3 02       		.uleb128 0x2
+ 932 00b4 01       		.byte	0x1
+ 933 00b5 08       		.byte	0x8
+ 934 00b6 48020000 		.4byte	.LASF16
+ 935 00ba 05       		.uleb128 0x5
+ 936 00bb 0E000000 		.4byte	.LASF17
+ 937 00bf 04       		.byte	0x4
+ 938 00c0 8B02     		.2byte	0x28b
+ 939 00c2 53000000 		.4byte	0x53
+ 940 00c6 02       		.uleb128 0x2
+ 941 00c7 08       		.byte	0x8
+ 942 00c8 04       		.byte	0x4
+ 943 00c9 8A020000 		.4byte	.LASF18
+ 944 00cd 02       		.uleb128 0x2
+ 945 00ce 04       		.byte	0x4
+ 946 00cf 07       		.byte	0x7
+ 947 00d0 30020000 		.4byte	.LASF19
+ 948 00d4 03       		.uleb128 0x3
+ 949 00d5 E7010000 		.4byte	.LASF20
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 24
+
+
+ 950 00d9 05       		.byte	0x5
+ 951 00da 6C       		.byte	0x6c
+ 952 00db 6F000000 		.4byte	0x6f
+ 953 00df 06       		.uleb128 0x6
+ 954 00e0 04010000 		.4byte	.LASF44
+ 955 00e4 01       		.byte	0x1
+ 956 00e5 5C       		.byte	0x5c
+ 957 00e6 81000000 		.4byte	0x81
+ 958 00ea 00000000 		.4byte	.LFB64
+ 959 00ee 58000000 		.4byte	.LFE64-.LFB64
+ 960 00f2 01       		.uleb128 0x1
+ 961 00f3 9C       		.byte	0x9c
+ 962 00f4 23010000 		.4byte	0x123
+ 963 00f8 07       		.uleb128 0x7
+ 964 00f9 5C010000 		.4byte	.LASF21
+ 965 00fd 01       		.byte	0x1
+ 966 00fe 5C       		.byte	0x5c
+ 967 00ff 81000000 		.4byte	0x81
+ 968 0103 02       		.uleb128 0x2
+ 969 0104 91       		.byte	0x91
+ 970 0105 6F       		.sleb128 -17
+ 971 0106 07       		.uleb128 0x7
+ 972 0107 54020000 		.4byte	.LASF22
+ 973 010b 01       		.byte	0x1
+ 974 010c 5C       		.byte	0x5c
+ 975 010d 8D000000 		.4byte	0x8d
+ 976 0111 02       		.uleb128 0x2
+ 977 0112 91       		.byte	0x91
+ 978 0113 6C       		.sleb128 -20
+ 979 0114 08       		.uleb128 0x8
+ 980 0115 72657400 		.ascii	"ret\000"
+ 981 0119 01       		.byte	0x1
+ 982 011a 5E       		.byte	0x5e
+ 983 011b 81000000 		.4byte	0x81
+ 984 011f 02       		.uleb128 0x2
+ 985 0120 91       		.byte	0x91
+ 986 0121 77       		.sleb128 -9
+ 987 0122 00       		.byte	0
+ 988 0123 09       		.uleb128 0x9
+ 989 0124 4B010000 		.4byte	.LASF24
+ 990 0128 01       		.byte	0x1
+ 991 0129 71       		.byte	0x71
+ 992 012a 00000000 		.4byte	.LFB65
+ 993 012e 4E000000 		.4byte	.LFE65-.LFB65
+ 994 0132 01       		.uleb128 0x1
+ 995 0133 9C       		.byte	0x9c
+ 996 0134 63010000 		.4byte	0x163
+ 997 0138 07       		.uleb128 0x7
+ 998 0139 5C010000 		.4byte	.LASF21
+ 999 013d 01       		.byte	0x1
+ 1000 013e 71       		.byte	0x71
+ 1001 013f 81000000 		.4byte	0x81
+ 1002 0143 02       		.uleb128 0x2
+ 1003 0144 91       		.byte	0x91
+ 1004 0145 77       		.sleb128 -9
+ 1005 0146 07       		.uleb128 0x7
+ 1006 0147 54020000 		.4byte	.LASF22
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 25
+
+
+ 1007 014b 01       		.byte	0x1
+ 1008 014c 71       		.byte	0x71
+ 1009 014d 8D000000 		.4byte	0x8d
+ 1010 0151 02       		.uleb128 0x2
+ 1011 0152 91       		.byte	0x91
+ 1012 0153 74       		.sleb128 -12
+ 1013 0154 07       		.uleb128 0x7
+ 1014 0155 BD000000 		.4byte	.LASF23
+ 1015 0159 01       		.byte	0x1
+ 1016 015a 71       		.byte	0x71
+ 1017 015b 81000000 		.4byte	0x81
+ 1018 015f 02       		.uleb128 0x2
+ 1019 0160 91       		.byte	0x91
+ 1020 0161 76       		.sleb128 -10
+ 1021 0162 00       		.byte	0
+ 1022 0163 09       		.uleb128 0x9
+ 1023 0164 D0000000 		.4byte	.LASF25
+ 1024 0168 01       		.byte	0x1
+ 1025 0169 82       		.byte	0x82
+ 1026 016a 00000000 		.4byte	.LFB66
+ 1027 016e 80000000 		.4byte	.LFE66-.LFB66
+ 1028 0172 01       		.uleb128 0x1
+ 1029 0173 9C       		.byte	0x9c
+ 1030 0174 87010000 		.4byte	0x187
+ 1031 0178 07       		.uleb128 0x7
+ 1032 0179 A5000000 		.4byte	.LASF26
+ 1033 017d 01       		.byte	0x1
+ 1034 017e 82       		.byte	0x82
+ 1035 017f 87010000 		.4byte	0x187
+ 1036 0183 02       		.uleb128 0x2
+ 1037 0184 91       		.byte	0x91
+ 1038 0185 74       		.sleb128 -12
+ 1039 0186 00       		.byte	0
+ 1040 0187 0A       		.uleb128 0xa
+ 1041 0188 04       		.byte	0x4
+ 1042 0189 BA000000 		.4byte	0xba
+ 1043 018d 0B       		.uleb128 0xb
+ 1044 018e DB010000 		.4byte	.LASF27
+ 1045 0192 01       		.byte	0x1
+ 1046 0193 98       		.byte	0x98
+ 1047 0194 68000000 		.4byte	0x68
+ 1048 0198 00000000 		.4byte	.LFB67
+ 1049 019c 68040000 		.4byte	.LFE67-.LFB67
+ 1050 01a0 01       		.uleb128 0x1
+ 1051 01a1 9C       		.byte	0x9c
+ 1052 01a2 DB020000 		.4byte	0x2db
+ 1053 01a6 0C       		.uleb128 0xc
+ 1054 01a7 4D020000 		.4byte	.LASF28
+ 1055 01ab 01       		.byte	0x1
+ 1056 01ac AB       		.byte	0xab
+ 1057 01ad 99000000 		.4byte	0x99
+ 1058 01b1 02       		.uleb128 0x2
+ 1059 01b2 91       		.byte	0x91
+ 1060 01b3 6C       		.sleb128 -20
+ 1061 01b4 0C       		.uleb128 0xc
+ 1062 01b5 46010000 		.4byte	.LASF29
+ 1063 01b9 01       		.byte	0x1
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 26
+
+
+ 1064 01ba AD       		.byte	0xad
+ 1065 01bb DB020000 		.4byte	0x2db
+ 1066 01bf 03       		.uleb128 0x3
+ 1067 01c0 91       		.byte	0x91
+ 1068 01c1 E47E     		.sleb128 -156
+ 1069 01c3 0C       		.uleb128 0xc
+ 1070 01c4 C9000000 		.4byte	.LASF30
+ 1071 01c8 01       		.byte	0x1
+ 1072 01c9 B0       		.byte	0xb0
+ 1073 01ca 81000000 		.4byte	0x81
+ 1074 01ce 02       		.uleb128 0x2
+ 1075 01cf 91       		.byte	0x91
+ 1076 01d0 5B       		.sleb128 -37
+ 1077 01d1 0C       		.uleb128 0xc
+ 1078 01d2 A2020000 		.4byte	.LASF31
+ 1079 01d6 01       		.byte	0x1
+ 1080 01d7 B1       		.byte	0xb1
+ 1081 01d8 99000000 		.4byte	0x99
+ 1082 01dc 02       		.uleb128 0x2
+ 1083 01dd 91       		.byte	0x91
+ 1084 01de 54       		.sleb128 -44
+ 1085 01df 0C       		.uleb128 0xc
+ 1086 01e0 82020000 		.4byte	.LASF32
+ 1087 01e4 01       		.byte	0x1
+ 1088 01e5 B2       		.byte	0xb2
+ 1089 01e6 99000000 		.4byte	0x99
+ 1090 01ea 02       		.uleb128 0x2
+ 1091 01eb 91       		.byte	0x91
+ 1092 01ec 50       		.sleb128 -48
+ 1093 01ed 0D       		.uleb128 0xd
+ 1094 01ee D6000000 		.4byte	.LBB2
+ 1095 01f2 5E010000 		.4byte	.LBE2-.LBB2
+ 1096 01f6 52020000 		.4byte	0x252
+ 1097 01fa 08       		.uleb128 0x8
+ 1098 01fb 6900     		.ascii	"i\000"
+ 1099 01fd 01       		.byte	0x1
+ 1100 01fe BE       		.byte	0xbe
+ 1101 01ff D4000000 		.4byte	0xd4
+ 1102 0203 02       		.uleb128 0x2
+ 1103 0204 91       		.byte	0x91
+ 1104 0205 68       		.sleb128 -24
+ 1105 0206 0E       		.uleb128 0xe
+ 1106 0207 DE000000 		.4byte	.LBB3
+ 1107 020b 36010000 		.4byte	.LBE3-.LBB3
+ 1108 020f 0C       		.uleb128 0xc
+ 1109 0210 17020000 		.4byte	.LASF33
+ 1110 0214 01       		.byte	0x1
+ 1111 0215 C0       		.byte	0xc0
+ 1112 0216 8D000000 		.4byte	0x8d
+ 1113 021a 02       		.uleb128 0x2
+ 1114 021b 91       		.byte	0x91
+ 1115 021c 4E       		.sleb128 -50
+ 1116 021d 0C       		.uleb128 0xc
+ 1117 021e 39020000 		.4byte	.LASF34
+ 1118 0222 01       		.byte	0x1
+ 1119 0223 C1       		.byte	0xc1
+ 1120 0224 81000000 		.4byte	0x81
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 27
+
+
+ 1121 0228 02       		.uleb128 0x2
+ 1122 0229 91       		.byte	0x91
+ 1123 022a 4D       		.sleb128 -51
+ 1124 022b 0C       		.uleb128 0xc
+ 1125 022c 1F020000 		.4byte	.LASF35
+ 1126 0230 01       		.byte	0x1
+ 1127 0231 DB       		.byte	0xdb
+ 1128 0232 EB020000 		.4byte	0x2eb
+ 1129 0236 03       		.uleb128 0x3
+ 1130 0237 91       		.byte	0x91
+ 1131 0238 D87C     		.sleb128 -424
+ 1132 023a 0E       		.uleb128 0xe
+ 1133 023b 86010000 		.4byte	.LBB4
+ 1134 023f 8E000000 		.4byte	.LBE4-.LBB4
+ 1135 0243 08       		.uleb128 0x8
+ 1136 0244 6A00     		.ascii	"j\000"
+ 1137 0246 01       		.byte	0x1
+ 1138 0247 DD       		.byte	0xdd
+ 1139 0248 D4000000 		.4byte	0xd4
+ 1140 024c 02       		.uleb128 0x2
+ 1141 024d 91       		.byte	0x91
+ 1142 024e 64       		.sleb128 -28
+ 1143 024f 00       		.byte	0
+ 1144 0250 00       		.byte	0
+ 1145 0251 00       		.byte	0
+ 1146 0252 0E       		.uleb128 0xe
+ 1147 0253 76020000 		.4byte	.LBB5
+ 1148 0257 A6010000 		.4byte	.LBE5-.LBB5
+ 1149 025b 0C       		.uleb128 0xc
+ 1150 025c 1F020000 		.4byte	.LASF35
+ 1151 0260 01       		.byte	0x1
+ 1152 0261 EE       		.byte	0xee
+ 1153 0262 FC020000 		.4byte	0x2fc
+ 1154 0266 03       		.uleb128 0x3
+ 1155 0267 91       		.byte	0x91
+ 1156 0268 D87C     		.sleb128 -424
+ 1157 026a 0E       		.uleb128 0xe
+ 1158 026b 7C020000 		.4byte	.LBB6
+ 1159 026f 82010000 		.4byte	.LBE6-.LBB6
+ 1160 0273 08       		.uleb128 0x8
+ 1161 0274 6900     		.ascii	"i\000"
+ 1162 0276 01       		.byte	0x1
+ 1163 0277 F0       		.byte	0xf0
+ 1164 0278 D4000000 		.4byte	0xd4
+ 1165 027c 02       		.uleb128 0x2
+ 1166 027d 91       		.byte	0x91
+ 1167 027e 60       		.sleb128 -32
+ 1168 027f 0E       		.uleb128 0xe
+ 1169 0280 A0020000 		.4byte	.LBB7
+ 1170 0284 46010000 		.4byte	.LBE7-.LBB7
+ 1171 0288 0C       		.uleb128 0xc
+ 1172 0289 6E020000 		.4byte	.LASF36
+ 1173 028d 01       		.byte	0x1
+ 1174 028e F2       		.byte	0xf2
+ 1175 028f 8D000000 		.4byte	0x8d
+ 1176 0293 02       		.uleb128 0x2
+ 1177 0294 91       		.byte	0x91
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 28
+
+
+ 1178 0295 4A       		.sleb128 -54
+ 1179 0296 0C       		.uleb128 0xc
+ 1180 0297 B5000000 		.4byte	.LASF37
+ 1181 029b 01       		.byte	0x1
+ 1182 029c F3       		.byte	0xf3
+ 1183 029d 81000000 		.4byte	0x81
+ 1184 02a1 02       		.uleb128 0x2
+ 1185 02a2 91       		.byte	0x91
+ 1186 02a3 49       		.sleb128 -55
+ 1187 02a4 08       		.uleb128 0x8
+ 1188 02a5 63726300 		.ascii	"crc\000"
+ 1189 02a9 01       		.byte	0x1
+ 1190 02aa F4       		.byte	0xf4
+ 1191 02ab 81000000 		.4byte	0x81
+ 1192 02af 02       		.uleb128 0x2
+ 1193 02b0 91       		.byte	0x91
+ 1194 02b1 48       		.sleb128 -56
+ 1195 02b2 0C       		.uleb128 0xc
+ 1196 02b3 F8000000 		.4byte	.LASF38
+ 1197 02b7 01       		.byte	0x1
+ 1198 02b8 FA       		.byte	0xfa
+ 1199 02b9 BA000000 		.4byte	0xba
+ 1200 02bd 03       		.uleb128 0x3
+ 1201 02be 91       		.byte	0x91
+ 1202 02bf E07E     		.sleb128 -160
+ 1203 02c1 0E       		.uleb128 0xe
+ 1204 02c2 16030000 		.4byte	.LBB8
+ 1205 02c6 46000000 		.4byte	.LBE8-.LBB8
+ 1206 02ca 08       		.uleb128 0x8
+ 1207 02cb 6A00     		.ascii	"j\000"
+ 1208 02cd 01       		.byte	0x1
+ 1209 02ce F7       		.byte	0xf7
+ 1210 02cf D4000000 		.4byte	0xd4
+ 1211 02d3 02       		.uleb128 0x2
+ 1212 02d4 91       		.byte	0x91
+ 1213 02d5 5C       		.sleb128 -36
+ 1214 02d6 00       		.byte	0
+ 1215 02d7 00       		.byte	0
+ 1216 02d8 00       		.byte	0
+ 1217 02d9 00       		.byte	0
+ 1218 02da 00       		.byte	0
+ 1219 02db 0F       		.uleb128 0xf
+ 1220 02dc B3000000 		.4byte	0xb3
+ 1221 02e0 EB020000 		.4byte	0x2eb
+ 1222 02e4 10       		.uleb128 0x10
+ 1223 02e5 CD000000 		.4byte	0xcd
+ 1224 02e9 63       		.byte	0x63
+ 1225 02ea 00       		.byte	0
+ 1226 02eb 0F       		.uleb128 0xf
+ 1227 02ec 81000000 		.4byte	0x81
+ 1228 02f0 FC020000 		.4byte	0x2fc
+ 1229 02f4 11       		.uleb128 0x11
+ 1230 02f5 CD000000 		.4byte	0xcd
+ 1231 02f9 0501     		.2byte	0x105
+ 1232 02fb 00       		.byte	0
+ 1233 02fc 0F       		.uleb128 0xf
+ 1234 02fd 81000000 		.4byte	0x81
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 29
+
+
+ 1235 0301 0C030000 		.4byte	0x30c
+ 1236 0305 10       		.uleb128 0x10
+ 1237 0306 CD000000 		.4byte	0xcd
+ 1238 030a FF       		.byte	0xff
+ 1239 030b 00       		.byte	0
+ 1240 030c 12       		.uleb128 0x12
+ 1241 030d 39010000 		.4byte	.LASF39
+ 1242 0311 06       		.byte	0x6
+ 1243 0312 1207     		.2byte	0x712
+ 1244 0314 18030000 		.4byte	0x318
+ 1245 0318 13       		.uleb128 0x13
+ 1246 0319 76000000 		.4byte	0x76
+ 1247 031d 14       		.uleb128 0x14
+ 1248 031e E2000000 		.4byte	.LASF40
+ 1249 0322 01       		.byte	0x1
+ 1250 0323 80       		.byte	0x80
+ 1251 0324 81000000 		.4byte	0x81
+ 1252 0328 05       		.uleb128 0x5
+ 1253 0329 03       		.byte	0x3
+ 1254 032a 00000000 		.4byte	counter
+ 1255 032e 15       		.uleb128 0x15
+ 1256 032f 62756600 		.ascii	"buf\000"
+ 1257 0333 01       		.byte	0x1
+ 1258 0334 81       		.byte	0x81
+ 1259 0335 DB020000 		.4byte	0x2db
+ 1260 0339 05       		.uleb128 0x5
+ 1261 033a 03       		.byte	0x3
+ 1262 033b 00000000 		.4byte	buf
+ 1263 033f 00       		.byte	0
+ 1264              		.section	.debug_abbrev,"",%progbits
+ 1265              	.Ldebug_abbrev0:
+ 1266 0000 01       		.uleb128 0x1
+ 1267 0001 11       		.uleb128 0x11
+ 1268 0002 01       		.byte	0x1
+ 1269 0003 25       		.uleb128 0x25
+ 1270 0004 0E       		.uleb128 0xe
+ 1271 0005 13       		.uleb128 0x13
+ 1272 0006 0B       		.uleb128 0xb
+ 1273 0007 03       		.uleb128 0x3
+ 1274 0008 0E       		.uleb128 0xe
+ 1275 0009 1B       		.uleb128 0x1b
+ 1276 000a 0E       		.uleb128 0xe
+ 1277 000b 55       		.uleb128 0x55
+ 1278 000c 17       		.uleb128 0x17
+ 1279 000d 11       		.uleb128 0x11
+ 1280 000e 01       		.uleb128 0x1
+ 1281 000f 10       		.uleb128 0x10
+ 1282 0010 17       		.uleb128 0x17
+ 1283 0011 00       		.byte	0
+ 1284 0012 00       		.byte	0
+ 1285 0013 02       		.uleb128 0x2
+ 1286 0014 24       		.uleb128 0x24
+ 1287 0015 00       		.byte	0
+ 1288 0016 0B       		.uleb128 0xb
+ 1289 0017 0B       		.uleb128 0xb
+ 1290 0018 3E       		.uleb128 0x3e
+ 1291 0019 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 30
+
+
+ 1292 001a 03       		.uleb128 0x3
+ 1293 001b 0E       		.uleb128 0xe
+ 1294 001c 00       		.byte	0
+ 1295 001d 00       		.byte	0
+ 1296 001e 03       		.uleb128 0x3
+ 1297 001f 16       		.uleb128 0x16
+ 1298 0020 00       		.byte	0
+ 1299 0021 03       		.uleb128 0x3
+ 1300 0022 0E       		.uleb128 0xe
+ 1301 0023 3A       		.uleb128 0x3a
+ 1302 0024 0B       		.uleb128 0xb
+ 1303 0025 3B       		.uleb128 0x3b
+ 1304 0026 0B       		.uleb128 0xb
+ 1305 0027 49       		.uleb128 0x49
+ 1306 0028 13       		.uleb128 0x13
+ 1307 0029 00       		.byte	0
+ 1308 002a 00       		.byte	0
+ 1309 002b 04       		.uleb128 0x4
+ 1310 002c 24       		.uleb128 0x24
+ 1311 002d 00       		.byte	0
+ 1312 002e 0B       		.uleb128 0xb
+ 1313 002f 0B       		.uleb128 0xb
+ 1314 0030 3E       		.uleb128 0x3e
+ 1315 0031 0B       		.uleb128 0xb
+ 1316 0032 03       		.uleb128 0x3
+ 1317 0033 08       		.uleb128 0x8
+ 1318 0034 00       		.byte	0
+ 1319 0035 00       		.byte	0
+ 1320 0036 05       		.uleb128 0x5
+ 1321 0037 16       		.uleb128 0x16
+ 1322 0038 00       		.byte	0
+ 1323 0039 03       		.uleb128 0x3
+ 1324 003a 0E       		.uleb128 0xe
+ 1325 003b 3A       		.uleb128 0x3a
+ 1326 003c 0B       		.uleb128 0xb
+ 1327 003d 3B       		.uleb128 0x3b
+ 1328 003e 05       		.uleb128 0x5
+ 1329 003f 49       		.uleb128 0x49
+ 1330 0040 13       		.uleb128 0x13
+ 1331 0041 00       		.byte	0
+ 1332 0042 00       		.byte	0
+ 1333 0043 06       		.uleb128 0x6
+ 1334 0044 2E       		.uleb128 0x2e
+ 1335 0045 01       		.byte	0x1
+ 1336 0046 3F       		.uleb128 0x3f
+ 1337 0047 19       		.uleb128 0x19
+ 1338 0048 03       		.uleb128 0x3
+ 1339 0049 0E       		.uleb128 0xe
+ 1340 004a 3A       		.uleb128 0x3a
+ 1341 004b 0B       		.uleb128 0xb
+ 1342 004c 3B       		.uleb128 0x3b
+ 1343 004d 0B       		.uleb128 0xb
+ 1344 004e 27       		.uleb128 0x27
+ 1345 004f 19       		.uleb128 0x19
+ 1346 0050 49       		.uleb128 0x49
+ 1347 0051 13       		.uleb128 0x13
+ 1348 0052 11       		.uleb128 0x11
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 31
+
+
+ 1349 0053 01       		.uleb128 0x1
+ 1350 0054 12       		.uleb128 0x12
+ 1351 0055 06       		.uleb128 0x6
+ 1352 0056 40       		.uleb128 0x40
+ 1353 0057 18       		.uleb128 0x18
+ 1354 0058 9642     		.uleb128 0x2116
+ 1355 005a 19       		.uleb128 0x19
+ 1356 005b 01       		.uleb128 0x1
+ 1357 005c 13       		.uleb128 0x13
+ 1358 005d 00       		.byte	0
+ 1359 005e 00       		.byte	0
+ 1360 005f 07       		.uleb128 0x7
+ 1361 0060 05       		.uleb128 0x5
+ 1362 0061 00       		.byte	0
+ 1363 0062 03       		.uleb128 0x3
+ 1364 0063 0E       		.uleb128 0xe
+ 1365 0064 3A       		.uleb128 0x3a
+ 1366 0065 0B       		.uleb128 0xb
+ 1367 0066 3B       		.uleb128 0x3b
+ 1368 0067 0B       		.uleb128 0xb
+ 1369 0068 49       		.uleb128 0x49
+ 1370 0069 13       		.uleb128 0x13
+ 1371 006a 02       		.uleb128 0x2
+ 1372 006b 18       		.uleb128 0x18
+ 1373 006c 00       		.byte	0
+ 1374 006d 00       		.byte	0
+ 1375 006e 08       		.uleb128 0x8
+ 1376 006f 34       		.uleb128 0x34
+ 1377 0070 00       		.byte	0
+ 1378 0071 03       		.uleb128 0x3
+ 1379 0072 08       		.uleb128 0x8
+ 1380 0073 3A       		.uleb128 0x3a
+ 1381 0074 0B       		.uleb128 0xb
+ 1382 0075 3B       		.uleb128 0x3b
+ 1383 0076 0B       		.uleb128 0xb
+ 1384 0077 49       		.uleb128 0x49
+ 1385 0078 13       		.uleb128 0x13
+ 1386 0079 02       		.uleb128 0x2
+ 1387 007a 18       		.uleb128 0x18
+ 1388 007b 00       		.byte	0
+ 1389 007c 00       		.byte	0
+ 1390 007d 09       		.uleb128 0x9
+ 1391 007e 2E       		.uleb128 0x2e
+ 1392 007f 01       		.byte	0x1
+ 1393 0080 3F       		.uleb128 0x3f
+ 1394 0081 19       		.uleb128 0x19
+ 1395 0082 03       		.uleb128 0x3
+ 1396 0083 0E       		.uleb128 0xe
+ 1397 0084 3A       		.uleb128 0x3a
+ 1398 0085 0B       		.uleb128 0xb
+ 1399 0086 3B       		.uleb128 0x3b
+ 1400 0087 0B       		.uleb128 0xb
+ 1401 0088 27       		.uleb128 0x27
+ 1402 0089 19       		.uleb128 0x19
+ 1403 008a 11       		.uleb128 0x11
+ 1404 008b 01       		.uleb128 0x1
+ 1405 008c 12       		.uleb128 0x12
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 32
+
+
+ 1406 008d 06       		.uleb128 0x6
+ 1407 008e 40       		.uleb128 0x40
+ 1408 008f 18       		.uleb128 0x18
+ 1409 0090 9642     		.uleb128 0x2116
+ 1410 0092 19       		.uleb128 0x19
+ 1411 0093 01       		.uleb128 0x1
+ 1412 0094 13       		.uleb128 0x13
+ 1413 0095 00       		.byte	0
+ 1414 0096 00       		.byte	0
+ 1415 0097 0A       		.uleb128 0xa
+ 1416 0098 0F       		.uleb128 0xf
+ 1417 0099 00       		.byte	0
+ 1418 009a 0B       		.uleb128 0xb
+ 1419 009b 0B       		.uleb128 0xb
+ 1420 009c 49       		.uleb128 0x49
+ 1421 009d 13       		.uleb128 0x13
+ 1422 009e 00       		.byte	0
+ 1423 009f 00       		.byte	0
+ 1424 00a0 0B       		.uleb128 0xb
+ 1425 00a1 2E       		.uleb128 0x2e
+ 1426 00a2 01       		.byte	0x1
+ 1427 00a3 3F       		.uleb128 0x3f
+ 1428 00a4 19       		.uleb128 0x19
+ 1429 00a5 03       		.uleb128 0x3
+ 1430 00a6 0E       		.uleb128 0xe
+ 1431 00a7 3A       		.uleb128 0x3a
+ 1432 00a8 0B       		.uleb128 0xb
+ 1433 00a9 3B       		.uleb128 0x3b
+ 1434 00aa 0B       		.uleb128 0xb
+ 1435 00ab 49       		.uleb128 0x49
+ 1436 00ac 13       		.uleb128 0x13
+ 1437 00ad 11       		.uleb128 0x11
+ 1438 00ae 01       		.uleb128 0x1
+ 1439 00af 12       		.uleb128 0x12
+ 1440 00b0 06       		.uleb128 0x6
+ 1441 00b1 40       		.uleb128 0x40
+ 1442 00b2 18       		.uleb128 0x18
+ 1443 00b3 9642     		.uleb128 0x2116
+ 1444 00b5 19       		.uleb128 0x19
+ 1445 00b6 01       		.uleb128 0x1
+ 1446 00b7 13       		.uleb128 0x13
+ 1447 00b8 00       		.byte	0
+ 1448 00b9 00       		.byte	0
+ 1449 00ba 0C       		.uleb128 0xc
+ 1450 00bb 34       		.uleb128 0x34
+ 1451 00bc 00       		.byte	0
+ 1452 00bd 03       		.uleb128 0x3
+ 1453 00be 0E       		.uleb128 0xe
+ 1454 00bf 3A       		.uleb128 0x3a
+ 1455 00c0 0B       		.uleb128 0xb
+ 1456 00c1 3B       		.uleb128 0x3b
+ 1457 00c2 0B       		.uleb128 0xb
+ 1458 00c3 49       		.uleb128 0x49
+ 1459 00c4 13       		.uleb128 0x13
+ 1460 00c5 02       		.uleb128 0x2
+ 1461 00c6 18       		.uleb128 0x18
+ 1462 00c7 00       		.byte	0
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 33
+
+
+ 1463 00c8 00       		.byte	0
+ 1464 00c9 0D       		.uleb128 0xd
+ 1465 00ca 0B       		.uleb128 0xb
+ 1466 00cb 01       		.byte	0x1
+ 1467 00cc 11       		.uleb128 0x11
+ 1468 00cd 01       		.uleb128 0x1
+ 1469 00ce 12       		.uleb128 0x12
+ 1470 00cf 06       		.uleb128 0x6
+ 1471 00d0 01       		.uleb128 0x1
+ 1472 00d1 13       		.uleb128 0x13
+ 1473 00d2 00       		.byte	0
+ 1474 00d3 00       		.byte	0
+ 1475 00d4 0E       		.uleb128 0xe
+ 1476 00d5 0B       		.uleb128 0xb
+ 1477 00d6 01       		.byte	0x1
+ 1478 00d7 11       		.uleb128 0x11
+ 1479 00d8 01       		.uleb128 0x1
+ 1480 00d9 12       		.uleb128 0x12
+ 1481 00da 06       		.uleb128 0x6
+ 1482 00db 00       		.byte	0
+ 1483 00dc 00       		.byte	0
+ 1484 00dd 0F       		.uleb128 0xf
+ 1485 00de 01       		.uleb128 0x1
+ 1486 00df 01       		.byte	0x1
+ 1487 00e0 49       		.uleb128 0x49
+ 1488 00e1 13       		.uleb128 0x13
+ 1489 00e2 01       		.uleb128 0x1
+ 1490 00e3 13       		.uleb128 0x13
+ 1491 00e4 00       		.byte	0
+ 1492 00e5 00       		.byte	0
+ 1493 00e6 10       		.uleb128 0x10
+ 1494 00e7 21       		.uleb128 0x21
+ 1495 00e8 00       		.byte	0
+ 1496 00e9 49       		.uleb128 0x49
+ 1497 00ea 13       		.uleb128 0x13
+ 1498 00eb 2F       		.uleb128 0x2f
+ 1499 00ec 0B       		.uleb128 0xb
+ 1500 00ed 00       		.byte	0
+ 1501 00ee 00       		.byte	0
+ 1502 00ef 11       		.uleb128 0x11
+ 1503 00f0 21       		.uleb128 0x21
+ 1504 00f1 00       		.byte	0
+ 1505 00f2 49       		.uleb128 0x49
+ 1506 00f3 13       		.uleb128 0x13
+ 1507 00f4 2F       		.uleb128 0x2f
+ 1508 00f5 05       		.uleb128 0x5
+ 1509 00f6 00       		.byte	0
+ 1510 00f7 00       		.byte	0
+ 1511 00f8 12       		.uleb128 0x12
+ 1512 00f9 34       		.uleb128 0x34
+ 1513 00fa 00       		.byte	0
+ 1514 00fb 03       		.uleb128 0x3
+ 1515 00fc 0E       		.uleb128 0xe
+ 1516 00fd 3A       		.uleb128 0x3a
+ 1517 00fe 0B       		.uleb128 0xb
+ 1518 00ff 3B       		.uleb128 0x3b
+ 1519 0100 05       		.uleb128 0x5
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 34
+
+
+ 1520 0101 49       		.uleb128 0x49
+ 1521 0102 13       		.uleb128 0x13
+ 1522 0103 3F       		.uleb128 0x3f
+ 1523 0104 19       		.uleb128 0x19
+ 1524 0105 3C       		.uleb128 0x3c
+ 1525 0106 19       		.uleb128 0x19
+ 1526 0107 00       		.byte	0
+ 1527 0108 00       		.byte	0
+ 1528 0109 13       		.uleb128 0x13
+ 1529 010a 35       		.uleb128 0x35
+ 1530 010b 00       		.byte	0
+ 1531 010c 49       		.uleb128 0x49
+ 1532 010d 13       		.uleb128 0x13
+ 1533 010e 00       		.byte	0
+ 1534 010f 00       		.byte	0
+ 1535 0110 14       		.uleb128 0x14
+ 1536 0111 34       		.uleb128 0x34
+ 1537 0112 00       		.byte	0
+ 1538 0113 03       		.uleb128 0x3
+ 1539 0114 0E       		.uleb128 0xe
+ 1540 0115 3A       		.uleb128 0x3a
+ 1541 0116 0B       		.uleb128 0xb
+ 1542 0117 3B       		.uleb128 0x3b
+ 1543 0118 0B       		.uleb128 0xb
+ 1544 0119 49       		.uleb128 0x49
+ 1545 011a 13       		.uleb128 0x13
+ 1546 011b 3F       		.uleb128 0x3f
+ 1547 011c 19       		.uleb128 0x19
+ 1548 011d 02       		.uleb128 0x2
+ 1549 011e 18       		.uleb128 0x18
+ 1550 011f 00       		.byte	0
+ 1551 0120 00       		.byte	0
+ 1552 0121 15       		.uleb128 0x15
+ 1553 0122 34       		.uleb128 0x34
+ 1554 0123 00       		.byte	0
+ 1555 0124 03       		.uleb128 0x3
+ 1556 0125 08       		.uleb128 0x8
+ 1557 0126 3A       		.uleb128 0x3a
+ 1558 0127 0B       		.uleb128 0xb
+ 1559 0128 3B       		.uleb128 0x3b
+ 1560 0129 0B       		.uleb128 0xb
+ 1561 012a 49       		.uleb128 0x49
+ 1562 012b 13       		.uleb128 0x13
+ 1563 012c 3F       		.uleb128 0x3f
+ 1564 012d 19       		.uleb128 0x19
+ 1565 012e 02       		.uleb128 0x2
+ 1566 012f 18       		.uleb128 0x18
+ 1567 0130 00       		.byte	0
+ 1568 0131 00       		.byte	0
+ 1569 0132 00       		.byte	0
+ 1570              		.section	.debug_aranges,"",%progbits
+ 1571 0000 34000000 		.4byte	0x34
+ 1572 0004 0200     		.2byte	0x2
+ 1573 0006 00000000 		.4byte	.Ldebug_info0
+ 1574 000a 04       		.byte	0x4
+ 1575 000b 00       		.byte	0
+ 1576 000c 0000     		.2byte	0
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 35
+
+
+ 1577 000e 0000     		.2byte	0
+ 1578 0010 00000000 		.4byte	.LFB64
+ 1579 0014 58000000 		.4byte	.LFE64-.LFB64
+ 1580 0018 00000000 		.4byte	.LFB65
+ 1581 001c 4E000000 		.4byte	.LFE65-.LFB65
+ 1582 0020 00000000 		.4byte	.LFB66
+ 1583 0024 80000000 		.4byte	.LFE66-.LFB66
+ 1584 0028 00000000 		.4byte	.LFB67
+ 1585 002c 68040000 		.4byte	.LFE67-.LFB67
+ 1586 0030 00000000 		.4byte	0
+ 1587 0034 00000000 		.4byte	0
+ 1588              		.section	.debug_ranges,"",%progbits
+ 1589              	.Ldebug_ranges0:
+ 1590 0000 00000000 		.4byte	.LFB64
+ 1591 0004 58000000 		.4byte	.LFE64
+ 1592 0008 00000000 		.4byte	.LFB65
+ 1593 000c 4E000000 		.4byte	.LFE65
+ 1594 0010 00000000 		.4byte	.LFB66
+ 1595 0014 80000000 		.4byte	.LFE66
+ 1596 0018 00000000 		.4byte	.LFB67
+ 1597 001c 68040000 		.4byte	.LFE67
+ 1598 0020 00000000 		.4byte	0
+ 1599 0024 00000000 		.4byte	0
+ 1600              		.section	.debug_line,"",%progbits
+ 1601              	.Ldebug_line0:
+ 1602 0000 5B020000 		.section	.debug_str,"MS",%progbits,1
+ 1602      02005701 
+ 1602      00000201 
+ 1602      FB0E0D00 
+ 1602      01010101 
+ 1603              	.LASF6:
+ 1604 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1604      206C6F6E 
+ 1604      6720696E 
+ 1604      7400
+ 1605              	.LASF17:
+ 1606 000e 63797374 		.ascii	"cystatus\000"
+ 1606      61747573 
+ 1606      00
+ 1607              	.LASF41:
+ 1608 0017 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1608      43313120 
+ 1608      352E342E 
+ 1608      31203230 
+ 1608      31363036 
+ 1609 004a 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1609      20726576 
+ 1609      6973696F 
+ 1609      6E203233 
+ 1609      37373135 
+ 1610 007d 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1610      66756E63 
+ 1610      74696F6E 
+ 1610      2D736563 
+ 1610      74696F6E 
+ 1611              	.LASF26:
+ 1612 00a5 76616C75 		.ascii	"value\000"
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 36
+
+
+ 1612      6500
+ 1613              	.LASF9:
+ 1614 00ab 5F5F696E 		.ascii	"__int32_t\000"
+ 1614      7433325F 
+ 1614      7400
+ 1615              	.LASF37:
+ 1616 00b5 61727261 		.ascii	"arrayID\000"
+ 1616      79494400 
+ 1617              	.LASF23:
+ 1618 00bd 64617461 		.ascii	"data\000"
+ 1618      00
+ 1619              	.LASF15:
+ 1620 00c2 646F7562 		.ascii	"double\000"
+ 1620      6C6500
+ 1621              	.LASF30:
+ 1622 00c9 73746174 		.ascii	"status\000"
+ 1622      757300
+ 1623              	.LASF25:
+ 1624 00d0 68616E64 		.ascii	"handleError\000"
+ 1624      6C654572 
+ 1624      726F7200 
+ 1625              	.LASF14:
+ 1626 00dc 666C6F61 		.ascii	"float\000"
+ 1626      7400
+ 1627              	.LASF40:
+ 1628 00e2 636F756E 		.ascii	"counter\000"
+ 1628      74657200 
+ 1629              	.LASF1:
+ 1630 00ea 756E7369 		.ascii	"unsigned char\000"
+ 1630      676E6564 
+ 1630      20636861 
+ 1630      7200
+ 1631              	.LASF38:
+ 1632 00f8 72657475 		.ascii	"returnValue\000"
+ 1632      726E5661 
+ 1632      6C756500 
+ 1633              	.LASF44:
+ 1634 0104 72656164 		.ascii	"read_e2prom_i2c\000"
+ 1634      5F653270 
+ 1634      726F6D5F 
+ 1634      69326300 
+ 1635              	.LASF5:
+ 1636 0114 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1636      20756E73 
+ 1636      69676E65 
+ 1636      6420696E 
+ 1636      7400
+ 1637              	.LASF3:
+ 1638 0126 73686F72 		.ascii	"short unsigned int\000"
+ 1638      7420756E 
+ 1638      7369676E 
+ 1638      65642069 
+ 1638      6E7400
+ 1639              	.LASF39:
+ 1640 0139 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1640      52784275 
+ 1640      66666572 
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 37
+
+
+ 1640      00
+ 1641              	.LASF29:
+ 1642 0146 62756666 		.ascii	"buff\000"
+ 1642      00
+ 1643              	.LASF24:
+ 1644 014b 77726974 		.ascii	"write_e2prom_i2c\000"
+ 1644      655F6532 
+ 1644      70726F6D 
+ 1644      5F693263 
+ 1644      00
+ 1645              	.LASF21:
+ 1646 015c 63686970 		.ascii	"chipAddr\000"
+ 1646      41646472 
+ 1646      00
+ 1647              	.LASF43:
+ 1648 0165 433A5C55 		.ascii	"C:\\Users\\Taha\\Creative Cloud Files\\Desktop\\Iro"
+ 1648      73657273 
+ 1648      5C546168 
+ 1648      615C4372 
+ 1648      65617469 
+ 1649 0193 5465616D 		.ascii	"Team\\#Sina_IroTeam_CM_embOS_FOTA\\IroTeam_CM_Bootl"
+ 1649      5C235369 
+ 1649      6E615F49 
+ 1649      726F5465 
+ 1649      616D5F43 
+ 1650 01c4 6F616465 		.ascii	"oader\\Bootloader.cydsn\000"
+ 1650      725C426F 
+ 1650      6F746C6F 
+ 1650      61646572 
+ 1650      2E637964 
+ 1651              	.LASF27:
+ 1652 01db 6D61696E 		.ascii	"main\000"
+ 1652      00
+ 1653              	.LASF12:
+ 1654 01e0 75696E74 		.ascii	"uint16\000"
+ 1654      313600
+ 1655              	.LASF20:
+ 1656 01e7 75696E74 		.ascii	"uint\000"
+ 1656      00
+ 1657              	.LASF13:
+ 1658 01ec 75696E74 		.ascii	"uint32\000"
+ 1658      333200
+ 1659              	.LASF8:
+ 1660 01f3 756E7369 		.ascii	"unsigned int\000"
+ 1660      676E6564 
+ 1660      20696E74 
+ 1660      00
+ 1661              	.LASF7:
+ 1662 0200 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1662      206C6F6E 
+ 1662      6720756E 
+ 1662      7369676E 
+ 1662      65642069 
+ 1663              	.LASF33:
+ 1664 0217 726F775F 		.ascii	"row_add\000"
+ 1664      61646400 
+ 1665              	.LASF35:
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccH8RXZd.s 			page 38
+
+
+ 1666 021f 64617461 		.ascii	"dataBuff\000"
+ 1666      42756666 
+ 1666      00
+ 1667              	.LASF10:
+ 1668 0228 696E7433 		.ascii	"int32_t\000"
+ 1668      325F7400 
+ 1669              	.LASF19:
+ 1670 0230 73697A65 		.ascii	"sizetype\000"
+ 1670      74797065 
+ 1670      00
+ 1671              	.LASF34:
+ 1672 0239 726F775F 		.ascii	"row_crc\000"
+ 1672      63726300 
+ 1673              	.LASF42:
+ 1674 0241 6D61696E 		.ascii	"main.c\000"
+ 1674      2E6300
+ 1675              	.LASF16:
+ 1676 0248 63686172 		.ascii	"char\000"
+ 1676      00
+ 1677              	.LASF28:
+ 1678 024d 6E657743 		.ascii	"newCRC\000"
+ 1678      524300
+ 1679              	.LASF22:
+ 1680 0254 4D656D41 		.ascii	"MemAddres\000"
+ 1680      64647265 
+ 1680      7300
+ 1681              	.LASF2:
+ 1682 025e 73686F72 		.ascii	"short int\000"
+ 1682      7420696E 
+ 1682      7400
+ 1683              	.LASF11:
+ 1684 0268 75696E74 		.ascii	"uint8\000"
+ 1684      3800
+ 1685              	.LASF36:
+ 1686 026e 726F7741 		.ascii	"rowAddress\000"
+ 1686      64647265 
+ 1686      737300
+ 1687              	.LASF4:
+ 1688 0279 6C6F6E67 		.ascii	"long int\000"
+ 1688      20696E74 
+ 1688      00
+ 1689              	.LASF32:
+ 1690 0282 61707053 		.ascii	"appSize\000"
+ 1690      697A6500 
+ 1691              	.LASF18:
+ 1692 028a 6C6F6E67 		.ascii	"long double\000"
+ 1692      20646F75 
+ 1692      626C6500 
+ 1693              	.LASF0:
+ 1694 0296 7369676E 		.ascii	"signed char\000"
+ 1694      65642063 
+ 1694      68617200 
+ 1695              	.LASF31:
+ 1696 02a2 61707043 		.ascii	"appCRC\000"
+ 1696      524300
+ 1697              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

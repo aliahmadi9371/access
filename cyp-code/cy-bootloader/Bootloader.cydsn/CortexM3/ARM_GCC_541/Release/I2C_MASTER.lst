@@ -1,0 +1,3647 @@
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"I2C_MASTER.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.I2C_MasterWriteBuf,"ax",%progbits
+  20              		.align	1
+  21              		.global	I2C_MasterWriteBuf
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	I2C_MasterWriteBuf, %function
+  25              	I2C_MasterWriteBuf:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\I2C_MASTER.c"
+   1:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/I2C_MASTER.c **** * File Name: I2C_MASTER.c
+   3:Generated_Source\PSoC5/I2C_MASTER.c **** * Version 3.50
+   4:Generated_Source\PSoC5/I2C_MASTER.c **** *
+   5:Generated_Source\PSoC5/I2C_MASTER.c **** * Description:
+   6:Generated_Source\PSoC5/I2C_MASTER.c **** *  This file provides the source code of APIs for the I2C component master mode.
+   7:Generated_Source\PSoC5/I2C_MASTER.c **** *
+   8:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************
+   9:Generated_Source\PSoC5/I2C_MASTER.c **** * Copyright 2012-2015, Cypress Semiconductor Corporation. All rights reserved.
+  10:Generated_Source\PSoC5/I2C_MASTER.c **** * You may use this file only in accordance with the license, terms, conditions,
+  11:Generated_Source\PSoC5/I2C_MASTER.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  12:Generated_Source\PSoC5/I2C_MASTER.c **** * the software package with which this file was provided.
+  13:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+  14:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  15:Generated_Source\PSoC5/I2C_MASTER.c **** #include "I2C_PVT.h"
+  16:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  17:Generated_Source\PSoC5/I2C_MASTER.c **** #if(I2C_MODE_MASTER_ENABLED)
+  18:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  19:Generated_Source\PSoC5/I2C_MASTER.c **** /**********************************
+  20:Generated_Source\PSoC5/I2C_MASTER.c **** *      System variables
+  21:Generated_Source\PSoC5/I2C_MASTER.c **** **********************************/
+  22:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  23:Generated_Source\PSoC5/I2C_MASTER.c **** volatile uint8 I2C_mstrStatus;     /* Master Status byte  */
+  24:Generated_Source\PSoC5/I2C_MASTER.c **** volatile uint8 I2C_mstrControl;    /* Master Control byte */
+  25:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  26:Generated_Source\PSoC5/I2C_MASTER.c **** /* Transmit buffer variables */
+  27:Generated_Source\PSoC5/I2C_MASTER.c **** volatile uint8 * I2C_mstrRdBufPtr;     /* Pointer to Master Read buffer */
+  28:Generated_Source\PSoC5/I2C_MASTER.c **** volatile uint8   I2C_mstrRdBufSize;    /* Master Read buffer size       */
+  29:Generated_Source\PSoC5/I2C_MASTER.c **** volatile uint8   I2C_mstrRdBufIndex;   /* Master Read buffer Index      */
+  30:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 2
+
+
+  31:Generated_Source\PSoC5/I2C_MASTER.c **** /* Receive buffer variables */
+  32:Generated_Source\PSoC5/I2C_MASTER.c **** volatile uint8 * I2C_mstrWrBufPtr;     /* Pointer to Master Write buffer */
+  33:Generated_Source\PSoC5/I2C_MASTER.c **** volatile uint8   I2C_mstrWrBufSize;    /* Master Write buffer size       */
+  34:Generated_Source\PSoC5/I2C_MASTER.c **** volatile uint8   I2C_mstrWrBufIndex;   /* Master Write buffer Index      */
+  35:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  36:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  37:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+  38:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterWriteBuf
+  39:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+  40:Generated_Source\PSoC5/I2C_MASTER.c **** *
+  41:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+  42:Generated_Source\PSoC5/I2C_MASTER.c **** *  Automatically writes an entire buffer of data to a slave device. Once the
+  43:Generated_Source\PSoC5/I2C_MASTER.c **** *  data transfer is initiated by this function, further data transfer is handled
+  44:Generated_Source\PSoC5/I2C_MASTER.c **** *  by the included ISR in byte by byte mode.
+  45:Generated_Source\PSoC5/I2C_MASTER.c **** *
+  46:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+  47:Generated_Source\PSoC5/I2C_MASTER.c **** *  slaveAddr: 7-bit slave address.
+  48:Generated_Source\PSoC5/I2C_MASTER.c **** *  xferData:  Pointer to buffer of data to be sent.
+  49:Generated_Source\PSoC5/I2C_MASTER.c **** *  cnt:       Size of buffer to send.
+  50:Generated_Source\PSoC5/I2C_MASTER.c **** *  mode:      Transfer mode defines: start or restart condition generation at
+  51:Generated_Source\PSoC5/I2C_MASTER.c **** *             begin of the transfer and complete the transfer or halt before
+  52:Generated_Source\PSoC5/I2C_MASTER.c **** *             generating a stop.
+  53:Generated_Source\PSoC5/I2C_MASTER.c **** *
+  54:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+  55:Generated_Source\PSoC5/I2C_MASTER.c **** *  Status error - Zero means no errors.
+  56:Generated_Source\PSoC5/I2C_MASTER.c **** *
+  57:Generated_Source\PSoC5/I2C_MASTER.c **** * Side Effects:
+  58:Generated_Source\PSoC5/I2C_MASTER.c **** *  The included ISR will start a transfer after a start or restart condition is
+  59:Generated_Source\PSoC5/I2C_MASTER.c **** *  generated.
+  60:Generated_Source\PSoC5/I2C_MASTER.c **** *
+  61:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+  62:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrStatus  - The global variable used to store a current
+  63:Generated_Source\PSoC5/I2C_MASTER.c **** *                                 status of the I2C Master.
+  64:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_state       - The global variable used to store a current
+  65:Generated_Source\PSoC5/I2C_MASTER.c **** *                                 state of the software FSM.
+  66:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrControl - The global variable used to control the master
+  67:Generated_Source\PSoC5/I2C_MASTER.c **** *                                 end of a transaction with or without Stop
+  68:Generated_Source\PSoC5/I2C_MASTER.c **** *                                 generation.
+  69:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrWrBufPtr - The global variable used to store a pointer
+  70:Generated_Source\PSoC5/I2C_MASTER.c **** *                                  to the master write buffer.
+  71:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrWrBufIndex - The global variable used to store current
+  72:Generated_Source\PSoC5/I2C_MASTER.c **** *                                    index within the master write buffer.
+  73:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrWrBufSize - The global variable used to store a master
+  74:Generated_Source\PSoC5/I2C_MASTER.c **** *                                   write buffer size.
+  75:Generated_Source\PSoC5/I2C_MASTER.c **** *
+  76:Generated_Source\PSoC5/I2C_MASTER.c **** * Reentrant:
+  77:Generated_Source\PSoC5/I2C_MASTER.c **** *  No
+  78:Generated_Source\PSoC5/I2C_MASTER.c **** *
+  79:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+  80:Generated_Source\PSoC5/I2C_MASTER.c **** uint8 I2C_MasterWriteBuf(uint8 slaveAddress, uint8 * wrData, uint8 cnt, uint8 mode)
+  81:Generated_Source\PSoC5/I2C_MASTER.c ****       
+  82:Generated_Source\PSoC5/I2C_MASTER.c **** {
+  28              		.loc 1 82 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 3
+
+
+  33 0000 70B5     		push	{r4, r5, r6, lr}
+  34              		.cfi_def_cfa_offset 16
+  35              		.cfi_offset 4, -16
+  36              		.cfi_offset 5, -12
+  37              		.cfi_offset 6, -8
+  38              		.cfi_offset 14, -4
+  83:Generated_Source\PSoC5/I2C_MASTER.c ****     uint8 errStatus;
+  84:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  85:Generated_Source\PSoC5/I2C_MASTER.c ****     errStatus = I2C_MSTR_NOT_READY;
+  86:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  87:Generated_Source\PSoC5/I2C_MASTER.c ****     if(NULL != wrData)
+  39              		.loc 1 87 0
+  40 0002 B1B1     		cbz	r1, .L10
+  88:Generated_Source\PSoC5/I2C_MASTER.c ****     {
+  89:Generated_Source\PSoC5/I2C_MASTER.c ****         /* Check I2C state to allow transfer: valid states are IDLE or HALT */
+  90:Generated_Source\PSoC5/I2C_MASTER.c ****         if(I2C_SM_IDLE == I2C_state)
+  41              		.loc 1 90 0
+  42 0004 1E4C     		ldr	r4, .L19
+  43 0006 2578     		ldrb	r5, [r4]	@ zero_extendqisi2
+  44 0008 102D     		cmp	r5, #16
+  45 000a 05D1     		bne	.L3
+  91:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+  92:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Master is ready for transaction: check if bus is free */
+  93:Generated_Source\PSoC5/I2C_MASTER.c ****             if(I2C_CHECK_BUS_FREE(I2C_MCSR_REG))
+  46              		.loc 1 93 0
+  47 000c 1D4D     		ldr	r5, .L19+4
+  48 000e 2D78     		ldrb	r5, [r5]	@ zero_extendqisi2
+  49 0010 2D07     		lsls	r5, r5, #28
+  50 0012 10D5     		bpl	.L4
+  94:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+  95:Generated_Source\PSoC5/I2C_MASTER.c ****                 errStatus = I2C_MSTR_NO_ERROR;
+  96:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+  97:Generated_Source\PSoC5/I2C_MASTER.c ****             else
+  98:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+  99:Generated_Source\PSoC5/I2C_MASTER.c ****                 errStatus = I2C_MSTR_BUS_BUSY;
+  51              		.loc 1 99 0
+  52 0014 0120     		movs	r0, #1
+  53              	.LVL1:
+  54 0016 70BD     		pop	{r4, r5, r6, pc}
+  55              	.LVL2:
+  56              	.L3:
+ 100:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 101:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 102:Generated_Source\PSoC5/I2C_MASTER.c ****         else if(I2C_SM_MSTR_HALT == I2C_state)
+  57              		.loc 1 102 0
+  58 0018 2578     		ldrb	r5, [r4]	@ zero_extendqisi2
+  59 001a 602D     		cmp	r5, #96
+  60 001c 09D1     		bne	.L10
+  61              	.LVL3:
+ 103:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 104:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Master is ready and waiting for ReStart */
+ 105:Generated_Source\PSoC5/I2C_MASTER.c ****             errStatus = I2C_MSTR_NO_ERROR;
+ 106:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 107:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_ClearPendingInt();
+  62              		.loc 1 107 0
+  63 001e 1A4D     		ldr	r5, .L19+8
+  64 0020 4FF40046 		mov	r6, #32768
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 4
+
+
+  65 0024 2E60     		str	r6, [r5]
+ 108:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrStatus &= (uint8) ~I2C_MSTAT_XFER_HALT;
+  66              		.loc 1 108 0
+  67 0026 194E     		ldr	r6, .L19+12
+  68 0028 3578     		ldrb	r5, [r6]	@ zero_extendqisi2
+  69 002a 05F0F705 		and	r5, r5, #247
+  70 002e 3570     		strb	r5, [r6]
+  71 0030 01E0     		b	.L4
+  72              	.LVL4:
+  73              	.L10:
+  85:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  74              		.loc 1 85 0
+  75 0032 0220     		movs	r0, #2
+  76              	.LVL5:
+ 109:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 110:Generated_Source\PSoC5/I2C_MASTER.c ****         else
+ 111:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 112:Generated_Source\PSoC5/I2C_MASTER.c ****             /* errStatus = I2C_MSTR_NOT_READY was send before */
+ 113:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 114:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 115:Generated_Source\PSoC5/I2C_MASTER.c ****         if(I2C_MSTR_NO_ERROR == errStatus)
+ 116:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 117:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Set state to start write transaction */
+ 118:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_state = I2C_SM_MSTR_WR_ADDR;
+ 119:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 120:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Prepare write buffer */
+ 121:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrWrBufIndex = 0u;
+ 122:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrWrBufSize  = cnt;
+ 123:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrWrBufPtr   = (volatile uint8 *) wrData;
+ 124:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 125:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Set end of transaction flag: Stop or Halt (following ReStart) */
+ 126:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrControl = mode;
+ 127:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 128:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Clear write status history */
+ 129:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrStatus &= (uint8) ~I2C_MSTAT_WR_CMPLT;
+ 130:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 131:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Hardware actions: write address and generate Start or ReStart */
+ 132:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_DATA_REG = (uint8) (slaveAddress << I2C_SLAVE_ADDR_SHIFT);
+ 133:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 134:Generated_Source\PSoC5/I2C_MASTER.c ****             if(I2C_CHECK_RESTART(mode))
+ 135:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 136:Generated_Source\PSoC5/I2C_MASTER.c ****                 I2C_GENERATE_RESTART;
+ 137:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 138:Generated_Source\PSoC5/I2C_MASTER.c ****             else
+ 139:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 140:Generated_Source\PSoC5/I2C_MASTER.c ****                 I2C_GENERATE_START;
+ 141:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 142:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 143:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Enable interrupt to complete transfer */
+ 144:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_EnableInt();
+ 145:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 146:Generated_Source\PSoC5/I2C_MASTER.c ****     }
+ 147:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 148:Generated_Source\PSoC5/I2C_MASTER.c ****     return(errStatus);
+  77              		.loc 1 148 0
+  78 0034 70BD     		pop	{r4, r5, r6, pc}
+  79              	.LVL6:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 5
+
+
+  80              	.L4:
+ 118:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  81              		.loc 1 118 0
+  82 0036 4525     		movs	r5, #69
+  83 0038 2570     		strb	r5, [r4]
+ 121:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrWrBufSize  = cnt;
+  84              		.loc 1 121 0
+  85 003a 154C     		ldr	r4, .L19+16
+  86 003c 0025     		movs	r5, #0
+  87 003e 2570     		strb	r5, [r4]
+ 122:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrWrBufPtr   = (volatile uint8 *) wrData;
+  88              		.loc 1 122 0
+  89 0040 144C     		ldr	r4, .L19+20
+ 132:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  90              		.loc 1 132 0
+  91 0042 4000     		lsls	r0, r0, #1
+  92              	.LVL7:
+ 122:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrWrBufPtr   = (volatile uint8 *) wrData;
+  93              		.loc 1 122 0
+  94 0044 2270     		strb	r2, [r4]
+ 123:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  95              		.loc 1 123 0
+  96 0046 144A     		ldr	r2, .L19+24
+  97              	.LVL8:
+ 132:Generated_Source\PSoC5/I2C_MASTER.c **** 
+  98              		.loc 1 132 0
+  99 0048 C0B2     		uxtb	r0, r0
+ 123:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 100              		.loc 1 123 0
+ 101 004a 1160     		str	r1, [r2]
+ 126:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 102              		.loc 1 126 0
+ 103 004c 134A     		ldr	r2, .L19+28
+ 129:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 104              		.loc 1 129 0
+ 105 004e 0F49     		ldr	r1, .L19+12
+ 106              	.LVL9:
+ 126:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 107              		.loc 1 126 0
+ 108 0050 1370     		strb	r3, [r2]
+ 109              	.LVL10:
+ 129:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 110              		.loc 1 129 0
+ 111 0052 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 134:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 112              		.loc 1 134 0
+ 113 0054 13F0010F 		tst	r3, #1
+ 129:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 114              		.loc 1 129 0
+ 115 0058 02F0FD02 		and	r2, r2, #253
+ 116 005c 0A70     		strb	r2, [r1]
+ 132:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 117              		.loc 1 132 0
+ 118 005e 104A     		ldr	r2, .L19+32
+ 119 0060 084B     		ldr	r3, .L19+4
+ 120              	.LVL11:
+ 121 0062 1070     		strb	r0, [r2]
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 6
+
+
+ 122              	.LVL12:
+ 134:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 123              		.loc 1 134 0
+ 124 0064 04D0     		beq	.L18
+ 136:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 125              		.loc 1 136 0
+ 126 0066 1222     		movs	r2, #18
+ 127 0068 1A70     		strb	r2, [r3]
+ 128 006a 0422     		movs	r2, #4
+ 129 006c 0D4B     		ldr	r3, .L19+36
+ 130 006e 00E0     		b	.L16
+ 131              	.L18:
+ 140:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 132              		.loc 1 140 0
+ 133 0070 0122     		movs	r2, #1
+ 134              	.L16:
+ 135 0072 1A70     		strb	r2, [r3]
+ 144:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 136              		.loc 1 144 0
+ 137 0074 0C4B     		ldr	r3, .L19+40
+ 138 0076 4FF40042 		mov	r2, #32768
+ 139 007a 1A60     		str	r2, [r3]
+ 140 007c 0020     		movs	r0, #0
+ 141 007e 70BD     		pop	{r4, r5, r6, pc}
+ 142              	.L20:
+ 143              		.align	2
+ 144              	.L19:
+ 145 0080 00000000 		.word	I2C_state
+ 146 0084 D9490040 		.word	1073760729
+ 147 0088 80E200E0 		.word	-536812928
+ 148 008c 00000000 		.word	I2C_mstrStatus
+ 149 0090 00000000 		.word	I2C_mstrWrBufIndex
+ 150 0094 00000000 		.word	I2C_mstrWrBufSize
+ 151 0098 00000000 		.word	I2C_mstrWrBufPtr
+ 152 009c 00000000 		.word	I2C_mstrControl
+ 153 00a0 D8490040 		.word	1073760728
+ 154 00a4 D7490040 		.word	1073760727
+ 155 00a8 00E100E0 		.word	-536813312
+ 156              		.cfi_endproc
+ 157              	.LFE0:
+ 158              		.size	I2C_MasterWriteBuf, .-I2C_MasterWriteBuf
+ 159              		.section	.text.I2C_MasterReadBuf,"ax",%progbits
+ 160              		.align	1
+ 161              		.global	I2C_MasterReadBuf
+ 162              		.thumb
+ 163              		.thumb_func
+ 164              		.type	I2C_MasterReadBuf, %function
+ 165              	I2C_MasterReadBuf:
+ 166              	.LFB1:
+ 149:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ 150:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 151:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 152:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 153:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterReadBuf
+ 154:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ 155:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 156:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 7
+
+
+ 157:Generated_Source\PSoC5/I2C_MASTER.c **** *  Automatically writes an entire buffer of data to a slave device. Once the
+ 158:Generated_Source\PSoC5/I2C_MASTER.c **** *  data transfer is initiated by this function, further data transfer is handled
+ 159:Generated_Source\PSoC5/I2C_MASTER.c **** *  by the included ISR in byte by byte mode.
+ 160:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 161:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ 162:Generated_Source\PSoC5/I2C_MASTER.c **** *  slaveAddr: 7-bit slave address.
+ 163:Generated_Source\PSoC5/I2C_MASTER.c **** *  xferData:  Pointer to buffer where to put data from slave.
+ 164:Generated_Source\PSoC5/I2C_MASTER.c **** *  cnt:       Size of buffer to read.
+ 165:Generated_Source\PSoC5/I2C_MASTER.c **** *  mode:      Transfer mode defines: start or restart condition generation at
+ 166:Generated_Source\PSoC5/I2C_MASTER.c **** *             begin of the transfer and complete the transfer or halt before
+ 167:Generated_Source\PSoC5/I2C_MASTER.c **** *             generating a stop.
+ 168:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 169:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 170:Generated_Source\PSoC5/I2C_MASTER.c **** *  Status error - Zero means no errors.
+ 171:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 172:Generated_Source\PSoC5/I2C_MASTER.c **** * Side Effects:
+ 173:Generated_Source\PSoC5/I2C_MASTER.c **** *  The included ISR will start a transfer after start or restart condition is
+ 174:Generated_Source\PSoC5/I2C_MASTER.c **** *  generated.
+ 175:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 176:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 177:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrStatus  - The global variable used to store a current
+ 178:Generated_Source\PSoC5/I2C_MASTER.c **** *                                 status of the I2C Master.
+ 179:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_state       - The global variable used to store a current
+ 180:Generated_Source\PSoC5/I2C_MASTER.c **** *                                 state of the software FSM.
+ 181:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrControl - The global variable used to control the master
+ 182:Generated_Source\PSoC5/I2C_MASTER.c **** *                                 end of a transaction with or without
+ 183:Generated_Source\PSoC5/I2C_MASTER.c **** *                                 Stop generation.
+ 184:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrRdBufPtr - The global variable used to store a pointer
+ 185:Generated_Source\PSoC5/I2C_MASTER.c **** *                                  to the master write buffer.
+ 186:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrRdBufIndex - The global variable  used to store a
+ 187:Generated_Source\PSoC5/I2C_MASTER.c **** *                                    current index within the master
+ 188:Generated_Source\PSoC5/I2C_MASTER.c **** *                                    write buffer.
+ 189:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrRdBufSize - The global variable used to store a master
+ 190:Generated_Source\PSoC5/I2C_MASTER.c **** *                                   write buffer size.
+ 191:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 192:Generated_Source\PSoC5/I2C_MASTER.c **** * Reentrant:
+ 193:Generated_Source\PSoC5/I2C_MASTER.c **** *  No.
+ 194:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 195:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 196:Generated_Source\PSoC5/I2C_MASTER.c **** uint8 I2C_MasterReadBuf(uint8 slaveAddress, uint8 * rdData, uint8 cnt, uint8 mode)
+ 197:Generated_Source\PSoC5/I2C_MASTER.c ****       
+ 198:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 167              		.loc 1 198 0
+ 168              		.cfi_startproc
+ 169              		@ args = 0, pretend = 0, frame = 0
+ 170              		@ frame_needed = 0, uses_anonymous_args = 0
+ 171              	.LVL13:
+ 172 0000 70B5     		push	{r4, r5, r6, lr}
+ 173              		.cfi_def_cfa_offset 16
+ 174              		.cfi_offset 4, -16
+ 175              		.cfi_offset 5, -12
+ 176              		.cfi_offset 6, -8
+ 177              		.cfi_offset 14, -4
+ 199:Generated_Source\PSoC5/I2C_MASTER.c ****     uint8 errStatus;
+ 200:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 201:Generated_Source\PSoC5/I2C_MASTER.c ****     errStatus = I2C_MSTR_NOT_READY;
+ 202:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 8
+
+
+ 203:Generated_Source\PSoC5/I2C_MASTER.c ****     if(NULL != rdData)
+ 178              		.loc 1 203 0
+ 179 0002 B1B1     		cbz	r1, .L30
+ 204:Generated_Source\PSoC5/I2C_MASTER.c ****     {
+ 205:Generated_Source\PSoC5/I2C_MASTER.c ****         /* Check I2C state to allow transfer: valid states are IDLE or HALT */
+ 206:Generated_Source\PSoC5/I2C_MASTER.c ****         if(I2C_SM_IDLE == I2C_state)
+ 180              		.loc 1 206 0
+ 181 0004 1F4C     		ldr	r4, .L38
+ 182 0006 2578     		ldrb	r5, [r4]	@ zero_extendqisi2
+ 183 0008 102D     		cmp	r5, #16
+ 184 000a 05D1     		bne	.L23
+ 207:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 208:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Master is ready to transaction: check if bus is free */
+ 209:Generated_Source\PSoC5/I2C_MASTER.c ****             if(I2C_CHECK_BUS_FREE(I2C_MCSR_REG))
+ 185              		.loc 1 209 0
+ 186 000c 1E4D     		ldr	r5, .L38+4
+ 187 000e 2D78     		ldrb	r5, [r5]	@ zero_extendqisi2
+ 188 0010 2D07     		lsls	r5, r5, #28
+ 189 0012 10D5     		bpl	.L24
+ 210:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 211:Generated_Source\PSoC5/I2C_MASTER.c ****                 errStatus = I2C_MSTR_NO_ERROR;
+ 212:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 213:Generated_Source\PSoC5/I2C_MASTER.c ****             else
+ 214:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 215:Generated_Source\PSoC5/I2C_MASTER.c ****                 errStatus = I2C_MSTR_BUS_BUSY;
+ 190              		.loc 1 215 0
+ 191 0014 0120     		movs	r0, #1
+ 192              	.LVL14:
+ 193 0016 70BD     		pop	{r4, r5, r6, pc}
+ 194              	.LVL15:
+ 195              	.L23:
+ 216:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 217:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 218:Generated_Source\PSoC5/I2C_MASTER.c ****         else if(I2C_SM_MSTR_HALT == I2C_state)
+ 196              		.loc 1 218 0
+ 197 0018 2578     		ldrb	r5, [r4]	@ zero_extendqisi2
+ 198 001a 602D     		cmp	r5, #96
+ 199 001c 09D1     		bne	.L30
+ 200              	.LVL16:
+ 219:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 220:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Master is ready and waiting for ReStart */
+ 221:Generated_Source\PSoC5/I2C_MASTER.c ****             errStatus = I2C_MSTR_NO_ERROR;
+ 222:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 223:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_ClearPendingInt();
+ 201              		.loc 1 223 0
+ 202 001e 1B4D     		ldr	r5, .L38+8
+ 203 0020 4FF40046 		mov	r6, #32768
+ 204 0024 2E60     		str	r6, [r5]
+ 224:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrStatus &= (uint8) ~I2C_MSTAT_XFER_HALT;
+ 205              		.loc 1 224 0
+ 206 0026 1A4E     		ldr	r6, .L38+12
+ 207 0028 3578     		ldrb	r5, [r6]	@ zero_extendqisi2
+ 208 002a 05F0F705 		and	r5, r5, #247
+ 209 002e 3570     		strb	r5, [r6]
+ 210 0030 01E0     		b	.L24
+ 211              	.LVL17:
+ 212              	.L30:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 9
+
+
+ 201:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 213              		.loc 1 201 0
+ 214 0032 0220     		movs	r0, #2
+ 215              	.LVL18:
+ 225:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 226:Generated_Source\PSoC5/I2C_MASTER.c ****         else
+ 227:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 228:Generated_Source\PSoC5/I2C_MASTER.c ****             /* errStatus = I2C_MSTR_NOT_READY was set before */
+ 229:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 230:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 231:Generated_Source\PSoC5/I2C_MASTER.c ****         if(I2C_MSTR_NO_ERROR == errStatus)
+ 232:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 233:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Set state to start write transaction */
+ 234:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_state = I2C_SM_MSTR_RD_ADDR;
+ 235:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 236:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Prepare read buffer */
+ 237:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrRdBufIndex  = 0u;
+ 238:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrRdBufSize   = cnt;
+ 239:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrRdBufPtr    = (volatile uint8 *) rdData;
+ 240:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 241:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Set end of transaction flag: Stop or Halt (following ReStart) */
+ 242:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrControl = mode;
+ 243:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 244:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Clear read status history */
+ 245:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrStatus &= (uint8) ~I2C_MSTAT_RD_CMPLT;
+ 246:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 247:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Hardware actions: write address and generate Start or ReStart */
+ 248:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_DATA_REG = ((uint8) (slaveAddress << I2C_SLAVE_ADDR_SHIFT) |
+ 249:Generated_Source\PSoC5/I2C_MASTER.c ****                                                   I2C_READ_FLAG);
+ 250:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 251:Generated_Source\PSoC5/I2C_MASTER.c ****             if(I2C_CHECK_RESTART(mode))
+ 252:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 253:Generated_Source\PSoC5/I2C_MASTER.c ****                 I2C_GENERATE_RESTART;
+ 254:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 255:Generated_Source\PSoC5/I2C_MASTER.c ****             else
+ 256:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 257:Generated_Source\PSoC5/I2C_MASTER.c ****                 I2C_GENERATE_START;
+ 258:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 259:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 260:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Enable interrupt to complete transfer */
+ 261:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_EnableInt();
+ 262:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 263:Generated_Source\PSoC5/I2C_MASTER.c ****     }
+ 264:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 265:Generated_Source\PSoC5/I2C_MASTER.c ****     return(errStatus);
+ 216              		.loc 1 265 0
+ 217 0034 70BD     		pop	{r4, r5, r6, pc}
+ 218              	.LVL19:
+ 219              	.L24:
+ 234:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 220              		.loc 1 234 0
+ 221 0036 4925     		movs	r5, #73
+ 222 0038 2570     		strb	r5, [r4]
+ 237:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrRdBufSize   = cnt;
+ 223              		.loc 1 237 0
+ 224 003a 164C     		ldr	r4, .L38+16
+ 225 003c 0025     		movs	r5, #0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 10
+
+
+ 226 003e 2570     		strb	r5, [r4]
+ 238:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrRdBufPtr    = (volatile uint8 *) rdData;
+ 227              		.loc 1 238 0
+ 228 0040 154C     		ldr	r4, .L38+20
+ 248:Generated_Source\PSoC5/I2C_MASTER.c ****                                                   I2C_READ_FLAG);
+ 229              		.loc 1 248 0
+ 230 0042 4000     		lsls	r0, r0, #1
+ 231              	.LVL20:
+ 238:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_mstrRdBufPtr    = (volatile uint8 *) rdData;
+ 232              		.loc 1 238 0
+ 233 0044 2270     		strb	r2, [r4]
+ 239:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 234              		.loc 1 239 0
+ 235 0046 154A     		ldr	r2, .L38+24
+ 236              	.LVL21:
+ 248:Generated_Source\PSoC5/I2C_MASTER.c ****                                                   I2C_READ_FLAG);
+ 237              		.loc 1 248 0
+ 238 0048 40F00100 		orr	r0, r0, #1
+ 239:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 239              		.loc 1 239 0
+ 240 004c 1160     		str	r1, [r2]
+ 242:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 241              		.loc 1 242 0
+ 242 004e 144A     		ldr	r2, .L38+28
+ 245:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 243              		.loc 1 245 0
+ 244 0050 0F49     		ldr	r1, .L38+12
+ 245              	.LVL22:
+ 242:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 246              		.loc 1 242 0
+ 247 0052 1370     		strb	r3, [r2]
+ 248              	.LVL23:
+ 245:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 249              		.loc 1 245 0
+ 250 0054 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 248:Generated_Source\PSoC5/I2C_MASTER.c ****                                                   I2C_READ_FLAG);
+ 251              		.loc 1 248 0
+ 252 0056 C0B2     		uxtb	r0, r0
+ 245:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 253              		.loc 1 245 0
+ 254 0058 02F0FE02 		and	r2, r2, #254
+ 255 005c 0A70     		strb	r2, [r1]
+ 248:Generated_Source\PSoC5/I2C_MASTER.c ****                                                   I2C_READ_FLAG);
+ 256              		.loc 1 248 0
+ 257 005e 114A     		ldr	r2, .L38+32
+ 251:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 258              		.loc 1 251 0
+ 259 0060 13F0010F 		tst	r3, #1
+ 248:Generated_Source\PSoC5/I2C_MASTER.c ****                                                   I2C_READ_FLAG);
+ 260              		.loc 1 248 0
+ 261 0064 1070     		strb	r0, [r2]
+ 262              	.LVL24:
+ 263 0066 084B     		ldr	r3, .L38+4
+ 264              	.LVL25:
+ 251:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 265              		.loc 1 251 0
+ 266 0068 04D0     		beq	.L37
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 11
+
+
+ 253:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 267              		.loc 1 253 0
+ 268 006a 1222     		movs	r2, #18
+ 269 006c 1A70     		strb	r2, [r3]
+ 270 006e 0422     		movs	r2, #4
+ 271 0070 0D4B     		ldr	r3, .L38+36
+ 272 0072 00E0     		b	.L36
+ 273              	.L37:
+ 257:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 274              		.loc 1 257 0
+ 275 0074 0122     		movs	r2, #1
+ 276              	.L36:
+ 277 0076 1A70     		strb	r2, [r3]
+ 261:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 278              		.loc 1 261 0
+ 279 0078 0C4B     		ldr	r3, .L38+40
+ 280 007a 4FF40042 		mov	r2, #32768
+ 281 007e 1A60     		str	r2, [r3]
+ 282 0080 0020     		movs	r0, #0
+ 283 0082 70BD     		pop	{r4, r5, r6, pc}
+ 284              	.L39:
+ 285              		.align	2
+ 286              	.L38:
+ 287 0084 00000000 		.word	I2C_state
+ 288 0088 D9490040 		.word	1073760729
+ 289 008c 80E200E0 		.word	-536812928
+ 290 0090 00000000 		.word	I2C_mstrStatus
+ 291 0094 00000000 		.word	I2C_mstrRdBufIndex
+ 292 0098 00000000 		.word	I2C_mstrRdBufSize
+ 293 009c 00000000 		.word	I2C_mstrRdBufPtr
+ 294 00a0 00000000 		.word	I2C_mstrControl
+ 295 00a4 D8490040 		.word	1073760728
+ 296 00a8 D7490040 		.word	1073760727
+ 297 00ac 00E100E0 		.word	-536813312
+ 298              		.cfi_endproc
+ 299              	.LFE1:
+ 300              		.size	I2C_MasterReadBuf, .-I2C_MasterReadBuf
+ 301              		.section	.text.I2C_MasterSendStart,"ax",%progbits
+ 302              		.align	1
+ 303              		.global	I2C_MasterSendStart
+ 304              		.thumb
+ 305              		.thumb_func
+ 306              		.type	I2C_MasterSendStart, %function
+ 307              	I2C_MasterSendStart:
+ 308              	.LFB2:
+ 266:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ 267:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 268:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 269:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 270:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterSendStart
+ 271:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ 272:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 273:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ 274:Generated_Source\PSoC5/I2C_MASTER.c **** *  Generates Start condition and sends slave address with read/write bit.
+ 275:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 276:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ 277:Generated_Source\PSoC5/I2C_MASTER.c **** *  slaveAddress:  7-bit slave address.
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 12
+
+
+ 278:Generated_Source\PSoC5/I2C_MASTER.c **** *  R_nW:          Zero, send write command, non-zero send read command.
+ 279:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 280:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 281:Generated_Source\PSoC5/I2C_MASTER.c **** *  Status error - Zero means no errors.
+ 282:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 283:Generated_Source\PSoC5/I2C_MASTER.c **** * Side Effects:
+ 284:Generated_Source\PSoC5/I2C_MASTER.c **** *  This function is entered without a "byte complete" bit set in the I2C_CSR
+ 285:Generated_Source\PSoC5/I2C_MASTER.c **** *  register. It does not exit until it is set.
+ 286:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 287:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 288:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_state - The global variable used to store a current state of
+ 289:Generated_Source\PSoC5/I2C_MASTER.c **** *                           the software FSM.
+ 290:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 291:Generated_Source\PSoC5/I2C_MASTER.c **** * Reentrant:
+ 292:Generated_Source\PSoC5/I2C_MASTER.c **** *  No.
+ 293:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 294:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 295:Generated_Source\PSoC5/I2C_MASTER.c **** uint8 I2C_MasterSendStart(uint8 slaveAddress, uint8 R_nW)
+ 296:Generated_Source\PSoC5/I2C_MASTER.c ****       
+ 297:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 309              		.loc 1 297 0
+ 310              		.cfi_startproc
+ 311              		@ args = 0, pretend = 0, frame = 0
+ 312              		@ frame_needed = 0, uses_anonymous_args = 0
+ 313              	.LVL26:
+ 314 0000 30B5     		push	{r4, r5, lr}
+ 315              		.cfi_def_cfa_offset 12
+ 316              		.cfi_offset 4, -12
+ 317              		.cfi_offset 5, -8
+ 318              		.cfi_offset 14, -4
+ 298:Generated_Source\PSoC5/I2C_MASTER.c ****     uint8 errStatus;
+ 299:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 300:Generated_Source\PSoC5/I2C_MASTER.c ****     errStatus = I2C_MSTR_NOT_READY;
+ 301:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 302:Generated_Source\PSoC5/I2C_MASTER.c ****     /* If IDLE, check if bus is free */
+ 303:Generated_Source\PSoC5/I2C_MASTER.c ****     if(I2C_SM_IDLE == I2C_state)
+ 319              		.loc 1 303 0
+ 320 0002 164B     		ldr	r3, .L51
+ 321 0004 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 322 0006 102A     		cmp	r2, #16
+ 323 0008 22D1     		bne	.L45
+ 304:Generated_Source\PSoC5/I2C_MASTER.c ****     {
+ 305:Generated_Source\PSoC5/I2C_MASTER.c ****         /* If bus is free, generate Start condition */
+ 306:Generated_Source\PSoC5/I2C_MASTER.c ****         if(I2C_CHECK_BUS_FREE(I2C_MCSR_REG))
+ 324              		.loc 1 306 0
+ 325 000a 154A     		ldr	r2, .L51+4
+ 326 000c 1478     		ldrb	r4, [r2]	@ zero_extendqisi2
+ 327 000e 2407     		lsls	r4, r4, #28
+ 328 0010 20D4     		bmi	.L46
+ 307:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 308:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Disable interrupt for manual master operation */
+ 309:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_DisableInt();
+ 329              		.loc 1 309 0
+ 330 0012 144C     		ldr	r4, .L51+8
+ 331 0014 4FF40045 		mov	r5, #32768
+ 310:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 311:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Set address and read/write flag */
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 13
+
+
+ 312:Generated_Source\PSoC5/I2C_MASTER.c ****             slaveAddress = (uint8) (slaveAddress << I2C_SLAVE_ADDR_SHIFT);
+ 332              		.loc 1 312 0
+ 333 0018 4000     		lsls	r0, r0, #1
+ 334              	.LVL27:
+ 309:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 335              		.loc 1 309 0
+ 336 001a 2560     		str	r5, [r4]
+ 337              		.loc 1 312 0
+ 338 001c C0B2     		uxtb	r0, r0
+ 339              	.LVL28:
+ 313:Generated_Source\PSoC5/I2C_MASTER.c ****             if(0u != R_nW)
+ 340              		.loc 1 313 0
+ 341 001e 19B1     		cbz	r1, .L42
+ 314:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 315:Generated_Source\PSoC5/I2C_MASTER.c ****                 slaveAddress |= I2C_READ_FLAG;
+ 342              		.loc 1 315 0
+ 343 0020 40F00100 		orr	r0, r0, #1
+ 344              	.LVL29:
+ 316:Generated_Source\PSoC5/I2C_MASTER.c ****                 I2C_state = I2C_SM_MSTR_RD_ADDR;
+ 345              		.loc 1 316 0
+ 346 0024 4921     		movs	r1, #73
+ 347              	.LVL30:
+ 348 0026 00E0     		b	.L50
+ 349              	.LVL31:
+ 350              	.L42:
+ 317:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 318:Generated_Source\PSoC5/I2C_MASTER.c ****             else
+ 319:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 320:Generated_Source\PSoC5/I2C_MASTER.c ****                 I2C_state = I2C_SM_MSTR_WR_ADDR;
+ 351              		.loc 1 320 0
+ 352 0028 4521     		movs	r1, #69
+ 353              	.LVL32:
+ 354              	.L50:
+ 355 002a 1970     		strb	r1, [r3]
+ 321:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 322:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 323:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Hardware actions: write address and generate Start */
+ 324:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_DATA_REG = slaveAddress;
+ 356              		.loc 1 324 0
+ 357 002c 0E49     		ldr	r1, .L51+12
+ 358 002e 0870     		strb	r0, [r1]
+ 325:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_GENERATE_START_MANUAL;
+ 359              		.loc 1 325 0
+ 360 0030 0121     		movs	r1, #1
+ 361 0032 1170     		strb	r1, [r2]
+ 326:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 327:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Wait until address is transferred */
+ 328:Generated_Source\PSoC5/I2C_MASTER.c ****             while(I2C_WAIT_BYTE_COMPLETE(I2C_CSR_REG))
+ 362              		.loc 1 328 0
+ 363 0034 0D49     		ldr	r1, .L51+16
+ 364              	.L44:
+ 365              		.loc 1 328 0 is_stmt 0 discriminator 1
+ 366 0036 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 367 0038 D207     		lsls	r2, r2, #31
+ 368 003a FCD5     		bpl	.L44
+ 329:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 330:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 14
+
+
+ 331:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 332:Generated_Source\PSoC5/I2C_MASTER.c ****         #if(I2C_MODE_MULTI_MASTER_SLAVE_ENABLED)
+ 333:Generated_Source\PSoC5/I2C_MASTER.c ****             if(I2C_CHECK_START_GEN(I2C_MCSR_REG))
+ 334:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 335:Generated_Source\PSoC5/I2C_MASTER.c ****                 I2C_CLEAR_START_GEN;
+ 336:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 337:Generated_Source\PSoC5/I2C_MASTER.c ****                 /* Start condition was not generated: reset FSM to IDLE */
+ 338:Generated_Source\PSoC5/I2C_MASTER.c ****                 I2C_state = I2C_SM_IDLE;
+ 339:Generated_Source\PSoC5/I2C_MASTER.c ****                 errStatus = I2C_MSTR_ERR_ABORT_START_GEN;
+ 340:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 341:Generated_Source\PSoC5/I2C_MASTER.c ****             else
+ 342:Generated_Source\PSoC5/I2C_MASTER.c ****         #endif /* (I2C_MODE_MULTI_MASTER_SLAVE_ENABLED) */
+ 343:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 344:Generated_Source\PSoC5/I2C_MASTER.c ****         #if(I2C_MODE_MULTI_MASTER_ENABLED)
+ 345:Generated_Source\PSoC5/I2C_MASTER.c ****             if(I2C_CHECK_LOST_ARB(I2C_CSR_REG))
+ 346:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 347:Generated_Source\PSoC5/I2C_MASTER.c ****                 I2C_BUS_RELEASE_MANUAL;
+ 348:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 349:Generated_Source\PSoC5/I2C_MASTER.c ****                 /* Master lost arbitrage: reset FSM to IDLE */
+ 350:Generated_Source\PSoC5/I2C_MASTER.c ****                 I2C_state = I2C_SM_IDLE;
+ 351:Generated_Source\PSoC5/I2C_MASTER.c ****                 errStatus = I2C_MSTR_ERR_ARB_LOST;
+ 352:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 353:Generated_Source\PSoC5/I2C_MASTER.c ****             else
+ 354:Generated_Source\PSoC5/I2C_MASTER.c ****         #endif /* (I2C_MODE_MULTI_MASTER_ENABLED) */
+ 355:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 356:Generated_Source\PSoC5/I2C_MASTER.c ****             if(I2C_CHECK_ADDR_NAK(I2C_CSR_REG))
+ 369              		.loc 1 356 0 is_stmt 1
+ 370 003c 0B4A     		ldr	r2, .L51+16
+ 371 003e 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 372 0040 02F00A02 		and	r2, r2, #10
+ 373 0044 0A2A     		cmp	r2, #10
+ 374 0046 07D1     		bne	.L47
+ 357:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 358:Generated_Source\PSoC5/I2C_MASTER.c ****                 /* Address has been NACKed: reset FSM to IDLE */
+ 359:Generated_Source\PSoC5/I2C_MASTER.c ****                 I2C_state = I2C_SM_IDLE;
+ 375              		.loc 1 359 0
+ 376 0048 1022     		movs	r2, #16
+ 377 004a 1A70     		strb	r2, [r3]
+ 378              	.LVL33:
+ 360:Generated_Source\PSoC5/I2C_MASTER.c ****                 errStatus = I2C_MSTR_ERR_LB_NAK;
+ 379              		.loc 1 360 0
+ 380 004c 0320     		movs	r0, #3
+ 381              	.LVL34:
+ 382 004e 30BD     		pop	{r4, r5, pc}
+ 383              	.LVL35:
+ 384              	.L45:
+ 300:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 385              		.loc 1 300 0
+ 386 0050 0220     		movs	r0, #2
+ 387              	.LVL36:
+ 388 0052 30BD     		pop	{r4, r5, pc}
+ 389              	.LVL37:
+ 390              	.L46:
+ 361:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 362:Generated_Source\PSoC5/I2C_MASTER.c ****             else
+ 363:Generated_Source\PSoC5/I2C_MASTER.c ****             {
+ 364:Generated_Source\PSoC5/I2C_MASTER.c ****                 /* Start was sent without errors */
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 15
+
+
+ 365:Generated_Source\PSoC5/I2C_MASTER.c ****                 errStatus = I2C_MSTR_NO_ERROR;
+ 366:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 367:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 368:Generated_Source\PSoC5/I2C_MASTER.c ****         else
+ 369:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 370:Generated_Source\PSoC5/I2C_MASTER.c ****             errStatus = I2C_MSTR_BUS_BUSY;
+ 391              		.loc 1 370 0
+ 392 0054 0120     		movs	r0, #1
+ 393              	.LVL38:
+ 394 0056 30BD     		pop	{r4, r5, pc}
+ 395              	.LVL39:
+ 396              	.L47:
+ 365:Generated_Source\PSoC5/I2C_MASTER.c ****             }
+ 397              		.loc 1 365 0
+ 398 0058 0020     		movs	r0, #0
+ 399              	.LVL40:
+ 371:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 372:Generated_Source\PSoC5/I2C_MASTER.c ****     }
+ 373:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 374:Generated_Source\PSoC5/I2C_MASTER.c ****     return(errStatus);
+ 375:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ 400              		.loc 1 375 0
+ 401 005a 30BD     		pop	{r4, r5, pc}
+ 402              	.L52:
+ 403              		.align	2
+ 404              	.L51:
+ 405 005c 00000000 		.word	I2C_state
+ 406 0060 D9490040 		.word	1073760729
+ 407 0064 80E100E0 		.word	-536813184
+ 408 0068 D8490040 		.word	1073760728
+ 409 006c D7490040 		.word	1073760727
+ 410              		.cfi_endproc
+ 411              	.LFE2:
+ 412              		.size	I2C_MasterSendStart, .-I2C_MasterSendStart
+ 413              		.section	.text.I2C_MasterSendRestart,"ax",%progbits
+ 414              		.align	1
+ 415              		.global	I2C_MasterSendRestart
+ 416              		.thumb
+ 417              		.thumb_func
+ 418              		.type	I2C_MasterSendRestart, %function
+ 419              	I2C_MasterSendRestart:
+ 420              	.LFB3:
+ 376:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 377:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 378:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 379:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterSendRestart
+ 380:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ 381:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 382:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ 383:Generated_Source\PSoC5/I2C_MASTER.c **** *  Generates ReStart condition and sends slave address with read/write bit.
+ 384:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 385:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ 386:Generated_Source\PSoC5/I2C_MASTER.c **** *  slaveAddress:  7-bit slave address.
+ 387:Generated_Source\PSoC5/I2C_MASTER.c **** *  R_nW:          Zero, send write command, non-zero send read command.
+ 388:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 389:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 390:Generated_Source\PSoC5/I2C_MASTER.c **** *  Status error - Zero means no errors.
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 16
+
+
+ 391:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 392:Generated_Source\PSoC5/I2C_MASTER.c **** * Side Effects:
+ 393:Generated_Source\PSoC5/I2C_MASTER.c **** *  This function is entered without a "byte complete" bit set in the I2C_CSR
+ 394:Generated_Source\PSoC5/I2C_MASTER.c **** *  register. It does not exit until it is set.
+ 395:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 396:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 397:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_state - The global variable used to store a current state of
+ 398:Generated_Source\PSoC5/I2C_MASTER.c **** *                           the software FSM.
+ 399:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 400:Generated_Source\PSoC5/I2C_MASTER.c **** * Reentrant:
+ 401:Generated_Source\PSoC5/I2C_MASTER.c **** *  No.
+ 402:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 403:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 404:Generated_Source\PSoC5/I2C_MASTER.c **** uint8 I2C_MasterSendRestart(uint8 slaveAddress, uint8 R_nW)
+ 405:Generated_Source\PSoC5/I2C_MASTER.c ****       
+ 406:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 421              		.loc 1 406 0
+ 422              		.cfi_startproc
+ 423              		@ args = 0, pretend = 0, frame = 0
+ 424              		@ frame_needed = 0, uses_anonymous_args = 0
+ 425              		@ link register save eliminated.
+ 426              	.LVL41:
+ 407:Generated_Source\PSoC5/I2C_MASTER.c ****     uint8 errStatus;
+ 408:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 409:Generated_Source\PSoC5/I2C_MASTER.c ****     errStatus = I2C_MSTR_NOT_READY;
+ 410:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 411:Generated_Source\PSoC5/I2C_MASTER.c ****     /* Check if START condition was generated */
+ 412:Generated_Source\PSoC5/I2C_MASTER.c ****     if(I2C_CHECK_MASTER_MODE(I2C_MCSR_REG))
+ 427              		.loc 1 412 0
+ 428 0000 124B     		ldr	r3, .L63
+ 429 0002 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 430 0004 5207     		lsls	r2, r2, #29
+ 431 0006 1DD5     		bpl	.L58
+ 413:Generated_Source\PSoC5/I2C_MASTER.c ****     {
+ 414:Generated_Source\PSoC5/I2C_MASTER.c ****         /* Set address and read/write flag */
+ 415:Generated_Source\PSoC5/I2C_MASTER.c ****         slaveAddress = (uint8) (slaveAddress << I2C_SLAVE_ADDR_SHIFT);
+ 432              		.loc 1 415 0
+ 433 0008 4000     		lsls	r0, r0, #1
+ 434              	.LVL42:
+ 435 000a C0B2     		uxtb	r0, r0
+ 436              	.LVL43:
+ 437 000c 104A     		ldr	r2, .L63+4
+ 416:Generated_Source\PSoC5/I2C_MASTER.c ****         if(0u != R_nW)
+ 438              		.loc 1 416 0
+ 439 000e 19B1     		cbz	r1, .L55
+ 417:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 418:Generated_Source\PSoC5/I2C_MASTER.c ****             slaveAddress |= I2C_READ_FLAG;
+ 440              		.loc 1 418 0
+ 441 0010 40F00100 		orr	r0, r0, #1
+ 442              	.LVL44:
+ 419:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_state = I2C_SM_MSTR_RD_ADDR;
+ 443              		.loc 1 419 0
+ 444 0014 4921     		movs	r1, #73
+ 445              	.LVL45:
+ 446 0016 00E0     		b	.L62
+ 447              	.LVL46:
+ 448              	.L55:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 17
+
+
+ 420:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 421:Generated_Source\PSoC5/I2C_MASTER.c ****         else
+ 422:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 423:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_state = I2C_SM_MSTR_WR_ADDR;
+ 449              		.loc 1 423 0
+ 450 0018 4521     		movs	r1, #69
+ 451              	.LVL47:
+ 452              	.L62:
+ 453 001a 1170     		strb	r1, [r2]
+ 424:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 425:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 426:Generated_Source\PSoC5/I2C_MASTER.c ****         /* Hardware actions: write address and generate ReStart */
+ 427:Generated_Source\PSoC5/I2C_MASTER.c ****         I2C_DATA_REG = slaveAddress;
+ 454              		.loc 1 427 0
+ 455 001c 0D49     		ldr	r1, .L63+8
+ 456 001e 0870     		strb	r0, [r1]
+ 428:Generated_Source\PSoC5/I2C_MASTER.c ****         I2C_GENERATE_RESTART_MANUAL;
+ 457              		.loc 1 428 0
+ 458 0020 1221     		movs	r1, #18
+ 459 0022 1970     		strb	r1, [r3]
+ 460 0024 0C4B     		ldr	r3, .L63+12
+ 461 0026 0421     		movs	r1, #4
+ 462 0028 1970     		strb	r1, [r3]
+ 463              	.L57:
+ 429:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 430:Generated_Source\PSoC5/I2C_MASTER.c ****         /* Wait until address has been transferred */
+ 431:Generated_Source\PSoC5/I2C_MASTER.c ****         while(I2C_WAIT_BYTE_COMPLETE(I2C_CSR_REG))
+ 464              		.loc 1 431 0 discriminator 1
+ 465 002a 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+ 466 002c C907     		lsls	r1, r1, #31
+ 467 002e FCD5     		bpl	.L57
+ 432:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 433:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 434:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 435:Generated_Source\PSoC5/I2C_MASTER.c ****     #if(I2C_MODE_MULTI_MASTER_ENABLED)
+ 436:Generated_Source\PSoC5/I2C_MASTER.c ****         if(I2C_CHECK_LOST_ARB(I2C_CSR_REG))
+ 437:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 438:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_BUS_RELEASE_MANUAL;
+ 439:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 440:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Master lost arbitrage: reset FSM to IDLE */
+ 441:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_state = I2C_SM_IDLE;
+ 442:Generated_Source\PSoC5/I2C_MASTER.c ****             errStatus = I2C_MSTR_ERR_ARB_LOST;
+ 443:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 444:Generated_Source\PSoC5/I2C_MASTER.c ****         else
+ 445:Generated_Source\PSoC5/I2C_MASTER.c ****     #endif /* (I2C_MODE_MULTI_MASTER_ENABLED) */
+ 446:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 447:Generated_Source\PSoC5/I2C_MASTER.c ****         if(I2C_CHECK_ADDR_NAK(I2C_CSR_REG))
+ 468              		.loc 1 447 0
+ 469 0030 094B     		ldr	r3, .L63+12
+ 470 0032 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 471 0034 03F00A03 		and	r3, r3, #10
+ 472 0038 0A2B     		cmp	r3, #10
+ 473 003a 05D1     		bne	.L59
+ 448:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 449:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Address has been NACKed: reset FSM to IDLE */
+ 450:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_state = I2C_SM_IDLE;
+ 474              		.loc 1 450 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 18
+
+
+ 475 003c 1023     		movs	r3, #16
+ 476 003e 1370     		strb	r3, [r2]
+ 477              	.LVL48:
+ 451:Generated_Source\PSoC5/I2C_MASTER.c ****             errStatus = I2C_MSTR_ERR_LB_NAK;
+ 478              		.loc 1 451 0
+ 479 0040 0320     		movs	r0, #3
+ 480              	.LVL49:
+ 481 0042 7047     		bx	lr
+ 482              	.LVL50:
+ 483              	.L58:
+ 409:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 484              		.loc 1 409 0
+ 485 0044 0220     		movs	r0, #2
+ 486              	.LVL51:
+ 487 0046 7047     		bx	lr
+ 488              	.LVL52:
+ 489              	.L59:
+ 452:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 453:Generated_Source\PSoC5/I2C_MASTER.c ****         else
+ 454:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 455:Generated_Source\PSoC5/I2C_MASTER.c ****             /* ReStart was sent without errors */
+ 456:Generated_Source\PSoC5/I2C_MASTER.c ****             errStatus = I2C_MSTR_NO_ERROR;
+ 490              		.loc 1 456 0
+ 491 0048 0020     		movs	r0, #0
+ 492              	.LVL53:
+ 457:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 458:Generated_Source\PSoC5/I2C_MASTER.c ****     }
+ 459:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 460:Generated_Source\PSoC5/I2C_MASTER.c ****     return(errStatus);
+ 461:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ 493              		.loc 1 461 0
+ 494 004a 7047     		bx	lr
+ 495              	.L64:
+ 496              		.align	2
+ 497              	.L63:
+ 498 004c D9490040 		.word	1073760729
+ 499 0050 00000000 		.word	I2C_state
+ 500 0054 D8490040 		.word	1073760728
+ 501 0058 D7490040 		.word	1073760727
+ 502              		.cfi_endproc
+ 503              	.LFE3:
+ 504              		.size	I2C_MasterSendRestart, .-I2C_MasterSendRestart
+ 505              		.section	.text.I2C_MasterSendStop,"ax",%progbits
+ 506              		.align	1
+ 507              		.global	I2C_MasterSendStop
+ 508              		.thumb
+ 509              		.thumb_func
+ 510              		.type	I2C_MasterSendStop, %function
+ 511              	I2C_MasterSendStop:
+ 512              	.LFB4:
+ 462:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 463:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 464:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 465:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterSendStop
+ 466:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ 467:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 468:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 19
+
+
+ 469:Generated_Source\PSoC5/I2C_MASTER.c **** *  Generates I2C Stop condition on bus. Function do nothing if Start or Restart
+ 470:Generated_Source\PSoC5/I2C_MASTER.c **** *  condition was failed before call this function.
+ 471:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 472:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ 473:Generated_Source\PSoC5/I2C_MASTER.c **** *  None.
+ 474:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 475:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 476:Generated_Source\PSoC5/I2C_MASTER.c **** *  Status error - Zero means no errors.
+ 477:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 478:Generated_Source\PSoC5/I2C_MASTER.c **** * Side Effects:
+ 479:Generated_Source\PSoC5/I2C_MASTER.c **** *  Stop generation is required to complete the transaction.
+ 480:Generated_Source\PSoC5/I2C_MASTER.c **** *  This function does not wait until a Stop condition is generated.
+ 481:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 482:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 483:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_state - The global variable used to store a current state of
+ 484:Generated_Source\PSoC5/I2C_MASTER.c **** *                           the software FSM.
+ 485:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 486:Generated_Source\PSoC5/I2C_MASTER.c **** * Reentrant:
+ 487:Generated_Source\PSoC5/I2C_MASTER.c **** *  No.
+ 488:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 489:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 490:Generated_Source\PSoC5/I2C_MASTER.c **** uint8 I2C_MasterSendStop(void) 
+ 491:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 513              		.loc 1 491 0
+ 514              		.cfi_startproc
+ 515              		@ args = 0, pretend = 0, frame = 0
+ 516              		@ frame_needed = 0, uses_anonymous_args = 0
+ 517              		@ link register save eliminated.
+ 518              	.LVL54:
+ 492:Generated_Source\PSoC5/I2C_MASTER.c ****     uint8 errStatus;
+ 493:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 494:Generated_Source\PSoC5/I2C_MASTER.c ****     errStatus = I2C_MSTR_NOT_READY;
+ 495:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 496:Generated_Source\PSoC5/I2C_MASTER.c ****     /* Check if master is active on bus */
+ 497:Generated_Source\PSoC5/I2C_MASTER.c ****     if(I2C_CHECK_MASTER_MODE(I2C_MCSR_REG))
+ 519              		.loc 1 497 0
+ 520 0000 094B     		ldr	r3, .L71
+ 521 0002 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 522 0004 5207     		lsls	r2, r2, #29
+ 523 0006 0CD5     		bpl	.L68
+ 498:Generated_Source\PSoC5/I2C_MASTER.c ****     {
+ 499:Generated_Source\PSoC5/I2C_MASTER.c ****         I2C_GENERATE_STOP_MANUAL;
+ 524              		.loc 1 499 0
+ 525 0008 1022     		movs	r2, #16
+ 526 000a 1A70     		strb	r2, [r3]
+ 527 000c 0421     		movs	r1, #4
+ 528 000e 023B     		subs	r3, r3, #2
+ 529 0010 1970     		strb	r1, [r3]
+ 500:Generated_Source\PSoC5/I2C_MASTER.c ****         I2C_state = I2C_SM_IDLE;
+ 530              		.loc 1 500 0
+ 531 0012 0649     		ldr	r1, .L71+4
+ 532 0014 0A70     		strb	r2, [r1]
+ 533              	.L67:
+ 501:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 502:Generated_Source\PSoC5/I2C_MASTER.c ****         /* Wait until stop has been generated */
+ 503:Generated_Source\PSoC5/I2C_MASTER.c ****         while(I2C_WAIT_STOP_COMPLETE(I2C_CSR_REG))
+ 534              		.loc 1 503 0 discriminator 1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 20
+
+
+ 535 0016 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 536 0018 12F0210F 		tst	r2, #33
+ 537 001c FBD0     		beq	.L67
+ 504:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 505:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 506:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 507:Generated_Source\PSoC5/I2C_MASTER.c ****         errStatus = I2C_MSTR_NO_ERROR;
+ 538              		.loc 1 507 0
+ 539 001e 0020     		movs	r0, #0
+ 540 0020 7047     		bx	lr
+ 541              	.L68:
+ 494:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 542              		.loc 1 494 0
+ 543 0022 0220     		movs	r0, #2
+ 544              	.LVL55:
+ 508:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 509:Generated_Source\PSoC5/I2C_MASTER.c ****     #if(I2C_MODE_MULTI_MASTER_ENABLED)
+ 510:Generated_Source\PSoC5/I2C_MASTER.c ****         if(I2C_CHECK_LOST_ARB(I2C_CSR_REG))
+ 511:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 512:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_BUS_RELEASE_MANUAL;
+ 513:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 514:Generated_Source\PSoC5/I2C_MASTER.c ****             /* NACK was generated by instead Stop */
+ 515:Generated_Source\PSoC5/I2C_MASTER.c ****             errStatus = I2C_MSTR_ERR_ARB_LOST;
+ 516:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 517:Generated_Source\PSoC5/I2C_MASTER.c ****     #endif /* (I2C_MODE_MULTI_MASTER_ENABLED) */
+ 518:Generated_Source\PSoC5/I2C_MASTER.c ****     }
+ 519:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 520:Generated_Source\PSoC5/I2C_MASTER.c ****     return(errStatus);
+ 521:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ 545              		.loc 1 521 0
+ 546 0024 7047     		bx	lr
+ 547              	.L72:
+ 548 0026 00BF     		.align	2
+ 549              	.L71:
+ 550 0028 D9490040 		.word	1073760729
+ 551 002c 00000000 		.word	I2C_state
+ 552              		.cfi_endproc
+ 553              	.LFE4:
+ 554              		.size	I2C_MasterSendStop, .-I2C_MasterSendStop
+ 555              		.section	.text.I2C_MasterWriteByte,"ax",%progbits
+ 556              		.align	1
+ 557              		.global	I2C_MasterWriteByte
+ 558              		.thumb
+ 559              		.thumb_func
+ 560              		.type	I2C_MasterWriteByte, %function
+ 561              	I2C_MasterWriteByte:
+ 562              	.LFB5:
+ 522:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 523:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 524:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 525:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterWriteByte
+ 526:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ 527:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 528:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ 529:Generated_Source\PSoC5/I2C_MASTER.c **** *  Sends one byte to a slave. A valid Start or ReStart condition must be
+ 530:Generated_Source\PSoC5/I2C_MASTER.c **** *  generated before this call this function. Function do nothing if Start or
+ 531:Generated_Source\PSoC5/I2C_MASTER.c **** *  Restart condition was failed before call this function.
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 21
+
+
+ 532:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 533:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ 534:Generated_Source\PSoC5/I2C_MASTER.c **** *  data:  The data byte to send to the slave.
+ 535:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 536:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 537:Generated_Source\PSoC5/I2C_MASTER.c **** *  Status error - Zero means no errors.
+ 538:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 539:Generated_Source\PSoC5/I2C_MASTER.c **** * Side Effects:
+ 540:Generated_Source\PSoC5/I2C_MASTER.c **** *  This function is entered without a "byte complete" bit set in the I2C_CSR
+ 541:Generated_Source\PSoC5/I2C_MASTER.c **** *  register. It does not exit until it is set.
+ 542:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 543:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 544:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_state - The global variable used to store a current state of
+ 545:Generated_Source\PSoC5/I2C_MASTER.c **** *                           the software FSM.
+ 546:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 547:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 548:Generated_Source\PSoC5/I2C_MASTER.c **** uint8 I2C_MasterWriteByte(uint8 theByte) 
+ 549:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 563              		.loc 1 549 0
+ 564              		.cfi_startproc
+ 565              		@ args = 0, pretend = 0, frame = 0
+ 566              		@ frame_needed = 0, uses_anonymous_args = 0
+ 567              		@ link register save eliminated.
+ 568              	.LVL56:
+ 550:Generated_Source\PSoC5/I2C_MASTER.c ****     uint8 errStatus;
+ 551:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 552:Generated_Source\PSoC5/I2C_MASTER.c ****     errStatus = I2C_MSTR_NOT_READY;
+ 553:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 554:Generated_Source\PSoC5/I2C_MASTER.c ****     /* Check if START condition was generated */
+ 555:Generated_Source\PSoC5/I2C_MASTER.c ****     if(I2C_CHECK_MASTER_MODE(I2C_MCSR_REG))
+ 569              		.loc 1 555 0
+ 570 0000 0E4B     		ldr	r3, .L80
+ 571 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 572 0004 5B07     		lsls	r3, r3, #29
+ 573 0006 16D5     		bpl	.L77
+ 556:Generated_Source\PSoC5/I2C_MASTER.c ****     {
+ 557:Generated_Source\PSoC5/I2C_MASTER.c ****         I2C_DATA_REG = theByte;   /* Write DATA register */
+ 574              		.loc 1 557 0
+ 575 0008 0D4B     		ldr	r3, .L80+4
+ 558:Generated_Source\PSoC5/I2C_MASTER.c ****         I2C_TRANSMIT_DATA_MANUAL; /* Set transmit mode   */
+ 576              		.loc 1 558 0
+ 577 000a 0E4A     		ldr	r2, .L80+8
+ 557:Generated_Source\PSoC5/I2C_MASTER.c ****         I2C_TRANSMIT_DATA_MANUAL; /* Set transmit mode   */
+ 578              		.loc 1 557 0
+ 579 000c 1870     		strb	r0, [r3]
+ 580              		.loc 1 558 0
+ 581 000e 0423     		movs	r3, #4
+ 582 0010 1370     		strb	r3, [r2]
+ 559:Generated_Source\PSoC5/I2C_MASTER.c ****         I2C_state = I2C_SM_MSTR_WR_DATA;
+ 583              		.loc 1 559 0
+ 584 0012 0D4B     		ldr	r3, .L80+12
+ 585 0014 4621     		movs	r1, #70
+ 586 0016 1970     		strb	r1, [r3]
+ 587              	.L75:
+ 560:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 561:Generated_Source\PSoC5/I2C_MASTER.c ****         /* Wait until data byte has been transmitted */
+ 562:Generated_Source\PSoC5/I2C_MASTER.c ****         while(I2C_WAIT_BYTE_COMPLETE(I2C_CSR_REG))
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 22
+
+
+ 588              		.loc 1 562 0 discriminator 1
+ 589 0018 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 590 001a C907     		lsls	r1, r1, #31
+ 591 001c FCD5     		bpl	.L75
+ 563:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 564:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 565:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 566:Generated_Source\PSoC5/I2C_MASTER.c ****     #if(I2C_MODE_MULTI_MASTER_ENABLED)
+ 567:Generated_Source\PSoC5/I2C_MASTER.c ****         if(I2C_CHECK_LOST_ARB(I2C_CSR_REG))
+ 568:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 569:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_BUS_RELEASE_MANUAL;
+ 570:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 571:Generated_Source\PSoC5/I2C_MASTER.c ****             /* Master lost arbitrage: reset FSM to IDLE */
+ 572:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_state = I2C_SM_IDLE;
+ 573:Generated_Source\PSoC5/I2C_MASTER.c ****             errStatus = I2C_MSTR_ERR_ARB_LOST;
+ 574:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 575:Generated_Source\PSoC5/I2C_MASTER.c ****         /* Check LRB bit */
+ 576:Generated_Source\PSoC5/I2C_MASTER.c ****         else
+ 577:Generated_Source\PSoC5/I2C_MASTER.c ****     #endif /* (I2C_MODE_MULTI_MASTER_ENABLED) */
+ 578:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 579:Generated_Source\PSoC5/I2C_MASTER.c ****         if(I2C_CHECK_DATA_ACK(I2C_CSR_REG))
+ 592              		.loc 1 579 0
+ 593 001e 094A     		ldr	r2, .L80+8
+ 594 0020 6021     		movs	r1, #96
+ 595 0022 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 580:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 581:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_state = I2C_SM_MSTR_HALT;
+ 596              		.loc 1 581 0
+ 597 0024 1970     		strb	r1, [r3]
+ 579:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 598              		.loc 1 579 0
+ 599 0026 02F00202 		and	r2, r2, #2
+ 600 002a 02F0FF00 		and	r0, r2, #255
+ 601              	.LVL57:
+ 602 002e 02B9     		cbnz	r2, .L76
+ 603              	.LVL58:
+ 604 0030 7047     		bx	lr
+ 605              	.LVL59:
+ 606              	.L76:
+ 582:Generated_Source\PSoC5/I2C_MASTER.c ****             errStatus = I2C_MSTR_NO_ERROR;
+ 583:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 584:Generated_Source\PSoC5/I2C_MASTER.c ****         else
+ 585:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 586:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_state = I2C_SM_MSTR_HALT;
+ 587:Generated_Source\PSoC5/I2C_MASTER.c ****             errStatus = I2C_MSTR_ERR_LB_NAK;
+ 607              		.loc 1 587 0
+ 608 0032 0320     		movs	r0, #3
+ 609 0034 7047     		bx	lr
+ 610              	.LVL60:
+ 611              	.L77:
+ 552:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 612              		.loc 1 552 0
+ 613 0036 0220     		movs	r0, #2
+ 614              	.LVL61:
+ 588:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 589:Generated_Source\PSoC5/I2C_MASTER.c ****     }
+ 590:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 23
+
+
+ 591:Generated_Source\PSoC5/I2C_MASTER.c ****     return(errStatus);
+ 592:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ 615              		.loc 1 592 0
+ 616 0038 7047     		bx	lr
+ 617              	.L81:
+ 618 003a 00BF     		.align	2
+ 619              	.L80:
+ 620 003c D9490040 		.word	1073760729
+ 621 0040 D8490040 		.word	1073760728
+ 622 0044 D7490040 		.word	1073760727
+ 623 0048 00000000 		.word	I2C_state
+ 624              		.cfi_endproc
+ 625              	.LFE5:
+ 626              		.size	I2C_MasterWriteByte, .-I2C_MasterWriteByte
+ 627              		.section	.text.I2C_MasterReadByte,"ax",%progbits
+ 628              		.align	1
+ 629              		.global	I2C_MasterReadByte
+ 630              		.thumb
+ 631              		.thumb_func
+ 632              		.type	I2C_MasterReadByte, %function
+ 633              	I2C_MasterReadByte:
+ 634              	.LFB6:
+ 593:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 594:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 595:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 596:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterReadByte
+ 597:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ 598:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 599:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ 600:Generated_Source\PSoC5/I2C_MASTER.c **** *  Reads one byte from a slave and ACK or NACK the transfer. A valid Start or
+ 601:Generated_Source\PSoC5/I2C_MASTER.c **** *  ReStart condition must be generated before this call this function. Function
+ 602:Generated_Source\PSoC5/I2C_MASTER.c **** *  do nothing if Start or Restart condition was failed before call this
+ 603:Generated_Source\PSoC5/I2C_MASTER.c **** *  function.
+ 604:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 605:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ 606:Generated_Source\PSoC5/I2C_MASTER.c **** *  acknNack:  Zero, response with NACK, if non-zero response with ACK.
+ 607:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 608:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 609:Generated_Source\PSoC5/I2C_MASTER.c **** *  Byte read from slave.
+ 610:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 611:Generated_Source\PSoC5/I2C_MASTER.c **** * Side Effects:
+ 612:Generated_Source\PSoC5/I2C_MASTER.c **** *  This function is entered without a "byte complete" bit set in the I2C_CSR
+ 613:Generated_Source\PSoC5/I2C_MASTER.c **** *  register. It does not exit until it is set.
+ 614:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 615:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 616:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_state - The global variable used to store a current
+ 617:Generated_Source\PSoC5/I2C_MASTER.c **** *                           state of the software FSM.
+ 618:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 619:Generated_Source\PSoC5/I2C_MASTER.c **** * Reentrant:
+ 620:Generated_Source\PSoC5/I2C_MASTER.c **** *  No.
+ 621:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 622:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 623:Generated_Source\PSoC5/I2C_MASTER.c **** uint8 I2C_MasterReadByte(uint8 acknNak) 
+ 624:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 635              		.loc 1 624 0
+ 636              		.cfi_startproc
+ 637              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 24
+
+
+ 638              		@ frame_needed = 0, uses_anonymous_args = 0
+ 639              		@ link register save eliminated.
+ 640              	.LVL62:
+ 625:Generated_Source\PSoC5/I2C_MASTER.c ****     uint8 theByte;
+ 626:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 627:Generated_Source\PSoC5/I2C_MASTER.c ****     theByte = 0u;
+ 628:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 629:Generated_Source\PSoC5/I2C_MASTER.c ****     /* Check if START condition was generated */
+ 630:Generated_Source\PSoC5/I2C_MASTER.c ****     if(I2C_CHECK_MASTER_MODE(I2C_MCSR_REG))
+ 641              		.loc 1 630 0
+ 642 0000 104B     		ldr	r3, .L90
+ 624:Generated_Source\PSoC5/I2C_MASTER.c ****     uint8 theByte;
+ 643              		.loc 1 624 0
+ 644 0002 0146     		mov	r1, r0
+ 645              		.loc 1 630 0
+ 646 0004 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 647 0006 02F00402 		and	r2, r2, #4
+ 648 000a 02F0FF03 		and	r3, r2, #255
+ 649 000e B2B1     		cbz	r2, .L87
+ 631:Generated_Source\PSoC5/I2C_MASTER.c ****     {
+ 632:Generated_Source\PSoC5/I2C_MASTER.c ****         /* When address phase needs to release bus and receive byte,
+ 633:Generated_Source\PSoC5/I2C_MASTER.c ****         * then decide ACK or NACK
+ 634:Generated_Source\PSoC5/I2C_MASTER.c ****         */
+ 635:Generated_Source\PSoC5/I2C_MASTER.c ****         if(I2C_SM_MSTR_RD_ADDR == I2C_state)
+ 650              		.loc 1 635 0
+ 651 0010 0D4A     		ldr	r2, .L90+4
+ 652 0012 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 653 0014 492B     		cmp	r3, #73
+ 654 0016 0D4B     		ldr	r3, .L90+8
+ 636:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 637:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_READY_TO_READ_MANUAL;
+ 655              		.loc 1 637 0
+ 656 0018 01BF     		itttt	eq
+ 657 001a 0020     		moveq	r0, #0
+ 658              	.LVL63:
+ 659 001c 1870     		strbeq	r0, [r3]
+ 638:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_state = I2C_SM_MSTR_RD_DATA;
+ 660              		.loc 1 638 0
+ 661 001e 4A20     		moveq	r0, #74
+ 662 0020 1070     		strbeq	r0, [r2]
+ 663              	.L85:
+ 639:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 640:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 641:Generated_Source\PSoC5/I2C_MASTER.c ****         /* Wait until data byte has been received */
+ 642:Generated_Source\PSoC5/I2C_MASTER.c ****         while(I2C_WAIT_BYTE_COMPLETE(I2C_CSR_REG))
+ 664              		.loc 1 642 0 discriminator 1
+ 665 0022 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 666 0024 C007     		lsls	r0, r0, #31
+ 667 0026 FCD5     		bpl	.L85
+ 643:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 644:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 645:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 646:Generated_Source\PSoC5/I2C_MASTER.c ****         theByte = I2C_DATA_REG;
+ 668              		.loc 1 646 0
+ 669 0028 094B     		ldr	r3, .L90+12
+ 670 002a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 671 002c D8B2     		uxtb	r0, r3
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 25
+
+
+ 672              	.LVL64:
+ 647:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 648:Generated_Source\PSoC5/I2C_MASTER.c ****         /* Command ACK to receive next byte and continue transfer.
+ 649:Generated_Source\PSoC5/I2C_MASTER.c ****         *  Do nothing for NACK. The NACK will be generated by
+ 650:Generated_Source\PSoC5/I2C_MASTER.c ****         *  Stop or ReStart routine.
+ 651:Generated_Source\PSoC5/I2C_MASTER.c ****         */
+ 652:Generated_Source\PSoC5/I2C_MASTER.c ****         if(acknNak != 0u) /* Generate ACK */
+ 673              		.loc 1 652 0
+ 674 002e 19B1     		cbz	r1, .L86
+ 653:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 654:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_ACK_AND_RECEIVE_MANUAL;
+ 675              		.loc 1 654 0
+ 676 0030 064B     		ldr	r3, .L90+8
+ 677 0032 1022     		movs	r2, #16
+ 678 0034 1A70     		strb	r2, [r3]
+ 679 0036 7047     		bx	lr
+ 680              	.L86:
+ 655:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 656:Generated_Source\PSoC5/I2C_MASTER.c ****         else              /* Do nothing for the follwong NACK */
+ 657:Generated_Source\PSoC5/I2C_MASTER.c ****         {
+ 658:Generated_Source\PSoC5/I2C_MASTER.c ****             I2C_state = I2C_SM_MSTR_HALT;
+ 681              		.loc 1 658 0
+ 682 0038 6023     		movs	r3, #96
+ 683 003a 1370     		strb	r3, [r2]
+ 684 003c 7047     		bx	lr
+ 685              	.LVL65:
+ 686              	.L87:
+ 627:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 687              		.loc 1 627 0
+ 688 003e 1846     		mov	r0, r3
+ 689              	.LVL66:
+ 659:Generated_Source\PSoC5/I2C_MASTER.c ****         }
+ 660:Generated_Source\PSoC5/I2C_MASTER.c ****     }
+ 661:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 662:Generated_Source\PSoC5/I2C_MASTER.c ****     return(theByte);
+ 663:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ 690              		.loc 1 663 0
+ 691 0040 7047     		bx	lr
+ 692              	.L91:
+ 693 0042 00BF     		.align	2
+ 694              	.L90:
+ 695 0044 D9490040 		.word	1073760729
+ 696 0048 00000000 		.word	I2C_state
+ 697 004c D7490040 		.word	1073760727
+ 698 0050 D8490040 		.word	1073760728
+ 699              		.cfi_endproc
+ 700              	.LFE6:
+ 701              		.size	I2C_MasterReadByte, .-I2C_MasterReadByte
+ 702              		.section	.text.I2C_MasterStatus,"ax",%progbits
+ 703              		.align	1
+ 704              		.global	I2C_MasterStatus
+ 705              		.thumb
+ 706              		.thumb_func
+ 707              		.type	I2C_MasterStatus, %function
+ 708              	I2C_MasterStatus:
+ 709              	.LFB7:
+ 664:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 26
+
+
+ 665:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 666:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 667:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterStatus
+ 668:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ 669:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 670:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ 671:Generated_Source\PSoC5/I2C_MASTER.c **** *  Returns the master's communication status.
+ 672:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 673:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ 674:Generated_Source\PSoC5/I2C_MASTER.c **** *  None.
+ 675:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 676:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 677:Generated_Source\PSoC5/I2C_MASTER.c **** *  Current status of I2C master.
+ 678:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 679:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 680:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrStatus - The global variable used to store a current
+ 681:Generated_Source\PSoC5/I2C_MASTER.c **** *                                status of the I2C Master.
+ 682:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 683:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 684:Generated_Source\PSoC5/I2C_MASTER.c **** uint8 I2C_MasterStatus(void) 
+ 685:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 710              		.loc 1 685 0
+ 711              		.cfi_startproc
+ 712              		@ args = 0, pretend = 0, frame = 0
+ 713              		@ frame_needed = 0, uses_anonymous_args = 0
+ 714              		@ link register save eliminated.
+ 686:Generated_Source\PSoC5/I2C_MASTER.c ****     uint8 status;
+ 687:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 688:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_DisableInt(); /* Lock from interrupt */
+ 715              		.loc 1 688 0
+ 716 0000 074A     		ldr	r2, .L97
+ 717 0002 4FF40043 		mov	r3, #32768
+ 718 0006 1360     		str	r3, [r2]
+ 689:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 690:Generated_Source\PSoC5/I2C_MASTER.c ****     /* Read master status */
+ 691:Generated_Source\PSoC5/I2C_MASTER.c ****     status = I2C_mstrStatus;
+ 719              		.loc 1 691 0
+ 720 0008 064A     		ldr	r2, .L97+4
+ 721 000a 1078     		ldrb	r0, [r2]	@ zero_extendqisi2
+ 692:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 693:Generated_Source\PSoC5/I2C_MASTER.c ****     if (I2C_CHECK_SM_MASTER)
+ 722              		.loc 1 693 0
+ 723 000c 064A     		ldr	r2, .L97+8
+ 691:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 724              		.loc 1 691 0
+ 725 000e C0B2     		uxtb	r0, r0
+ 726              	.LVL67:
+ 727              		.loc 1 693 0
+ 728 0010 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 729 0012 5206     		lsls	r2, r2, #25
+ 694:Generated_Source\PSoC5/I2C_MASTER.c ****     {
+ 695:Generated_Source\PSoC5/I2C_MASTER.c ****         /* Set transfer in progress flag in status */
+ 696:Generated_Source\PSoC5/I2C_MASTER.c ****         status |= I2C_MSTAT_XFER_INP;
+ 697:Generated_Source\PSoC5/I2C_MASTER.c ****     }
+ 698:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 699:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_EnableInt(); /* Release lock */
+ 730              		.loc 1 699 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 27
+
+
+ 731 0014 054A     		ldr	r2, .L97+12
+ 696:Generated_Source\PSoC5/I2C_MASTER.c ****     }
+ 732              		.loc 1 696 0
+ 733 0016 48BF     		it	mi
+ 734 0018 40F00400 		orrmi	r0, r0, #4
+ 735              	.LVL68:
+ 736              		.loc 1 699 0
+ 737 001c 1360     		str	r3, [r2]
+ 700:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 701:Generated_Source\PSoC5/I2C_MASTER.c ****     return (status);
+ 702:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ 738              		.loc 1 702 0
+ 739 001e 7047     		bx	lr
+ 740              	.L98:
+ 741              		.align	2
+ 742              	.L97:
+ 743 0020 80E100E0 		.word	-536813184
+ 744 0024 00000000 		.word	I2C_mstrStatus
+ 745 0028 00000000 		.word	I2C_state
+ 746 002c 00E100E0 		.word	-536813312
+ 747              		.cfi_endproc
+ 748              	.LFE7:
+ 749              		.size	I2C_MasterStatus, .-I2C_MasterStatus
+ 750              		.section	.text.I2C_MasterClearStatus,"ax",%progbits
+ 751              		.align	1
+ 752              		.global	I2C_MasterClearStatus
+ 753              		.thumb
+ 754              		.thumb_func
+ 755              		.type	I2C_MasterClearStatus, %function
+ 756              	I2C_MasterClearStatus:
+ 757              	.LFB8:
+ 703:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 704:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 705:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 706:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterClearStatus
+ 707:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ 708:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 709:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ 710:Generated_Source\PSoC5/I2C_MASTER.c **** *  Clears all status flags and returns the master status.
+ 711:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 712:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ 713:Generated_Source\PSoC5/I2C_MASTER.c **** *  None.
+ 714:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 715:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 716:Generated_Source\PSoC5/I2C_MASTER.c **** *  Current status of I2C master.
+ 717:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 718:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 719:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrStatus - The global variable used to store a current
+ 720:Generated_Source\PSoC5/I2C_MASTER.c **** *                                status of the I2C Master.
+ 721:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 722:Generated_Source\PSoC5/I2C_MASTER.c **** * Reentrant:
+ 723:Generated_Source\PSoC5/I2C_MASTER.c **** *  No.
+ 724:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 725:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 726:Generated_Source\PSoC5/I2C_MASTER.c **** uint8 I2C_MasterClearStatus(void) 
+ 727:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 758              		.loc 1 727 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 28
+
+
+ 759              		.cfi_startproc
+ 760              		@ args = 0, pretend = 0, frame = 0
+ 761              		@ frame_needed = 0, uses_anonymous_args = 0
+ 762              		@ link register save eliminated.
+ 728:Generated_Source\PSoC5/I2C_MASTER.c ****     uint8 status;
+ 729:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 730:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_DisableInt(); /* Lock from interrupt */
+ 763              		.loc 1 730 0
+ 764 0000 054A     		ldr	r2, .L100
+ 765 0002 4FF40043 		mov	r3, #32768
+ 766 0006 1360     		str	r3, [r2]
+ 731:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 732:Generated_Source\PSoC5/I2C_MASTER.c ****     /* Read and clear master status */
+ 733:Generated_Source\PSoC5/I2C_MASTER.c ****     status = I2C_mstrStatus;
+ 767              		.loc 1 733 0
+ 768 0008 044A     		ldr	r2, .L100+4
+ 734:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_mstrStatus = I2C_MSTAT_CLEAR;
+ 769              		.loc 1 734 0
+ 770 000a 0021     		movs	r1, #0
+ 733:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_mstrStatus = I2C_MSTAT_CLEAR;
+ 771              		.loc 1 733 0
+ 772 000c 1078     		ldrb	r0, [r2]	@ zero_extendqisi2
+ 773              	.LVL69:
+ 774              		.loc 1 734 0
+ 775 000e 1170     		strb	r1, [r2]
+ 735:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 736:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_EnableInt(); /* Release lock */
+ 776              		.loc 1 736 0
+ 777 0010 034A     		ldr	r2, .L100+8
+ 778 0012 1360     		str	r3, [r2]
+ 737:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 738:Generated_Source\PSoC5/I2C_MASTER.c ****     return (status);
+ 739:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ 779              		.loc 1 739 0
+ 780 0014 7047     		bx	lr
+ 781              	.L101:
+ 782 0016 00BF     		.align	2
+ 783              	.L100:
+ 784 0018 80E100E0 		.word	-536813184
+ 785 001c 00000000 		.word	I2C_mstrStatus
+ 786 0020 00E100E0 		.word	-536813312
+ 787              		.cfi_endproc
+ 788              	.LFE8:
+ 789              		.size	I2C_MasterClearStatus, .-I2C_MasterClearStatus
+ 790              		.section	.text.I2C_MasterGetReadBufSize,"ax",%progbits
+ 791              		.align	1
+ 792              		.global	I2C_MasterGetReadBufSize
+ 793              		.thumb
+ 794              		.thumb_func
+ 795              		.type	I2C_MasterGetReadBufSize, %function
+ 796              	I2C_MasterGetReadBufSize:
+ 797              	.LFB9:
+ 740:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 741:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 742:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 743:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterGetReadBufSize
+ 744:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 29
+
+
+ 745:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 746:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ 747:Generated_Source\PSoC5/I2C_MASTER.c **** *  Returns the amount of bytes that has been transferred with an
+ 748:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_MasterReadBuf command.
+ 749:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 750:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ 751:Generated_Source\PSoC5/I2C_MASTER.c **** *  None.
+ 752:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 753:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 754:Generated_Source\PSoC5/I2C_MASTER.c **** *  Byte count of transfer. If the transfer is not yet complete, it will return
+ 755:Generated_Source\PSoC5/I2C_MASTER.c **** *  the byte count transferred so far.
+ 756:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 757:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 758:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrRdBufIndex - The global variable stores current index
+ 759:Generated_Source\PSoC5/I2C_MASTER.c **** *                                    within the master read buffer.
+ 760:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 761:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 762:Generated_Source\PSoC5/I2C_MASTER.c **** uint8 I2C_MasterGetReadBufSize(void) 
+ 763:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 798              		.loc 1 763 0
+ 799              		.cfi_startproc
+ 800              		@ args = 0, pretend = 0, frame = 0
+ 801              		@ frame_needed = 0, uses_anonymous_args = 0
+ 802              		@ link register save eliminated.
+ 764:Generated_Source\PSoC5/I2C_MASTER.c ****     return (I2C_mstrRdBufIndex);
+ 803              		.loc 1 764 0
+ 804 0000 014B     		ldr	r3, .L103
+ 805 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 765:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ 806              		.loc 1 765 0
+ 807 0004 7047     		bx	lr
+ 808              	.L104:
+ 809 0006 00BF     		.align	2
+ 810              	.L103:
+ 811 0008 00000000 		.word	I2C_mstrRdBufIndex
+ 812              		.cfi_endproc
+ 813              	.LFE9:
+ 814              		.size	I2C_MasterGetReadBufSize, .-I2C_MasterGetReadBufSize
+ 815              		.section	.text.I2C_MasterGetWriteBufSize,"ax",%progbits
+ 816              		.align	1
+ 817              		.global	I2C_MasterGetWriteBufSize
+ 818              		.thumb
+ 819              		.thumb_func
+ 820              		.type	I2C_MasterGetWriteBufSize, %function
+ 821              	I2C_MasterGetWriteBufSize:
+ 822              	.LFB10:
+ 766:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 767:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 768:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 769:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterGetWriteBufSize
+ 770:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ 771:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 772:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ 773:Generated_Source\PSoC5/I2C_MASTER.c **** *  Returns the amount of bytes that has been transferred with an
+ 774:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_MasterWriteBuf command.
+ 775:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 776:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 30
+
+
+ 777:Generated_Source\PSoC5/I2C_MASTER.c **** *  None.
+ 778:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 779:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 780:Generated_Source\PSoC5/I2C_MASTER.c **** *  Byte count of transfer. If the transfer is not yet complete, it will return
+ 781:Generated_Source\PSoC5/I2C_MASTER.c **** *  the byte count transferred so far.
+ 782:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 783:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 784:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrWrBufIndex -  The global variable used to stores current
+ 785:Generated_Source\PSoC5/I2C_MASTER.c **** *                                     index within master write buffer.
+ 786:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 787:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 788:Generated_Source\PSoC5/I2C_MASTER.c **** uint8 I2C_MasterGetWriteBufSize(void) 
+ 789:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 823              		.loc 1 789 0
+ 824              		.cfi_startproc
+ 825              		@ args = 0, pretend = 0, frame = 0
+ 826              		@ frame_needed = 0, uses_anonymous_args = 0
+ 827              		@ link register save eliminated.
+ 790:Generated_Source\PSoC5/I2C_MASTER.c ****     return (I2C_mstrWrBufIndex);
+ 828              		.loc 1 790 0
+ 829 0000 014B     		ldr	r3, .L106
+ 830 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 791:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ 831              		.loc 1 791 0
+ 832 0004 7047     		bx	lr
+ 833              	.L107:
+ 834 0006 00BF     		.align	2
+ 835              	.L106:
+ 836 0008 00000000 		.word	I2C_mstrWrBufIndex
+ 837              		.cfi_endproc
+ 838              	.LFE10:
+ 839              		.size	I2C_MasterGetWriteBufSize, .-I2C_MasterGetWriteBufSize
+ 840              		.section	.text.I2C_MasterClearReadBuf,"ax",%progbits
+ 841              		.align	1
+ 842              		.global	I2C_MasterClearReadBuf
+ 843              		.thumb
+ 844              		.thumb_func
+ 845              		.type	I2C_MasterClearReadBuf, %function
+ 846              	I2C_MasterClearReadBuf:
+ 847              	.LFB11:
+ 792:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 793:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 794:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 795:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterClearReadBuf
+ 796:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ 797:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 798:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ 799:Generated_Source\PSoC5/I2C_MASTER.c **** *  Resets the read buffer pointer back to the first byte in the buffer.
+ 800:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 801:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ 802:Generated_Source\PSoC5/I2C_MASTER.c **** *  None.
+ 803:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 804:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 805:Generated_Source\PSoC5/I2C_MASTER.c **** *  None.
+ 806:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 807:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 808:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrRdBufIndex - The global variable used to stores current
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 31
+
+
+ 809:Generated_Source\PSoC5/I2C_MASTER.c **** *                                    index within master read buffer.
+ 810:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrStatus - The global variable used to store a current
+ 811:Generated_Source\PSoC5/I2C_MASTER.c **** *                                status of the I2C Master.
+ 812:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 813:Generated_Source\PSoC5/I2C_MASTER.c **** * Reentrant:
+ 814:Generated_Source\PSoC5/I2C_MASTER.c **** *  No.
+ 815:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 816:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 817:Generated_Source\PSoC5/I2C_MASTER.c **** void I2C_MasterClearReadBuf(void) 
+ 818:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 848              		.loc 1 818 0
+ 849              		.cfi_startproc
+ 850              		@ args = 0, pretend = 0, frame = 0
+ 851              		@ frame_needed = 0, uses_anonymous_args = 0
+ 852              		@ link register save eliminated.
+ 819:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_DisableInt(); /* Lock from interrupt */
+ 853              		.loc 1 819 0
+ 854 0000 074B     		ldr	r3, .L109
+ 855 0002 4FF40042 		mov	r2, #32768
+ 856 0006 1A60     		str	r2, [r3]
+ 820:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 821:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_mstrRdBufIndex = 0u;
+ 857              		.loc 1 821 0
+ 858 0008 064B     		ldr	r3, .L109+4
+ 859 000a 0021     		movs	r1, #0
+ 860 000c 1970     		strb	r1, [r3]
+ 822:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_mstrStatus    &= (uint8) ~I2C_MSTAT_RD_CMPLT;
+ 861              		.loc 1 822 0
+ 862 000e 0649     		ldr	r1, .L109+8
+ 863 0010 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 864 0012 03F0FE03 		and	r3, r3, #254
+ 865 0016 0B70     		strb	r3, [r1]
+ 823:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 824:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_EnableInt(); /* Release lock */
+ 866              		.loc 1 824 0
+ 867 0018 044B     		ldr	r3, .L109+12
+ 868 001a 1A60     		str	r2, [r3]
+ 869 001c 7047     		bx	lr
+ 870              	.L110:
+ 871 001e 00BF     		.align	2
+ 872              	.L109:
+ 873 0020 80E100E0 		.word	-536813184
+ 874 0024 00000000 		.word	I2C_mstrRdBufIndex
+ 875 0028 00000000 		.word	I2C_mstrStatus
+ 876 002c 00E100E0 		.word	-536813312
+ 877              		.cfi_endproc
+ 878              	.LFE11:
+ 879              		.size	I2C_MasterClearReadBuf, .-I2C_MasterClearReadBuf
+ 880              		.section	.text.I2C_MasterClearWriteBuf,"ax",%progbits
+ 881              		.align	1
+ 882              		.global	I2C_MasterClearWriteBuf
+ 883              		.thumb
+ 884              		.thumb_func
+ 885              		.type	I2C_MasterClearWriteBuf, %function
+ 886              	I2C_MasterClearWriteBuf:
+ 887              	.LFB12:
+ 825:Generated_Source\PSoC5/I2C_MASTER.c **** }
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 32
+
+
+ 826:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 827:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 828:Generated_Source\PSoC5/I2C_MASTER.c **** /*******************************************************************************
+ 829:Generated_Source\PSoC5/I2C_MASTER.c **** * Function Name: I2C_MasterClearWriteBuf
+ 830:Generated_Source\PSoC5/I2C_MASTER.c **** ********************************************************************************
+ 831:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 832:Generated_Source\PSoC5/I2C_MASTER.c **** * Summary:
+ 833:Generated_Source\PSoC5/I2C_MASTER.c **** *  Resets the write buffer pointer back to the first byte in the buffer.
+ 834:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 835:Generated_Source\PSoC5/I2C_MASTER.c **** * Parameters:
+ 836:Generated_Source\PSoC5/I2C_MASTER.c **** *  None.
+ 837:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 838:Generated_Source\PSoC5/I2C_MASTER.c **** * Return:
+ 839:Generated_Source\PSoC5/I2C_MASTER.c **** *  None.
+ 840:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 841:Generated_Source\PSoC5/I2C_MASTER.c **** * Global variables:
+ 842:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrRdBufIndex - The global variable used to stote current
+ 843:Generated_Source\PSoC5/I2C_MASTER.c **** *                                    index within master read buffer.
+ 844:Generated_Source\PSoC5/I2C_MASTER.c **** *  I2C_mstrStatus - The global variable used to store a current
+ 845:Generated_Source\PSoC5/I2C_MASTER.c **** *                                status of the I2C Master.
+ 846:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 847:Generated_Source\PSoC5/I2C_MASTER.c **** * Reentrant:
+ 848:Generated_Source\PSoC5/I2C_MASTER.c **** *  No.
+ 849:Generated_Source\PSoC5/I2C_MASTER.c **** *
+ 850:Generated_Source\PSoC5/I2C_MASTER.c **** *******************************************************************************/
+ 851:Generated_Source\PSoC5/I2C_MASTER.c **** void I2C_MasterClearWriteBuf(void) 
+ 852:Generated_Source\PSoC5/I2C_MASTER.c **** {
+ 888              		.loc 1 852 0
+ 889              		.cfi_startproc
+ 890              		@ args = 0, pretend = 0, frame = 0
+ 891              		@ frame_needed = 0, uses_anonymous_args = 0
+ 892              		@ link register save eliminated.
+ 853:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_DisableInt(); /* Lock from interrupt */
+ 893              		.loc 1 853 0
+ 894 0000 074B     		ldr	r3, .L112
+ 895 0002 4FF40042 		mov	r2, #32768
+ 896 0006 1A60     		str	r2, [r3]
+ 854:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 855:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_mstrWrBufIndex = 0u;
+ 897              		.loc 1 855 0
+ 898 0008 064B     		ldr	r3, .L112+4
+ 899 000a 0021     		movs	r1, #0
+ 900 000c 1970     		strb	r1, [r3]
+ 856:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_mstrStatus    &= (uint8) ~I2C_MSTAT_WR_CMPLT;
+ 901              		.loc 1 856 0
+ 902 000e 0649     		ldr	r1, .L112+8
+ 903 0010 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 904 0012 03F0FD03 		and	r3, r3, #253
+ 905 0016 0B70     		strb	r3, [r1]
+ 857:Generated_Source\PSoC5/I2C_MASTER.c **** 
+ 858:Generated_Source\PSoC5/I2C_MASTER.c ****     I2C_EnableInt(); /* Release lock */
+ 906              		.loc 1 858 0
+ 907 0018 044B     		ldr	r3, .L112+12
+ 908 001a 1A60     		str	r2, [r3]
+ 909 001c 7047     		bx	lr
+ 910              	.L113:
+ 911 001e 00BF     		.align	2
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 33
+
+
+ 912              	.L112:
+ 913 0020 80E100E0 		.word	-536813184
+ 914 0024 00000000 		.word	I2C_mstrWrBufIndex
+ 915 0028 00000000 		.word	I2C_mstrStatus
+ 916 002c 00E100E0 		.word	-536813312
+ 917              		.cfi_endproc
+ 918              	.LFE12:
+ 919              		.size	I2C_MasterClearWriteBuf, .-I2C_MasterClearWriteBuf
+ 920              		.comm	I2C_mstrWrBufIndex,1,1
+ 921              		.comm	I2C_mstrWrBufSize,1,1
+ 922              		.comm	I2C_mstrWrBufPtr,4,4
+ 923              		.comm	I2C_mstrRdBufIndex,1,1
+ 924              		.comm	I2C_mstrRdBufSize,1,1
+ 925              		.comm	I2C_mstrRdBufPtr,4,4
+ 926              		.comm	I2C_mstrControl,1,1
+ 927              		.comm	I2C_mstrStatus,1,1
+ 928              		.text
+ 929              	.Letext0:
+ 930              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 931              		.file 3 "Generated_Source\\PSoC5\\I2C_PVT.h"
+ 932              		.section	.debug_info,"",%progbits
+ 933              	.Ldebug_info0:
+ 934 0000 07040000 		.4byte	0x407
+ 935 0004 0400     		.2byte	0x4
+ 936 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 937 000a 04       		.byte	0x4
+ 938 000b 01       		.uleb128 0x1
+ 939 000c 1A010000 		.4byte	.LASF49
+ 940 0010 0C       		.byte	0xc
+ 941 0011 37020000 		.4byte	.LASF50
+ 942 0015 4B030000 		.4byte	.LASF51
+ 943 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 944 001d 00000000 		.4byte	0
+ 945 0021 00000000 		.4byte	.Ldebug_line0
+ 946 0025 02       		.uleb128 0x2
+ 947 0026 01       		.byte	0x1
+ 948 0027 06       		.byte	0x6
+ 949 0028 D8000000 		.4byte	.LASF0
+ 950 002c 02       		.uleb128 0x2
+ 951 002d 01       		.byte	0x1
+ 952 002e 08       		.byte	0x8
+ 953 002f E4000000 		.4byte	.LASF1
+ 954 0033 02       		.uleb128 0x2
+ 955 0034 02       		.byte	0x2
+ 956 0035 05       		.byte	0x5
+ 957 0036 D5020000 		.4byte	.LASF2
+ 958 003a 02       		.uleb128 0x2
+ 959 003b 02       		.byte	0x2
+ 960 003c 07       		.byte	0x7
+ 961 003d 70000000 		.4byte	.LASF3
+ 962 0041 02       		.uleb128 0x2
+ 963 0042 04       		.byte	0x4
+ 964 0043 05       		.byte	0x5
+ 965 0044 07030000 		.4byte	.LASF4
+ 966 0048 02       		.uleb128 0x2
+ 967 0049 04       		.byte	0x4
+ 968 004a 07       		.byte	0x7
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 34
+
+
+ 969 004b 83020000 		.4byte	.LASF5
+ 970 004f 02       		.uleb128 0x2
+ 971 0050 08       		.byte	0x8
+ 972 0051 05       		.byte	0x5
+ 973 0052 9E020000 		.4byte	.LASF6
+ 974 0056 02       		.uleb128 0x2
+ 975 0057 08       		.byte	0x8
+ 976 0058 07       		.byte	0x7
+ 977 0059 20020000 		.4byte	.LASF7
+ 978 005d 03       		.uleb128 0x3
+ 979 005e 04       		.byte	0x4
+ 980 005f 05       		.byte	0x5
+ 981 0060 696E7400 		.ascii	"int\000"
+ 982 0064 02       		.uleb128 0x2
+ 983 0065 04       		.byte	0x4
+ 984 0066 07       		.byte	0x7
+ 985 0067 83000000 		.4byte	.LASF8
+ 986 006b 04       		.uleb128 0x4
+ 987 006c A8010000 		.4byte	.LASF9
+ 988 0070 02       		.byte	0x2
+ 989 0071 E901     		.2byte	0x1e9
+ 990 0073 2C000000 		.4byte	0x2c
+ 991 0077 04       		.uleb128 0x4
+ 992 0078 DF010000 		.4byte	.LASF10
+ 993 007c 02       		.byte	0x2
+ 994 007d EB01     		.2byte	0x1eb
+ 995 007f 48000000 		.4byte	0x48
+ 996 0083 02       		.uleb128 0x2
+ 997 0084 04       		.byte	0x4
+ 998 0085 04       		.byte	0x4
+ 999 0086 D2000000 		.4byte	.LASF11
+ 1000 008a 02       		.uleb128 0x2
+ 1001 008b 08       		.byte	0x8
+ 1002 008c 04       		.byte	0x4
+ 1003 008d CC010000 		.4byte	.LASF12
+ 1004 0091 02       		.uleb128 0x2
+ 1005 0092 01       		.byte	0x1
+ 1006 0093 08       		.byte	0x8
+ 1007 0094 AC020000 		.4byte	.LASF13
+ 1008 0098 04       		.uleb128 0x4
+ 1009 0099 05010000 		.4byte	.LASF14
+ 1010 009d 02       		.byte	0x2
+ 1011 009e 9302     		.2byte	0x293
+ 1012 00a0 A4000000 		.4byte	0xa4
+ 1013 00a4 05       		.uleb128 0x5
+ 1014 00a5 6B000000 		.4byte	0x6b
+ 1015 00a9 04       		.uleb128 0x4
+ 1016 00aa 00000000 		.4byte	.LASF15
+ 1017 00ae 02       		.byte	0x2
+ 1018 00af 9502     		.2byte	0x295
+ 1019 00b1 B5000000 		.4byte	0xb5
+ 1020 00b5 05       		.uleb128 0x5
+ 1021 00b6 77000000 		.4byte	0x77
+ 1022 00ba 02       		.uleb128 0x2
+ 1023 00bb 08       		.byte	0x8
+ 1024 00bc 04       		.byte	0x4
+ 1025 00bd 10030000 		.4byte	.LASF16
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 35
+
+
+ 1026 00c1 02       		.uleb128 0x2
+ 1027 00c2 04       		.byte	0x4
+ 1028 00c3 07       		.byte	0x7
+ 1029 00c4 95020000 		.4byte	.LASF17
+ 1030 00c8 06       		.uleb128 0x6
+ 1031 00c9 F2000000 		.4byte	.LASF21
+ 1032 00cd 01       		.byte	0x1
+ 1033 00ce 50       		.byte	0x50
+ 1034 00cf 6B000000 		.4byte	0x6b
+ 1035 00d3 00000000 		.4byte	.LFB0
+ 1036 00d7 AC000000 		.4byte	.LFE0-.LFB0
+ 1037 00db 01       		.uleb128 0x1
+ 1038 00dc 9C       		.byte	0x9c
+ 1039 00dd 2D010000 		.4byte	0x12d
+ 1040 00e1 07       		.uleb128 0x7
+ 1041 00e2 76020000 		.4byte	.LASF18
+ 1042 00e6 01       		.byte	0x1
+ 1043 00e7 50       		.byte	0x50
+ 1044 00e8 6B000000 		.4byte	0x6b
+ 1045 00ec 00000000 		.4byte	.LLST0
+ 1046 00f0 07       		.uleb128 0x7
+ 1047 00f1 19020000 		.4byte	.LASF19
+ 1048 00f5 01       		.byte	0x1
+ 1049 00f6 50       		.byte	0x50
+ 1050 00f7 2D010000 		.4byte	0x12d
+ 1051 00fb 53000000 		.4byte	.LLST1
+ 1052 00ff 08       		.uleb128 0x8
+ 1053 0100 636E7400 		.ascii	"cnt\000"
+ 1054 0104 01       		.byte	0x1
+ 1055 0105 50       		.byte	0x50
+ 1056 0106 6B000000 		.4byte	0x6b
+ 1057 010a 83000000 		.4byte	.LLST2
+ 1058 010e 07       		.uleb128 0x7
+ 1059 010f 5B020000 		.4byte	.LASF20
+ 1060 0113 01       		.byte	0x1
+ 1061 0114 50       		.byte	0x50
+ 1062 0115 6B000000 		.4byte	0x6b
+ 1063 0119 B3000000 		.4byte	.LLST3
+ 1064 011d 09       		.uleb128 0x9
+ 1065 011e C2010000 		.4byte	.LASF24
+ 1066 0122 01       		.byte	0x1
+ 1067 0123 53       		.byte	0x53
+ 1068 0124 6B000000 		.4byte	0x6b
+ 1069 0128 D4000000 		.4byte	.LLST4
+ 1070 012c 00       		.byte	0
+ 1071 012d 0A       		.uleb128 0xa
+ 1072 012e 04       		.byte	0x4
+ 1073 012f 6B000000 		.4byte	0x6b
+ 1074 0133 06       		.uleb128 0x6
+ 1075 0134 AD000000 		.4byte	.LASF22
+ 1076 0138 01       		.byte	0x1
+ 1077 0139 C4       		.byte	0xc4
+ 1078 013a 6B000000 		.4byte	0x6b
+ 1079 013e 00000000 		.4byte	.LFB1
+ 1080 0142 B0000000 		.4byte	.LFE1-.LFB1
+ 1081 0146 01       		.uleb128 0x1
+ 1082 0147 9C       		.byte	0x9c
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 36
+
+
+ 1083 0148 98010000 		.4byte	0x198
+ 1084 014c 07       		.uleb128 0x7
+ 1085 014d 76020000 		.4byte	.LASF18
+ 1086 0151 01       		.byte	0x1
+ 1087 0152 C4       		.byte	0xc4
+ 1088 0153 6B000000 		.4byte	0x6b
+ 1089 0157 17010000 		.4byte	.LLST5
+ 1090 015b 07       		.uleb128 0x7
+ 1091 015c D8010000 		.4byte	.LASF23
+ 1092 0160 01       		.byte	0x1
+ 1093 0161 C4       		.byte	0xc4
+ 1094 0162 2D010000 		.4byte	0x12d
+ 1095 0166 6A010000 		.4byte	.LLST6
+ 1096 016a 08       		.uleb128 0x8
+ 1097 016b 636E7400 		.ascii	"cnt\000"
+ 1098 016f 01       		.byte	0x1
+ 1099 0170 C4       		.byte	0xc4
+ 1100 0171 6B000000 		.4byte	0x6b
+ 1101 0175 9A010000 		.4byte	.LLST7
+ 1102 0179 07       		.uleb128 0x7
+ 1103 017a 5B020000 		.4byte	.LASF20
+ 1104 017e 01       		.byte	0x1
+ 1105 017f C4       		.byte	0xc4
+ 1106 0180 6B000000 		.4byte	0x6b
+ 1107 0184 CA010000 		.4byte	.LLST8
+ 1108 0188 09       		.uleb128 0x9
+ 1109 0189 C2010000 		.4byte	.LASF24
+ 1110 018d 01       		.byte	0x1
+ 1111 018e C7       		.byte	0xc7
+ 1112 018f 6B000000 		.4byte	0x6b
+ 1113 0193 EB010000 		.4byte	.LLST9
+ 1114 0197 00       		.byte	0
+ 1115 0198 0B       		.uleb128 0xb
+ 1116 0199 AE010000 		.4byte	.LASF25
+ 1117 019d 01       		.byte	0x1
+ 1118 019e 2701     		.2byte	0x127
+ 1119 01a0 6B000000 		.4byte	0x6b
+ 1120 01a4 00000000 		.4byte	.LFB2
+ 1121 01a8 70000000 		.4byte	.LFE2-.LFB2
+ 1122 01ac 01       		.uleb128 0x1
+ 1123 01ad 9C       		.byte	0x9c
+ 1124 01ae E3010000 		.4byte	0x1e3
+ 1125 01b2 0C       		.uleb128 0xc
+ 1126 01b3 76020000 		.4byte	.LASF18
+ 1127 01b7 01       		.byte	0x1
+ 1128 01b8 2701     		.2byte	0x127
+ 1129 01ba 6B000000 		.4byte	0x6b
+ 1130 01be 2E020000 		.4byte	.LLST10
+ 1131 01c2 0C       		.uleb128 0xc
+ 1132 01c3 D3010000 		.4byte	.LASF26
+ 1133 01c7 01       		.byte	0x1
+ 1134 01c8 2701     		.2byte	0x127
+ 1135 01ca 6B000000 		.4byte	0x6b
+ 1136 01ce 97020000 		.4byte	.LLST11
+ 1137 01d2 0D       		.uleb128 0xd
+ 1138 01d3 C2010000 		.4byte	.LASF24
+ 1139 01d7 01       		.byte	0x1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 37
+
+
+ 1140 01d8 2A01     		.2byte	0x12a
+ 1141 01da 6B000000 		.4byte	0x6b
+ 1142 01de EA020000 		.4byte	.LLST12
+ 1143 01e2 00       		.byte	0
+ 1144 01e3 0B       		.uleb128 0xb
+ 1145 01e4 60020000 		.4byte	.LASF27
+ 1146 01e8 01       		.byte	0x1
+ 1147 01e9 9401     		.2byte	0x194
+ 1148 01eb 6B000000 		.4byte	0x6b
+ 1149 01ef 00000000 		.4byte	.LFB3
+ 1150 01f3 5C000000 		.4byte	.LFE3-.LFB3
+ 1151 01f7 01       		.uleb128 0x1
+ 1152 01f8 9C       		.byte	0x9c
+ 1153 01f9 2E020000 		.4byte	0x22e
+ 1154 01fd 0C       		.uleb128 0xc
+ 1155 01fe 76020000 		.4byte	.LASF18
+ 1156 0202 01       		.byte	0x1
+ 1157 0203 9401     		.2byte	0x194
+ 1158 0205 6B000000 		.4byte	0x6b
+ 1159 0209 21030000 		.4byte	.LLST13
+ 1160 020d 0C       		.uleb128 0xc
+ 1161 020e D3010000 		.4byte	.LASF26
+ 1162 0212 01       		.byte	0x1
+ 1163 0213 9401     		.2byte	0x194
+ 1164 0215 6B000000 		.4byte	0x6b
+ 1165 0219 71030000 		.4byte	.LLST14
+ 1166 021d 0D       		.uleb128 0xd
+ 1167 021e C2010000 		.4byte	.LASF24
+ 1168 0222 01       		.byte	0x1
+ 1169 0223 9701     		.2byte	0x197
+ 1170 0225 6B000000 		.4byte	0x6b
+ 1171 0229 C4030000 		.4byte	.LLST15
+ 1172 022d 00       		.byte	0
+ 1173 022e 0B       		.uleb128 0xb
+ 1174 022f 06000000 		.4byte	.LASF28
+ 1175 0233 01       		.byte	0x1
+ 1176 0234 EA01     		.2byte	0x1ea
+ 1177 0236 6B000000 		.4byte	0x6b
+ 1178 023a 00000000 		.4byte	.LFB4
+ 1179 023e 30000000 		.4byte	.LFE4-.LFB4
+ 1180 0242 01       		.uleb128 0x1
+ 1181 0243 9C       		.byte	0x9c
+ 1182 0244 59020000 		.4byte	0x259
+ 1183 0248 0D       		.uleb128 0xd
+ 1184 0249 C2010000 		.4byte	.LASF24
+ 1185 024d 01       		.byte	0x1
+ 1186 024e EC01     		.2byte	0x1ec
+ 1187 0250 6B000000 		.4byte	0x6b
+ 1188 0254 FB030000 		.4byte	.LLST16
+ 1189 0258 00       		.byte	0
+ 1190 0259 0B       		.uleb128 0xb
+ 1191 025a 5C000000 		.4byte	.LASF29
+ 1192 025e 01       		.byte	0x1
+ 1193 025f 2402     		.2byte	0x224
+ 1194 0261 6B000000 		.4byte	0x6b
+ 1195 0265 00000000 		.4byte	.LFB5
+ 1196 0269 4C000000 		.4byte	.LFE5-.LFB5
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 38
+
+
+ 1197 026d 01       		.uleb128 0x1
+ 1198 026e 9C       		.byte	0x9c
+ 1199 026f 94020000 		.4byte	0x294
+ 1200 0273 0C       		.uleb128 0xc
+ 1201 0274 DF020000 		.4byte	.LASF30
+ 1202 0278 01       		.byte	0x1
+ 1203 0279 2402     		.2byte	0x224
+ 1204 027b 6B000000 		.4byte	0x6b
+ 1205 027f 1A040000 		.4byte	.LLST17
+ 1206 0283 0D       		.uleb128 0xd
+ 1207 0284 C2010000 		.4byte	.LASF24
+ 1208 0288 01       		.byte	0x1
+ 1209 0289 2602     		.2byte	0x226
+ 1210 028b 6B000000 		.4byte	0x6b
+ 1211 028f 54040000 		.4byte	.LLST18
+ 1212 0293 00       		.byte	0
+ 1213 0294 0B       		.uleb128 0xb
+ 1214 0295 C2020000 		.4byte	.LASF31
+ 1215 0299 01       		.byte	0x1
+ 1216 029a 6F02     		.2byte	0x26f
+ 1217 029c 6B000000 		.4byte	0x6b
+ 1218 02a0 00000000 		.4byte	.LFB6
+ 1219 02a4 54000000 		.4byte	.LFE6-.LFB6
+ 1220 02a8 01       		.uleb128 0x1
+ 1221 02a9 9C       		.byte	0x9c
+ 1222 02aa CF020000 		.4byte	0x2cf
+ 1223 02ae 0C       		.uleb128 0xc
+ 1224 02af F8010000 		.4byte	.LASF32
+ 1225 02b3 01       		.byte	0x1
+ 1226 02b4 6F02     		.2byte	0x26f
+ 1227 02b6 6B000000 		.4byte	0x6b
+ 1228 02ba 97040000 		.4byte	.LLST19
+ 1229 02be 0D       		.uleb128 0xd
+ 1230 02bf DF020000 		.4byte	.LASF30
+ 1231 02c3 01       		.byte	0x1
+ 1232 02c4 7102     		.2byte	0x271
+ 1233 02c6 6B000000 		.4byte	0x6b
+ 1234 02ca D1040000 		.4byte	.LLST20
+ 1235 02ce 00       		.byte	0
+ 1236 02cf 0B       		.uleb128 0xb
+ 1237 02d0 B1020000 		.4byte	.LASF33
+ 1238 02d4 01       		.byte	0x1
+ 1239 02d5 AC02     		.2byte	0x2ac
+ 1240 02d7 6B000000 		.4byte	0x6b
+ 1241 02db 00000000 		.4byte	.LFB7
+ 1242 02df 30000000 		.4byte	.LFE7-.LFB7
+ 1243 02e3 01       		.uleb128 0x1
+ 1244 02e4 9C       		.byte	0x9c
+ 1245 02e5 F8020000 		.4byte	0x2f8
+ 1246 02e9 0E       		.uleb128 0xe
+ 1247 02ea A6000000 		.4byte	.LASF34
+ 1248 02ee 01       		.byte	0x1
+ 1249 02ef AE02     		.2byte	0x2ae
+ 1250 02f1 6B000000 		.4byte	0x6b
+ 1251 02f5 01       		.uleb128 0x1
+ 1252 02f6 50       		.byte	0x50
+ 1253 02f7 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 39
+
+
+ 1254 02f8 0B       		.uleb128 0xb
+ 1255 02f9 90000000 		.4byte	.LASF35
+ 1256 02fd 01       		.byte	0x1
+ 1257 02fe D602     		.2byte	0x2d6
+ 1258 0300 6B000000 		.4byte	0x6b
+ 1259 0304 00000000 		.4byte	.LFB8
+ 1260 0308 24000000 		.4byte	.LFE8-.LFB8
+ 1261 030c 01       		.uleb128 0x1
+ 1262 030d 9C       		.byte	0x9c
+ 1263 030e 21030000 		.4byte	0x321
+ 1264 0312 0E       		.uleb128 0xe
+ 1265 0313 A6000000 		.4byte	.LASF34
+ 1266 0317 01       		.byte	0x1
+ 1267 0318 D802     		.2byte	0x2d8
+ 1268 031a 6B000000 		.4byte	0x6b
+ 1269 031e 01       		.uleb128 0x1
+ 1270 031f 50       		.byte	0x50
+ 1271 0320 00       		.byte	0
+ 1272 0321 0F       		.uleb128 0xf
+ 1273 0322 00020000 		.4byte	.LASF36
+ 1274 0326 01       		.byte	0x1
+ 1275 0327 FA02     		.2byte	0x2fa
+ 1276 0329 6B000000 		.4byte	0x6b
+ 1277 032d 00000000 		.4byte	.LFB9
+ 1278 0331 0C000000 		.4byte	.LFE9-.LFB9
+ 1279 0335 01       		.uleb128 0x1
+ 1280 0336 9C       		.byte	0x9c
+ 1281 0337 0F       		.uleb128 0xf
+ 1282 0338 19000000 		.4byte	.LASF37
+ 1283 033c 01       		.byte	0x1
+ 1284 033d 1403     		.2byte	0x314
+ 1285 033f 6B000000 		.4byte	0x6b
+ 1286 0343 00000000 		.4byte	.LFB10
+ 1287 0347 0C000000 		.4byte	.LFE10-.LFB10
+ 1288 034b 01       		.uleb128 0x1
+ 1289 034c 9C       		.byte	0x9c
+ 1290 034d 10       		.uleb128 0x10
+ 1291 034e A2030000 		.4byte	.LASF38
+ 1292 0352 01       		.byte	0x1
+ 1293 0353 3103     		.2byte	0x331
+ 1294 0355 00000000 		.4byte	.LFB11
+ 1295 0359 30000000 		.4byte	.LFE11-.LFB11
+ 1296 035d 01       		.uleb128 0x1
+ 1297 035e 9C       		.byte	0x9c
+ 1298 035f 10       		.uleb128 0x10
+ 1299 0360 44000000 		.4byte	.LASF39
+ 1300 0364 01       		.byte	0x1
+ 1301 0365 5303     		.2byte	0x353
+ 1302 0367 00000000 		.4byte	.LFB12
+ 1303 036b 30000000 		.4byte	.LFE12-.LFB12
+ 1304 036f 01       		.uleb128 0x1
+ 1305 0370 9C       		.byte	0x9c
+ 1306 0371 11       		.uleb128 0x11
+ 1307 0372 1C030000 		.4byte	.LASF40
+ 1308 0376 03       		.byte	0x3
+ 1309 0377 23       		.byte	0x23
+ 1310 0378 A4000000 		.4byte	0xa4
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 40
+
+
+ 1311 037c 12       		.uleb128 0x12
+ 1312 037d E7020000 		.4byte	.LASF41
+ 1313 0381 01       		.byte	0x1
+ 1314 0382 17       		.byte	0x17
+ 1315 0383 A4000000 		.4byte	0xa4
+ 1316 0387 05       		.uleb128 0x5
+ 1317 0388 03       		.byte	0x3
+ 1318 0389 00000000 		.4byte	I2C_mstrStatus
+ 1319 038d 12       		.uleb128 0x12
+ 1320 038e 0A010000 		.4byte	.LASF42
+ 1321 0392 01       		.byte	0x1
+ 1322 0393 18       		.byte	0x18
+ 1323 0394 A4000000 		.4byte	0xa4
+ 1324 0398 05       		.uleb128 0x5
+ 1325 0399 03       		.byte	0x3
+ 1326 039a 00000000 		.4byte	I2C_mstrControl
+ 1327 039e 12       		.uleb128 0x12
+ 1328 039f F6020000 		.4byte	.LASF43
+ 1329 03a3 01       		.byte	0x1
+ 1330 03a4 1B       		.byte	0x1b
+ 1331 03a5 AF030000 		.4byte	0x3af
+ 1332 03a9 05       		.uleb128 0x5
+ 1333 03aa 03       		.byte	0x3
+ 1334 03ab 00000000 		.4byte	I2C_mstrRdBufPtr
+ 1335 03af 0A       		.uleb128 0xa
+ 1336 03b0 04       		.byte	0x4
+ 1337 03b1 A4000000 		.4byte	0xa4
+ 1338 03b5 12       		.uleb128 0x12
+ 1339 03b6 E6010000 		.4byte	.LASF44
+ 1340 03ba 01       		.byte	0x1
+ 1341 03bb 1C       		.byte	0x1c
+ 1342 03bc A4000000 		.4byte	0xa4
+ 1343 03c0 05       		.uleb128 0x5
+ 1344 03c1 03       		.byte	0x3
+ 1345 03c2 00000000 		.4byte	I2C_mstrRdBufSize
+ 1346 03c6 12       		.uleb128 0x12
+ 1347 03c7 BF000000 		.4byte	.LASF45
+ 1348 03cb 01       		.byte	0x1
+ 1349 03cc 1D       		.byte	0x1d
+ 1350 03cd A4000000 		.4byte	0xa4
+ 1351 03d1 05       		.uleb128 0x5
+ 1352 03d2 03       		.byte	0x3
+ 1353 03d3 00000000 		.4byte	I2C_mstrRdBufIndex
+ 1354 03d7 12       		.uleb128 0x12
+ 1355 03d8 33000000 		.4byte	.LASF46
+ 1356 03dc 01       		.byte	0x1
+ 1357 03dd 20       		.byte	0x20
+ 1358 03de AF030000 		.4byte	0x3af
+ 1359 03e2 05       		.uleb128 0x5
+ 1360 03e3 03       		.byte	0x3
+ 1361 03e4 00000000 		.4byte	I2C_mstrWrBufPtr
+ 1362 03e8 12       		.uleb128 0x12
+ 1363 03e9 39030000 		.4byte	.LASF47
+ 1364 03ed 01       		.byte	0x1
+ 1365 03ee 21       		.byte	0x21
+ 1366 03ef A4000000 		.4byte	0xa4
+ 1367 03f3 05       		.uleb128 0x5
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 41
+
+
+ 1368 03f4 03       		.byte	0x3
+ 1369 03f5 00000000 		.4byte	I2C_mstrWrBufSize
+ 1370 03f9 12       		.uleb128 0x12
+ 1371 03fa 26030000 		.4byte	.LASF48
+ 1372 03fe 01       		.byte	0x1
+ 1373 03ff 22       		.byte	0x22
+ 1374 0400 A4000000 		.4byte	0xa4
+ 1375 0404 05       		.uleb128 0x5
+ 1376 0405 03       		.byte	0x3
+ 1377 0406 00000000 		.4byte	I2C_mstrWrBufIndex
+ 1378 040a 00       		.byte	0
+ 1379              		.section	.debug_abbrev,"",%progbits
+ 1380              	.Ldebug_abbrev0:
+ 1381 0000 01       		.uleb128 0x1
+ 1382 0001 11       		.uleb128 0x11
+ 1383 0002 01       		.byte	0x1
+ 1384 0003 25       		.uleb128 0x25
+ 1385 0004 0E       		.uleb128 0xe
+ 1386 0005 13       		.uleb128 0x13
+ 1387 0006 0B       		.uleb128 0xb
+ 1388 0007 03       		.uleb128 0x3
+ 1389 0008 0E       		.uleb128 0xe
+ 1390 0009 1B       		.uleb128 0x1b
+ 1391 000a 0E       		.uleb128 0xe
+ 1392 000b 55       		.uleb128 0x55
+ 1393 000c 17       		.uleb128 0x17
+ 1394 000d 11       		.uleb128 0x11
+ 1395 000e 01       		.uleb128 0x1
+ 1396 000f 10       		.uleb128 0x10
+ 1397 0010 17       		.uleb128 0x17
+ 1398 0011 00       		.byte	0
+ 1399 0012 00       		.byte	0
+ 1400 0013 02       		.uleb128 0x2
+ 1401 0014 24       		.uleb128 0x24
+ 1402 0015 00       		.byte	0
+ 1403 0016 0B       		.uleb128 0xb
+ 1404 0017 0B       		.uleb128 0xb
+ 1405 0018 3E       		.uleb128 0x3e
+ 1406 0019 0B       		.uleb128 0xb
+ 1407 001a 03       		.uleb128 0x3
+ 1408 001b 0E       		.uleb128 0xe
+ 1409 001c 00       		.byte	0
+ 1410 001d 00       		.byte	0
+ 1411 001e 03       		.uleb128 0x3
+ 1412 001f 24       		.uleb128 0x24
+ 1413 0020 00       		.byte	0
+ 1414 0021 0B       		.uleb128 0xb
+ 1415 0022 0B       		.uleb128 0xb
+ 1416 0023 3E       		.uleb128 0x3e
+ 1417 0024 0B       		.uleb128 0xb
+ 1418 0025 03       		.uleb128 0x3
+ 1419 0026 08       		.uleb128 0x8
+ 1420 0027 00       		.byte	0
+ 1421 0028 00       		.byte	0
+ 1422 0029 04       		.uleb128 0x4
+ 1423 002a 16       		.uleb128 0x16
+ 1424 002b 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 42
+
+
+ 1425 002c 03       		.uleb128 0x3
+ 1426 002d 0E       		.uleb128 0xe
+ 1427 002e 3A       		.uleb128 0x3a
+ 1428 002f 0B       		.uleb128 0xb
+ 1429 0030 3B       		.uleb128 0x3b
+ 1430 0031 05       		.uleb128 0x5
+ 1431 0032 49       		.uleb128 0x49
+ 1432 0033 13       		.uleb128 0x13
+ 1433 0034 00       		.byte	0
+ 1434 0035 00       		.byte	0
+ 1435 0036 05       		.uleb128 0x5
+ 1436 0037 35       		.uleb128 0x35
+ 1437 0038 00       		.byte	0
+ 1438 0039 49       		.uleb128 0x49
+ 1439 003a 13       		.uleb128 0x13
+ 1440 003b 00       		.byte	0
+ 1441 003c 00       		.byte	0
+ 1442 003d 06       		.uleb128 0x6
+ 1443 003e 2E       		.uleb128 0x2e
+ 1444 003f 01       		.byte	0x1
+ 1445 0040 3F       		.uleb128 0x3f
+ 1446 0041 19       		.uleb128 0x19
+ 1447 0042 03       		.uleb128 0x3
+ 1448 0043 0E       		.uleb128 0xe
+ 1449 0044 3A       		.uleb128 0x3a
+ 1450 0045 0B       		.uleb128 0xb
+ 1451 0046 3B       		.uleb128 0x3b
+ 1452 0047 0B       		.uleb128 0xb
+ 1453 0048 27       		.uleb128 0x27
+ 1454 0049 19       		.uleb128 0x19
+ 1455 004a 49       		.uleb128 0x49
+ 1456 004b 13       		.uleb128 0x13
+ 1457 004c 11       		.uleb128 0x11
+ 1458 004d 01       		.uleb128 0x1
+ 1459 004e 12       		.uleb128 0x12
+ 1460 004f 06       		.uleb128 0x6
+ 1461 0050 40       		.uleb128 0x40
+ 1462 0051 18       		.uleb128 0x18
+ 1463 0052 9742     		.uleb128 0x2117
+ 1464 0054 19       		.uleb128 0x19
+ 1465 0055 01       		.uleb128 0x1
+ 1466 0056 13       		.uleb128 0x13
+ 1467 0057 00       		.byte	0
+ 1468 0058 00       		.byte	0
+ 1469 0059 07       		.uleb128 0x7
+ 1470 005a 05       		.uleb128 0x5
+ 1471 005b 00       		.byte	0
+ 1472 005c 03       		.uleb128 0x3
+ 1473 005d 0E       		.uleb128 0xe
+ 1474 005e 3A       		.uleb128 0x3a
+ 1475 005f 0B       		.uleb128 0xb
+ 1476 0060 3B       		.uleb128 0x3b
+ 1477 0061 0B       		.uleb128 0xb
+ 1478 0062 49       		.uleb128 0x49
+ 1479 0063 13       		.uleb128 0x13
+ 1480 0064 02       		.uleb128 0x2
+ 1481 0065 17       		.uleb128 0x17
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 43
+
+
+ 1482 0066 00       		.byte	0
+ 1483 0067 00       		.byte	0
+ 1484 0068 08       		.uleb128 0x8
+ 1485 0069 05       		.uleb128 0x5
+ 1486 006a 00       		.byte	0
+ 1487 006b 03       		.uleb128 0x3
+ 1488 006c 08       		.uleb128 0x8
+ 1489 006d 3A       		.uleb128 0x3a
+ 1490 006e 0B       		.uleb128 0xb
+ 1491 006f 3B       		.uleb128 0x3b
+ 1492 0070 0B       		.uleb128 0xb
+ 1493 0071 49       		.uleb128 0x49
+ 1494 0072 13       		.uleb128 0x13
+ 1495 0073 02       		.uleb128 0x2
+ 1496 0074 17       		.uleb128 0x17
+ 1497 0075 00       		.byte	0
+ 1498 0076 00       		.byte	0
+ 1499 0077 09       		.uleb128 0x9
+ 1500 0078 34       		.uleb128 0x34
+ 1501 0079 00       		.byte	0
+ 1502 007a 03       		.uleb128 0x3
+ 1503 007b 0E       		.uleb128 0xe
+ 1504 007c 3A       		.uleb128 0x3a
+ 1505 007d 0B       		.uleb128 0xb
+ 1506 007e 3B       		.uleb128 0x3b
+ 1507 007f 0B       		.uleb128 0xb
+ 1508 0080 49       		.uleb128 0x49
+ 1509 0081 13       		.uleb128 0x13
+ 1510 0082 02       		.uleb128 0x2
+ 1511 0083 17       		.uleb128 0x17
+ 1512 0084 00       		.byte	0
+ 1513 0085 00       		.byte	0
+ 1514 0086 0A       		.uleb128 0xa
+ 1515 0087 0F       		.uleb128 0xf
+ 1516 0088 00       		.byte	0
+ 1517 0089 0B       		.uleb128 0xb
+ 1518 008a 0B       		.uleb128 0xb
+ 1519 008b 49       		.uleb128 0x49
+ 1520 008c 13       		.uleb128 0x13
+ 1521 008d 00       		.byte	0
+ 1522 008e 00       		.byte	0
+ 1523 008f 0B       		.uleb128 0xb
+ 1524 0090 2E       		.uleb128 0x2e
+ 1525 0091 01       		.byte	0x1
+ 1526 0092 3F       		.uleb128 0x3f
+ 1527 0093 19       		.uleb128 0x19
+ 1528 0094 03       		.uleb128 0x3
+ 1529 0095 0E       		.uleb128 0xe
+ 1530 0096 3A       		.uleb128 0x3a
+ 1531 0097 0B       		.uleb128 0xb
+ 1532 0098 3B       		.uleb128 0x3b
+ 1533 0099 05       		.uleb128 0x5
+ 1534 009a 27       		.uleb128 0x27
+ 1535 009b 19       		.uleb128 0x19
+ 1536 009c 49       		.uleb128 0x49
+ 1537 009d 13       		.uleb128 0x13
+ 1538 009e 11       		.uleb128 0x11
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 44
+
+
+ 1539 009f 01       		.uleb128 0x1
+ 1540 00a0 12       		.uleb128 0x12
+ 1541 00a1 06       		.uleb128 0x6
+ 1542 00a2 40       		.uleb128 0x40
+ 1543 00a3 18       		.uleb128 0x18
+ 1544 00a4 9742     		.uleb128 0x2117
+ 1545 00a6 19       		.uleb128 0x19
+ 1546 00a7 01       		.uleb128 0x1
+ 1547 00a8 13       		.uleb128 0x13
+ 1548 00a9 00       		.byte	0
+ 1549 00aa 00       		.byte	0
+ 1550 00ab 0C       		.uleb128 0xc
+ 1551 00ac 05       		.uleb128 0x5
+ 1552 00ad 00       		.byte	0
+ 1553 00ae 03       		.uleb128 0x3
+ 1554 00af 0E       		.uleb128 0xe
+ 1555 00b0 3A       		.uleb128 0x3a
+ 1556 00b1 0B       		.uleb128 0xb
+ 1557 00b2 3B       		.uleb128 0x3b
+ 1558 00b3 05       		.uleb128 0x5
+ 1559 00b4 49       		.uleb128 0x49
+ 1560 00b5 13       		.uleb128 0x13
+ 1561 00b6 02       		.uleb128 0x2
+ 1562 00b7 17       		.uleb128 0x17
+ 1563 00b8 00       		.byte	0
+ 1564 00b9 00       		.byte	0
+ 1565 00ba 0D       		.uleb128 0xd
+ 1566 00bb 34       		.uleb128 0x34
+ 1567 00bc 00       		.byte	0
+ 1568 00bd 03       		.uleb128 0x3
+ 1569 00be 0E       		.uleb128 0xe
+ 1570 00bf 3A       		.uleb128 0x3a
+ 1571 00c0 0B       		.uleb128 0xb
+ 1572 00c1 3B       		.uleb128 0x3b
+ 1573 00c2 05       		.uleb128 0x5
+ 1574 00c3 49       		.uleb128 0x49
+ 1575 00c4 13       		.uleb128 0x13
+ 1576 00c5 02       		.uleb128 0x2
+ 1577 00c6 17       		.uleb128 0x17
+ 1578 00c7 00       		.byte	0
+ 1579 00c8 00       		.byte	0
+ 1580 00c9 0E       		.uleb128 0xe
+ 1581 00ca 34       		.uleb128 0x34
+ 1582 00cb 00       		.byte	0
+ 1583 00cc 03       		.uleb128 0x3
+ 1584 00cd 0E       		.uleb128 0xe
+ 1585 00ce 3A       		.uleb128 0x3a
+ 1586 00cf 0B       		.uleb128 0xb
+ 1587 00d0 3B       		.uleb128 0x3b
+ 1588 00d1 05       		.uleb128 0x5
+ 1589 00d2 49       		.uleb128 0x49
+ 1590 00d3 13       		.uleb128 0x13
+ 1591 00d4 02       		.uleb128 0x2
+ 1592 00d5 18       		.uleb128 0x18
+ 1593 00d6 00       		.byte	0
+ 1594 00d7 00       		.byte	0
+ 1595 00d8 0F       		.uleb128 0xf
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 45
+
+
+ 1596 00d9 2E       		.uleb128 0x2e
+ 1597 00da 00       		.byte	0
+ 1598 00db 3F       		.uleb128 0x3f
+ 1599 00dc 19       		.uleb128 0x19
+ 1600 00dd 03       		.uleb128 0x3
+ 1601 00de 0E       		.uleb128 0xe
+ 1602 00df 3A       		.uleb128 0x3a
+ 1603 00e0 0B       		.uleb128 0xb
+ 1604 00e1 3B       		.uleb128 0x3b
+ 1605 00e2 05       		.uleb128 0x5
+ 1606 00e3 27       		.uleb128 0x27
+ 1607 00e4 19       		.uleb128 0x19
+ 1608 00e5 49       		.uleb128 0x49
+ 1609 00e6 13       		.uleb128 0x13
+ 1610 00e7 11       		.uleb128 0x11
+ 1611 00e8 01       		.uleb128 0x1
+ 1612 00e9 12       		.uleb128 0x12
+ 1613 00ea 06       		.uleb128 0x6
+ 1614 00eb 40       		.uleb128 0x40
+ 1615 00ec 18       		.uleb128 0x18
+ 1616 00ed 9742     		.uleb128 0x2117
+ 1617 00ef 19       		.uleb128 0x19
+ 1618 00f0 00       		.byte	0
+ 1619 00f1 00       		.byte	0
+ 1620 00f2 10       		.uleb128 0x10
+ 1621 00f3 2E       		.uleb128 0x2e
+ 1622 00f4 00       		.byte	0
+ 1623 00f5 3F       		.uleb128 0x3f
+ 1624 00f6 19       		.uleb128 0x19
+ 1625 00f7 03       		.uleb128 0x3
+ 1626 00f8 0E       		.uleb128 0xe
+ 1627 00f9 3A       		.uleb128 0x3a
+ 1628 00fa 0B       		.uleb128 0xb
+ 1629 00fb 3B       		.uleb128 0x3b
+ 1630 00fc 05       		.uleb128 0x5
+ 1631 00fd 27       		.uleb128 0x27
+ 1632 00fe 19       		.uleb128 0x19
+ 1633 00ff 11       		.uleb128 0x11
+ 1634 0100 01       		.uleb128 0x1
+ 1635 0101 12       		.uleb128 0x12
+ 1636 0102 06       		.uleb128 0x6
+ 1637 0103 40       		.uleb128 0x40
+ 1638 0104 18       		.uleb128 0x18
+ 1639 0105 9742     		.uleb128 0x2117
+ 1640 0107 19       		.uleb128 0x19
+ 1641 0108 00       		.byte	0
+ 1642 0109 00       		.byte	0
+ 1643 010a 11       		.uleb128 0x11
+ 1644 010b 34       		.uleb128 0x34
+ 1645 010c 00       		.byte	0
+ 1646 010d 03       		.uleb128 0x3
+ 1647 010e 0E       		.uleb128 0xe
+ 1648 010f 3A       		.uleb128 0x3a
+ 1649 0110 0B       		.uleb128 0xb
+ 1650 0111 3B       		.uleb128 0x3b
+ 1651 0112 0B       		.uleb128 0xb
+ 1652 0113 49       		.uleb128 0x49
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 46
+
+
+ 1653 0114 13       		.uleb128 0x13
+ 1654 0115 3F       		.uleb128 0x3f
+ 1655 0116 19       		.uleb128 0x19
+ 1656 0117 3C       		.uleb128 0x3c
+ 1657 0118 19       		.uleb128 0x19
+ 1658 0119 00       		.byte	0
+ 1659 011a 00       		.byte	0
+ 1660 011b 12       		.uleb128 0x12
+ 1661 011c 34       		.uleb128 0x34
+ 1662 011d 00       		.byte	0
+ 1663 011e 03       		.uleb128 0x3
+ 1664 011f 0E       		.uleb128 0xe
+ 1665 0120 3A       		.uleb128 0x3a
+ 1666 0121 0B       		.uleb128 0xb
+ 1667 0122 3B       		.uleb128 0x3b
+ 1668 0123 0B       		.uleb128 0xb
+ 1669 0124 49       		.uleb128 0x49
+ 1670 0125 13       		.uleb128 0x13
+ 1671 0126 3F       		.uleb128 0x3f
+ 1672 0127 19       		.uleb128 0x19
+ 1673 0128 02       		.uleb128 0x2
+ 1674 0129 18       		.uleb128 0x18
+ 1675 012a 00       		.byte	0
+ 1676 012b 00       		.byte	0
+ 1677 012c 00       		.byte	0
+ 1678              		.section	.debug_loc,"",%progbits
+ 1679              	.Ldebug_loc0:
+ 1680              	.LLST0:
+ 1681 0000 00000000 		.4byte	.LVL0
+ 1682 0004 16000000 		.4byte	.LVL1
+ 1683 0008 0100     		.2byte	0x1
+ 1684 000a 50       		.byte	0x50
+ 1685 000b 16000000 		.4byte	.LVL1
+ 1686 000f 18000000 		.4byte	.LVL2
+ 1687 0013 0400     		.2byte	0x4
+ 1688 0015 F3       		.byte	0xf3
+ 1689 0016 01       		.uleb128 0x1
+ 1690 0017 50       		.byte	0x50
+ 1691 0018 9F       		.byte	0x9f
+ 1692 0019 18000000 		.4byte	.LVL2
+ 1693 001d 34000000 		.4byte	.LVL5
+ 1694 0021 0100     		.2byte	0x1
+ 1695 0023 50       		.byte	0x50
+ 1696 0024 34000000 		.4byte	.LVL5
+ 1697 0028 36000000 		.4byte	.LVL6
+ 1698 002c 0400     		.2byte	0x4
+ 1699 002e F3       		.byte	0xf3
+ 1700 002f 01       		.uleb128 0x1
+ 1701 0030 50       		.byte	0x50
+ 1702 0031 9F       		.byte	0x9f
+ 1703 0032 36000000 		.4byte	.LVL6
+ 1704 0036 44000000 		.4byte	.LVL7
+ 1705 003a 0100     		.2byte	0x1
+ 1706 003c 50       		.byte	0x50
+ 1707 003d 44000000 		.4byte	.LVL7
+ 1708 0041 AC000000 		.4byte	.LFE0
+ 1709 0045 0400     		.2byte	0x4
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 47
+
+
+ 1710 0047 F3       		.byte	0xf3
+ 1711 0048 01       		.uleb128 0x1
+ 1712 0049 50       		.byte	0x50
+ 1713 004a 9F       		.byte	0x9f
+ 1714 004b 00000000 		.4byte	0
+ 1715 004f 00000000 		.4byte	0
+ 1716              	.LLST1:
+ 1717 0053 00000000 		.4byte	.LVL0
+ 1718 0057 50000000 		.4byte	.LVL9
+ 1719 005b 0100     		.2byte	0x1
+ 1720 005d 51       		.byte	0x51
+ 1721 005e 50000000 		.4byte	.LVL9
+ 1722 0062 64000000 		.4byte	.LVL12
+ 1723 0066 0500     		.2byte	0x5
+ 1724 0068 03       		.byte	0x3
+ 1725 0069 00000000 		.4byte	I2C_mstrWrBufPtr
+ 1726 006d 64000000 		.4byte	.LVL12
+ 1727 0071 AC000000 		.4byte	.LFE0
+ 1728 0075 0400     		.2byte	0x4
+ 1729 0077 F3       		.byte	0xf3
+ 1730 0078 01       		.uleb128 0x1
+ 1731 0079 51       		.byte	0x51
+ 1732 007a 9F       		.byte	0x9f
+ 1733 007b 00000000 		.4byte	0
+ 1734 007f 00000000 		.4byte	0
+ 1735              	.LLST2:
+ 1736 0083 00000000 		.4byte	.LVL0
+ 1737 0087 48000000 		.4byte	.LVL8
+ 1738 008b 0100     		.2byte	0x1
+ 1739 008d 52       		.byte	0x52
+ 1740 008e 48000000 		.4byte	.LVL8
+ 1741 0092 52000000 		.4byte	.LVL10
+ 1742 0096 0500     		.2byte	0x5
+ 1743 0098 03       		.byte	0x3
+ 1744 0099 00000000 		.4byte	I2C_mstrWrBufSize
+ 1745 009d 52000000 		.4byte	.LVL10
+ 1746 00a1 AC000000 		.4byte	.LFE0
+ 1747 00a5 0400     		.2byte	0x4
+ 1748 00a7 F3       		.byte	0xf3
+ 1749 00a8 01       		.uleb128 0x1
+ 1750 00a9 52       		.byte	0x52
+ 1751 00aa 9F       		.byte	0x9f
+ 1752 00ab 00000000 		.4byte	0
+ 1753 00af 00000000 		.4byte	0
+ 1754              	.LLST3:
+ 1755 00b3 00000000 		.4byte	.LVL0
+ 1756 00b7 62000000 		.4byte	.LVL11
+ 1757 00bb 0100     		.2byte	0x1
+ 1758 00bd 53       		.byte	0x53
+ 1759 00be 62000000 		.4byte	.LVL11
+ 1760 00c2 AC000000 		.4byte	.LFE0
+ 1761 00c6 0400     		.2byte	0x4
+ 1762 00c8 F3       		.byte	0xf3
+ 1763 00c9 01       		.uleb128 0x1
+ 1764 00ca 53       		.byte	0x53
+ 1765 00cb 9F       		.byte	0x9f
+ 1766 00cc 00000000 		.4byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 48
+
+
+ 1767 00d0 00000000 		.4byte	0
+ 1768              	.LLST4:
+ 1769 00d4 00000000 		.4byte	.LVL0
+ 1770 00d8 1E000000 		.4byte	.LVL3
+ 1771 00dc 0200     		.2byte	0x2
+ 1772 00de 32       		.byte	0x32
+ 1773 00df 9F       		.byte	0x9f
+ 1774 00e0 1E000000 		.4byte	.LVL3
+ 1775 00e4 32000000 		.4byte	.LVL4
+ 1776 00e8 0200     		.2byte	0x2
+ 1777 00ea 30       		.byte	0x30
+ 1778 00eb 9F       		.byte	0x9f
+ 1779 00ec 32000000 		.4byte	.LVL4
+ 1780 00f0 34000000 		.4byte	.LVL5
+ 1781 00f4 0200     		.2byte	0x2
+ 1782 00f6 32       		.byte	0x32
+ 1783 00f7 9F       		.byte	0x9f
+ 1784 00f8 34000000 		.4byte	.LVL5
+ 1785 00fc 36000000 		.4byte	.LVL6
+ 1786 0100 0100     		.2byte	0x1
+ 1787 0102 50       		.byte	0x50
+ 1788 0103 36000000 		.4byte	.LVL6
+ 1789 0107 AC000000 		.4byte	.LFE0
+ 1790 010b 0200     		.2byte	0x2
+ 1791 010d 30       		.byte	0x30
+ 1792 010e 9F       		.byte	0x9f
+ 1793 010f 00000000 		.4byte	0
+ 1794 0113 00000000 		.4byte	0
+ 1795              	.LLST5:
+ 1796 0117 00000000 		.4byte	.LVL13
+ 1797 011b 16000000 		.4byte	.LVL14
+ 1798 011f 0100     		.2byte	0x1
+ 1799 0121 50       		.byte	0x50
+ 1800 0122 16000000 		.4byte	.LVL14
+ 1801 0126 18000000 		.4byte	.LVL15
+ 1802 012a 0400     		.2byte	0x4
+ 1803 012c F3       		.byte	0xf3
+ 1804 012d 01       		.uleb128 0x1
+ 1805 012e 50       		.byte	0x50
+ 1806 012f 9F       		.byte	0x9f
+ 1807 0130 18000000 		.4byte	.LVL15
+ 1808 0134 34000000 		.4byte	.LVL18
+ 1809 0138 0100     		.2byte	0x1
+ 1810 013a 50       		.byte	0x50
+ 1811 013b 34000000 		.4byte	.LVL18
+ 1812 013f 36000000 		.4byte	.LVL19
+ 1813 0143 0400     		.2byte	0x4
+ 1814 0145 F3       		.byte	0xf3
+ 1815 0146 01       		.uleb128 0x1
+ 1816 0147 50       		.byte	0x50
+ 1817 0148 9F       		.byte	0x9f
+ 1818 0149 36000000 		.4byte	.LVL19
+ 1819 014d 44000000 		.4byte	.LVL20
+ 1820 0151 0100     		.2byte	0x1
+ 1821 0153 50       		.byte	0x50
+ 1822 0154 44000000 		.4byte	.LVL20
+ 1823 0158 B0000000 		.4byte	.LFE1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 49
+
+
+ 1824 015c 0400     		.2byte	0x4
+ 1825 015e F3       		.byte	0xf3
+ 1826 015f 01       		.uleb128 0x1
+ 1827 0160 50       		.byte	0x50
+ 1828 0161 9F       		.byte	0x9f
+ 1829 0162 00000000 		.4byte	0
+ 1830 0166 00000000 		.4byte	0
+ 1831              	.LLST6:
+ 1832 016a 00000000 		.4byte	.LVL13
+ 1833 016e 52000000 		.4byte	.LVL22
+ 1834 0172 0100     		.2byte	0x1
+ 1835 0174 51       		.byte	0x51
+ 1836 0175 52000000 		.4byte	.LVL22
+ 1837 0179 66000000 		.4byte	.LVL24
+ 1838 017d 0500     		.2byte	0x5
+ 1839 017f 03       		.byte	0x3
+ 1840 0180 00000000 		.4byte	I2C_mstrRdBufPtr
+ 1841 0184 66000000 		.4byte	.LVL24
+ 1842 0188 B0000000 		.4byte	.LFE1
+ 1843 018c 0400     		.2byte	0x4
+ 1844 018e F3       		.byte	0xf3
+ 1845 018f 01       		.uleb128 0x1
+ 1846 0190 51       		.byte	0x51
+ 1847 0191 9F       		.byte	0x9f
+ 1848 0192 00000000 		.4byte	0
+ 1849 0196 00000000 		.4byte	0
+ 1850              	.LLST7:
+ 1851 019a 00000000 		.4byte	.LVL13
+ 1852 019e 48000000 		.4byte	.LVL21
+ 1853 01a2 0100     		.2byte	0x1
+ 1854 01a4 52       		.byte	0x52
+ 1855 01a5 48000000 		.4byte	.LVL21
+ 1856 01a9 54000000 		.4byte	.LVL23
+ 1857 01ad 0500     		.2byte	0x5
+ 1858 01af 03       		.byte	0x3
+ 1859 01b0 00000000 		.4byte	I2C_mstrRdBufSize
+ 1860 01b4 54000000 		.4byte	.LVL23
+ 1861 01b8 B0000000 		.4byte	.LFE1
+ 1862 01bc 0400     		.2byte	0x4
+ 1863 01be F3       		.byte	0xf3
+ 1864 01bf 01       		.uleb128 0x1
+ 1865 01c0 52       		.byte	0x52
+ 1866 01c1 9F       		.byte	0x9f
+ 1867 01c2 00000000 		.4byte	0
+ 1868 01c6 00000000 		.4byte	0
+ 1869              	.LLST8:
+ 1870 01ca 00000000 		.4byte	.LVL13
+ 1871 01ce 68000000 		.4byte	.LVL25
+ 1872 01d2 0100     		.2byte	0x1
+ 1873 01d4 53       		.byte	0x53
+ 1874 01d5 68000000 		.4byte	.LVL25
+ 1875 01d9 B0000000 		.4byte	.LFE1
+ 1876 01dd 0400     		.2byte	0x4
+ 1877 01df F3       		.byte	0xf3
+ 1878 01e0 01       		.uleb128 0x1
+ 1879 01e1 53       		.byte	0x53
+ 1880 01e2 9F       		.byte	0x9f
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 50
+
+
+ 1881 01e3 00000000 		.4byte	0
+ 1882 01e7 00000000 		.4byte	0
+ 1883              	.LLST9:
+ 1884 01eb 00000000 		.4byte	.LVL13
+ 1885 01ef 1E000000 		.4byte	.LVL16
+ 1886 01f3 0200     		.2byte	0x2
+ 1887 01f5 32       		.byte	0x32
+ 1888 01f6 9F       		.byte	0x9f
+ 1889 01f7 1E000000 		.4byte	.LVL16
+ 1890 01fb 32000000 		.4byte	.LVL17
+ 1891 01ff 0200     		.2byte	0x2
+ 1892 0201 30       		.byte	0x30
+ 1893 0202 9F       		.byte	0x9f
+ 1894 0203 32000000 		.4byte	.LVL17
+ 1895 0207 34000000 		.4byte	.LVL18
+ 1896 020b 0200     		.2byte	0x2
+ 1897 020d 32       		.byte	0x32
+ 1898 020e 9F       		.byte	0x9f
+ 1899 020f 34000000 		.4byte	.LVL18
+ 1900 0213 36000000 		.4byte	.LVL19
+ 1901 0217 0100     		.2byte	0x1
+ 1902 0219 50       		.byte	0x50
+ 1903 021a 36000000 		.4byte	.LVL19
+ 1904 021e B0000000 		.4byte	.LFE1
+ 1905 0222 0200     		.2byte	0x2
+ 1906 0224 30       		.byte	0x30
+ 1907 0225 9F       		.byte	0x9f
+ 1908 0226 00000000 		.4byte	0
+ 1909 022a 00000000 		.4byte	0
+ 1910              	.LLST10:
+ 1911 022e 00000000 		.4byte	.LVL26
+ 1912 0232 1A000000 		.4byte	.LVL27
+ 1913 0236 0100     		.2byte	0x1
+ 1914 0238 50       		.byte	0x50
+ 1915 0239 1A000000 		.4byte	.LVL27
+ 1916 023d 1E000000 		.4byte	.LVL28
+ 1917 0241 0400     		.2byte	0x4
+ 1918 0243 F3       		.byte	0xf3
+ 1919 0244 01       		.uleb128 0x1
+ 1920 0245 50       		.byte	0x50
+ 1921 0246 9F       		.byte	0x9f
+ 1922 0247 1E000000 		.4byte	.LVL28
+ 1923 024b 4E000000 		.4byte	.LVL34
+ 1924 024f 0100     		.2byte	0x1
+ 1925 0251 50       		.byte	0x50
+ 1926 0252 50000000 		.4byte	.LVL35
+ 1927 0256 52000000 		.4byte	.LVL36
+ 1928 025a 0100     		.2byte	0x1
+ 1929 025c 50       		.byte	0x50
+ 1930 025d 52000000 		.4byte	.LVL36
+ 1931 0261 54000000 		.4byte	.LVL37
+ 1932 0265 0400     		.2byte	0x4
+ 1933 0267 F3       		.byte	0xf3
+ 1934 0268 01       		.uleb128 0x1
+ 1935 0269 50       		.byte	0x50
+ 1936 026a 9F       		.byte	0x9f
+ 1937 026b 54000000 		.4byte	.LVL37
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 51
+
+
+ 1938 026f 56000000 		.4byte	.LVL38
+ 1939 0273 0100     		.2byte	0x1
+ 1940 0275 50       		.byte	0x50
+ 1941 0276 56000000 		.4byte	.LVL38
+ 1942 027a 58000000 		.4byte	.LVL39
+ 1943 027e 0400     		.2byte	0x4
+ 1944 0280 F3       		.byte	0xf3
+ 1945 0281 01       		.uleb128 0x1
+ 1946 0282 50       		.byte	0x50
+ 1947 0283 9F       		.byte	0x9f
+ 1948 0284 58000000 		.4byte	.LVL39
+ 1949 0288 5A000000 		.4byte	.LVL40
+ 1950 028c 0100     		.2byte	0x1
+ 1951 028e 50       		.byte	0x50
+ 1952 028f 00000000 		.4byte	0
+ 1953 0293 00000000 		.4byte	0
+ 1954              	.LLST11:
+ 1955 0297 00000000 		.4byte	.LVL26
+ 1956 029b 26000000 		.4byte	.LVL30
+ 1957 029f 0100     		.2byte	0x1
+ 1958 02a1 51       		.byte	0x51
+ 1959 02a2 26000000 		.4byte	.LVL30
+ 1960 02a6 28000000 		.4byte	.LVL31
+ 1961 02aa 0400     		.2byte	0x4
+ 1962 02ac F3       		.byte	0xf3
+ 1963 02ad 01       		.uleb128 0x1
+ 1964 02ae 51       		.byte	0x51
+ 1965 02af 9F       		.byte	0x9f
+ 1966 02b0 28000000 		.4byte	.LVL31
+ 1967 02b4 2A000000 		.4byte	.LVL32
+ 1968 02b8 0100     		.2byte	0x1
+ 1969 02ba 51       		.byte	0x51
+ 1970 02bb 2A000000 		.4byte	.LVL32
+ 1971 02bf 50000000 		.4byte	.LVL35
+ 1972 02c3 0400     		.2byte	0x4
+ 1973 02c5 F3       		.byte	0xf3
+ 1974 02c6 01       		.uleb128 0x1
+ 1975 02c7 51       		.byte	0x51
+ 1976 02c8 9F       		.byte	0x9f
+ 1977 02c9 50000000 		.4byte	.LVL35
+ 1978 02cd 58000000 		.4byte	.LVL39
+ 1979 02d1 0100     		.2byte	0x1
+ 1980 02d3 51       		.byte	0x51
+ 1981 02d4 58000000 		.4byte	.LVL39
+ 1982 02d8 70000000 		.4byte	.LFE2
+ 1983 02dc 0400     		.2byte	0x4
+ 1984 02de F3       		.byte	0xf3
+ 1985 02df 01       		.uleb128 0x1
+ 1986 02e0 51       		.byte	0x51
+ 1987 02e1 9F       		.byte	0x9f
+ 1988 02e2 00000000 		.4byte	0
+ 1989 02e6 00000000 		.4byte	0
+ 1990              	.LLST12:
+ 1991 02ea 00000000 		.4byte	.LVL26
+ 1992 02ee 4C000000 		.4byte	.LVL33
+ 1993 02f2 0200     		.2byte	0x2
+ 1994 02f4 32       		.byte	0x32
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 52
+
+
+ 1995 02f5 9F       		.byte	0x9f
+ 1996 02f6 4C000000 		.4byte	.LVL33
+ 1997 02fa 50000000 		.4byte	.LVL35
+ 1998 02fe 0200     		.2byte	0x2
+ 1999 0300 33       		.byte	0x33
+ 2000 0301 9F       		.byte	0x9f
+ 2001 0302 50000000 		.4byte	.LVL35
+ 2002 0306 5A000000 		.4byte	.LVL40
+ 2003 030a 0200     		.2byte	0x2
+ 2004 030c 32       		.byte	0x32
+ 2005 030d 9F       		.byte	0x9f
+ 2006 030e 5A000000 		.4byte	.LVL40
+ 2007 0312 70000000 		.4byte	.LFE2
+ 2008 0316 0100     		.2byte	0x1
+ 2009 0318 50       		.byte	0x50
+ 2010 0319 00000000 		.4byte	0
+ 2011 031d 00000000 		.4byte	0
+ 2012              	.LLST13:
+ 2013 0321 00000000 		.4byte	.LVL41
+ 2014 0325 0A000000 		.4byte	.LVL42
+ 2015 0329 0100     		.2byte	0x1
+ 2016 032b 50       		.byte	0x50
+ 2017 032c 0A000000 		.4byte	.LVL42
+ 2018 0330 0C000000 		.4byte	.LVL43
+ 2019 0334 0400     		.2byte	0x4
+ 2020 0336 F3       		.byte	0xf3
+ 2021 0337 01       		.uleb128 0x1
+ 2022 0338 50       		.byte	0x50
+ 2023 0339 9F       		.byte	0x9f
+ 2024 033a 0C000000 		.4byte	.LVL43
+ 2025 033e 42000000 		.4byte	.LVL49
+ 2026 0342 0100     		.2byte	0x1
+ 2027 0344 50       		.byte	0x50
+ 2028 0345 44000000 		.4byte	.LVL50
+ 2029 0349 46000000 		.4byte	.LVL51
+ 2030 034d 0100     		.2byte	0x1
+ 2031 034f 50       		.byte	0x50
+ 2032 0350 46000000 		.4byte	.LVL51
+ 2033 0354 48000000 		.4byte	.LVL52
+ 2034 0358 0400     		.2byte	0x4
+ 2035 035a F3       		.byte	0xf3
+ 2036 035b 01       		.uleb128 0x1
+ 2037 035c 50       		.byte	0x50
+ 2038 035d 9F       		.byte	0x9f
+ 2039 035e 48000000 		.4byte	.LVL52
+ 2040 0362 4A000000 		.4byte	.LVL53
+ 2041 0366 0100     		.2byte	0x1
+ 2042 0368 50       		.byte	0x50
+ 2043 0369 00000000 		.4byte	0
+ 2044 036d 00000000 		.4byte	0
+ 2045              	.LLST14:
+ 2046 0371 00000000 		.4byte	.LVL41
+ 2047 0375 16000000 		.4byte	.LVL45
+ 2048 0379 0100     		.2byte	0x1
+ 2049 037b 51       		.byte	0x51
+ 2050 037c 16000000 		.4byte	.LVL45
+ 2051 0380 18000000 		.4byte	.LVL46
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 53
+
+
+ 2052 0384 0400     		.2byte	0x4
+ 2053 0386 F3       		.byte	0xf3
+ 2054 0387 01       		.uleb128 0x1
+ 2055 0388 51       		.byte	0x51
+ 2056 0389 9F       		.byte	0x9f
+ 2057 038a 18000000 		.4byte	.LVL46
+ 2058 038e 1A000000 		.4byte	.LVL47
+ 2059 0392 0100     		.2byte	0x1
+ 2060 0394 51       		.byte	0x51
+ 2061 0395 1A000000 		.4byte	.LVL47
+ 2062 0399 44000000 		.4byte	.LVL50
+ 2063 039d 0400     		.2byte	0x4
+ 2064 039f F3       		.byte	0xf3
+ 2065 03a0 01       		.uleb128 0x1
+ 2066 03a1 51       		.byte	0x51
+ 2067 03a2 9F       		.byte	0x9f
+ 2068 03a3 44000000 		.4byte	.LVL50
+ 2069 03a7 48000000 		.4byte	.LVL52
+ 2070 03ab 0100     		.2byte	0x1
+ 2071 03ad 51       		.byte	0x51
+ 2072 03ae 48000000 		.4byte	.LVL52
+ 2073 03b2 5C000000 		.4byte	.LFE3
+ 2074 03b6 0400     		.2byte	0x4
+ 2075 03b8 F3       		.byte	0xf3
+ 2076 03b9 01       		.uleb128 0x1
+ 2077 03ba 51       		.byte	0x51
+ 2078 03bb 9F       		.byte	0x9f
+ 2079 03bc 00000000 		.4byte	0
+ 2080 03c0 00000000 		.4byte	0
+ 2081              	.LLST15:
+ 2082 03c4 00000000 		.4byte	.LVL41
+ 2083 03c8 40000000 		.4byte	.LVL48
+ 2084 03cc 0200     		.2byte	0x2
+ 2085 03ce 32       		.byte	0x32
+ 2086 03cf 9F       		.byte	0x9f
+ 2087 03d0 40000000 		.4byte	.LVL48
+ 2088 03d4 44000000 		.4byte	.LVL50
+ 2089 03d8 0200     		.2byte	0x2
+ 2090 03da 33       		.byte	0x33
+ 2091 03db 9F       		.byte	0x9f
+ 2092 03dc 44000000 		.4byte	.LVL50
+ 2093 03e0 4A000000 		.4byte	.LVL53
+ 2094 03e4 0200     		.2byte	0x2
+ 2095 03e6 32       		.byte	0x32
+ 2096 03e7 9F       		.byte	0x9f
+ 2097 03e8 4A000000 		.4byte	.LVL53
+ 2098 03ec 5C000000 		.4byte	.LFE3
+ 2099 03f0 0100     		.2byte	0x1
+ 2100 03f2 50       		.byte	0x50
+ 2101 03f3 00000000 		.4byte	0
+ 2102 03f7 00000000 		.4byte	0
+ 2103              	.LLST16:
+ 2104 03fb 00000000 		.4byte	.LVL54
+ 2105 03ff 24000000 		.4byte	.LVL55
+ 2106 0403 0200     		.2byte	0x2
+ 2107 0405 32       		.byte	0x32
+ 2108 0406 9F       		.byte	0x9f
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 54
+
+
+ 2109 0407 24000000 		.4byte	.LVL55
+ 2110 040b 30000000 		.4byte	.LFE4
+ 2111 040f 0100     		.2byte	0x1
+ 2112 0411 50       		.byte	0x50
+ 2113 0412 00000000 		.4byte	0
+ 2114 0416 00000000 		.4byte	0
+ 2115              	.LLST17:
+ 2116 041a 00000000 		.4byte	.LVL56
+ 2117 041e 2E000000 		.4byte	.LVL57
+ 2118 0422 0100     		.2byte	0x1
+ 2119 0424 50       		.byte	0x50
+ 2120 0425 2E000000 		.4byte	.LVL57
+ 2121 0429 36000000 		.4byte	.LVL60
+ 2122 042d 0400     		.2byte	0x4
+ 2123 042f F3       		.byte	0xf3
+ 2124 0430 01       		.uleb128 0x1
+ 2125 0431 50       		.byte	0x50
+ 2126 0432 9F       		.byte	0x9f
+ 2127 0433 36000000 		.4byte	.LVL60
+ 2128 0437 38000000 		.4byte	.LVL61
+ 2129 043b 0100     		.2byte	0x1
+ 2130 043d 50       		.byte	0x50
+ 2131 043e 38000000 		.4byte	.LVL61
+ 2132 0442 4C000000 		.4byte	.LFE5
+ 2133 0446 0400     		.2byte	0x4
+ 2134 0448 F3       		.byte	0xf3
+ 2135 0449 01       		.uleb128 0x1
+ 2136 044a 50       		.byte	0x50
+ 2137 044b 9F       		.byte	0x9f
+ 2138 044c 00000000 		.4byte	0
+ 2139 0450 00000000 		.4byte	0
+ 2140              	.LLST18:
+ 2141 0454 00000000 		.4byte	.LVL56
+ 2142 0458 30000000 		.4byte	.LVL58
+ 2143 045c 0200     		.2byte	0x2
+ 2144 045e 32       		.byte	0x32
+ 2145 045f 9F       		.byte	0x9f
+ 2146 0460 30000000 		.4byte	.LVL58
+ 2147 0464 32000000 		.4byte	.LVL59
+ 2148 0468 0200     		.2byte	0x2
+ 2149 046a 30       		.byte	0x30
+ 2150 046b 9F       		.byte	0x9f
+ 2151 046c 32000000 		.4byte	.LVL59
+ 2152 0470 36000000 		.4byte	.LVL60
+ 2153 0474 0200     		.2byte	0x2
+ 2154 0476 33       		.byte	0x33
+ 2155 0477 9F       		.byte	0x9f
+ 2156 0478 36000000 		.4byte	.LVL60
+ 2157 047c 38000000 		.4byte	.LVL61
+ 2158 0480 0200     		.2byte	0x2
+ 2159 0482 32       		.byte	0x32
+ 2160 0483 9F       		.byte	0x9f
+ 2161 0484 38000000 		.4byte	.LVL61
+ 2162 0488 4C000000 		.4byte	.LFE5
+ 2163 048c 0100     		.2byte	0x1
+ 2164 048e 50       		.byte	0x50
+ 2165 048f 00000000 		.4byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 55
+
+
+ 2166 0493 00000000 		.4byte	0
+ 2167              	.LLST19:
+ 2168 0497 00000000 		.4byte	.LVL62
+ 2169 049b 1C000000 		.4byte	.LVL63
+ 2170 049f 0100     		.2byte	0x1
+ 2171 04a1 50       		.byte	0x50
+ 2172 04a2 1C000000 		.4byte	.LVL63
+ 2173 04a6 3E000000 		.4byte	.LVL65
+ 2174 04aa 0400     		.2byte	0x4
+ 2175 04ac F3       		.byte	0xf3
+ 2176 04ad 01       		.uleb128 0x1
+ 2177 04ae 50       		.byte	0x50
+ 2178 04af 9F       		.byte	0x9f
+ 2179 04b0 3E000000 		.4byte	.LVL65
+ 2180 04b4 40000000 		.4byte	.LVL66
+ 2181 04b8 0100     		.2byte	0x1
+ 2182 04ba 50       		.byte	0x50
+ 2183 04bb 40000000 		.4byte	.LVL66
+ 2184 04bf 54000000 		.4byte	.LFE6
+ 2185 04c3 0400     		.2byte	0x4
+ 2186 04c5 F3       		.byte	0xf3
+ 2187 04c6 01       		.uleb128 0x1
+ 2188 04c7 50       		.byte	0x50
+ 2189 04c8 9F       		.byte	0x9f
+ 2190 04c9 00000000 		.4byte	0
+ 2191 04cd 00000000 		.4byte	0
+ 2192              	.LLST20:
+ 2193 04d1 00000000 		.4byte	.LVL62
+ 2194 04d5 2E000000 		.4byte	.LVL64
+ 2195 04d9 0200     		.2byte	0x2
+ 2196 04db 30       		.byte	0x30
+ 2197 04dc 9F       		.byte	0x9f
+ 2198 04dd 2E000000 		.4byte	.LVL64
+ 2199 04e1 3E000000 		.4byte	.LVL65
+ 2200 04e5 0100     		.2byte	0x1
+ 2201 04e7 50       		.byte	0x50
+ 2202 04e8 3E000000 		.4byte	.LVL65
+ 2203 04ec 40000000 		.4byte	.LVL66
+ 2204 04f0 0200     		.2byte	0x2
+ 2205 04f2 30       		.byte	0x30
+ 2206 04f3 9F       		.byte	0x9f
+ 2207 04f4 40000000 		.4byte	.LVL66
+ 2208 04f8 54000000 		.4byte	.LFE6
+ 2209 04fc 0100     		.2byte	0x1
+ 2210 04fe 50       		.byte	0x50
+ 2211 04ff 00000000 		.4byte	0
+ 2212 0503 00000000 		.4byte	0
+ 2213              		.section	.debug_aranges,"",%progbits
+ 2214 0000 7C000000 		.4byte	0x7c
+ 2215 0004 0200     		.2byte	0x2
+ 2216 0006 00000000 		.4byte	.Ldebug_info0
+ 2217 000a 04       		.byte	0x4
+ 2218 000b 00       		.byte	0
+ 2219 000c 0000     		.2byte	0
+ 2220 000e 0000     		.2byte	0
+ 2221 0010 00000000 		.4byte	.LFB0
+ 2222 0014 AC000000 		.4byte	.LFE0-.LFB0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 56
+
+
+ 2223 0018 00000000 		.4byte	.LFB1
+ 2224 001c B0000000 		.4byte	.LFE1-.LFB1
+ 2225 0020 00000000 		.4byte	.LFB2
+ 2226 0024 70000000 		.4byte	.LFE2-.LFB2
+ 2227 0028 00000000 		.4byte	.LFB3
+ 2228 002c 5C000000 		.4byte	.LFE3-.LFB3
+ 2229 0030 00000000 		.4byte	.LFB4
+ 2230 0034 30000000 		.4byte	.LFE4-.LFB4
+ 2231 0038 00000000 		.4byte	.LFB5
+ 2232 003c 4C000000 		.4byte	.LFE5-.LFB5
+ 2233 0040 00000000 		.4byte	.LFB6
+ 2234 0044 54000000 		.4byte	.LFE6-.LFB6
+ 2235 0048 00000000 		.4byte	.LFB7
+ 2236 004c 30000000 		.4byte	.LFE7-.LFB7
+ 2237 0050 00000000 		.4byte	.LFB8
+ 2238 0054 24000000 		.4byte	.LFE8-.LFB8
+ 2239 0058 00000000 		.4byte	.LFB9
+ 2240 005c 0C000000 		.4byte	.LFE9-.LFB9
+ 2241 0060 00000000 		.4byte	.LFB10
+ 2242 0064 0C000000 		.4byte	.LFE10-.LFB10
+ 2243 0068 00000000 		.4byte	.LFB11
+ 2244 006c 30000000 		.4byte	.LFE11-.LFB11
+ 2245 0070 00000000 		.4byte	.LFB12
+ 2246 0074 30000000 		.4byte	.LFE12-.LFB12
+ 2247 0078 00000000 		.4byte	0
+ 2248 007c 00000000 		.4byte	0
+ 2249              		.section	.debug_ranges,"",%progbits
+ 2250              	.Ldebug_ranges0:
+ 2251 0000 00000000 		.4byte	.LFB0
+ 2252 0004 AC000000 		.4byte	.LFE0
+ 2253 0008 00000000 		.4byte	.LFB1
+ 2254 000c B0000000 		.4byte	.LFE1
+ 2255 0010 00000000 		.4byte	.LFB2
+ 2256 0014 70000000 		.4byte	.LFE2
+ 2257 0018 00000000 		.4byte	.LFB3
+ 2258 001c 5C000000 		.4byte	.LFE3
+ 2259 0020 00000000 		.4byte	.LFB4
+ 2260 0024 30000000 		.4byte	.LFE4
+ 2261 0028 00000000 		.4byte	.LFB5
+ 2262 002c 4C000000 		.4byte	.LFE5
+ 2263 0030 00000000 		.4byte	.LFB6
+ 2264 0034 54000000 		.4byte	.LFE6
+ 2265 0038 00000000 		.4byte	.LFB7
+ 2266 003c 30000000 		.4byte	.LFE7
+ 2267 0040 00000000 		.4byte	.LFB8
+ 2268 0044 24000000 		.4byte	.LFE8
+ 2269 0048 00000000 		.4byte	.LFB9
+ 2270 004c 0C000000 		.4byte	.LFE9
+ 2271 0050 00000000 		.4byte	.LFB10
+ 2272 0054 0C000000 		.4byte	.LFE10
+ 2273 0058 00000000 		.4byte	.LFB11
+ 2274 005c 30000000 		.4byte	.LFE11
+ 2275 0060 00000000 		.4byte	.LFB12
+ 2276 0064 30000000 		.4byte	.LFE12
+ 2277 0068 00000000 		.4byte	0
+ 2278 006c 00000000 		.4byte	0
+ 2279              		.section	.debug_line,"",%progbits
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 57
+
+
+ 2280              	.Ldebug_line0:
+ 2281 0000 17020000 		.section	.debug_str,"MS",%progbits,1
+ 2281      02005400 
+ 2281      00000201 
+ 2281      FB0E0D00 
+ 2281      01010101 
+ 2282              	.LASF15:
+ 2283 0000 72656733 		.ascii	"reg32\000"
+ 2283      3200
+ 2284              	.LASF28:
+ 2285 0006 4932435F 		.ascii	"I2C_MasterSendStop\000"
+ 2285      4D617374 
+ 2285      65725365 
+ 2285      6E645374 
+ 2285      6F7000
+ 2286              	.LASF37:
+ 2287 0019 4932435F 		.ascii	"I2C_MasterGetWriteBufSize\000"
+ 2287      4D617374 
+ 2287      65724765 
+ 2287      74577269 
+ 2287      74654275 
+ 2288              	.LASF46:
+ 2289 0033 4932435F 		.ascii	"I2C_mstrWrBufPtr\000"
+ 2289      6D737472 
+ 2289      57724275 
+ 2289      66507472 
+ 2289      00
+ 2290              	.LASF39:
+ 2291 0044 4932435F 		.ascii	"I2C_MasterClearWriteBuf\000"
+ 2291      4D617374 
+ 2291      6572436C 
+ 2291      65617257 
+ 2291      72697465 
+ 2292              	.LASF29:
+ 2293 005c 4932435F 		.ascii	"I2C_MasterWriteByte\000"
+ 2293      4D617374 
+ 2293      65725772 
+ 2293      69746542 
+ 2293      79746500 
+ 2294              	.LASF3:
+ 2295 0070 73686F72 		.ascii	"short unsigned int\000"
+ 2295      7420756E 
+ 2295      7369676E 
+ 2295      65642069 
+ 2295      6E7400
+ 2296              	.LASF8:
+ 2297 0083 756E7369 		.ascii	"unsigned int\000"
+ 2297      676E6564 
+ 2297      20696E74 
+ 2297      00
+ 2298              	.LASF35:
+ 2299 0090 4932435F 		.ascii	"I2C_MasterClearStatus\000"
+ 2299      4D617374 
+ 2299      6572436C 
+ 2299      65617253 
+ 2299      74617475 
+ 2300              	.LASF34:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 58
+
+
+ 2301 00a6 73746174 		.ascii	"status\000"
+ 2301      757300
+ 2302              	.LASF22:
+ 2303 00ad 4932435F 		.ascii	"I2C_MasterReadBuf\000"
+ 2303      4D617374 
+ 2303      65725265 
+ 2303      61644275 
+ 2303      6600
+ 2304              	.LASF45:
+ 2305 00bf 4932435F 		.ascii	"I2C_mstrRdBufIndex\000"
+ 2305      6D737472 
+ 2305      52644275 
+ 2305      66496E64 
+ 2305      657800
+ 2306              	.LASF11:
+ 2307 00d2 666C6F61 		.ascii	"float\000"
+ 2307      7400
+ 2308              	.LASF0:
+ 2309 00d8 7369676E 		.ascii	"signed char\000"
+ 2309      65642063 
+ 2309      68617200 
+ 2310              	.LASF1:
+ 2311 00e4 756E7369 		.ascii	"unsigned char\000"
+ 2311      676E6564 
+ 2311      20636861 
+ 2311      7200
+ 2312              	.LASF21:
+ 2313 00f2 4932435F 		.ascii	"I2C_MasterWriteBuf\000"
+ 2313      4D617374 
+ 2313      65725772 
+ 2313      69746542 
+ 2313      756600
+ 2314              	.LASF14:
+ 2315 0105 72656738 		.ascii	"reg8\000"
+ 2315      00
+ 2316              	.LASF42:
+ 2317 010a 4932435F 		.ascii	"I2C_mstrControl\000"
+ 2317      6D737472 
+ 2317      436F6E74 
+ 2317      726F6C00 
+ 2318              	.LASF49:
+ 2319 011a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2319      43313120 
+ 2319      352E342E 
+ 2319      31203230 
+ 2319      31363036 
+ 2320 014d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2320      20726576 
+ 2320      6973696F 
+ 2320      6E203233 
+ 2320      37373135 
+ 2321 0180 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 2321      66756E63 
+ 2321      74696F6E 
+ 2321      2D736563 
+ 2321      74696F6E 
+ 2322              	.LASF9:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 59
+
+
+ 2323 01a8 75696E74 		.ascii	"uint8\000"
+ 2323      3800
+ 2324              	.LASF25:
+ 2325 01ae 4932435F 		.ascii	"I2C_MasterSendStart\000"
+ 2325      4D617374 
+ 2325      65725365 
+ 2325      6E645374 
+ 2325      61727400 
+ 2326              	.LASF24:
+ 2327 01c2 65727253 		.ascii	"errStatus\000"
+ 2327      74617475 
+ 2327      7300
+ 2328              	.LASF12:
+ 2329 01cc 646F7562 		.ascii	"double\000"
+ 2329      6C6500
+ 2330              	.LASF26:
+ 2331 01d3 525F6E57 		.ascii	"R_nW\000"
+ 2331      00
+ 2332              	.LASF23:
+ 2333 01d8 72644461 		.ascii	"rdData\000"
+ 2333      746100
+ 2334              	.LASF10:
+ 2335 01df 75696E74 		.ascii	"uint32\000"
+ 2335      333200
+ 2336              	.LASF44:
+ 2337 01e6 4932435F 		.ascii	"I2C_mstrRdBufSize\000"
+ 2337      6D737472 
+ 2337      52644275 
+ 2337      6653697A 
+ 2337      6500
+ 2338              	.LASF32:
+ 2339 01f8 61636B6E 		.ascii	"acknNak\000"
+ 2339      4E616B00 
+ 2340              	.LASF36:
+ 2341 0200 4932435F 		.ascii	"I2C_MasterGetReadBufSize\000"
+ 2341      4D617374 
+ 2341      65724765 
+ 2341      74526561 
+ 2341      64427566 
+ 2342              	.LASF19:
+ 2343 0219 77724461 		.ascii	"wrData\000"
+ 2343      746100
+ 2344              	.LASF7:
+ 2345 0220 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2345      206C6F6E 
+ 2345      6720756E 
+ 2345      7369676E 
+ 2345      65642069 
+ 2346              	.LASF50:
+ 2347 0237 47656E65 		.ascii	"Generated_Source\\PSoC5\\I2C_MASTER.c\000"
+ 2347      72617465 
+ 2347      645F536F 
+ 2347      75726365 
+ 2347      5C50536F 
+ 2348              	.LASF20:
+ 2349 025b 6D6F6465 		.ascii	"mode\000"
+ 2349      00
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 60
+
+
+ 2350              	.LASF27:
+ 2351 0260 4932435F 		.ascii	"I2C_MasterSendRestart\000"
+ 2351      4D617374 
+ 2351      65725365 
+ 2351      6E645265 
+ 2351      73746172 
+ 2352              	.LASF18:
+ 2353 0276 736C6176 		.ascii	"slaveAddress\000"
+ 2353      65416464 
+ 2353      72657373 
+ 2353      00
+ 2354              	.LASF5:
+ 2355 0283 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2355      20756E73 
+ 2355      69676E65 
+ 2355      6420696E 
+ 2355      7400
+ 2356              	.LASF17:
+ 2357 0295 73697A65 		.ascii	"sizetype\000"
+ 2357      74797065 
+ 2357      00
+ 2358              	.LASF6:
+ 2359 029e 6C6F6E67 		.ascii	"long long int\000"
+ 2359      206C6F6E 
+ 2359      6720696E 
+ 2359      7400
+ 2360              	.LASF13:
+ 2361 02ac 63686172 		.ascii	"char\000"
+ 2361      00
+ 2362              	.LASF33:
+ 2363 02b1 4932435F 		.ascii	"I2C_MasterStatus\000"
+ 2363      4D617374 
+ 2363      65725374 
+ 2363      61747573 
+ 2363      00
+ 2364              	.LASF31:
+ 2365 02c2 4932435F 		.ascii	"I2C_MasterReadByte\000"
+ 2365      4D617374 
+ 2365      65725265 
+ 2365      61644279 
+ 2365      746500
+ 2366              	.LASF2:
+ 2367 02d5 73686F72 		.ascii	"short int\000"
+ 2367      7420696E 
+ 2367      7400
+ 2368              	.LASF30:
+ 2369 02df 74686542 		.ascii	"theByte\000"
+ 2369      79746500 
+ 2370              	.LASF41:
+ 2371 02e7 4932435F 		.ascii	"I2C_mstrStatus\000"
+ 2371      6D737472 
+ 2371      53746174 
+ 2371      757300
+ 2372              	.LASF43:
+ 2373 02f6 4932435F 		.ascii	"I2C_mstrRdBufPtr\000"
+ 2373      6D737472 
+ 2373      52644275 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccrszvYh.s 			page 61
+
+
+ 2373      66507472 
+ 2373      00
+ 2374              	.LASF4:
+ 2375 0307 6C6F6E67 		.ascii	"long int\000"
+ 2375      20696E74 
+ 2375      00
+ 2376              	.LASF16:
+ 2377 0310 6C6F6E67 		.ascii	"long double\000"
+ 2377      20646F75 
+ 2377      626C6500 
+ 2378              	.LASF40:
+ 2379 031c 4932435F 		.ascii	"I2C_state\000"
+ 2379      73746174 
+ 2379      6500
+ 2380              	.LASF48:
+ 2381 0326 4932435F 		.ascii	"I2C_mstrWrBufIndex\000"
+ 2381      6D737472 
+ 2381      57724275 
+ 2381      66496E64 
+ 2381      657800
+ 2382              	.LASF47:
+ 2383 0339 4932435F 		.ascii	"I2C_mstrWrBufSize\000"
+ 2383      6D737472 
+ 2383      57724275 
+ 2383      6653697A 
+ 2383      6500
+ 2384              	.LASF51:
+ 2385 034b 453A5C49 		.ascii	"E:\\IroTeam\\Developing Projects\\Cypress\\100 PIN\\"
+ 2385      726F5465 
+ 2385      616D5C44 
+ 2385      6576656C 
+ 2385      6F70696E 
+ 2386 037a 63792D6D 		.ascii	"cy-micro\\cy-bootloader\\Bootloader.cydsn\000"
+ 2386      6963726F 
+ 2386      5C63792D 
+ 2386      626F6F74 
+ 2386      6C6F6164 
+ 2387              	.LASF38:
+ 2388 03a2 4932435F 		.ascii	"I2C_MasterClearReadBuf\000"
+ 2388      4D617374 
+ 2388      6572436C 
+ 2388      65617252 
+ 2388      65616442 
+ 2389              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

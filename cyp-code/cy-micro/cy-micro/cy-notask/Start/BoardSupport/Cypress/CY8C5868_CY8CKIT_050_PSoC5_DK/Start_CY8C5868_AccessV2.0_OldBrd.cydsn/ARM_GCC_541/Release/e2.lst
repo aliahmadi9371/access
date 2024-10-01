@@ -1,0 +1,46 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cca7YIY9.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"e2.c"
+  16              		.section	.text.ie2_read_byte,"ax",%progbits
+  17              		.align	2
+  18              		.global	ie2_read_byte
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	ie2_read_byte, %function
+  22              	ie2_read_byte:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 FFF7FEBF 		b	Internal_EEPROM_ReadByte
+  27              		.size	ie2_read_byte, .-ie2_read_byte
+  28              		.section	.text.ie2_write_byte,"ax",%progbits
+  29              		.align	2
+  30              		.global	ie2_write_byte
+  31              		.thumb
+  32              		.thumb_func
+  33              		.type	ie2_write_byte, %function
+  34              	ie2_write_byte:
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37 0000 08B5     		push	{r3, lr}
+  38 0002 FFF7FEFF 		bl	Internal_EEPROM_WriteByte
+  39 0006 B0FA80F0 		clz	r0, r0
+  40 000a 4009     		lsrs	r0, r0, #5
+  41 000c 08BD     		pop	{r3, pc}
+  42              		.size	ie2_write_byte, .-ie2_write_byte
+  43 000e 00BF     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

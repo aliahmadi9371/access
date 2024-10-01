@@ -1,0 +1,13 @@
+Last Modified Date & Time: 06/23/2024 15:50:41
+
+Start_CY8C5868_AccessV1.0_OldBrd: Start_CY8C5868_AccessV1.0_OldBrd.cydwr
+	cy_boot [v5.50] to [v6.0]
+	Em_EEPROM_Dynamic [v2.0] to [v2.20]
+	LIN_Dynamic [v3.40] to [v5.0]
+
+Start_CY8C5868_AccessV1.0_OldBrd: TopDesign.cysch
+	intr_Port1 [v1.71] to [v1.70]
+	intr_Port2 [v1.71] to [v1.70]
+	intr_UART_Linux_Rx [v1.71] to [v1.70]
+
+

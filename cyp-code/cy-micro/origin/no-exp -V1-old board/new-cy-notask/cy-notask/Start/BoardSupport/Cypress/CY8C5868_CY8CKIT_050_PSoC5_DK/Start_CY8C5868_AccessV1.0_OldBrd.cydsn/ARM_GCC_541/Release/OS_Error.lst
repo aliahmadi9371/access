@@ -1,0 +1,54 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccf7aHo5.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"OS_Error.c"
+  16              		.section	.text.OS_Error,"ax",%progbits
+  17              		.align	2
+  18              		.global	OS_Error
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	OS_Error, %function
+  22              	OS_Error:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 10B5     		push	{r4, lr}
+  26 0002 0446     		mov	r4, r0
+  27 0004 FFF7FEFF 		bl	OS_EnterRegionFunc
+  28 0008 074A     		ldr	r2, .L6
+  29 000a 0023     		movs	r3, #0
+  30 000c 5370     		strb	r3, [r2, #1]
+  31              		.syntax unified
+  32              	@ 273 "..\Setup\OS_Error.c" 1
+  33 000e 4FF00000 		mov  r0, #0      
+  34 0012 80F31188 		msr  basepri, r0 
+  35              		
+  36              	@ 0 "" 2
+  37              		.thumb
+  38              		.syntax unified
+  39 0016 A2F85840 		strh	r4, [r2, #88]	@ movhi
+  40              	.L2:
+  41 001a B2F85830 		ldrh	r3, [r2, #88]
+  42 001e 9BB2     		uxth	r3, r3
+  43 0020 002B     		cmp	r3, #0
+  44 0022 FAD1     		bne	.L2
+  45 0024 10BD     		pop	{r4, pc}
+  46              	.L7:
+  47 0026 00BF     		.align	2
+  48              	.L6:
+  49 0028 00000000 		.word	OS_Global
+  50              		.size	OS_Error, .-OS_Error
+  51              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

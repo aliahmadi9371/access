@@ -1,0 +1,56 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccOs5PNe.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"defines.c"
+  16              		.section	.text.strremove,"ax",%progbits
+  17              		.align	2
+  18              		.global	strremove
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	strremove, %function
+  22              	strremove:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+  26 0004 8046     		mov	r8, r0
+  27 0006 0846     		mov	r0, r1
+  28 0008 0F46     		mov	r7, r1
+  29 000a FFF7FEFF 		bl	strlen
+  30 000e 90B1     		cbz	r0, .L6
+  31 0010 0646     		mov	r6, r0
+  32 0012 4446     		mov	r4, r8
+  33 0014 07E0     		b	.L3
+  34              	.L4:
+  35 0016 2846     		mov	r0, r5
+  36 0018 FFF7FEFF 		bl	strlen
+  37 001c 2946     		mov	r1, r5
+  38 001e 421C     		adds	r2, r0, #1
+  39 0020 2046     		mov	r0, r4
+  40 0022 FFF7FEFF 		bl	memmove
+  41              	.L3:
+  42 0026 2046     		mov	r0, r4
+  43 0028 3946     		mov	r1, r7
+  44 002a FFF7FEFF 		bl	strstr
+  45 002e 0446     		mov	r4, r0
+  46 0030 8519     		adds	r5, r0, r6
+  47 0032 0028     		cmp	r0, #0
+  48 0034 EFD1     		bne	.L4
+  49              	.L6:
+  50 0036 4046     		mov	r0, r8
+  51 0038 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+  52              		.size	strremove, .-strremove
+  53              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

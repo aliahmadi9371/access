@@ -1,0 +1,571 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc4JBZUf.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Internal_EEPROM.c"
+  16              		.section	.text.Internal_EEPROM_Enable,"ax",%progbits
+  17              		.align	2
+  18              		.global	Internal_EEPROM_Enable
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	Internal_EEPROM_Enable, %function
+  22              	Internal_EEPROM_Enable:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 08B5     		push	{r3, lr}
+  26 0002 FFF7FEFF 		bl	CySetTemp
+  27 0006 BDE80840 		pop	{r3, lr}
+  28 000a FFF7FEBF 		b	CyEEPROM_Start
+  29              		.size	Internal_EEPROM_Enable, .-Internal_EEPROM_Enable
+  30 000e 00BF     		.section	.text.Internal_EEPROM_Start,"ax",%progbits
+  31              		.align	2
+  32              		.global	Internal_EEPROM_Start
+  33              		.thumb
+  34              		.thumb_func
+  35              		.type	Internal_EEPROM_Start, %function
+  36              	Internal_EEPROM_Start:
+  37              		@ args = 0, pretend = 0, frame = 0
+  38              		@ frame_needed = 0, uses_anonymous_args = 0
+  39 0000 08B5     		push	{r3, lr}
+  40 0002 FFF7FEFF 		bl	CySetTemp
+  41 0006 BDE80840 		pop	{r3, lr}
+  42 000a FFF7FEBF 		b	CyEEPROM_Start
+  43              		.size	Internal_EEPROM_Start, .-Internal_EEPROM_Start
+  44 000e 00BF     		.section	.text.Internal_EEPROM_Stop,"ax",%progbits
+  45              		.align	2
+  46              		.global	Internal_EEPROM_Stop
+  47              		.thumb
+  48              		.thumb_func
+  49              		.type	Internal_EEPROM_Stop, %function
+  50              	Internal_EEPROM_Stop:
+  51              		@ args = 0, pretend = 0, frame = 0
+  52              		@ frame_needed = 0, uses_anonymous_args = 0
+  53              		@ link register save eliminated.
+  54 0000 FFF7FEBF 		b	CyEEPROM_Stop
+  55              		.size	Internal_EEPROM_Stop, .-Internal_EEPROM_Stop
+  56              		.section	.text.Internal_EEPROM_WriteByte,"ax",%progbits
+  57              		.align	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc4JBZUf.s 			page 2
+
+
+  58              		.global	Internal_EEPROM_WriteByte
+  59              		.thumb
+  60              		.thumb_func
+  61              		.type	Internal_EEPROM_WriteByte, %function
+  62              	Internal_EEPROM_WriteByte:
+  63              		@ args = 0, pretend = 0, frame = 8
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65 0000 10B5     		push	{r4, lr}
+  66 0002 0C46     		mov	r4, r1
+  67 0004 82B0     		sub	sp, sp, #8
+  68 0006 8DF80700 		strb	r0, [sp, #7]
+  69 000a FFF7FEFF 		bl	CySpcStart
+  70 000e B4F5006F 		cmp	r4, #2048
+  71 0012 02D3     		bcc	.L28
+  72 0014 0120     		movs	r0, #1
+  73              	.L25:
+  74 0016 02B0     		add	sp, sp, #8
+  75              		@ sp needed
+  76 0018 10BD     		pop	{r4, pc}
+  77              	.L28:
+  78 001a FFF7FEFF 		bl	CySpcLock
+  79 001e 10B1     		cbz	r0, .L29
+  80 0020 0420     		movs	r0, #4
+  81 0022 02B0     		add	sp, sp, #8
+  82              		@ sp needed
+  83 0024 10BD     		pop	{r4, pc}
+  84              	.L29:
+  85 0026 04F00F01 		and	r1, r4, #15
+  86 002a 0123     		movs	r3, #1
+  87 002c 0DF10702 		add	r2, sp, #7
+  88 0030 4020     		movs	r0, #64
+  89 0032 FFF7FEFF 		bl	CySpcLoadMultiByte
+  90 0036 0728     		cmp	r0, #7
+  91 0038 4FEA1411 		lsr	r1, r4, #4
+  92 003c 08D0     		beq	.L30
+  93 003e 0128     		cmp	r0, #1
+  94 0040 01D0     		beq	.L11
+  95              	.L13:
+  96 0042 4FF0FF30 		mov	r0, #-1
+  97              	.L11:
+  98 0046 0090     		str	r0, [sp]
+  99 0048 FFF7FEFF 		bl	CySpcUnlock
+ 100 004c 0098     		ldr	r0, [sp]
+ 101 004e E2E7     		b	.L25
+ 102              	.L30:
+ 103 0050 104A     		ldr	r2, .L31
+ 104              	.L9:
+ 105 0052 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 106 0054 0F4C     		ldr	r4, .L31
+ 107 0056 9B07     		lsls	r3, r3, #30
+ 108 0058 FBD5     		bpl	.L9
+ 109 005a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 110 005c 9807     		lsls	r0, r3, #30
+ 111 005e F0D5     		bpl	.L13
+ 112 0060 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 113 0062 9B08     		lsrs	r3, r3, #2
+ 114 0064 EDD1     		bne	.L13
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc4JBZUf.s 			page 3
+
+
+ 115 0066 0C4A     		ldr	r2, .L31+4
+ 116 0068 4020     		movs	r0, #64
+ 117 006a 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 118 006c 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 119 006e FFF7FEFF 		bl	CySpcWriteRow
+ 120 0072 0728     		cmp	r0, #7
+ 121 0074 E5D1     		bne	.L13
+ 122              	.L14:
+ 123 0076 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 124 0078 064A     		ldr	r2, .L31
+ 125 007a 9907     		lsls	r1, r3, #30
+ 126 007c FBD5     		bpl	.L14
+ 127 007e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 128 0080 9B07     		lsls	r3, r3, #30
+ 129 0082 DED5     		bpl	.L13
+ 130 0084 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 131 0086 9B08     		lsrs	r3, r3, #2
+ 132 0088 14BF     		ite	ne
+ 133 008a 4FF0FF30 		movne	r0, #-1
+ 134 008e 0020     		moveq	r0, #0
+ 135 0090 D9E7     		b	.L11
+ 136              	.L32:
+ 137 0092 00BF     		.align	2
+ 138              	.L31:
+ 139 0094 22470040 		.word	1073760034
+ 140 0098 00000000 		.word	dieTemperature
+ 141              		.size	Internal_EEPROM_WriteByte, .-Internal_EEPROM_WriteByte
+ 142              		.section	.text.Internal_EEPROM_ReadByte,"ax",%progbits
+ 143              		.align	2
+ 144              		.global	Internal_EEPROM_ReadByte
+ 145              		.thumb
+ 146              		.thumb_func
+ 147              		.type	Internal_EEPROM_ReadByte, %function
+ 148              	Internal_EEPROM_ReadByte:
+ 149              		@ args = 0, pretend = 0, frame = 0
+ 150              		@ frame_needed = 0, uses_anonymous_args = 0
+ 151 0000 38B5     		push	{r3, r4, r5, lr}
+ 152 0002 0446     		mov	r4, r0
+ 153 0004 FFF7FEFF 		bl	CyEnterCriticalSection
+ 154 0008 0546     		mov	r5, r0
+ 155 000a FFF7FEFF 		bl	CyEEPROM_ReadReserve
+ 156 000e 04F18043 		add	r3, r4, #1073741824
+ 157 0012 03F50043 		add	r3, r3, #32768
+ 158 0016 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 159 0018 FFF7FEFF 		bl	CyEEPROM_ReadRelease
+ 160 001c E4B2     		uxtb	r4, r4
+ 161 001e 2846     		mov	r0, r5
+ 162 0020 FFF7FEFF 		bl	CyExitCriticalSection
+ 163 0024 2046     		mov	r0, r4
+ 164 0026 38BD     		pop	{r3, r4, r5, pc}
+ 165              		.size	Internal_EEPROM_ReadByte, .-Internal_EEPROM_ReadByte
+ 166              		.section	.text.Internal_EEPROM_UpdateTemperature,"ax",%progbits
+ 167              		.align	2
+ 168              		.global	Internal_EEPROM_UpdateTemperature
+ 169              		.thumb
+ 170              		.thumb_func
+ 171              		.type	Internal_EEPROM_UpdateTemperature, %function
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc4JBZUf.s 			page 4
+
+
+ 172              	Internal_EEPROM_UpdateTemperature:
+ 173              		@ args = 0, pretend = 0, frame = 0
+ 174              		@ frame_needed = 0, uses_anonymous_args = 0
+ 175 0000 08B5     		push	{r3, lr}
+ 176 0002 FFF7FEFF 		bl	CySetTemp
+ 177 0006 C0B2     		uxtb	r0, r0
+ 178 0008 08BD     		pop	{r3, pc}
+ 179              		.size	Internal_EEPROM_UpdateTemperature, .-Internal_EEPROM_UpdateTemperature
+ 180 000a 00BF     		.section	.text.Internal_EEPROM_EraseSector,"ax",%progbits
+ 181              		.align	2
+ 182              		.global	Internal_EEPROM_EraseSector
+ 183              		.thumb
+ 184              		.thumb_func
+ 185              		.type	Internal_EEPROM_EraseSector, %function
+ 186              	Internal_EEPROM_EraseSector:
+ 187              		@ args = 0, pretend = 0, frame = 8
+ 188              		@ frame_needed = 0, uses_anonymous_args = 0
+ 189 0000 10B5     		push	{r4, lr}
+ 190 0002 0446     		mov	r4, r0
+ 191 0004 82B0     		sub	sp, sp, #8
+ 192 0006 FFF7FEFF 		bl	CySpcStart
+ 193 000a 012C     		cmp	r4, #1
+ 194 000c 02D9     		bls	.L48
+ 195 000e 0120     		movs	r0, #1
+ 196              	.L38:
+ 197 0010 02B0     		add	sp, sp, #8
+ 198              		@ sp needed
+ 199 0012 10BD     		pop	{r4, pc}
+ 200              	.L48:
+ 201 0014 FFF7FEFF 		bl	CySpcLock
+ 202 0018 10B1     		cbz	r0, .L49
+ 203 001a 0420     		movs	r0, #4
+ 204 001c 02B0     		add	sp, sp, #8
+ 205              		@ sp needed
+ 206 001e 10BD     		pop	{r4, pc}
+ 207              	.L49:
+ 208 0020 2146     		mov	r1, r4
+ 209 0022 4020     		movs	r0, #64
+ 210 0024 FFF7FEFF 		bl	CySpcEraseSector
+ 211 0028 0728     		cmp	r0, #7
+ 212 002a 06D0     		beq	.L50
+ 213              	.L44:
+ 214 002c 4FF0FF30 		mov	r0, #-1
+ 215              	.L39:
+ 216 0030 0190     		str	r0, [sp, #4]
+ 217 0032 FFF7FEFF 		bl	CySpcUnlock
+ 218 0036 0198     		ldr	r0, [sp, #4]
+ 219 0038 EAE7     		b	.L38
+ 220              	.L50:
+ 221 003a 0749     		ldr	r1, .L51
+ 222              	.L40:
+ 223 003c 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 224 003e 064A     		ldr	r2, .L51
+ 225 0040 9C07     		lsls	r4, r3, #30
+ 226 0042 FBD5     		bpl	.L40
+ 227 0044 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 228 0046 9B07     		lsls	r3, r3, #30
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc4JBZUf.s 			page 5
+
+
+ 229 0048 F0D5     		bpl	.L44
+ 230 004a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 231 004c 9B08     		lsrs	r3, r3, #2
+ 232 004e 14BF     		ite	ne
+ 233 0050 4FF0FF30 		movne	r0, #-1
+ 234 0054 0020     		moveq	r0, #0
+ 235 0056 EBE7     		b	.L39
+ 236              	.L52:
+ 237              		.align	2
+ 238              	.L51:
+ 239 0058 22470040 		.word	1073760034
+ 240              		.size	Internal_EEPROM_EraseSector, .-Internal_EEPROM_EraseSector
+ 241              		.section	.text.Internal_EEPROM_Write,"ax",%progbits
+ 242              		.align	2
+ 243              		.global	Internal_EEPROM_Write
+ 244              		.thumb
+ 245              		.thumb_func
+ 246              		.type	Internal_EEPROM_Write, %function
+ 247              	Internal_EEPROM_Write:
+ 248              		@ args = 0, pretend = 0, frame = 8
+ 249              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250 0000 30B5     		push	{r4, r5, lr}
+ 251 0002 0C46     		mov	r4, r1
+ 252 0004 83B0     		sub	sp, sp, #12
+ 253 0006 0546     		mov	r5, r0
+ 254 0008 FFF7FEFF 		bl	CySpcStart
+ 255 000c 2206     		lsls	r2, r4, #24
+ 256 000e 05D4     		bmi	.L60
+ 257 0010 FFF7FEFF 		bl	CySpcLock
+ 258 0014 28B1     		cbz	r0, .L76
+ 259 0016 0420     		movs	r0, #4
+ 260 0018 03B0     		add	sp, sp, #12
+ 261              		@ sp needed
+ 262 001a 30BD     		pop	{r4, r5, pc}
+ 263              	.L60:
+ 264 001c 0120     		movs	r0, #1
+ 265 001e 03B0     		add	sp, sp, #12
+ 266              		@ sp needed
+ 267 0020 30BD     		pop	{r4, r5, pc}
+ 268              	.L76:
+ 269 0022 2946     		mov	r1, r5
+ 270 0024 1022     		movs	r2, #16
+ 271 0026 4020     		movs	r0, #64
+ 272 0028 FFF7FEFF 		bl	CySpcLoadRow
+ 273 002c 0728     		cmp	r0, #7
+ 274 002e 07D0     		beq	.L77
+ 275              	.L57:
+ 276 0030 4FF0FF30 		mov	r0, #-1
+ 277              	.L56:
+ 278 0034 0190     		str	r0, [sp, #4]
+ 279 0036 FFF7FEFF 		bl	CySpcUnlock
+ 280 003a 0198     		ldr	r0, [sp, #4]
+ 281 003c 03B0     		add	sp, sp, #12
+ 282              		@ sp needed
+ 283 003e 30BD     		pop	{r4, r5, pc}
+ 284              	.L77:
+ 285 0040 104A     		ldr	r2, .L78
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc4JBZUf.s 			page 6
+
+
+ 286              	.L55:
+ 287 0042 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 288 0044 0F4D     		ldr	r5, .L78
+ 289 0046 9B07     		lsls	r3, r3, #30
+ 290 0048 FBD5     		bpl	.L55
+ 291 004a 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 292 004c 9807     		lsls	r0, r3, #30
+ 293 004e EFD5     		bpl	.L57
+ 294 0050 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 295 0052 9B08     		lsrs	r3, r3, #2
+ 296 0054 ECD1     		bne	.L57
+ 297 0056 0C4A     		ldr	r2, .L78+4
+ 298 0058 2146     		mov	r1, r4
+ 299 005a 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 300 005c 4020     		movs	r0, #64
+ 301 005e 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 302 0060 FFF7FEFF 		bl	CySpcWriteRow
+ 303 0064 0728     		cmp	r0, #7
+ 304 0066 E3D1     		bne	.L57
+ 305              	.L59:
+ 306 0068 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 307 006a 064A     		ldr	r2, .L78
+ 308 006c 9907     		lsls	r1, r3, #30
+ 309 006e FBD5     		bpl	.L59
+ 310 0070 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 311 0072 9B07     		lsls	r3, r3, #30
+ 312 0074 DCD5     		bpl	.L57
+ 313 0076 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 314 0078 9B08     		lsrs	r3, r3, #2
+ 315 007a 14BF     		ite	ne
+ 316 007c 4FF0FF30 		movne	r0, #-1
+ 317 0080 0020     		moveq	r0, #0
+ 318 0082 D7E7     		b	.L56
+ 319              	.L79:
+ 320              		.align	2
+ 321              	.L78:
+ 322 0084 22470040 		.word	1073760034
+ 323 0088 00000000 		.word	dieTemperature
+ 324              		.size	Internal_EEPROM_Write, .-Internal_EEPROM_Write
+ 325              		.section	.text.Internal_EEPROM_StartWrite,"ax",%progbits
+ 326              		.align	2
+ 327              		.global	Internal_EEPROM_StartWrite
+ 328              		.thumb
+ 329              		.thumb_func
+ 330              		.type	Internal_EEPROM_StartWrite, %function
+ 331              	Internal_EEPROM_StartWrite:
+ 332              		@ args = 0, pretend = 0, frame = 0
+ 333              		@ frame_needed = 0, uses_anonymous_args = 0
+ 334 0000 38B5     		push	{r3, r4, r5, lr}
+ 335 0002 0C46     		mov	r4, r1
+ 336 0004 0546     		mov	r5, r0
+ 337 0006 FFF7FEFF 		bl	CySpcStart
+ 338 000a 2306     		lsls	r3, r4, #24
+ 339 000c 04D4     		bmi	.L85
+ 340 000e FFF7FEFF 		bl	CySpcLock
+ 341 0012 18B1     		cbz	r0, .L95
+ 342 0014 0420     		movs	r0, #4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc4JBZUf.s 			page 7
+
+
+ 343 0016 38BD     		pop	{r3, r4, r5, pc}
+ 344              	.L85:
+ 345 0018 0120     		movs	r0, #1
+ 346 001a 38BD     		pop	{r3, r4, r5, pc}
+ 347              	.L95:
+ 348 001c 2946     		mov	r1, r5
+ 349 001e 1022     		movs	r2, #16
+ 350 0020 4020     		movs	r0, #64
+ 351 0022 FFF7FEFF 		bl	CySpcLoadRow
+ 352 0026 0728     		cmp	r0, #7
+ 353 0028 02D0     		beq	.L96
+ 354              	.L82:
+ 355 002a 4FF0FF30 		mov	r0, #-1
+ 356 002e 38BD     		pop	{r3, r4, r5, pc}
+ 357              	.L96:
+ 358 0030 0A49     		ldr	r1, .L97
+ 359              	.L83:
+ 360 0032 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 361 0034 094A     		ldr	r2, .L97
+ 362 0036 9807     		lsls	r0, r3, #30
+ 363 0038 FBD5     		bpl	.L83
+ 364 003a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 365 003c 9B07     		lsls	r3, r3, #30
+ 366 003e F4D5     		bpl	.L82
+ 367 0040 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 368 0042 9B08     		lsrs	r3, r3, #2
+ 369 0044 F1D1     		bne	.L82
+ 370 0046 064A     		ldr	r2, .L97+4
+ 371 0048 2146     		mov	r1, r4
+ 372 004a 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 373 004c 4020     		movs	r0, #64
+ 374 004e 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 375 0050 FFF7FEFF 		bl	CySpcWriteRow
+ 376 0054 0728     		cmp	r0, #7
+ 377 0056 E8D1     		bne	.L82
+ 378 0058 38BD     		pop	{r3, r4, r5, pc}
+ 379              	.L98:
+ 380 005a 00BF     		.align	2
+ 381              	.L97:
+ 382 005c 22470040 		.word	1073760034
+ 383 0060 00000000 		.word	dieTemperature
+ 384              		.size	Internal_EEPROM_StartWrite, .-Internal_EEPROM_StartWrite
+ 385              		.section	.text.Internal_EEPROM_StartErase,"ax",%progbits
+ 386              		.align	2
+ 387              		.global	Internal_EEPROM_StartErase
+ 388              		.thumb
+ 389              		.thumb_func
+ 390              		.type	Internal_EEPROM_StartErase, %function
+ 391              	Internal_EEPROM_StartErase:
+ 392              		@ args = 0, pretend = 0, frame = 0
+ 393              		@ frame_needed = 0, uses_anonymous_args = 0
+ 394 0000 10B5     		push	{r4, lr}
+ 395 0002 0446     		mov	r4, r0
+ 396 0004 FFF7FEFF 		bl	CySpcStart
+ 397 0008 0CB1     		cbz	r4, .L104
+ 398 000a 0120     		movs	r0, #1
+ 399 000c 10BD     		pop	{r4, pc}
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc4JBZUf.s 			page 8
+
+
+ 400              	.L104:
+ 401 000e FFF7FEFF 		bl	CySpcLock
+ 402 0012 08B1     		cbz	r0, .L105
+ 403 0014 0420     		movs	r0, #4
+ 404 0016 10BD     		pop	{r4, pc}
+ 405              	.L105:
+ 406 0018 0146     		mov	r1, r0
+ 407 001a 4020     		movs	r0, #64
+ 408 001c FFF7FEFF 		bl	CySpcEraseSector
+ 409 0020 0738     		subs	r0, r0, #7
+ 410 0022 18BF     		it	ne
+ 411 0024 4FF0FF30 		movne	r0, #-1
+ 412 0028 10BD     		pop	{r4, pc}
+ 413              		.size	Internal_EEPROM_StartErase, .-Internal_EEPROM_StartErase
+ 414 002a 00BF     		.section	.text.Internal_EEPROM_Query,"ax",%progbits
+ 415              		.align	2
+ 416              		.global	Internal_EEPROM_Query
+ 417              		.thumb
+ 418              		.thumb_func
+ 419              		.type	Internal_EEPROM_Query, %function
+ 420              	Internal_EEPROM_Query:
+ 421              		@ args = 0, pretend = 0, frame = 0
+ 422              		@ frame_needed = 0, uses_anonymous_args = 0
+ 423 0000 10B5     		push	{r4, lr}
+ 424 0002 FFF7FEFF 		bl	CySpcStart
+ 425 0006 0B4B     		ldr	r3, .L114
+ 426 0008 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 427 000a 9107     		lsls	r1, r2, #30
+ 428 000c 02D4     		bmi	.L112
+ 429 000e 0724     		movs	r4, #7
+ 430 0010 2046     		mov	r0, r4
+ 431 0012 10BD     		pop	{r4, pc}
+ 432              	.L112:
+ 433 0014 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 434 0016 9207     		lsls	r2, r2, #30
+ 435 0018 05D4     		bmi	.L113
+ 436 001a 4FF0FF34 		mov	r4, #-1
+ 437              	.L108:
+ 438 001e FFF7FEFF 		bl	CySpcUnlock
+ 439 0022 2046     		mov	r0, r4
+ 440 0024 10BD     		pop	{r4, pc}
+ 441              	.L113:
+ 442 0026 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 443 0028 9B08     		lsrs	r3, r3, #2
+ 444 002a 14BF     		ite	ne
+ 445 002c 4FF0FF34 		movne	r4, #-1
+ 446 0030 0024     		moveq	r4, #0
+ 447 0032 F4E7     		b	.L108
+ 448              	.L115:
+ 449              		.align	2
+ 450              	.L114:
+ 451 0034 22470040 		.word	1073760034
+ 452              		.size	Internal_EEPROM_Query, .-Internal_EEPROM_Query
+ 453              		.section	.text.Internal_EEPROM_ByteWritePos,"ax",%progbits
+ 454              		.align	2
+ 455              		.global	Internal_EEPROM_ByteWritePos
+ 456              		.thumb
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc4JBZUf.s 			page 9
+
+
+ 457              		.thumb_func
+ 458              		.type	Internal_EEPROM_ByteWritePos, %function
+ 459              	Internal_EEPROM_ByteWritePos:
+ 460              		@ args = 0, pretend = 0, frame = 8
+ 461              		@ frame_needed = 0, uses_anonymous_args = 0
+ 462 0000 30B5     		push	{r4, r5, lr}
+ 463 0002 0C46     		mov	r4, r1
+ 464 0004 83B0     		sub	sp, sp, #12
+ 465 0006 1546     		mov	r5, r2
+ 466 0008 8DF80700 		strb	r0, [sp, #7]
+ 467 000c FFF7FEFF 		bl	CySpcStart
+ 468 0010 2206     		lsls	r2, r4, #24
+ 469 0012 01D4     		bmi	.L124
+ 470 0014 0F2D     		cmp	r5, #15
+ 471 0016 02D9     		bls	.L140
+ 472              	.L124:
+ 473 0018 0120     		movs	r0, #1
+ 474              	.L138:
+ 475 001a 03B0     		add	sp, sp, #12
+ 476              		@ sp needed
+ 477 001c 30BD     		pop	{r4, r5, pc}
+ 478              	.L140:
+ 479 001e FFF7FEFF 		bl	CySpcLock
+ 480 0022 10B1     		cbz	r0, .L141
+ 481 0024 0420     		movs	r0, #4
+ 482 0026 03B0     		add	sp, sp, #12
+ 483              		@ sp needed
+ 484 0028 30BD     		pop	{r4, r5, pc}
+ 485              	.L141:
+ 486 002a 2946     		mov	r1, r5
+ 487 002c 0123     		movs	r3, #1
+ 488 002e 0DF10702 		add	r2, sp, #7
+ 489 0032 4020     		movs	r0, #64
+ 490 0034 FFF7FEFF 		bl	CySpcLoadMultiByte
+ 491 0038 0728     		cmp	r0, #7
+ 492 003a 06D0     		beq	.L142
+ 493              	.L120:
+ 494 003c 4FF0FF30 		mov	r0, #-1
+ 495              	.L119:
+ 496 0040 0090     		str	r0, [sp]
+ 497 0042 FFF7FEFF 		bl	CySpcUnlock
+ 498 0046 0098     		ldr	r0, [sp]
+ 499 0048 E7E7     		b	.L138
+ 500              	.L142:
+ 501 004a 114A     		ldr	r2, .L143
+ 502              	.L118:
+ 503 004c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 504 004e 104D     		ldr	r5, .L143
+ 505 0050 9B07     		lsls	r3, r3, #30
+ 506 0052 FBD5     		bpl	.L118
+ 507 0054 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 508 0056 9807     		lsls	r0, r3, #30
+ 509 0058 F0D5     		bpl	.L120
+ 510 005a 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 511 005c 9B08     		lsrs	r3, r3, #2
+ 512 005e EDD1     		bne	.L120
+ 513 0060 0C4A     		ldr	r2, .L143+4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc4JBZUf.s 			page 10
+
+
+ 514 0062 2146     		mov	r1, r4
+ 515 0064 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 516 0066 4020     		movs	r0, #64
+ 517 0068 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 518 006a FFF7FEFF 		bl	CySpcWriteRow
+ 519 006e 0728     		cmp	r0, #7
+ 520 0070 E4D1     		bne	.L120
+ 521              	.L122:
+ 522 0072 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 523 0074 064A     		ldr	r2, .L143
+ 524 0076 9907     		lsls	r1, r3, #30
+ 525 0078 FBD5     		bpl	.L122
+ 526 007a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 527 007c 9B07     		lsls	r3, r3, #30
+ 528 007e DDD5     		bpl	.L120
+ 529 0080 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 530 0082 9B08     		lsrs	r3, r3, #2
+ 531 0084 14BF     		ite	ne
+ 532 0086 4FF0FF30 		movne	r0, #-1
+ 533 008a 0020     		moveq	r0, #0
+ 534 008c D8E7     		b	.L119
+ 535              	.L144:
+ 536 008e 00BF     		.align	2
+ 537              	.L143:
+ 538 0090 22470040 		.word	1073760034
+ 539 0094 00000000 		.word	dieTemperature
+ 540              		.size	Internal_EEPROM_ByteWritePos, .-Internal_EEPROM_ByteWritePos
+ 541              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,3043 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"CyLib.c"
+  16              		.section	.text.CySysTickServiceCallbacks,"ax",%progbits
+  17              		.align	2
+  18              		.thumb
+  19              		.thumb_func
+  20              		.type	CySysTickServiceCallbacks, %function
+  21              	CySysTickServiceCallbacks:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24 0000 38B5     		push	{r3, r4, r5, lr}
+  25 0002 074B     		ldr	r3, .L13
+  26 0004 1B68     		ldr	r3, [r3]
+  27 0006 DB03     		lsls	r3, r3, #15
+  28 0008 00D4     		bmi	.L12
+  29 000a 38BD     		pop	{r3, r4, r5, pc}
+  30              	.L12:
+  31 000c 054C     		ldr	r4, .L13+4
+  32 000e 04F11405 		add	r5, r4, #20
+  33              	.L4:
+  34 0012 54F8043B 		ldr	r3, [r4], #4
+  35 0016 03B1     		cbz	r3, .L3
+  36 0018 9847     		blx	r3
+  37              	.L3:
+  38 001a AC42     		cmp	r4, r5
+  39 001c F9D1     		bne	.L4
+  40 001e 38BD     		pop	{r3, r4, r5, pc}
+  41              	.L14:
+  42              		.align	2
+  43              	.L13:
+  44 0020 10E000E0 		.word	-536813552
+  45 0024 00000000 		.word	.LANCHOR0
+  46              		.size	CySysTickServiceCallbacks, .-CySysTickServiceCallbacks
+  47              		.section	.text.CyPLL_OUT_Start,"ax",%progbits
+  48              		.align	2
+  49              		.global	CyPLL_OUT_Start
+  50              		.thumb
+  51              		.thumb_func
+  52              		.type	CyPLL_OUT_Start, %function
+  53              	CyPLL_OUT_Start:
+  54              		@ args = 0, pretend = 0, frame = 0
+  55              		@ frame_needed = 0, uses_anonymous_args = 0
+  56 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  57 0002 184A     		ldr	r2, .L30
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 2
+
+
+  58 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  59 0006 43F00103 		orr	r3, r3, #1
+  60 000a 1370     		strb	r3, [r2]
+  61 000c 00B9     		cbnz	r0, .L27
+  62 000e F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+  63              	.L27:
+  64 0010 1549     		ldr	r1, .L30+4
+  65 0012 164B     		ldr	r3, .L30+8
+  66 0014 0D78     		ldrb	r5, [r1]	@ zero_extendqisi2
+  67 0016 92F86071 		ldrb	r7, [r2, #352]	@ zero_extendqisi2
+  68 001a 1E78     		ldrb	r6, [r3]	@ zero_extendqisi2
+  69 001c 05F00405 		and	r5, r5, #4
+  70 0020 1820     		movs	r0, #24
+  71 0022 EDB2     		uxtb	r5, r5
+  72 0024 FFB2     		uxtb	r7, r7
+  73 0026 F6B2     		uxtb	r6, r6
+  74 0028 114C     		ldr	r4, .L30+12
+  75 002a FFF7FEFF 		bl	CyPmFtwSetInterval
+  76              	.L24:
+  77 002e 0120     		movs	r0, #1
+  78 0030 FFF7FEFF 		bl	CyPmReadStatus
+  79 0034 10F00100 		ands	r0, r0, #1
+  80 0038 10D1     		bne	.L28
+  81 003a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  82 003c DA07     		lsls	r2, r3, #31
+  83 003e F6D5     		bpl	.L24
+  84 0040 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  85 0042 DB07     		lsls	r3, r3, #31
+  86 0044 F3D5     		bpl	.L24
+  87 0046 25B9     		cbnz	r5, .L20
+  88              	.L29:
+  89 0048 074A     		ldr	r2, .L30+4
+  90 004a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  91 004c 03F0FB03 		and	r3, r3, #251
+  92 0050 1370     		strb	r3, [r2]
+  93              	.L20:
+  94 0052 084A     		ldr	r2, .L30+16
+  95 0054 054B     		ldr	r3, .L30+8
+  96 0056 1770     		strb	r7, [r2]
+  97 0058 1E70     		strb	r6, [r3]
+  98 005a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+  99              	.L28:
+ 100 005c 1020     		movs	r0, #16
+ 101 005e 002D     		cmp	r5, #0
+ 102 0060 F7D1     		bne	.L20
+ 103 0062 F1E7     		b	.L29
+ 104              	.L31:
+ 105              		.align	2
+ 106              	.L30:
+ 107 0064 20420040 		.word	1073758752
+ 108 0068 00430040 		.word	1073758976
+ 109 006c 82430040 		.word	1073759106
+ 110 0070 25420040 		.word	1073758757
+ 111 0074 80430040 		.word	1073759104
+ 112              		.size	CyPLL_OUT_Start, .-CyPLL_OUT_Start
+ 113              		.section	.text.CyPLL_OUT_Stop,"ax",%progbits
+ 114              		.align	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 3
+
+
+ 115              		.global	CyPLL_OUT_Stop
+ 116              		.thumb
+ 117              		.thumb_func
+ 118              		.type	CyPLL_OUT_Stop, %function
+ 119              	CyPLL_OUT_Stop:
+ 120              		@ args = 0, pretend = 0, frame = 0
+ 121              		@ frame_needed = 0, uses_anonymous_args = 0
+ 122              		@ link register save eliminated.
+ 123 0000 024A     		ldr	r2, .L33
+ 124 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 125 0004 03F0FE03 		and	r3, r3, #254
+ 126 0008 1370     		strb	r3, [r2]
+ 127 000a 7047     		bx	lr
+ 128              	.L34:
+ 129              		.align	2
+ 130              	.L33:
+ 131 000c 20420040 		.word	1073758752
+ 132              		.size	CyPLL_OUT_Stop, .-CyPLL_OUT_Stop
+ 133              		.section	.text.CyPLL_OUT_SetPQ,"ax",%progbits
+ 134              		.align	2
+ 135              		.global	CyPLL_OUT_SetPQ
+ 136              		.thumb
+ 137              		.thumb_func
+ 138              		.type	CyPLL_OUT_SetPQ, %function
+ 139              	CyPLL_OUT_SetPQ:
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142              		@ link register save eliminated.
+ 143 0000 0728     		cmp	r0, #7
+ 144 0002 15D9     		bls	.L39
+ 145 0004 0139     		subs	r1, r1, #1
+ 146 0006 C9B2     		uxtb	r1, r1
+ 147 0008 0F29     		cmp	r1, #15
+ 148 000a 11D8     		bhi	.L39
+ 149 000c 013A     		subs	r2, r2, #1
+ 150 000e D2B2     		uxtb	r2, r2
+ 151 0010 062A     		cmp	r2, #6
+ 152 0012 0DD8     		bhi	.L39
+ 153 0014 30B4     		push	{r4, r5}
+ 154 0016 074B     		ldr	r3, .L40
+ 155 0018 074D     		ldr	r5, .L40+4
+ 156 001a 084C     		ldr	r4, .L40+8
+ 157 001c 2870     		strb	r0, [r5]
+ 158 001e 1970     		strb	r1, [r3]
+ 159 0020 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 160 0022 03F08F03 		and	r3, r3, #143
+ 161 0026 43EA0212 		orr	r2, r3, r2, lsl #4
+ 162 002a D2B2     		uxtb	r2, r2
+ 163 002c 2270     		strb	r2, [r4]
+ 164 002e 30BC     		pop	{r4, r5}
+ 165              	.L39:
+ 166 0030 7047     		bx	lr
+ 167              	.L41:
+ 168 0032 00BF     		.align	2
+ 169              	.L40:
+ 170 0034 23420040 		.word	1073758755
+ 171 0038 22420040 		.word	1073758754
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 4
+
+
+ 172 003c 21420040 		.word	1073758753
+ 173              		.size	CyPLL_OUT_SetPQ, .-CyPLL_OUT_SetPQ
+ 174              		.section	.text.CyPLL_OUT_SetSource,"ax",%progbits
+ 175              		.align	2
+ 176              		.global	CyPLL_OUT_SetSource
+ 177              		.thumb
+ 178              		.thumb_func
+ 179              		.type	CyPLL_OUT_SetSource, %function
+ 180              	CyPLL_OUT_SetSource:
+ 181              		@ args = 0, pretend = 0, frame = 0
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 183              		@ link register save eliminated.
+ 184 0000 0228     		cmp	r0, #2
+ 185 0002 06D8     		bhi	.L42
+ 186 0004 4FF04022 		mov	r2, #1073758208
+ 187 0008 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 188 000a 03F0FC03 		and	r3, r3, #252
+ 189 000e 1843     		orrs	r0, r0, r3
+ 190 0010 1070     		strb	r0, [r2]
+ 191              	.L42:
+ 192 0012 7047     		bx	lr
+ 193              		.size	CyPLL_OUT_SetSource, .-CyPLL_OUT_SetSource
+ 194              		.section	.text.CyIMO_Start,"ax",%progbits
+ 195              		.align	2
+ 196              		.global	CyIMO_Start
+ 197              		.thumb
+ 198              		.thumb_func
+ 199              		.type	CyIMO_Start, %function
+ 200              	CyIMO_Start:
+ 201              		@ args = 0, pretend = 0, frame = 0
+ 202              		@ frame_needed = 0, uses_anonymous_args = 0
+ 203 0000 1549     		ldr	r1, .L57
+ 204 0002 164A     		ldr	r2, .L57+4
+ 205 0004 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 206 0006 43F01003 		orr	r3, r3, #16
+ 207 000a 0B70     		strb	r3, [r1]
+ 208 000c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 209 000e 43F01003 		orr	r3, r3, #16
+ 210 0012 1370     		strb	r3, [r2]
+ 211 0014 00B9     		cbnz	r0, .L56
+ 212 0016 7047     		bx	lr
+ 213              	.L56:
+ 214 0018 70B5     		push	{r4, r5, r6, lr}
+ 215 001a 114B     		ldr	r3, .L57+8
+ 216 001c 11F8A04C 		ldrb	r4, [r1, #-160]	@ zero_extendqisi2
+ 217 0020 12F8306C 		ldrb	r6, [r2, #-48]	@ zero_extendqisi2
+ 218 0024 1D78     		ldrb	r5, [r3]	@ zero_extendqisi2
+ 219 0026 04F00404 		and	r4, r4, #4
+ 220 002a 0020     		movs	r0, #0
+ 221 002c E4B2     		uxtb	r4, r4
+ 222 002e F6B2     		uxtb	r6, r6
+ 223 0030 EDB2     		uxtb	r5, r5
+ 224 0032 FFF7FEFF 		bl	CyPmFtwSetInterval
+ 225              	.L47:
+ 226 0036 0120     		movs	r0, #1
+ 227 0038 FFF7FEFF 		bl	CyPmReadStatus
+ 228 003c C307     		lsls	r3, r0, #31
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 5
+
+
+ 229 003e FAD5     		bpl	.L47
+ 230 0040 24B9     		cbnz	r4, .L48
+ 231 0042 084A     		ldr	r2, .L57+12
+ 232 0044 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 233 0046 03F0FB03 		and	r3, r3, #251
+ 234 004a 1370     		strb	r3, [r2]
+ 235              	.L48:
+ 236 004c 064A     		ldr	r2, .L57+16
+ 237 004e 044B     		ldr	r3, .L57+8
+ 238 0050 1670     		strb	r6, [r2]
+ 239 0052 1D70     		strb	r5, [r3]
+ 240 0054 70BD     		pop	{r4, r5, r6, pc}
+ 241              	.L58:
+ 242 0056 00BF     		.align	2
+ 243              	.L57:
+ 244 0058 A0430040 		.word	1073759136
+ 245 005c B0430040 		.word	1073759152
+ 246 0060 82430040 		.word	1073759106
+ 247 0064 00430040 		.word	1073758976
+ 248 0068 80430040 		.word	1073759104
+ 249              		.size	CyIMO_Start, .-CyIMO_Start
+ 250              		.section	.text.CyIMO_Stop,"ax",%progbits
+ 251              		.align	2
+ 252              		.global	CyIMO_Stop
+ 253              		.thumb
+ 254              		.thumb_func
+ 255              		.type	CyIMO_Stop, %function
+ 256              	CyIMO_Stop:
+ 257              		@ args = 0, pretend = 0, frame = 0
+ 258              		@ frame_needed = 0, uses_anonymous_args = 0
+ 259              		@ link register save eliminated.
+ 260 0000 0549     		ldr	r1, .L60
+ 261 0002 064A     		ldr	r2, .L60+4
+ 262 0004 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 263 0006 03F0EF03 		and	r3, r3, #239
+ 264 000a 0B70     		strb	r3, [r1]
+ 265 000c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 266 000e 03F0EF03 		and	r3, r3, #239
+ 267 0012 1370     		strb	r3, [r2]
+ 268 0014 7047     		bx	lr
+ 269              	.L61:
+ 270 0016 00BF     		.align	2
+ 271              	.L60:
+ 272 0018 A0430040 		.word	1073759136
+ 273 001c B0430040 		.word	1073759152
+ 274              		.size	CyIMO_Stop, .-CyIMO_Stop
+ 275              		.section	.text.CyIMO_SetFreq,"ax",%progbits
+ 276              		.align	2
+ 277              		.global	CyIMO_SetFreq
+ 278              		.thumb
+ 279              		.thumb_func
+ 280              		.type	CyIMO_SetFreq, %function
+ 281              	CyIMO_SetFreq:
+ 282              		@ args = 0, pretend = 0, frame = 0
+ 283              		@ frame_needed = 0, uses_anonymous_args = 0
+ 284              		@ link register save eliminated.
+ 285 0000 30B4     		push	{r4, r5}
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 6
+
+
+ 286 0002 9E4B     		ldr	r3, .L125
+ 287 0004 0828     		cmp	r0, #8
+ 288 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 289 0008 18BF     		it	ne
+ 290 000a 0446     		movne	r4, r0
+ 291 000c 03F00703 		and	r3, r3, #7
+ 292 0010 08BF     		it	eq
+ 293 0012 0324     		moveq	r4, #3
+ 294 0014 062B     		cmp	r3, #6
+ 295 0016 06D8     		bhi	.L65
+ 296 0018 DFE803F0 		tbb	[pc, r3]
+ 297              	.L66:
+ 298 001c 04       		.byte	(.L117-.L66)/2
+ 299 001d 05       		.byte	(.L65-.L66)/2
+ 300 001e 44       		.byte	(.L68-.L66)/2
+ 301 001f 15       		.byte	(.L118-.L66)/2
+ 302 0020 05       		.byte	(.L65-.L66)/2
+ 303 0021 05       		.byte	(.L65-.L66)/2
+ 304 0022 05       		.byte	(.L65-.L66)/2
+ 305 0023 00       		.p2align 1
+ 306              	.L117:
+ 307 0024 0223     		movs	r3, #2
+ 308              	.L65:
+ 309 0026 A342     		cmp	r3, r4
+ 310 0028 0ED9     		bls	.L69
+ 311              	.L73:
+ 312 002a 0828     		cmp	r0, #8
+ 313 002c 00F2E280 		bhi	.L94
+ 314 0030 DFE810F0 		tbh	[pc, r0, lsl #1]
+ 315              	.L95:
+ 316 0034 D100     		.2byte	(.L86-.L95)/2
+ 317 0036 6100     		.2byte	(.L87-.L95)/2
+ 318 0038 6E00     		.2byte	(.L88-.L95)/2
+ 319 003a 5400     		.2byte	(.L89-.L95)/2
+ 320 003c 3F00     		.2byte	(.L90-.L95)/2
+ 321 003e 7900     		.2byte	(.L91-.L95)/2
+ 322 0040 8600     		.2byte	(.L92-.L95)/2
+ 323 0042 E000     		.2byte	(.L94-.L95)/2
+ 324 0044 9900     		.2byte	(.L96-.L95)/2
+ 325              		.p2align 1
+ 326              	.L118:
+ 327 0046 0023     		movs	r3, #0
+ 328              	.L69:
+ 329 0048 8D4A     		ldr	r2, .L125+4
+ 330 004a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 331 004c 5507     		lsls	r5, r2, #29
+ 332 004e 0AD1     		bne	.L74
+ 333 0050 8C4A     		ldr	r2, .L125+8
+ 334 0052 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 335 0054 D107     		lsls	r1, r2, #31
+ 336 0056 06D5     		bpl	.L74
+ 337              	.L75:
+ 338 0058 8B4D     		ldr	r5, .L125+12
+ 339 005a 0122     		movs	r2, #1
+ 340 005c 2978     		ldrb	r1, [r5]	@ zero_extendqisi2
+ 341 005e 01F0FD01 		and	r1, r1, #253
+ 342 0062 2970     		strb	r1, [r5]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 7
+
+
+ 343 0064 07E0     		b	.L76
+ 344              	.L74:
+ 345 0066 864A     		ldr	r2, .L125+4
+ 346 0068 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 347 006a 02F00702 		and	r2, r2, #7
+ 348 006e 012A     		cmp	r2, #1
+ 349 0070 00F0B980 		beq	.L122
+ 350 0074 0022     		movs	r2, #0
+ 351              	.L76:
+ 352 0076 0828     		cmp	r0, #8
+ 353 0078 D7D8     		bhi	.L73
+ 354 007a 01A1     		adr	r1, .L78
+ 355 007c 51F820F0 		ldr	pc, [r1, r0, lsl #2]
+ 356              		.p2align 2
+ 357              	.L78:
+ 358 0080 CD010000 		.word	.L77+1
+ 359 0084 ED000000 		.word	.L79+1
+ 360 0088 07010000 		.word	.L80+1
+ 361 008c D3000000 		.word	.L81+1
+ 362 0090 A9000000 		.word	.L82+1
+ 363 0094 1D010000 		.word	.L83+1
+ 364 0098 37010000 		.word	.L84+1
+ 365 009c 2B000000 		.word	.L73+1
+ 366 00a0 51010000 		.word	.L85+1
+ 367              		.p2align 1
+ 368              	.L68:
+ 369 00a4 0323     		movs	r3, #3
+ 370 00a6 BEE7     		b	.L65
+ 371              	.L82:
+ 372 00a8 784A     		ldr	r2, .L125+16
+ 373 00aa 7949     		ldr	r1, .L125+20
+ 374 00ac 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 375 00ae D2B2     		uxtb	r2, r2
+ 376 00b0 0A70     		strb	r2, [r1]
+ 377              	.L90:
+ 378 00b2 7249     		ldr	r1, .L125
+ 379 00b4 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 380 00b6 02F0B802 		and	r2, r2, #184
+ 381 00ba 42F00402 		orr	r2, r2, #4
+ 382 00be 0A70     		strb	r2, [r1]
+ 383              	.L99:
+ 384 00c0 6E49     		ldr	r1, .L125
+ 385 00c2 9C42     		cmp	r4, r3
+ 386 00c4 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 387 00c6 02F0EF02 		and	r2, r2, #239
+ 388 00ca 0A70     		strb	r2, [r1]
+ 389 00cc 59D3     		bcc	.L123
+ 390              	.L62:
+ 391 00ce 30BC     		pop	{r4, r5}
+ 392 00d0 7047     		bx	lr
+ 393              	.L81:
+ 394 00d2 704A     		ldr	r2, .L125+24
+ 395 00d4 6E49     		ldr	r1, .L125+20
+ 396 00d6 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 397 00d8 D2B2     		uxtb	r2, r2
+ 398 00da 0A70     		strb	r2, [r1]
+ 399              	.L89:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 8
+
+
+ 400 00dc 6749     		ldr	r1, .L125
+ 401 00de 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 402 00e0 02F0B802 		and	r2, r2, #184
+ 403 00e4 42F00202 		orr	r2, r2, #2
+ 404 00e8 0A70     		strb	r2, [r1]
+ 405 00ea E9E7     		b	.L99
+ 406              	.L79:
+ 407 00ec 6A4A     		ldr	r2, .L125+28
+ 408 00ee 6849     		ldr	r1, .L125+20
+ 409 00f0 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 410 00f2 D2B2     		uxtb	r2, r2
+ 411 00f4 0A70     		strb	r2, [r1]
+ 412              	.L87:
+ 413 00f6 6149     		ldr	r1, .L125
+ 414 00f8 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 415 00fa 02F0B802 		and	r2, r2, #184
+ 416 00fe 42F00102 		orr	r2, r2, #1
+ 417 0102 0A70     		strb	r2, [r1]
+ 418 0104 DCE7     		b	.L99
+ 419              	.L80:
+ 420 0106 654A     		ldr	r2, .L125+32
+ 421 0108 6149     		ldr	r1, .L125+20
+ 422 010a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 423 010c D2B2     		uxtb	r2, r2
+ 424 010e 0A70     		strb	r2, [r1]
+ 425              	.L88:
+ 426 0110 5A49     		ldr	r1, .L125
+ 427 0112 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 428 0114 02F0B802 		and	r2, r2, #184
+ 429 0118 0A70     		strb	r2, [r1]
+ 430 011a D1E7     		b	.L99
+ 431              	.L83:
+ 432 011c 604A     		ldr	r2, .L125+36
+ 433 011e 5C49     		ldr	r1, .L125+20
+ 434 0120 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 435 0122 D2B2     		uxtb	r2, r2
+ 436 0124 0A70     		strb	r2, [r1]
+ 437              	.L91:
+ 438 0126 5549     		ldr	r1, .L125
+ 439 0128 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 440 012a 02F0B802 		and	r2, r2, #184
+ 441 012e 42F00502 		orr	r2, r2, #5
+ 442 0132 0A70     		strb	r2, [r1]
+ 443 0134 C4E7     		b	.L99
+ 444              	.L84:
+ 445 0136 5B4A     		ldr	r2, .L125+40
+ 446 0138 5549     		ldr	r1, .L125+20
+ 447 013a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 448 013c D2B2     		uxtb	r2, r2
+ 449 013e 0A70     		strb	r2, [r1]
+ 450              	.L92:
+ 451 0140 4E49     		ldr	r1, .L125
+ 452 0142 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 453 0144 02F0B802 		and	r2, r2, #184
+ 454 0148 42F00602 		orr	r2, r2, #6
+ 455 014c 0A70     		strb	r2, [r1]
+ 456 014e B7E7     		b	.L99
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 9
+
+
+ 457              	.L85:
+ 458 0150 5549     		ldr	r1, .L125+44
+ 459 0152 4F4D     		ldr	r5, .L125+20
+ 460 0154 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+ 461 0156 C9B2     		uxtb	r1, r1
+ 462 0158 2970     		strb	r1, [r5]
+ 463 015a 22B1     		cbz	r2, .L96
+ 464 015c 4A49     		ldr	r1, .L125+12
+ 465 015e 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 466 0160 42F00202 		orr	r2, r2, #2
+ 467 0164 0A70     		strb	r2, [r1]
+ 468              	.L96:
+ 469 0166 4549     		ldr	r1, .L125
+ 470 0168 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 471 016a 02F0B802 		and	r2, r2, #184
+ 472 016e 42F04202 		orr	r2, r2, #66
+ 473 0172 0A70     		strb	r2, [r1]
+ 474              	.L98:
+ 475 0174 4149     		ldr	r1, .L125
+ 476 0176 9C42     		cmp	r4, r3
+ 477 0178 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 478 017a 42F01002 		orr	r2, r2, #16
+ 479 017e 0A70     		strb	r2, [r1]
+ 480 0180 A5D2     		bcs	.L62
+ 481              	.L123:
+ 482 0182 3F4B     		ldr	r3, .L125+4
+ 483 0184 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 484 0186 5A07     		lsls	r2, r3, #29
+ 485 0188 37D1     		bne	.L103
+ 486 018a 3E4B     		ldr	r3, .L125+8
+ 487 018c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 488 018e DB07     		lsls	r3, r3, #31
+ 489 0190 33D5     		bpl	.L103
+ 490              	.L104:
+ 491 0192 3D49     		ldr	r1, .L125+12
+ 492 0194 0123     		movs	r3, #1
+ 493 0196 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 494 0198 02F0FD02 		and	r2, r2, #253
+ 495 019c 0A70     		strb	r2, [r1]
+ 496              	.L105:
+ 497 019e 0828     		cmp	r0, #8
+ 498 01a0 95D8     		bhi	.L62
+ 499 01a2 01A2     		adr	r2, .L107
+ 500 01a4 52F820F0 		ldr	pc, [r2, r0, lsl #2]
+ 501              		.p2align 2
+ 502              	.L107:
+ 503 01a8 B5020000 		.word	.L106+1
+ 504 01ac 6F020000 		.word	.L108+1
+ 505 01b0 63020000 		.word	.L109+1
+ 506 01b4 57020000 		.word	.L110+1
+ 507 01b8 4B020000 		.word	.L111+1
+ 508 01bc 3F020000 		.word	.L112+1
+ 509 01c0 33020000 		.word	.L113+1
+ 510 01c4 CF000000 		.word	.L62+1
+ 511 01c8 17020000 		.word	.L114+1
+ 512              		.p2align 1
+ 513              	.L77:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 10
+
+
+ 514 01cc 374A     		ldr	r2, .L125+48
+ 515 01ce 3049     		ldr	r1, .L125+20
+ 516 01d0 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 517 01d2 D2B2     		uxtb	r2, r2
+ 518 01d4 0A70     		strb	r2, [r1]
+ 519              	.L86:
+ 520 01d6 2949     		ldr	r1, .L125
+ 521 01d8 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 522 01da 02F0B802 		and	r2, r2, #184
+ 523 01de 42F00302 		orr	r2, r2, #3
+ 524 01e2 0A70     		strb	r2, [r1]
+ 525 01e4 6CE7     		b	.L99
+ 526              	.L122:
+ 527 01e6 324A     		ldr	r2, .L125+52
+ 528 01e8 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 529 01ea 12F00102 		ands	r2, r2, #1
+ 530 01ee 7FF433AF 		bne	.L75
+ 531 01f2 40E7     		b	.L76
+ 532              	.L94:
+ 533 01f4 0828     		cmp	r0, #8
+ 534 01f6 BDD0     		beq	.L98
+ 535 01f8 62E7     		b	.L99
+ 536              	.L103:
+ 537 01fa 214B     		ldr	r3, .L125+4
+ 538 01fc 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 539 01fe 03F00703 		and	r3, r3, #7
+ 540 0202 012B     		cmp	r3, #1
+ 541 0204 01D0     		beq	.L124
+ 542 0206 0023     		movs	r3, #0
+ 543 0208 C9E7     		b	.L105
+ 544              	.L124:
+ 545 020a 294B     		ldr	r3, .L125+52
+ 546 020c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 547 020e 13F00103 		ands	r3, r3, #1
+ 548 0212 BED1     		bne	.L104
+ 549 0214 C3E7     		b	.L105
+ 550              	.L114:
+ 551 0216 244A     		ldr	r2, .L125+44
+ 552 0218 1D49     		ldr	r1, .L125+20
+ 553 021a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 554 021c D2B2     		uxtb	r2, r2
+ 555 021e 0A70     		strb	r2, [r1]
+ 556 0220 002B     		cmp	r3, #0
+ 557 0222 3FF454AF 		beq	.L62
+ 558 0226 184A     		ldr	r2, .L125+12
+ 559 0228 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 560 022a 43F00203 		orr	r3, r3, #2
+ 561 022e 1370     		strb	r3, [r2]
+ 562 0230 4DE7     		b	.L62
+ 563              	.L113:
+ 564 0232 1C4B     		ldr	r3, .L125+40
+ 565 0234 164A     		ldr	r2, .L125+20
+ 566 0236 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 567 0238 DBB2     		uxtb	r3, r3
+ 568 023a 1370     		strb	r3, [r2]
+ 569 023c 47E7     		b	.L62
+ 570              	.L112:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 11
+
+
+ 571 023e 184B     		ldr	r3, .L125+36
+ 572 0240 134A     		ldr	r2, .L125+20
+ 573 0242 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 574 0244 DBB2     		uxtb	r3, r3
+ 575 0246 1370     		strb	r3, [r2]
+ 576 0248 41E7     		b	.L62
+ 577              	.L111:
+ 578 024a 104B     		ldr	r3, .L125+16
+ 579 024c 104A     		ldr	r2, .L125+20
+ 580 024e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 581 0250 DBB2     		uxtb	r3, r3
+ 582 0252 1370     		strb	r3, [r2]
+ 583 0254 3BE7     		b	.L62
+ 584              	.L110:
+ 585 0256 0F4B     		ldr	r3, .L125+24
+ 586 0258 0D4A     		ldr	r2, .L125+20
+ 587 025a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 588 025c DBB2     		uxtb	r3, r3
+ 589 025e 1370     		strb	r3, [r2]
+ 590 0260 35E7     		b	.L62
+ 591              	.L109:
+ 592 0262 0E4B     		ldr	r3, .L125+32
+ 593 0264 0A4A     		ldr	r2, .L125+20
+ 594 0266 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 595 0268 DBB2     		uxtb	r3, r3
+ 596 026a 1370     		strb	r3, [r2]
+ 597 026c 2FE7     		b	.L62
+ 598              	.L108:
+ 599 026e 0A4B     		ldr	r3, .L125+28
+ 600 0270 074A     		ldr	r2, .L125+20
+ 601 0272 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 602 0274 DBB2     		uxtb	r3, r3
+ 603 0276 1370     		strb	r3, [r2]
+ 604 0278 29E7     		b	.L62
+ 605              	.L126:
+ 606 027a 00BF     		.align	2
+ 607              	.L125:
+ 608 027c 00420040 		.word	1073758720
+ 609 0280 93430040 		.word	1073759123
+ 610 0284 A5430040 		.word	1073759141
+ 611 0288 09600040 		.word	1073766409
+ 612 028c 89010049 		.word	1224737161
+ 613 0290 A1460040 		.word	1073759905
+ 614 0294 0B010049 		.word	1224737035
+ 615 0298 09010049 		.word	1224737033
+ 616 029c 0A010049 		.word	1224737034
+ 617 02a0 0C010049 		.word	1224737036
+ 618 02a4 0D010049 		.word	1224737037
+ 619 02a8 0F010049 		.word	1224737039
+ 620 02ac 08010049 		.word	1224737032
+ 621 02b0 B5430040 		.word	1073759157
+ 622              	.L106:
+ 623 02b4 024B     		ldr	r3, .L127
+ 624 02b6 034A     		ldr	r2, .L127+4
+ 625 02b8 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 626 02ba DBB2     		uxtb	r3, r3
+ 627 02bc 1370     		strb	r3, [r2]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 12
+
+
+ 628 02be 06E7     		b	.L62
+ 629              	.L128:
+ 630              		.align	2
+ 631              	.L127:
+ 632 02c0 08010049 		.word	1224737032
+ 633 02c4 A1460040 		.word	1073759905
+ 634              		.size	CyIMO_SetFreq, .-CyIMO_SetFreq
+ 635              		.section	.text.CyIMO_SetSource,"ax",%progbits
+ 636              		.align	2
+ 637              		.global	CyIMO_SetSource
+ 638              		.thumb
+ 639              		.thumb_func
+ 640              		.type	CyIMO_SetSource, %function
+ 641              	CyIMO_SetSource:
+ 642              		@ args = 0, pretend = 0, frame = 0
+ 643              		@ frame_needed = 0, uses_anonymous_args = 0
+ 644              		@ link register save eliminated.
+ 645 0000 0128     		cmp	r0, #1
+ 646 0002 14D0     		beq	.L131
+ 647 0004 0DD3     		bcc	.L132
+ 648 0006 0228     		cmp	r0, #2
+ 649 0008 10D1     		bne	.L129
+ 650 000a 4FF04021 		mov	r1, #1073758208
+ 651 000e 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 652 0010 0D4A     		ldr	r2, .L134
+ 653 0012 03F0BF03 		and	r3, r3, #191
+ 654 0016 0B70     		strb	r3, [r1]
+ 655 0018 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 656 001a 43F02003 		orr	r3, r3, #32
+ 657 001e 1370     		strb	r3, [r2]
+ 658 0020 7047     		bx	lr
+ 659              	.L132:
+ 660 0022 094A     		ldr	r2, .L134
+ 661 0024 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 662 0026 03F0DF03 		and	r3, r3, #223
+ 663 002a 1370     		strb	r3, [r2]
+ 664              	.L129:
+ 665 002c 7047     		bx	lr
+ 666              	.L131:
+ 667 002e 4FF04021 		mov	r1, #1073758208
+ 668 0032 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 669 0034 044A     		ldr	r2, .L134
+ 670 0036 43F04003 		orr	r3, r3, #64
+ 671 003a 0B70     		strb	r3, [r1]
+ 672 003c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 673 003e 43F02003 		orr	r3, r3, #32
+ 674 0042 1370     		strb	r3, [r2]
+ 675 0044 7047     		bx	lr
+ 676              	.L135:
+ 677 0046 00BF     		.align	2
+ 678              	.L134:
+ 679 0048 00420040 		.word	1073758720
+ 680              		.size	CyIMO_SetSource, .-CyIMO_SetSource
+ 681              		.section	.text.CyIMO_EnableDoubler,"ax",%progbits
+ 682              		.align	2
+ 683              		.global	CyIMO_EnableDoubler
+ 684              		.thumb
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 13
+
+
+ 685              		.thumb_func
+ 686              		.type	CyIMO_EnableDoubler, %function
+ 687              	CyIMO_EnableDoubler:
+ 688              		@ args = 0, pretend = 0, frame = 0
+ 689              		@ frame_needed = 0, uses_anonymous_args = 0
+ 690              		@ link register save eliminated.
+ 691 0000 024A     		ldr	r2, .L137
+ 692 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 693 0004 43F01003 		orr	r3, r3, #16
+ 694 0008 1370     		strb	r3, [r2]
+ 695 000a 7047     		bx	lr
+ 696              	.L138:
+ 697              		.align	2
+ 698              	.L137:
+ 699 000c 00420040 		.word	1073758720
+ 700              		.size	CyIMO_EnableDoubler, .-CyIMO_EnableDoubler
+ 701              		.section	.text.CyIMO_DisableDoubler,"ax",%progbits
+ 702              		.align	2
+ 703              		.global	CyIMO_DisableDoubler
+ 704              		.thumb
+ 705              		.thumb_func
+ 706              		.type	CyIMO_DisableDoubler, %function
+ 707              	CyIMO_DisableDoubler:
+ 708              		@ args = 0, pretend = 0, frame = 0
+ 709              		@ frame_needed = 0, uses_anonymous_args = 0
+ 710              		@ link register save eliminated.
+ 711 0000 024A     		ldr	r2, .L140
+ 712 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 713 0004 03F0EF03 		and	r3, r3, #239
+ 714 0008 1370     		strb	r3, [r2]
+ 715 000a 7047     		bx	lr
+ 716              	.L141:
+ 717              		.align	2
+ 718              	.L140:
+ 719 000c 00420040 		.word	1073758720
+ 720              		.size	CyIMO_DisableDoubler, .-CyIMO_DisableDoubler
+ 721              		.section	.text.CyMasterClk_SetSource,"ax",%progbits
+ 722              		.align	2
+ 723              		.global	CyMasterClk_SetSource
+ 724              		.thumb
+ 725              		.thumb_func
+ 726              		.type	CyMasterClk_SetSource, %function
+ 727              	CyMasterClk_SetSource:
+ 728              		@ args = 0, pretend = 0, frame = 0
+ 729              		@ frame_needed = 0, uses_anonymous_args = 0
+ 730              		@ link register save eliminated.
+ 731 0000 044A     		ldr	r2, .L143
+ 732 0002 00F00300 		and	r0, r0, #3
+ 733 0006 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 734 0008 03F0FC03 		and	r3, r3, #252
+ 735 000c 1843     		orrs	r0, r0, r3
+ 736 000e 1070     		strb	r0, [r2]
+ 737 0010 7047     		bx	lr
+ 738              	.L144:
+ 739 0012 00BF     		.align	2
+ 740              	.L143:
+ 741 0014 05400040 		.word	1073758213
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 14
+
+
+ 742              		.size	CyMasterClk_SetSource, .-CyMasterClk_SetSource
+ 743              		.section	.text.CyMasterClk_SetDivider,"ax",%progbits
+ 744              		.align	2
+ 745              		.global	CyMasterClk_SetDivider
+ 746              		.thumb
+ 747              		.thumb_func
+ 748              		.type	CyMasterClk_SetDivider, %function
+ 749              	CyMasterClk_SetDivider:
+ 750              		@ args = 0, pretend = 0, frame = 0
+ 751              		@ frame_needed = 0, uses_anonymous_args = 0
+ 752              		@ link register save eliminated.
+ 753 0000 014B     		ldr	r3, .L146
+ 754 0002 1870     		strb	r0, [r3]
+ 755 0004 7047     		bx	lr
+ 756              	.L147:
+ 757 0006 00BF     		.align	2
+ 758              	.L146:
+ 759 0008 04400040 		.word	1073758212
+ 760              		.size	CyMasterClk_SetDivider, .-CyMasterClk_SetDivider
+ 761              		.section	.text.CyBusClk_SetDivider,"ax",%progbits
+ 762              		.align	2
+ 763              		.global	CyBusClk_SetDivider
+ 764              		.thumb
+ 765              		.thumb_func
+ 766              		.type	CyBusClk_SetDivider, %function
+ 767              	CyBusClk_SetDivider:
+ 768              		@ args = 0, pretend = 0, frame = 0
+ 769              		@ frame_needed = 0, uses_anonymous_args = 0
+ 770 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 771 0002 0446     		mov	r4, r0
+ 772 0004 FFF7FEFF 		bl	CyEnterCriticalSection
+ 773 0008 3A4A     		ldr	r2, .L164
+ 774 000a 3B4B     		ldr	r3, .L164+4
+ 775 000c 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 776 000e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 777 0010 4CB3     		cbz	r4, .L149
+ 778 0012 D2B2     		uxtb	r2, r2
+ 779 0014 DBB2     		uxtb	r3, r3
+ 780 0016 53EA0223 		orrs	r3, r3, r2, lsl #8
+ 781 001a 4CD1     		bne	.L162
+ 782 001c 374A     		ldr	r2, .L164+8
+ 783 001e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 784 0020 DBB2     		uxtb	r3, r3
+ 785 0022 062B     		cmp	r3, #6
+ 786 0024 63D9     		bls	.L163
+ 787              	.L157:
+ 788 0026 364D     		ldr	r5, .L164+12
+ 789 0028 364E     		ldr	r6, .L164+16
+ 790 002a 2978     		ldrb	r1, [r5]	@ zero_extendqisi2
+ 791 002c 364A     		ldr	r2, .L164+20
+ 792 002e 0027     		movs	r7, #0
+ 793 0030 01F0F001 		and	r1, r1, #240
+ 794 0034 2970     		strb	r1, [r5]
+ 795 0036 3770     		strb	r7, [r6]
+ 796 0038 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 797 003a 344F     		ldr	r7, .L164+24
+ 798 003c 41F08001 		orr	r1, r1, #128
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 15
+
+
+ 799 0040 5FFA84FE 		uxtb	lr, r4
+ 800 0044 240A     		lsrs	r4, r4, #8
+ 801 0046 1170     		strb	r1, [r2]
+ 802 0048 87F800E0 		strb	lr, [r7]
+ 803 004c 06F80D4C 		strb	r4, [r6, #-13]
+ 804 0050 15F8131C 		ldrb	r1, [r5, #-19]	@ zero_extendqisi2
+ 805 0054 41F00101 		orr	r1, r1, #1
+ 806 0058 05F8131C 		strb	r1, [r5, #-19]
+ 807 005c 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 808 005e 01F0BF01 		and	r1, r1, #191
+ 809 0062 1170     		strb	r1, [r2]
+ 810 0064 21E0     		b	.L152
+ 811              	.L149:
+ 812 0066 254A     		ldr	r2, .L164+8
+ 813 0068 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 814 006a DBB2     		uxtb	r3, r3
+ 815 006c 062B     		cmp	r3, #6
+ 816 006e 01D8     		bhi	.L155
+ 817 0070 0721     		movs	r1, #7
+ 818 0072 1170     		strb	r1, [r2]
+ 819              	.L155:
+ 820 0074 244A     		ldr	r2, .L164+20
+ 821 0076 224D     		ldr	r5, .L164+12
+ 822 0078 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 823 007a 224E     		ldr	r6, .L164+16
+ 824 007c 41F04001 		orr	r1, r1, #64
+ 825 0080 1170     		strb	r1, [r2]
+ 826 0082 2C78     		ldrb	r4, [r5]	@ zero_extendqisi2
+ 827 0084 0021     		movs	r1, #0
+ 828 0086 04F0F004 		and	r4, r4, #240
+ 829 008a 2C70     		strb	r4, [r5]
+ 830 008c 3170     		strb	r1, [r6]
+ 831 008e 1478     		ldrb	r4, [r2]	@ zero_extendqisi2
+ 832 0090 1E4F     		ldr	r7, .L164+24
+ 833 0092 44F08004 		orr	r4, r4, #128
+ 834 0096 1470     		strb	r4, [r2]
+ 835 0098 3970     		strb	r1, [r7]
+ 836 009a 06F80D1C 		strb	r1, [r6, #-13]
+ 837 009e 15F8132C 		ldrb	r2, [r5, #-19]	@ zero_extendqisi2
+ 838 00a2 42F00102 		orr	r2, r2, #1
+ 839 00a6 05F8132C 		strb	r2, [r5, #-19]
+ 840              	.L152:
+ 841 00aa 144A     		ldr	r2, .L164+8
+ 842 00ac 1370     		strb	r3, [r2]
+ 843 00ae BDE8F840 		pop	{r3, r4, r5, r6, r7, lr}
+ 844 00b2 FFF7FEBF 		b	CyExitCriticalSection
+ 845              	.L162:
+ 846 00b6 124A     		ldr	r2, .L164+12
+ 847 00b8 124D     		ldr	r5, .L164+16
+ 848 00ba 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 849 00bc 0026     		movs	r6, #0
+ 850 00be 03F0F003 		and	r3, r3, #240
+ 851 00c2 1149     		ldr	r1, .L164+20
+ 852 00c4 1370     		strb	r3, [r2]
+ 853 00c6 2E70     		strb	r6, [r5]
+ 854 00c8 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 855 00ca 104E     		ldr	r6, .L164+24
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 16
+
+
+ 856 00cc E7B2     		uxtb	r7, r4
+ 857 00ce 43F08003 		orr	r3, r3, #128
+ 858 00d2 240A     		lsrs	r4, r4, #8
+ 859 00d4 0B70     		strb	r3, [r1]
+ 860 00d6 133A     		subs	r2, r2, #19
+ 861 00d8 3770     		strb	r7, [r6]
+ 862 00da 05F80D4C 		strb	r4, [r5, #-13]
+ 863 00de 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 864 00e0 43F00103 		orr	r3, r3, #1
+ 865 00e4 1370     		strb	r3, [r2]
+ 866 00e6 BDE8F840 		pop	{r3, r4, r5, r6, r7, lr}
+ 867 00ea FFF7FEBF 		b	CyExitCriticalSection
+ 868              	.L163:
+ 869 00ee 0721     		movs	r1, #7
+ 870 00f0 1170     		strb	r1, [r2]
+ 871 00f2 98E7     		b	.L157
+ 872              	.L165:
+ 873              		.align	2
+ 874              	.L164:
+ 875 00f4 07400040 		.word	1073758215
+ 876 00f8 06400040 		.word	1073758214
+ 877 00fc 04400040 		.word	1073758212
+ 878 0100 14400040 		.word	1073758228
+ 879 0104 10400040 		.word	1073758224
+ 880 0108 08400040 		.word	1073758216
+ 881 010c 02400040 		.word	1073758210
+ 882              		.size	CyBusClk_SetDivider, .-CyBusClk_SetDivider
+ 883              		.section	.text.CyUsbClk_SetSource,"ax",%progbits
+ 884              		.align	2
+ 885              		.global	CyUsbClk_SetSource
+ 886              		.thumb
+ 887              		.thumb_func
+ 888              		.type	CyUsbClk_SetSource, %function
+ 889              	CyUsbClk_SetSource:
+ 890              		@ args = 0, pretend = 0, frame = 0
+ 891              		@ frame_needed = 0, uses_anonymous_args = 0
+ 892              		@ link register save eliminated.
+ 893 0000 044A     		ldr	r2, .L167
+ 894 0002 00F00300 		and	r0, r0, #3
+ 895 0006 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 896 0008 03F0FC03 		and	r3, r3, #252
+ 897 000c 1843     		orrs	r0, r0, r3
+ 898 000e 1070     		strb	r0, [r2]
+ 899 0010 7047     		bx	lr
+ 900              	.L168:
+ 901 0012 00BF     		.align	2
+ 902              	.L167:
+ 903 0014 09400040 		.word	1073758217
+ 904              		.size	CyUsbClk_SetSource, .-CyUsbClk_SetSource
+ 905              		.section	.text.CyILO_Start1K,"ax",%progbits
+ 906              		.align	2
+ 907              		.global	CyILO_Start1K
+ 908              		.thumb
+ 909              		.thumb_func
+ 910              		.type	CyILO_Start1K, %function
+ 911              	CyILO_Start1K:
+ 912              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 17
+
+
+ 913              		@ frame_needed = 0, uses_anonymous_args = 0
+ 914              		@ link register save eliminated.
+ 915 0000 024A     		ldr	r2, .L170
+ 916 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 917 0004 43F00203 		orr	r3, r3, #2
+ 918 0008 1370     		strb	r3, [r2]
+ 919 000a 7047     		bx	lr
+ 920              	.L171:
+ 921              		.align	2
+ 922              	.L170:
+ 923 000c 00430040 		.word	1073758976
+ 924              		.size	CyILO_Start1K, .-CyILO_Start1K
+ 925              		.section	.text.CyILO_Stop1K,"ax",%progbits
+ 926              		.align	2
+ 927              		.global	CyILO_Stop1K
+ 928              		.thumb
+ 929              		.thumb_func
+ 930              		.type	CyILO_Stop1K, %function
+ 931              	CyILO_Stop1K:
+ 932              		@ args = 0, pretend = 0, frame = 0
+ 933              		@ frame_needed = 0, uses_anonymous_args = 0
+ 934              		@ link register save eliminated.
+ 935 0000 024A     		ldr	r2, .L173
+ 936 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 937 0004 03F0FD03 		and	r3, r3, #253
+ 938 0008 1370     		strb	r3, [r2]
+ 939 000a 7047     		bx	lr
+ 940              	.L174:
+ 941              		.align	2
+ 942              	.L173:
+ 943 000c 00430040 		.word	1073758976
+ 944              		.size	CyILO_Stop1K, .-CyILO_Stop1K
+ 945              		.section	.text.CyILO_Start100K,"ax",%progbits
+ 946              		.align	2
+ 947              		.global	CyILO_Start100K
+ 948              		.thumb
+ 949              		.thumb_func
+ 950              		.type	CyILO_Start100K, %function
+ 951              	CyILO_Start100K:
+ 952              		@ args = 0, pretend = 0, frame = 0
+ 953              		@ frame_needed = 0, uses_anonymous_args = 0
+ 954              		@ link register save eliminated.
+ 955 0000 024A     		ldr	r2, .L176
+ 956 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 957 0004 43F00403 		orr	r3, r3, #4
+ 958 0008 1370     		strb	r3, [r2]
+ 959 000a 7047     		bx	lr
+ 960              	.L177:
+ 961              		.align	2
+ 962              	.L176:
+ 963 000c 00430040 		.word	1073758976
+ 964              		.size	CyILO_Start100K, .-CyILO_Start100K
+ 965              		.section	.text.CyILO_Stop100K,"ax",%progbits
+ 966              		.align	2
+ 967              		.global	CyILO_Stop100K
+ 968              		.thumb
+ 969              		.thumb_func
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 18
+
+
+ 970              		.type	CyILO_Stop100K, %function
+ 971              	CyILO_Stop100K:
+ 972              		@ args = 0, pretend = 0, frame = 0
+ 973              		@ frame_needed = 0, uses_anonymous_args = 0
+ 974              		@ link register save eliminated.
+ 975 0000 024A     		ldr	r2, .L179
+ 976 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 977 0004 03F0FB03 		and	r3, r3, #251
+ 978 0008 1370     		strb	r3, [r2]
+ 979 000a 7047     		bx	lr
+ 980              	.L180:
+ 981              		.align	2
+ 982              	.L179:
+ 983 000c 00430040 		.word	1073758976
+ 984              		.size	CyILO_Stop100K, .-CyILO_Stop100K
+ 985              		.section	.text.CyILO_Enable33K,"ax",%progbits
+ 986              		.align	2
+ 987              		.global	CyILO_Enable33K
+ 988              		.thumb
+ 989              		.thumb_func
+ 990              		.type	CyILO_Enable33K, %function
+ 991              	CyILO_Enable33K:
+ 992              		@ args = 0, pretend = 0, frame = 0
+ 993              		@ frame_needed = 0, uses_anonymous_args = 0
+ 994              		@ link register save eliminated.
+ 995 0000 024A     		ldr	r2, .L182
+ 996 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 997 0004 43F02003 		orr	r3, r3, #32
+ 998 0008 1370     		strb	r3, [r2]
+ 999 000a 7047     		bx	lr
+ 1000              	.L183:
+ 1001              		.align	2
+ 1002              	.L182:
+ 1003 000c 00430040 		.word	1073758976
+ 1004              		.size	CyILO_Enable33K, .-CyILO_Enable33K
+ 1005              		.section	.text.CyILO_Disable33K,"ax",%progbits
+ 1006              		.align	2
+ 1007              		.global	CyILO_Disable33K
+ 1008              		.thumb
+ 1009              		.thumb_func
+ 1010              		.type	CyILO_Disable33K, %function
+ 1011              	CyILO_Disable33K:
+ 1012              		@ args = 0, pretend = 0, frame = 0
+ 1013              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1014              		@ link register save eliminated.
+ 1015 0000 024A     		ldr	r2, .L185
+ 1016 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1017 0004 03F0DF03 		and	r3, r3, #223
+ 1018 0008 1370     		strb	r3, [r2]
+ 1019 000a 7047     		bx	lr
+ 1020              	.L186:
+ 1021              		.align	2
+ 1022              	.L185:
+ 1023 000c 00430040 		.word	1073758976
+ 1024              		.size	CyILO_Disable33K, .-CyILO_Disable33K
+ 1025              		.section	.text.CyILO_SetSource,"ax",%progbits
+ 1026              		.align	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 19
+
+
+ 1027              		.global	CyILO_SetSource
+ 1028              		.thumb
+ 1029              		.thumb_func
+ 1030              		.type	CyILO_SetSource, %function
+ 1031              	CyILO_SetSource:
+ 1032              		@ args = 0, pretend = 0, frame = 0
+ 1033              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1034              		@ link register save eliminated.
+ 1035 0000 4FF04022 		mov	r2, #1073758208
+ 1036 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1037 0006 8000     		lsls	r0, r0, #2
+ 1038 0008 00F00C00 		and	r0, r0, #12
+ 1039 000c 03F0F303 		and	r3, r3, #243
+ 1040 0010 0343     		orrs	r3, r3, r0
+ 1041 0012 1370     		strb	r3, [r2]
+ 1042 0014 7047     		bx	lr
+ 1043              		.size	CyILO_SetSource, .-CyILO_SetSource
+ 1044 0016 00BF     		.section	.text.CyILO_SetPowerMode,"ax",%progbits
+ 1045              		.align	2
+ 1046              		.global	CyILO_SetPowerMode
+ 1047              		.thumb
+ 1048              		.thumb_func
+ 1049              		.type	CyILO_SetPowerMode, %function
+ 1050              	CyILO_SetPowerMode:
+ 1051              		@ args = 0, pretend = 0, frame = 0
+ 1052              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1053              		@ link register save eliminated.
+ 1054 0000 074A     		ldr	r2, .L192
+ 1055 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1056 0004 DBB2     		uxtb	r3, r3
+ 1057 0006 28B9     		cbnz	r0, .L191
+ 1058 0008 03F0EF01 		and	r1, r3, #239
+ 1059 000c 1170     		strb	r1, [r2]
+ 1060 000e C3F30010 		ubfx	r0, r3, #4, #1
+ 1061 0012 7047     		bx	lr
+ 1062              	.L191:
+ 1063 0014 43F01001 		orr	r1, r3, #16
+ 1064 0018 1170     		strb	r1, [r2]
+ 1065 001a C3F30010 		ubfx	r0, r3, #4, #1
+ 1066 001e 7047     		bx	lr
+ 1067              	.L193:
+ 1068              		.align	2
+ 1069              	.L192:
+ 1070 0020 00430040 		.word	1073758976
+ 1071              		.size	CyILO_SetPowerMode, .-CyILO_SetPowerMode
+ 1072              		.section	.text.CyXTAL_32KHZ_Start,"ax",%progbits
+ 1073              		.align	2
+ 1074              		.global	CyXTAL_32KHZ_Start
+ 1075              		.thumb
+ 1076              		.thumb_func
+ 1077              		.type	CyXTAL_32KHZ_Start, %function
+ 1078              	CyXTAL_32KHZ_Start:
+ 1079              		@ args = 0, pretend = 0, frame = 8
+ 1080              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1081 0000 70B5     		push	{r4, r5, r6, lr}
+ 1082 0002 274B     		ldr	r3, .L203
+ 1083 0004 2748     		ldr	r0, .L203+4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 20
+
+
+ 1084 0006 284A     		ldr	r2, .L203+8
+ 1085 0008 F324     		movs	r4, #243
+ 1086 000a 0321     		movs	r1, #3
+ 1087 000c 0470     		strb	r4, [r0]
+ 1088 000e 1970     		strb	r1, [r3]
+ 1089 0010 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1090 0012 264C     		ldr	r4, .L203+12
+ 1091 0014 03F0F303 		and	r3, r3, #243
+ 1092 0018 43F00403 		orr	r3, r3, #4
+ 1093 001c 1370     		strb	r3, [r2]
+ 1094 001e 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1095 0020 82B0     		sub	sp, sp, #8
+ 1096 0022 43F00103 		orr	r3, r3, #1
+ 1097 0026 4FF47A72 		mov	r2, #1000
+ 1098 002a 2370     		strb	r3, [r4]
+ 1099 002c ADF80620 		strh	r2, [sp, #6]	@ movhi
+ 1100 0030 BDF80630 		ldrh	r3, [sp, #6]
+ 1101 0034 9BB2     		uxth	r3, r3
+ 1102 0036 ABB1     		cbz	r3, .L194
+ 1103 0038 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1104 003a 1D4D     		ldr	r5, .L203+16
+ 1105 003c 9A06     		lsls	r2, r3, #26
+ 1106 003e 03D5     		bpl	.L197
+ 1107 0040 12E0     		b	.L198
+ 1108              	.L199:
+ 1109 0042 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1110 0044 9B06     		lsls	r3, r3, #26
+ 1111 0046 0FD4     		bmi	.L198
+ 1112              	.L197:
+ 1113 0048 2878     		ldrb	r0, [r5]	@ zero_extendqisi2
+ 1114 004a FFF7FEFF 		bl	CyDelayCycles
+ 1115 004e BDF80630 		ldrh	r3, [sp, #6]
+ 1116 0052 013B     		subs	r3, r3, #1
+ 1117 0054 9BB2     		uxth	r3, r3
+ 1118 0056 ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 1119 005a BDF80630 		ldrh	r3, [sp, #6]
+ 1120 005e 9BB2     		uxth	r3, r3
+ 1121 0060 002B     		cmp	r3, #0
+ 1122 0062 EED1     		bne	.L199
+ 1123              	.L194:
+ 1124 0064 02B0     		add	sp, sp, #8
+ 1125              		@ sp needed
+ 1126 0066 70BD     		pop	{r4, r5, r6, pc}
+ 1127              	.L198:
+ 1128 0068 104C     		ldr	r4, .L203+12
+ 1129 006a 0E49     		ldr	r1, .L203+4
+ 1130 006c 0C4B     		ldr	r3, .L203
+ 1131 006e 0622     		movs	r2, #6
+ 1132 0070 F320     		movs	r0, #243
+ 1133 0072 2678     		ldrb	r6, [r4]	@ zero_extendqisi2
+ 1134 0074 0870     		strb	r0, [r1]
+ 1135 0076 1A70     		strb	r2, [r3]
+ 1136 0078 2878     		ldrb	r0, [r5]	@ zero_extendqisi2
+ 1137 007a 00EB8000 		add	r0, r0, r0, lsl #2
+ 1138 007e 4000     		lsls	r0, r0, #1
+ 1139 0080 FFF7FEFF 		bl	CyDelayCycles
+ 1140 0084 084A     		ldr	r2, .L203+8
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 21
+
+
+ 1141 0086 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1142 0088 03F0F303 		and	r3, r3, #243
+ 1143 008c 43F00403 		orr	r3, r3, #4
+ 1144 0090 1370     		strb	r3, [r2]
+ 1145 0092 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1146 0094 03F0FD03 		and	r3, r3, #253
+ 1147 0098 2370     		strb	r3, [r4]
+ 1148 009a 02B0     		add	sp, sp, #8
+ 1149              		@ sp needed
+ 1150 009c 70BD     		pop	{r4, r5, r6, pc}
+ 1151              	.L204:
+ 1152 009e 00BF     		.align	2
+ 1153              	.L203:
+ 1154 00a0 98460040 		.word	1073759896
+ 1155 00a4 0A430040 		.word	1073758986
+ 1156 00a8 09430040 		.word	1073758985
+ 1157 00ac 08430040 		.word	1073758984
+ 1158 00b0 00000000 		.word	.LANCHOR1
+ 1159              		.size	CyXTAL_32KHZ_Start, .-CyXTAL_32KHZ_Start
+ 1160              		.section	.text.CyXTAL_32KHZ_Stop,"ax",%progbits
+ 1161              		.align	2
+ 1162              		.global	CyXTAL_32KHZ_Stop
+ 1163              		.thumb
+ 1164              		.thumb_func
+ 1165              		.type	CyXTAL_32KHZ_Stop, %function
+ 1166              	CyXTAL_32KHZ_Stop:
+ 1167              		@ args = 0, pretend = 0, frame = 0
+ 1168              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1169              		@ link register save eliminated.
+ 1170 0000 10B4     		push	{r4}
+ 1171 0002 094B     		ldr	r3, .L207
+ 1172 0004 0948     		ldr	r0, .L207+4
+ 1173 0006 F324     		movs	r4, #243
+ 1174 0008 0022     		movs	r2, #0
+ 1175 000a 0949     		ldr	r1, .L207+8
+ 1176 000c 0470     		strb	r4, [r0]
+ 1177 000e 1A70     		strb	r2, [r3]
+ 1178 0010 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 1179 0012 084A     		ldr	r2, .L207+12
+ 1180 0014 2340     		ands	r3, r3, r4
+ 1181 0016 43F00403 		orr	r3, r3, #4
+ 1182 001a 0B70     		strb	r3, [r1]
+ 1183 001c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1184 001e 03F0FC03 		and	r3, r3, #252
+ 1185 0022 1370     		strb	r3, [r2]
+ 1186 0024 10BC     		pop	{r4}
+ 1187 0026 7047     		bx	lr
+ 1188              	.L208:
+ 1189              		.align	2
+ 1190              	.L207:
+ 1191 0028 98460040 		.word	1073759896
+ 1192 002c 0A430040 		.word	1073758986
+ 1193 0030 09430040 		.word	1073758985
+ 1194 0034 08430040 		.word	1073758984
+ 1195              		.size	CyXTAL_32KHZ_Stop, .-CyXTAL_32KHZ_Stop
+ 1196              		.section	.text.CyXTAL_32KHZ_ReadStatus,"ax",%progbits
+ 1197              		.align	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 22
+
+
+ 1198              		.global	CyXTAL_32KHZ_ReadStatus
+ 1199              		.thumb
+ 1200              		.thumb_func
+ 1201              		.type	CyXTAL_32KHZ_ReadStatus, %function
+ 1202              	CyXTAL_32KHZ_ReadStatus:
+ 1203              		@ args = 0, pretend = 0, frame = 0
+ 1204              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1205              		@ link register save eliminated.
+ 1206 0000 024B     		ldr	r3, .L210
+ 1207 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 1208 0004 00F02000 		and	r0, r0, #32
+ 1209 0008 7047     		bx	lr
+ 1210              	.L211:
+ 1211 000a 00BF     		.align	2
+ 1212              	.L210:
+ 1213 000c 08430040 		.word	1073758984
+ 1214              		.size	CyXTAL_32KHZ_ReadStatus, .-CyXTAL_32KHZ_ReadStatus
+ 1215              		.section	.text.CyXTAL_32KHZ_SetPowerMode,"ax",%progbits
+ 1216              		.align	2
+ 1217              		.global	CyXTAL_32KHZ_SetPowerMode
+ 1218              		.thumb
+ 1219              		.thumb_func
+ 1220              		.type	CyXTAL_32KHZ_SetPowerMode, %function
+ 1221              	CyXTAL_32KHZ_SetPowerMode:
+ 1222              		@ args = 0, pretend = 0, frame = 0
+ 1223              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1224 0000 70B5     		push	{r4, r5, r6, lr}
+ 1225 0002 1E4D     		ldr	r5, .L217
+ 1226 0004 1E4B     		ldr	r3, .L217+4
+ 1227 0006 2C78     		ldrb	r4, [r5]	@ zero_extendqisi2
+ 1228 0008 F322     		movs	r2, #243
+ 1229 000a 0128     		cmp	r0, #1
+ 1230 000c C4F34004 		ubfx	r4, r4, #1, #1
+ 1231 0010 1A70     		strb	r2, [r3]
+ 1232 0012 16D0     		beq	.L216
+ 1233 0014 1B4A     		ldr	r2, .L217+8
+ 1234 0016 0621     		movs	r1, #6
+ 1235 0018 1B4B     		ldr	r3, .L217+12
+ 1236 001a 1170     		strb	r1, [r2]
+ 1237 001c 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 1238 001e 00EB8000 		add	r0, r0, r0, lsl #2
+ 1239 0022 4000     		lsls	r0, r0, #1
+ 1240 0024 FFF7FEFF 		bl	CyDelayCycles
+ 1241 0028 184A     		ldr	r2, .L217+16
+ 1242 002a 2046     		mov	r0, r4
+ 1243 002c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1244 002e 03F0F303 		and	r3, r3, #243
+ 1245 0032 43F00403 		orr	r3, r3, #4
+ 1246 0036 1370     		strb	r3, [r2]
+ 1247 0038 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 1248 003a 03F0FD03 		and	r3, r3, #253
+ 1249 003e 2B70     		strb	r3, [r5]
+ 1250 0040 70BD     		pop	{r4, r5, r6, pc}
+ 1251              	.L216:
+ 1252 0042 114E     		ldr	r6, .L217+12
+ 1253 0044 83F88E03 		strb	r0, [r3, #910]
+ 1254 0048 3078     		ldrb	r0, [r6]	@ zero_extendqisi2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 23
+
+
+ 1255 004a 00EB8000 		add	r0, r0, r0, lsl #2
+ 1256 004e 4000     		lsls	r0, r0, #1
+ 1257 0050 FFF7FEFF 		bl	CyDelayCycles
+ 1258 0054 0D4A     		ldr	r2, .L217+16
+ 1259 0056 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1260 0058 03F0F303 		and	r3, r3, #243
+ 1261 005c 43F00803 		orr	r3, r3, #8
+ 1262 0060 1370     		strb	r3, [r2]
+ 1263 0062 3078     		ldrb	r0, [r6]	@ zero_extendqisi2
+ 1264 0064 00EB8000 		add	r0, r0, r0, lsl #2
+ 1265 0068 8000     		lsls	r0, r0, #2
+ 1266 006a FFF7FEFF 		bl	CyDelayCycles
+ 1267 006e 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 1268 0070 2046     		mov	r0, r4
+ 1269 0072 43F00203 		orr	r3, r3, #2
+ 1270 0076 2B70     		strb	r3, [r5]
+ 1271 0078 70BD     		pop	{r4, r5, r6, pc}
+ 1272              	.L218:
+ 1273 007a 00BF     		.align	2
+ 1274              	.L217:
+ 1275 007c 08430040 		.word	1073758984
+ 1276 0080 0A430040 		.word	1073758986
+ 1277 0084 98460040 		.word	1073759896
+ 1278 0088 00000000 		.word	.LANCHOR1
+ 1279 008c 09430040 		.word	1073758985
+ 1280              		.size	CyXTAL_32KHZ_SetPowerMode, .-CyXTAL_32KHZ_SetPowerMode
+ 1281              		.section	.text.CyXTAL_Start,"ax",%progbits
+ 1282              		.align	2
+ 1283              		.global	CyXTAL_Start
+ 1284              		.thumb
+ 1285              		.thumb_func
+ 1286              		.type	CyXTAL_Start, %function
+ 1287              	CyXTAL_Start:
+ 1288              		@ args = 0, pretend = 0, frame = 8
+ 1289              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1290 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 1291 0002 264C     		ldr	r4, .L242
+ 1292 0004 83B0     		sub	sp, sp, #12
+ 1293 0006 8DF80600 		strb	r0, [sp, #6]
+ 1294 000a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1295 000c 43F00103 		orr	r3, r3, #1
+ 1296 0010 2370     		strb	r3, [r4]
+ 1297 0012 08B9     		cbnz	r0, .L240
+ 1298 0014 03B0     		add	sp, sp, #12
+ 1299              		@ sp needed
+ 1300 0016 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 1301              	.L240:
+ 1302 0018 214B     		ldr	r3, .L242+4
+ 1303 001a 2249     		ldr	r1, .L242+8
+ 1304 001c 224A     		ldr	r2, .L242+12
+ 1305 001e 1820     		movs	r0, #24
+ 1306 0020 0F78     		ldrb	r7, [r1]	@ zero_extendqisi2
+ 1307 0022 1678     		ldrb	r6, [r2]	@ zero_extendqisi2
+ 1308 0024 1D78     		ldrb	r5, [r3]	@ zero_extendqisi2
+ 1309 0026 FFF7FEFF 		bl	CyPmFtwSetInterval
+ 1310 002a 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 1311 002e FFB2     		uxtb	r7, r7
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 24
+
+
+ 1312 0030 F6B2     		uxtb	r6, r6
+ 1313 0032 EDB2     		uxtb	r5, r5
+ 1314 0034 13B3     		cbz	r3, .L227
+ 1315              	.L232:
+ 1316 0036 0423     		movs	r3, #4
+ 1317 0038 2278     		ldrb	r2, [r4]	@ zero_extendqisi2
+ 1318 003a 8DF80730 		strb	r3, [sp, #7]
+ 1319 003e 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 1320 0042 73B1     		cbz	r3, .L226
+ 1321              	.L225:
+ 1322 0044 0120     		movs	r0, #1
+ 1323 0046 FFF7FEFF 		bl	CyPmReadStatus
+ 1324 004a C207     		lsls	r2, r0, #31
+ 1325 004c FAD5     		bpl	.L225
+ 1326 004e 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 1327 0052 013B     		subs	r3, r3, #1
+ 1328 0054 DBB2     		uxtb	r3, r3
+ 1329 0056 8DF80730 		strb	r3, [sp, #7]
+ 1330 005a 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 1331 005e 002B     		cmp	r3, #0
+ 1332 0060 F0D1     		bne	.L225
+ 1333              	.L226:
+ 1334 0062 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1335 0064 1906     		lsls	r1, r3, #24
+ 1336 0066 17D5     		bpl	.L241
+ 1337 0068 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 1338 006c 013B     		subs	r3, r3, #1
+ 1339 006e DBB2     		uxtb	r3, r3
+ 1340 0070 8DF80630 		strb	r3, [sp, #6]
+ 1341 0074 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 1342 0078 002B     		cmp	r3, #0
+ 1343 007a DCD1     		bne	.L232
+ 1344              	.L227:
+ 1345 007c 1020     		movs	r0, #16
+ 1346              	.L222:
+ 1347 007e 7B07     		lsls	r3, r7, #29
+ 1348 0080 04D4     		bmi	.L228
+ 1349 0082 084A     		ldr	r2, .L242+8
+ 1350 0084 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1351 0086 03F0FB03 		and	r3, r3, #251
+ 1352 008a 1370     		strb	r3, [r2]
+ 1353              	.L228:
+ 1354 008c 064A     		ldr	r2, .L242+12
+ 1355 008e 044B     		ldr	r3, .L242+4
+ 1356 0090 1670     		strb	r6, [r2]
+ 1357 0092 1D70     		strb	r5, [r3]
+ 1358 0094 03B0     		add	sp, sp, #12
+ 1359              		@ sp needed
+ 1360 0096 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 1361              	.L241:
+ 1362 0098 0020     		movs	r0, #0
+ 1363 009a F0E7     		b	.L222
+ 1364              	.L243:
+ 1365              		.align	2
+ 1366              	.L242:
+ 1367 009c 10420040 		.word	1073758736
+ 1368 00a0 82430040 		.word	1073759106
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 25
+
+
+ 1369 00a4 00430040 		.word	1073758976
+ 1370 00a8 80430040 		.word	1073759104
+ 1371              		.size	CyXTAL_Start, .-CyXTAL_Start
+ 1372              		.section	.text.CyXTAL_Stop,"ax",%progbits
+ 1373              		.align	2
+ 1374              		.global	CyXTAL_Stop
+ 1375              		.thumb
+ 1376              		.thumb_func
+ 1377              		.type	CyXTAL_Stop, %function
+ 1378              	CyXTAL_Stop:
+ 1379              		@ args = 0, pretend = 0, frame = 0
+ 1380              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1381              		@ link register save eliminated.
+ 1382 0000 024A     		ldr	r2, .L245
+ 1383 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1384 0004 03F0FE03 		and	r3, r3, #254
+ 1385 0008 1370     		strb	r3, [r2]
+ 1386 000a 7047     		bx	lr
+ 1387              	.L246:
+ 1388              		.align	2
+ 1389              	.L245:
+ 1390 000c 10420040 		.word	1073758736
+ 1391              		.size	CyXTAL_Stop, .-CyXTAL_Stop
+ 1392              		.section	.text.CyXTAL_EnableErrStatus,"ax",%progbits
+ 1393              		.align	2
+ 1394              		.global	CyXTAL_EnableErrStatus
+ 1395              		.thumb
+ 1396              		.thumb_func
+ 1397              		.type	CyXTAL_EnableErrStatus, %function
+ 1398              	CyXTAL_EnableErrStatus:
+ 1399              		@ args = 0, pretend = 0, frame = 0
+ 1400              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1401              		@ link register save eliminated.
+ 1402 0000 024A     		ldr	r2, .L248
+ 1403 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1404 0004 03F0FB03 		and	r3, r3, #251
+ 1405 0008 1370     		strb	r3, [r2]
+ 1406 000a 7047     		bx	lr
+ 1407              	.L249:
+ 1408              		.align	2
+ 1409              	.L248:
+ 1410 000c 10420040 		.word	1073758736
+ 1411              		.size	CyXTAL_EnableErrStatus, .-CyXTAL_EnableErrStatus
+ 1412              		.section	.text.CyXTAL_DisableErrStatus,"ax",%progbits
+ 1413              		.align	2
+ 1414              		.global	CyXTAL_DisableErrStatus
+ 1415              		.thumb
+ 1416              		.thumb_func
+ 1417              		.type	CyXTAL_DisableErrStatus, %function
+ 1418              	CyXTAL_DisableErrStatus:
+ 1419              		@ args = 0, pretend = 0, frame = 0
+ 1420              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1421              		@ link register save eliminated.
+ 1422 0000 024A     		ldr	r2, .L251
+ 1423 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1424 0004 43F00403 		orr	r3, r3, #4
+ 1425 0008 1370     		strb	r3, [r2]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 26
+
+
+ 1426 000a 7047     		bx	lr
+ 1427              	.L252:
+ 1428              		.align	2
+ 1429              	.L251:
+ 1430 000c 10420040 		.word	1073758736
+ 1431              		.size	CyXTAL_DisableErrStatus, .-CyXTAL_DisableErrStatus
+ 1432              		.section	.text.CyXTAL_ReadStatus,"ax",%progbits
+ 1433              		.align	2
+ 1434              		.global	CyXTAL_ReadStatus
+ 1435              		.thumb
+ 1436              		.thumb_func
+ 1437              		.type	CyXTAL_ReadStatus, %function
+ 1438              	CyXTAL_ReadStatus:
+ 1439              		@ args = 0, pretend = 0, frame = 0
+ 1440              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1441              		@ link register save eliminated.
+ 1442 0000 014B     		ldr	r3, .L254
+ 1443 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 1444 0004 C009     		lsrs	r0, r0, #7
+ 1445 0006 7047     		bx	lr
+ 1446              	.L255:
+ 1447              		.align	2
+ 1448              	.L254:
+ 1449 0008 10420040 		.word	1073758736
+ 1450              		.size	CyXTAL_ReadStatus, .-CyXTAL_ReadStatus
+ 1451              		.section	.text.CyXTAL_EnableFaultRecovery,"ax",%progbits
+ 1452              		.align	2
+ 1453              		.global	CyXTAL_EnableFaultRecovery
+ 1454              		.thumb
+ 1455              		.thumb_func
+ 1456              		.type	CyXTAL_EnableFaultRecovery, %function
+ 1457              	CyXTAL_EnableFaultRecovery:
+ 1458              		@ args = 0, pretend = 0, frame = 0
+ 1459              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1460              		@ link register save eliminated.
+ 1461 0000 024A     		ldr	r2, .L257
+ 1462 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1463 0004 43F04003 		orr	r3, r3, #64
+ 1464 0008 1370     		strb	r3, [r2]
+ 1465 000a 7047     		bx	lr
+ 1466              	.L258:
+ 1467              		.align	2
+ 1468              	.L257:
+ 1469 000c 10420040 		.word	1073758736
+ 1470              		.size	CyXTAL_EnableFaultRecovery, .-CyXTAL_EnableFaultRecovery
+ 1471              		.section	.text.CyXTAL_DisableFaultRecovery,"ax",%progbits
+ 1472              		.align	2
+ 1473              		.global	CyXTAL_DisableFaultRecovery
+ 1474              		.thumb
+ 1475              		.thumb_func
+ 1476              		.type	CyXTAL_DisableFaultRecovery, %function
+ 1477              	CyXTAL_DisableFaultRecovery:
+ 1478              		@ args = 0, pretend = 0, frame = 0
+ 1479              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1480              		@ link register save eliminated.
+ 1481 0000 024A     		ldr	r2, .L260
+ 1482 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 27
+
+
+ 1483 0004 03F0BF03 		and	r3, r3, #191
+ 1484 0008 1370     		strb	r3, [r2]
+ 1485 000a 7047     		bx	lr
+ 1486              	.L261:
+ 1487              		.align	2
+ 1488              	.L260:
+ 1489 000c 10420040 		.word	1073758736
+ 1490              		.size	CyXTAL_DisableFaultRecovery, .-CyXTAL_DisableFaultRecovery
+ 1491              		.section	.text.CyXTAL_SetStartup,"ax",%progbits
+ 1492              		.align	2
+ 1493              		.global	CyXTAL_SetStartup
+ 1494              		.thumb
+ 1495              		.thumb_func
+ 1496              		.type	CyXTAL_SetStartup, %function
+ 1497              	CyXTAL_SetStartup:
+ 1498              		@ args = 0, pretend = 0, frame = 0
+ 1499              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1500              		@ link register save eliminated.
+ 1501 0000 044A     		ldr	r2, .L263
+ 1502 0002 00F01F00 		and	r0, r0, #31
+ 1503 0006 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1504 0008 03F0E003 		and	r3, r3, #224
+ 1505 000c 1843     		orrs	r0, r0, r3
+ 1506 000e 1070     		strb	r0, [r2]
+ 1507 0010 7047     		bx	lr
+ 1508              	.L264:
+ 1509 0012 00BF     		.align	2
+ 1510              	.L263:
+ 1511 0014 12420040 		.word	1073758738
+ 1512              		.size	CyXTAL_SetStartup, .-CyXTAL_SetStartup
+ 1513              		.section	.text.CyXTAL_SetFbVoltage,"ax",%progbits
+ 1514              		.align	2
+ 1515              		.global	CyXTAL_SetFbVoltage
+ 1516              		.thumb
+ 1517              		.thumb_func
+ 1518              		.type	CyXTAL_SetFbVoltage, %function
+ 1519              	CyXTAL_SetFbVoltage:
+ 1520              		@ args = 0, pretend = 0, frame = 0
+ 1521              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1522              		@ link register save eliminated.
+ 1523 0000 044A     		ldr	r2, .L266
+ 1524 0002 00F00F00 		and	r0, r0, #15
+ 1525 0006 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1526 0008 03F0F003 		and	r3, r3, #240
+ 1527 000c 1843     		orrs	r0, r0, r3
+ 1528 000e 1070     		strb	r0, [r2]
+ 1529 0010 7047     		bx	lr
+ 1530              	.L267:
+ 1531 0012 00BF     		.align	2
+ 1532              	.L266:
+ 1533 0014 13420040 		.word	1073758739
+ 1534              		.size	CyXTAL_SetFbVoltage, .-CyXTAL_SetFbVoltage
+ 1535              		.section	.text.CyXTAL_SetWdVoltage,"ax",%progbits
+ 1536              		.align	2
+ 1537              		.global	CyXTAL_SetWdVoltage
+ 1538              		.thumb
+ 1539              		.thumb_func
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 28
+
+
+ 1540              		.type	CyXTAL_SetWdVoltage, %function
+ 1541              	CyXTAL_SetWdVoltage:
+ 1542              		@ args = 0, pretend = 0, frame = 0
+ 1543              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1544              		@ link register save eliminated.
+ 1545 0000 044A     		ldr	r2, .L269
+ 1546 0002 0001     		lsls	r0, r0, #4
+ 1547 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1548 0006 00F07000 		and	r0, r0, #112
+ 1549 000a 03F08F03 		and	r3, r3, #143
+ 1550 000e 1843     		orrs	r0, r0, r3
+ 1551 0010 1070     		strb	r0, [r2]
+ 1552 0012 7047     		bx	lr
+ 1553              	.L270:
+ 1554              		.align	2
+ 1555              	.L269:
+ 1556 0014 13420040 		.word	1073758739
+ 1557              		.size	CyXTAL_SetWdVoltage, .-CyXTAL_SetWdVoltage
+ 1558              		.section	.text.CyHalt,"ax",%progbits
+ 1559              		.align	2
+ 1560              		.global	CyHalt
+ 1561              		.thumb
+ 1562              		.thumb_func
+ 1563              		.type	CyHalt, %function
+ 1564              	CyHalt:
+ 1565              		@ args = 0, pretend = 0, frame = 0
+ 1566              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1567              		@ link register save eliminated.
+ 1568              		.syntax unified
+ 1569              	@ 1424 "Generated_Source\PSoC5\CyLib.c" 1
+ 1570 0000 01BE     		    bkpt    1
+ 1571              	@ 0 "" 2
+ 1572              		.thumb
+ 1573              		.syntax unified
+ 1574 0002 7047     		bx	lr
+ 1575              		.size	CyHalt, .-CyHalt
+ 1576              		.section	.text.CySoftwareReset,"ax",%progbits
+ 1577              		.align	2
+ 1578              		.global	CySoftwareReset
+ 1579              		.thumb
+ 1580              		.thumb_func
+ 1581              		.type	CySoftwareReset, %function
+ 1582              	CySoftwareReset:
+ 1583              		@ args = 0, pretend = 0, frame = 0
+ 1584              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1585              		@ link register save eliminated.
+ 1586 0000 024A     		ldr	r2, .L273
+ 1587 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1588 0004 43F00103 		orr	r3, r3, #1
+ 1589 0008 1370     		strb	r3, [r2]
+ 1590 000a 7047     		bx	lr
+ 1591              	.L274:
+ 1592              		.align	2
+ 1593              	.L273:
+ 1594 000c F6460040 		.word	1073759990
+ 1595              		.size	CySoftwareReset, .-CySoftwareReset
+ 1596              		.section	.text.CyDelay,"ax",%progbits
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 29
+
+
+ 1597              		.align	2
+ 1598              		.global	CyDelay
+ 1599              		.thumb
+ 1600              		.thumb_func
+ 1601              		.type	CyDelay, %function
+ 1602              	CyDelay:
+ 1603              		@ args = 0, pretend = 0, frame = 0
+ 1604              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1605 0000 B0F5004F 		cmp	r0, #32768
+ 1606 0004 70B5     		push	{r4, r5, r6, lr}
+ 1607 0006 0646     		mov	r6, r0
+ 1608 0008 1AD9     		bls	.L282
+ 1609 000a 0446     		mov	r4, r0
+ 1610 000c 0D4D     		ldr	r5, .L283
+ 1611              	.L277:
+ 1612 000e A4F50044 		sub	r4, r4, #32768
+ 1613 0012 6868     		ldr	r0, [r5, #4]
+ 1614 0014 FFF7FEFF 		bl	CyDelayCycles
+ 1615 0018 B4F5004F 		cmp	r4, #32768
+ 1616 001c F7D8     		bhi	.L277
+ 1617 001e A6F50043 		sub	r3, r6, #32768
+ 1618 0022 013B     		subs	r3, r3, #1
+ 1619 0024 23F4FF43 		bic	r3, r3, #32640
+ 1620 0028 23F07F03 		bic	r3, r3, #127
+ 1621 002c A6F50046 		sub	r6, r6, #32768
+ 1622 0030 F61A     		subs	r6, r6, r3
+ 1623              	.L276:
+ 1624 0032 A868     		ldr	r0, [r5, #8]
+ 1625 0034 00FB06F0 		mul	r0, r0, r6
+ 1626 0038 BDE87040 		pop	{r4, r5, r6, lr}
+ 1627 003c FFF7FEBF 		b	CyDelayCycles
+ 1628              	.L282:
+ 1629 0040 004D     		ldr	r5, .L283
+ 1630 0042 F6E7     		b	.L276
+ 1631              	.L284:
+ 1632              		.align	2
+ 1633              	.L283:
+ 1634 0044 00000000 		.word	.LANCHOR1
+ 1635              		.size	CyDelay, .-CyDelay
+ 1636              		.section	.text.CyDelayUs,"ax",%progbits
+ 1637              		.align	2
+ 1638              		.global	CyDelayUs
+ 1639              		.thumb
+ 1640              		.thumb_func
+ 1641              		.type	CyDelayUs, %function
+ 1642              	CyDelayUs:
+ 1643              		@ args = 0, pretend = 0, frame = 0
+ 1644              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1645              		@ link register save eliminated.
+ 1646 0000 024B     		ldr	r3, .L286
+ 1647 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1648 0004 00FB03F0 		mul	r0, r0, r3
+ 1649 0008 FFF7FEBF 		b	CyDelayCycles
+ 1650              	.L287:
+ 1651              		.align	2
+ 1652              	.L286:
+ 1653 000c 00000000 		.word	.LANCHOR1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 30
+
+
+ 1654              		.size	CyDelayUs, .-CyDelayUs
+ 1655              		.section	.text.CyDelayFreq,"ax",%progbits
+ 1656              		.align	2
+ 1657              		.global	CyDelayFreq
+ 1658              		.thumb
+ 1659              		.thumb_func
+ 1660              		.type	CyDelayFreq, %function
+ 1661              	CyDelayFreq:
+ 1662              		@ args = 0, pretend = 0, frame = 0
+ 1663              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1664              		@ link register save eliminated.
+ 1665 0000 10B4     		push	{r4}
+ 1666 0002 58B9     		cbnz	r0, .L292
+ 1667 0004 4BF68031 		movw	r1, #48000
+ 1668 0008 0D4C     		ldr	r4, .L293
+ 1669 000a 0E48     		ldr	r0, .L293+4
+ 1670 000c 3022     		movs	r2, #48
+ 1671              	.L289:
+ 1672 000e 0E4B     		ldr	r3, .L293+8
+ 1673 0010 1A70     		strb	r2, [r3]
+ 1674 0012 5C60     		str	r4, [r3, #4]
+ 1675 0014 D860     		str	r0, [r3, #12]
+ 1676 0016 9960     		str	r1, [r3, #8]
+ 1677 0018 10BC     		pop	{r4}
+ 1678 001a 7047     		bx	lr
+ 1679              	.L292:
+ 1680 001c 0B4C     		ldr	r4, .L293+12
+ 1681 001e 00F2E731 		addw	r1, r0, #999
+ 1682 0022 00F57423 		add	r3, r0, #999424
+ 1683 0026 0A4A     		ldr	r2, .L293+16
+ 1684 0028 A4FB0141 		umull	r4, r1, r4, r1
+ 1685 002c 03F23F23 		addw	r3, r3, #575
+ 1686 0030 A2FB0332 		umull	r3, r2, r2, r3
+ 1687 0034 8909     		lsrs	r1, r1, #6
+ 1688 0036 CC03     		lsls	r4, r1, #15
+ 1689 0038 C2F38742 		ubfx	r2, r2, #18, #8
+ 1690 003c E7E7     		b	.L289
+ 1691              	.L294:
+ 1692 003e 00BF     		.align	2
+ 1693              	.L293:
+ 1694 0040 0000C05D 		.word	1572864000
+ 1695 0044 006CDC02 		.word	48000000
+ 1696 0048 00000000 		.word	.LANCHOR1
+ 1697 004c D34D6210 		.word	274877907
+ 1698 0050 83DE1B43 		.word	1125899907
+ 1699              		.size	CyDelayFreq, .-CyDelayFreq
+ 1700              		.section	.text.CyWdtStart,"ax",%progbits
+ 1701              		.align	2
+ 1702              		.global	CyWdtStart
+ 1703              		.thumb
+ 1704              		.thumb_func
+ 1705              		.type	CyWdtStart, %function
+ 1706              	CyWdtStart:
+ 1707              		@ args = 0, pretend = 0, frame = 0
+ 1708              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1709              		@ link register save eliminated.
+ 1710 0000 0E4B     		ldr	r3, .L296
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 31
+
+
+ 1711 0002 00F00300 		and	r0, r0, #3
+ 1712 0006 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1713 0008 4901     		lsls	r1, r1, #5
+ 1714 000a 02F0FC02 		and	r2, r2, #252
+ 1715 000e 1043     		orrs	r0, r0, r2
+ 1716 0010 1870     		strb	r0, [r3]
+ 1717 0012 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1718 0014 01F06001 		and	r1, r1, #96
+ 1719 0018 42F08002 		orr	r2, r2, #128
+ 1720 001c 1A70     		strb	r2, [r3]
+ 1721 001e 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1722 0020 02F07F02 		and	r2, r2, #127
+ 1723 0024 1A70     		strb	r2, [r3]
+ 1724 0026 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1725 0028 02F09F02 		and	r2, r2, #159
+ 1726 002c 1143     		orrs	r1, r1, r2
+ 1727 002e 1970     		strb	r1, [r3]
+ 1728 0030 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1729 0032 42F01002 		orr	r2, r2, #16
+ 1730 0036 1A70     		strb	r2, [r3]
+ 1731 0038 7047     		bx	lr
+ 1732              	.L297:
+ 1733 003a 00BF     		.align	2
+ 1734              	.L296:
+ 1735 003c 83430040 		.word	1073759107
+ 1736              		.size	CyWdtStart, .-CyWdtStart
+ 1737              		.section	.text.CyWdtClear,"ax",%progbits
+ 1738              		.align	2
+ 1739              		.global	CyWdtClear
+ 1740              		.thumb
+ 1741              		.thumb_func
+ 1742              		.type	CyWdtClear, %function
+ 1743              	CyWdtClear:
+ 1744              		@ args = 0, pretend = 0, frame = 0
+ 1745              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1746              		@ link register save eliminated.
+ 1747 0000 014B     		ldr	r3, .L299
+ 1748 0002 0122     		movs	r2, #1
+ 1749 0004 1A70     		strb	r2, [r3]
+ 1750 0006 7047     		bx	lr
+ 1751              	.L300:
+ 1752              		.align	2
+ 1753              	.L299:
+ 1754 0008 84430040 		.word	1073759108
+ 1755              		.size	CyWdtClear, .-CyWdtClear
+ 1756              		.section	.text.CyVdLvDigitEnable,"ax",%progbits
+ 1757              		.align	2
+ 1758              		.global	CyVdLvDigitEnable
+ 1759              		.thumb
+ 1760              		.thumb_func
+ 1761              		.type	CyVdLvDigitEnable, %function
+ 1762              	CyVdLvDigitEnable:
+ 1763              		@ args = 0, pretend = 0, frame = 0
+ 1764              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1765 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1766 0002 0F46     		mov	r7, r1
+ 1767 0004 0646     		mov	r6, r0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 32
+
+
+ 1768 0006 FFF7FEFF 		bl	CyEnterCriticalSection
+ 1769 000a 204B     		ldr	r3, .L306
+ 1770 000c 204A     		ldr	r2, .L306+4
+ 1771 000e 214C     		ldr	r4, .L306+8
+ 1772 0010 0121     		movs	r1, #1
+ 1773 0012 1268     		ldr	r2, [r2]
+ 1774 0014 1960     		str	r1, [r3]
+ 1775 0016 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1776 0018 DFF890E0 		ldr	lr, .L306+32
+ 1777 001c 03F0BF03 		and	r3, r3, #191
+ 1778 0020 2370     		strb	r3, [r4]
+ 1779 0022 9EF80030 		ldrb	r3, [lr]	@ zero_extendqisi2
+ 1780 0026 07F00F01 		and	r1, r7, #15
+ 1781 002a 03F0F003 		and	r3, r3, #240
+ 1782 002e 1943     		orrs	r1, r1, r3
+ 1783 0030 0546     		mov	r5, r0
+ 1784 0032 1948     		ldr	r0, .L306+12
+ 1785 0034 8EF80010 		strb	r1, [lr]
+ 1786 0038 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+ 1787 003a 1849     		ldr	r1, .L306+16
+ 1788 003c 43F00103 		orr	r3, r3, #1
+ 1789 0040 0370     		strb	r3, [r0]
+ 1790 0042 0878     		ldrb	r0, [r1]	@ zero_extendqisi2
+ 1791 0044 02F00107 		and	r7, r2, #1
+ 1792 0048 FFF7FEFF 		bl	CyDelayCycles
+ 1793 004c FFF7FEFF 		bl	CyEnterCriticalSection
+ 1794 0050 1349     		ldr	r1, .L306+20
+ 1795 0052 144B     		ldr	r3, .L306+24
+ 1796 0054 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1797 0056 0B7D     		ldrb	r3, [r1, #20]	@ zero_extendqisi2
+ 1798 0058 1343     		orrs	r3, r3, r2
+ 1799 005a 23F00103 		bic	r3, r3, #1
+ 1800 005e 0B75     		strb	r3, [r1, #20]
+ 1801 0060 FFF7FEFF 		bl	CyExitCriticalSection
+ 1802 0064 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1803 0066 66B9     		cbnz	r6, .L305
+ 1804 0068 03F0BF03 		and	r3, r3, #191
+ 1805 006c 2370     		strb	r3, [r4]
+ 1806              	.L303:
+ 1807 006e 084B     		ldr	r3, .L306+4
+ 1808 0070 0D4A     		ldr	r2, .L306+28
+ 1809 0072 0121     		movs	r1, #1
+ 1810 0074 2846     		mov	r0, r5
+ 1811 0076 1160     		str	r1, [r2]
+ 1812 0078 1F60     		str	r7, [r3]
+ 1813 007a BDE8F840 		pop	{r3, r4, r5, r6, r7, lr}
+ 1814 007e FFF7FEBF 		b	CyExitCriticalSection
+ 1815              	.L305:
+ 1816 0082 43F04003 		orr	r3, r3, #64
+ 1817 0086 2370     		strb	r3, [r4]
+ 1818 0088 F1E7     		b	.L303
+ 1819              	.L307:
+ 1820 008a 00BF     		.align	2
+ 1821              	.L306:
+ 1822 008c 80E100E0 		.word	-536813184
+ 1823 0090 00E100E0 		.word	-536813312
+ 1824 0094 F7460040 		.word	1073759991
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 33
+
+
+ 1825 0098 F5460040 		.word	1073759989
+ 1826 009c 00000000 		.word	.LANCHOR1
+ 1827 00a0 00000000 		.word	.LANCHOR0
+ 1828 00a4 FA460040 		.word	1073759994
+ 1829 00a8 80E200E0 		.word	-536812928
+ 1830 00ac F4460040 		.word	1073759988
+ 1831              		.size	CyVdLvDigitEnable, .-CyVdLvDigitEnable
+ 1832              		.section	.text.CyVdLvAnalogEnable,"ax",%progbits
+ 1833              		.align	2
+ 1834              		.global	CyVdLvAnalogEnable
+ 1835              		.thumb
+ 1836              		.thumb_func
+ 1837              		.type	CyVdLvAnalogEnable, %function
+ 1838              	CyVdLvAnalogEnable:
+ 1839              		@ args = 0, pretend = 0, frame = 0
+ 1840              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1841 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1842 0004 8846     		mov	r8, r1
+ 1843 0006 0646     		mov	r6, r0
+ 1844 0008 FFF7FEFF 		bl	CyEnterCriticalSection
+ 1845 000c 1E4B     		ldr	r3, .L313
+ 1846 000e 1F4A     		ldr	r2, .L313+4
+ 1847 0010 1F4C     		ldr	r4, .L313+8
+ 1848 0012 0121     		movs	r1, #1
+ 1849 0014 1268     		ldr	r2, [r2]
+ 1850 0016 1960     		str	r1, [r3]
+ 1851 0018 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1852 001a 1E4F     		ldr	r7, .L313+12
+ 1853 001c 03F07F03 		and	r3, r3, #127
+ 1854 0020 2370     		strb	r3, [r4]
+ 1855 0022 3B78     		ldrb	r3, [r7]	@ zero_extendqisi2
+ 1856 0024 0546     		mov	r5, r0
+ 1857 0026 03F00F03 		and	r3, r3, #15
+ 1858 002a 43EA0811 		orr	r1, r3, r8, lsl #4
+ 1859 002e 1A48     		ldr	r0, .L313+16
+ 1860 0030 C9B2     		uxtb	r1, r1
+ 1861 0032 3970     		strb	r1, [r7]
+ 1862 0034 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+ 1863 0036 1949     		ldr	r1, .L313+20
+ 1864 0038 43F00203 		orr	r3, r3, #2
+ 1865 003c 0370     		strb	r3, [r0]
+ 1866 003e 0878     		ldrb	r0, [r1]	@ zero_extendqisi2
+ 1867 0040 02F00107 		and	r7, r2, #1
+ 1868 0044 FFF7FEFF 		bl	CyDelayCycles
+ 1869 0048 FFF7FEFF 		bl	CyEnterCriticalSection
+ 1870 004c 1449     		ldr	r1, .L313+24
+ 1871 004e 154B     		ldr	r3, .L313+28
+ 1872 0050 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1873 0052 0B7D     		ldrb	r3, [r1, #20]	@ zero_extendqisi2
+ 1874 0054 1343     		orrs	r3, r3, r2
+ 1875 0056 23F00203 		bic	r3, r3, #2
+ 1876 005a 0B75     		strb	r3, [r1, #20]
+ 1877 005c FFF7FEFF 		bl	CyExitCriticalSection
+ 1878 0060 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1879 0062 66B9     		cbnz	r6, .L312
+ 1880 0064 03F07F03 		and	r3, r3, #127
+ 1881 0068 2370     		strb	r3, [r4]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 34
+
+
+ 1882              	.L310:
+ 1883 006a 0F4A     		ldr	r2, .L313+32
+ 1884 006c 074B     		ldr	r3, .L313+4
+ 1885 006e 0121     		movs	r1, #1
+ 1886 0070 2846     		mov	r0, r5
+ 1887 0072 1160     		str	r1, [r2]
+ 1888 0074 1F60     		str	r7, [r3]
+ 1889 0076 BDE8F041 		pop	{r4, r5, r6, r7, r8, lr}
+ 1890 007a FFF7FEBF 		b	CyExitCriticalSection
+ 1891              	.L312:
+ 1892 007e 43F08003 		orr	r3, r3, #128
+ 1893 0082 2370     		strb	r3, [r4]
+ 1894 0084 F1E7     		b	.L310
+ 1895              	.L314:
+ 1896 0086 00BF     		.align	2
+ 1897              	.L313:
+ 1898 0088 80E100E0 		.word	-536813184
+ 1899 008c 00E100E0 		.word	-536813312
+ 1900 0090 F7460040 		.word	1073759991
+ 1901 0094 F4460040 		.word	1073759988
+ 1902 0098 F5460040 		.word	1073759989
+ 1903 009c 00000000 		.word	.LANCHOR1
+ 1904 00a0 00000000 		.word	.LANCHOR0
+ 1905 00a4 FA460040 		.word	1073759994
+ 1906 00a8 80E200E0 		.word	-536812928
+ 1907              		.size	CyVdLvAnalogEnable, .-CyVdLvAnalogEnable
+ 1908              		.section	.text.CyVdLvDigitDisable,"ax",%progbits
+ 1909              		.align	2
+ 1910              		.global	CyVdLvDigitDisable
+ 1911              		.thumb
+ 1912              		.thumb_func
+ 1913              		.type	CyVdLvDigitDisable, %function
+ 1914              	CyVdLvDigitDisable:
+ 1915              		@ args = 0, pretend = 0, frame = 0
+ 1916              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1917 0000 70B5     		push	{r4, r5, r6, lr}
+ 1918 0002 1149     		ldr	r1, .L319
+ 1919 0004 114A     		ldr	r2, .L319+4
+ 1920 0006 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 1921 0008 114D     		ldr	r5, .L319+8
+ 1922 000a 03F0FE03 		and	r3, r3, #254
+ 1923 000e 0B70     		strb	r3, [r1]
+ 1924 0010 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1925 0012 104E     		ldr	r6, .L319+12
+ 1926 0014 03F0BF03 		and	r3, r3, #191
+ 1927 0018 1370     		strb	r3, [r2]
+ 1928 001a FFF7FEFF 		bl	CyEnterCriticalSection
+ 1929 001e 3278     		ldrb	r2, [r6]	@ zero_extendqisi2
+ 1930 0020 2B7D     		ldrb	r3, [r5, #20]	@ zero_extendqisi2
+ 1931 0022 1343     		orrs	r3, r3, r2
+ 1932 0024 23F00103 		bic	r3, r3, #1
+ 1933 0028 2B75     		strb	r3, [r5, #20]
+ 1934 002a FFF7FEFF 		bl	CyExitCriticalSection
+ 1935              	.L316:
+ 1936 002e FFF7FEFF 		bl	CyEnterCriticalSection
+ 1937 0032 2B7D     		ldrb	r3, [r5, #20]	@ zero_extendqisi2
+ 1938 0034 3478     		ldrb	r4, [r6]	@ zero_extendqisi2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 35
+
+
+ 1939 0036 1C43     		orrs	r4, r4, r3
+ 1940 0038 24F00103 		bic	r3, r4, #1
+ 1941 003c 2B75     		strb	r3, [r5, #20]
+ 1942 003e FFF7FEFF 		bl	CyExitCriticalSection
+ 1943 0042 E307     		lsls	r3, r4, #31
+ 1944 0044 F3D4     		bmi	.L316
+ 1945 0046 70BD     		pop	{r4, r5, r6, pc}
+ 1946              	.L320:
+ 1947              		.align	2
+ 1948              	.L319:
+ 1949 0048 F5460040 		.word	1073759989
+ 1950 004c F7460040 		.word	1073759991
+ 1951 0050 00000000 		.word	.LANCHOR0
+ 1952 0054 FA460040 		.word	1073759994
+ 1953              		.size	CyVdLvDigitDisable, .-CyVdLvDigitDisable
+ 1954              		.section	.text.CyVdLvAnalogDisable,"ax",%progbits
+ 1955              		.align	2
+ 1956              		.global	CyVdLvAnalogDisable
+ 1957              		.thumb
+ 1958              		.thumb_func
+ 1959              		.type	CyVdLvAnalogDisable, %function
+ 1960              	CyVdLvAnalogDisable:
+ 1961              		@ args = 0, pretend = 0, frame = 0
+ 1962              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1963 0000 70B5     		push	{r4, r5, r6, lr}
+ 1964 0002 0C49     		ldr	r1, .L325
+ 1965 0004 0C4A     		ldr	r2, .L325+4
+ 1966 0006 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 1967 0008 0C4D     		ldr	r5, .L325+8
+ 1968 000a 03F0FD03 		and	r3, r3, #253
+ 1969 000e 0B70     		strb	r3, [r1]
+ 1970 0010 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1971 0012 0B4E     		ldr	r6, .L325+12
+ 1972 0014 03F07F03 		and	r3, r3, #127
+ 1973 0018 1370     		strb	r3, [r2]
+ 1974              	.L322:
+ 1975 001a FFF7FEFF 		bl	CyEnterCriticalSection
+ 1976 001e 2B7D     		ldrb	r3, [r5, #20]	@ zero_extendqisi2
+ 1977 0020 3478     		ldrb	r4, [r6]	@ zero_extendqisi2
+ 1978 0022 1C43     		orrs	r4, r4, r3
+ 1979 0024 24F00203 		bic	r3, r4, #2
+ 1980 0028 2B75     		strb	r3, [r5, #20]
+ 1981 002a FFF7FEFF 		bl	CyExitCriticalSection
+ 1982 002e A307     		lsls	r3, r4, #30
+ 1983 0030 F3D4     		bmi	.L322
+ 1984 0032 70BD     		pop	{r4, r5, r6, pc}
+ 1985              	.L326:
+ 1986              		.align	2
+ 1987              	.L325:
+ 1988 0034 F5460040 		.word	1073759989
+ 1989 0038 F7460040 		.word	1073759991
+ 1990 003c 00000000 		.word	.LANCHOR0
+ 1991 0040 FA460040 		.word	1073759994
+ 1992              		.size	CyVdLvAnalogDisable, .-CyVdLvAnalogDisable
+ 1993              		.section	.text.CyVdHvAnalogEnable,"ax",%progbits
+ 1994              		.align	2
+ 1995              		.global	CyVdHvAnalogEnable
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 36
+
+
+ 1996              		.thumb
+ 1997              		.thumb_func
+ 1998              		.type	CyVdHvAnalogEnable, %function
+ 1999              	CyVdHvAnalogEnable:
+ 2000              		@ args = 0, pretend = 0, frame = 0
+ 2001              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2002 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 2003 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 2004 0006 0746     		mov	r7, r0
+ 2005 0008 134D     		ldr	r5, .L329
+ 2006 000a 144B     		ldr	r3, .L329+4
+ 2007 000c 0126     		movs	r6, #1
+ 2008 000e 1449     		ldr	r1, .L329+8
+ 2009 0010 2C68     		ldr	r4, [r5]
+ 2010 0012 1E60     		str	r6, [r3]
+ 2011 0014 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 2012 0016 134A     		ldr	r2, .L329+12
+ 2013 0018 03F07F03 		and	r3, r3, #127
+ 2014 001c 0B70     		strb	r3, [r1]
+ 2015 001e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 2016 0020 1149     		ldr	r1, .L329+16
+ 2017 0022 43F00403 		orr	r3, r3, #4
+ 2018 0026 1370     		strb	r3, [r2]
+ 2019 0028 0878     		ldrb	r0, [r1]	@ zero_extendqisi2
+ 2020 002a FFF7FEFF 		bl	CyDelayCycles
+ 2021 002e FFF7FEFF 		bl	CyEnterCriticalSection
+ 2022 0032 0E4A     		ldr	r2, .L329+20
+ 2023 0034 0E4B     		ldr	r3, .L329+24
+ 2024 0036 3440     		ands	r4, r4, r6
+ 2025 0038 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+ 2026 003a 137D     		ldrb	r3, [r2, #20]	@ zero_extendqisi2
+ 2027 003c 0B43     		orrs	r3, r3, r1
+ 2028 003e 23F00403 		bic	r3, r3, #4
+ 2029 0042 1375     		strb	r3, [r2, #20]
+ 2030 0044 FFF7FEFF 		bl	CyExitCriticalSection
+ 2031 0048 0A4B     		ldr	r3, .L329+28
+ 2032 004a 3846     		mov	r0, r7
+ 2033 004c 1E60     		str	r6, [r3]
+ 2034 004e 2C60     		str	r4, [r5]
+ 2035 0050 BDE8F840 		pop	{r3, r4, r5, r6, r7, lr}
+ 2036 0054 FFF7FEBF 		b	CyExitCriticalSection
+ 2037              	.L330:
+ 2038              		.align	2
+ 2039              	.L329:
+ 2040 0058 00E100E0 		.word	-536813312
+ 2041 005c 80E100E0 		.word	-536813184
+ 2042 0060 F7460040 		.word	1073759991
+ 2043 0064 F5460040 		.word	1073759989
+ 2044 0068 00000000 		.word	.LANCHOR1
+ 2045 006c 00000000 		.word	.LANCHOR0
+ 2046 0070 FA460040 		.word	1073759994
+ 2047 0074 80E200E0 		.word	-536812928
+ 2048              		.size	CyVdHvAnalogEnable, .-CyVdHvAnalogEnable
+ 2049              		.section	.text.CyVdHvAnalogDisable,"ax",%progbits
+ 2050              		.align	2
+ 2051              		.global	CyVdHvAnalogDisable
+ 2052              		.thumb
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 37
+
+
+ 2053              		.thumb_func
+ 2054              		.type	CyVdHvAnalogDisable, %function
+ 2055              	CyVdHvAnalogDisable:
+ 2056              		@ args = 0, pretend = 0, frame = 0
+ 2057              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2058 0000 70B5     		push	{r4, r5, r6, lr}
+ 2059 0002 0A4A     		ldr	r2, .L335
+ 2060 0004 0A4D     		ldr	r5, .L335+4
+ 2061 0006 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 2062 0008 0A4E     		ldr	r6, .L335+8
+ 2063 000a 03F0FB03 		and	r3, r3, #251
+ 2064 000e 1370     		strb	r3, [r2]
+ 2065              	.L332:
+ 2066 0010 FFF7FEFF 		bl	CyEnterCriticalSection
+ 2067 0014 2B7D     		ldrb	r3, [r5, #20]	@ zero_extendqisi2
+ 2068 0016 3478     		ldrb	r4, [r6]	@ zero_extendqisi2
+ 2069 0018 1C43     		orrs	r4, r4, r3
+ 2070 001a 24F00403 		bic	r3, r4, #4
+ 2071 001e 2B75     		strb	r3, [r5, #20]
+ 2072 0020 FFF7FEFF 		bl	CyExitCriticalSection
+ 2073 0024 6307     		lsls	r3, r4, #29
+ 2074 0026 F3D4     		bmi	.L332
+ 2075 0028 70BD     		pop	{r4, r5, r6, pc}
+ 2076              	.L336:
+ 2077 002a 00BF     		.align	2
+ 2078              	.L335:
+ 2079 002c F5460040 		.word	1073759989
+ 2080 0030 00000000 		.word	.LANCHOR0
+ 2081 0034 FA460040 		.word	1073759994
+ 2082              		.size	CyVdHvAnalogDisable, .-CyVdHvAnalogDisable
+ 2083              		.section	.text.CyVdStickyStatus,"ax",%progbits
+ 2084              		.align	2
+ 2085              		.global	CyVdStickyStatus
+ 2086              		.thumb
+ 2087              		.thumb_func
+ 2088              		.type	CyVdStickyStatus, %function
+ 2089              	CyVdStickyStatus:
+ 2090              		@ args = 0, pretend = 0, frame = 0
+ 2091              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2092 0000 38B5     		push	{r3, r4, r5, lr}
+ 2093 0002 0546     		mov	r5, r0
+ 2094 0004 FFF7FEFF 		bl	CyEnterCriticalSection
+ 2095 0008 064A     		ldr	r2, .L339
+ 2096 000a 074B     		ldr	r3, .L339+4
+ 2097 000c 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 2098 000e 137D     		ldrb	r3, [r2, #20]	@ zero_extendqisi2
+ 2099 0010 1C43     		orrs	r4, r4, r3
+ 2100 0012 24EA0505 		bic	r5, r4, r5
+ 2101 0016 1575     		strb	r5, [r2, #20]
+ 2102 0018 FFF7FEFF 		bl	CyExitCriticalSection
+ 2103 001c 04F00700 		and	r0, r4, #7
+ 2104 0020 38BD     		pop	{r3, r4, r5, pc}
+ 2105              	.L340:
+ 2106 0022 00BF     		.align	2
+ 2107              	.L339:
+ 2108 0024 00000000 		.word	.LANCHOR0
+ 2109 0028 FA460040 		.word	1073759994
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 38
+
+
+ 2110              		.size	CyVdStickyStatus, .-CyVdStickyStatus
+ 2111              		.section	.text.CyVdRealTimeStatus,"ax",%progbits
+ 2112              		.align	2
+ 2113              		.global	CyVdRealTimeStatus
+ 2114              		.thumb
+ 2115              		.thumb_func
+ 2116              		.type	CyVdRealTimeStatus, %function
+ 2117              	CyVdRealTimeStatus:
+ 2118              		@ args = 0, pretend = 0, frame = 0
+ 2119              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2120 0000 10B5     		push	{r4, lr}
+ 2121 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 2122 0006 044B     		ldr	r3, .L343
+ 2123 0008 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 2124 000a FFF7FEFF 		bl	CyExitCriticalSection
+ 2125 000e E4B2     		uxtb	r4, r4
+ 2126 0010 04F00700 		and	r0, r4, #7
+ 2127 0014 10BD     		pop	{r4, pc}
+ 2128              	.L344:
+ 2129 0016 00BF     		.align	2
+ 2130              	.L343:
+ 2131 0018 FC460040 		.word	1073759996
+ 2132              		.size	CyVdRealTimeStatus, .-CyVdRealTimeStatus
+ 2133              		.section	.text.CyDisableInts,"ax",%progbits
+ 2134              		.align	2
+ 2135              		.global	CyDisableInts
+ 2136              		.thumb
+ 2137              		.thumb_func
+ 2138              		.type	CyDisableInts, %function
+ 2139              	CyDisableInts:
+ 2140              		@ args = 0, pretend = 0, frame = 0
+ 2141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2142 0000 10B5     		push	{r4, lr}
+ 2143 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 2144 0006 044B     		ldr	r3, .L347
+ 2145 0008 4FF0FF32 		mov	r2, #-1
+ 2146 000c 1C68     		ldr	r4, [r3]
+ 2147 000e 1A60     		str	r2, [r3]
+ 2148 0010 FFF7FEFF 		bl	CyExitCriticalSection
+ 2149 0014 2046     		mov	r0, r4
+ 2150 0016 10BD     		pop	{r4, pc}
+ 2151              	.L348:
+ 2152              		.align	2
+ 2153              	.L347:
+ 2154 0018 80E100E0 		.word	-536813184
+ 2155              		.size	CyDisableInts, .-CyDisableInts
+ 2156              		.section	.text.CyEnableInts,"ax",%progbits
+ 2157              		.align	2
+ 2158              		.global	CyEnableInts
+ 2159              		.thumb
+ 2160              		.thumb_func
+ 2161              		.type	CyEnableInts, %function
+ 2162              	CyEnableInts:
+ 2163              		@ args = 0, pretend = 0, frame = 0
+ 2164              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2165 0000 10B5     		push	{r4, lr}
+ 2166 0002 0446     		mov	r4, r0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 39
+
+
+ 2167 0004 FFF7FEFF 		bl	CyEnterCriticalSection
+ 2168 0008 024B     		ldr	r3, .L351
+ 2169 000a 1C60     		str	r4, [r3]
+ 2170 000c BDE81040 		pop	{r4, lr}
+ 2171 0010 FFF7FEBF 		b	CyExitCriticalSection
+ 2172              	.L352:
+ 2173              		.align	2
+ 2174              	.L351:
+ 2175 0014 00E100E0 		.word	-536813312
+ 2176              		.size	CyEnableInts, .-CyEnableInts
+ 2177              		.section	.text.CyFlushCache,"ax",%progbits
+ 2178              		.align	2
+ 2179              		.global	CyFlushCache
+ 2180              		.thumb
+ 2181              		.thumb_func
+ 2182              		.type	CyFlushCache, %function
+ 2183              	CyFlushCache:
+ 2184              		@ args = 0, pretend = 0, frame = 0
+ 2185              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2186 0000 08B5     		push	{r3, lr}
+ 2187 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 2188              		.syntax unified
+ 2189              	@ 2068 "Generated_Source\PSoC5\CyLib.c" 1
+ 2190 0006 00BF     		NOP
+ 2191              	
+ 2192              	@ 0 "" 2
+ 2193              	@ 2069 "Generated_Source\PSoC5\CyLib.c" 1
+ 2194 0008 00BF     		NOP
+ 2195              	
+ 2196              	@ 0 "" 2
+ 2197              	@ 2070 "Generated_Source\PSoC5\CyLib.c" 1
+ 2198 000a 00BF     		NOP
+ 2199              	
+ 2200              	@ 0 "" 2
+ 2201              	@ 2071 "Generated_Source\PSoC5\CyLib.c" 1
+ 2202 000c 00BF     		NOP
+ 2203              	
+ 2204              	@ 0 "" 2
+ 2205              	@ 2072 "Generated_Source\PSoC5\CyLib.c" 1
+ 2206 000e 00BF     		NOP
+ 2207              	
+ 2208              	@ 0 "" 2
+ 2209              	@ 2073 "Generated_Source\PSoC5\CyLib.c" 1
+ 2210 0010 00BF     		NOP
+ 2211              	
+ 2212              	@ 0 "" 2
+ 2213              	@ 2074 "Generated_Source\PSoC5\CyLib.c" 1
+ 2214 0012 00BF     		NOP
+ 2215              	
+ 2216              	@ 0 "" 2
+ 2217              	@ 2075 "Generated_Source\PSoC5\CyLib.c" 1
+ 2218 0014 00BF     		NOP
+ 2219              	
+ 2220              	@ 0 "" 2
+ 2221              	@ 2076 "Generated_Source\PSoC5\CyLib.c" 1
+ 2222 0016 00BF     		NOP
+ 2223              	
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 40
+
+
+ 2224              	@ 0 "" 2
+ 2225              	@ 2077 "Generated_Source\PSoC5\CyLib.c" 1
+ 2226 0018 00BF     		NOP
+ 2227              	
+ 2228              	@ 0 "" 2
+ 2229              	@ 2078 "Generated_Source\PSoC5\CyLib.c" 1
+ 2230 001a 00BF     		NOP
+ 2231              	
+ 2232              	@ 0 "" 2
+ 2233              	@ 2079 "Generated_Source\PSoC5\CyLib.c" 1
+ 2234 001c 00BF     		NOP
+ 2235              	
+ 2236              	@ 0 "" 2
+ 2237              	@ 2080 "Generated_Source\PSoC5\CyLib.c" 1
+ 2238 001e 00BF     		NOP
+ 2239              	
+ 2240              	@ 0 "" 2
+ 2241              	@ 2081 "Generated_Source\PSoC5\CyLib.c" 1
+ 2242 0020 00BF     		NOP
+ 2243              	
+ 2244              	@ 0 "" 2
+ 2245              	@ 2082 "Generated_Source\PSoC5\CyLib.c" 1
+ 2246 0022 00BF     		NOP
+ 2247              	
+ 2248              	@ 0 "" 2
+ 2249              	@ 2083 "Generated_Source\PSoC5\CyLib.c" 1
+ 2250 0024 00BF     		NOP
+ 2251              	
+ 2252              	@ 0 "" 2
+ 2253              		.thumb
+ 2254              		.syntax unified
+ 2255 0026 064A     		ldr	r2, .L355
+ 2256 0028 1388     		ldrh	r3, [r2]
+ 2257 002a 9BB2     		uxth	r3, r3
+ 2258 002c 43F00403 		orr	r3, r3, #4
+ 2259 0030 1380     		strh	r3, [r2]	@ movhi
+ 2260 0032 1388     		ldrh	r3, [r2]
+ 2261              		.syntax unified
+ 2262              	@ 2092 "Generated_Source\PSoC5\CyLib.c" 1
+ 2263 0034 BFF36F8F 		isb 
+ 2264              	
+ 2265              	@ 0 "" 2
+ 2266              		.thumb
+ 2267              		.syntax unified
+ 2268 0038 BDE80840 		pop	{r3, lr}
+ 2269 003c FFF7FEBF 		b	CyExitCriticalSection
+ 2270              	.L356:
+ 2271              		.align	2
+ 2272              	.L355:
+ 2273 0040 00480040 		.word	1073760256
+ 2274              		.size	CyFlushCache, .-CyFlushCache
+ 2275              		.section	.text.CyIntSetSysVector,"ax",%progbits
+ 2276              		.align	2
+ 2277              		.global	CyIntSetSysVector
+ 2278              		.thumb
+ 2279              		.thumb_func
+ 2280              		.type	CyIntSetSysVector, %function
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 41
+
+
+ 2281              	CyIntSetSysVector:
+ 2282              		@ args = 0, pretend = 0, frame = 0
+ 2283              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2284              		@ link register save eliminated.
+ 2285 0000 044B     		ldr	r3, .L358
+ 2286 0002 00F00F02 		and	r2, r0, #15
+ 2287 0006 1B68     		ldr	r3, [r3]
+ 2288 0008 53F82200 		ldr	r0, [r3, r2, lsl #2]
+ 2289 000c 43F82210 		str	r1, [r3, r2, lsl #2]
+ 2290 0010 7047     		bx	lr
+ 2291              	.L359:
+ 2292 0012 00BF     		.align	2
+ 2293              	.L358:
+ 2294 0014 08ED00E0 		.word	-536810232
+ 2295              		.size	CyIntSetSysVector, .-CyIntSetSysVector
+ 2296              		.section	.text.CyIntGetSysVector,"ax",%progbits
+ 2297              		.align	2
+ 2298              		.global	CyIntGetSysVector
+ 2299              		.thumb
+ 2300              		.thumb_func
+ 2301              		.type	CyIntGetSysVector, %function
+ 2302              	CyIntGetSysVector:
+ 2303              		@ args = 0, pretend = 0, frame = 0
+ 2304              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2305              		@ link register save eliminated.
+ 2306 0000 034B     		ldr	r3, .L361
+ 2307 0002 00F00F00 		and	r0, r0, #15
+ 2308 0006 1B68     		ldr	r3, [r3]
+ 2309 0008 53F82000 		ldr	r0, [r3, r0, lsl #2]
+ 2310 000c 7047     		bx	lr
+ 2311              	.L362:
+ 2312 000e 00BF     		.align	2
+ 2313              	.L361:
+ 2314 0010 08ED00E0 		.word	-536810232
+ 2315              		.size	CyIntGetSysVector, .-CyIntGetSysVector
+ 2316              		.section	.text.CyIntSetVector,"ax",%progbits
+ 2317              		.align	2
+ 2318              		.global	CyIntSetVector
+ 2319              		.thumb
+ 2320              		.thumb_func
+ 2321              		.type	CyIntSetVector, %function
+ 2322              	CyIntSetVector:
+ 2323              		@ args = 0, pretend = 0, frame = 0
+ 2324              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2325              		@ link register save eliminated.
+ 2326 0000 054B     		ldr	r3, .L364
+ 2327 0002 00F01F00 		and	r0, r0, #31
+ 2328 0006 1A68     		ldr	r2, [r3]
+ 2329 0008 00F11003 		add	r3, r0, #16
+ 2330 000c 52F82300 		ldr	r0, [r2, r3, lsl #2]
+ 2331 0010 42F82310 		str	r1, [r2, r3, lsl #2]
+ 2332 0014 7047     		bx	lr
+ 2333              	.L365:
+ 2334 0016 00BF     		.align	2
+ 2335              	.L364:
+ 2336 0018 08ED00E0 		.word	-536810232
+ 2337              		.size	CyIntSetVector, .-CyIntSetVector
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 42
+
+
+ 2338              		.section	.text.CyIntGetVector,"ax",%progbits
+ 2339              		.align	2
+ 2340              		.global	CyIntGetVector
+ 2341              		.thumb
+ 2342              		.thumb_func
+ 2343              		.type	CyIntGetVector, %function
+ 2344              	CyIntGetVector:
+ 2345              		@ args = 0, pretend = 0, frame = 0
+ 2346              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2347              		@ link register save eliminated.
+ 2348 0000 034B     		ldr	r3, .L367
+ 2349 0002 00F01F00 		and	r0, r0, #31
+ 2350 0006 1B68     		ldr	r3, [r3]
+ 2351 0008 1030     		adds	r0, r0, #16
+ 2352 000a 53F82000 		ldr	r0, [r3, r0, lsl #2]
+ 2353 000e 7047     		bx	lr
+ 2354              	.L368:
+ 2355              		.align	2
+ 2356              	.L367:
+ 2357 0010 08ED00E0 		.word	-536810232
+ 2358              		.size	CyIntGetVector, .-CyIntGetVector
+ 2359              		.section	.text.CyIntSetPriority,"ax",%progbits
+ 2360              		.align	2
+ 2361              		.global	CyIntSetPriority
+ 2362              		.thumb
+ 2363              		.thumb_func
+ 2364              		.type	CyIntSetPriority, %function
+ 2365              	CyIntSetPriority:
+ 2366              		@ args = 0, pretend = 0, frame = 0
+ 2367              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2368              		@ link register save eliminated.
+ 2369 0000 00F01F00 		and	r0, r0, #31
+ 2370 0004 00F16040 		add	r0, r0, #-536870912
+ 2371 0008 4901     		lsls	r1, r1, #5
+ 2372 000a 00F56440 		add	r0, r0, #58368
+ 2373 000e C9B2     		uxtb	r1, r1
+ 2374 0010 0170     		strb	r1, [r0]
+ 2375 0012 7047     		bx	lr
+ 2376              		.size	CyIntSetPriority, .-CyIntSetPriority
+ 2377              		.section	.text.CyIntGetPriority,"ax",%progbits
+ 2378              		.align	2
+ 2379              		.global	CyIntGetPriority
+ 2380              		.thumb
+ 2381              		.thumb_func
+ 2382              		.type	CyIntGetPriority, %function
+ 2383              	CyIntGetPriority:
+ 2384              		@ args = 0, pretend = 0, frame = 0
+ 2385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2386              		@ link register save eliminated.
+ 2387 0000 00F01F00 		and	r0, r0, #31
+ 2388 0004 00F16040 		add	r0, r0, #-536870912
+ 2389 0008 00F56440 		add	r0, r0, #58368
+ 2390 000c 0078     		ldrb	r0, [r0]	@ zero_extendqisi2
+ 2391 000e 4009     		lsrs	r0, r0, #5
+ 2392 0010 7047     		bx	lr
+ 2393              		.size	CyIntGetPriority, .-CyIntGetPriority
+ 2394 0012 00BF     		.section	.text.CyIntGetState,"ax",%progbits
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 43
+
+
+ 2395              		.align	2
+ 2396              		.global	CyIntGetState
+ 2397              		.thumb
+ 2398              		.thumb_func
+ 2399              		.type	CyIntGetState, %function
+ 2400              	CyIntGetState:
+ 2401              		@ args = 0, pretend = 0, frame = 0
+ 2402              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2403              		@ link register save eliminated.
+ 2404 0000 044B     		ldr	r3, .L372
+ 2405 0002 00F01F00 		and	r0, r0, #31
+ 2406 0006 1B68     		ldr	r3, [r3]
+ 2407 0008 23FA00F0 		lsr	r0, r3, r0
+ 2408 000c 00F00100 		and	r0, r0, #1
+ 2409 0010 7047     		bx	lr
+ 2410              	.L373:
+ 2411 0012 00BF     		.align	2
+ 2412              	.L372:
+ 2413 0014 00E100E0 		.word	-536813312
+ 2414              		.size	CyIntGetState, .-CyIntGetState
+ 2415              		.section	.text.CySysTickStart,"ax",%progbits
+ 2416              		.align	2
+ 2417              		.global	CySysTickStart
+ 2418              		.thumb
+ 2419              		.thumb_func
+ 2420              		.type	CySysTickStart, %function
+ 2421              	CySysTickStart:
+ 2422              		@ args = 0, pretend = 0, frame = 0
+ 2423              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2424              		@ link register save eliminated.
+ 2425 0000 164A     		ldr	r2, .L377
+ 2426 0002 F0B4     		push	{r4, r5, r6, r7}
+ 2427 0004 9369     		ldr	r3, [r2, #24]
+ 2428 0006 EBB9     		cbnz	r3, .L375
+ 2429 0008 1549     		ldr	r1, .L377+4
+ 2430 000a 1648     		ldr	r0, .L377+8
+ 2431 000c C968     		ldr	r1, [r1, #12]
+ 2432 000e 164C     		ldr	r4, .L377+12
+ 2433 0010 164D     		ldr	r5, .L377+16
+ 2434 0012 1360     		str	r3, [r2]
+ 2435 0014 A0FB0101 		umull	r0, r1, r0, r1
+ 2436 0018 2D68     		ldr	r5, [r5]
+ 2437 001a 2068     		ldr	r0, [r4]
+ 2438 001c 144E     		ldr	r6, .L377+20
+ 2439 001e 40F00400 		orr	r0, r0, #4
+ 2440 0022 EE63     		str	r6, [r5, #60]
+ 2441 0024 134F     		ldr	r7, .L377+24
+ 2442 0026 144E     		ldr	r6, .L377+28
+ 2443 0028 144D     		ldr	r5, .L377+32
+ 2444 002a 5360     		str	r3, [r2, #4]
+ 2445 002c 9360     		str	r3, [r2, #8]
+ 2446 002e D360     		str	r3, [r2, #12]
+ 2447 0030 1361     		str	r3, [r2, #16]
+ 2448 0032 8909     		lsrs	r1, r1, #6
+ 2449 0034 2060     		str	r0, [r4]
+ 2450 0036 4FF40040 		mov	r0, #32768
+ 2451 003a 0124     		movs	r4, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 44
+
+
+ 2452 003c 3960     		str	r1, [r7]
+ 2453 003e 9461     		str	r4, [r2, #24]
+ 2454 0040 3360     		str	r3, [r6]
+ 2455 0042 2860     		str	r0, [r5]
+ 2456              	.L375:
+ 2457 0044 084B     		ldr	r3, .L377+12
+ 2458 0046 F0BC     		pop	{r4, r5, r6, r7}
+ 2459 0048 1A68     		ldr	r2, [r3]
+ 2460 004a 42F00202 		orr	r2, r2, #2
+ 2461 004e 1A60     		str	r2, [r3]
+ 2462 0050 1A68     		ldr	r2, [r3]
+ 2463 0052 42F00102 		orr	r2, r2, #1
+ 2464 0056 1A60     		str	r2, [r3]
+ 2465 0058 7047     		bx	lr
+ 2466              	.L378:
+ 2467 005a 00BF     		.align	2
+ 2468              	.L377:
+ 2469 005c 00000000 		.word	.LANCHOR0
+ 2470 0060 00000000 		.word	.LANCHOR1
+ 2471 0064 D34D6210 		.word	274877907
+ 2472 0068 10E000E0 		.word	-536813552
+ 2473 006c 08ED00E0 		.word	-536810232
+ 2474 0070 00000000 		.word	CySysTickServiceCallbacks
+ 2475 0074 14E000E0 		.word	-536813548
+ 2476 0078 18E000E0 		.word	-536813544
+ 2477 007c 00E100E0 		.word	-536813312
+ 2478              		.size	CySysTickStart, .-CySysTickStart
+ 2479              		.section	.text.CySysTickInit,"ax",%progbits
+ 2480              		.align	2
+ 2481              		.global	CySysTickInit
+ 2482              		.thumb
+ 2483              		.thumb_func
+ 2484              		.type	CySysTickInit, %function
+ 2485              	CySysTickInit:
+ 2486              		@ args = 0, pretend = 0, frame = 0
+ 2487              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2488 0000 104B     		ldr	r3, .L381
+ 2489 0002 1148     		ldr	r0, .L381+4
+ 2490 0004 DA68     		ldr	r2, [r3, #12]
+ 2491 0006 1149     		ldr	r1, .L381+8
+ 2492 0008 F0B5     		push	{r4, r5, r6, r7, lr}
+ 2493 000a 0023     		movs	r3, #0
+ 2494 000c 104C     		ldr	r4, .L381+12
+ 2495 000e A0FB0202 		umull	r0, r2, r0, r2
+ 2496 0012 104D     		ldr	r5, .L381+16
+ 2497 0014 0B60     		str	r3, [r1]
+ 2498 0016 2068     		ldr	r0, [r4]
+ 2499 0018 2D68     		ldr	r5, [r5]
+ 2500 001a DFF848E0 		ldr	lr, .L381+32
+ 2501 001e 4B60     		str	r3, [r1, #4]
+ 2502 0020 8B60     		str	r3, [r1, #8]
+ 2503 0022 CB60     		str	r3, [r1, #12]
+ 2504 0024 0B61     		str	r3, [r1, #16]
+ 2505 0026 0C4F     		ldr	r7, .L381+20
+ 2506 0028 0C4E     		ldr	r6, .L381+24
+ 2507 002a 0D49     		ldr	r1, .L381+28
+ 2508 002c C5F83CE0 		str	lr, [r5, #60]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 45
+
+
+ 2509 0030 40F00400 		orr	r0, r0, #4
+ 2510 0034 9209     		lsrs	r2, r2, #6
+ 2511 0036 4FF40045 		mov	r5, #32768
+ 2512 003a 2060     		str	r0, [r4]
+ 2513 003c 3A60     		str	r2, [r7]
+ 2514 003e 3360     		str	r3, [r6]
+ 2515 0040 0D60     		str	r5, [r1]
+ 2516 0042 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 2517              	.L382:
+ 2518              		.align	2
+ 2519              	.L381:
+ 2520 0044 00000000 		.word	.LANCHOR1
+ 2521 0048 D34D6210 		.word	274877907
+ 2522 004c 00000000 		.word	.LANCHOR0
+ 2523 0050 10E000E0 		.word	-536813552
+ 2524 0054 08ED00E0 		.word	-536810232
+ 2525 0058 14E000E0 		.word	-536813548
+ 2526 005c 18E000E0 		.word	-536813544
+ 2527 0060 00E100E0 		.word	-536813312
+ 2528 0064 00000000 		.word	CySysTickServiceCallbacks
+ 2529              		.size	CySysTickInit, .-CySysTickInit
+ 2530              		.section	.text.CySysTickEnable,"ax",%progbits
+ 2531              		.align	2
+ 2532              		.global	CySysTickEnable
+ 2533              		.thumb
+ 2534              		.thumb_func
+ 2535              		.type	CySysTickEnable, %function
+ 2536              	CySysTickEnable:
+ 2537              		@ args = 0, pretend = 0, frame = 0
+ 2538              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2539              		@ link register save eliminated.
+ 2540 0000 044B     		ldr	r3, .L384
+ 2541 0002 1A68     		ldr	r2, [r3]
+ 2542 0004 42F00202 		orr	r2, r2, #2
+ 2543 0008 1A60     		str	r2, [r3]
+ 2544 000a 1A68     		ldr	r2, [r3]
+ 2545 000c 42F00102 		orr	r2, r2, #1
+ 2546 0010 1A60     		str	r2, [r3]
+ 2547 0012 7047     		bx	lr
+ 2548              	.L385:
+ 2549              		.align	2
+ 2550              	.L384:
+ 2551 0014 10E000E0 		.word	-536813552
+ 2552              		.size	CySysTickEnable, .-CySysTickEnable
+ 2553              		.section	.text.CySysTickStop,"ax",%progbits
+ 2554              		.align	2
+ 2555              		.global	CySysTickStop
+ 2556              		.thumb
+ 2557              		.thumb_func
+ 2558              		.type	CySysTickStop, %function
+ 2559              	CySysTickStop:
+ 2560              		@ args = 0, pretend = 0, frame = 0
+ 2561              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2562              		@ link register save eliminated.
+ 2563 0000 024A     		ldr	r2, .L387
+ 2564 0002 1368     		ldr	r3, [r2]
+ 2565 0004 23F00103 		bic	r3, r3, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 46
+
+
+ 2566 0008 1360     		str	r3, [r2]
+ 2567 000a 7047     		bx	lr
+ 2568              	.L388:
+ 2569              		.align	2
+ 2570              	.L387:
+ 2571 000c 10E000E0 		.word	-536813552
+ 2572              		.size	CySysTickStop, .-CySysTickStop
+ 2573              		.section	.text.CySysTickEnableInterrupt,"ax",%progbits
+ 2574              		.align	2
+ 2575              		.global	CySysTickEnableInterrupt
+ 2576              		.thumb
+ 2577              		.thumb_func
+ 2578              		.type	CySysTickEnableInterrupt, %function
+ 2579              	CySysTickEnableInterrupt:
+ 2580              		@ args = 0, pretend = 0, frame = 0
+ 2581              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2582              		@ link register save eliminated.
+ 2583 0000 024A     		ldr	r2, .L390
+ 2584 0002 1368     		ldr	r3, [r2]
+ 2585 0004 43F00203 		orr	r3, r3, #2
+ 2586 0008 1360     		str	r3, [r2]
+ 2587 000a 7047     		bx	lr
+ 2588              	.L391:
+ 2589              		.align	2
+ 2590              	.L390:
+ 2591 000c 10E000E0 		.word	-536813552
+ 2592              		.size	CySysTickEnableInterrupt, .-CySysTickEnableInterrupt
+ 2593              		.section	.text.CySysTickDisableInterrupt,"ax",%progbits
+ 2594              		.align	2
+ 2595              		.global	CySysTickDisableInterrupt
+ 2596              		.thumb
+ 2597              		.thumb_func
+ 2598              		.type	CySysTickDisableInterrupt, %function
+ 2599              	CySysTickDisableInterrupt:
+ 2600              		@ args = 0, pretend = 0, frame = 0
+ 2601              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2602              		@ link register save eliminated.
+ 2603 0000 024A     		ldr	r2, .L393
+ 2604 0002 1368     		ldr	r3, [r2]
+ 2605 0004 23F00203 		bic	r3, r3, #2
+ 2606 0008 1360     		str	r3, [r2]
+ 2607 000a 7047     		bx	lr
+ 2608              	.L394:
+ 2609              		.align	2
+ 2610              	.L393:
+ 2611 000c 10E000E0 		.word	-536813552
+ 2612              		.size	CySysTickDisableInterrupt, .-CySysTickDisableInterrupt
+ 2613              		.section	.text.CySysTickSetReload,"ax",%progbits
+ 2614              		.align	2
+ 2615              		.global	CySysTickSetReload
+ 2616              		.thumb
+ 2617              		.thumb_func
+ 2618              		.type	CySysTickSetReload, %function
+ 2619              	CySysTickSetReload:
+ 2620              		@ args = 0, pretend = 0, frame = 0
+ 2621              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2622              		@ link register save eliminated.
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 47
+
+
+ 2623 0000 024B     		ldr	r3, .L396
+ 2624 0002 20F07F40 		bic	r0, r0, #-16777216
+ 2625 0006 1860     		str	r0, [r3]
+ 2626 0008 7047     		bx	lr
+ 2627              	.L397:
+ 2628 000a 00BF     		.align	2
+ 2629              	.L396:
+ 2630 000c 14E000E0 		.word	-536813548
+ 2631              		.size	CySysTickSetReload, .-CySysTickSetReload
+ 2632              		.section	.text.CySysTickGetReload,"ax",%progbits
+ 2633              		.align	2
+ 2634              		.global	CySysTickGetReload
+ 2635              		.thumb
+ 2636              		.thumb_func
+ 2637              		.type	CySysTickGetReload, %function
+ 2638              	CySysTickGetReload:
+ 2639              		@ args = 0, pretend = 0, frame = 0
+ 2640              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2641              		@ link register save eliminated.
+ 2642 0000 024B     		ldr	r3, .L399
+ 2643 0002 1868     		ldr	r0, [r3]
+ 2644 0004 20F07F40 		bic	r0, r0, #-16777216
+ 2645 0008 7047     		bx	lr
+ 2646              	.L400:
+ 2647 000a 00BF     		.align	2
+ 2648              	.L399:
+ 2649 000c 14E000E0 		.word	-536813548
+ 2650              		.size	CySysTickGetReload, .-CySysTickGetReload
+ 2651              		.section	.text.CySysTickGetValue,"ax",%progbits
+ 2652              		.align	2
+ 2653              		.global	CySysTickGetValue
+ 2654              		.thumb
+ 2655              		.thumb_func
+ 2656              		.type	CySysTickGetValue, %function
+ 2657              	CySysTickGetValue:
+ 2658              		@ args = 0, pretend = 0, frame = 0
+ 2659              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2660              		@ link register save eliminated.
+ 2661 0000 024B     		ldr	r3, .L402
+ 2662 0002 1868     		ldr	r0, [r3]
+ 2663 0004 20F07F40 		bic	r0, r0, #-16777216
+ 2664 0008 7047     		bx	lr
+ 2665              	.L403:
+ 2666 000a 00BF     		.align	2
+ 2667              	.L402:
+ 2668 000c 18E000E0 		.word	-536813544
+ 2669              		.size	CySysTickGetValue, .-CySysTickGetValue
+ 2670              		.section	.text.CySysTickSetClockSource,"ax",%progbits
+ 2671              		.align	2
+ 2672              		.global	CySysTickSetClockSource
+ 2673              		.thumb
+ 2674              		.thumb_func
+ 2675              		.type	CySysTickSetClockSource, %function
+ 2676              	CySysTickSetClockSource:
+ 2677              		@ args = 0, pretend = 0, frame = 0
+ 2678              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2679              		@ link register save eliminated.
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 48
+
+
+ 2680 0000 044A     		ldr	r2, .L407
+ 2681 0002 0128     		cmp	r0, #1
+ 2682 0004 1368     		ldr	r3, [r2]
+ 2683 0006 0CBF     		ite	eq
+ 2684 0008 43F00403 		orreq	r3, r3, #4
+ 2685 000c 23F00403 		bicne	r3, r3, #4
+ 2686 0010 1360     		str	r3, [r2]
+ 2687 0012 7047     		bx	lr
+ 2688              	.L408:
+ 2689              		.align	2
+ 2690              	.L407:
+ 2691 0014 10E000E0 		.word	-536813552
+ 2692              		.size	CySysTickSetClockSource, .-CySysTickSetClockSource
+ 2693              		.section	.text.CySysTickGetClockSource,"ax",%progbits
+ 2694              		.align	2
+ 2695              		.global	CySysTickGetClockSource
+ 2696              		.thumb
+ 2697              		.thumb_func
+ 2698              		.type	CySysTickGetClockSource, %function
+ 2699              	CySysTickGetClockSource:
+ 2700              		@ args = 0, pretend = 0, frame = 0
+ 2701              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2702              		@ link register save eliminated.
+ 2703 0000 024B     		ldr	r3, .L410
+ 2704 0002 1868     		ldr	r0, [r3]
+ 2705 0004 C0F38000 		ubfx	r0, r0, #2, #1
+ 2706 0008 7047     		bx	lr
+ 2707              	.L411:
+ 2708 000a 00BF     		.align	2
+ 2709              	.L410:
+ 2710 000c 10E000E0 		.word	-536813552
+ 2711              		.size	CySysTickGetClockSource, .-CySysTickGetClockSource
+ 2712              		.section	.text.CySysTickGetCountFlag,"ax",%progbits
+ 2713              		.align	2
+ 2714              		.global	CySysTickGetCountFlag
+ 2715              		.thumb
+ 2716              		.thumb_func
+ 2717              		.type	CySysTickGetCountFlag, %function
+ 2718              	CySysTickGetCountFlag:
+ 2719              		@ args = 0, pretend = 0, frame = 0
+ 2720              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2721              		@ link register save eliminated.
+ 2722 0000 024B     		ldr	r3, .L413
+ 2723 0002 1868     		ldr	r0, [r3]
+ 2724 0004 C0F30040 		ubfx	r0, r0, #16, #1
+ 2725 0008 7047     		bx	lr
+ 2726              	.L414:
+ 2727 000a 00BF     		.align	2
+ 2728              	.L413:
+ 2729 000c 10E000E0 		.word	-536813552
+ 2730              		.size	CySysTickGetCountFlag, .-CySysTickGetCountFlag
+ 2731              		.section	.text.CySysTickClear,"ax",%progbits
+ 2732              		.align	2
+ 2733              		.global	CySysTickClear
+ 2734              		.thumb
+ 2735              		.thumb_func
+ 2736              		.type	CySysTickClear, %function
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 49
+
+
+ 2737              	CySysTickClear:
+ 2738              		@ args = 0, pretend = 0, frame = 0
+ 2739              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2740              		@ link register save eliminated.
+ 2741 0000 014B     		ldr	r3, .L416
+ 2742 0002 0022     		movs	r2, #0
+ 2743 0004 1A60     		str	r2, [r3]
+ 2744 0006 7047     		bx	lr
+ 2745              	.L417:
+ 2746              		.align	2
+ 2747              	.L416:
+ 2748 0008 18E000E0 		.word	-536813544
+ 2749              		.size	CySysTickClear, .-CySysTickClear
+ 2750              		.section	.text.CySysTickSetCallback,"ax",%progbits
+ 2751              		.align	2
+ 2752              		.global	CySysTickSetCallback
+ 2753              		.thumb
+ 2754              		.thumb_func
+ 2755              		.type	CySysTickSetCallback, %function
+ 2756              	CySysTickSetCallback:
+ 2757              		@ args = 0, pretend = 0, frame = 0
+ 2758              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2759              		@ link register save eliminated.
+ 2760 0000 0246     		mov	r2, r0
+ 2761 0002 034B     		ldr	r3, .L419
+ 2762 0004 53F82000 		ldr	r0, [r3, r0, lsl #2]
+ 2763 0008 43F82210 		str	r1, [r3, r2, lsl #2]
+ 2764 000c 7047     		bx	lr
+ 2765              	.L420:
+ 2766 000e 00BF     		.align	2
+ 2767              	.L419:
+ 2768 0010 00000000 		.word	.LANCHOR0
+ 2769              		.size	CySysTickSetCallback, .-CySysTickSetCallback
+ 2770              		.section	.text.CySysTickGetCallback,"ax",%progbits
+ 2771              		.align	2
+ 2772              		.global	CySysTickGetCallback
+ 2773              		.thumb
+ 2774              		.thumb_func
+ 2775              		.type	CySysTickGetCallback, %function
+ 2776              	CySysTickGetCallback:
+ 2777              		@ args = 0, pretend = 0, frame = 0
+ 2778              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2779              		@ link register save eliminated.
+ 2780 0000 014B     		ldr	r3, .L422
+ 2781 0002 53F82000 		ldr	r0, [r3, r0, lsl #2]
+ 2782 0006 7047     		bx	lr
+ 2783              	.L423:
+ 2784              		.align	2
+ 2785              	.L422:
+ 2786 0008 00000000 		.word	.LANCHOR0
+ 2787              		.size	CySysTickGetCallback, .-CySysTickGetCallback
+ 2788              		.section	.text.CyGetUniqueId,"ax",%progbits
+ 2789              		.align	2
+ 2790              		.global	CyGetUniqueId
+ 2791              		.thumb
+ 2792              		.thumb_func
+ 2793              		.type	CyGetUniqueId, %function
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 50
+
+
+ 2794              	CyGetUniqueId:
+ 2795              		@ args = 0, pretend = 0, frame = 0
+ 2796              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2797              		@ link register save eliminated.
+ 2798 0000 10B4     		push	{r4}
+ 2799 0002 144B     		ldr	r3, .L426
+ 2800 0004 144A     		ldr	r2, .L426+4
+ 2801 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 2802 0008 1449     		ldr	r1, .L426+8
+ 2803 000a DBB2     		uxtb	r3, r3
+ 2804 000c 0360     		str	r3, [r0]
+ 2805 000e 1478     		ldrb	r4, [r2]	@ zero_extendqisi2
+ 2806 0010 0232     		adds	r2, r2, #2
+ 2807 0012 43EA0423 		orr	r3, r3, r4, lsl #8
+ 2808 0016 0360     		str	r3, [r0]
+ 2809 0018 0C78     		ldrb	r4, [r1]	@ zero_extendqisi2
+ 2810 001a 1149     		ldr	r1, .L426+12
+ 2811 001c 43EA0443 		orr	r3, r3, r4, lsl #16
+ 2812 0020 0360     		str	r3, [r0]
+ 2813 0022 12F8044C 		ldrb	r4, [r2, #-4]	@ zero_extendqisi2
+ 2814 0026 0431     		adds	r1, r1, #4
+ 2815 0028 43EA0463 		orr	r3, r3, r4, lsl #24
+ 2816 002c 0360     		str	r3, [r0]
+ 2817 002e 11F8043C 		ldrb	r3, [r1, #-4]	@ zero_extendqisi2
+ 2818 0032 DBB2     		uxtb	r3, r3
+ 2819 0034 4360     		str	r3, [r0, #4]
+ 2820 0036 12F8064C 		ldrb	r4, [r2, #-6]	@ zero_extendqisi2
+ 2821 003a 43EA0423 		orr	r3, r3, r4, lsl #8
+ 2822 003e 4360     		str	r3, [r0, #4]
+ 2823 0040 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+ 2824 0042 10BC     		pop	{r4}
+ 2825 0044 43EA0143 		orr	r3, r3, r1, lsl #16
+ 2826 0048 4360     		str	r3, [r0, #4]
+ 2827 004a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 2828 004c 43EA0263 		orr	r3, r3, r2, lsl #24
+ 2829 0050 4360     		str	r3, [r0, #4]
+ 2830 0052 7047     		bx	lr
+ 2831              	.L427:
+ 2832              		.align	2
+ 2833              	.L426:
+ 2834 0054 03010049 		.word	1224737027
+ 2835 0058 04010049 		.word	1224737028
+ 2836 005c EC460040 		.word	1073759980
+ 2837 0060 01010049 		.word	1224737025
+ 2838              		.size	CyGetUniqueId, .-CyGetUniqueId
+ 2839              		.global	CySysTickInitVar
+ 2840              		.global	cydelay_32k_ms
+ 2841              		.global	cydelay_freq_mhz
+ 2842              		.global	cydelay_freq_khz
+ 2843              		.global	cydelay_freq_hz
+ 2844              		.global	CyResetStatus
+ 2845              		.data
+ 2846              		.align	2
+ 2847              		.set	.LANCHOR1,. + 0
+ 2848              		.type	cydelay_freq_mhz, %object
+ 2849              		.size	cydelay_freq_mhz, 1
+ 2850              	cydelay_freq_mhz:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccehJoZc.s 			page 51
+
+
+ 2851 0000 30       		.byte	48
+ 2852 0001 000000   		.space	3
+ 2853              		.type	cydelay_32k_ms, %object
+ 2854              		.size	cydelay_32k_ms, 4
+ 2855              	cydelay_32k_ms:
+ 2856 0004 0000C05D 		.word	1572864000
+ 2857              		.type	cydelay_freq_khz, %object
+ 2858              		.size	cydelay_freq_khz, 4
+ 2859              	cydelay_freq_khz:
+ 2860 0008 80BB0000 		.word	48000
+ 2861              		.type	cydelay_freq_hz, %object
+ 2862              		.size	cydelay_freq_hz, 4
+ 2863              	cydelay_freq_hz:
+ 2864 000c 006CDC02 		.word	48000000
+ 2865              		.section	.noinit,"aw",%progbits
+ 2866              		.type	CyResetStatus, %object
+ 2867              		.size	CyResetStatus, 1
+ 2868              	CyResetStatus:
+ 2869 0000 00       		.space	1
+ 2870              		.bss
+ 2871              		.align	2
+ 2872              		.set	.LANCHOR0,. + 0
+ 2873              		.type	CySysTickCallbacks, %object
+ 2874              		.size	CySysTickCallbacks, 20
+ 2875              	CySysTickCallbacks:
+ 2876 0000 00000000 		.space	20
+ 2876      00000000 
+ 2876      00000000 
+ 2876      00000000 
+ 2876      00000000 
+ 2877              		.type	interruptStatus.5207, %object
+ 2878              		.size	interruptStatus.5207, 1
+ 2879              	interruptStatus.5207:
+ 2880 0014 00       		.space	1
+ 2881 0015 000000   		.space	3
+ 2882              		.type	CySysTickInitVar, %object
+ 2883              		.size	CySysTickInitVar, 4
+ 2884              	CySysTickInitVar:
+ 2885 0018 00000000 		.space	4
+ 2886              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

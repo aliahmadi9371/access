@@ -1,0 +1,479 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAJcWh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"BSP.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.BSP_Init,"ax",%progbits
+  20              		.align	2
+  21              		.global	BSP_Init
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	BSP_Init, %function
+  25              	BSP_Init:
+  26              	.LFB63:
+  27              		.file 1 "..\\Setup\\BSP.c"
+   1:..\Setup/BSP.c **** /*********************************************************************
+   2:..\Setup/BSP.c **** *                     SEGGER Microcontroller GmbH                    *
+   3:..\Setup/BSP.c **** *                        The Embedded Experts                        *
+   4:..\Setup/BSP.c **** **********************************************************************
+   5:..\Setup/BSP.c **** *                                                                    *
+   6:..\Setup/BSP.c **** *       (c) 1995 - 2022 SEGGER Microcontroller GmbH                  *
+   7:..\Setup/BSP.c **** *                                                                    *
+   8:..\Setup/BSP.c **** *       Internet: segger.com  Support: support_embos@segger.com      *
+   9:..\Setup/BSP.c **** *                                                                    *
+  10:..\Setup/BSP.c **** **********************************************************************
+  11:..\Setup/BSP.c **** *                                                                    *
+  12:..\Setup/BSP.c **** *       embOS * Real time operating system                           *
+  13:..\Setup/BSP.c **** *                                                                    *
+  14:..\Setup/BSP.c **** *       Please note:                                                 *
+  15:..\Setup/BSP.c **** *                                                                    *
+  16:..\Setup/BSP.c **** *       Knowledge of this file may under no circumstances            *
+  17:..\Setup/BSP.c **** *       be used to write a similar product or a real-time            *
+  18:..\Setup/BSP.c **** *       operating system for in-house use.                           *
+  19:..\Setup/BSP.c **** *                                                                    *
+  20:..\Setup/BSP.c **** *       Thank you for your fairness !                                *
+  21:..\Setup/BSP.c **** *                                                                    *
+  22:..\Setup/BSP.c **** **********************************************************************
+  23:..\Setup/BSP.c **** *                                                                    *
+  24:..\Setup/BSP.c **** *       OS version: V5.16.1.0                                        *
+  25:..\Setup/BSP.c **** *                                                                    *
+  26:..\Setup/BSP.c **** **********************************************************************
+  27:..\Setup/BSP.c **** 
+  28:..\Setup/BSP.c **** ----------------------------------------------------------------------
+  29:..\Setup/BSP.c **** File    : BSP.c
+  30:..\Setup/BSP.c **** Purpose : BSP for Cypress DVK with LEDs
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAJcWh.s 			page 2
+
+
+  31:..\Setup/BSP.c **** --------  END-OF-HEADER  ---------------------------------------------
+  32:..\Setup/BSP.c **** */
+  33:..\Setup/BSP.c **** 
+  34:..\Setup/BSP.c **** #include "BSP.h"
+  35:..\Setup/BSP.c **** #include "device.h"
+  36:..\Setup/BSP.c **** 
+  37:..\Setup/BSP.c **** /*********************************************************************
+  38:..\Setup/BSP.c **** *
+  39:..\Setup/BSP.c **** *       Global functions
+  40:..\Setup/BSP.c **** *
+  41:..\Setup/BSP.c **** **********************************************************************
+  42:..\Setup/BSP.c **** */
+  43:..\Setup/BSP.c **** 
+  44:..\Setup/BSP.c **** /*********************************************************************
+  45:..\Setup/BSP.c **** *
+  46:..\Setup/BSP.c **** *       BSP_Init()
+  47:..\Setup/BSP.c **** */
+  48:..\Setup/BSP.c **** void BSP_Init()
+  49:..\Setup/BSP.c **** {
+  28              		.loc 1 49 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 00AF     		add	r7, sp, #0
+  37              		.cfi_def_cfa_register 7
+  50:..\Setup/BSP.c ****     UART_Debug_Start();
+  38              		.loc 1 50 0
+  39 0004 FFF7FEFF 		bl	UART_Debug_Start
+  51:..\Setup/BSP.c ****     UART_Linux_Start();
+  40              		.loc 1 51 0
+  41 0008 FFF7FEFF 		bl	UART_Linux_Start
+  52:..\Setup/BSP.c ****     
+  53:..\Setup/BSP.c ****     return;
+  42              		.loc 1 53 0
+  43 000c 00BF     		nop
+  54:..\Setup/BSP.c **** }
+  44              		.loc 1 54 0
+  45 000e 80BD     		pop	{r7, pc}
+  46              		.cfi_endproc
+  47              	.LFE63:
+  48              		.size	BSP_Init, .-BSP_Init
+  49              		.text
+  50              	.Letext0:
+  51              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+  52              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+  53              		.file 4 "Generated_Source\\PSoC5/core_cm3.h"
+  54              		.section	.debug_info,"",%progbits
+  55              	.Ldebug_info0:
+  56 0000 C3000000 		.4byte	0xc3
+  57 0004 0400     		.2byte	0x4
+  58 0006 00000000 		.4byte	.Ldebug_abbrev0
+  59 000a 04       		.byte	0x4
+  60 000b 01       		.uleb128 0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAJcWh.s 			page 3
+
+
+  61 000c 57000000 		.4byte	.LASF16
+  62 0010 0C       		.byte	0xc
+  63 0011 E2010000 		.4byte	.LASF17
+  64 0015 11010000 		.4byte	.LASF18
+  65 0019 00000000 		.4byte	.Ldebug_ranges0+0
+  66 001d 00000000 		.4byte	0
+  67 0021 00000000 		.4byte	.Ldebug_line0
+  68 0025 02       		.uleb128 0x2
+  69 0026 01       		.byte	0x1
+  70 0027 06       		.byte	0x6
+  71 0028 C0010000 		.4byte	.LASF0
+  72 002c 02       		.uleb128 0x2
+  73 002d 01       		.byte	0x1
+  74 002e 08       		.byte	0x8
+  75 002f E5000000 		.4byte	.LASF1
+  76 0033 02       		.uleb128 0x2
+  77 0034 02       		.byte	0x2
+  78 0035 05       		.byte	0x5
+  79 0036 F7010000 		.4byte	.LASF2
+  80 003a 02       		.uleb128 0x2
+  81 003b 02       		.byte	0x2
+  82 003c 07       		.byte	0x7
+  83 003d 0E000000 		.4byte	.LASF3
+  84 0041 03       		.uleb128 0x3
+  85 0042 D8010000 		.4byte	.LASF9
+  86 0046 02       		.byte	0x2
+  87 0047 3F       		.byte	0x3f
+  88 0048 4C000000 		.4byte	0x4c
+  89 004c 02       		.uleb128 0x2
+  90 004d 04       		.byte	0x4
+  91 004e 05       		.byte	0x5
+  92 004f F8000000 		.4byte	.LASF4
+  93 0053 02       		.uleb128 0x2
+  94 0054 04       		.byte	0x4
+  95 0055 07       		.byte	0x7
+  96 0056 2E000000 		.4byte	.LASF5
+  97 005a 02       		.uleb128 0x2
+  98 005b 08       		.byte	0x8
+  99 005c 05       		.byte	0x5
+ 100 005d 00000000 		.4byte	.LASF6
+ 101 0061 02       		.uleb128 0x2
+ 102 0062 08       		.byte	0x8
+ 103 0063 07       		.byte	0x7
+ 104 0064 40000000 		.4byte	.LASF7
+ 105 0068 04       		.uleb128 0x4
+ 106 0069 04       		.byte	0x4
+ 107 006a 05       		.byte	0x5
+ 108 006b 696E7400 		.ascii	"int\000"
+ 109 006f 02       		.uleb128 0x2
+ 110 0070 04       		.byte	0x4
+ 111 0071 07       		.byte	0x7
+ 112 0072 21000000 		.4byte	.LASF8
+ 113 0076 03       		.uleb128 0x3
+ 114 0077 01020000 		.4byte	.LASF10
+ 115 007b 03       		.byte	0x3
+ 116 007c 2C       		.byte	0x2c
+ 117 007d 41000000 		.4byte	0x41
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAJcWh.s 			page 4
+
+
+ 118 0081 02       		.uleb128 0x2
+ 119 0082 04       		.byte	0x4
+ 120 0083 04       		.byte	0x4
+ 121 0084 F1010000 		.4byte	.LASF11
+ 122 0088 02       		.uleb128 0x2
+ 123 0089 08       		.byte	0x8
+ 124 008a 04       		.byte	0x4
+ 125 008b 01010000 		.4byte	.LASF12
+ 126 008f 02       		.uleb128 0x2
+ 127 0090 01       		.byte	0x1
+ 128 0091 08       		.byte	0x8
+ 129 0092 F3000000 		.4byte	.LASF13
+ 130 0096 02       		.uleb128 0x2
+ 131 0097 08       		.byte	0x8
+ 132 0098 04       		.byte	0x4
+ 133 0099 CC010000 		.4byte	.LASF14
+ 134 009d 02       		.uleb128 0x2
+ 135 009e 04       		.byte	0x4
+ 136 009f 07       		.byte	0x7
+ 137 00a0 09020000 		.4byte	.LASF15
+ 138 00a4 05       		.uleb128 0x5
+ 139 00a5 08010000 		.4byte	.LASF19
+ 140 00a9 01       		.byte	0x1
+ 141 00aa 30       		.byte	0x30
+ 142 00ab 00000000 		.4byte	.LFB63
+ 143 00af 10000000 		.4byte	.LFE63-.LFB63
+ 144 00b3 01       		.uleb128 0x1
+ 145 00b4 9C       		.byte	0x9c
+ 146 00b5 06       		.uleb128 0x6
+ 147 00b6 B3010000 		.4byte	.LASF20
+ 148 00ba 04       		.byte	0x4
+ 149 00bb 1207     		.2byte	0x712
+ 150 00bd C1000000 		.4byte	0xc1
+ 151 00c1 07       		.uleb128 0x7
+ 152 00c2 76000000 		.4byte	0x76
+ 153 00c6 00       		.byte	0
+ 154              		.section	.debug_abbrev,"",%progbits
+ 155              	.Ldebug_abbrev0:
+ 156 0000 01       		.uleb128 0x1
+ 157 0001 11       		.uleb128 0x11
+ 158 0002 01       		.byte	0x1
+ 159 0003 25       		.uleb128 0x25
+ 160 0004 0E       		.uleb128 0xe
+ 161 0005 13       		.uleb128 0x13
+ 162 0006 0B       		.uleb128 0xb
+ 163 0007 03       		.uleb128 0x3
+ 164 0008 0E       		.uleb128 0xe
+ 165 0009 1B       		.uleb128 0x1b
+ 166 000a 0E       		.uleb128 0xe
+ 167 000b 55       		.uleb128 0x55
+ 168 000c 17       		.uleb128 0x17
+ 169 000d 11       		.uleb128 0x11
+ 170 000e 01       		.uleb128 0x1
+ 171 000f 10       		.uleb128 0x10
+ 172 0010 17       		.uleb128 0x17
+ 173 0011 00       		.byte	0
+ 174 0012 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAJcWh.s 			page 5
+
+
+ 175 0013 02       		.uleb128 0x2
+ 176 0014 24       		.uleb128 0x24
+ 177 0015 00       		.byte	0
+ 178 0016 0B       		.uleb128 0xb
+ 179 0017 0B       		.uleb128 0xb
+ 180 0018 3E       		.uleb128 0x3e
+ 181 0019 0B       		.uleb128 0xb
+ 182 001a 03       		.uleb128 0x3
+ 183 001b 0E       		.uleb128 0xe
+ 184 001c 00       		.byte	0
+ 185 001d 00       		.byte	0
+ 186 001e 03       		.uleb128 0x3
+ 187 001f 16       		.uleb128 0x16
+ 188 0020 00       		.byte	0
+ 189 0021 03       		.uleb128 0x3
+ 190 0022 0E       		.uleb128 0xe
+ 191 0023 3A       		.uleb128 0x3a
+ 192 0024 0B       		.uleb128 0xb
+ 193 0025 3B       		.uleb128 0x3b
+ 194 0026 0B       		.uleb128 0xb
+ 195 0027 49       		.uleb128 0x49
+ 196 0028 13       		.uleb128 0x13
+ 197 0029 00       		.byte	0
+ 198 002a 00       		.byte	0
+ 199 002b 04       		.uleb128 0x4
+ 200 002c 24       		.uleb128 0x24
+ 201 002d 00       		.byte	0
+ 202 002e 0B       		.uleb128 0xb
+ 203 002f 0B       		.uleb128 0xb
+ 204 0030 3E       		.uleb128 0x3e
+ 205 0031 0B       		.uleb128 0xb
+ 206 0032 03       		.uleb128 0x3
+ 207 0033 08       		.uleb128 0x8
+ 208 0034 00       		.byte	0
+ 209 0035 00       		.byte	0
+ 210 0036 05       		.uleb128 0x5
+ 211 0037 2E       		.uleb128 0x2e
+ 212 0038 00       		.byte	0
+ 213 0039 3F       		.uleb128 0x3f
+ 214 003a 19       		.uleb128 0x19
+ 215 003b 03       		.uleb128 0x3
+ 216 003c 0E       		.uleb128 0xe
+ 217 003d 3A       		.uleb128 0x3a
+ 218 003e 0B       		.uleb128 0xb
+ 219 003f 3B       		.uleb128 0x3b
+ 220 0040 0B       		.uleb128 0xb
+ 221 0041 11       		.uleb128 0x11
+ 222 0042 01       		.uleb128 0x1
+ 223 0043 12       		.uleb128 0x12
+ 224 0044 06       		.uleb128 0x6
+ 225 0045 40       		.uleb128 0x40
+ 226 0046 18       		.uleb128 0x18
+ 227 0047 9642     		.uleb128 0x2116
+ 228 0049 19       		.uleb128 0x19
+ 229 004a 00       		.byte	0
+ 230 004b 00       		.byte	0
+ 231 004c 06       		.uleb128 0x6
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAJcWh.s 			page 6
+
+
+ 232 004d 34       		.uleb128 0x34
+ 233 004e 00       		.byte	0
+ 234 004f 03       		.uleb128 0x3
+ 235 0050 0E       		.uleb128 0xe
+ 236 0051 3A       		.uleb128 0x3a
+ 237 0052 0B       		.uleb128 0xb
+ 238 0053 3B       		.uleb128 0x3b
+ 239 0054 05       		.uleb128 0x5
+ 240 0055 49       		.uleb128 0x49
+ 241 0056 13       		.uleb128 0x13
+ 242 0057 3F       		.uleb128 0x3f
+ 243 0058 19       		.uleb128 0x19
+ 244 0059 3C       		.uleb128 0x3c
+ 245 005a 19       		.uleb128 0x19
+ 246 005b 00       		.byte	0
+ 247 005c 00       		.byte	0
+ 248 005d 07       		.uleb128 0x7
+ 249 005e 35       		.uleb128 0x35
+ 250 005f 00       		.byte	0
+ 251 0060 49       		.uleb128 0x49
+ 252 0061 13       		.uleb128 0x13
+ 253 0062 00       		.byte	0
+ 254 0063 00       		.byte	0
+ 255 0064 00       		.byte	0
+ 256              		.section	.debug_aranges,"",%progbits
+ 257 0000 1C000000 		.4byte	0x1c
+ 258 0004 0200     		.2byte	0x2
+ 259 0006 00000000 		.4byte	.Ldebug_info0
+ 260 000a 04       		.byte	0x4
+ 261 000b 00       		.byte	0
+ 262 000c 0000     		.2byte	0
+ 263 000e 0000     		.2byte	0
+ 264 0010 00000000 		.4byte	.LFB63
+ 265 0014 10000000 		.4byte	.LFE63-.LFB63
+ 266 0018 00000000 		.4byte	0
+ 267 001c 00000000 		.4byte	0
+ 268              		.section	.debug_ranges,"",%progbits
+ 269              	.Ldebug_ranges0:
+ 270 0000 00000000 		.4byte	.LFB63
+ 271 0004 10000000 		.4byte	.LFE63
+ 272 0008 00000000 		.4byte	0
+ 273 000c 00000000 		.4byte	0
+ 274              		.section	.debug_line,"",%progbits
+ 275              	.Ldebug_line0:
+ 276 0000 60010000 		.section	.debug_str,"MS",%progbits,1
+ 276      02004701 
+ 276      00000201 
+ 276      FB0E0D00 
+ 276      01010101 
+ 277              	.LASF6:
+ 278 0000 6C6F6E67 		.ascii	"long long int\000"
+ 278      206C6F6E 
+ 278      6720696E 
+ 278      7400
+ 279              	.LASF3:
+ 280 000e 73686F72 		.ascii	"short unsigned int\000"
+ 280      7420756E 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAJcWh.s 			page 7
+
+
+ 280      7369676E 
+ 280      65642069 
+ 280      6E7400
+ 281              	.LASF8:
+ 282 0021 756E7369 		.ascii	"unsigned int\000"
+ 282      676E6564 
+ 282      20696E74 
+ 282      00
+ 283              	.LASF5:
+ 284 002e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 284      20756E73 
+ 284      69676E65 
+ 284      6420696E 
+ 284      7400
+ 285              	.LASF7:
+ 286 0040 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 286      206C6F6E 
+ 286      6720756E 
+ 286      7369676E 
+ 286      65642069 
+ 287              	.LASF16:
+ 288 0057 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 288      43313120 
+ 288      352E342E 
+ 288      31203230 
+ 288      31363036 
+ 289 008a 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 289      20726576 
+ 289      6973696F 
+ 289      6E203233 
+ 289      37373135 
+ 290 00bd 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 290      66756E63 
+ 290      74696F6E 
+ 290      2D736563 
+ 290      74696F6E 
+ 291              	.LASF1:
+ 292 00e5 756E7369 		.ascii	"unsigned char\000"
+ 292      676E6564 
+ 292      20636861 
+ 292      7200
+ 293              	.LASF13:
+ 294 00f3 63686172 		.ascii	"char\000"
+ 294      00
+ 295              	.LASF4:
+ 296 00f8 6C6F6E67 		.ascii	"long int\000"
+ 296      20696E74 
+ 296      00
+ 297              	.LASF12:
+ 298 0101 646F7562 		.ascii	"double\000"
+ 298      6C6500
+ 299              	.LASF19:
+ 300 0108 4253505F 		.ascii	"BSP_Init\000"
+ 300      496E6974 
+ 300      00
+ 301              	.LASF18:
+ 302 0111 433A5C55 		.ascii	"C:\\Users\\ali\\Desktop\\no-exp -V1-old board\\new-"
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAJcWh.s 			page 8
+
+
+ 302      73657273 
+ 302      5C616C69 
+ 302      5C446573 
+ 302      6B746F70 
+ 303 013f 63792D6E 		.ascii	"cy-notask\\cy-notask\\Start\\BoardSupport\\Cypress\\"
+ 303      6F746173 
+ 303      6B5C6379 
+ 303      2D6E6F74 
+ 303      61736B5C 
+ 304 016e 43593843 		.ascii	"CY8C5868_CY8CKIT_050_PSoC5_DK\\Start_CY8C5868_Acces"
+ 304      35383638 
+ 304      5F435938 
+ 304      434B4954 
+ 304      5F303530 
+ 305 01a0 7356312E 		.ascii	"sV1.0_OldBrd.cydsn\000"
+ 305      305F4F6C 
+ 305      64427264 
+ 305      2E637964 
+ 305      736E00
+ 306              	.LASF20:
+ 307 01b3 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 307      52784275 
+ 307      66666572 
+ 307      00
+ 308              	.LASF0:
+ 309 01c0 7369676E 		.ascii	"signed char\000"
+ 309      65642063 
+ 309      68617200 
+ 310              	.LASF14:
+ 311 01cc 6C6F6E67 		.ascii	"long double\000"
+ 311      20646F75 
+ 311      626C6500 
+ 312              	.LASF9:
+ 313 01d8 5F5F696E 		.ascii	"__int32_t\000"
+ 313      7433325F 
+ 313      7400
+ 314              	.LASF17:
+ 315 01e2 2E2E5C53 		.ascii	"..\\Setup\\BSP.c\000"
+ 315      65747570 
+ 315      5C425350 
+ 315      2E6300
+ 316              	.LASF11:
+ 317 01f1 666C6F61 		.ascii	"float\000"
+ 317      7400
+ 318              	.LASF2:
+ 319 01f7 73686F72 		.ascii	"short int\000"
+ 319      7420696E 
+ 319      7400
+ 320              	.LASF10:
+ 321 0201 696E7433 		.ascii	"int32_t\000"
+ 321      325F7400 
+ 322              	.LASF15:
+ 323 0209 73697A65 		.ascii	"sizetype\000"
+ 323      74797065 
+ 323      00
+ 324              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

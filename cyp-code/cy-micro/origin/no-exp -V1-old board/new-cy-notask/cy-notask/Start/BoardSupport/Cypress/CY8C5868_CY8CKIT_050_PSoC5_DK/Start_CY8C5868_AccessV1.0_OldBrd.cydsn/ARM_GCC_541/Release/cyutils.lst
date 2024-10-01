@@ -1,0 +1,37 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccaURWaf.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cyutils.c"
+  16              		.section	.text.CySetReg24,"ax",%progbits
+  17              		.align	2
+  18              		.global	CySetReg24
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	CySetReg24, %function
+  22              	CySetReg24:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 CAB2     		uxtb	r2, r1
+  27 0002 C1F30723 		ubfx	r3, r1, #8, #8
+  28 0006 C1F30741 		ubfx	r1, r1, #16, #8
+  29 000a 0270     		strb	r2, [r0]
+  30 000c 4370     		strb	r3, [r0, #1]
+  31 000e 8170     		strb	r1, [r0, #2]
+  32 0010 7047     		bx	lr
+  33              		.size	CySetReg24, .-CySetReg24
+  34 0012 00BF     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

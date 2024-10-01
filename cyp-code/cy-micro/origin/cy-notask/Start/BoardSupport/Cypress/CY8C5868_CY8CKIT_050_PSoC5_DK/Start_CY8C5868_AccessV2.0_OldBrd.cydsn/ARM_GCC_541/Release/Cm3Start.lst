@@ -1,0 +1,250 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXdCAwz.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Cm3Start.c"
+  16              		.section	.text.IntDefaultHandler,"ax",%progbits
+  17              		.align	2
+  18              		.global	IntDefaultHandler
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	IntDefaultHandler, %function
+  22              	IntDefaultHandler:
+  23              		@ Volatile: function does not return.
+  24              		@ args = 0, pretend = 0, frame = 0
+  25              		@ frame_needed = 0, uses_anonymous_args = 0
+  26 0000 08B5     		push	{r3, lr}
+  27 0002 FFF7FEFF 		bl	__errno
+  28 0006 0368     		ldr	r3, [r0]
+  29 0008 0C2B     		cmp	r3, #12
+  30 000a 00D0     		beq	.L3
+  31              	.L4:
+  32 000c FEE7     		b	.L4
+  33              	.L3:
+  34 000e FEE7     		b	.L3
+  35              		.size	IntDefaultHandler, .-IntDefaultHandler
+  36              		.section	.text._exit,"ax",%progbits
+  37              		.align	2
+  38              		.weak	_exit
+  39              		.thumb
+  40              		.thumb_func
+  41              		.type	_exit, %function
+  42              	_exit:
+  43              		@ Volatile: function does not return.
+  44              		@ args = 0, pretend = 0, frame = 0
+  45              		@ frame_needed = 0, uses_anonymous_args = 0
+  46 0000 08B5     		push	{r3, lr}
+  47 0002 C0B2     		uxtb	r0, r0
+  48 0004 FFF7FEFF 		bl	CyHalt
+  49              	.L8:
+  50 0008 FEE7     		b	.L8
+  51              		.size	_exit, .-_exit
+  52 000a 00BF     		.section	.text._sbrk,"ax",%progbits
+  53              		.align	2
+  54              		.weak	_sbrk
+  55              		.thumb
+  56              		.thumb_func
+  57              		.type	_sbrk, %function
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXdCAwz.s 			page 2
+
+
+  58              	_sbrk:
+  59              		@ args = 0, pretend = 0, frame = 0
+  60              		@ frame_needed = 0, uses_anonymous_args = 0
+  61 0000 0949     		ldr	r1, .L14
+  62 0002 08B5     		push	{r3, lr}
+  63 0004 0A68     		ldr	r2, [r1]
+  64 0006 094B     		ldr	r3, .L14+4
+  65 0008 1044     		add	r0, r0, r2
+  66 000a C31A     		subs	r3, r0, r3
+  67 000c B3F5806F 		cmp	r3, #1024
+  68 0010 02DC     		bgt	.L11
+  69 0012 0860     		str	r0, [r1]
+  70 0014 1046     		mov	r0, r2
+  71 0016 08BD     		pop	{r3, pc}
+  72              	.L11:
+  73 0018 FFF7FEFF 		bl	__errno
+  74 001c 0C23     		movs	r3, #12
+  75 001e 4FF0FF32 		mov	r2, #-1
+  76 0022 0360     		str	r3, [r0]
+  77 0024 1046     		mov	r0, r2
+  78 0026 08BD     		pop	{r3, pc}
+  79              	.L15:
+  80              		.align	2
+  81              	.L14:
+  82 0028 00000000 		.word	.LANCHOR0
+  83 002c 00000000 		.word	end
+  84              		.size	_sbrk, .-_sbrk
+  85              		.section	.text.Start_c,"ax",%progbits
+  86              		.align	2
+  87              		.global	Start_c
+  88              		.thumb
+  89              		.thumb_func
+  90              		.type	Start_c, %function
+  91              	Start_c:
+  92              		@ Volatile: function does not return.
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95 0000 80B5     		push	{r7, lr}
+  96 0002 134F     		ldr	r7, .L31
+  97 0004 F7B1     		cbz	r7, .L23
+  98 0006 134E     		ldr	r6, .L31+4
+  99 0008 0025     		movs	r5, #0
+ 100              	.L22:
+ 101 000a 56F80C0C 		ldr	r0, [r6, #-12]
+ 102 000e 56F8084C 		ldr	r4, [r6, #-8]
+ 103 0012 56F8102C 		ldr	r2, [r6, #-16]
+ 104 0016 0346     		mov	r3, r0
+ 105 0018 3CB1     		cbz	r4, .L19
+ 106 001a 043A     		subs	r2, r2, #4
+ 107              	.L20:
+ 108 001c 52F8041F 		ldr	r1, [r2, #4]!
+ 109 0020 43F8041B 		str	r1, [r3], #4
+ 110 0024 191A     		subs	r1, r3, r0
+ 111 0026 A142     		cmp	r1, r4
+ 112 0028 F8D1     		bne	.L20
+ 113              	.L19:
+ 114 002a 56F8040C 		ldr	r0, [r6, #-4]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXdCAwz.s 			page 3
+
+
+ 115 002e 1A46     		mov	r2, r3
+ 116 0030 20B1     		cbz	r0, .L25
+ 117              	.L24:
+ 118 0032 42F8045B 		str	r5, [r2], #4
+ 119 0036 D11A     		subs	r1, r2, r3
+ 120 0038 8842     		cmp	r0, r1
+ 121 003a FAD1     		bne	.L24
+ 122              	.L25:
+ 123 003c 013F     		subs	r7, r7, #1
+ 124 003e 06F11006 		add	r6, r6, #16
+ 125 0042 E2D1     		bne	.L22
+ 126              	.L23:
+ 127 0044 FFF7FEFF 		bl	__libc_init_array
+ 128 0048 FFF7FEFF 		bl	main
+ 129              	.L18:
+ 130 004c FEE7     		b	.L18
+ 131              	.L32:
+ 132 004e 00BF     		.align	2
+ 133              	.L31:
+ 134 0050 00000000 		.word	__cy_region_num
+ 135 0054 10000000 		.word	__cy_regions+16
+ 136              		.size	Start_c, .-Start_c
+ 137              		.section	.text.Reset,"ax",%progbits
+ 138              		.align	2
+ 139              		.global	Reset
+ 140              		.thumb
+ 141              		.thumb_func
+ 142              		.type	Reset, %function
+ 143              	Reset:
+ 144              		@ Volatile: function does not return.
+ 145              		@ args = 0, pretend = 0, frame = 0
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147 0000 08B5     		push	{r3, lr}
+ 148 0002 FFF7FEFF 		bl	Start_c
+ 149              		.size	Reset, .-Reset
+ 150 0006 00BF     		.section	.text.startup.initialize_psoc,"ax",%progbits
+ 151              		.align	2
+ 152              		.global	initialize_psoc
+ 153              		.thumb
+ 154              		.thumb_func
+ 155              		.type	initialize_psoc, %function
+ 156              	initialize_psoc:
+ 157              		@ args = 0, pretend = 0, frame = 0
+ 158              		@ frame_needed = 0, uses_anonymous_args = 0
+ 159              		@ link register save eliminated.
+ 160 0000 0E4B     		ldr	r3, .L40
+ 161 0002 0F4A     		ldr	r2, .L40+4
+ 162 0004 0F49     		ldr	r1, .L40+8
+ 163 0006 1A60     		str	r2, [r3]
+ 164 0008 0B68     		ldr	r3, [r1]
+ 165 000a 0F4A     		ldr	r2, .L40+12
+ 166 000c 43F40073 		orr	r3, r3, #512
+ 167 0010 0E48     		ldr	r0, .L40+16
+ 168 0012 0B60     		str	r3, [r1]
+ 169 0014 0023     		movs	r3, #0
+ 170              	.L37:
+ 171 0016 032B     		cmp	r3, #3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXdCAwz.s 			page 4
+
+
+ 172 0018 94BF     		ite	ls
+ 173 001a 50F82310 		ldrls	r1, [r0, r3, lsl #2]
+ 174 001e 0C49     		ldrhi	r1, .L40+20
+ 175 0020 0133     		adds	r3, r3, #1
+ 176 0022 302B     		cmp	r3, #48
+ 177 0024 42F8041F 		str	r1, [r2, #4]!
+ 178 0028 F5D1     		bne	.L37
+ 179 002a 0A4B     		ldr	r3, .L40+24
+ 180 002c 0A49     		ldr	r1, .L40+28
+ 181 002e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 182 0030 0A4A     		ldr	r2, .L40+32
+ 183 0032 0B4B     		ldr	r3, .L40+36
+ 184 0034 0870     		strb	r0, [r1]
+ 185 0036 1A60     		str	r2, [r3]
+ 186 0038 FFF7FEBF 		b	cyfitter_cfg
+ 187              	.L41:
+ 188              		.align	2
+ 189              	.L40:
+ 190 003c 0CED00E0 		.word	-536810228
+ 191 0040 0004FA05 		.word	100271104
+ 192 0044 14ED00E0 		.word	-536810220
+ 193 0048 FCFFFFFF 		.word	.LANCHOR1-4
+ 194 004c 00000000 		.word	.LANCHOR2
+ 195 0050 00000000 		.word	IntDefaultHandler
+ 196 0054 BC760040 		.word	1073772220
+ 197 0058 00000000 		.word	CyResetStatus
+ 198 005c 00000000 		.word	.LANCHOR1
+ 199 0060 08ED00E0 		.word	-536810232
+ 200              		.size	initialize_psoc, .-initialize_psoc
+ 201              		.section	.init_array,"aw",%init_array
+ 202              		.align	2
+ 203 0000 00000000 		.word	initialize_psoc(target1)
+ 204              		.global	RomVectors
+ 205              		.global	CyRamVectors
+ 206              		.section	.romvectors,"a",%progbits
+ 207              		.align	2
+ 208              		.set	.LANCHOR2,. + 0
+ 209              		.type	RomVectors, %object
+ 210              		.size	RomVectors, 16
+ 211              	RomVectors:
+ 212 0000 00000000 		.word	__cy_stack
+ 213 0004 00000000 		.word	Reset
+ 214 0008 00000000 		.word	IntDefaultHandler
+ 215 000c 00000000 		.word	IntDefaultHandler
+ 216              		.data
+ 217              		.align	2
+ 218              		.set	.LANCHOR0,. + 0
+ 219              		.type	heapPointer.5073, %object
+ 220              		.size	heapPointer.5073, 4
+ 221              	heapPointer.5073:
+ 222 0000 00000000 		.word	end
+ 223              		.section	.ramvectors,"aw",%progbits
+ 224              		.align	8
+ 225              		.set	.LANCHOR1,. + 0
+ 226              		.type	CyRamVectors, %object
+ 227              		.size	CyRamVectors, 192
+ 228              	CyRamVectors:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXdCAwz.s 			page 5
+
+
+ 229 0000 00000000 		.space	192
+ 229      00000000 
+ 229      00000000 
+ 229      00000000 
+ 229      00000000 
+ 230              		.weak	__cy_region_num
+ 231              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

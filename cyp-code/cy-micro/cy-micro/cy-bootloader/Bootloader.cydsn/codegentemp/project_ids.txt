@@ -1,0 +1,6 @@
+C:\Users\ali\Desktop\cy-micro\cy-micro\cy-bootloader\Bootloader.cydsn\Bootloader.cyprj|3e099c3a-77a3-47f1-9c2b-60a8aae489c5
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|8a4f0833-84bd-447e-a20d-7b763af23347
+C:\Users\ali\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|905d073e-af99-4190-b8d9-8be2395a51e3
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|23eba71b-8e74-46b3-8720-f0ae822ebe08
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|d7302ad6-56f1-4e4d-a296-36063bf9592a
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|11992797-cd2f-4163-bb89-059a2aada9ca

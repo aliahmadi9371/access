@@ -1,0 +1,3214 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"OS_Syscalls.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	__env
+  20              		.bss
+  21              		.align	2
+  22              		.type	__env, %object
+  23              		.size	__env, 4
+  24              	__env:
+  25 0000 00000000 		.space	4
+  26              		.global	environ
+  27              		.data
+  28              		.align	2
+  29              		.type	environ, %object
+  30              		.size	environ, 4
+  31              	environ:
+  32 0000 00000000 		.word	__env
+  33              		.section	.text._close,"ax",%progbits
+  34              		.align	2
+  35              		.weak	_close
+  36              		.thumb
+  37              		.thumb_func
+  38              		.type	_close, %function
+  39              	_close:
+  40              	.LFB16:
+  41              		.file 1 "..\\Setup\\OS_Syscalls.c"
+   1:..\Setup/OS_Syscalls.c **** /*********************************************************************
+   2:..\Setup/OS_Syscalls.c **** *                     SEGGER Microcontroller GmbH                    *
+   3:..\Setup/OS_Syscalls.c **** *                        The Embedded Experts                        *
+   4:..\Setup/OS_Syscalls.c **** **********************************************************************
+   5:..\Setup/OS_Syscalls.c **** *                                                                    *
+   6:..\Setup/OS_Syscalls.c **** *       (c) 1995 - 2022 SEGGER Microcontroller GmbH                  *
+   7:..\Setup/OS_Syscalls.c **** *                                                                    *
+   8:..\Setup/OS_Syscalls.c **** *       Internet: segger.com  Support: support_embos@segger.com      *
+   9:..\Setup/OS_Syscalls.c **** *                                                                    *
+  10:..\Setup/OS_Syscalls.c **** **********************************************************************
+  11:..\Setup/OS_Syscalls.c **** *                                                                    *
+  12:..\Setup/OS_Syscalls.c **** *       embOS * Real time operating system                           *
+  13:..\Setup/OS_Syscalls.c **** *                                                                    *
+  14:..\Setup/OS_Syscalls.c **** *       Please note:                                                 *
+  15:..\Setup/OS_Syscalls.c **** *                                                                    *
+  16:..\Setup/OS_Syscalls.c **** *       Knowledge of this file may under no circumstances            *
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 2
+
+
+  17:..\Setup/OS_Syscalls.c **** *       be used to write a similar product or a real-time            *
+  18:..\Setup/OS_Syscalls.c **** *       operating system for in-house use.                           *
+  19:..\Setup/OS_Syscalls.c **** *                                                                    *
+  20:..\Setup/OS_Syscalls.c **** *       Thank you for your fairness !                                *
+  21:..\Setup/OS_Syscalls.c **** *                                                                    *
+  22:..\Setup/OS_Syscalls.c **** **********************************************************************
+  23:..\Setup/OS_Syscalls.c **** *                                                                    *
+  24:..\Setup/OS_Syscalls.c **** *       OS version: V5.16.1.0                                        *
+  25:..\Setup/OS_Syscalls.c **** *                                                                    *
+  26:..\Setup/OS_Syscalls.c **** **********************************************************************
+  27:..\Setup/OS_Syscalls.c **** 
+  28:..\Setup/OS_Syscalls.c **** -------------------------- END-OF-HEADER -----------------------------
+  29:..\Setup/OS_Syscalls.c **** File    : OS_Syscalls.c
+  30:..\Setup/OS_Syscalls.c **** Purpose : Newlib Syscalls callback functions.
+  31:..\Setup/OS_Syscalls.c ****           Only _sbrk() implemented for embOS.
+  32:..\Setup/OS_Syscalls.c ****           All others unchanged (default empty functions).
+  33:..\Setup/OS_Syscalls.c **** --------  END-OF-HEADER  ---------------------------------------------
+  34:..\Setup/OS_Syscalls.c **** */
+  35:..\Setup/OS_Syscalls.c **** 
+  36:..\Setup/OS_Syscalls.c **** #include <errno.h>
+  37:..\Setup/OS_Syscalls.c **** #undef   errno
+  38:..\Setup/OS_Syscalls.c **** #include <sys/stat.h>
+  39:..\Setup/OS_Syscalls.c **** #include <sys/time.h>
+  40:..\Setup/OS_Syscalls.c **** #include <sys/times.h>
+  41:..\Setup/OS_Syscalls.c **** 
+  42:..\Setup/OS_Syscalls.c **** /*********************************************************************
+  43:..\Setup/OS_Syscalls.c **** *
+  44:..\Setup/OS_Syscalls.c **** *       External data
+  45:..\Setup/OS_Syscalls.c **** *
+  46:..\Setup/OS_Syscalls.c **** **********************************************************************
+  47:..\Setup/OS_Syscalls.c **** */
+  48:..\Setup/OS_Syscalls.c **** extern int errno;
+  49:..\Setup/OS_Syscalls.c **** 
+  50:..\Setup/OS_Syscalls.c **** extern char __heap_start__;  // Has to be defined in the linker file.
+  51:..\Setup/OS_Syscalls.c **** extern char __heap_end__;
+  52:..\Setup/OS_Syscalls.c **** 
+  53:..\Setup/OS_Syscalls.c **** /*********************************************************************
+  54:..\Setup/OS_Syscalls.c **** *
+  55:..\Setup/OS_Syscalls.c **** *       environ
+  56:..\Setup/OS_Syscalls.c **** *
+  57:..\Setup/OS_Syscalls.c **** *       A pointer to a list of environment variables and their values.
+  58:..\Setup/OS_Syscalls.c **** *       Not needed (supported) by embOS, this empty list is adequate
+  59:..\Setup/OS_Syscalls.c **** */
+  60:..\Setup/OS_Syscalls.c **** char*  __env[1] = { 0 };
+  61:..\Setup/OS_Syscalls.c **** char** environ  = __env;
+  62:..\Setup/OS_Syscalls.c **** 
+  63:..\Setup/OS_Syscalls.c **** /*********************************************************************
+  64:..\Setup/OS_Syscalls.c **** *
+  65:..\Setup/OS_Syscalls.c **** *       Function prototypes
+  66:..\Setup/OS_Syscalls.c **** *
+  67:..\Setup/OS_Syscalls.c **** **********************************************************************
+  68:..\Setup/OS_Syscalls.c **** */
+  69:..\Setup/OS_Syscalls.c **** int     _close        (int file)                                   __attribute__((weak));
+  70:..\Setup/OS_Syscalls.c **** int     _execve       (char* pName, char** pArgv, char** pEnv)     __attribute__((weak));
+  71:..\Setup/OS_Syscalls.c **** void    _exit         (int __status)                               __attribute__((weak));
+  72:..\Setup/OS_Syscalls.c **** int     _fork         (void)                                       __attribute__((weak));
+  73:..\Setup/OS_Syscalls.c **** int     _fstat        (int file, struct stat* pSt)                 __attribute__((weak));
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 3
+
+
+  74:..\Setup/OS_Syscalls.c **** int     _getpid       (void)                                       __attribute__((weak));
+  75:..\Setup/OS_Syscalls.c **** int     _gettimeofday (struct timeval* pTp, struct timezone* pTzp) __attribute__((weak));
+  76:..\Setup/OS_Syscalls.c **** int     _isatty       (int file)                                   __attribute__((weak));
+  77:..\Setup/OS_Syscalls.c **** int     _kill         (int pid, int sig)                           __attribute__((weak));
+  78:..\Setup/OS_Syscalls.c **** int     _link         (char* pOld, char* pNew)                     __attribute__((weak));
+  79:..\Setup/OS_Syscalls.c **** int     _lseek        (int file, int ptr, int dir)                 __attribute__((weak));
+  80:..\Setup/OS_Syscalls.c **** int     _open         (const char* pName, int flags, int mode)     __attribute__((weak));
+  81:..\Setup/OS_Syscalls.c **** int     _read         (int file, char* p, int len)                 __attribute__((weak));
+  82:..\Setup/OS_Syscalls.c **** caddr_t _sbrk         (int incr);
+  83:..\Setup/OS_Syscalls.c **** int     _stat         (const char* pFile, struct stat* pSt)        __attribute__((weak));
+  84:..\Setup/OS_Syscalls.c **** clock_t _times        (struct tms* pBuf)                           __attribute__((weak));
+  85:..\Setup/OS_Syscalls.c **** int     _unlink       (char* pName)                                __attribute__((weak));
+  86:..\Setup/OS_Syscalls.c **** int     _wait         (int* pStatus)                               __attribute__((weak));
+  87:..\Setup/OS_Syscalls.c **** int     _write        (int file, char* p, int len)                 __attribute__((weak));
+  88:..\Setup/OS_Syscalls.c **** 
+  89:..\Setup/OS_Syscalls.c **** /*********************************************************************
+  90:..\Setup/OS_Syscalls.c **** *
+  91:..\Setup/OS_Syscalls.c **** *       Global functions
+  92:..\Setup/OS_Syscalls.c **** *
+  93:..\Setup/OS_Syscalls.c **** **********************************************************************
+  94:..\Setup/OS_Syscalls.c **** */
+  95:..\Setup/OS_Syscalls.c **** 
+  96:..\Setup/OS_Syscalls.c **** /*********************************************************************
+  97:..\Setup/OS_Syscalls.c **** *
+  98:..\Setup/OS_Syscalls.c **** *       _close()
+  99:..\Setup/OS_Syscalls.c **** *
+ 100:..\Setup/OS_Syscalls.c **** *  Function description
+ 101:..\Setup/OS_Syscalls.c **** *    Close a file.
+ 102:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 103:..\Setup/OS_Syscalls.c **** */
+ 104:..\Setup/OS_Syscalls.c **** int _close(int file) {
+  42              		.loc 1 104 0
+  43              		.cfi_startproc
+  44              		@ args = 0, pretend = 0, frame = 8
+  45              		@ frame_needed = 1, uses_anonymous_args = 0
+  46              		@ link register save eliminated.
+  47 0000 80B4     		push	{r7}
+  48              		.cfi_def_cfa_offset 4
+  49              		.cfi_offset 7, -4
+  50 0002 83B0     		sub	sp, sp, #12
+  51              		.cfi_def_cfa_offset 16
+  52 0004 00AF     		add	r7, sp, #0
+  53              		.cfi_def_cfa_register 7
+  54 0006 7860     		str	r0, [r7, #4]
+ 105:..\Setup/OS_Syscalls.c ****   (void) file;  /* Not used, avoid warning */
+ 106:..\Setup/OS_Syscalls.c ****   return -1;
+  55              		.loc 1 106 0
+  56 0008 4FF0FF33 		mov	r3, #-1
+ 107:..\Setup/OS_Syscalls.c **** }
+  57              		.loc 1 107 0
+  58 000c 1846     		mov	r0, r3
+  59 000e 0C37     		adds	r7, r7, #12
+  60              		.cfi_def_cfa_offset 4
+  61 0010 BD46     		mov	sp, r7
+  62              		.cfi_def_cfa_register 13
+  63              		@ sp needed
+  64 0012 80BC     		pop	{r7}
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 4
+
+
+  65              		.cfi_restore 7
+  66              		.cfi_def_cfa_offset 0
+  67 0014 7047     		bx	lr
+  68              		.cfi_endproc
+  69              	.LFE16:
+  70              		.size	_close, .-_close
+  71 0016 00BF     		.section	.text._execve,"ax",%progbits
+  72              		.align	2
+  73              		.weak	_execve
+  74              		.thumb
+  75              		.thumb_func
+  76              		.type	_execve, %function
+  77              	_execve:
+  78              	.LFB17:
+ 108:..\Setup/OS_Syscalls.c **** 
+ 109:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 110:..\Setup/OS_Syscalls.c **** *
+ 111:..\Setup/OS_Syscalls.c **** *       _execve()
+ 112:..\Setup/OS_Syscalls.c **** *
+ 113:..\Setup/OS_Syscalls.c **** *  Function description
+ 114:..\Setup/OS_Syscalls.c **** *    Transfer control to a new process.
+ 115:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 116:..\Setup/OS_Syscalls.c **** */
+ 117:..\Setup/OS_Syscalls.c **** int _execve(char* pName, char** pArgv, char** pEnv) {
+  79              		.loc 1 117 0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 16
+  82              		@ frame_needed = 1, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84 0000 80B4     		push	{r7}
+  85              		.cfi_def_cfa_offset 4
+  86              		.cfi_offset 7, -4
+  87 0002 85B0     		sub	sp, sp, #20
+  88              		.cfi_def_cfa_offset 24
+  89 0004 00AF     		add	r7, sp, #0
+  90              		.cfi_def_cfa_register 7
+  91 0006 F860     		str	r0, [r7, #12]
+  92 0008 B960     		str	r1, [r7, #8]
+  93 000a 7A60     		str	r2, [r7, #4]
+ 118:..\Setup/OS_Syscalls.c ****   (void) pName;  /* Not used, avoid warning */
+ 119:..\Setup/OS_Syscalls.c ****   (void) pArgv;  /* Not used, avoid warning */
+ 120:..\Setup/OS_Syscalls.c ****   (void) pEnv;   /* Not used, avoid warning */
+ 121:..\Setup/OS_Syscalls.c ****   errno = ENOMEM;
+  94              		.loc 1 121 0
+  95 000c 044B     		ldr	r3, .L5
+  96 000e 0C22     		movs	r2, #12
+  97 0010 1A60     		str	r2, [r3]
+ 122:..\Setup/OS_Syscalls.c ****   return -1;
+  98              		.loc 1 122 0
+  99 0012 4FF0FF33 		mov	r3, #-1
+ 123:..\Setup/OS_Syscalls.c **** }
+ 100              		.loc 1 123 0
+ 101 0016 1846     		mov	r0, r3
+ 102 0018 1437     		adds	r7, r7, #20
+ 103              		.cfi_def_cfa_offset 4
+ 104 001a BD46     		mov	sp, r7
+ 105              		.cfi_def_cfa_register 13
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 5
+
+
+ 106              		@ sp needed
+ 107 001c 80BC     		pop	{r7}
+ 108              		.cfi_restore 7
+ 109              		.cfi_def_cfa_offset 0
+ 110 001e 7047     		bx	lr
+ 111              	.L6:
+ 112              		.align	2
+ 113              	.L5:
+ 114 0020 00000000 		.word	errno
+ 115              		.cfi_endproc
+ 116              	.LFE17:
+ 117              		.size	_execve, .-_execve
+ 118              		.section	.text._exit,"ax",%progbits
+ 119              		.align	2
+ 120              		.weak	_exit
+ 121              		.thumb
+ 122              		.thumb_func
+ 123              		.type	_exit, %function
+ 124              	_exit:
+ 125              	.LFB18:
+ 124:..\Setup/OS_Syscalls.c **** 
+ 125:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 126:..\Setup/OS_Syscalls.c **** *
+ 127:..\Setup/OS_Syscalls.c **** *       _exit()
+ 128:..\Setup/OS_Syscalls.c **** *
+ 129:..\Setup/OS_Syscalls.c **** *  Function description
+ 130:..\Setup/OS_Syscalls.c **** *    Exit a program without cleaning up files.
+ 131:..\Setup/OS_Syscalls.c **** */
+ 132:..\Setup/OS_Syscalls.c **** void _exit(int __status) {
+ 126              		.loc 1 132 0
+ 127              		.cfi_startproc
+ 128              		@ args = 0, pretend = 0, frame = 8
+ 129              		@ frame_needed = 1, uses_anonymous_args = 0
+ 130              		@ link register save eliminated.
+ 131 0000 80B4     		push	{r7}
+ 132              		.cfi_def_cfa_offset 4
+ 133              		.cfi_offset 7, -4
+ 134 0002 83B0     		sub	sp, sp, #12
+ 135              		.cfi_def_cfa_offset 16
+ 136 0004 00AF     		add	r7, sp, #0
+ 137              		.cfi_def_cfa_register 7
+ 138 0006 7860     		str	r0, [r7, #4]
+ 139              	.L8:
+ 133:..\Setup/OS_Syscalls.c ****   (void) __status;  /* Not used, avoid warning */
+ 134:..\Setup/OS_Syscalls.c ****   while(1);
+ 140              		.loc 1 134 0 discriminator 1
+ 141 0008 FEE7     		b	.L8
+ 142              		.cfi_endproc
+ 143              	.LFE18:
+ 144              		.size	_exit, .-_exit
+ 145 000a 00BF     		.section	.text._fork,"ax",%progbits
+ 146              		.align	2
+ 147              		.weak	_fork
+ 148              		.thumb
+ 149              		.thumb_func
+ 150              		.type	_fork, %function
+ 151              	_fork:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 6
+
+
+ 152              	.LFB19:
+ 135:..\Setup/OS_Syscalls.c **** }
+ 136:..\Setup/OS_Syscalls.c **** 
+ 137:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 138:..\Setup/OS_Syscalls.c **** *
+ 139:..\Setup/OS_Syscalls.c **** *       _fork()
+ 140:..\Setup/OS_Syscalls.c **** *
+ 141:..\Setup/OS_Syscalls.c **** *  Function description
+ 142:..\Setup/OS_Syscalls.c **** *    Create a new process.
+ 143:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 144:..\Setup/OS_Syscalls.c **** */
+ 145:..\Setup/OS_Syscalls.c **** int _fork(void) {
+ 153              		.loc 1 145 0
+ 154              		.cfi_startproc
+ 155              		@ args = 0, pretend = 0, frame = 0
+ 156              		@ frame_needed = 1, uses_anonymous_args = 0
+ 157              		@ link register save eliminated.
+ 158 0000 80B4     		push	{r7}
+ 159              		.cfi_def_cfa_offset 4
+ 160              		.cfi_offset 7, -4
+ 161 0002 00AF     		add	r7, sp, #0
+ 162              		.cfi_def_cfa_register 7
+ 146:..\Setup/OS_Syscalls.c ****   errno = EAGAIN;
+ 163              		.loc 1 146 0
+ 164 0004 044B     		ldr	r3, .L11
+ 165 0006 0B22     		movs	r2, #11
+ 166 0008 1A60     		str	r2, [r3]
+ 147:..\Setup/OS_Syscalls.c ****   return -1;
+ 167              		.loc 1 147 0
+ 168 000a 4FF0FF33 		mov	r3, #-1
+ 148:..\Setup/OS_Syscalls.c **** }
+ 169              		.loc 1 148 0
+ 170 000e 1846     		mov	r0, r3
+ 171 0010 BD46     		mov	sp, r7
+ 172              		.cfi_def_cfa_register 13
+ 173              		@ sp needed
+ 174 0012 80BC     		pop	{r7}
+ 175              		.cfi_restore 7
+ 176              		.cfi_def_cfa_offset 0
+ 177 0014 7047     		bx	lr
+ 178              	.L12:
+ 179 0016 00BF     		.align	2
+ 180              	.L11:
+ 181 0018 00000000 		.word	errno
+ 182              		.cfi_endproc
+ 183              	.LFE19:
+ 184              		.size	_fork, .-_fork
+ 185              		.section	.text._fstat,"ax",%progbits
+ 186              		.align	2
+ 187              		.weak	_fstat
+ 188              		.thumb
+ 189              		.thumb_func
+ 190              		.type	_fstat, %function
+ 191              	_fstat:
+ 192              	.LFB20:
+ 149:..\Setup/OS_Syscalls.c **** 
+ 150:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 7
+
+
+ 151:..\Setup/OS_Syscalls.c **** *
+ 152:..\Setup/OS_Syscalls.c **** *       _fstat()
+ 153:..\Setup/OS_Syscalls.c **** *
+ 154:..\Setup/OS_Syscalls.c **** *  Function description
+ 155:..\Setup/OS_Syscalls.c **** *    Status of an open file.
+ 156:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 157:..\Setup/OS_Syscalls.c **** *    For consistency with other minimal implementations in these examples,
+ 158:..\Setup/OS_Syscalls.c **** *    all files are regarded as character special devices. The sys/stat.h header file
+ 159:..\Setup/OS_Syscalls.c **** *    required is distributed in the include subdirectory for this C library.
+ 160:..\Setup/OS_Syscalls.c **** */
+ 161:..\Setup/OS_Syscalls.c **** int _fstat(int file, struct stat* pSt) {
+ 193              		.loc 1 161 0
+ 194              		.cfi_startproc
+ 195              		@ args = 0, pretend = 0, frame = 8
+ 196              		@ frame_needed = 1, uses_anonymous_args = 0
+ 197              		@ link register save eliminated.
+ 198 0000 80B4     		push	{r7}
+ 199              		.cfi_def_cfa_offset 4
+ 200              		.cfi_offset 7, -4
+ 201 0002 83B0     		sub	sp, sp, #12
+ 202              		.cfi_def_cfa_offset 16
+ 203 0004 00AF     		add	r7, sp, #0
+ 204              		.cfi_def_cfa_register 7
+ 205 0006 7860     		str	r0, [r7, #4]
+ 206 0008 3960     		str	r1, [r7]
+ 162:..\Setup/OS_Syscalls.c ****   (void) file;  /* Not used, avoid warning */
+ 163:..\Setup/OS_Syscalls.c ****   pSt->st_mode = S_IFCHR;
+ 207              		.loc 1 163 0
+ 208 000a 3B68     		ldr	r3, [r7]
+ 209 000c 4FF40052 		mov	r2, #8192
+ 210 0010 5A60     		str	r2, [r3, #4]
+ 164:..\Setup/OS_Syscalls.c ****   return 0;
+ 211              		.loc 1 164 0
+ 212 0012 0023     		movs	r3, #0
+ 165:..\Setup/OS_Syscalls.c **** }
+ 213              		.loc 1 165 0
+ 214 0014 1846     		mov	r0, r3
+ 215 0016 0C37     		adds	r7, r7, #12
+ 216              		.cfi_def_cfa_offset 4
+ 217 0018 BD46     		mov	sp, r7
+ 218              		.cfi_def_cfa_register 13
+ 219              		@ sp needed
+ 220 001a 80BC     		pop	{r7}
+ 221              		.cfi_restore 7
+ 222              		.cfi_def_cfa_offset 0
+ 223 001c 7047     		bx	lr
+ 224              		.cfi_endproc
+ 225              	.LFE20:
+ 226              		.size	_fstat, .-_fstat
+ 227 001e 00BF     		.section	.text._getpid,"ax",%progbits
+ 228              		.align	2
+ 229              		.weak	_getpid
+ 230              		.thumb
+ 231              		.thumb_func
+ 232              		.type	_getpid, %function
+ 233              	_getpid:
+ 234              	.LFB21:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 8
+
+
+ 166:..\Setup/OS_Syscalls.c **** 
+ 167:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 168:..\Setup/OS_Syscalls.c **** *
+ 169:..\Setup/OS_Syscalls.c **** *       _getpid()
+ 170:..\Setup/OS_Syscalls.c **** *
+ 171:..\Setup/OS_Syscalls.c **** *  Function description
+ 172:..\Setup/OS_Syscalls.c **** *    Process-ID; this is sometimes used to generate strings unlikely to conflict with other process
+ 173:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 174:..\Setup/OS_Syscalls.c **** */
+ 175:..\Setup/OS_Syscalls.c **** int _getpid(void) {
+ 235              		.loc 1 175 0
+ 236              		.cfi_startproc
+ 237              		@ args = 0, pretend = 0, frame = 0
+ 238              		@ frame_needed = 1, uses_anonymous_args = 0
+ 239              		@ link register save eliminated.
+ 240 0000 80B4     		push	{r7}
+ 241              		.cfi_def_cfa_offset 4
+ 242              		.cfi_offset 7, -4
+ 243 0002 00AF     		add	r7, sp, #0
+ 244              		.cfi_def_cfa_register 7
+ 176:..\Setup/OS_Syscalls.c ****   return 1;
+ 245              		.loc 1 176 0
+ 246 0004 0123     		movs	r3, #1
+ 177:..\Setup/OS_Syscalls.c **** }
+ 247              		.loc 1 177 0
+ 248 0006 1846     		mov	r0, r3
+ 249 0008 BD46     		mov	sp, r7
+ 250              		.cfi_def_cfa_register 13
+ 251              		@ sp needed
+ 252 000a 80BC     		pop	{r7}
+ 253              		.cfi_restore 7
+ 254              		.cfi_def_cfa_offset 0
+ 255 000c 7047     		bx	lr
+ 256              		.cfi_endproc
+ 257              	.LFE21:
+ 258              		.size	_getpid, .-_getpid
+ 259 000e 00BF     		.section	.text._gettimeofday,"ax",%progbits
+ 260              		.align	2
+ 261              		.weak	_gettimeofday
+ 262              		.thumb
+ 263              		.thumb_func
+ 264              		.type	_gettimeofday, %function
+ 265              	_gettimeofday:
+ 266              	.LFB22:
+ 178:..\Setup/OS_Syscalls.c **** 
+ 179:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 180:..\Setup/OS_Syscalls.c **** *
+ 181:..\Setup/OS_Syscalls.c **** *       _gettimeofday()
+ 182:..\Setup/OS_Syscalls.c **** *
+ 183:..\Setup/OS_Syscalls.c **** *  Function description
+ 184:..\Setup/OS_Syscalls.c **** *    Not supported by embOS, minimal implementation
+ 185:..\Setup/OS_Syscalls.c **** */
+ 186:..\Setup/OS_Syscalls.c **** int _gettimeofday(struct timeval* pTp, struct timezone* pTzp) {
+ 267              		.loc 1 186 0
+ 268              		.cfi_startproc
+ 269              		@ args = 0, pretend = 0, frame = 8
+ 270              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 9
+
+
+ 271              		@ link register save eliminated.
+ 272 0000 80B4     		push	{r7}
+ 273              		.cfi_def_cfa_offset 4
+ 274              		.cfi_offset 7, -4
+ 275 0002 83B0     		sub	sp, sp, #12
+ 276              		.cfi_def_cfa_offset 16
+ 277 0004 00AF     		add	r7, sp, #0
+ 278              		.cfi_def_cfa_register 7
+ 279 0006 7860     		str	r0, [r7, #4]
+ 280 0008 3960     		str	r1, [r7]
+ 187:..\Setup/OS_Syscalls.c ****   (void) pTp;   /* Not used, avoid warning */
+ 188:..\Setup/OS_Syscalls.c ****   (void) pTzp;  /* Not used, avoid warning */
+ 189:..\Setup/OS_Syscalls.c ****   errno = ENOSYS;
+ 281              		.loc 1 189 0
+ 282 000a 054B     		ldr	r3, .L19
+ 283 000c 5822     		movs	r2, #88
+ 284 000e 1A60     		str	r2, [r3]
+ 190:..\Setup/OS_Syscalls.c ****   return -1;
+ 285              		.loc 1 190 0
+ 286 0010 4FF0FF33 		mov	r3, #-1
+ 191:..\Setup/OS_Syscalls.c **** }
+ 287              		.loc 1 191 0
+ 288 0014 1846     		mov	r0, r3
+ 289 0016 0C37     		adds	r7, r7, #12
+ 290              		.cfi_def_cfa_offset 4
+ 291 0018 BD46     		mov	sp, r7
+ 292              		.cfi_def_cfa_register 13
+ 293              		@ sp needed
+ 294 001a 80BC     		pop	{r7}
+ 295              		.cfi_restore 7
+ 296              		.cfi_def_cfa_offset 0
+ 297 001c 7047     		bx	lr
+ 298              	.L20:
+ 299 001e 00BF     		.align	2
+ 300              	.L19:
+ 301 0020 00000000 		.word	errno
+ 302              		.cfi_endproc
+ 303              	.LFE22:
+ 304              		.size	_gettimeofday, .-_gettimeofday
+ 305              		.section	.text._isatty,"ax",%progbits
+ 306              		.align	2
+ 307              		.weak	_isatty
+ 308              		.thumb
+ 309              		.thumb_func
+ 310              		.type	_isatty, %function
+ 311              	_isatty:
+ 312              	.LFB23:
+ 192:..\Setup/OS_Syscalls.c **** 
+ 193:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 194:..\Setup/OS_Syscalls.c **** *
+ 195:..\Setup/OS_Syscalls.c **** *       _isatty()
+ 196:..\Setup/OS_Syscalls.c **** *
+ 197:..\Setup/OS_Syscalls.c **** *  Function description
+ 198:..\Setup/OS_Syscalls.c **** *    Query whether output stream is a terminal.
+ 199:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 200:..\Setup/OS_Syscalls.c **** *    For consistency with the other minimal implementations, which only support output to stdout,
+ 201:..\Setup/OS_Syscalls.c **** *    this minimal implementation is suggested
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 10
+
+
+ 202:..\Setup/OS_Syscalls.c **** */
+ 203:..\Setup/OS_Syscalls.c **** int _isatty(int file) {
+ 313              		.loc 1 203 0
+ 314              		.cfi_startproc
+ 315              		@ args = 0, pretend = 0, frame = 8
+ 316              		@ frame_needed = 1, uses_anonymous_args = 0
+ 317              		@ link register save eliminated.
+ 318 0000 80B4     		push	{r7}
+ 319              		.cfi_def_cfa_offset 4
+ 320              		.cfi_offset 7, -4
+ 321 0002 83B0     		sub	sp, sp, #12
+ 322              		.cfi_def_cfa_offset 16
+ 323 0004 00AF     		add	r7, sp, #0
+ 324              		.cfi_def_cfa_register 7
+ 325 0006 7860     		str	r0, [r7, #4]
+ 204:..\Setup/OS_Syscalls.c ****   (void) file;  /* Not used, avoid warning */
+ 205:..\Setup/OS_Syscalls.c **** 
+ 206:..\Setup/OS_Syscalls.c ****   return 1;
+ 326              		.loc 1 206 0
+ 327 0008 0123     		movs	r3, #1
+ 207:..\Setup/OS_Syscalls.c **** }
+ 328              		.loc 1 207 0
+ 329 000a 1846     		mov	r0, r3
+ 330 000c 0C37     		adds	r7, r7, #12
+ 331              		.cfi_def_cfa_offset 4
+ 332 000e BD46     		mov	sp, r7
+ 333              		.cfi_def_cfa_register 13
+ 334              		@ sp needed
+ 335 0010 80BC     		pop	{r7}
+ 336              		.cfi_restore 7
+ 337              		.cfi_def_cfa_offset 0
+ 338 0012 7047     		bx	lr
+ 339              		.cfi_endproc
+ 340              	.LFE23:
+ 341              		.size	_isatty, .-_isatty
+ 342              		.section	.text._kill,"ax",%progbits
+ 343              		.align	2
+ 344              		.weak	_kill
+ 345              		.thumb
+ 346              		.thumb_func
+ 347              		.type	_kill, %function
+ 348              	_kill:
+ 349              	.LFB24:
+ 208:..\Setup/OS_Syscalls.c **** 
+ 209:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 210:..\Setup/OS_Syscalls.c **** *
+ 211:..\Setup/OS_Syscalls.c **** *       _kill()
+ 212:..\Setup/OS_Syscalls.c **** *
+ 213:..\Setup/OS_Syscalls.c **** *  Function description
+ 214:..\Setup/OS_Syscalls.c **** *    Send a signal.
+ 215:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 216:..\Setup/OS_Syscalls.c **** */
+ 217:..\Setup/OS_Syscalls.c **** int _kill(int pid, int sig) {
+ 350              		.loc 1 217 0
+ 351              		.cfi_startproc
+ 352              		@ args = 0, pretend = 0, frame = 8
+ 353              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 11
+
+
+ 354              		@ link register save eliminated.
+ 355 0000 80B4     		push	{r7}
+ 356              		.cfi_def_cfa_offset 4
+ 357              		.cfi_offset 7, -4
+ 358 0002 83B0     		sub	sp, sp, #12
+ 359              		.cfi_def_cfa_offset 16
+ 360 0004 00AF     		add	r7, sp, #0
+ 361              		.cfi_def_cfa_register 7
+ 362 0006 7860     		str	r0, [r7, #4]
+ 363 0008 3960     		str	r1, [r7]
+ 218:..\Setup/OS_Syscalls.c ****   (void) pid;  /* Not used, avoid warning */
+ 219:..\Setup/OS_Syscalls.c ****   (void) sig;  /* Not used, avoid warning */
+ 220:..\Setup/OS_Syscalls.c ****   errno = EINVAL;
+ 364              		.loc 1 220 0
+ 365 000a 054B     		ldr	r3, .L25
+ 366 000c 1622     		movs	r2, #22
+ 367 000e 1A60     		str	r2, [r3]
+ 221:..\Setup/OS_Syscalls.c ****   return -1;
+ 368              		.loc 1 221 0
+ 369 0010 4FF0FF33 		mov	r3, #-1
+ 222:..\Setup/OS_Syscalls.c **** }
+ 370              		.loc 1 222 0
+ 371 0014 1846     		mov	r0, r3
+ 372 0016 0C37     		adds	r7, r7, #12
+ 373              		.cfi_def_cfa_offset 4
+ 374 0018 BD46     		mov	sp, r7
+ 375              		.cfi_def_cfa_register 13
+ 376              		@ sp needed
+ 377 001a 80BC     		pop	{r7}
+ 378              		.cfi_restore 7
+ 379              		.cfi_def_cfa_offset 0
+ 380 001c 7047     		bx	lr
+ 381              	.L26:
+ 382 001e 00BF     		.align	2
+ 383              	.L25:
+ 384 0020 00000000 		.word	errno
+ 385              		.cfi_endproc
+ 386              	.LFE24:
+ 387              		.size	_kill, .-_kill
+ 388              		.section	.text._link,"ax",%progbits
+ 389              		.align	2
+ 390              		.weak	_link
+ 391              		.thumb
+ 392              		.thumb_func
+ 393              		.type	_link, %function
+ 394              	_link:
+ 395              	.LFB25:
+ 223:..\Setup/OS_Syscalls.c **** 
+ 224:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 225:..\Setup/OS_Syscalls.c **** *
+ 226:..\Setup/OS_Syscalls.c **** *       _link()
+ 227:..\Setup/OS_Syscalls.c **** *
+ 228:..\Setup/OS_Syscalls.c **** *  Function description
+ 229:..\Setup/OS_Syscalls.c **** *    Establish a new name for an existing file.
+ 230:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 231:..\Setup/OS_Syscalls.c **** */
+ 232:..\Setup/OS_Syscalls.c **** int _link(char* pOld, char* pNew) {
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 12
+
+
+ 396              		.loc 1 232 0
+ 397              		.cfi_startproc
+ 398              		@ args = 0, pretend = 0, frame = 8
+ 399              		@ frame_needed = 1, uses_anonymous_args = 0
+ 400              		@ link register save eliminated.
+ 401 0000 80B4     		push	{r7}
+ 402              		.cfi_def_cfa_offset 4
+ 403              		.cfi_offset 7, -4
+ 404 0002 83B0     		sub	sp, sp, #12
+ 405              		.cfi_def_cfa_offset 16
+ 406 0004 00AF     		add	r7, sp, #0
+ 407              		.cfi_def_cfa_register 7
+ 408 0006 7860     		str	r0, [r7, #4]
+ 409 0008 3960     		str	r1, [r7]
+ 233:..\Setup/OS_Syscalls.c ****   (void) pOld;  /* Not used, avoid warning */
+ 234:..\Setup/OS_Syscalls.c ****   (void) pNew;  /* Not used, avoid warning */
+ 235:..\Setup/OS_Syscalls.c ****   errno = EMLINK;
+ 410              		.loc 1 235 0
+ 411 000a 054B     		ldr	r3, .L29
+ 412 000c 1F22     		movs	r2, #31
+ 413 000e 1A60     		str	r2, [r3]
+ 236:..\Setup/OS_Syscalls.c ****   return -1;
+ 414              		.loc 1 236 0
+ 415 0010 4FF0FF33 		mov	r3, #-1
+ 237:..\Setup/OS_Syscalls.c **** }
+ 416              		.loc 1 237 0
+ 417 0014 1846     		mov	r0, r3
+ 418 0016 0C37     		adds	r7, r7, #12
+ 419              		.cfi_def_cfa_offset 4
+ 420 0018 BD46     		mov	sp, r7
+ 421              		.cfi_def_cfa_register 13
+ 422              		@ sp needed
+ 423 001a 80BC     		pop	{r7}
+ 424              		.cfi_restore 7
+ 425              		.cfi_def_cfa_offset 0
+ 426 001c 7047     		bx	lr
+ 427              	.L30:
+ 428 001e 00BF     		.align	2
+ 429              	.L29:
+ 430 0020 00000000 		.word	errno
+ 431              		.cfi_endproc
+ 432              	.LFE25:
+ 433              		.size	_link, .-_link
+ 434              		.section	.text._lseek,"ax",%progbits
+ 435              		.align	2
+ 436              		.weak	_lseek
+ 437              		.thumb
+ 438              		.thumb_func
+ 439              		.type	_lseek, %function
+ 440              	_lseek:
+ 441              	.LFB26:
+ 238:..\Setup/OS_Syscalls.c **** 
+ 239:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 240:..\Setup/OS_Syscalls.c **** *
+ 241:..\Setup/OS_Syscalls.c **** *       _lseek()
+ 242:..\Setup/OS_Syscalls.c **** *
+ 243:..\Setup/OS_Syscalls.c **** *  Function description
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 13
+
+
+ 244:..\Setup/OS_Syscalls.c **** *    Set position in a file.
+ 245:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 246:..\Setup/OS_Syscalls.c **** */
+ 247:..\Setup/OS_Syscalls.c **** int _lseek(int file, int ptr, int dir) {
+ 442              		.loc 1 247 0
+ 443              		.cfi_startproc
+ 444              		@ args = 0, pretend = 0, frame = 16
+ 445              		@ frame_needed = 1, uses_anonymous_args = 0
+ 446              		@ link register save eliminated.
+ 447 0000 80B4     		push	{r7}
+ 448              		.cfi_def_cfa_offset 4
+ 449              		.cfi_offset 7, -4
+ 450 0002 85B0     		sub	sp, sp, #20
+ 451              		.cfi_def_cfa_offset 24
+ 452 0004 00AF     		add	r7, sp, #0
+ 453              		.cfi_def_cfa_register 7
+ 454 0006 F860     		str	r0, [r7, #12]
+ 455 0008 B960     		str	r1, [r7, #8]
+ 456 000a 7A60     		str	r2, [r7, #4]
+ 248:..\Setup/OS_Syscalls.c ****   (void) file;  /* Not used, avoid warning */
+ 249:..\Setup/OS_Syscalls.c ****   (void) ptr;   /* Not used, avoid warning */
+ 250:..\Setup/OS_Syscalls.c ****   (void) dir;   /* Not used, avoid warning */
+ 251:..\Setup/OS_Syscalls.c ****   return 0;
+ 457              		.loc 1 251 0
+ 458 000c 0023     		movs	r3, #0
+ 252:..\Setup/OS_Syscalls.c **** }
+ 459              		.loc 1 252 0
+ 460 000e 1846     		mov	r0, r3
+ 461 0010 1437     		adds	r7, r7, #20
+ 462              		.cfi_def_cfa_offset 4
+ 463 0012 BD46     		mov	sp, r7
+ 464              		.cfi_def_cfa_register 13
+ 465              		@ sp needed
+ 466 0014 80BC     		pop	{r7}
+ 467              		.cfi_restore 7
+ 468              		.cfi_def_cfa_offset 0
+ 469 0016 7047     		bx	lr
+ 470              		.cfi_endproc
+ 471              	.LFE26:
+ 472              		.size	_lseek, .-_lseek
+ 473              		.section	.text._open,"ax",%progbits
+ 474              		.align	2
+ 475              		.weak	_open
+ 476              		.thumb
+ 477              		.thumb_func
+ 478              		.type	_open, %function
+ 479              	_open:
+ 480              	.LFB27:
+ 253:..\Setup/OS_Syscalls.c **** 
+ 254:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 255:..\Setup/OS_Syscalls.c **** *
+ 256:..\Setup/OS_Syscalls.c **** *       _open()
+ 257:..\Setup/OS_Syscalls.c **** *
+ 258:..\Setup/OS_Syscalls.c **** *  Function description
+ 259:..\Setup/OS_Syscalls.c **** *    Open a file.
+ 260:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 261:..\Setup/OS_Syscalls.c **** */
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 14
+
+
+ 262:..\Setup/OS_Syscalls.c **** int _open(const char* pName, int flags, int mode) {
+ 481              		.loc 1 262 0
+ 482              		.cfi_startproc
+ 483              		@ args = 0, pretend = 0, frame = 16
+ 484              		@ frame_needed = 1, uses_anonymous_args = 0
+ 485              		@ link register save eliminated.
+ 486 0000 80B4     		push	{r7}
+ 487              		.cfi_def_cfa_offset 4
+ 488              		.cfi_offset 7, -4
+ 489 0002 85B0     		sub	sp, sp, #20
+ 490              		.cfi_def_cfa_offset 24
+ 491 0004 00AF     		add	r7, sp, #0
+ 492              		.cfi_def_cfa_register 7
+ 493 0006 F860     		str	r0, [r7, #12]
+ 494 0008 B960     		str	r1, [r7, #8]
+ 495 000a 7A60     		str	r2, [r7, #4]
+ 263:..\Setup/OS_Syscalls.c ****   (void) pName;  /* Not used, avoid warning */
+ 264:..\Setup/OS_Syscalls.c ****   (void) flags;  /* Not used, avoid warning */
+ 265:..\Setup/OS_Syscalls.c ****   (void) mode;   /* Not used, avoid warning */
+ 266:..\Setup/OS_Syscalls.c ****   return -1;
+ 496              		.loc 1 266 0
+ 497 000c 4FF0FF33 		mov	r3, #-1
+ 267:..\Setup/OS_Syscalls.c **** }
+ 498              		.loc 1 267 0
+ 499 0010 1846     		mov	r0, r3
+ 500 0012 1437     		adds	r7, r7, #20
+ 501              		.cfi_def_cfa_offset 4
+ 502 0014 BD46     		mov	sp, r7
+ 503              		.cfi_def_cfa_register 13
+ 504              		@ sp needed
+ 505 0016 80BC     		pop	{r7}
+ 506              		.cfi_restore 7
+ 507              		.cfi_def_cfa_offset 0
+ 508 0018 7047     		bx	lr
+ 509              		.cfi_endproc
+ 510              	.LFE27:
+ 511              		.size	_open, .-_open
+ 512 001a 00BF     		.section	.text._read,"ax",%progbits
+ 513              		.align	2
+ 514              		.weak	_read
+ 515              		.thumb
+ 516              		.thumb_func
+ 517              		.type	_read, %function
+ 518              	_read:
+ 519              	.LFB28:
+ 268:..\Setup/OS_Syscalls.c **** 
+ 269:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 270:..\Setup/OS_Syscalls.c **** *
+ 271:..\Setup/OS_Syscalls.c **** *       _read()
+ 272:..\Setup/OS_Syscalls.c **** *
+ 273:..\Setup/OS_Syscalls.c **** *  Function description
+ 274:..\Setup/OS_Syscalls.c **** *    Read from a file.
+ 275:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 276:..\Setup/OS_Syscalls.c **** */
+ 277:..\Setup/OS_Syscalls.c **** int _read(int file, char* p, int len) {
+ 520              		.loc 1 277 0
+ 521              		.cfi_startproc
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 15
+
+
+ 522              		@ args = 0, pretend = 0, frame = 16
+ 523              		@ frame_needed = 1, uses_anonymous_args = 0
+ 524              		@ link register save eliminated.
+ 525 0000 80B4     		push	{r7}
+ 526              		.cfi_def_cfa_offset 4
+ 527              		.cfi_offset 7, -4
+ 528 0002 85B0     		sub	sp, sp, #20
+ 529              		.cfi_def_cfa_offset 24
+ 530 0004 00AF     		add	r7, sp, #0
+ 531              		.cfi_def_cfa_register 7
+ 532 0006 F860     		str	r0, [r7, #12]
+ 533 0008 B960     		str	r1, [r7, #8]
+ 534 000a 7A60     		str	r2, [r7, #4]
+ 278:..\Setup/OS_Syscalls.c ****   (void) file;  /* Not used, avoid warning */
+ 279:..\Setup/OS_Syscalls.c ****   (void) p;     /* Not used, avoid warning */
+ 280:..\Setup/OS_Syscalls.c ****   (void) len;   /* Not used, avoid warning */
+ 281:..\Setup/OS_Syscalls.c ****   return 0;
+ 535              		.loc 1 281 0
+ 536 000c 0023     		movs	r3, #0
+ 282:..\Setup/OS_Syscalls.c **** }
+ 537              		.loc 1 282 0
+ 538 000e 1846     		mov	r0, r3
+ 539 0010 1437     		adds	r7, r7, #20
+ 540              		.cfi_def_cfa_offset 4
+ 541 0012 BD46     		mov	sp, r7
+ 542              		.cfi_def_cfa_register 13
+ 543              		@ sp needed
+ 544 0014 80BC     		pop	{r7}
+ 545              		.cfi_restore 7
+ 546              		.cfi_def_cfa_offset 0
+ 547 0016 7047     		bx	lr
+ 548              		.cfi_endproc
+ 549              	.LFE28:
+ 550              		.size	_read, .-_read
+ 551              		.section	.text._sbrk,"ax",%progbits
+ 552              		.align	2
+ 553              		.global	_sbrk
+ 554              		.thumb
+ 555              		.thumb_func
+ 556              		.type	_sbrk, %function
+ 557              	_sbrk:
+ 558              	.LFB29:
+ 283:..\Setup/OS_Syscalls.c **** 
+ 284:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 285:..\Setup/OS_Syscalls.c **** *
+ 286:..\Setup/OS_Syscalls.c **** *       _sbrk()
+ 287:..\Setup/OS_Syscalls.c **** *
+ 288:..\Setup/OS_Syscalls.c **** *  Function description
+ 289:..\Setup/OS_Syscalls.c **** *    Increase program data space. As malloc and related functions depend on this,
+ 290:..\Setup/OS_Syscalls.c **** *    it is required to have a working implementation.
+ 291:..\Setup/OS_Syscalls.c **** *    __heap_start__ and __heap_end__ have to be defined in the linker file
+ 292:..\Setup/OS_Syscalls.c **** */
+ 293:..\Setup/OS_Syscalls.c **** caddr_t _sbrk(int incr) {
+ 559              		.loc 1 293 0
+ 560              		.cfi_startproc
+ 561              		@ args = 0, pretend = 0, frame = 16
+ 562              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 16
+
+
+ 563              		@ link register save eliminated.
+ 564 0000 80B4     		push	{r7}
+ 565              		.cfi_def_cfa_offset 4
+ 566              		.cfi_offset 7, -4
+ 567 0002 85B0     		sub	sp, sp, #20
+ 568              		.cfi_def_cfa_offset 24
+ 569 0004 00AF     		add	r7, sp, #0
+ 570              		.cfi_def_cfa_register 7
+ 571 0006 7860     		str	r0, [r7, #4]
+ 294:..\Setup/OS_Syscalls.c ****   static char* heap_end;
+ 295:..\Setup/OS_Syscalls.c ****   char*        prev_heap_end;
+ 296:..\Setup/OS_Syscalls.c **** 
+ 297:..\Setup/OS_Syscalls.c ****   if (heap_end == NULL) {
+ 572              		.loc 1 297 0
+ 573 0008 114B     		ldr	r3, .L41
+ 574 000a 1B68     		ldr	r3, [r3]
+ 575 000c 002B     		cmp	r3, #0
+ 576 000e 02D1     		bne	.L38
+ 298:..\Setup/OS_Syscalls.c ****     heap_end = & __heap_start__;
+ 577              		.loc 1 298 0
+ 578 0010 0F4B     		ldr	r3, .L41
+ 579 0012 104A     		ldr	r2, .L41+4
+ 580 0014 1A60     		str	r2, [r3]
+ 581              	.L38:
+ 299:..\Setup/OS_Syscalls.c ****   }
+ 300:..\Setup/OS_Syscalls.c ****   prev_heap_end = heap_end;
+ 582              		.loc 1 300 0
+ 583 0016 0E4B     		ldr	r3, .L41
+ 584 0018 1B68     		ldr	r3, [r3]
+ 585 001a FB60     		str	r3, [r7, #12]
+ 301:..\Setup/OS_Syscalls.c ****   if (heap_end + incr > &__heap_end__) {
+ 586              		.loc 1 301 0
+ 587 001c 0C4B     		ldr	r3, .L41
+ 588 001e 1A68     		ldr	r2, [r3]
+ 589 0020 7B68     		ldr	r3, [r7, #4]
+ 590 0022 1344     		add	r3, r3, r2
+ 591 0024 0C4A     		ldr	r2, .L41+8
+ 592 0026 9342     		cmp	r3, r2
+ 593 0028 05D9     		bls	.L39
+ 302:..\Setup/OS_Syscalls.c ****       /* Some of the libstdc++-v3 tests rely upon detecting
+ 303:..\Setup/OS_Syscalls.c ****          out of memory errors, so do not abort here. */
+ 304:..\Setup/OS_Syscalls.c ****       errno = ENOMEM;
+ 594              		.loc 1 304 0
+ 595 002a 0C4B     		ldr	r3, .L41+12
+ 596 002c 0C22     		movs	r2, #12
+ 597 002e 1A60     		str	r2, [r3]
+ 305:..\Setup/OS_Syscalls.c ****       return (caddr_t) -1;
+ 598              		.loc 1 305 0
+ 599 0030 4FF0FF33 		mov	r3, #-1
+ 600 0034 06E0     		b	.L40
+ 601              	.L39:
+ 306:..\Setup/OS_Syscalls.c ****   }
+ 307:..\Setup/OS_Syscalls.c ****   heap_end += incr;
+ 602              		.loc 1 307 0
+ 603 0036 064B     		ldr	r3, .L41
+ 604 0038 1A68     		ldr	r2, [r3]
+ 605 003a 7B68     		ldr	r3, [r7, #4]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 17
+
+
+ 606 003c 1344     		add	r3, r3, r2
+ 607 003e 044A     		ldr	r2, .L41
+ 608 0040 1360     		str	r3, [r2]
+ 308:..\Setup/OS_Syscalls.c ****   return (caddr_t) prev_heap_end;
+ 609              		.loc 1 308 0
+ 610 0042 FB68     		ldr	r3, [r7, #12]
+ 611              	.L40:
+ 309:..\Setup/OS_Syscalls.c **** }
+ 612              		.loc 1 309 0
+ 613 0044 1846     		mov	r0, r3
+ 614 0046 1437     		adds	r7, r7, #20
+ 615              		.cfi_def_cfa_offset 4
+ 616 0048 BD46     		mov	sp, r7
+ 617              		.cfi_def_cfa_register 13
+ 618              		@ sp needed
+ 619 004a 80BC     		pop	{r7}
+ 620              		.cfi_restore 7
+ 621              		.cfi_def_cfa_offset 0
+ 622 004c 7047     		bx	lr
+ 623              	.L42:
+ 624 004e 00BF     		.align	2
+ 625              	.L41:
+ 626 0050 04000000 		.word	heap_end.4801
+ 627 0054 00000000 		.word	__heap_start__
+ 628 0058 00000000 		.word	__heap_end__
+ 629 005c 00000000 		.word	errno
+ 630              		.cfi_endproc
+ 631              	.LFE29:
+ 632              		.size	_sbrk, .-_sbrk
+ 633              		.section	.text._stat,"ax",%progbits
+ 634              		.align	2
+ 635              		.weak	_stat
+ 636              		.thumb
+ 637              		.thumb_func
+ 638              		.type	_stat, %function
+ 639              	_stat:
+ 640              	.LFB30:
+ 310:..\Setup/OS_Syscalls.c **** 
+ 311:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 312:..\Setup/OS_Syscalls.c **** *
+ 313:..\Setup/OS_Syscalls.c **** *       _stat()
+ 314:..\Setup/OS_Syscalls.c **** *
+ 315:..\Setup/OS_Syscalls.c **** *  Function description
+ 316:..\Setup/OS_Syscalls.c **** *    Status of a file (by name).
+ 317:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 318:..\Setup/OS_Syscalls.c **** */
+ 319:..\Setup/OS_Syscalls.c **** int _stat(const char* pFile, struct stat* pSt) {
+ 641              		.loc 1 319 0
+ 642              		.cfi_startproc
+ 643              		@ args = 0, pretend = 0, frame = 8
+ 644              		@ frame_needed = 1, uses_anonymous_args = 0
+ 645              		@ link register save eliminated.
+ 646 0000 80B4     		push	{r7}
+ 647              		.cfi_def_cfa_offset 4
+ 648              		.cfi_offset 7, -4
+ 649 0002 83B0     		sub	sp, sp, #12
+ 650              		.cfi_def_cfa_offset 16
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 18
+
+
+ 651 0004 00AF     		add	r7, sp, #0
+ 652              		.cfi_def_cfa_register 7
+ 653 0006 7860     		str	r0, [r7, #4]
+ 654 0008 3960     		str	r1, [r7]
+ 320:..\Setup/OS_Syscalls.c ****   (void) pFile;  /* Not used, avoid warning */
+ 321:..\Setup/OS_Syscalls.c ****   pSt->st_mode = S_IFCHR;
+ 655              		.loc 1 321 0
+ 656 000a 3B68     		ldr	r3, [r7]
+ 657 000c 4FF40052 		mov	r2, #8192
+ 658 0010 5A60     		str	r2, [r3, #4]
+ 322:..\Setup/OS_Syscalls.c ****   return 0;
+ 659              		.loc 1 322 0
+ 660 0012 0023     		movs	r3, #0
+ 323:..\Setup/OS_Syscalls.c **** }
+ 661              		.loc 1 323 0
+ 662 0014 1846     		mov	r0, r3
+ 663 0016 0C37     		adds	r7, r7, #12
+ 664              		.cfi_def_cfa_offset 4
+ 665 0018 BD46     		mov	sp, r7
+ 666              		.cfi_def_cfa_register 13
+ 667              		@ sp needed
+ 668 001a 80BC     		pop	{r7}
+ 669              		.cfi_restore 7
+ 670              		.cfi_def_cfa_offset 0
+ 671 001c 7047     		bx	lr
+ 672              		.cfi_endproc
+ 673              	.LFE30:
+ 674              		.size	_stat, .-_stat
+ 675 001e 00BF     		.section	.text._times,"ax",%progbits
+ 676              		.align	2
+ 677              		.weak	_times
+ 678              		.thumb
+ 679              		.thumb_func
+ 680              		.type	_times, %function
+ 681              	_times:
+ 682              	.LFB31:
+ 324:..\Setup/OS_Syscalls.c **** 
+ 325:..\Setup/OS_Syscalls.c **** 
+ 326:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 327:..\Setup/OS_Syscalls.c **** *
+ 328:..\Setup/OS_Syscalls.c **** *       _times()
+ 329:..\Setup/OS_Syscalls.c **** *
+ 330:..\Setup/OS_Syscalls.c **** *  Function description
+ 331:..\Setup/OS_Syscalls.c **** *    Timing information for current process.
+ 332:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 333:..\Setup/OS_Syscalls.c **** */
+ 334:..\Setup/OS_Syscalls.c **** clock_t _times(struct tms* pBuf) {
+ 683              		.loc 1 334 0
+ 684              		.cfi_startproc
+ 685              		@ args = 0, pretend = 0, frame = 8
+ 686              		@ frame_needed = 1, uses_anonymous_args = 0
+ 687              		@ link register save eliminated.
+ 688 0000 80B4     		push	{r7}
+ 689              		.cfi_def_cfa_offset 4
+ 690              		.cfi_offset 7, -4
+ 691 0002 83B0     		sub	sp, sp, #12
+ 692              		.cfi_def_cfa_offset 16
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 19
+
+
+ 693 0004 00AF     		add	r7, sp, #0
+ 694              		.cfi_def_cfa_register 7
+ 695 0006 7860     		str	r0, [r7, #4]
+ 335:..\Setup/OS_Syscalls.c ****   (void) pBuf;  /* Not used, avoid warning */
+ 336:..\Setup/OS_Syscalls.c ****   return -1;
+ 696              		.loc 1 336 0
+ 697 0008 4FF0FF33 		mov	r3, #-1
+ 337:..\Setup/OS_Syscalls.c **** }
+ 698              		.loc 1 337 0
+ 699 000c 1846     		mov	r0, r3
+ 700 000e 0C37     		adds	r7, r7, #12
+ 701              		.cfi_def_cfa_offset 4
+ 702 0010 BD46     		mov	sp, r7
+ 703              		.cfi_def_cfa_register 13
+ 704              		@ sp needed
+ 705 0012 80BC     		pop	{r7}
+ 706              		.cfi_restore 7
+ 707              		.cfi_def_cfa_offset 0
+ 708 0014 7047     		bx	lr
+ 709              		.cfi_endproc
+ 710              	.LFE31:
+ 711              		.size	_times, .-_times
+ 712 0016 00BF     		.section	.text._unlink,"ax",%progbits
+ 713              		.align	2
+ 714              		.weak	_unlink
+ 715              		.thumb
+ 716              		.thumb_func
+ 717              		.type	_unlink, %function
+ 718              	_unlink:
+ 719              	.LFB32:
+ 338:..\Setup/OS_Syscalls.c **** 
+ 339:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 340:..\Setup/OS_Syscalls.c **** *
+ 341:..\Setup/OS_Syscalls.c **** *       _unlink()
+ 342:..\Setup/OS_Syscalls.c **** *
+ 343:..\Setup/OS_Syscalls.c **** *  Function description
+ 344:..\Setup/OS_Syscalls.c **** *    Remove a file's directory entry.
+ 345:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 346:..\Setup/OS_Syscalls.c **** */
+ 347:..\Setup/OS_Syscalls.c **** int _unlink(char* pName) {
+ 720              		.loc 1 347 0
+ 721              		.cfi_startproc
+ 722              		@ args = 0, pretend = 0, frame = 8
+ 723              		@ frame_needed = 1, uses_anonymous_args = 0
+ 724              		@ link register save eliminated.
+ 725 0000 80B4     		push	{r7}
+ 726              		.cfi_def_cfa_offset 4
+ 727              		.cfi_offset 7, -4
+ 728 0002 83B0     		sub	sp, sp, #12
+ 729              		.cfi_def_cfa_offset 16
+ 730 0004 00AF     		add	r7, sp, #0
+ 731              		.cfi_def_cfa_register 7
+ 732 0006 7860     		str	r0, [r7, #4]
+ 348:..\Setup/OS_Syscalls.c ****   (void) pName;  /* Not used, avoid warning */
+ 349:..\Setup/OS_Syscalls.c ****   errno = ENOENT;
+ 733              		.loc 1 349 0
+ 734 0008 044B     		ldr	r3, .L49
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 20
+
+
+ 735 000a 0222     		movs	r2, #2
+ 736 000c 1A60     		str	r2, [r3]
+ 350:..\Setup/OS_Syscalls.c ****   return -1;
+ 737              		.loc 1 350 0
+ 738 000e 4FF0FF33 		mov	r3, #-1
+ 351:..\Setup/OS_Syscalls.c **** }
+ 739              		.loc 1 351 0
+ 740 0012 1846     		mov	r0, r3
+ 741 0014 0C37     		adds	r7, r7, #12
+ 742              		.cfi_def_cfa_offset 4
+ 743 0016 BD46     		mov	sp, r7
+ 744              		.cfi_def_cfa_register 13
+ 745              		@ sp needed
+ 746 0018 80BC     		pop	{r7}
+ 747              		.cfi_restore 7
+ 748              		.cfi_def_cfa_offset 0
+ 749 001a 7047     		bx	lr
+ 750              	.L50:
+ 751              		.align	2
+ 752              	.L49:
+ 753 001c 00000000 		.word	errno
+ 754              		.cfi_endproc
+ 755              	.LFE32:
+ 756              		.size	_unlink, .-_unlink
+ 757              		.section	.text._wait,"ax",%progbits
+ 758              		.align	2
+ 759              		.weak	_wait
+ 760              		.thumb
+ 761              		.thumb_func
+ 762              		.type	_wait, %function
+ 763              	_wait:
+ 764              	.LFB33:
+ 352:..\Setup/OS_Syscalls.c **** 
+ 353:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 354:..\Setup/OS_Syscalls.c **** *
+ 355:..\Setup/OS_Syscalls.c **** *       _wait()
+ 356:..\Setup/OS_Syscalls.c **** *
+ 357:..\Setup/OS_Syscalls.c **** *  Function description
+ 358:..\Setup/OS_Syscalls.c **** *    Wait for a child process.
+ 359:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 360:..\Setup/OS_Syscalls.c **** */
+ 361:..\Setup/OS_Syscalls.c **** int _wait(int* pStatus) {
+ 765              		.loc 1 361 0
+ 766              		.cfi_startproc
+ 767              		@ args = 0, pretend = 0, frame = 8
+ 768              		@ frame_needed = 1, uses_anonymous_args = 0
+ 769              		@ link register save eliminated.
+ 770 0000 80B4     		push	{r7}
+ 771              		.cfi_def_cfa_offset 4
+ 772              		.cfi_offset 7, -4
+ 773 0002 83B0     		sub	sp, sp, #12
+ 774              		.cfi_def_cfa_offset 16
+ 775 0004 00AF     		add	r7, sp, #0
+ 776              		.cfi_def_cfa_register 7
+ 777 0006 7860     		str	r0, [r7, #4]
+ 362:..\Setup/OS_Syscalls.c ****   (void) pStatus;  /* Not used, avoid warning */
+ 363:..\Setup/OS_Syscalls.c ****   errno = ECHILD;
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 21
+
+
+ 778              		.loc 1 363 0
+ 779 0008 044B     		ldr	r3, .L53
+ 780 000a 0A22     		movs	r2, #10
+ 781 000c 1A60     		str	r2, [r3]
+ 364:..\Setup/OS_Syscalls.c ****   return -1;
+ 782              		.loc 1 364 0
+ 783 000e 4FF0FF33 		mov	r3, #-1
+ 365:..\Setup/OS_Syscalls.c **** }
+ 784              		.loc 1 365 0
+ 785 0012 1846     		mov	r0, r3
+ 786 0014 0C37     		adds	r7, r7, #12
+ 787              		.cfi_def_cfa_offset 4
+ 788 0016 BD46     		mov	sp, r7
+ 789              		.cfi_def_cfa_register 13
+ 790              		@ sp needed
+ 791 0018 80BC     		pop	{r7}
+ 792              		.cfi_restore 7
+ 793              		.cfi_def_cfa_offset 0
+ 794 001a 7047     		bx	lr
+ 795              	.L54:
+ 796              		.align	2
+ 797              	.L53:
+ 798 001c 00000000 		.word	errno
+ 799              		.cfi_endproc
+ 800              	.LFE33:
+ 801              		.size	_wait, .-_wait
+ 802              		.section	.text._write,"ax",%progbits
+ 803              		.align	2
+ 804              		.weak	_write
+ 805              		.thumb
+ 806              		.thumb_func
+ 807              		.type	_write, %function
+ 808              	_write:
+ 809              	.LFB34:
+ 366:..\Setup/OS_Syscalls.c **** 
+ 367:..\Setup/OS_Syscalls.c **** /*********************************************************************
+ 368:..\Setup/OS_Syscalls.c **** *
+ 369:..\Setup/OS_Syscalls.c **** *       _write()
+ 370:..\Setup/OS_Syscalls.c **** *
+ 371:..\Setup/OS_Syscalls.c **** *  Function description
+ 372:..\Setup/OS_Syscalls.c **** *    Write to a file.
+ 373:..\Setup/OS_Syscalls.c **** *    libc subroutines will use this system routine for output to all files,
+ 374:..\Setup/OS_Syscalls.c **** *    including stdouts if you need to generate any output,
+ 375:..\Setup/OS_Syscalls.c **** *    for example to a serial port for debugging, you should make your minimal write capable of doin
+ 376:..\Setup/OS_Syscalls.c **** *    The following minimal implementation is an incomplete example; it relies on a outbyte subrouti
+ 377:..\Setup/OS_Syscalls.c **** *    (not shown; typically, you must write this in assembler from examples provided by your hardwar
+ 378:..\Setup/OS_Syscalls.c **** *    to actually perform the output.
+ 379:..\Setup/OS_Syscalls.c **** *    Not needed (supported) by embOS, minimal implementation
+ 380:..\Setup/OS_Syscalls.c **** */
+ 381:..\Setup/OS_Syscalls.c **** int _write(int file, char* p, int len) {
+ 810              		.loc 1 381 0
+ 811              		.cfi_startproc
+ 812              		@ args = 0, pretend = 0, frame = 24
+ 813              		@ frame_needed = 1, uses_anonymous_args = 0
+ 814              		@ link register save eliminated.
+ 815 0000 80B4     		push	{r7}
+ 816              		.cfi_def_cfa_offset 4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 22
+
+
+ 817              		.cfi_offset 7, -4
+ 818 0002 87B0     		sub	sp, sp, #28
+ 819              		.cfi_def_cfa_offset 32
+ 820 0004 00AF     		add	r7, sp, #0
+ 821              		.cfi_def_cfa_register 7
+ 822 0006 F860     		str	r0, [r7, #12]
+ 823 0008 B960     		str	r1, [r7, #8]
+ 824 000a 7A60     		str	r2, [r7, #4]
+ 382:..\Setup/OS_Syscalls.c ****   int todo;
+ 383:..\Setup/OS_Syscalls.c **** 
+ 384:..\Setup/OS_Syscalls.c ****   (void) file;  /* Not used, avoid warning */
+ 385:..\Setup/OS_Syscalls.c ****   (void) p;     /* Not used, avoid warning */
+ 386:..\Setup/OS_Syscalls.c ****   (void) len;   /* Not used, avoid warning */
+ 387:..\Setup/OS_Syscalls.c ****   for (todo = 0; todo < len; todo++) {
+ 825              		.loc 1 387 0
+ 826 000c 0023     		movs	r3, #0
+ 827 000e 7B61     		str	r3, [r7, #20]
+ 828 0010 02E0     		b	.L56
+ 829              	.L57:
+ 830              		.loc 1 387 0 is_stmt 0 discriminator 3
+ 831 0012 7B69     		ldr	r3, [r7, #20]
+ 832 0014 0133     		adds	r3, r3, #1
+ 833 0016 7B61     		str	r3, [r7, #20]
+ 834              	.L56:
+ 835              		.loc 1 387 0 discriminator 1
+ 836 0018 7A69     		ldr	r2, [r7, #20]
+ 837 001a 7B68     		ldr	r3, [r7, #4]
+ 838 001c 9A42     		cmp	r2, r3
+ 839 001e F8DB     		blt	.L57
+ 388:..\Setup/OS_Syscalls.c ****     /* outbyte (*p++); */ /* Not supported, has to be implemented if needed */
+ 389:..\Setup/OS_Syscalls.c ****   }
+ 390:..\Setup/OS_Syscalls.c ****   return len;
+ 840              		.loc 1 390 0 is_stmt 1
+ 841 0020 7B68     		ldr	r3, [r7, #4]
+ 391:..\Setup/OS_Syscalls.c **** }
+ 842              		.loc 1 391 0
+ 843 0022 1846     		mov	r0, r3
+ 844 0024 1C37     		adds	r7, r7, #28
+ 845              		.cfi_def_cfa_offset 4
+ 846 0026 BD46     		mov	sp, r7
+ 847              		.cfi_def_cfa_register 13
+ 848              		@ sp needed
+ 849 0028 80BC     		pop	{r7}
+ 850              		.cfi_restore 7
+ 851              		.cfi_def_cfa_offset 0
+ 852 002a 7047     		bx	lr
+ 853              		.cfi_endproc
+ 854              	.LFE34:
+ 855              		.size	_write, .-_write
+ 856              		.bss
+ 857              		.align	2
+ 858              	heap_end.4801:
+ 859 0004 00000000 		.space	4
+ 860              		.text
+ 861              	.Letext0:
+ 862              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 863              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 23
+
+
+ 864              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 865              		.file 5 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 866              		.file 6 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 867              		.file 7 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 868              		.file 8 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 869              		.section	.debug_info,"",%progbits
+ 870              	.Ldebug_info0:
+ 871 0000 6B070000 		.4byte	0x76b
+ 872 0004 0400     		.2byte	0x4
+ 873 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 874 000a 04       		.byte	0x4
+ 875 000b 01       		.uleb128 0x1
+ 876 000c 22000000 		.4byte	.LASF106
+ 877 0010 0C       		.byte	0xc
+ 878 0011 16010000 		.4byte	.LASF107
+ 879 0015 78010000 		.4byte	.LASF108
+ 880 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 881 001d 00000000 		.4byte	0
+ 882 0021 00000000 		.4byte	.Ldebug_line0
+ 883 0025 02       		.uleb128 0x2
+ 884 0026 04       		.byte	0x4
+ 885 0027 05       		.byte	0x5
+ 886 0028 696E7400 		.ascii	"int\000"
+ 887 002c 03       		.uleb128 0x3
+ 888 002d 04       		.byte	0x4
+ 889 002e 07       		.byte	0x7
+ 890 002f B2020000 		.4byte	.LASF0
+ 891 0033 03       		.uleb128 0x3
+ 892 0034 08       		.byte	0x8
+ 893 0035 05       		.byte	0x5
+ 894 0036 08010000 		.4byte	.LASF1
+ 895 003a 03       		.uleb128 0x3
+ 896 003b 08       		.byte	0x8
+ 897 003c 04       		.byte	0x4
+ 898 003d 75030000 		.4byte	.LASF2
+ 899 0041 03       		.uleb128 0x3
+ 900 0042 01       		.byte	0x1
+ 901 0043 06       		.byte	0x6
+ 902 0044 16000000 		.4byte	.LASF3
+ 903 0048 03       		.uleb128 0x3
+ 904 0049 01       		.byte	0x1
+ 905 004a 08       		.byte	0x8
+ 906 004b E0030000 		.4byte	.LASF4
+ 907 004f 03       		.uleb128 0x3
+ 908 0050 02       		.byte	0x2
+ 909 0051 05       		.byte	0x5
+ 910 0052 FC030000 		.4byte	.LASF5
+ 911 0056 03       		.uleb128 0x3
+ 912 0057 02       		.byte	0x2
+ 913 0058 07       		.byte	0x7
+ 914 0059 FA020000 		.4byte	.LASF6
+ 915 005d 03       		.uleb128 0x3
+ 916 005e 04       		.byte	0x4
+ 917 005f 05       		.byte	0x5
+ 918 0060 51010000 		.4byte	.LASF7
+ 919 0064 04       		.uleb128 0x4
+ 920 0065 4E020000 		.4byte	.LASF10
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 24
+
+
+ 921 0069 02       		.byte	0x2
+ 922 006a 41       		.byte	0x41
+ 923 006b 6F000000 		.4byte	0x6f
+ 924 006f 03       		.uleb128 0x3
+ 925 0070 04       		.byte	0x4
+ 926 0071 07       		.byte	0x7
+ 927 0072 CF020000 		.4byte	.LASF8
+ 928 0076 03       		.uleb128 0x3
+ 929 0077 08       		.byte	0x8
+ 930 0078 07       		.byte	0x7
+ 931 0079 B6000000 		.4byte	.LASF9
+ 932 007d 04       		.uleb128 0x4
+ 933 007e 46010000 		.4byte	.LASF11
+ 934 0082 03       		.byte	0x3
+ 935 0083 1C       		.byte	0x1c
+ 936 0084 5D000000 		.4byte	0x5d
+ 937 0088 04       		.uleb128 0x4
+ 938 0089 99030000 		.4byte	.LASF12
+ 939 008d 03       		.byte	0x3
+ 940 008e 20       		.byte	0x20
+ 941 008f 5D000000 		.4byte	0x5d
+ 942 0093 04       		.uleb128 0x4
+ 943 0094 A5030000 		.4byte	.LASF13
+ 944 0098 03       		.byte	0x3
+ 945 0099 2C       		.byte	0x2c
+ 946 009a 5D000000 		.4byte	0x5d
+ 947 009e 04       		.uleb128 0x4
+ 948 009f 76020000 		.4byte	.LASF14
+ 949 00a3 03       		.byte	0x3
+ 950 00a4 36       		.byte	0x36
+ 951 00a5 4F000000 		.4byte	0x4f
+ 952 00a9 04       		.uleb128 0x4
+ 953 00aa 58040000 		.4byte	.LASF15
+ 954 00ae 03       		.byte	0x3
+ 955 00af 3A       		.byte	0x3a
+ 956 00b0 56000000 		.4byte	0x56
+ 957 00b4 04       		.uleb128 0x4
+ 958 00b5 08000000 		.4byte	.LASF16
+ 959 00b9 03       		.byte	0x3
+ 960 00ba 3D       		.byte	0x3d
+ 961 00bb 56000000 		.4byte	0x56
+ 962 00bf 04       		.uleb128 0x4
+ 963 00c0 29040000 		.4byte	.LASF17
+ 964 00c4 03       		.byte	0x3
+ 965 00c5 49       		.byte	0x49
+ 966 00c6 56000000 		.4byte	0x56
+ 967 00ca 04       		.uleb128 0x4
+ 968 00cb 3D010000 		.4byte	.LASF18
+ 969 00cf 03       		.byte	0x3
+ 970 00d0 58       		.byte	0x58
+ 971 00d1 64000000 		.4byte	0x64
+ 972 00d5 04       		.uleb128 0x4
+ 973 00d6 00000000 		.4byte	.LASF19
+ 974 00da 03       		.byte	0x3
+ 975 00db 64       		.byte	0x64
+ 976 00dc 93000000 		.4byte	0x93
+ 977 00e0 03       		.uleb128 0x3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 25
+
+
+ 978 00e1 04       		.byte	0x4
+ 979 00e2 07       		.byte	0x7
+ 980 00e3 6C030000 		.4byte	.LASF20
+ 981 00e7 04       		.uleb128 0x4
+ 982 00e8 0D030000 		.4byte	.LASF21
+ 983 00ec 03       		.byte	0x3
+ 984 00ed CB       		.byte	0xcb
+ 985 00ee 56000000 		.4byte	0x56
+ 986 00f2 04       		.uleb128 0x4
+ 987 00f3 E1020000 		.4byte	.LASF22
+ 988 00f7 03       		.byte	0x3
+ 989 00f8 CC       		.byte	0xcc
+ 990 00f9 5D000000 		.4byte	0x5d
+ 991 00fd 05       		.uleb128 0x5
+ 992 00fe 04       		.byte	0x4
+ 993 00ff 03010000 		.4byte	0x103
+ 994 0103 03       		.uleb128 0x3
+ 995 0104 01       		.byte	0x1
+ 996 0105 08       		.byte	0x8
+ 997 0106 49040000 		.4byte	.LASF23
+ 998 010a 05       		.uleb128 0x5
+ 999 010b 04       		.byte	0x4
+ 1000 010c 10010000 		.4byte	0x110
+ 1001 0110 06       		.uleb128 0x6
+ 1002 0111 03010000 		.4byte	0x103
+ 1003 0115 04       		.uleb128 0x4
+ 1004 0116 6A020000 		.4byte	.LASF24
+ 1005 011a 04       		.byte	0x4
+ 1006 011b 23       		.byte	0x23
+ 1007 011c F2000000 		.4byte	0xf2
+ 1008 0120 04       		.uleb128 0x4
+ 1009 0121 BB030000 		.4byte	.LASF25
+ 1010 0125 04       		.byte	0x4
+ 1011 0126 28       		.byte	0x28
+ 1012 0127 5D000000 		.4byte	0x5d
+ 1013 012b 07       		.uleb128 0x7
+ 1014 012c 47030000 		.4byte	.LASF39
+ 1015 0130 08       		.byte	0x8
+ 1016 0131 04       		.byte	0x4
+ 1017 0132 34       		.byte	0x34
+ 1018 0133 50010000 		.4byte	0x150
+ 1019 0137 08       		.uleb128 0x8
+ 1020 0138 87030000 		.4byte	.LASF26
+ 1021 013c 04       		.byte	0x4
+ 1022 013d 35       		.byte	0x35
+ 1023 013e 20010000 		.4byte	0x120
+ 1024 0142 00       		.byte	0
+ 1025 0143 08       		.uleb128 0x8
+ 1026 0144 31040000 		.4byte	.LASF27
+ 1027 0148 04       		.byte	0x4
+ 1028 0149 36       		.byte	0x36
+ 1029 014a 15010000 		.4byte	0x115
+ 1030 014e 04       		.byte	0x4
+ 1031 014f 00       		.byte	0
+ 1032 0150 04       		.uleb128 0x4
+ 1033 0151 C6020000 		.4byte	.LASF28
+ 1034 0155 05       		.byte	0x5
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 26
+
+
+ 1035 0156 71       		.byte	0x71
+ 1036 0157 7D000000 		.4byte	0x7d
+ 1037 015b 04       		.uleb128 0x4
+ 1038 015c B7040000 		.4byte	.LASF29
+ 1039 0160 05       		.byte	0x5
+ 1040 0161 76       		.byte	0x76
+ 1041 0162 88000000 		.4byte	0x88
+ 1042 0166 04       		.uleb128 0x4
+ 1043 0167 59020000 		.4byte	.LASF30
+ 1044 016b 05       		.byte	0x5
+ 1045 016c 7B       		.byte	0x7b
+ 1046 016d 6F000000 		.4byte	0x6f
+ 1047 0171 04       		.uleb128 0x4
+ 1048 0172 39040000 		.4byte	.LASF31
+ 1049 0176 05       		.byte	0x5
+ 1050 0177 8B       		.byte	0x8b
+ 1051 0178 FD000000 		.4byte	0xfd
+ 1052 017c 04       		.uleb128 0x4
+ 1053 017d E3040000 		.4byte	.LASF32
+ 1054 0181 05       		.byte	0x5
+ 1055 0182 9B       		.byte	0x9b
+ 1056 0183 BF000000 		.4byte	0xbf
+ 1057 0187 04       		.uleb128 0x4
+ 1058 0188 42020000 		.4byte	.LASF33
+ 1059 018c 05       		.byte	0x5
+ 1060 018d AD       		.byte	0xad
+ 1061 018e D5000000 		.4byte	0xd5
+ 1062 0192 04       		.uleb128 0x4
+ 1063 0193 AC030000 		.4byte	.LASF34
+ 1064 0197 05       		.byte	0x5
+ 1065 0198 B1       		.byte	0xb1
+ 1066 0199 9E000000 		.4byte	0x9e
+ 1067 019d 04       		.uleb128 0x4
+ 1068 019e F4020000 		.4byte	.LASF35
+ 1069 01a2 05       		.byte	0x5
+ 1070 01a3 B5       		.byte	0xb5
+ 1071 01a4 A9000000 		.4byte	0xa9
+ 1072 01a8 04       		.uleb128 0x4
+ 1073 01a9 48020000 		.4byte	.LASF36
+ 1074 01ad 05       		.byte	0x5
+ 1075 01ae B9       		.byte	0xb9
+ 1076 01af B4000000 		.4byte	0xb4
+ 1077 01b3 04       		.uleb128 0x4
+ 1078 01b4 91040000 		.4byte	.LASF37
+ 1079 01b8 05       		.byte	0x5
+ 1080 01b9 CD       		.byte	0xcd
+ 1081 01ba CA000000 		.4byte	0xca
+ 1082 01be 04       		.uleb128 0x4
+ 1083 01bf 35020000 		.4byte	.LASF38
+ 1084 01c3 05       		.byte	0x5
+ 1085 01c4 D2       		.byte	0xd2
+ 1086 01c5 E7000000 		.4byte	0xe7
+ 1087 01c9 07       		.uleb128 0x7
+ 1088 01ca EF000000 		.4byte	.LASF40
+ 1089 01ce 3C       		.byte	0x3c
+ 1090 01cf 06       		.byte	0x6
+ 1091 01d0 1B       		.byte	0x1b
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 27
+
+
+ 1092 01d1 A2020000 		.4byte	0x2a2
+ 1093 01d5 08       		.uleb128 0x8
+ 1094 01d6 98040000 		.4byte	.LASF41
+ 1095 01da 06       		.byte	0x6
+ 1096 01db 1D       		.byte	0x1d
+ 1097 01dc 92010000 		.4byte	0x192
+ 1098 01e0 00       		.byte	0
+ 1099 01e1 08       		.uleb128 0x8
+ 1100 01e2 36010000 		.4byte	.LASF42
+ 1101 01e6 06       		.byte	0x6
+ 1102 01e7 1E       		.byte	0x1e
+ 1103 01e8 7C010000 		.4byte	0x17c
+ 1104 01ec 02       		.byte	0x2
+ 1105 01ed 08       		.uleb128 0x8
+ 1106 01ee 64030000 		.4byte	.LASF43
+ 1107 01f2 06       		.byte	0x6
+ 1108 01f3 1F       		.byte	0x1f
+ 1109 01f4 B3010000 		.4byte	0x1b3
+ 1110 01f8 04       		.byte	0x4
+ 1111 01f9 08       		.uleb128 0x8
+ 1112 01fa C8030000 		.4byte	.LASF44
+ 1113 01fe 06       		.byte	0x6
+ 1114 01ff 20       		.byte	0x20
+ 1115 0200 BE010000 		.4byte	0x1be
+ 1116 0204 08       		.byte	0x8
+ 1117 0205 08       		.uleb128 0x8
+ 1118 0206 7E020000 		.4byte	.LASF45
+ 1119 020a 06       		.byte	0x6
+ 1120 020b 21       		.byte	0x21
+ 1121 020c 9D010000 		.4byte	0x19d
+ 1122 0210 0A       		.byte	0xa
+ 1123 0211 08       		.uleb128 0x8
+ 1124 0212 6B040000 		.4byte	.LASF46
+ 1125 0216 06       		.byte	0x6
+ 1126 0217 22       		.byte	0x22
+ 1127 0218 A8010000 		.4byte	0x1a8
+ 1128 021c 0C       		.byte	0xc
+ 1129 021d 08       		.uleb128 0x8
+ 1130 021e 41040000 		.4byte	.LASF47
+ 1131 0222 06       		.byte	0x6
+ 1132 0223 23       		.byte	0x23
+ 1133 0224 92010000 		.4byte	0x192
+ 1134 0228 0E       		.byte	0xe
+ 1135 0229 08       		.uleb128 0x8
+ 1136 022a 55030000 		.4byte	.LASF48
+ 1137 022e 06       		.byte	0x6
+ 1138 022f 24       		.byte	0x24
+ 1139 0230 87010000 		.4byte	0x187
+ 1140 0234 10       		.byte	0x10
+ 1141 0235 08       		.uleb128 0x8
+ 1142 0236 36030000 		.4byte	.LASF49
+ 1143 023a 06       		.byte	0x6
+ 1144 023b 32       		.byte	0x32
+ 1145 023c 20010000 		.4byte	0x120
+ 1146 0240 14       		.byte	0x14
+ 1147 0241 08       		.uleb128 0x8
+ 1148 0242 85020000 		.4byte	.LASF50
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 28
+
+
+ 1149 0246 06       		.byte	0x6
+ 1150 0247 33       		.byte	0x33
+ 1151 0248 5D000000 		.4byte	0x5d
+ 1152 024c 18       		.byte	0x18
+ 1153 024d 08       		.uleb128 0x8
+ 1154 024e CF040000 		.4byte	.LASF51
+ 1155 0252 06       		.byte	0x6
+ 1156 0253 34       		.byte	0x34
+ 1157 0254 20010000 		.4byte	0x120
+ 1158 0258 1C       		.byte	0x1c
+ 1159 0259 08       		.uleb128 0x8
+ 1160 025a 8F020000 		.4byte	.LASF52
+ 1161 025e 06       		.byte	0x6
+ 1162 025f 35       		.byte	0x35
+ 1163 0260 5D000000 		.4byte	0x5d
+ 1164 0264 20       		.byte	0x20
+ 1165 0265 08       		.uleb128 0x8
+ 1166 0266 20040000 		.4byte	.LASF53
+ 1167 026a 06       		.byte	0x6
+ 1168 026b 36       		.byte	0x36
+ 1169 026c 20010000 		.4byte	0x120
+ 1170 0270 24       		.byte	0x24
+ 1171 0271 08       		.uleb128 0x8
+ 1172 0272 99020000 		.4byte	.LASF54
+ 1173 0276 06       		.byte	0x6
+ 1174 0277 37       		.byte	0x37
+ 1175 0278 5D000000 		.4byte	0x5d
+ 1176 027c 28       		.byte	0x28
+ 1177 027d 08       		.uleb128 0x8
+ 1178 027e 0B040000 		.4byte	.LASF55
+ 1179 0282 06       		.byte	0x6
+ 1180 0283 38       		.byte	0x38
+ 1181 0284 5B010000 		.4byte	0x15b
+ 1182 0288 2C       		.byte	0x2c
+ 1183 0289 08       		.uleb128 0x8
+ 1184 028a CD000000 		.4byte	.LASF56
+ 1185 028e 06       		.byte	0x6
+ 1186 028f 39       		.byte	0x39
+ 1187 0290 50010000 		.4byte	0x150
+ 1188 0294 30       		.byte	0x30
+ 1189 0295 08       		.uleb128 0x8
+ 1190 0296 A3020000 		.4byte	.LASF57
+ 1191 029a 06       		.byte	0x6
+ 1192 029b 3A       		.byte	0x3a
+ 1193 029c A2020000 		.4byte	0x2a2
+ 1194 02a0 34       		.byte	0x34
+ 1195 02a1 00       		.byte	0
+ 1196 02a2 09       		.uleb128 0x9
+ 1197 02a3 5D000000 		.4byte	0x5d
+ 1198 02a7 B2020000 		.4byte	0x2b2
+ 1199 02ab 0A       		.uleb128 0xa
+ 1200 02ac E0000000 		.4byte	0xe0
+ 1201 02b0 01       		.byte	0x1
+ 1202 02b1 00       		.byte	0
+ 1203 02b2 07       		.uleb128 0x7
+ 1204 02b3 61020000 		.4byte	.LASF58
+ 1205 02b7 08       		.byte	0x8
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 29
+
+
+ 1206 02b8 07       		.byte	0x7
+ 1207 02b9 32       		.byte	0x32
+ 1208 02ba D7020000 		.4byte	0x2d7
+ 1209 02be 08       		.uleb128 0x8
+ 1210 02bf 1F030000 		.4byte	.LASF59
+ 1211 02c3 07       		.byte	0x7
+ 1212 02c4 33       		.byte	0x33
+ 1213 02c5 25000000 		.4byte	0x25
+ 1214 02c9 00       		.byte	0
+ 1215 02ca 08       		.uleb128 0x8
+ 1216 02cb 9F040000 		.4byte	.LASF60
+ 1217 02cf 07       		.byte	0x7
+ 1218 02d0 34       		.byte	0x34
+ 1219 02d1 25000000 		.4byte	0x25
+ 1220 02d5 04       		.byte	0x4
+ 1221 02d6 00       		.byte	0
+ 1222 02d7 0B       		.uleb128 0xb
+ 1223 02d8 746D7300 		.ascii	"tms\000"
+ 1224 02dc 10       		.byte	0x10
+ 1225 02dd 08       		.byte	0x8
+ 1226 02de 11       		.byte	0x11
+ 1227 02df 14030000 		.4byte	0x314
+ 1228 02e3 08       		.uleb128 0x8
+ 1229 02e4 16040000 		.4byte	.LASF61
+ 1230 02e8 08       		.byte	0x8
+ 1231 02e9 12       		.byte	0x12
+ 1232 02ea 66010000 		.4byte	0x166
+ 1233 02ee 00       		.byte	0
+ 1234 02ef 08       		.uleb128 0x8
+ 1235 02f0 60010000 		.4byte	.LASF62
+ 1236 02f4 08       		.byte	0x8
+ 1237 02f5 13       		.byte	0x13
+ 1238 02f6 66010000 		.4byte	0x166
+ 1239 02fa 04       		.byte	0x4
+ 1240 02fb 08       		.uleb128 0x8
+ 1241 02fc D7000000 		.4byte	.LASF63
+ 1242 0300 08       		.byte	0x8
+ 1243 0301 14       		.byte	0x14
+ 1244 0302 66010000 		.4byte	0x166
+ 1245 0306 08       		.byte	0x8
+ 1246 0307 08       		.uleb128 0x8
+ 1247 0308 72040000 		.4byte	.LASF64
+ 1248 030c 08       		.byte	0x8
+ 1249 030d 15       		.byte	0x15
+ 1250 030e 66010000 		.4byte	0x166
+ 1251 0312 0C       		.byte	0xc
+ 1252 0313 00       		.byte	0
+ 1253 0314 0C       		.uleb128 0xc
+ 1254 0315 BF020000 		.4byte	.LASF65
+ 1255 0319 01       		.byte	0x1
+ 1256 031a 68       		.byte	0x68
+ 1257 031b 25000000 		.4byte	0x25
+ 1258 031f 00000000 		.4byte	.LFB16
+ 1259 0323 16000000 		.4byte	.LFE16-.LFB16
+ 1260 0327 01       		.uleb128 0x1
+ 1261 0328 9C       		.byte	0x9c
+ 1262 0329 3C030000 		.4byte	0x33c
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 30
+
+
+ 1263 032d 0D       		.uleb128 0xd
+ 1264 032e 06040000 		.4byte	.LASF67
+ 1265 0332 01       		.byte	0x1
+ 1266 0333 68       		.byte	0x68
+ 1267 0334 25000000 		.4byte	0x25
+ 1268 0338 02       		.uleb128 0x2
+ 1269 0339 91       		.byte	0x91
+ 1270 033a 74       		.sleb128 -12
+ 1271 033b 00       		.byte	0
+ 1272 033c 0C       		.uleb128 0xc
+ 1273 033d EE030000 		.4byte	.LASF66
+ 1274 0341 01       		.byte	0x1
+ 1275 0342 75       		.byte	0x75
+ 1276 0343 25000000 		.4byte	0x25
+ 1277 0347 00000000 		.4byte	.LFB17
+ 1278 034b 24000000 		.4byte	.LFE17-.LFB17
+ 1279 034f 01       		.uleb128 0x1
+ 1280 0350 9C       		.byte	0x9c
+ 1281 0351 80030000 		.4byte	0x380
+ 1282 0355 0D       		.uleb128 0xd
+ 1283 0356 2F020000 		.4byte	.LASF68
+ 1284 035a 01       		.byte	0x1
+ 1285 035b 75       		.byte	0x75
+ 1286 035c FD000000 		.4byte	0xfd
+ 1287 0360 02       		.uleb128 0x2
+ 1288 0361 91       		.byte	0x91
+ 1289 0362 74       		.sleb128 -12
+ 1290 0363 0D       		.uleb128 0xd
+ 1291 0364 8B040000 		.4byte	.LASF69
+ 1292 0368 01       		.byte	0x1
+ 1293 0369 75       		.byte	0x75
+ 1294 036a 80030000 		.4byte	0x380
+ 1295 036e 02       		.uleb128 0x2
+ 1296 036f 91       		.byte	0x91
+ 1297 0370 70       		.sleb128 -16
+ 1298 0371 0D       		.uleb128 0xd
+ 1299 0372 EF020000 		.4byte	.LASF70
+ 1300 0376 01       		.byte	0x1
+ 1301 0377 75       		.byte	0x75
+ 1302 0378 80030000 		.4byte	0x380
+ 1303 037c 02       		.uleb128 0x2
+ 1304 037d 91       		.byte	0x91
+ 1305 037e 6C       		.sleb128 -20
+ 1306 037f 00       		.byte	0
+ 1307 0380 05       		.uleb128 0x5
+ 1308 0381 04       		.byte	0x4
+ 1309 0382 FD000000 		.4byte	0xfd
+ 1310 0386 0E       		.uleb128 0xe
+ 1311 0387 F4000000 		.4byte	.LASF71
+ 1312 038b 01       		.byte	0x1
+ 1313 038c 84       		.byte	0x84
+ 1314 038d 00000000 		.4byte	.LFB18
+ 1315 0391 0A000000 		.4byte	.LFE18-.LFB18
+ 1316 0395 01       		.uleb128 0x1
+ 1317 0396 9C       		.byte	0x9c
+ 1318 0397 AA030000 		.4byte	0x3aa
+ 1319 039b 0D       		.uleb128 0xd
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 31
+
+
+ 1320 039c 2D010000 		.4byte	.LASF72
+ 1321 03a0 01       		.byte	0x1
+ 1322 03a1 84       		.byte	0x84
+ 1323 03a2 25000000 		.4byte	0x25
+ 1324 03a6 02       		.uleb128 0x2
+ 1325 03a7 91       		.byte	0x91
+ 1326 03a8 74       		.sleb128 -12
+ 1327 03a9 00       		.byte	0
+ 1328 03aa 0F       		.uleb128 0xf
+ 1329 03ab B0000000 		.4byte	.LASF74
+ 1330 03af 01       		.byte	0x1
+ 1331 03b0 91       		.byte	0x91
+ 1332 03b1 25000000 		.4byte	0x25
+ 1333 03b5 00000000 		.4byte	.LFB19
+ 1334 03b9 1C000000 		.4byte	.LFE19-.LFB19
+ 1335 03bd 01       		.uleb128 0x1
+ 1336 03be 9C       		.byte	0x9c
+ 1337 03bf 0C       		.uleb128 0xc
+ 1338 03c0 71010000 		.4byte	.LASF73
+ 1339 03c4 01       		.byte	0x1
+ 1340 03c5 A1       		.byte	0xa1
+ 1341 03c6 25000000 		.4byte	0x25
+ 1342 03ca 00000000 		.4byte	.LFB20
+ 1343 03ce 1E000000 		.4byte	.LFE20-.LFB20
+ 1344 03d2 01       		.uleb128 0x1
+ 1345 03d3 9C       		.byte	0x9c
+ 1346 03d4 F5030000 		.4byte	0x3f5
+ 1347 03d8 0D       		.uleb128 0xd
+ 1348 03d9 06040000 		.4byte	.LASF67
+ 1349 03dd 01       		.byte	0x1
+ 1350 03de A1       		.byte	0xa1
+ 1351 03df 25000000 		.4byte	0x25
+ 1352 03e3 02       		.uleb128 0x2
+ 1353 03e4 91       		.byte	0x91
+ 1354 03e5 74       		.sleb128 -12
+ 1355 03e6 10       		.uleb128 0x10
+ 1356 03e7 70537400 		.ascii	"pSt\000"
+ 1357 03eb 01       		.byte	0x1
+ 1358 03ec A1       		.byte	0xa1
+ 1359 03ed F5030000 		.4byte	0x3f5
+ 1360 03f1 02       		.uleb128 0x2
+ 1361 03f2 91       		.byte	0x91
+ 1362 03f3 70       		.sleb128 -16
+ 1363 03f4 00       		.byte	0
+ 1364 03f5 05       		.uleb128 0x5
+ 1365 03f6 04       		.byte	0x4
+ 1366 03f7 C9010000 		.4byte	0x1c9
+ 1367 03fb 0F       		.uleb128 0xf
+ 1368 03fc 27020000 		.4byte	.LASF75
+ 1369 0400 01       		.byte	0x1
+ 1370 0401 AF       		.byte	0xaf
+ 1371 0402 25000000 		.4byte	0x25
+ 1372 0406 00000000 		.4byte	.LFB21
+ 1373 040a 0E000000 		.4byte	.LFE21-.LFB21
+ 1374 040e 01       		.uleb128 0x1
+ 1375 040f 9C       		.byte	0x9c
+ 1376 0410 0C       		.uleb128 0xc
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 32
+
+
+ 1377 0411 7D040000 		.4byte	.LASF76
+ 1378 0415 01       		.byte	0x1
+ 1379 0416 BA       		.byte	0xba
+ 1380 0417 25000000 		.4byte	0x25
+ 1381 041b 00000000 		.4byte	.LFB22
+ 1382 041f 24000000 		.4byte	.LFE22-.LFB22
+ 1383 0423 01       		.uleb128 0x1
+ 1384 0424 9C       		.byte	0x9c
+ 1385 0425 46040000 		.4byte	0x446
+ 1386 0429 10       		.uleb128 0x10
+ 1387 042a 70547000 		.ascii	"pTp\000"
+ 1388 042e 01       		.byte	0x1
+ 1389 042f BA       		.byte	0xba
+ 1390 0430 46040000 		.4byte	0x446
+ 1391 0434 02       		.uleb128 0x2
+ 1392 0435 91       		.byte	0x91
+ 1393 0436 74       		.sleb128 -12
+ 1394 0437 0D       		.uleb128 0xd
+ 1395 0438 AD020000 		.4byte	.LASF77
+ 1396 043c 01       		.byte	0x1
+ 1397 043d BA       		.byte	0xba
+ 1398 043e 4C040000 		.4byte	0x44c
+ 1399 0442 02       		.uleb128 0x2
+ 1400 0443 91       		.byte	0x91
+ 1401 0444 70       		.sleb128 -16
+ 1402 0445 00       		.byte	0
+ 1403 0446 05       		.uleb128 0x5
+ 1404 0447 04       		.byte	0x4
+ 1405 0448 2B010000 		.4byte	0x12b
+ 1406 044c 05       		.uleb128 0x5
+ 1407 044d 04       		.byte	0x4
+ 1408 044e B2020000 		.4byte	0x2b2
+ 1409 0452 0C       		.uleb128 0xc
+ 1410 0453 2E030000 		.4byte	.LASF78
+ 1411 0457 01       		.byte	0x1
+ 1412 0458 CB       		.byte	0xcb
+ 1413 0459 25000000 		.4byte	0x25
+ 1414 045d 00000000 		.4byte	.LFB23
+ 1415 0461 14000000 		.4byte	.LFE23-.LFB23
+ 1416 0465 01       		.uleb128 0x1
+ 1417 0466 9C       		.byte	0x9c
+ 1418 0467 7A040000 		.4byte	0x47a
+ 1419 046b 0D       		.uleb128 0xd
+ 1420 046c 06040000 		.4byte	.LASF67
+ 1421 0470 01       		.byte	0x1
+ 1422 0471 CB       		.byte	0xcb
+ 1423 0472 25000000 		.4byte	0x25
+ 1424 0476 02       		.uleb128 0x2
+ 1425 0477 91       		.byte	0x91
+ 1426 0478 74       		.sleb128 -12
+ 1427 0479 00       		.byte	0
+ 1428 047a 0C       		.uleb128 0xc
+ 1429 047b 65040000 		.4byte	.LASF79
+ 1430 047f 01       		.byte	0x1
+ 1431 0480 D9       		.byte	0xd9
+ 1432 0481 25000000 		.4byte	0x25
+ 1433 0485 00000000 		.4byte	.LFB24
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 33
+
+
+ 1434 0489 24000000 		.4byte	.LFE24-.LFB24
+ 1435 048d 01       		.uleb128 0x1
+ 1436 048e 9C       		.byte	0x9c
+ 1437 048f B0040000 		.4byte	0x4b0
+ 1438 0493 10       		.uleb128 0x10
+ 1439 0494 70696400 		.ascii	"pid\000"
+ 1440 0498 01       		.byte	0x1
+ 1441 0499 D9       		.byte	0xd9
+ 1442 049a 25000000 		.4byte	0x25
+ 1443 049e 02       		.uleb128 0x2
+ 1444 049f 91       		.byte	0x91
+ 1445 04a0 74       		.sleb128 -12
+ 1446 04a1 10       		.uleb128 0x10
+ 1447 04a2 73696700 		.ascii	"sig\000"
+ 1448 04a6 01       		.byte	0x1
+ 1449 04a7 D9       		.byte	0xd9
+ 1450 04a8 25000000 		.4byte	0x25
+ 1451 04ac 02       		.uleb128 0x2
+ 1452 04ad 91       		.byte	0x91
+ 1453 04ae 70       		.sleb128 -16
+ 1454 04af 00       		.byte	0
+ 1455 04b0 0C       		.uleb128 0xc
+ 1456 04b1 C9040000 		.4byte	.LASF80
+ 1457 04b5 01       		.byte	0x1
+ 1458 04b6 E8       		.byte	0xe8
+ 1459 04b7 25000000 		.4byte	0x25
+ 1460 04bb 00000000 		.4byte	.LFB25
+ 1461 04bf 24000000 		.4byte	.LFE25-.LFB25
+ 1462 04c3 01       		.uleb128 0x1
+ 1463 04c4 9C       		.byte	0x9c
+ 1464 04c5 E6040000 		.4byte	0x4e6
+ 1465 04c9 0D       		.uleb128 0xd
+ 1466 04ca 3D020000 		.4byte	.LASF81
+ 1467 04ce 01       		.byte	0x1
+ 1468 04cf E8       		.byte	0xe8
+ 1469 04d0 FD000000 		.4byte	0xfd
+ 1470 04d4 02       		.uleb128 0x2
+ 1471 04d5 91       		.byte	0x91
+ 1472 04d6 74       		.sleb128 -12
+ 1473 04d7 0D       		.uleb128 0xd
+ 1474 04d8 53040000 		.4byte	.LASF82
+ 1475 04dc 01       		.byte	0x1
+ 1476 04dd E8       		.byte	0xe8
+ 1477 04de FD000000 		.4byte	0xfd
+ 1478 04e2 02       		.uleb128 0x2
+ 1479 04e3 91       		.byte	0x91
+ 1480 04e4 70       		.sleb128 -16
+ 1481 04e5 00       		.byte	0
+ 1482 04e6 0C       		.uleb128 0xc
+ 1483 04e7 6A010000 		.4byte	.LASF83
+ 1484 04eb 01       		.byte	0x1
+ 1485 04ec F7       		.byte	0xf7
+ 1486 04ed 25000000 		.4byte	0x25
+ 1487 04f1 00000000 		.4byte	.LFB26
+ 1488 04f5 18000000 		.4byte	.LFE26-.LFB26
+ 1489 04f9 01       		.uleb128 0x1
+ 1490 04fa 9C       		.byte	0x9c
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 34
+
+
+ 1491 04fb 2A050000 		.4byte	0x52a
+ 1492 04ff 0D       		.uleb128 0xd
+ 1493 0500 06040000 		.4byte	.LASF67
+ 1494 0504 01       		.byte	0x1
+ 1495 0505 F7       		.byte	0xf7
+ 1496 0506 25000000 		.4byte	0x25
+ 1497 050a 02       		.uleb128 0x2
+ 1498 050b 91       		.byte	0x91
+ 1499 050c 74       		.sleb128 -12
+ 1500 050d 10       		.uleb128 0x10
+ 1501 050e 70747200 		.ascii	"ptr\000"
+ 1502 0512 01       		.byte	0x1
+ 1503 0513 F7       		.byte	0xf7
+ 1504 0514 25000000 		.4byte	0x25
+ 1505 0518 02       		.uleb128 0x2
+ 1506 0519 91       		.byte	0x91
+ 1507 051a 70       		.sleb128 -16
+ 1508 051b 10       		.uleb128 0x10
+ 1509 051c 64697200 		.ascii	"dir\000"
+ 1510 0520 01       		.byte	0x1
+ 1511 0521 F7       		.byte	0xf7
+ 1512 0522 25000000 		.4byte	0x25
+ 1513 0526 02       		.uleb128 0x2
+ 1514 0527 91       		.byte	0x91
+ 1515 0528 6C       		.sleb128 -20
+ 1516 0529 00       		.byte	0
+ 1517 052a 11       		.uleb128 0x11
+ 1518 052b 5A010000 		.4byte	.LASF84
+ 1519 052f 01       		.byte	0x1
+ 1520 0530 0601     		.2byte	0x106
+ 1521 0532 25000000 		.4byte	0x25
+ 1522 0536 00000000 		.4byte	.LFB27
+ 1523 053a 1A000000 		.4byte	.LFE27-.LFB27
+ 1524 053e 01       		.uleb128 0x1
+ 1525 053f 9C       		.byte	0x9c
+ 1526 0540 72050000 		.4byte	0x572
+ 1527 0544 12       		.uleb128 0x12
+ 1528 0545 2F020000 		.4byte	.LASF68
+ 1529 0549 01       		.byte	0x1
+ 1530 054a 0601     		.2byte	0x106
+ 1531 054c 0A010000 		.4byte	0x10a
+ 1532 0550 02       		.uleb128 0x2
+ 1533 0551 91       		.byte	0x91
+ 1534 0552 74       		.sleb128 -12
+ 1535 0553 12       		.uleb128 0x12
+ 1536 0554 AA040000 		.4byte	.LASF85
+ 1537 0558 01       		.byte	0x1
+ 1538 0559 0601     		.2byte	0x106
+ 1539 055b 25000000 		.4byte	0x25
+ 1540 055f 02       		.uleb128 0x2
+ 1541 0560 91       		.byte	0x91
+ 1542 0561 70       		.sleb128 -16
+ 1543 0562 12       		.uleb128 0x12
+ 1544 0563 4E040000 		.4byte	.LASF86
+ 1545 0567 01       		.byte	0x1
+ 1546 0568 0601     		.2byte	0x106
+ 1547 056a 25000000 		.4byte	0x25
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 35
+
+
+ 1548 056e 02       		.uleb128 0x2
+ 1549 056f 91       		.byte	0x91
+ 1550 0570 6C       		.sleb128 -20
+ 1551 0571 00       		.byte	0
+ 1552 0572 11       		.uleb128 0x11
+ 1553 0573 C2030000 		.4byte	.LASF87
+ 1554 0577 01       		.byte	0x1
+ 1555 0578 1501     		.2byte	0x115
+ 1556 057a 25000000 		.4byte	0x25
+ 1557 057e 00000000 		.4byte	.LFB28
+ 1558 0582 18000000 		.4byte	.LFE28-.LFB28
+ 1559 0586 01       		.uleb128 0x1
+ 1560 0587 9C       		.byte	0x9c
+ 1561 0588 B8050000 		.4byte	0x5b8
+ 1562 058c 12       		.uleb128 0x12
+ 1563 058d 06040000 		.4byte	.LASF67
+ 1564 0591 01       		.byte	0x1
+ 1565 0592 1501     		.2byte	0x115
+ 1566 0594 25000000 		.4byte	0x25
+ 1567 0598 02       		.uleb128 0x2
+ 1568 0599 91       		.byte	0x91
+ 1569 059a 74       		.sleb128 -12
+ 1570 059b 13       		.uleb128 0x13
+ 1571 059c 7000     		.ascii	"p\000"
+ 1572 059e 01       		.byte	0x1
+ 1573 059f 1501     		.2byte	0x115
+ 1574 05a1 FD000000 		.4byte	0xfd
+ 1575 05a5 02       		.uleb128 0x2
+ 1576 05a6 91       		.byte	0x91
+ 1577 05a7 70       		.sleb128 -16
+ 1578 05a8 13       		.uleb128 0x13
+ 1579 05a9 6C656E00 		.ascii	"len\000"
+ 1580 05ad 01       		.byte	0x1
+ 1581 05ae 1501     		.2byte	0x115
+ 1582 05b0 25000000 		.4byte	0x25
+ 1583 05b4 02       		.uleb128 0x2
+ 1584 05b5 91       		.byte	0x91
+ 1585 05b6 6C       		.sleb128 -20
+ 1586 05b7 00       		.byte	0
+ 1587 05b8 11       		.uleb128 0x11
+ 1588 05b9 DD040000 		.4byte	.LASF88
+ 1589 05bd 01       		.byte	0x1
+ 1590 05be 2501     		.2byte	0x125
+ 1591 05c0 71010000 		.4byte	0x171
+ 1592 05c4 00000000 		.4byte	.LFB29
+ 1593 05c8 60000000 		.4byte	.LFE29-.LFB29
+ 1594 05cc 01       		.uleb128 0x1
+ 1595 05cd 9C       		.byte	0x9c
+ 1596 05ce 03060000 		.4byte	0x603
+ 1597 05d2 12       		.uleb128 0x12
+ 1598 05d3 D8040000 		.4byte	.LASF89
+ 1599 05d7 01       		.byte	0x1
+ 1600 05d8 2501     		.2byte	0x125
+ 1601 05da 25000000 		.4byte	0x25
+ 1602 05de 02       		.uleb128 0x2
+ 1603 05df 91       		.byte	0x91
+ 1604 05e0 6C       		.sleb128 -20
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 36
+
+
+ 1605 05e1 14       		.uleb128 0x14
+ 1606 05e2 B2030000 		.4byte	.LASF90
+ 1607 05e6 01       		.byte	0x1
+ 1608 05e7 2601     		.2byte	0x126
+ 1609 05e9 FD000000 		.4byte	0xfd
+ 1610 05ed 05       		.uleb128 0x5
+ 1611 05ee 03       		.byte	0x3
+ 1612 05ef 04000000 		.4byte	heap_end.4801
+ 1613 05f3 14       		.uleb128 0x14
+ 1614 05f4 FA000000 		.4byte	.LASF91
+ 1615 05f8 01       		.byte	0x1
+ 1616 05f9 2701     		.2byte	0x127
+ 1617 05fb FD000000 		.4byte	0xfd
+ 1618 05ff 02       		.uleb128 0x2
+ 1619 0600 91       		.byte	0x91
+ 1620 0601 74       		.sleb128 -12
+ 1621 0602 00       		.byte	0
+ 1622 0603 11       		.uleb128 0x11
+ 1623 0604 81030000 		.4byte	.LASF92
+ 1624 0608 01       		.byte	0x1
+ 1625 0609 3F01     		.2byte	0x13f
+ 1626 060b 25000000 		.4byte	0x25
+ 1627 060f 00000000 		.4byte	.LFB30
+ 1628 0613 1E000000 		.4byte	.LFE30-.LFB30
+ 1629 0617 01       		.uleb128 0x1
+ 1630 0618 9C       		.byte	0x9c
+ 1631 0619 3C060000 		.4byte	0x63c
+ 1632 061d 12       		.uleb128 0x12
+ 1633 061e 93030000 		.4byte	.LASF93
+ 1634 0622 01       		.byte	0x1
+ 1635 0623 3F01     		.2byte	0x13f
+ 1636 0625 0A010000 		.4byte	0x10a
+ 1637 0629 02       		.uleb128 0x2
+ 1638 062a 91       		.byte	0x91
+ 1639 062b 74       		.sleb128 -12
+ 1640 062c 13       		.uleb128 0x13
+ 1641 062d 70537400 		.ascii	"pSt\000"
+ 1642 0631 01       		.byte	0x1
+ 1643 0632 3F01     		.2byte	0x13f
+ 1644 0634 F5030000 		.4byte	0x3f5
+ 1645 0638 02       		.uleb128 0x2
+ 1646 0639 91       		.byte	0x91
+ 1647 063a 70       		.sleb128 -16
+ 1648 063b 00       		.byte	0
+ 1649 063c 11       		.uleb128 0x11
+ 1650 063d B0040000 		.4byte	.LASF94
+ 1651 0641 01       		.byte	0x1
+ 1652 0642 4E01     		.2byte	0x14e
+ 1653 0644 66010000 		.4byte	0x166
+ 1654 0648 00000000 		.4byte	.LFB31
+ 1655 064c 16000000 		.4byte	.LFE31-.LFB31
+ 1656 0650 01       		.uleb128 0x1
+ 1657 0651 9C       		.byte	0x9c
+ 1658 0652 66060000 		.4byte	0x666
+ 1659 0656 12       		.uleb128 0x12
+ 1660 0657 60040000 		.4byte	.LASF95
+ 1661 065b 01       		.byte	0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 37
+
+
+ 1662 065c 4E01     		.2byte	0x14e
+ 1663 065e 66060000 		.4byte	0x666
+ 1664 0662 02       		.uleb128 0x2
+ 1665 0663 91       		.byte	0x91
+ 1666 0664 74       		.sleb128 -12
+ 1667 0665 00       		.byte	0
+ 1668 0666 05       		.uleb128 0x5
+ 1669 0667 04       		.byte	0x4
+ 1670 0668 D7020000 		.4byte	0x2d7
+ 1671 066c 11       		.uleb128 0x11
+ 1672 066d C1040000 		.4byte	.LASF96
+ 1673 0671 01       		.byte	0x1
+ 1674 0672 5B01     		.2byte	0x15b
+ 1675 0674 25000000 		.4byte	0x25
+ 1676 0678 00000000 		.4byte	.LFB32
+ 1677 067c 20000000 		.4byte	.LFE32-.LFB32
+ 1678 0680 01       		.uleb128 0x1
+ 1679 0681 9C       		.byte	0x9c
+ 1680 0682 96060000 		.4byte	0x696
+ 1681 0686 12       		.uleb128 0x12
+ 1682 0687 2F020000 		.4byte	.LASF68
+ 1683 068b 01       		.byte	0x1
+ 1684 068c 5B01     		.2byte	0x15b
+ 1685 068e FD000000 		.4byte	0xfd
+ 1686 0692 02       		.uleb128 0x2
+ 1687 0693 91       		.byte	0x91
+ 1688 0694 74       		.sleb128 -12
+ 1689 0695 00       		.byte	0
+ 1690 0696 11       		.uleb128 0x11
+ 1691 0697 F6030000 		.4byte	.LASF97
+ 1692 069b 01       		.byte	0x1
+ 1693 069c 6901     		.2byte	0x169
+ 1694 069e 25000000 		.4byte	0x25
+ 1695 06a2 00000000 		.4byte	.LFB33
+ 1696 06a6 20000000 		.4byte	.LFE33-.LFB33
+ 1697 06aa 01       		.uleb128 0x1
+ 1698 06ab 9C       		.byte	0x9c
+ 1699 06ac C0060000 		.4byte	0x6c0
+ 1700 06b0 12       		.uleb128 0x12
+ 1701 06b1 3F030000 		.4byte	.LASF98
+ 1702 06b5 01       		.byte	0x1
+ 1703 06b6 6901     		.2byte	0x169
+ 1704 06b8 C0060000 		.4byte	0x6c0
+ 1705 06bc 02       		.uleb128 0x2
+ 1706 06bd 91       		.byte	0x91
+ 1707 06be 74       		.sleb128 -12
+ 1708 06bf 00       		.byte	0
+ 1709 06c0 05       		.uleb128 0x5
+ 1710 06c1 04       		.byte	0x4
+ 1711 06c2 25000000 		.4byte	0x25
+ 1712 06c6 11       		.uleb128 0x11
+ 1713 06c7 5D030000 		.4byte	.LASF99
+ 1714 06cb 01       		.byte	0x1
+ 1715 06cc 7D01     		.2byte	0x17d
+ 1716 06ce 25000000 		.4byte	0x25
+ 1717 06d2 00000000 		.4byte	.LFB34
+ 1718 06d6 2C000000 		.4byte	.LFE34-.LFB34
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 38
+
+
+ 1719 06da 01       		.uleb128 0x1
+ 1720 06db 9C       		.byte	0x9c
+ 1721 06dc 1B070000 		.4byte	0x71b
+ 1722 06e0 12       		.uleb128 0x12
+ 1723 06e1 06040000 		.4byte	.LASF67
+ 1724 06e5 01       		.byte	0x1
+ 1725 06e6 7D01     		.2byte	0x17d
+ 1726 06e8 25000000 		.4byte	0x25
+ 1727 06ec 02       		.uleb128 0x2
+ 1728 06ed 91       		.byte	0x91
+ 1729 06ee 6C       		.sleb128 -20
+ 1730 06ef 13       		.uleb128 0x13
+ 1731 06f0 7000     		.ascii	"p\000"
+ 1732 06f2 01       		.byte	0x1
+ 1733 06f3 7D01     		.2byte	0x17d
+ 1734 06f5 FD000000 		.4byte	0xfd
+ 1735 06f9 02       		.uleb128 0x2
+ 1736 06fa 91       		.byte	0x91
+ 1737 06fb 68       		.sleb128 -24
+ 1738 06fc 13       		.uleb128 0x13
+ 1739 06fd 6C656E00 		.ascii	"len\000"
+ 1740 0701 01       		.byte	0x1
+ 1741 0702 7D01     		.2byte	0x17d
+ 1742 0704 25000000 		.4byte	0x25
+ 1743 0708 02       		.uleb128 0x2
+ 1744 0709 91       		.byte	0x91
+ 1745 070a 64       		.sleb128 -28
+ 1746 070b 14       		.uleb128 0x14
+ 1747 070c 8E030000 		.4byte	.LASF100
+ 1748 0710 01       		.byte	0x1
+ 1749 0711 7E01     		.2byte	0x17e
+ 1750 0713 25000000 		.4byte	0x25
+ 1751 0717 02       		.uleb128 0x2
+ 1752 0718 91       		.byte	0x91
+ 1753 0719 74       		.sleb128 -12
+ 1754 071a 00       		.byte	0
+ 1755 071b 15       		.uleb128 0x15
+ 1756 071c 4F030000 		.4byte	.LASF101
+ 1757 0720 01       		.byte	0x1
+ 1758 0721 30       		.byte	0x30
+ 1759 0722 25000000 		.4byte	0x25
+ 1760 0726 15       		.uleb128 0x15
+ 1761 0727 D1030000 		.4byte	.LASF102
+ 1762 072b 01       		.byte	0x1
+ 1763 072c 32       		.byte	0x32
+ 1764 072d 03010000 		.4byte	0x103
+ 1765 0731 15       		.uleb128 0x15
+ 1766 0732 E2000000 		.4byte	.LASF103
+ 1767 0736 01       		.byte	0x1
+ 1768 0737 33       		.byte	0x33
+ 1769 0738 03010000 		.4byte	0x103
+ 1770 073c 09       		.uleb128 0x9
+ 1771 073d FD000000 		.4byte	0xfd
+ 1772 0741 4C070000 		.4byte	0x74c
+ 1773 0745 0A       		.uleb128 0xa
+ 1774 0746 E0000000 		.4byte	0xe0
+ 1775 074a 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 39
+
+
+ 1776 074b 00       		.byte	0
+ 1777 074c 16       		.uleb128 0x16
+ 1778 074d 10000000 		.4byte	.LASF104
+ 1779 0751 01       		.byte	0x1
+ 1780 0752 3C       		.byte	0x3c
+ 1781 0753 3C070000 		.4byte	0x73c
+ 1782 0757 05       		.uleb128 0x5
+ 1783 0758 03       		.byte	0x3
+ 1784 0759 00000000 		.4byte	__env
+ 1785 075d 16       		.uleb128 0x16
+ 1786 075e 17030000 		.4byte	.LASF105
+ 1787 0762 01       		.byte	0x1
+ 1788 0763 3D       		.byte	0x3d
+ 1789 0764 80030000 		.4byte	0x380
+ 1790 0768 05       		.uleb128 0x5
+ 1791 0769 03       		.byte	0x3
+ 1792 076a 00000000 		.4byte	environ
+ 1793 076e 00       		.byte	0
+ 1794              		.section	.debug_abbrev,"",%progbits
+ 1795              	.Ldebug_abbrev0:
+ 1796 0000 01       		.uleb128 0x1
+ 1797 0001 11       		.uleb128 0x11
+ 1798 0002 01       		.byte	0x1
+ 1799 0003 25       		.uleb128 0x25
+ 1800 0004 0E       		.uleb128 0xe
+ 1801 0005 13       		.uleb128 0x13
+ 1802 0006 0B       		.uleb128 0xb
+ 1803 0007 03       		.uleb128 0x3
+ 1804 0008 0E       		.uleb128 0xe
+ 1805 0009 1B       		.uleb128 0x1b
+ 1806 000a 0E       		.uleb128 0xe
+ 1807 000b 55       		.uleb128 0x55
+ 1808 000c 17       		.uleb128 0x17
+ 1809 000d 11       		.uleb128 0x11
+ 1810 000e 01       		.uleb128 0x1
+ 1811 000f 10       		.uleb128 0x10
+ 1812 0010 17       		.uleb128 0x17
+ 1813 0011 00       		.byte	0
+ 1814 0012 00       		.byte	0
+ 1815 0013 02       		.uleb128 0x2
+ 1816 0014 24       		.uleb128 0x24
+ 1817 0015 00       		.byte	0
+ 1818 0016 0B       		.uleb128 0xb
+ 1819 0017 0B       		.uleb128 0xb
+ 1820 0018 3E       		.uleb128 0x3e
+ 1821 0019 0B       		.uleb128 0xb
+ 1822 001a 03       		.uleb128 0x3
+ 1823 001b 08       		.uleb128 0x8
+ 1824 001c 00       		.byte	0
+ 1825 001d 00       		.byte	0
+ 1826 001e 03       		.uleb128 0x3
+ 1827 001f 24       		.uleb128 0x24
+ 1828 0020 00       		.byte	0
+ 1829 0021 0B       		.uleb128 0xb
+ 1830 0022 0B       		.uleb128 0xb
+ 1831 0023 3E       		.uleb128 0x3e
+ 1832 0024 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 40
+
+
+ 1833 0025 03       		.uleb128 0x3
+ 1834 0026 0E       		.uleb128 0xe
+ 1835 0027 00       		.byte	0
+ 1836 0028 00       		.byte	0
+ 1837 0029 04       		.uleb128 0x4
+ 1838 002a 16       		.uleb128 0x16
+ 1839 002b 00       		.byte	0
+ 1840 002c 03       		.uleb128 0x3
+ 1841 002d 0E       		.uleb128 0xe
+ 1842 002e 3A       		.uleb128 0x3a
+ 1843 002f 0B       		.uleb128 0xb
+ 1844 0030 3B       		.uleb128 0x3b
+ 1845 0031 0B       		.uleb128 0xb
+ 1846 0032 49       		.uleb128 0x49
+ 1847 0033 13       		.uleb128 0x13
+ 1848 0034 00       		.byte	0
+ 1849 0035 00       		.byte	0
+ 1850 0036 05       		.uleb128 0x5
+ 1851 0037 0F       		.uleb128 0xf
+ 1852 0038 00       		.byte	0
+ 1853 0039 0B       		.uleb128 0xb
+ 1854 003a 0B       		.uleb128 0xb
+ 1855 003b 49       		.uleb128 0x49
+ 1856 003c 13       		.uleb128 0x13
+ 1857 003d 00       		.byte	0
+ 1858 003e 00       		.byte	0
+ 1859 003f 06       		.uleb128 0x6
+ 1860 0040 26       		.uleb128 0x26
+ 1861 0041 00       		.byte	0
+ 1862 0042 49       		.uleb128 0x49
+ 1863 0043 13       		.uleb128 0x13
+ 1864 0044 00       		.byte	0
+ 1865 0045 00       		.byte	0
+ 1866 0046 07       		.uleb128 0x7
+ 1867 0047 13       		.uleb128 0x13
+ 1868 0048 01       		.byte	0x1
+ 1869 0049 03       		.uleb128 0x3
+ 1870 004a 0E       		.uleb128 0xe
+ 1871 004b 0B       		.uleb128 0xb
+ 1872 004c 0B       		.uleb128 0xb
+ 1873 004d 3A       		.uleb128 0x3a
+ 1874 004e 0B       		.uleb128 0xb
+ 1875 004f 3B       		.uleb128 0x3b
+ 1876 0050 0B       		.uleb128 0xb
+ 1877 0051 01       		.uleb128 0x1
+ 1878 0052 13       		.uleb128 0x13
+ 1879 0053 00       		.byte	0
+ 1880 0054 00       		.byte	0
+ 1881 0055 08       		.uleb128 0x8
+ 1882 0056 0D       		.uleb128 0xd
+ 1883 0057 00       		.byte	0
+ 1884 0058 03       		.uleb128 0x3
+ 1885 0059 0E       		.uleb128 0xe
+ 1886 005a 3A       		.uleb128 0x3a
+ 1887 005b 0B       		.uleb128 0xb
+ 1888 005c 3B       		.uleb128 0x3b
+ 1889 005d 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 41
+
+
+ 1890 005e 49       		.uleb128 0x49
+ 1891 005f 13       		.uleb128 0x13
+ 1892 0060 38       		.uleb128 0x38
+ 1893 0061 0B       		.uleb128 0xb
+ 1894 0062 00       		.byte	0
+ 1895 0063 00       		.byte	0
+ 1896 0064 09       		.uleb128 0x9
+ 1897 0065 01       		.uleb128 0x1
+ 1898 0066 01       		.byte	0x1
+ 1899 0067 49       		.uleb128 0x49
+ 1900 0068 13       		.uleb128 0x13
+ 1901 0069 01       		.uleb128 0x1
+ 1902 006a 13       		.uleb128 0x13
+ 1903 006b 00       		.byte	0
+ 1904 006c 00       		.byte	0
+ 1905 006d 0A       		.uleb128 0xa
+ 1906 006e 21       		.uleb128 0x21
+ 1907 006f 00       		.byte	0
+ 1908 0070 49       		.uleb128 0x49
+ 1909 0071 13       		.uleb128 0x13
+ 1910 0072 2F       		.uleb128 0x2f
+ 1911 0073 0B       		.uleb128 0xb
+ 1912 0074 00       		.byte	0
+ 1913 0075 00       		.byte	0
+ 1914 0076 0B       		.uleb128 0xb
+ 1915 0077 13       		.uleb128 0x13
+ 1916 0078 01       		.byte	0x1
+ 1917 0079 03       		.uleb128 0x3
+ 1918 007a 08       		.uleb128 0x8
+ 1919 007b 0B       		.uleb128 0xb
+ 1920 007c 0B       		.uleb128 0xb
+ 1921 007d 3A       		.uleb128 0x3a
+ 1922 007e 0B       		.uleb128 0xb
+ 1923 007f 3B       		.uleb128 0x3b
+ 1924 0080 0B       		.uleb128 0xb
+ 1925 0081 01       		.uleb128 0x1
+ 1926 0082 13       		.uleb128 0x13
+ 1927 0083 00       		.byte	0
+ 1928 0084 00       		.byte	0
+ 1929 0085 0C       		.uleb128 0xc
+ 1930 0086 2E       		.uleb128 0x2e
+ 1931 0087 01       		.byte	0x1
+ 1932 0088 3F       		.uleb128 0x3f
+ 1933 0089 19       		.uleb128 0x19
+ 1934 008a 03       		.uleb128 0x3
+ 1935 008b 0E       		.uleb128 0xe
+ 1936 008c 3A       		.uleb128 0x3a
+ 1937 008d 0B       		.uleb128 0xb
+ 1938 008e 3B       		.uleb128 0x3b
+ 1939 008f 0B       		.uleb128 0xb
+ 1940 0090 27       		.uleb128 0x27
+ 1941 0091 19       		.uleb128 0x19
+ 1942 0092 49       		.uleb128 0x49
+ 1943 0093 13       		.uleb128 0x13
+ 1944 0094 11       		.uleb128 0x11
+ 1945 0095 01       		.uleb128 0x1
+ 1946 0096 12       		.uleb128 0x12
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 42
+
+
+ 1947 0097 06       		.uleb128 0x6
+ 1948 0098 40       		.uleb128 0x40
+ 1949 0099 18       		.uleb128 0x18
+ 1950 009a 9742     		.uleb128 0x2117
+ 1951 009c 19       		.uleb128 0x19
+ 1952 009d 01       		.uleb128 0x1
+ 1953 009e 13       		.uleb128 0x13
+ 1954 009f 00       		.byte	0
+ 1955 00a0 00       		.byte	0
+ 1956 00a1 0D       		.uleb128 0xd
+ 1957 00a2 05       		.uleb128 0x5
+ 1958 00a3 00       		.byte	0
+ 1959 00a4 03       		.uleb128 0x3
+ 1960 00a5 0E       		.uleb128 0xe
+ 1961 00a6 3A       		.uleb128 0x3a
+ 1962 00a7 0B       		.uleb128 0xb
+ 1963 00a8 3B       		.uleb128 0x3b
+ 1964 00a9 0B       		.uleb128 0xb
+ 1965 00aa 49       		.uleb128 0x49
+ 1966 00ab 13       		.uleb128 0x13
+ 1967 00ac 02       		.uleb128 0x2
+ 1968 00ad 18       		.uleb128 0x18
+ 1969 00ae 00       		.byte	0
+ 1970 00af 00       		.byte	0
+ 1971 00b0 0E       		.uleb128 0xe
+ 1972 00b1 2E       		.uleb128 0x2e
+ 1973 00b2 01       		.byte	0x1
+ 1974 00b3 3F       		.uleb128 0x3f
+ 1975 00b4 19       		.uleb128 0x19
+ 1976 00b5 03       		.uleb128 0x3
+ 1977 00b6 0E       		.uleb128 0xe
+ 1978 00b7 3A       		.uleb128 0x3a
+ 1979 00b8 0B       		.uleb128 0xb
+ 1980 00b9 3B       		.uleb128 0x3b
+ 1981 00ba 0B       		.uleb128 0xb
+ 1982 00bb 27       		.uleb128 0x27
+ 1983 00bc 19       		.uleb128 0x19
+ 1984 00bd 8701     		.uleb128 0x87
+ 1985 00bf 19       		.uleb128 0x19
+ 1986 00c0 11       		.uleb128 0x11
+ 1987 00c1 01       		.uleb128 0x1
+ 1988 00c2 12       		.uleb128 0x12
+ 1989 00c3 06       		.uleb128 0x6
+ 1990 00c4 40       		.uleb128 0x40
+ 1991 00c5 18       		.uleb128 0x18
+ 1992 00c6 9742     		.uleb128 0x2117
+ 1993 00c8 19       		.uleb128 0x19
+ 1994 00c9 01       		.uleb128 0x1
+ 1995 00ca 13       		.uleb128 0x13
+ 1996 00cb 00       		.byte	0
+ 1997 00cc 00       		.byte	0
+ 1998 00cd 0F       		.uleb128 0xf
+ 1999 00ce 2E       		.uleb128 0x2e
+ 2000 00cf 00       		.byte	0
+ 2001 00d0 3F       		.uleb128 0x3f
+ 2002 00d1 19       		.uleb128 0x19
+ 2003 00d2 03       		.uleb128 0x3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 43
+
+
+ 2004 00d3 0E       		.uleb128 0xe
+ 2005 00d4 3A       		.uleb128 0x3a
+ 2006 00d5 0B       		.uleb128 0xb
+ 2007 00d6 3B       		.uleb128 0x3b
+ 2008 00d7 0B       		.uleb128 0xb
+ 2009 00d8 27       		.uleb128 0x27
+ 2010 00d9 19       		.uleb128 0x19
+ 2011 00da 49       		.uleb128 0x49
+ 2012 00db 13       		.uleb128 0x13
+ 2013 00dc 11       		.uleb128 0x11
+ 2014 00dd 01       		.uleb128 0x1
+ 2015 00de 12       		.uleb128 0x12
+ 2016 00df 06       		.uleb128 0x6
+ 2017 00e0 40       		.uleb128 0x40
+ 2018 00e1 18       		.uleb128 0x18
+ 2019 00e2 9742     		.uleb128 0x2117
+ 2020 00e4 19       		.uleb128 0x19
+ 2021 00e5 00       		.byte	0
+ 2022 00e6 00       		.byte	0
+ 2023 00e7 10       		.uleb128 0x10
+ 2024 00e8 05       		.uleb128 0x5
+ 2025 00e9 00       		.byte	0
+ 2026 00ea 03       		.uleb128 0x3
+ 2027 00eb 08       		.uleb128 0x8
+ 2028 00ec 3A       		.uleb128 0x3a
+ 2029 00ed 0B       		.uleb128 0xb
+ 2030 00ee 3B       		.uleb128 0x3b
+ 2031 00ef 0B       		.uleb128 0xb
+ 2032 00f0 49       		.uleb128 0x49
+ 2033 00f1 13       		.uleb128 0x13
+ 2034 00f2 02       		.uleb128 0x2
+ 2035 00f3 18       		.uleb128 0x18
+ 2036 00f4 00       		.byte	0
+ 2037 00f5 00       		.byte	0
+ 2038 00f6 11       		.uleb128 0x11
+ 2039 00f7 2E       		.uleb128 0x2e
+ 2040 00f8 01       		.byte	0x1
+ 2041 00f9 3F       		.uleb128 0x3f
+ 2042 00fa 19       		.uleb128 0x19
+ 2043 00fb 03       		.uleb128 0x3
+ 2044 00fc 0E       		.uleb128 0xe
+ 2045 00fd 3A       		.uleb128 0x3a
+ 2046 00fe 0B       		.uleb128 0xb
+ 2047 00ff 3B       		.uleb128 0x3b
+ 2048 0100 05       		.uleb128 0x5
+ 2049 0101 27       		.uleb128 0x27
+ 2050 0102 19       		.uleb128 0x19
+ 2051 0103 49       		.uleb128 0x49
+ 2052 0104 13       		.uleb128 0x13
+ 2053 0105 11       		.uleb128 0x11
+ 2054 0106 01       		.uleb128 0x1
+ 2055 0107 12       		.uleb128 0x12
+ 2056 0108 06       		.uleb128 0x6
+ 2057 0109 40       		.uleb128 0x40
+ 2058 010a 18       		.uleb128 0x18
+ 2059 010b 9742     		.uleb128 0x2117
+ 2060 010d 19       		.uleb128 0x19
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 44
+
+
+ 2061 010e 01       		.uleb128 0x1
+ 2062 010f 13       		.uleb128 0x13
+ 2063 0110 00       		.byte	0
+ 2064 0111 00       		.byte	0
+ 2065 0112 12       		.uleb128 0x12
+ 2066 0113 05       		.uleb128 0x5
+ 2067 0114 00       		.byte	0
+ 2068 0115 03       		.uleb128 0x3
+ 2069 0116 0E       		.uleb128 0xe
+ 2070 0117 3A       		.uleb128 0x3a
+ 2071 0118 0B       		.uleb128 0xb
+ 2072 0119 3B       		.uleb128 0x3b
+ 2073 011a 05       		.uleb128 0x5
+ 2074 011b 49       		.uleb128 0x49
+ 2075 011c 13       		.uleb128 0x13
+ 2076 011d 02       		.uleb128 0x2
+ 2077 011e 18       		.uleb128 0x18
+ 2078 011f 00       		.byte	0
+ 2079 0120 00       		.byte	0
+ 2080 0121 13       		.uleb128 0x13
+ 2081 0122 05       		.uleb128 0x5
+ 2082 0123 00       		.byte	0
+ 2083 0124 03       		.uleb128 0x3
+ 2084 0125 08       		.uleb128 0x8
+ 2085 0126 3A       		.uleb128 0x3a
+ 2086 0127 0B       		.uleb128 0xb
+ 2087 0128 3B       		.uleb128 0x3b
+ 2088 0129 05       		.uleb128 0x5
+ 2089 012a 49       		.uleb128 0x49
+ 2090 012b 13       		.uleb128 0x13
+ 2091 012c 02       		.uleb128 0x2
+ 2092 012d 18       		.uleb128 0x18
+ 2093 012e 00       		.byte	0
+ 2094 012f 00       		.byte	0
+ 2095 0130 14       		.uleb128 0x14
+ 2096 0131 34       		.uleb128 0x34
+ 2097 0132 00       		.byte	0
+ 2098 0133 03       		.uleb128 0x3
+ 2099 0134 0E       		.uleb128 0xe
+ 2100 0135 3A       		.uleb128 0x3a
+ 2101 0136 0B       		.uleb128 0xb
+ 2102 0137 3B       		.uleb128 0x3b
+ 2103 0138 05       		.uleb128 0x5
+ 2104 0139 49       		.uleb128 0x49
+ 2105 013a 13       		.uleb128 0x13
+ 2106 013b 02       		.uleb128 0x2
+ 2107 013c 18       		.uleb128 0x18
+ 2108 013d 00       		.byte	0
+ 2109 013e 00       		.byte	0
+ 2110 013f 15       		.uleb128 0x15
+ 2111 0140 34       		.uleb128 0x34
+ 2112 0141 00       		.byte	0
+ 2113 0142 03       		.uleb128 0x3
+ 2114 0143 0E       		.uleb128 0xe
+ 2115 0144 3A       		.uleb128 0x3a
+ 2116 0145 0B       		.uleb128 0xb
+ 2117 0146 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 45
+
+
+ 2118 0147 0B       		.uleb128 0xb
+ 2119 0148 49       		.uleb128 0x49
+ 2120 0149 13       		.uleb128 0x13
+ 2121 014a 3F       		.uleb128 0x3f
+ 2122 014b 19       		.uleb128 0x19
+ 2123 014c 3C       		.uleb128 0x3c
+ 2124 014d 19       		.uleb128 0x19
+ 2125 014e 00       		.byte	0
+ 2126 014f 00       		.byte	0
+ 2127 0150 16       		.uleb128 0x16
+ 2128 0151 34       		.uleb128 0x34
+ 2129 0152 00       		.byte	0
+ 2130 0153 03       		.uleb128 0x3
+ 2131 0154 0E       		.uleb128 0xe
+ 2132 0155 3A       		.uleb128 0x3a
+ 2133 0156 0B       		.uleb128 0xb
+ 2134 0157 3B       		.uleb128 0x3b
+ 2135 0158 0B       		.uleb128 0xb
+ 2136 0159 49       		.uleb128 0x49
+ 2137 015a 13       		.uleb128 0x13
+ 2138 015b 3F       		.uleb128 0x3f
+ 2139 015c 19       		.uleb128 0x19
+ 2140 015d 02       		.uleb128 0x2
+ 2141 015e 18       		.uleb128 0x18
+ 2142 015f 00       		.byte	0
+ 2143 0160 00       		.byte	0
+ 2144 0161 00       		.byte	0
+ 2145              		.section	.debug_aranges,"",%progbits
+ 2146 0000 AC000000 		.4byte	0xac
+ 2147 0004 0200     		.2byte	0x2
+ 2148 0006 00000000 		.4byte	.Ldebug_info0
+ 2149 000a 04       		.byte	0x4
+ 2150 000b 00       		.byte	0
+ 2151 000c 0000     		.2byte	0
+ 2152 000e 0000     		.2byte	0
+ 2153 0010 00000000 		.4byte	.LFB16
+ 2154 0014 16000000 		.4byte	.LFE16-.LFB16
+ 2155 0018 00000000 		.4byte	.LFB17
+ 2156 001c 24000000 		.4byte	.LFE17-.LFB17
+ 2157 0020 00000000 		.4byte	.LFB18
+ 2158 0024 0A000000 		.4byte	.LFE18-.LFB18
+ 2159 0028 00000000 		.4byte	.LFB19
+ 2160 002c 1C000000 		.4byte	.LFE19-.LFB19
+ 2161 0030 00000000 		.4byte	.LFB20
+ 2162 0034 1E000000 		.4byte	.LFE20-.LFB20
+ 2163 0038 00000000 		.4byte	.LFB21
+ 2164 003c 0E000000 		.4byte	.LFE21-.LFB21
+ 2165 0040 00000000 		.4byte	.LFB22
+ 2166 0044 24000000 		.4byte	.LFE22-.LFB22
+ 2167 0048 00000000 		.4byte	.LFB23
+ 2168 004c 14000000 		.4byte	.LFE23-.LFB23
+ 2169 0050 00000000 		.4byte	.LFB24
+ 2170 0054 24000000 		.4byte	.LFE24-.LFB24
+ 2171 0058 00000000 		.4byte	.LFB25
+ 2172 005c 24000000 		.4byte	.LFE25-.LFB25
+ 2173 0060 00000000 		.4byte	.LFB26
+ 2174 0064 18000000 		.4byte	.LFE26-.LFB26
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 46
+
+
+ 2175 0068 00000000 		.4byte	.LFB27
+ 2176 006c 1A000000 		.4byte	.LFE27-.LFB27
+ 2177 0070 00000000 		.4byte	.LFB28
+ 2178 0074 18000000 		.4byte	.LFE28-.LFB28
+ 2179 0078 00000000 		.4byte	.LFB29
+ 2180 007c 60000000 		.4byte	.LFE29-.LFB29
+ 2181 0080 00000000 		.4byte	.LFB30
+ 2182 0084 1E000000 		.4byte	.LFE30-.LFB30
+ 2183 0088 00000000 		.4byte	.LFB31
+ 2184 008c 16000000 		.4byte	.LFE31-.LFB31
+ 2185 0090 00000000 		.4byte	.LFB32
+ 2186 0094 20000000 		.4byte	.LFE32-.LFB32
+ 2187 0098 00000000 		.4byte	.LFB33
+ 2188 009c 20000000 		.4byte	.LFE33-.LFB33
+ 2189 00a0 00000000 		.4byte	.LFB34
+ 2190 00a4 2C000000 		.4byte	.LFE34-.LFB34
+ 2191 00a8 00000000 		.4byte	0
+ 2192 00ac 00000000 		.4byte	0
+ 2193              		.section	.debug_ranges,"",%progbits
+ 2194              	.Ldebug_ranges0:
+ 2195 0000 00000000 		.4byte	.LFB16
+ 2196 0004 16000000 		.4byte	.LFE16
+ 2197 0008 00000000 		.4byte	.LFB17
+ 2198 000c 24000000 		.4byte	.LFE17
+ 2199 0010 00000000 		.4byte	.LFB18
+ 2200 0014 0A000000 		.4byte	.LFE18
+ 2201 0018 00000000 		.4byte	.LFB19
+ 2202 001c 1C000000 		.4byte	.LFE19
+ 2203 0020 00000000 		.4byte	.LFB20
+ 2204 0024 1E000000 		.4byte	.LFE20
+ 2205 0028 00000000 		.4byte	.LFB21
+ 2206 002c 0E000000 		.4byte	.LFE21
+ 2207 0030 00000000 		.4byte	.LFB22
+ 2208 0034 24000000 		.4byte	.LFE22
+ 2209 0038 00000000 		.4byte	.LFB23
+ 2210 003c 14000000 		.4byte	.LFE23
+ 2211 0040 00000000 		.4byte	.LFB24
+ 2212 0044 24000000 		.4byte	.LFE24
+ 2213 0048 00000000 		.4byte	.LFB25
+ 2214 004c 24000000 		.4byte	.LFE25
+ 2215 0050 00000000 		.4byte	.LFB26
+ 2216 0054 18000000 		.4byte	.LFE26
+ 2217 0058 00000000 		.4byte	.LFB27
+ 2218 005c 1A000000 		.4byte	.LFE27
+ 2219 0060 00000000 		.4byte	.LFB28
+ 2220 0064 18000000 		.4byte	.LFE28
+ 2221 0068 00000000 		.4byte	.LFB29
+ 2222 006c 60000000 		.4byte	.LFE29
+ 2223 0070 00000000 		.4byte	.LFB30
+ 2224 0074 1E000000 		.4byte	.LFE30
+ 2225 0078 00000000 		.4byte	.LFB31
+ 2226 007c 16000000 		.4byte	.LFE31
+ 2227 0080 00000000 		.4byte	.LFB32
+ 2228 0084 20000000 		.4byte	.LFE32
+ 2229 0088 00000000 		.4byte	.LFB33
+ 2230 008c 20000000 		.4byte	.LFE33
+ 2231 0090 00000000 		.4byte	.LFB34
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 47
+
+
+ 2232 0094 2C000000 		.4byte	.LFE34
+ 2233 0098 00000000 		.4byte	0
+ 2234 009c 00000000 		.4byte	0
+ 2235              		.section	.debug_line,"",%progbits
+ 2236              	.Ldebug_line0:
+ 2237 0000 DD020000 		.section	.debug_str,"MS",%progbits,1
+ 2237      02006101 
+ 2237      00000201 
+ 2237      FB0E0D00 
+ 2237      01010101 
+ 2238              	.LASF19:
+ 2239 0000 5F5F6F66 		.ascii	"__off_t\000"
+ 2239      665F7400 
+ 2240              	.LASF16:
+ 2241 0008 5F5F6769 		.ascii	"__gid_t\000"
+ 2241      645F7400 
+ 2242              	.LASF104:
+ 2243 0010 5F5F656E 		.ascii	"__env\000"
+ 2243      7600
+ 2244              	.LASF3:
+ 2245 0016 7369676E 		.ascii	"signed char\000"
+ 2245      65642063 
+ 2245      68617200 
+ 2246              	.LASF106:
+ 2247 0022 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2247      43313120 
+ 2247      352E342E 
+ 2247      31203230 
+ 2247      31363036 
+ 2248 0055 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2248      20726576 
+ 2248      6973696F 
+ 2248      6E203233 
+ 2248      37373135 
+ 2249 0088 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 2249      66756E63 
+ 2249      74696F6E 
+ 2249      2D736563 
+ 2249      74696F6E 
+ 2250              	.LASF74:
+ 2251 00b0 5F666F72 		.ascii	"_fork\000"
+ 2251      6B00
+ 2252              	.LASF9:
+ 2253 00b6 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2253      206C6F6E 
+ 2253      6720756E 
+ 2253      7369676E 
+ 2253      65642069 
+ 2254              	.LASF56:
+ 2255 00cd 73745F62 		.ascii	"st_blocks\000"
+ 2255      6C6F636B 
+ 2255      7300
+ 2256              	.LASF63:
+ 2257 00d7 746D735F 		.ascii	"tms_cutime\000"
+ 2257      63757469 
+ 2257      6D6500
+ 2258              	.LASF103:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 48
+
+
+ 2259 00e2 5F5F6865 		.ascii	"__heap_end__\000"
+ 2259      61705F65 
+ 2259      6E645F5F 
+ 2259      00
+ 2260              	.LASF40:
+ 2261 00ef 73746174 		.ascii	"stat\000"
+ 2261      00
+ 2262              	.LASF71:
+ 2263 00f4 5F657869 		.ascii	"_exit\000"
+ 2263      7400
+ 2264              	.LASF91:
+ 2265 00fa 70726576 		.ascii	"prev_heap_end\000"
+ 2265      5F686561 
+ 2265      705F656E 
+ 2265      6400
+ 2266              	.LASF1:
+ 2267 0108 6C6F6E67 		.ascii	"long long int\000"
+ 2267      206C6F6E 
+ 2267      6720696E 
+ 2267      7400
+ 2268              	.LASF107:
+ 2269 0116 2E2E5C53 		.ascii	"..\\Setup\\OS_Syscalls.c\000"
+ 2269      65747570 
+ 2269      5C4F535F 
+ 2269      53797363 
+ 2269      616C6C73 
+ 2270              	.LASF72:
+ 2271 012d 5F5F7374 		.ascii	"__status\000"
+ 2271      61747573 
+ 2271      00
+ 2272              	.LASF42:
+ 2273 0136 73745F69 		.ascii	"st_ino\000"
+ 2273      6E6F00
+ 2274              	.LASF18:
+ 2275 013d 5F5F6D6F 		.ascii	"__mode_t\000"
+ 2275      64655F74 
+ 2275      00
+ 2276              	.LASF11:
+ 2277 0146 5F5F626C 		.ascii	"__blkcnt_t\000"
+ 2277      6B636E74 
+ 2277      5F7400
+ 2278              	.LASF7:
+ 2279 0151 6C6F6E67 		.ascii	"long int\000"
+ 2279      20696E74 
+ 2279      00
+ 2280              	.LASF84:
+ 2281 015a 5F6F7065 		.ascii	"_open\000"
+ 2281      6E00
+ 2282              	.LASF62:
+ 2283 0160 746D735F 		.ascii	"tms_stime\000"
+ 2283      7374696D 
+ 2283      6500
+ 2284              	.LASF83:
+ 2285 016a 5F6C7365 		.ascii	"_lseek\000"
+ 2285      656B00
+ 2286              	.LASF73:
+ 2287 0171 5F667374 		.ascii	"_fstat\000"
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 49
+
+
+ 2287      617400
+ 2288              	.LASF108:
+ 2289 0178 453A5C69 		.ascii	"E:\\iroteam\\prg\\tulue\\code\\cypress\\no-exp -V1-"
+ 2289      726F7465 
+ 2289      616D5C70 
+ 2289      72675C74 
+ 2289      756C7565 
+ 2290 01a5 6F6C6420 		.ascii	"old board\\new-cy-notask\\cy-notask\\Start\\BoardSu"
+ 2290      626F6172 
+ 2290      645C6E65 
+ 2290      772D6379 
+ 2290      2D6E6F74 
+ 2291 01d4 70706F72 		.ascii	"pport\\Cypress\\CY8C5868_CY8CKIT_050_PSoC5_DK\\Star"
+ 2291      745C4379 
+ 2291      70726573 
+ 2291      735C4359 
+ 2291      38433538 
+ 2292 0204 745F4359 		.ascii	"t_CY8C5868_AccessV1.0_OldBrd.cydsn\000"
+ 2292      38433538 
+ 2292      36385F41 
+ 2292      63636573 
+ 2292      7356312E 
+ 2293              	.LASF75:
+ 2294 0227 5F676574 		.ascii	"_getpid\000"
+ 2294      70696400 
+ 2295              	.LASF68:
+ 2296 022f 704E616D 		.ascii	"pName\000"
+ 2296      6500
+ 2297              	.LASF38:
+ 2298 0235 6E6C696E 		.ascii	"nlink_t\000"
+ 2298      6B5F7400 
+ 2299              	.LASF81:
+ 2300 023d 704F6C64 		.ascii	"pOld\000"
+ 2300      00
+ 2301              	.LASF33:
+ 2302 0242 6F66665F 		.ascii	"off_t\000"
+ 2302      7400
+ 2303              	.LASF36:
+ 2304 0248 6769645F 		.ascii	"gid_t\000"
+ 2304      7400
+ 2305              	.LASF10:
+ 2306 024e 5F5F7569 		.ascii	"__uint32_t\000"
+ 2306      6E743332 
+ 2306      5F7400
+ 2307              	.LASF30:
+ 2308 0259 636C6F63 		.ascii	"clock_t\000"
+ 2308      6B5F7400 
+ 2309              	.LASF58:
+ 2310 0261 74696D65 		.ascii	"timezone\000"
+ 2310      7A6F6E65 
+ 2310      00
+ 2311              	.LASF24:
+ 2312 026a 73757365 		.ascii	"suseconds_t\000"
+ 2312      636F6E64 
+ 2312      735F7400 
+ 2313              	.LASF14:
+ 2314 0276 5F5F6465 		.ascii	"__dev_t\000"
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 50
+
+
+ 2314      765F7400 
+ 2315              	.LASF45:
+ 2316 027e 73745F75 		.ascii	"st_uid\000"
+ 2316      696400
+ 2317              	.LASF50:
+ 2318 0285 73745F73 		.ascii	"st_spare1\000"
+ 2318      70617265 
+ 2318      3100
+ 2319              	.LASF52:
+ 2320 028f 73745F73 		.ascii	"st_spare2\000"
+ 2320      70617265 
+ 2320      3200
+ 2321              	.LASF54:
+ 2322 0299 73745F73 		.ascii	"st_spare3\000"
+ 2322      70617265 
+ 2322      3300
+ 2323              	.LASF57:
+ 2324 02a3 73745F73 		.ascii	"st_spare4\000"
+ 2324      70617265 
+ 2324      3400
+ 2325              	.LASF77:
+ 2326 02ad 70547A70 		.ascii	"pTzp\000"
+ 2326      00
+ 2327              	.LASF0:
+ 2328 02b2 756E7369 		.ascii	"unsigned int\000"
+ 2328      676E6564 
+ 2328      20696E74 
+ 2328      00
+ 2329              	.LASF65:
+ 2330 02bf 5F636C6F 		.ascii	"_close\000"
+ 2330      736500
+ 2331              	.LASF28:
+ 2332 02c6 626C6B63 		.ascii	"blkcnt_t\000"
+ 2332      6E745F74 
+ 2332      00
+ 2333              	.LASF8:
+ 2334 02cf 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2334      20756E73 
+ 2334      69676E65 
+ 2334      6420696E 
+ 2334      7400
+ 2335              	.LASF22:
+ 2336 02e1 5F5F7375 		.ascii	"__suseconds_t\000"
+ 2336      7365636F 
+ 2336      6E64735F 
+ 2336      7400
+ 2337              	.LASF70:
+ 2338 02ef 70456E76 		.ascii	"pEnv\000"
+ 2338      00
+ 2339              	.LASF35:
+ 2340 02f4 7569645F 		.ascii	"uid_t\000"
+ 2340      7400
+ 2341              	.LASF6:
+ 2342 02fa 73686F72 		.ascii	"short unsigned int\000"
+ 2342      7420756E 
+ 2342      7369676E 
+ 2342      65642069 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 51
+
+
+ 2342      6E7400
+ 2343              	.LASF21:
+ 2344 030d 5F5F6E6C 		.ascii	"__nlink_t\000"
+ 2344      696E6B5F 
+ 2344      7400
+ 2345              	.LASF105:
+ 2346 0317 656E7669 		.ascii	"environ\000"
+ 2346      726F6E00 
+ 2347              	.LASF59:
+ 2348 031f 747A5F6D 		.ascii	"tz_minuteswest\000"
+ 2348      696E7574 
+ 2348      65737765 
+ 2348      737400
+ 2349              	.LASF78:
+ 2350 032e 5F697361 		.ascii	"_isatty\000"
+ 2350      74747900 
+ 2351              	.LASF49:
+ 2352 0336 73745F61 		.ascii	"st_atime\000"
+ 2352      74696D65 
+ 2352      00
+ 2353              	.LASF98:
+ 2354 033f 70537461 		.ascii	"pStatus\000"
+ 2354      74757300 
+ 2355              	.LASF39:
+ 2356 0347 74696D65 		.ascii	"timeval\000"
+ 2356      76616C00 
+ 2357              	.LASF101:
+ 2358 034f 6572726E 		.ascii	"errno\000"
+ 2358      6F00
+ 2359              	.LASF48:
+ 2360 0355 73745F73 		.ascii	"st_size\000"
+ 2360      697A6500 
+ 2361              	.LASF99:
+ 2362 035d 5F777269 		.ascii	"_write\000"
+ 2362      746500
+ 2363              	.LASF43:
+ 2364 0364 73745F6D 		.ascii	"st_mode\000"
+ 2364      6F646500 
+ 2365              	.LASF20:
+ 2366 036c 73697A65 		.ascii	"sizetype\000"
+ 2366      74797065 
+ 2366      00
+ 2367              	.LASF2:
+ 2368 0375 6C6F6E67 		.ascii	"long double\000"
+ 2368      20646F75 
+ 2368      626C6500 
+ 2369              	.LASF92:
+ 2370 0381 5F737461 		.ascii	"_stat\000"
+ 2370      7400
+ 2371              	.LASF26:
+ 2372 0387 74765F73 		.ascii	"tv_sec\000"
+ 2372      656300
+ 2373              	.LASF100:
+ 2374 038e 746F646F 		.ascii	"todo\000"
+ 2374      00
+ 2375              	.LASF93:
+ 2376 0393 7046696C 		.ascii	"pFile\000"
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 52
+
+
+ 2376      6500
+ 2377              	.LASF12:
+ 2378 0399 5F5F626C 		.ascii	"__blksize_t\000"
+ 2378      6B73697A 
+ 2378      655F7400 
+ 2379              	.LASF13:
+ 2380 03a5 5F6F6666 		.ascii	"_off_t\000"
+ 2380      5F7400
+ 2381              	.LASF34:
+ 2382 03ac 6465765F 		.ascii	"dev_t\000"
+ 2382      7400
+ 2383              	.LASF90:
+ 2384 03b2 68656170 		.ascii	"heap_end\000"
+ 2384      5F656E64 
+ 2384      00
+ 2385              	.LASF25:
+ 2386 03bb 74696D65 		.ascii	"time_t\000"
+ 2386      5F7400
+ 2387              	.LASF87:
+ 2388 03c2 5F726561 		.ascii	"_read\000"
+ 2388      6400
+ 2389              	.LASF44:
+ 2390 03c8 73745F6E 		.ascii	"st_nlink\000"
+ 2390      6C696E6B 
+ 2390      00
+ 2391              	.LASF102:
+ 2392 03d1 5F5F6865 		.ascii	"__heap_start__\000"
+ 2392      61705F73 
+ 2392      74617274 
+ 2392      5F5F00
+ 2393              	.LASF4:
+ 2394 03e0 756E7369 		.ascii	"unsigned char\000"
+ 2394      676E6564 
+ 2394      20636861 
+ 2394      7200
+ 2395              	.LASF66:
+ 2396 03ee 5F657865 		.ascii	"_execve\000"
+ 2396      63766500 
+ 2397              	.LASF97:
+ 2398 03f6 5F776169 		.ascii	"_wait\000"
+ 2398      7400
+ 2399              	.LASF5:
+ 2400 03fc 73686F72 		.ascii	"short int\000"
+ 2400      7420696E 
+ 2400      7400
+ 2401              	.LASF67:
+ 2402 0406 66696C65 		.ascii	"file\000"
+ 2402      00
+ 2403              	.LASF55:
+ 2404 040b 73745F62 		.ascii	"st_blksize\000"
+ 2404      6C6B7369 
+ 2404      7A6500
+ 2405              	.LASF61:
+ 2406 0416 746D735F 		.ascii	"tms_utime\000"
+ 2406      7574696D 
+ 2406      6500
+ 2407              	.LASF53:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 53
+
+
+ 2408 0420 73745F63 		.ascii	"st_ctime\000"
+ 2408      74696D65 
+ 2408      00
+ 2409              	.LASF17:
+ 2410 0429 5F5F696E 		.ascii	"__ino_t\000"
+ 2410      6F5F7400 
+ 2411              	.LASF27:
+ 2412 0431 74765F75 		.ascii	"tv_usec\000"
+ 2412      73656300 
+ 2413              	.LASF31:
+ 2414 0439 63616464 		.ascii	"caddr_t\000"
+ 2414      725F7400 
+ 2415              	.LASF47:
+ 2416 0441 73745F72 		.ascii	"st_rdev\000"
+ 2416      64657600 
+ 2417              	.LASF23:
+ 2418 0449 63686172 		.ascii	"char\000"
+ 2418      00
+ 2419              	.LASF86:
+ 2420 044e 6D6F6465 		.ascii	"mode\000"
+ 2420      00
+ 2421              	.LASF82:
+ 2422 0453 704E6577 		.ascii	"pNew\000"
+ 2422      00
+ 2423              	.LASF15:
+ 2424 0458 5F5F7569 		.ascii	"__uid_t\000"
+ 2424      645F7400 
+ 2425              	.LASF95:
+ 2426 0460 70427566 		.ascii	"pBuf\000"
+ 2426      00
+ 2427              	.LASF79:
+ 2428 0465 5F6B696C 		.ascii	"_kill\000"
+ 2428      6C00
+ 2429              	.LASF46:
+ 2430 046b 73745F67 		.ascii	"st_gid\000"
+ 2430      696400
+ 2431              	.LASF64:
+ 2432 0472 746D735F 		.ascii	"tms_cstime\000"
+ 2432      63737469 
+ 2432      6D6500
+ 2433              	.LASF76:
+ 2434 047d 5F676574 		.ascii	"_gettimeofday\000"
+ 2434      74696D65 
+ 2434      6F666461 
+ 2434      7900
+ 2435              	.LASF69:
+ 2436 048b 70417267 		.ascii	"pArgv\000"
+ 2436      7600
+ 2437              	.LASF37:
+ 2438 0491 6D6F6465 		.ascii	"mode_t\000"
+ 2438      5F7400
+ 2439              	.LASF41:
+ 2440 0498 73745F64 		.ascii	"st_dev\000"
+ 2440      657600
+ 2441              	.LASF60:
+ 2442 049f 747A5F64 		.ascii	"tz_dsttime\000"
+ 2442      73747469 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccvWVPc2.s 			page 54
+
+
+ 2442      6D6500
+ 2443              	.LASF85:
+ 2444 04aa 666C6167 		.ascii	"flags\000"
+ 2444      7300
+ 2445              	.LASF94:
+ 2446 04b0 5F74696D 		.ascii	"_times\000"
+ 2446      657300
+ 2447              	.LASF29:
+ 2448 04b7 626C6B73 		.ascii	"blksize_t\000"
+ 2448      697A655F 
+ 2448      7400
+ 2449              	.LASF96:
+ 2450 04c1 5F756E6C 		.ascii	"_unlink\000"
+ 2450      696E6B00 
+ 2451              	.LASF80:
+ 2452 04c9 5F6C696E 		.ascii	"_link\000"
+ 2452      6B00
+ 2453              	.LASF51:
+ 2454 04cf 73745F6D 		.ascii	"st_mtime\000"
+ 2454      74696D65 
+ 2454      00
+ 2455              	.LASF89:
+ 2456 04d8 696E6372 		.ascii	"incr\000"
+ 2456      00
+ 2457              	.LASF88:
+ 2458 04dd 5F736272 		.ascii	"_sbrk\000"
+ 2458      6B00
+ 2459              	.LASF32:
+ 2460 04e3 696E6F5F 		.ascii	"ino_t\000"
+ 2460      7400
+ 2461              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

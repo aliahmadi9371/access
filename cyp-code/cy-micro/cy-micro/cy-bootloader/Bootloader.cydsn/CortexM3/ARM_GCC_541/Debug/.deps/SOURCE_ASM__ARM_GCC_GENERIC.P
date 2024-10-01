@@ -1,0 +1,10 @@
+C:/Users/Taha/Creative\ Cloud\ Files/Desktop/IroTeam/#Sina_IroTeam_CM_embOS_FOTA/IroTeam_CM_Bootloader/Bootloader.cydsn/CortexM3/ARM_GCC_541/Debug/CyBootAsmGnu.o : C:/Users/Taha/Creative\ Cloud\ Files/Desktop/IroTeam/#Sina_IroTeam_CM_embOS_FOTA/IroTeam_CM_Bootloader/Bootloader.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s C:/Users/Taha/Creative\ Cloud\ Files/Desktop/IroTeam/#Sina_IroTeam_CM_embOS_FOTA/IroTeam_CM_Bootloader/Bootloader.cydsn/Generated_Source/PSoC5/cydevicegnu.inc C:/Users/Taha/Creative\ Cloud\ Files/Desktop/IroTeam/#Sina_IroTeam_CM_embOS_FOTA/IroTeam_CM_Bootloader/Bootloader.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc C:/Users/Taha/Creative\ Cloud\ Files/Desktop/IroTeam/#Sina_IroTeam_CM_embOS_FOTA/IroTeam_CM_Bootloader/Bootloader.cydsn/Generated_Source/PSoC5/cyfittergnu.inc 
+
+C:/Users/Taha/Creative\ Cloud\ Files/Desktop/IroTeam/#Sina_IroTeam_CM_embOS_FOTA/IroTeam_CM_Bootloader/Bootloader.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s : 
+
+C:/Users/Taha/Creative\ Cloud\ Files/Desktop/IroTeam/#Sina_IroTeam_CM_embOS_FOTA/IroTeam_CM_Bootloader/Bootloader.cydsn/Generated_Source/PSoC5/cydevicegnu.inc : 
+
+C:/Users/Taha/Creative\ Cloud\ Files/Desktop/IroTeam/#Sina_IroTeam_CM_embOS_FOTA/IroTeam_CM_Bootloader/Bootloader.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc : 
+
+C:/Users/Taha/Creative\ Cloud\ Files/Desktop/IroTeam/#Sina_IroTeam_CM_embOS_FOTA/IroTeam_CM_Bootloader/Bootloader.cydsn/Generated_Source/PSoC5/cyfittergnu.inc : 
+

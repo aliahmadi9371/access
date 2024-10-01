@@ -1,0 +1,162 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccoqmJQh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Pins_Port1.c"
+  16              		.section	.text.Pins_Port1_Write,"ax",%progbits
+  17              		.align	2
+  18              		.global	Pins_Port1_Write
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	Pins_Port1_Write, %function
+  22              	Pins_Port1_Write:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 044A     		ldr	r2, .L2
+  27 0002 4000     		lsls	r0, r0, #1
+  28 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  29 0006 00F00600 		and	r0, r0, #6
+  30 000a 03F0F903 		and	r3, r3, #249
+  31 000e 1843     		orrs	r0, r0, r3
+  32 0010 1070     		strb	r0, [r2]
+  33 0012 7047     		bx	lr
+  34              	.L3:
+  35              		.align	2
+  36              	.L2:
+  37 0014 20510040 		.word	1073762592
+  38              		.size	Pins_Port1_Write, .-Pins_Port1_Write
+  39              		.section	.text.Pins_Port1_SetDriveMode,"ax",%progbits
+  40              		.align	2
+  41              		.global	Pins_Port1_SetDriveMode
+  42              		.thumb
+  43              		.thumb_func
+  44              		.type	Pins_Port1_SetDriveMode, %function
+  45              	Pins_Port1_SetDriveMode:
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 0749     		ldr	r1, .L5
+  50 0002 00F00E00 		and	r0, r0, #14
+  51 0006 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+  52 0008 064A     		ldr	r2, .L5+4
+  53 000a 03F0F103 		and	r3, r3, #241
+  54 000e 0343     		orrs	r3, r3, r0
+  55 0010 0B70     		strb	r3, [r1]
+  56 0012 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  57 0014 03F0F103 		and	r3, r3, #241
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccoqmJQh.s 			page 2
+
+
+  58 0018 1843     		orrs	r0, r0, r3
+  59 001a 1070     		strb	r0, [r2]
+  60 001c 7047     		bx	lr
+  61              	.L6:
+  62 001e 00BF     		.align	2
+  63              	.L5:
+  64 0020 11500040 		.word	1073762321
+  65 0024 12500040 		.word	1073762322
+  66              		.size	Pins_Port1_SetDriveMode, .-Pins_Port1_SetDriveMode
+  67              		.section	.text.Pins_Port1_Read,"ax",%progbits
+  68              		.align	2
+  69              		.global	Pins_Port1_Read
+  70              		.thumb
+  71              		.thumb_func
+  72              		.type	Pins_Port1_Read, %function
+  73              	Pins_Port1_Read:
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76              		@ link register save eliminated.
+  77 0000 024B     		ldr	r3, .L8
+  78 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+  79 0004 C0F34100 		ubfx	r0, r0, #1, #2
+  80 0008 7047     		bx	lr
+  81              	.L9:
+  82 000a 00BF     		.align	2
+  83              	.L8:
+  84 000c 21510040 		.word	1073762593
+  85              		.size	Pins_Port1_Read, .-Pins_Port1_Read
+  86              		.section	.text.Pins_Port1_ReadDataReg,"ax",%progbits
+  87              		.align	2
+  88              		.global	Pins_Port1_ReadDataReg
+  89              		.thumb
+  90              		.thumb_func
+  91              		.type	Pins_Port1_ReadDataReg, %function
+  92              	Pins_Port1_ReadDataReg:
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              		@ link register save eliminated.
+  96 0000 024B     		ldr	r3, .L11
+  97 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+  98 0004 C0F34100 		ubfx	r0, r0, #1, #2
+  99 0008 7047     		bx	lr
+ 100              	.L12:
+ 101 000a 00BF     		.align	2
+ 102              	.L11:
+ 103 000c 20510040 		.word	1073762592
+ 104              		.size	Pins_Port1_ReadDataReg, .-Pins_Port1_ReadDataReg
+ 105              		.section	.text.Pins_Port1_SetInterruptMode,"ax",%progbits
+ 106              		.align	2
+ 107              		.global	Pins_Port1_SetInterruptMode
+ 108              		.thumb
+ 109              		.thumb_func
+ 110              		.type	Pins_Port1_SetInterruptMode, %function
+ 111              	Pins_Port1_SetInterruptMode:
+ 112              		@ args = 0, pretend = 0, frame = 0
+ 113              		@ frame_needed = 0, uses_anonymous_args = 0
+ 114              		@ link register save eliminated.
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccoqmJQh.s 			page 3
+
+
+ 115 0000 8207     		lsls	r2, r0, #30
+ 116 0002 02D5     		bpl	.L14
+ 117 0004 044B     		ldr	r3, .L23
+ 118 0006 CAB2     		uxtb	r2, r1
+ 119 0008 1A70     		strb	r2, [r3]
+ 120              	.L14:
+ 121 000a 4307     		lsls	r3, r0, #29
+ 122 000c 02D5     		bpl	.L13
+ 123 000e 034B     		ldr	r3, .L23+4
+ 124 0010 C9B2     		uxtb	r1, r1
+ 125 0012 1970     		strb	r1, [r3]
+ 126              	.L13:
+ 127 0014 7047     		bx	lr
+ 128              	.L24:
+ 129 0016 00BF     		.align	2
+ 130              	.L23:
+ 131 0018 11450040 		.word	1073759505
+ 132 001c 12450040 		.word	1073759506
+ 133              		.size	Pins_Port1_SetInterruptMode, .-Pins_Port1_SetInterruptMode
+ 134              		.section	.text.Pins_Port1_ClearInterrupt,"ax",%progbits
+ 135              		.align	2
+ 136              		.global	Pins_Port1_ClearInterrupt
+ 137              		.thumb
+ 138              		.thumb_func
+ 139              		.type	Pins_Port1_ClearInterrupt, %function
+ 140              	Pins_Port1_ClearInterrupt:
+ 141              		@ args = 0, pretend = 0, frame = 0
+ 142              		@ frame_needed = 0, uses_anonymous_args = 0
+ 143              		@ link register save eliminated.
+ 144 0000 024B     		ldr	r3, .L26
+ 145 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 146 0004 C0F34100 		ubfx	r0, r0, #1, #2
+ 147 0008 7047     		bx	lr
+ 148              	.L27:
+ 149 000a 00BF     		.align	2
+ 150              	.L26:
+ 151 000c 82450040 		.word	1073759618
+ 152              		.size	Pins_Port1_ClearInterrupt, .-Pins_Port1_ClearInterrupt
+ 153              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

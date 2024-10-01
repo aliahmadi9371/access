@@ -1,0 +1,143 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cclVtpp0.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"SEGGER_SYSVIEW_embOS.c"
+  16              		.section	.text._cbSendTaskInfo,"ax",%progbits
+  17              		.align	2
+  18              		.thumb
+  19              		.thumb_func
+  20              		.type	_cbSendTaskInfo, %function
+  21              	_cbSendTaskInfo:
+  22              		@ args = 0, pretend = 0, frame = 24
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24 0000 10B5     		push	{r4, lr}
+  25 0002 0446     		mov	r4, r0
+  26 0004 86B0     		sub	sp, sp, #24
+  27 0006 FFF7FEFF 		bl	OS_EnterRegionFunc
+  28 000a 0023     		movs	r3, #0
+  29 000c 2046     		mov	r0, r4
+  30 000e 0293     		str	r3, [sp, #8]
+  31 0010 0393     		str	r3, [sp, #12]
+  32 0012 0493     		str	r3, [sp, #16]
+  33 0014 0593     		str	r3, [sp, #20]
+  34 0016 0194     		str	r4, [sp, #4]
+  35 0018 FFF7FEFF 		bl	OS_TASK_GetName
+  36 001c 2369     		ldr	r3, [r4, #16]
+  37 001e 0290     		str	r0, [sp, #8]
+  38 0020 01A8     		add	r0, sp, #4
+  39 0022 0393     		str	r3, [sp, #12]
+  40 0024 FFF7FEFF 		bl	SEGGER_SYSVIEW_SendTaskInfo
+  41 0028 FFF7FEFF 		bl	OS_TASK_LeaveRegion
+  42 002c 06B0     		add	sp, sp, #24
+  43              		@ sp needed
+  44 002e 10BD     		pop	{r4, pc}
+  45              		.size	_cbSendTaskInfo, .-_cbSendTaskInfo
+  46              		.section	.text._cbSendTaskList,"ax",%progbits
+  47              		.align	2
+  48              		.thumb
+  49              		.thumb_func
+  50              		.type	_cbSendTaskList, %function
+  51              	_cbSendTaskList:
+  52              		@ args = 0, pretend = 0, frame = 24
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54 0000 70B5     		push	{r4, r5, r6, lr}
+  55 0002 144E     		ldr	r6, .L15
+  56 0004 86B0     		sub	sp, sp, #24
+  57 0006 FFF7FEFF 		bl	OS_EnterRegionFunc
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cclVtpp0.s 			page 2
+
+
+  58 000a B469     		ldr	r4, [r6, #24]
+  59 000c 0025     		movs	r5, #0
+  60 000e A4B1     		cbz	r4, .L8
+  61              	.L7:
+  62 0010 FFF7FEFF 		bl	OS_EnterRegionFunc
+  63 0014 2046     		mov	r0, r4
+  64 0016 0194     		str	r4, [sp, #4]
+  65 0018 0295     		str	r5, [sp, #8]
+  66 001a 0395     		str	r5, [sp, #12]
+  67 001c 0495     		str	r5, [sp, #16]
+  68 001e 0595     		str	r5, [sp, #20]
+  69 0020 FFF7FEFF 		bl	OS_TASK_GetName
+  70 0024 2369     		ldr	r3, [r4, #16]
+  71 0026 0290     		str	r0, [sp, #8]
+  72 0028 01A8     		add	r0, sp, #4
+  73 002a 0393     		str	r3, [sp, #12]
+  74 002c FFF7FEFF 		bl	SEGGER_SYSVIEW_SendTaskInfo
+  75 0030 FFF7FEFF 		bl	OS_TASK_LeaveRegion
+  76 0034 2468     		ldr	r4, [r4]
+  77 0036 002C     		cmp	r4, #0
+  78 0038 EAD1     		bne	.L7
+  79              	.L8:
+  80 003a F46C     		ldr	r4, [r6, #76]
+  81 003c 34B1     		cbz	r4, .L6
+  82              	.L9:
+  83 003e A168     		ldr	r1, [r4, #8]
+  84 0040 6068     		ldr	r0, [r4, #4]
+  85 0042 FFF7FEFF 		bl	SEGGER_SYSVIEW_NameResource
+  86 0046 2468     		ldr	r4, [r4]
+  87 0048 002C     		cmp	r4, #0
+  88 004a F8D1     		bne	.L9
+  89              	.L6:
+  90 004c FFF7FEFF 		bl	OS_TASK_LeaveRegion
+  91 0050 06B0     		add	sp, sp, #24
+  92              		@ sp needed
+  93 0052 70BD     		pop	{r4, r5, r6, pc}
+  94              	.L16:
+  95              		.align	2
+  96              	.L15:
+  97 0054 00000000 		.word	OS_Global
+  98              		.size	_cbSendTaskList, .-_cbSendTaskList
+  99              		.global	SYSVIEW_X_OS_TraceAPI
+ 100              		.global	embOS_TraceAPI_SYSVIEW
+ 101              		.section	.rodata
+ 102              		.align	2
+ 103              		.type	SYSVIEW_X_OS_TraceAPI, %object
+ 104              		.size	SYSVIEW_X_OS_TraceAPI, 8
+ 105              	SYSVIEW_X_OS_TraceAPI:
+ 106 0000 00000000 		.word	OS_TIME_Get_us64
+ 107 0004 00000000 		.word	_cbSendTaskList
+ 108              		.type	embOS_TraceAPI_SYSVIEW, %object
+ 109              		.size	embOS_TraceAPI_SYSVIEW, 92
+ 110              	embOS_TraceAPI_SYSVIEW:
+ 111 0008 00000000 		.word	SEGGER_SYSVIEW_RecordEnterISR
+ 112 000c 00000000 		.word	SEGGER_SYSVIEW_RecordExitISR
+ 113 0010 00000000 		.word	SEGGER_SYSVIEW_RecordExitISRToScheduler
+ 114 0014 00000000 		.word	_cbSendTaskInfo
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cclVtpp0.s 			page 3
+
+
+ 115 0018 00000000 		.word	SEGGER_SYSVIEW_OnTaskCreate
+ 116 001c 00000000 		.word	SEGGER_SYSVIEW_OnTaskStartExec
+ 117 0020 00000000 		.word	SEGGER_SYSVIEW_OnTaskStopExec
+ 118 0024 00000000 		.word	SEGGER_SYSVIEW_OnTaskStartReady
+ 119 0028 00000000 		.word	SEGGER_SYSVIEW_OnTaskStopReady
+ 120 002c 00000000 		.word	SEGGER_SYSVIEW_OnIdle
+ 121 0030 00000000 		.word	SEGGER_SYSVIEW_RecordVoid
+ 122 0034 00000000 		.word	SEGGER_SYSVIEW_RecordU32
+ 123 0038 00000000 		.word	SEGGER_SYSVIEW_RecordU32x2
+ 124 003c 00000000 		.word	SEGGER_SYSVIEW_RecordU32x3
+ 125 0040 00000000 		.word	SEGGER_SYSVIEW_RecordU32x4
+ 126 0044 00000000 		.word	SEGGER_SYSVIEW_ShrinkId
+ 127 0048 00000000 		.word	SEGGER_SYSVIEW_RecordEnterTimer
+ 128 004c 00000000 		.word	SEGGER_SYSVIEW_RecordExitTimer
+ 129 0050 00000000 		.word	SEGGER_SYSVIEW_RecordEndCall
+ 130 0054 00000000 		.word	SEGGER_SYSVIEW_RecordEndCallU32
+ 131 0058 00000000 		.word	SEGGER_SYSVIEW_OnTaskTerminate
+ 132 005c 00000000 		.word	SEGGER_SYSVIEW_RecordU32x5
+ 133 0060 00000000 		.word	SEGGER_SYSVIEW_NameResource
+ 134              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

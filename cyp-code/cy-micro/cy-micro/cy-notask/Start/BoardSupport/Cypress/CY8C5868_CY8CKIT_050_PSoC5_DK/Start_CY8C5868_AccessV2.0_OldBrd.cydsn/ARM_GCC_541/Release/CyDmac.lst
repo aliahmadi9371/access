@@ -1,0 +1,826 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"CyDmac.c"
+  16              		.section	.text.CyDmacConfigure,"ax",%progbits
+  17              		.align	2
+  18              		.global	CyDmacConfigure
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	CyDmacConfigure, %function
+  22              	CyDmacConfigure:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 7F20     		movs	r0, #127
+  27 0002 0346     		mov	r3, r0
+  28 0004 0749     		ldr	r1, .L6
+  29 0006 10B4     		push	{r4}
+  30 0008 074A     		ldr	r2, .L6+4
+  31 000a 8024     		movs	r4, #128
+  32 000c 0870     		strb	r0, [r1]
+  33 000e 4C70     		strb	r4, [r1, #1]
+  34              	.L2:
+  35 0010 013B     		subs	r3, r3, #1
+  36 0012 DBB2     		uxtb	r3, r3
+  37 0014 02F80839 		strb	r3, [r2], #-8
+  38 0018 002B     		cmp	r3, #0
+  39 001a F9D1     		bne	.L2
+  40 001c 034A     		ldr	r2, .L6+8
+  41 001e 1370     		strb	r3, [r2]
+  42 0020 10BC     		pop	{r4}
+  43 0022 7047     		bx	lr
+  44              	.L7:
+  45              		.align	2
+  46              	.L6:
+  47 0024 00000000 		.word	.LANCHOR0
+  48 0028 F87B0040 		.word	1073773560
+  49 002c 00780040 		.word	1073772544
+  50              		.size	CyDmacConfigure, .-CyDmacConfigure
+  51              		.section	.text.CyDmacError,"ax",%progbits
+  52              		.align	2
+  53              		.global	CyDmacError
+  54              		.thumb
+  55              		.thumb_func
+  56              		.type	CyDmacError, %function
+  57              	CyDmacError:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 2
+
+
+  58              		@ args = 0, pretend = 0, frame = 0
+  59              		@ frame_needed = 0, uses_anonymous_args = 0
+  60              		@ link register save eliminated.
+  61 0000 024B     		ldr	r3, .L9
+  62 0002 1868     		ldr	r0, [r3]
+  63 0004 00F00E00 		and	r0, r0, #14
+  64 0008 7047     		bx	lr
+  65              	.L10:
+  66 000a 00BF     		.align	2
+  67              	.L9:
+  68 000c 04700040 		.word	1073770500
+  69              		.size	CyDmacError, .-CyDmacError
+  70              		.section	.text.CyDmacClearError,"ax",%progbits
+  71              		.align	2
+  72              		.global	CyDmacClearError
+  73              		.thumb
+  74              		.thumb_func
+  75              		.type	CyDmacClearError, %function
+  76              	CyDmacClearError:
+  77              		@ args = 0, pretend = 0, frame = 0
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79              		@ link register save eliminated.
+  80 0000 024B     		ldr	r3, .L12
+  81 0002 00F00F00 		and	r0, r0, #15
+  82 0006 1860     		str	r0, [r3]
+  83 0008 7047     		bx	lr
+  84              	.L13:
+  85 000a 00BF     		.align	2
+  86              	.L12:
+  87 000c 04700040 		.word	1073770500
+  88              		.size	CyDmacClearError, .-CyDmacClearError
+  89              		.section	.text.CyDmacErrorAddress,"ax",%progbits
+  90              		.align	2
+  91              		.global	CyDmacErrorAddress
+  92              		.thumb
+  93              		.thumb_func
+  94              		.type	CyDmacErrorAddress, %function
+  95              	CyDmacErrorAddress:
+  96              		@ args = 0, pretend = 0, frame = 0
+  97              		@ frame_needed = 0, uses_anonymous_args = 0
+  98              		@ link register save eliminated.
+  99 0000 014B     		ldr	r3, .L15
+ 100 0002 1868     		ldr	r0, [r3]
+ 101 0004 7047     		bx	lr
+ 102              	.L16:
+ 103 0006 00BF     		.align	2
+ 104              	.L15:
+ 105 0008 08700040 		.word	1073770504
+ 106              		.size	CyDmacErrorAddress, .-CyDmacErrorAddress
+ 107              		.section	.text.CyDmaChAlloc,"ax",%progbits
+ 108              		.align	2
+ 109              		.global	CyDmaChAlloc
+ 110              		.thumb
+ 111              		.thumb_func
+ 112              		.type	CyDmaChAlloc, %function
+ 113              	CyDmaChAlloc:
+ 114              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 3
+
+
+ 115              		@ frame_needed = 0, uses_anonymous_args = 0
+ 116 0000 38B5     		push	{r3, r4, r5, lr}
+ 117 0002 0D4D     		ldr	r5, .L24
+ 118 0004 FFF7FEFF 		bl	CyEnterCriticalSection
+ 119 0008 0023     		movs	r3, #0
+ 120 000a 2968     		ldr	r1, [r5]
+ 121 000c 0122     		movs	r2, #1
+ 122 000e 03E0     		b	.L20
+ 123              	.L18:
+ 124 0010 182B     		cmp	r3, #24
+ 125 0012 4FEA4202 		lsl	r2, r2, #1
+ 126 0016 0AD0     		beq	.L23
+ 127              	.L20:
+ 128 0018 1142     		tst	r1, r2
+ 129 001a DCB2     		uxtb	r4, r3
+ 130 001c 03F10103 		add	r3, r3, #1
+ 131 0020 F6D1     		bne	.L18
+ 132 0022 0A43     		orrs	r2, r2, r1
+ 133 0024 2A60     		str	r2, [r5]
+ 134 0026 FFF7FEFF 		bl	CyExitCriticalSection
+ 135 002a 2046     		mov	r0, r4
+ 136 002c 38BD     		pop	{r3, r4, r5, pc}
+ 137              	.L23:
+ 138 002e FF24     		movs	r4, #255
+ 139 0030 FFF7FEFF 		bl	CyExitCriticalSection
+ 140 0034 2046     		mov	r0, r4
+ 141 0036 38BD     		pop	{r3, r4, r5, pc}
+ 142              	.L25:
+ 143              		.align	2
+ 144              	.L24:
+ 145 0038 00000000 		.word	.LANCHOR1
+ 146              		.size	CyDmaChAlloc, .-CyDmaChAlloc
+ 147              		.section	.text.CyDmaChFree,"ax",%progbits
+ 148              		.align	2
+ 149              		.global	CyDmaChFree
+ 150              		.thumb
+ 151              		.thumb_func
+ 152              		.type	CyDmaChFree, %function
+ 153              	CyDmaChFree:
+ 154              		@ args = 0, pretend = 0, frame = 0
+ 155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 156 0000 1728     		cmp	r0, #23
+ 157 0002 01D9     		bls	.L31
+ 158 0004 0120     		movs	r0, #1
+ 159 0006 7047     		bx	lr
+ 160              	.L31:
+ 161 0008 10B5     		push	{r4, lr}
+ 162 000a 0446     		mov	r4, r0
+ 163 000c FFF7FEFF 		bl	CyEnterCriticalSection
+ 164 0010 0549     		ldr	r1, .L32
+ 165 0012 0122     		movs	r2, #1
+ 166 0014 0B68     		ldr	r3, [r1]
+ 167 0016 02FA04F4 		lsl	r4, r2, r4
+ 168 001a 23EA0403 		bic	r3, r3, r4
+ 169 001e 0B60     		str	r3, [r1]
+ 170 0020 FFF7FEFF 		bl	CyExitCriticalSection
+ 171 0024 0020     		movs	r0, #0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 4
+
+
+ 172 0026 10BD     		pop	{r4, pc}
+ 173              	.L33:
+ 174              		.align	2
+ 175              	.L32:
+ 176 0028 00000000 		.word	.LANCHOR1
+ 177              		.size	CyDmaChFree, .-CyDmaChFree
+ 178              		.section	.text.CyDmaChEnable,"ax",%progbits
+ 179              		.align	2
+ 180              		.global	CyDmaChEnable
+ 181              		.thumb
+ 182              		.thumb_func
+ 183              		.type	CyDmaChEnable, %function
+ 184              	CyDmaChEnable:
+ 185              		@ args = 0, pretend = 0, frame = 0
+ 186              		@ frame_needed = 0, uses_anonymous_args = 0
+ 187              		@ link register save eliminated.
+ 188 0000 1728     		cmp	r0, #23
+ 189 0002 17D8     		bhi	.L38
+ 190 0004 69B9     		cbnz	r1, .L39
+ 191 0006 0C49     		ldr	r1, .L40
+ 192 0008 0001     		lsls	r0, r0, #4
+ 193 000a 0B46     		mov	r3, r1
+ 194 000c 425C     		ldrb	r2, [r0, r1]	@ zero_extendqisi2
+ 195 000e 0344     		add	r3, r3, r0
+ 196 0010 02F0DF02 		and	r2, r2, #223
+ 197 0014 4254     		strb	r2, [r0, r1]
+ 198              	.L37:
+ 199 0016 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 200 0018 0020     		movs	r0, #0
+ 201 001a 42F00102 		orr	r2, r2, #1
+ 202 001e 1A70     		strb	r2, [r3]
+ 203 0020 7047     		bx	lr
+ 204              	.L39:
+ 205 0022 0549     		ldr	r1, .L40
+ 206 0024 0001     		lsls	r0, r0, #4
+ 207 0026 0B46     		mov	r3, r1
+ 208 0028 425C     		ldrb	r2, [r0, r1]	@ zero_extendqisi2
+ 209 002a 0344     		add	r3, r3, r0
+ 210 002c 42F02002 		orr	r2, r2, #32
+ 211 0030 4254     		strb	r2, [r0, r1]
+ 212 0032 F0E7     		b	.L37
+ 213              	.L38:
+ 214 0034 0120     		movs	r0, #1
+ 215 0036 7047     		bx	lr
+ 216              	.L41:
+ 217              		.align	2
+ 218              	.L40:
+ 219 0038 10700040 		.word	1073770512
+ 220              		.size	CyDmaChEnable, .-CyDmaChEnable
+ 221              		.section	.text.CyDmaChDisable,"ax",%progbits
+ 222              		.align	2
+ 223              		.global	CyDmaChDisable
+ 224              		.thumb
+ 225              		.thumb_func
+ 226              		.type	CyDmaChDisable, %function
+ 227              	CyDmaChDisable:
+ 228              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 5
+
+
+ 229              		@ frame_needed = 0, uses_anonymous_args = 0
+ 230              		@ link register save eliminated.
+ 231 0000 1728     		cmp	r0, #23
+ 232 0002 0BD8     		bhi	.L44
+ 233 0004 064A     		ldr	r2, .L45
+ 234 0006 0301     		lsls	r3, r0, #4
+ 235 0008 995C     		ldrb	r1, [r3, r2]	@ zero_extendqisi2
+ 236 000a 0020     		movs	r0, #0
+ 237 000c 01F0FE01 		and	r1, r1, #254
+ 238 0010 9954     		strb	r1, [r3, r2]
+ 239 0012 995C     		ldrb	r1, [r3, r2]	@ zero_extendqisi2
+ 240 0014 01F0DF01 		and	r1, r1, #223
+ 241 0018 9954     		strb	r1, [r3, r2]
+ 242 001a 7047     		bx	lr
+ 243              	.L44:
+ 244 001c 0120     		movs	r0, #1
+ 245 001e 7047     		bx	lr
+ 246              	.L46:
+ 247              		.align	2
+ 248              	.L45:
+ 249 0020 10700040 		.word	1073770512
+ 250              		.size	CyDmaChDisable, .-CyDmaChDisable
+ 251              		.section	.text.CyDmaClearPendingDrq,"ax",%progbits
+ 252              		.align	2
+ 253              		.global	CyDmaClearPendingDrq
+ 254              		.thumb
+ 255              		.thumb_func
+ 256              		.type	CyDmaClearPendingDrq, %function
+ 257              	CyDmaClearPendingDrq:
+ 258              		@ args = 0, pretend = 0, frame = 0
+ 259              		@ frame_needed = 0, uses_anonymous_args = 0
+ 260              		@ link register save eliminated.
+ 261 0000 1728     		cmp	r0, #23
+ 262 0002 0FD8     		bhi	.L49
+ 263 0004 10B4     		push	{r4}
+ 264 0006 084A     		ldr	r2, .L52
+ 265 0008 0301     		lsls	r3, r0, #4
+ 266 000a 1A44     		add	r2, r2, r3
+ 267 000c 1179     		ldrb	r1, [r2, #4]	@ zero_extendqisi2
+ 268 000e 064C     		ldr	r4, .L52
+ 269 0010 41F00401 		orr	r1, r1, #4
+ 270 0014 1171     		strb	r1, [r2, #4]
+ 271 0016 1A5D     		ldrb	r2, [r3, r4]	@ zero_extendqisi2
+ 272 0018 0020     		movs	r0, #0
+ 273 001a 42F00102 		orr	r2, r2, #1
+ 274 001e 1A55     		strb	r2, [r3, r4]
+ 275 0020 10BC     		pop	{r4}
+ 276 0022 7047     		bx	lr
+ 277              	.L49:
+ 278 0024 0120     		movs	r0, #1
+ 279 0026 7047     		bx	lr
+ 280              	.L53:
+ 281              		.align	2
+ 282              	.L52:
+ 283 0028 10700040 		.word	1073770512
+ 284              		.size	CyDmaClearPendingDrq, .-CyDmaClearPendingDrq
+ 285              		.section	.text.CyDmaChPriority,"ax",%progbits
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 6
+
+
+ 286              		.align	2
+ 287              		.global	CyDmaChPriority
+ 288              		.thumb
+ 289              		.thumb_func
+ 290              		.type	CyDmaChPriority, %function
+ 291              	CyDmaChPriority:
+ 292              		@ args = 0, pretend = 0, frame = 0
+ 293              		@ frame_needed = 0, uses_anonymous_args = 0
+ 294              		@ link register save eliminated.
+ 295 0000 1728     		cmp	r0, #23
+ 296 0002 0BD8     		bhi	.L56
+ 297 0004 064A     		ldr	r2, .L57
+ 298 0006 0001     		lsls	r0, r0, #4
+ 299 0008 835C     		ldrb	r3, [r0, r2]	@ zero_extendqisi2
+ 300 000a 4900     		lsls	r1, r1, #1
+ 301 000c 03F0F103 		and	r3, r3, #241
+ 302 0010 01F00E01 		and	r1, r1, #14
+ 303 0014 1943     		orrs	r1, r1, r3
+ 304 0016 8154     		strb	r1, [r0, r2]
+ 305 0018 0020     		movs	r0, #0
+ 306 001a 7047     		bx	lr
+ 307              	.L56:
+ 308 001c 0120     		movs	r0, #1
+ 309 001e 7047     		bx	lr
+ 310              	.L58:
+ 311              		.align	2
+ 312              	.L57:
+ 313 0020 10700040 		.word	1073770512
+ 314              		.size	CyDmaChPriority, .-CyDmaChPriority
+ 315              		.section	.text.CyDmaChSetExtendedAddress,"ax",%progbits
+ 316              		.align	2
+ 317              		.global	CyDmaChSetExtendedAddress
+ 318              		.thumb
+ 319              		.thumb_func
+ 320              		.type	CyDmaChSetExtendedAddress, %function
+ 321              	CyDmaChSetExtendedAddress:
+ 322              		@ args = 0, pretend = 0, frame = 0
+ 323              		@ frame_needed = 0, uses_anonymous_args = 0
+ 324              		@ link register save eliminated.
+ 325 0000 41F6FF73 		movw	r3, #8191
+ 326 0004 9942     		cmp	r1, r3
+ 327 0006 08BF     		it	eq
+ 328 0008 4FF40051 		moveq	r1, #8192
+ 329 000c 9A42     		cmp	r2, r3
+ 330 000e 08BF     		it	eq
+ 331 0010 4FF40052 		moveq	r2, #8192
+ 332 0014 1728     		cmp	r0, #23
+ 333 0016 08D8     		bhi	.L63
+ 334 0018 C000     		lsls	r0, r0, #3
+ 335 001a 00F18043 		add	r3, r0, #1073741824
+ 336 001e 03F5EC43 		add	r3, r3, #30208
+ 337 0022 9980     		strh	r1, [r3, #4]	@ movhi
+ 338 0024 0020     		movs	r0, #0
+ 339 0026 DA80     		strh	r2, [r3, #6]	@ movhi
+ 340 0028 7047     		bx	lr
+ 341              	.L63:
+ 342 002a 0120     		movs	r0, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 7
+
+
+ 343 002c 7047     		bx	lr
+ 344              		.size	CyDmaChSetExtendedAddress, .-CyDmaChSetExtendedAddress
+ 345 002e 00BF     		.section	.text.CyDmaChSetInitialTd,"ax",%progbits
+ 346              		.align	2
+ 347              		.global	CyDmaChSetInitialTd
+ 348              		.thumb
+ 349              		.thumb_func
+ 350              		.type	CyDmaChSetInitialTd, %function
+ 351              	CyDmaChSetInitialTd:
+ 352              		@ args = 0, pretend = 0, frame = 0
+ 353              		@ frame_needed = 0, uses_anonymous_args = 0
+ 354              		@ link register save eliminated.
+ 355 0000 1728     		cmp	r0, #23
+ 356 0002 05D8     		bhi	.L66
+ 357 0004 034B     		ldr	r3, .L67
+ 358 0006 0001     		lsls	r0, r0, #4
+ 359 0008 0344     		add	r3, r3, r0
+ 360 000a 5972     		strb	r1, [r3, #9]
+ 361 000c 0020     		movs	r0, #0
+ 362 000e 7047     		bx	lr
+ 363              	.L66:
+ 364 0010 0120     		movs	r0, #1
+ 365 0012 7047     		bx	lr
+ 366              	.L68:
+ 367              		.align	2
+ 368              	.L67:
+ 369 0014 10700040 		.word	1073770512
+ 370              		.size	CyDmaChSetInitialTd, .-CyDmaChSetInitialTd
+ 371              		.section	.text.CyDmaChSetRequest,"ax",%progbits
+ 372              		.align	2
+ 373              		.global	CyDmaChSetRequest
+ 374              		.thumb
+ 375              		.thumb_func
+ 376              		.type	CyDmaChSetRequest, %function
+ 377              	CyDmaChSetRequest:
+ 378              		@ args = 0, pretend = 0, frame = 0
+ 379              		@ frame_needed = 0, uses_anonymous_args = 0
+ 380              		@ link register save eliminated.
+ 381 0000 1728     		cmp	r0, #23
+ 382 0002 09D8     		bhi	.L71
+ 383 0004 054B     		ldr	r3, .L72
+ 384 0006 0001     		lsls	r0, r0, #4
+ 385 0008 0344     		add	r3, r3, r0
+ 386 000a 1A79     		ldrb	r2, [r3, #4]	@ zero_extendqisi2
+ 387 000c 01F00701 		and	r1, r1, #7
+ 388 0010 1143     		orrs	r1, r1, r2
+ 389 0012 1971     		strb	r1, [r3, #4]
+ 390 0014 0020     		movs	r0, #0
+ 391 0016 7047     		bx	lr
+ 392              	.L71:
+ 393 0018 0120     		movs	r0, #1
+ 394 001a 7047     		bx	lr
+ 395              	.L73:
+ 396              		.align	2
+ 397              	.L72:
+ 398 001c 10700040 		.word	1073770512
+ 399              		.size	CyDmaChSetRequest, .-CyDmaChSetRequest
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 8
+
+
+ 400              		.section	.text.CyDmaChGetRequest,"ax",%progbits
+ 401              		.align	2
+ 402              		.global	CyDmaChGetRequest
+ 403              		.thumb
+ 404              		.thumb_func
+ 405              		.type	CyDmaChGetRequest, %function
+ 406              	CyDmaChGetRequest:
+ 407              		@ args = 0, pretend = 0, frame = 0
+ 408              		@ frame_needed = 0, uses_anonymous_args = 0
+ 409              		@ link register save eliminated.
+ 410 0000 1728     		cmp	r0, #23
+ 411 0002 01D9     		bls	.L77
+ 412 0004 FF20     		movs	r0, #255
+ 413 0006 7047     		bx	lr
+ 414              	.L77:
+ 415 0008 034B     		ldr	r3, .L78
+ 416 000a 0001     		lsls	r0, r0, #4
+ 417 000c 0344     		add	r3, r3, r0
+ 418 000e 1879     		ldrb	r0, [r3, #4]	@ zero_extendqisi2
+ 419 0010 00F00700 		and	r0, r0, #7
+ 420 0014 7047     		bx	lr
+ 421              	.L79:
+ 422 0016 00BF     		.align	2
+ 423              	.L78:
+ 424 0018 10700040 		.word	1073770512
+ 425              		.size	CyDmaChGetRequest, .-CyDmaChGetRequest
+ 426              		.section	.text.CyDmaChStatus,"ax",%progbits
+ 427              		.align	2
+ 428              		.global	CyDmaChStatus
+ 429              		.thumb
+ 430              		.thumb_func
+ 431              		.type	CyDmaChStatus, %function
+ 432              	CyDmaChStatus:
+ 433              		@ args = 0, pretend = 0, frame = 0
+ 434              		@ frame_needed = 0, uses_anonymous_args = 0
+ 435              		@ link register save eliminated.
+ 436 0000 1728     		cmp	r0, #23
+ 437 0002 11D8     		bhi	.L83
+ 438 0004 10B4     		push	{r4}
+ 439 0006 31B1     		cbz	r1, .L82
+ 440 0008 094B     		ldr	r3, .L89
+ 441 000a 0401     		lsls	r4, r0, #4
+ 442 000c 2344     		add	r3, r3, r4
+ 443 000e 5B7A     		ldrb	r3, [r3, #9]	@ zero_extendqisi2
+ 444 0010 03F07F03 		and	r3, r3, #127
+ 445 0014 0B70     		strb	r3, [r1]
+ 446              	.L82:
+ 447 0016 4AB1     		cbz	r2, .L84
+ 448 0018 054B     		ldr	r3, .L89
+ 449 001a 0001     		lsls	r0, r0, #4
+ 450 001c 0344     		add	r3, r3, r0
+ 451 001e 1B7A     		ldrb	r3, [r3, #8]	@ zero_extendqisi2
+ 452 0020 0020     		movs	r0, #0
+ 453 0022 1370     		strb	r3, [r2]
+ 454              	.L81:
+ 455 0024 10BC     		pop	{r4}
+ 456 0026 7047     		bx	lr
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 9
+
+
+ 457              	.L83:
+ 458 0028 0120     		movs	r0, #1
+ 459 002a 7047     		bx	lr
+ 460              	.L84:
+ 461 002c 1046     		mov	r0, r2
+ 462 002e F9E7     		b	.L81
+ 463              	.L90:
+ 464              		.align	2
+ 465              	.L89:
+ 466 0030 10700040 		.word	1073770512
+ 467              		.size	CyDmaChStatus, .-CyDmaChStatus
+ 468              		.section	.text.CyDmaChSetConfiguration,"ax",%progbits
+ 469              		.align	2
+ 470              		.global	CyDmaChSetConfiguration
+ 471              		.thumb
+ 472              		.thumb_func
+ 473              		.type	CyDmaChSetConfiguration, %function
+ 474              	CyDmaChSetConfiguration:
+ 475              		@ args = 8, pretend = 0, frame = 0
+ 476              		@ frame_needed = 0, uses_anonymous_args = 0
+ 477              		@ link register save eliminated.
+ 478 0000 70B4     		push	{r4, r5, r6}
+ 479 0002 1728     		cmp	r0, #23
+ 480 0004 9DF80C60 		ldrb	r6, [sp, #12]	@ zero_extendqisi2
+ 481 0008 9DF81050 		ldrb	r5, [sp, #16]	@ zero_extendqisi2
+ 482 000c 18D8     		bhi	.L93
+ 483 000e C000     		lsls	r0, r0, #3
+ 484 0010 01F07F01 		and	r1, r1, #127
+ 485 0014 03F00F03 		and	r3, r3, #15
+ 486 0018 00F18044 		add	r4, r0, #1073741824
+ 487 001c 41EAC211 		orr	r1, r1, r2, lsl #7
+ 488 0020 43EA0613 		orr	r3, r3, r6, lsl #4
+ 489 0024 04F5EC44 		add	r4, r4, #30208
+ 490 0028 05F00F05 		and	r5, r5, #15
+ 491 002c 0022     		movs	r2, #0
+ 492 002e C9B2     		uxtb	r1, r1
+ 493 0030 DBB2     		uxtb	r3, r3
+ 494 0032 2170     		strb	r1, [r4]
+ 495 0034 6370     		strb	r3, [r4, #1]
+ 496 0036 A570     		strb	r5, [r4, #2]
+ 497 0038 E270     		strb	r2, [r4, #3]
+ 498 003a 1046     		mov	r0, r2
+ 499 003c 70BC     		pop	{r4, r5, r6}
+ 500 003e 7047     		bx	lr
+ 501              	.L93:
+ 502 0040 0120     		movs	r0, #1
+ 503 0042 70BC     		pop	{r4, r5, r6}
+ 504 0044 7047     		bx	lr
+ 505              		.size	CyDmaChSetConfiguration, .-CyDmaChSetConfiguration
+ 506 0046 00BF     		.section	.text.CyDmaTdAllocate,"ax",%progbits
+ 507              		.align	2
+ 508              		.global	CyDmaTdAllocate
+ 509              		.thumb
+ 510              		.thumb_func
+ 511              		.type	CyDmaTdAllocate, %function
+ 512              	CyDmaTdAllocate:
+ 513              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 10
+
+
+ 514              		@ frame_needed = 0, uses_anonymous_args = 0
+ 515 0000 10B5     		push	{r4, lr}
+ 516 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 517 0006 0B4B     		ldr	r3, .L100
+ 518 0008 5A78     		ldrb	r2, [r3, #1]	@ zero_extendqisi2
+ 519 000a 182A     		cmp	r2, #24
+ 520 000c 04D8     		bhi	.L99
+ 521 000e FF24     		movs	r4, #255
+ 522 0010 FFF7FEFF 		bl	CyExitCriticalSection
+ 523 0014 2046     		mov	r0, r4
+ 524 0016 10BD     		pop	{r4, pc}
+ 525              	.L99:
+ 526 0018 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 527 001a 013A     		subs	r2, r2, #1
+ 528 001c E100     		lsls	r1, r4, #3
+ 529 001e 01F18041 		add	r1, r1, #1073741824
+ 530 0022 01F5F041 		add	r1, r1, #30720
+ 531 0026 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+ 532 0028 5A70     		strb	r2, [r3, #1]
+ 533 002a 1970     		strb	r1, [r3]
+ 534 002c FFF7FEFF 		bl	CyExitCriticalSection
+ 535 0030 2046     		mov	r0, r4
+ 536 0032 10BD     		pop	{r4, pc}
+ 537              	.L101:
+ 538              		.align	2
+ 539              	.L100:
+ 540 0034 00000000 		.word	.LANCHOR0
+ 541              		.size	CyDmaTdAllocate, .-CyDmaTdAllocate
+ 542              		.section	.text.CyDmaTdFree,"ax",%progbits
+ 543              		.align	2
+ 544              		.global	CyDmaTdFree
+ 545              		.thumb
+ 546              		.thumb_func
+ 547              		.type	CyDmaTdFree, %function
+ 548              	CyDmaTdFree:
+ 549              		@ args = 0, pretend = 0, frame = 0
+ 550              		@ frame_needed = 0, uses_anonymous_args = 0
+ 551 0000 0206     		lsls	r2, r0, #24
+ 552 0002 13D4     		bmi	.L105
+ 553 0004 38B5     		push	{r3, r4, r5, lr}
+ 554 0006 0446     		mov	r4, r0
+ 555 0008 FFF7FEFF 		bl	CyEnterCriticalSection
+ 556 000c 084A     		ldr	r2, .L106
+ 557 000e E300     		lsls	r3, r4, #3
+ 558 0010 5178     		ldrb	r1, [r2, #1]	@ zero_extendqisi2
+ 559 0012 1578     		ldrb	r5, [r2]	@ zero_extendqisi2
+ 560 0014 03F18043 		add	r3, r3, #1073741824
+ 561 0018 03F5F043 		add	r3, r3, #30720
+ 562 001c 0131     		adds	r1, r1, #1
+ 563 001e 1D70     		strb	r5, [r3]
+ 564 0020 5170     		strb	r1, [r2, #1]
+ 565 0022 1470     		strb	r4, [r2]
+ 566 0024 BDE83840 		pop	{r3, r4, r5, lr}
+ 567 0028 FFF7FEBF 		b	CyExitCriticalSection
+ 568              	.L105:
+ 569 002c 7047     		bx	lr
+ 570              	.L107:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 11
+
+
+ 571 002e 00BF     		.align	2
+ 572              	.L106:
+ 573 0030 00000000 		.word	.LANCHOR0
+ 574              		.size	CyDmaTdFree, .-CyDmaTdFree
+ 575              		.section	.text.CyDmaTdFreeCount,"ax",%progbits
+ 576              		.align	2
+ 577              		.global	CyDmaTdFreeCount
+ 578              		.thumb
+ 579              		.thumb_func
+ 580              		.type	CyDmaTdFreeCount, %function
+ 581              	CyDmaTdFreeCount:
+ 582              		@ args = 0, pretend = 0, frame = 0
+ 583              		@ frame_needed = 0, uses_anonymous_args = 0
+ 584              		@ link register save eliminated.
+ 585 0000 024B     		ldr	r3, .L109
+ 586 0002 5878     		ldrb	r0, [r3, #1]	@ zero_extendqisi2
+ 587 0004 1838     		subs	r0, r0, #24
+ 588 0006 C0B2     		uxtb	r0, r0
+ 589 0008 7047     		bx	lr
+ 590              	.L110:
+ 591 000a 00BF     		.align	2
+ 592              	.L109:
+ 593 000c 00000000 		.word	.LANCHOR0
+ 594              		.size	CyDmaTdFreeCount, .-CyDmaTdFreeCount
+ 595              		.section	.text.CyDmaTdSetConfiguration,"ax",%progbits
+ 596              		.align	2
+ 597              		.global	CyDmaTdSetConfiguration
+ 598              		.thumb
+ 599              		.thumb_func
+ 600              		.type	CyDmaTdSetConfiguration, %function
+ 601              	CyDmaTdSetConfiguration:
+ 602              		@ args = 0, pretend = 0, frame = 0
+ 603              		@ frame_needed = 0, uses_anonymous_args = 0
+ 604              		@ link register save eliminated.
+ 605 0000 10F0800F 		tst	r0, #128
+ 606 0004 11D1     		bne	.L113
+ 607 0006 30B4     		push	{r4, r5}
+ 608 0008 11F47045 		ands	r5, r1, #61440
+ 609 000c 0AD1     		bne	.L114
+ 610 000e C400     		lsls	r4, r0, #3
+ 611 0010 04F18044 		add	r4, r4, #1073741824
+ 612 0014 04F5F044 		add	r4, r4, #30720
+ 613 0018 2180     		strh	r1, [r4]	@ movhi
+ 614 001a A270     		strb	r2, [r4, #2]
+ 615 001c E370     		strb	r3, [r4, #3]
+ 616 001e 2846     		mov	r0, r5
+ 617 0020 30BC     		pop	{r4, r5}
+ 618 0022 7047     		bx	lr
+ 619              	.L114:
+ 620 0024 0120     		movs	r0, #1
+ 621 0026 30BC     		pop	{r4, r5}
+ 622 0028 7047     		bx	lr
+ 623              	.L113:
+ 624 002a 0120     		movs	r0, #1
+ 625 002c 7047     		bx	lr
+ 626              		.size	CyDmaTdSetConfiguration, .-CyDmaTdSetConfiguration
+ 627 002e 00BF     		.section	.text.CyDmaTdGetConfiguration,"ax",%progbits
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 12
+
+
+ 628              		.align	2
+ 629              		.global	CyDmaTdGetConfiguration
+ 630              		.thumb
+ 631              		.thumb_func
+ 632              		.type	CyDmaTdGetConfiguration, %function
+ 633              	CyDmaTdGetConfiguration:
+ 634              		@ args = 0, pretend = 0, frame = 0
+ 635              		@ frame_needed = 0, uses_anonymous_args = 0
+ 636              		@ link register save eliminated.
+ 637 0000 10F0800F 		tst	r0, #128
+ 638 0004 1DD1     		bne	.L120
+ 639 0006 10B4     		push	{r4}
+ 640 0008 41B1     		cbz	r1, .L118
+ 641 000a C400     		lsls	r4, r0, #3
+ 642 000c 04F18044 		add	r4, r4, #1073741824
+ 643 0010 04F5F044 		add	r4, r4, #30720
+ 644 0014 2488     		ldrh	r4, [r4]
+ 645 0016 C4F30B04 		ubfx	r4, r4, #0, #12
+ 646 001a 0C80     		strh	r4, [r1]	@ movhi
+ 647              	.L118:
+ 648 001c 32B1     		cbz	r2, .L119
+ 649 001e C100     		lsls	r1, r0, #3
+ 650 0020 01F18041 		add	r1, r1, #1073741824
+ 651 0024 01F5F041 		add	r1, r1, #30720
+ 652 0028 8978     		ldrb	r1, [r1, #2]	@ zero_extendqisi2
+ 653 002a 1170     		strb	r1, [r2]
+ 654              	.L119:
+ 655 002c 5BB1     		cbz	r3, .L121
+ 656 002e C000     		lsls	r0, r0, #3
+ 657 0030 00F18040 		add	r0, r0, #1073741824
+ 658 0034 00F5F040 		add	r0, r0, #30720
+ 659 0038 C278     		ldrb	r2, [r0, #3]	@ zero_extendqisi2
+ 660 003a 0020     		movs	r0, #0
+ 661 003c 1A70     		strb	r2, [r3]
+ 662              	.L117:
+ 663 003e 10BC     		pop	{r4}
+ 664 0040 7047     		bx	lr
+ 665              	.L120:
+ 666 0042 0120     		movs	r0, #1
+ 667 0044 7047     		bx	lr
+ 668              	.L121:
+ 669 0046 1846     		mov	r0, r3
+ 670 0048 F9E7     		b	.L117
+ 671              		.size	CyDmaTdGetConfiguration, .-CyDmaTdGetConfiguration
+ 672 004a 00BF     		.section	.text.CyDmaTdSetAddress,"ax",%progbits
+ 673              		.align	2
+ 674              		.global	CyDmaTdSetAddress
+ 675              		.thumb
+ 676              		.thumb_func
+ 677              		.type	CyDmaTdSetAddress, %function
+ 678              	CyDmaTdSetAddress:
+ 679              		@ args = 0, pretend = 0, frame = 0
+ 680              		@ frame_needed = 0, uses_anonymous_args = 0
+ 681              		@ link register save eliminated.
+ 682 0000 0306     		lsls	r3, r0, #24
+ 683 0002 08D4     		bmi	.L131
+ 684 0004 C000     		lsls	r0, r0, #3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 13
+
+
+ 685 0006 00F18043 		add	r3, r0, #1073741824
+ 686 000a 03F5F043 		add	r3, r3, #30720
+ 687 000e 9980     		strh	r1, [r3, #4]	@ movhi
+ 688 0010 0020     		movs	r0, #0
+ 689 0012 DA80     		strh	r2, [r3, #6]	@ movhi
+ 690 0014 7047     		bx	lr
+ 691              	.L131:
+ 692 0016 0120     		movs	r0, #1
+ 693 0018 7047     		bx	lr
+ 694              		.size	CyDmaTdSetAddress, .-CyDmaTdSetAddress
+ 695 001a 00BF     		.section	.text.CyDmaTdGetAddress,"ax",%progbits
+ 696              		.align	2
+ 697              		.global	CyDmaTdGetAddress
+ 698              		.thumb
+ 699              		.thumb_func
+ 700              		.type	CyDmaTdGetAddress, %function
+ 701              	CyDmaTdGetAddress:
+ 702              		@ args = 0, pretend = 0, frame = 0
+ 703              		@ frame_needed = 0, uses_anonymous_args = 0
+ 704              		@ link register save eliminated.
+ 705 0000 0306     		lsls	r3, r0, #24
+ 706 0002 11D4     		bmi	.L135
+ 707 0004 31B1     		cbz	r1, .L134
+ 708 0006 C300     		lsls	r3, r0, #3
+ 709 0008 03F18043 		add	r3, r3, #1073741824
+ 710 000c 03F5F043 		add	r3, r3, #30720
+ 711 0010 9B88     		ldrh	r3, [r3, #4]
+ 712 0012 0B80     		strh	r3, [r1]	@ movhi
+ 713              	.L134:
+ 714 0014 52B1     		cbz	r2, .L136
+ 715 0016 C000     		lsls	r0, r0, #3
+ 716 0018 00F18040 		add	r0, r0, #1073741824
+ 717 001c 00F5F040 		add	r0, r0, #30720
+ 718 0020 C388     		ldrh	r3, [r0, #6]
+ 719 0022 0020     		movs	r0, #0
+ 720 0024 1380     		strh	r3, [r2]	@ movhi
+ 721 0026 7047     		bx	lr
+ 722              	.L135:
+ 723 0028 0120     		movs	r0, #1
+ 724 002a 7047     		bx	lr
+ 725              	.L136:
+ 726 002c 1046     		mov	r0, r2
+ 727 002e 7047     		bx	lr
+ 728              		.size	CyDmaTdGetAddress, .-CyDmaTdGetAddress
+ 729              		.section	.text.CyDmaChRoundRobin,"ax",%progbits
+ 730              		.align	2
+ 731              		.global	CyDmaChRoundRobin
+ 732              		.thumb
+ 733              		.thumb_func
+ 734              		.type	CyDmaChRoundRobin, %function
+ 735              	CyDmaChRoundRobin:
+ 736              		@ args = 0, pretend = 0, frame = 0
+ 737              		@ frame_needed = 0, uses_anonymous_args = 0
+ 738              		@ link register save eliminated.
+ 739 0000 1728     		cmp	r0, #23
+ 740 0002 12D8     		bhi	.L143
+ 741 0004 49B9     		cbnz	r1, .L146
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc66czuf.s 			page 14
+
+
+ 742 0006 10B4     		push	{r4}
+ 743 0008 094C     		ldr	r4, .L147
+ 744 000a 0301     		lsls	r3, r0, #4
+ 745 000c 1A5D     		ldrb	r2, [r3, r4]	@ zero_extendqisi2
+ 746 000e 0846     		mov	r0, r1
+ 747 0010 02F0EF02 		and	r2, r2, #239
+ 748 0014 1A55     		strb	r2, [r3, r4]
+ 749 0016 10BC     		pop	{r4}
+ 750 0018 7047     		bx	lr
+ 751              	.L146:
+ 752 001a 0549     		ldr	r1, .L147
+ 753 001c 0301     		lsls	r3, r0, #4
+ 754 001e 5A5C     		ldrb	r2, [r3, r1]	@ zero_extendqisi2
+ 755 0020 0020     		movs	r0, #0
+ 756 0022 42F01002 		orr	r2, r2, #16
+ 757 0026 5A54     		strb	r2, [r3, r1]
+ 758 0028 7047     		bx	lr
+ 759              	.L143:
+ 760 002a 0120     		movs	r0, #1
+ 761 002c 7047     		bx	lr
+ 762              	.L148:
+ 763 002e 00BF     		.align	2
+ 764              	.L147:
+ 765 0030 10700040 		.word	1073770512
+ 766              		.size	CyDmaChRoundRobin, .-CyDmaChRoundRobin
+ 767              		.data
+ 768              		.set	.LANCHOR0,. + 0
+ 769              		.type	CyDmaTdFreeIndex, %object
+ 770              		.size	CyDmaTdFreeIndex, 1
+ 771              	CyDmaTdFreeIndex:
+ 772 0000 7F       		.byte	127
+ 773              		.type	CyDmaTdCurrentNumber, %object
+ 774              		.size	CyDmaTdCurrentNumber, 1
+ 775              	CyDmaTdCurrentNumber:
+ 776 0001 80       		.byte	-128
+ 777              		.bss
+ 778              		.align	2
+ 779              		.set	.LANCHOR1,. + 0
+ 780              		.type	CyDmaChannels, %object
+ 781              		.size	CyDmaChannels, 4
+ 782              	CyDmaChannels:
+ 783 0000 00000000 		.space	4
+ 784              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

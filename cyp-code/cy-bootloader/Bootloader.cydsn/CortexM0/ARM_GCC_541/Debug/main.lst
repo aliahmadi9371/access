@@ -1,0 +1,435 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccz16NJo.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.main,"ax",%progbits
+  20              		.align	2
+  21              		.global	main
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	main, %function
+  25              	main:
+  26              	.LFB32:
+  27              		.file 1 "main.c"
+   1:main.c        **** /******************************************************************************
+   2:main.c        **** * File Name: main.c
+   3:main.c        **** *
+   4:main.c        **** * Version 1.10
+   5:main.c        **** *
+   6:main.c        **** * Description: 
+   7:main.c        **** *  This example project demonstrates the basic operation of the Bootloader
+   8:main.c        **** *  Component.
+   9:main.c        **** *
+  10:main.c        **** * Related Document: 
+  11:main.c        **** *  CE221653_PSoC_4_Bootloader_and_Bootloadable.pdf
+  12:main.c        **** *
+  13:main.c        **** * Hardware Dependency: 
+  14:main.c        **** *  See CE221653_PSoC_4_Bootloader_and_Bootloadable.pdf
+  15:main.c        **** *
+  16:main.c        **** *******************************************************************************
+  17:main.c        **** * Copyright (2017-2019), Cypress Semiconductor Corporation. All rights reserved.
+  18:main.c        **** *******************************************************************************
+  19:main.c        **** * This software, including source code, documentation and related materials
+  20:main.c        **** * (“Software”), is owned by Cypress Semiconductor Corporation or one of its
+  21:main.c        **** * subsidiaries (“Cypress”) and is protected by and subject to worldwide patent
+  22:main.c        **** * protection (United States and foreign), United States copyright laws and
+  23:main.c        **** * international treaty provisions. Therefore, you may use this Software only
+  24:main.c        **** * as provided in the license agreement accompanying the software package from
+  25:main.c        **** * which you obtained this Software (“EULA”).
+  26:main.c        **** *
+  27:main.c        **** * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
+  28:main.c        **** * non-transferable license to copy, modify, and compile the Software source
+  29:main.c        **** * code solely for use in connection with Cypress’s integrated circuit products.
+  30:main.c        **** * Any reproduction, modification, translation, compilation, or representation
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccz16NJo.s 			page 2
+
+
+  31:main.c        **** * of this Software except as specified above is prohibited without the express
+  32:main.c        **** * written permission of Cypress.
+  33:main.c        **** *
+  34:main.c        **** * Disclaimer: THIS SOFTWARE IS PROVIDED AS-IS, WITH NO WARRANTY OF ANY KIND,
+  35:main.c        **** * EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT, IMPLIED
+  36:main.c        **** * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. Cypress
+  37:main.c        **** * reserves the right to make changes to the Software without notice. Cypress
+  38:main.c        **** * does not assume any liability arising out of the application or use of the
+  39:main.c        **** * Software or any product or circuit described in the Software. Cypress does
+  40:main.c        **** * not authorize its products for use in any products where a malfunction or
+  41:main.c        **** * failure of the Cypress product may reasonably be expected to result in
+  42:main.c        **** * significant property damage, injury or death (“High Risk Product”). By
+  43:main.c        **** * including Cypress’s product in a High Risk Product, the manufacturer of such
+  44:main.c        **** * system or application assumes all risk of such use and in doing so agrees to
+  45:main.c        **** * indemnify Cypress against all liability. 
+  46:main.c        **** *******************************************************************************/
+  47:main.c        **** 
+  48:main.c        **** #include <project.h>
+  49:main.c        **** 
+  50:main.c        **** #if (CY_PSOC4_4100MS)
+  51:main.c        ****     #define LED_BLUE_ON     (1u)
+  52:main.c        ****     #define LED_BLUE_OFF    (0u)
+  53:main.c        **** #else
+  54:main.c        ****     #define LED_BLUE_ON     (0u)
+  55:main.c        ****     #define LED_BLUE_OFF    (1u)
+  56:main.c        **** #endif
+  57:main.c        **** 
+  58:main.c        **** 
+  59:main.c        **** /******************************************************************************
+  60:main.c        **** * Function Name: main
+  61:main.c        **** *******************************************************************************
+  62:main.c        **** *
+  63:main.c        **** * Summary:
+  64:main.c        **** *  The main function performs these functions:
+  65:main.c        **** *  1. Shows the Bootloader status by enabling the blue LED.
+  66:main.c        **** *  2. Starts the Bootloader communication.
+  67:main.c        **** *
+  68:main.c        **** ******************************************************************************/
+  69:main.c        **** int main()
+  70:main.c        **** {
+  28              		.loc 1 70 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 00AF     		add	r7, sp, #0
+  37              		.cfi_def_cfa_register 7
+  71:main.c        ****     /* Enable the global interrupts */
+  72:main.c        ****     CyGlobalIntEnable;
+  38              		.loc 1 72 0
+  39              		.syntax divided
+  40              	@ 72 "main.c" 1
+  41 0004 62B6     		CPSIE   i
+  42              	@ 0 "" 2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccz16NJo.s 			page 3
+
+
+  73:main.c        ****     
+  74:main.c        ****     /* Turn on the blue LED */
+  75:main.c        ****     Bootloader_StatusLED_Write(LED_BLUE_ON);
+  43              		.loc 1 75 0
+  44              		.thumb
+  45              		.syntax unified
+  46 0006 0020     		movs	r0, #0
+  47 0008 FFF7FEFF 		bl	Bootloader_StatusLED_Write
+  76:main.c        ****     
+  77:main.c        ****     /* Start the Bootloader communication */
+  78:main.c        ****     Bootloader_Start();
+  48              		.loc 1 78 0
+  49 000c FFF7FEFF 		bl	Bootloader_Start
+  50              	.L2:
+  79:main.c        ****     
+  80:main.c        ****     for(;;)
+  81:main.c        ****     {
+  82:main.c        ****         /* Should never be here */
+  83:main.c        ****     }
+  51              		.loc 1 83 0 discriminator 1
+  52 0010 FEE7     		b	.L2
+  53              		.cfi_endproc
+  54              	.LFE32:
+  55              		.size	main, .-main
+  56 0012 C046     		.text
+  57              	.Letext0:
+  58              		.section	.debug_info,"",%progbits
+  59              	.Ldebug_info0:
+  60 0000 A0000000 		.4byte	0xa0
+  61 0004 0400     		.2byte	0x4
+  62 0006 00000000 		.4byte	.Ldebug_abbrev0
+  63 000a 04       		.byte	0x4
+  64 000b 01       		.uleb128 0x1
+  65 000c EC000000 		.4byte	.LASF14
+  66 0010 0C       		.byte	0xc
+  67 0011 59000000 		.4byte	.LASF15
+  68 0015 0E000000 		.4byte	.LASF16
+  69 0019 00000000 		.4byte	.Ldebug_ranges0+0
+  70 001d 00000000 		.4byte	0
+  71 0021 00000000 		.4byte	.Ldebug_line0
+  72 0025 02       		.uleb128 0x2
+  73 0026 01       		.byte	0x1
+  74 0027 06       		.byte	0x6
+  75 0028 CA000000 		.4byte	.LASF0
+  76 002c 02       		.uleb128 0x2
+  77 002d 01       		.byte	0x1
+  78 002e 08       		.byte	0x8
+  79 002f 94000000 		.4byte	.LASF1
+  80 0033 02       		.uleb128 0x2
+  81 0034 02       		.byte	0x2
+  82 0035 05       		.byte	0x5
+  83 0036 E2000000 		.4byte	.LASF2
+  84 003a 02       		.uleb128 0x2
+  85 003b 02       		.byte	0x2
+  86 003c 07       		.byte	0x7
+  87 003d B7000000 		.4byte	.LASF3
+  88 0041 02       		.uleb128 0x2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccz16NJo.s 			page 4
+
+
+  89 0042 04       		.byte	0x4
+  90 0043 05       		.byte	0x5
+  91 0044 A7000000 		.4byte	.LASF4
+  92 0048 02       		.uleb128 0x2
+  93 0049 04       		.byte	0x4
+  94 004a 07       		.byte	0x7
+  95 004b 65000000 		.4byte	.LASF5
+  96 004f 02       		.uleb128 0x2
+  97 0050 08       		.byte	0x8
+  98 0051 05       		.byte	0x5
+  99 0052 00000000 		.4byte	.LASF6
+ 100 0056 02       		.uleb128 0x2
+ 101 0057 08       		.byte	0x8
+ 102 0058 07       		.byte	0x7
+ 103 0059 77000000 		.4byte	.LASF7
+ 104 005d 03       		.uleb128 0x3
+ 105 005e 04       		.byte	0x4
+ 106 005f 05       		.byte	0x5
+ 107 0060 696E7400 		.ascii	"int\000"
+ 108 0064 02       		.uleb128 0x2
+ 109 0065 04       		.byte	0x4
+ 110 0066 07       		.byte	0x7
+ 111 0067 4C000000 		.4byte	.LASF8
+ 112 006b 02       		.uleb128 0x2
+ 113 006c 04       		.byte	0x4
+ 114 006d 04       		.byte	0x4
+ 115 006e 8E000000 		.4byte	.LASF9
+ 116 0072 02       		.uleb128 0x2
+ 117 0073 08       		.byte	0x8
+ 118 0074 04       		.byte	0x4
+ 119 0075 B0000000 		.4byte	.LASF10
+ 120 0079 02       		.uleb128 0x2
+ 121 007a 01       		.byte	0x1
+ 122 007b 08       		.byte	0x8
+ 123 007c A2000000 		.4byte	.LASF11
+ 124 0080 02       		.uleb128 0x2
+ 125 0081 08       		.byte	0x8
+ 126 0082 04       		.byte	0x4
+ 127 0083 D6000000 		.4byte	.LASF12
+ 128 0087 02       		.uleb128 0x2
+ 129 0088 04       		.byte	0x4
+ 130 0089 07       		.byte	0x7
+ 131 008a 7A010000 		.4byte	.LASF13
+ 132 008e 04       		.uleb128 0x4
+ 133 008f 60000000 		.4byte	.LASF17
+ 134 0093 01       		.byte	0x1
+ 135 0094 45       		.byte	0x45
+ 136 0095 5D000000 		.4byte	0x5d
+ 137 0099 00000000 		.4byte	.LFB32
+ 138 009d 12000000 		.4byte	.LFE32-.LFB32
+ 139 00a1 01       		.uleb128 0x1
+ 140 00a2 9C       		.byte	0x9c
+ 141 00a3 00       		.byte	0
+ 142              		.section	.debug_abbrev,"",%progbits
+ 143              	.Ldebug_abbrev0:
+ 144 0000 01       		.uleb128 0x1
+ 145 0001 11       		.uleb128 0x11
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccz16NJo.s 			page 5
+
+
+ 146 0002 01       		.byte	0x1
+ 147 0003 25       		.uleb128 0x25
+ 148 0004 0E       		.uleb128 0xe
+ 149 0005 13       		.uleb128 0x13
+ 150 0006 0B       		.uleb128 0xb
+ 151 0007 03       		.uleb128 0x3
+ 152 0008 0E       		.uleb128 0xe
+ 153 0009 1B       		.uleb128 0x1b
+ 154 000a 0E       		.uleb128 0xe
+ 155 000b 55       		.uleb128 0x55
+ 156 000c 17       		.uleb128 0x17
+ 157 000d 11       		.uleb128 0x11
+ 158 000e 01       		.uleb128 0x1
+ 159 000f 10       		.uleb128 0x10
+ 160 0010 17       		.uleb128 0x17
+ 161 0011 00       		.byte	0
+ 162 0012 00       		.byte	0
+ 163 0013 02       		.uleb128 0x2
+ 164 0014 24       		.uleb128 0x24
+ 165 0015 00       		.byte	0
+ 166 0016 0B       		.uleb128 0xb
+ 167 0017 0B       		.uleb128 0xb
+ 168 0018 3E       		.uleb128 0x3e
+ 169 0019 0B       		.uleb128 0xb
+ 170 001a 03       		.uleb128 0x3
+ 171 001b 0E       		.uleb128 0xe
+ 172 001c 00       		.byte	0
+ 173 001d 00       		.byte	0
+ 174 001e 03       		.uleb128 0x3
+ 175 001f 24       		.uleb128 0x24
+ 176 0020 00       		.byte	0
+ 177 0021 0B       		.uleb128 0xb
+ 178 0022 0B       		.uleb128 0xb
+ 179 0023 3E       		.uleb128 0x3e
+ 180 0024 0B       		.uleb128 0xb
+ 181 0025 03       		.uleb128 0x3
+ 182 0026 08       		.uleb128 0x8
+ 183 0027 00       		.byte	0
+ 184 0028 00       		.byte	0
+ 185 0029 04       		.uleb128 0x4
+ 186 002a 2E       		.uleb128 0x2e
+ 187 002b 00       		.byte	0
+ 188 002c 3F       		.uleb128 0x3f
+ 189 002d 19       		.uleb128 0x19
+ 190 002e 03       		.uleb128 0x3
+ 191 002f 0E       		.uleb128 0xe
+ 192 0030 3A       		.uleb128 0x3a
+ 193 0031 0B       		.uleb128 0xb
+ 194 0032 3B       		.uleb128 0x3b
+ 195 0033 0B       		.uleb128 0xb
+ 196 0034 49       		.uleb128 0x49
+ 197 0035 13       		.uleb128 0x13
+ 198 0036 11       		.uleb128 0x11
+ 199 0037 01       		.uleb128 0x1
+ 200 0038 12       		.uleb128 0x12
+ 201 0039 06       		.uleb128 0x6
+ 202 003a 40       		.uleb128 0x40
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccz16NJo.s 			page 6
+
+
+ 203 003b 18       		.uleb128 0x18
+ 204 003c 9642     		.uleb128 0x2116
+ 205 003e 19       		.uleb128 0x19
+ 206 003f 00       		.byte	0
+ 207 0040 00       		.byte	0
+ 208 0041 00       		.byte	0
+ 209              		.section	.debug_aranges,"",%progbits
+ 210 0000 1C000000 		.4byte	0x1c
+ 211 0004 0200     		.2byte	0x2
+ 212 0006 00000000 		.4byte	.Ldebug_info0
+ 213 000a 04       		.byte	0x4
+ 214 000b 00       		.byte	0
+ 215 000c 0000     		.2byte	0
+ 216 000e 0000     		.2byte	0
+ 217 0010 00000000 		.4byte	.LFB32
+ 218 0014 12000000 		.4byte	.LFE32-.LFB32
+ 219 0018 00000000 		.4byte	0
+ 220 001c 00000000 		.4byte	0
+ 221              		.section	.debug_ranges,"",%progbits
+ 222              	.Ldebug_ranges0:
+ 223 0000 00000000 		.4byte	.LFB32
+ 224 0004 12000000 		.4byte	.LFE32
+ 225 0008 00000000 		.4byte	0
+ 226 000c 00000000 		.4byte	0
+ 227              		.section	.debug_line,"",%progbits
+ 228              	.Ldebug_line0:
+ 229 0000 3B000000 		.section	.debug_str,"MS",%progbits,1
+ 229      02001D00 
+ 229      00000201 
+ 229      FB0E0D00 
+ 229      01010101 
+ 230              	.LASF6:
+ 231 0000 6C6F6E67 		.ascii	"long long int\000"
+ 231      206C6F6E 
+ 231      6720696E 
+ 231      7400
+ 232              	.LASF16:
+ 233 000e 5A3A5C23 		.ascii	"Z:\\#IroTeam\\PSoC Creator\\Bootloader01\\Bootloade"
+ 233      49726F54 
+ 233      65616D5C 
+ 233      50536F43 
+ 233      20437265 
+ 234 003d 7230315F 		.ascii	"r01_TEST.cydsn\000"
+ 234      54455354 
+ 234      2E637964 
+ 234      736E00
+ 235              	.LASF8:
+ 236 004c 756E7369 		.ascii	"unsigned int\000"
+ 236      676E6564 
+ 236      20696E74 
+ 236      00
+ 237              	.LASF15:
+ 238 0059 6D61696E 		.ascii	"main.c\000"
+ 238      2E6300
+ 239              	.LASF17:
+ 240 0060 6D61696E 		.ascii	"main\000"
+ 240      00
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccz16NJo.s 			page 7
+
+
+ 241              	.LASF5:
+ 242 0065 6C6F6E67 		.ascii	"long unsigned int\000"
+ 242      20756E73 
+ 242      69676E65 
+ 242      6420696E 
+ 242      7400
+ 243              	.LASF7:
+ 244 0077 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 244      206C6F6E 
+ 244      6720756E 
+ 244      7369676E 
+ 244      65642069 
+ 245              	.LASF9:
+ 246 008e 666C6F61 		.ascii	"float\000"
+ 246      7400
+ 247              	.LASF1:
+ 248 0094 756E7369 		.ascii	"unsigned char\000"
+ 248      676E6564 
+ 248      20636861 
+ 248      7200
+ 249              	.LASF11:
+ 250 00a2 63686172 		.ascii	"char\000"
+ 250      00
+ 251              	.LASF4:
+ 252 00a7 6C6F6E67 		.ascii	"long int\000"
+ 252      20696E74 
+ 252      00
+ 253              	.LASF10:
+ 254 00b0 646F7562 		.ascii	"double\000"
+ 254      6C6500
+ 255              	.LASF3:
+ 256 00b7 73686F72 		.ascii	"short unsigned int\000"
+ 256      7420756E 
+ 256      7369676E 
+ 256      65642069 
+ 256      6E7400
+ 257              	.LASF0:
+ 258 00ca 7369676E 		.ascii	"signed char\000"
+ 258      65642063 
+ 258      68617200 
+ 259              	.LASF12:
+ 260 00d6 6C6F6E67 		.ascii	"long double\000"
+ 260      20646F75 
+ 260      626C6500 
+ 261              	.LASF2:
+ 262 00e2 73686F72 		.ascii	"short int\000"
+ 262      7420696E 
+ 262      7400
+ 263              	.LASF14:
+ 264 00ec 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 264      43313120 
+ 264      352E342E 
+ 264      31203230 
+ 264      31363036 
+ 265 011f 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 265      20726576 
+ 265      6973696F 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccz16NJo.s 			page 8
+
+
+ 265      6E203233 
+ 265      37373135 
+ 266 0152 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 266      66756E63 
+ 266      74696F6E 
+ 266      2D736563 
+ 266      74696F6E 
+ 267              	.LASF13:
+ 268 017a 73697A65 		.ascii	"sizetype\000"
+ 268      74797065 
+ 268      00
+ 269              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

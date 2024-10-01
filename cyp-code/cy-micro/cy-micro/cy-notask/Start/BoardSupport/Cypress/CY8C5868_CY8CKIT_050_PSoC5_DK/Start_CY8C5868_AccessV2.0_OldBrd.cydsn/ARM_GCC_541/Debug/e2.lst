@@ -1,0 +1,688 @@
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"e2.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.ie2_read_byte,"ax",%progbits
+  20              		.align	2
+  21              		.global	ie2_read_byte
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	ie2_read_byte, %function
+  25              	ie2_read_byte:
+  26              	.LFB64:
+  27              		.file 1 "e2.c"
+   1:e2.c          **** /* ========================================
+   2:e2.c          ****  *
+   3:e2.c          ****  * Copyright YOUR COMPANY, THE YEAR
+   4:e2.c          ****  * All Rights Reserved
+   5:e2.c          ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:e2.c          ****  *
+   7:e2.c          ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:e2.c          ****  * WHICH IS THE PROPERTY OF your company.
+   9:e2.c          ****  *
+  10:e2.c          ****  * ========================================
+  11:e2.c          **** */
+  12:e2.c          **** #include "e2.h"
+  13:e2.c          **** 
+  14:e2.c          **** // ###################################################### EEProm Functional Functions #############
+  15:e2.c          **** uint8 ie2_read_byte(uint16 addr)
+  16:e2.c          **** {
+  28              		.loc 1 16 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 16
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 84B0     		sub	sp, sp, #16
+  37              		.cfi_def_cfa_offset 24
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  40 0006 0346     		mov	r3, r0
+  41 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 2
+
+
+  17:e2.c          ****     uint8 ret = Internal_EEPROM_ReadByte(addr); 
+  42              		.loc 1 17 0
+  43 000a FB88     		ldrh	r3, [r7, #6]
+  44 000c 1846     		mov	r0, r3
+  45 000e FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+  46 0012 0346     		mov	r3, r0
+  47 0014 FB73     		strb	r3, [r7, #15]
+  18:e2.c          **** 
+  19:e2.c          ****     return ret;
+  48              		.loc 1 19 0
+  49 0016 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+  20:e2.c          **** }
+  50              		.loc 1 20 0
+  51 0018 1846     		mov	r0, r3
+  52 001a 1037     		adds	r7, r7, #16
+  53              		.cfi_def_cfa_offset 8
+  54 001c BD46     		mov	sp, r7
+  55              		.cfi_def_cfa_register 13
+  56              		@ sp needed
+  57 001e 80BD     		pop	{r7, pc}
+  58              		.cfi_endproc
+  59              	.LFE64:
+  60              		.size	ie2_read_byte, .-ie2_read_byte
+  61              		.section	.text.ie2_write_byte,"ax",%progbits
+  62              		.align	2
+  63              		.global	ie2_write_byte
+  64              		.thumb
+  65              		.thumb_func
+  66              		.type	ie2_write_byte, %function
+  67              	ie2_write_byte:
+  68              	.LFB65:
+  21:e2.c          **** 
+  22:e2.c          **** uint8 ie2_write_byte(uint8 byte, uint16 addr)
+  23:e2.c          **** {
+  69              		.loc 1 23 0
+  70              		.cfi_startproc
+  71              		@ args = 0, pretend = 0, frame = 16
+  72              		@ frame_needed = 1, uses_anonymous_args = 0
+  73 0000 80B5     		push	{r7, lr}
+  74              		.cfi_def_cfa_offset 8
+  75              		.cfi_offset 7, -8
+  76              		.cfi_offset 14, -4
+  77 0002 84B0     		sub	sp, sp, #16
+  78              		.cfi_def_cfa_offset 24
+  79 0004 00AF     		add	r7, sp, #0
+  80              		.cfi_def_cfa_register 7
+  81 0006 0346     		mov	r3, r0
+  82 0008 0A46     		mov	r2, r1
+  83 000a FB71     		strb	r3, [r7, #7]
+  84 000c 1346     		mov	r3, r2	@ movhi
+  85 000e BB80     		strh	r3, [r7, #4]	@ movhi
+  24:e2.c          ****     uint8 ret = 0;
+  86              		.loc 1 24 0
+  87 0010 0023     		movs	r3, #0
+  88 0012 FB73     		strb	r3, [r7, #15]
+  25:e2.c          ****     cystatus st = Internal_EEPROM_WriteByte(byte, addr);
+  89              		.loc 1 25 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 3
+
+
+  90 0014 BA88     		ldrh	r2, [r7, #4]
+  91 0016 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  92 0018 1146     		mov	r1, r2
+  93 001a 1846     		mov	r0, r3
+  94 001c FFF7FEFF 		bl	Internal_EEPROM_WriteByte
+  95 0020 B860     		str	r0, [r7, #8]
+  26:e2.c          ****     
+  27:e2.c          ****     if(st == CYRET_SUCCESS){
+  96              		.loc 1 27 0
+  97 0022 BB68     		ldr	r3, [r7, #8]
+  98 0024 002B     		cmp	r3, #0
+  99 0026 01D1     		bne	.L4
+  28:e2.c          ****         ret = 1;
+ 100              		.loc 1 28 0
+ 101 0028 0123     		movs	r3, #1
+ 102 002a FB73     		strb	r3, [r7, #15]
+ 103              	.L4:
+  29:e2.c          ****     }
+  30:e2.c          ****     
+  31:e2.c          ****     return ret;
+ 104              		.loc 1 31 0
+ 105 002c FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+  32:e2.c          **** }
+ 106              		.loc 1 32 0
+ 107 002e 1846     		mov	r0, r3
+ 108 0030 1037     		adds	r7, r7, #16
+ 109              		.cfi_def_cfa_offset 8
+ 110 0032 BD46     		mov	sp, r7
+ 111              		.cfi_def_cfa_register 13
+ 112              		@ sp needed
+ 113 0034 80BD     		pop	{r7, pc}
+ 114              		.cfi_endproc
+ 115              	.LFE65:
+ 116              		.size	ie2_write_byte, .-ie2_write_byte
+ 117 0036 00BF     		.text
+ 118              	.Letext0:
+ 119              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 120              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 121              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 122              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 123              		.section	.debug_info,"",%progbits
+ 124              	.Ldebug_info0:
+ 125 0000 5D010000 		.4byte	0x15d
+ 126 0004 0400     		.2byte	0x4
+ 127 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 128 000a 04       		.byte	0x4
+ 129 000b 01       		.uleb128 0x1
+ 130 000c 04010000 		.4byte	.LASF23
+ 131 0010 0C       		.byte	0xc
+ 132 0011 92010000 		.4byte	.LASF24
+ 133 0015 34000000 		.4byte	.LASF25
+ 134 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 135 001d 00000000 		.4byte	0
+ 136 0021 00000000 		.4byte	.Ldebug_line0
+ 137 0025 02       		.uleb128 0x2
+ 138 0026 04       		.byte	0x4
+ 139 0027 05       		.byte	0x5
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 4
+
+
+ 140 0028 696E7400 		.ascii	"int\000"
+ 141 002c 03       		.uleb128 0x3
+ 142 002d 04       		.byte	0x4
+ 143 002e 07       		.byte	0x7
+ 144 002f 21000000 		.4byte	.LASF0
+ 145 0033 03       		.uleb128 0x3
+ 146 0034 08       		.byte	0x8
+ 147 0035 05       		.byte	0x5
+ 148 0036 00000000 		.4byte	.LASF1
+ 149 003a 03       		.uleb128 0x3
+ 150 003b 08       		.byte	0x8
+ 151 003c 04       		.byte	0x4
+ 152 003d F0010000 		.4byte	.LASF2
+ 153 0041 03       		.uleb128 0x3
+ 154 0042 01       		.byte	0x1
+ 155 0043 06       		.byte	0x6
+ 156 0044 E4010000 		.4byte	.LASF3
+ 157 0048 03       		.uleb128 0x3
+ 158 0049 01       		.byte	0x1
+ 159 004a 08       		.byte	0x8
+ 160 004b 97010000 		.4byte	.LASF4
+ 161 004f 03       		.uleb128 0x3
+ 162 0050 02       		.byte	0x2
+ 163 0051 05       		.byte	0x5
+ 164 0052 B3010000 		.4byte	.LASF5
+ 165 0056 03       		.uleb128 0x3
+ 166 0057 02       		.byte	0x2
+ 167 0058 07       		.byte	0x7
+ 168 0059 0E000000 		.4byte	.LASF6
+ 169 005d 04       		.uleb128 0x4
+ 170 005e FC010000 		.4byte	.LASF12
+ 171 0062 02       		.byte	0x2
+ 172 0063 3F       		.byte	0x3f
+ 173 0064 68000000 		.4byte	0x68
+ 174 0068 03       		.uleb128 0x3
+ 175 0069 04       		.byte	0x4
+ 176 006a 05       		.byte	0x5
+ 177 006b AA010000 		.4byte	.LASF7
+ 178 006f 03       		.uleb128 0x3
+ 179 0070 04       		.byte	0x4
+ 180 0071 07       		.byte	0x7
+ 181 0072 D6000000 		.4byte	.LASF8
+ 182 0076 03       		.uleb128 0x3
+ 183 0077 08       		.byte	0x8
+ 184 0078 07       		.byte	0x7
+ 185 0079 E8000000 		.4byte	.LASF9
+ 186 007d 03       		.uleb128 0x3
+ 187 007e 04       		.byte	0x4
+ 188 007f 07       		.byte	0x7
+ 189 0080 24020000 		.4byte	.LASF10
+ 190 0084 03       		.uleb128 0x3
+ 191 0085 01       		.byte	0x1
+ 192 0086 08       		.byte	0x8
+ 193 0087 A5010000 		.4byte	.LASF11
+ 194 008b 04       		.uleb128 0x4
+ 195 008c 1C020000 		.4byte	.LASF13
+ 196 0090 03       		.byte	0x3
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 5
+
+
+ 197 0091 2C       		.byte	0x2c
+ 198 0092 5D000000 		.4byte	0x5d
+ 199 0096 05       		.uleb128 0x5
+ 200 0097 2E000000 		.4byte	.LASF14
+ 201 009b 04       		.byte	0x4
+ 202 009c E801     		.2byte	0x1e8
+ 203 009e 48000000 		.4byte	0x48
+ 204 00a2 05       		.uleb128 0x5
+ 205 00a3 15020000 		.4byte	.LASF15
+ 206 00a7 04       		.byte	0x4
+ 207 00a8 E901     		.2byte	0x1e9
+ 208 00aa 56000000 		.4byte	0x56
+ 209 00ae 03       		.uleb128 0x3
+ 210 00af 04       		.byte	0x4
+ 211 00b0 04       		.byte	0x4
+ 212 00b1 06020000 		.4byte	.LASF16
+ 213 00b5 03       		.uleb128 0x3
+ 214 00b6 08       		.byte	0x8
+ 215 00b7 04       		.byte	0x4
+ 216 00b8 BD010000 		.4byte	.LASF17
+ 217 00bc 05       		.uleb128 0x5
+ 218 00bd 0C020000 		.4byte	.LASF18
+ 219 00c1 04       		.byte	0x4
+ 220 00c2 8A02     		.2byte	0x28a
+ 221 00c4 6F000000 		.4byte	0x6f
+ 222 00c8 06       		.uleb128 0x6
+ 223 00c9 C9010000 		.4byte	.LASF19
+ 224 00cd 01       		.byte	0x1
+ 225 00ce 0F       		.byte	0xf
+ 226 00cf 96000000 		.4byte	0x96
+ 227 00d3 00000000 		.4byte	.LFB64
+ 228 00d7 20000000 		.4byte	.LFE64-.LFB64
+ 229 00db 01       		.uleb128 0x1
+ 230 00dc 9C       		.byte	0x9c
+ 231 00dd FE000000 		.4byte	0xfe
+ 232 00e1 07       		.uleb128 0x7
+ 233 00e2 FF000000 		.4byte	.LASF21
+ 234 00e6 01       		.byte	0x1
+ 235 00e7 0F       		.byte	0xf
+ 236 00e8 A2000000 		.4byte	0xa2
+ 237 00ec 02       		.uleb128 0x2
+ 238 00ed 91       		.byte	0x91
+ 239 00ee 6E       		.sleb128 -18
+ 240 00ef 08       		.uleb128 0x8
+ 241 00f0 72657400 		.ascii	"ret\000"
+ 242 00f4 01       		.byte	0x1
+ 243 00f5 11       		.byte	0x11
+ 244 00f6 96000000 		.4byte	0x96
+ 245 00fa 02       		.uleb128 0x2
+ 246 00fb 91       		.byte	0x91
+ 247 00fc 77       		.sleb128 -9
+ 248 00fd 00       		.byte	0
+ 249 00fe 06       		.uleb128 0x6
+ 250 00ff 2D020000 		.4byte	.LASF20
+ 251 0103 01       		.byte	0x1
+ 252 0104 16       		.byte	0x16
+ 253 0105 96000000 		.4byte	0x96
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 6
+
+
+ 254 0109 00000000 		.4byte	.LFB65
+ 255 010d 36000000 		.4byte	.LFE65-.LFB65
+ 256 0111 01       		.uleb128 0x1
+ 257 0112 9C       		.byte	0x9c
+ 258 0113 4F010000 		.4byte	0x14f
+ 259 0117 07       		.uleb128 0x7
+ 260 0118 C4010000 		.4byte	.LASF22
+ 261 011c 01       		.byte	0x1
+ 262 011d 16       		.byte	0x16
+ 263 011e 96000000 		.4byte	0x96
+ 264 0122 02       		.uleb128 0x2
+ 265 0123 91       		.byte	0x91
+ 266 0124 6F       		.sleb128 -17
+ 267 0125 07       		.uleb128 0x7
+ 268 0126 FF000000 		.4byte	.LASF21
+ 269 012a 01       		.byte	0x1
+ 270 012b 16       		.byte	0x16
+ 271 012c A2000000 		.4byte	0xa2
+ 272 0130 02       		.uleb128 0x2
+ 273 0131 91       		.byte	0x91
+ 274 0132 6C       		.sleb128 -20
+ 275 0133 08       		.uleb128 0x8
+ 276 0134 72657400 		.ascii	"ret\000"
+ 277 0138 01       		.byte	0x1
+ 278 0139 18       		.byte	0x18
+ 279 013a 96000000 		.4byte	0x96
+ 280 013e 02       		.uleb128 0x2
+ 281 013f 91       		.byte	0x91
+ 282 0140 77       		.sleb128 -9
+ 283 0141 08       		.uleb128 0x8
+ 284 0142 737400   		.ascii	"st\000"
+ 285 0145 01       		.byte	0x1
+ 286 0146 19       		.byte	0x19
+ 287 0147 BC000000 		.4byte	0xbc
+ 288 014b 02       		.uleb128 0x2
+ 289 014c 91       		.byte	0x91
+ 290 014d 70       		.sleb128 -16
+ 291 014e 00       		.byte	0
+ 292 014f 09       		.uleb128 0x9
+ 293 0150 D7010000 		.4byte	.LASF26
+ 294 0154 05       		.byte	0x5
+ 295 0155 1207     		.2byte	0x712
+ 296 0157 5B010000 		.4byte	0x15b
+ 297 015b 0A       		.uleb128 0xa
+ 298 015c 8B000000 		.4byte	0x8b
+ 299 0160 00       		.byte	0
+ 300              		.section	.debug_abbrev,"",%progbits
+ 301              	.Ldebug_abbrev0:
+ 302 0000 01       		.uleb128 0x1
+ 303 0001 11       		.uleb128 0x11
+ 304 0002 01       		.byte	0x1
+ 305 0003 25       		.uleb128 0x25
+ 306 0004 0E       		.uleb128 0xe
+ 307 0005 13       		.uleb128 0x13
+ 308 0006 0B       		.uleb128 0xb
+ 309 0007 03       		.uleb128 0x3
+ 310 0008 0E       		.uleb128 0xe
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 7
+
+
+ 311 0009 1B       		.uleb128 0x1b
+ 312 000a 0E       		.uleb128 0xe
+ 313 000b 55       		.uleb128 0x55
+ 314 000c 17       		.uleb128 0x17
+ 315 000d 11       		.uleb128 0x11
+ 316 000e 01       		.uleb128 0x1
+ 317 000f 10       		.uleb128 0x10
+ 318 0010 17       		.uleb128 0x17
+ 319 0011 00       		.byte	0
+ 320 0012 00       		.byte	0
+ 321 0013 02       		.uleb128 0x2
+ 322 0014 24       		.uleb128 0x24
+ 323 0015 00       		.byte	0
+ 324 0016 0B       		.uleb128 0xb
+ 325 0017 0B       		.uleb128 0xb
+ 326 0018 3E       		.uleb128 0x3e
+ 327 0019 0B       		.uleb128 0xb
+ 328 001a 03       		.uleb128 0x3
+ 329 001b 08       		.uleb128 0x8
+ 330 001c 00       		.byte	0
+ 331 001d 00       		.byte	0
+ 332 001e 03       		.uleb128 0x3
+ 333 001f 24       		.uleb128 0x24
+ 334 0020 00       		.byte	0
+ 335 0021 0B       		.uleb128 0xb
+ 336 0022 0B       		.uleb128 0xb
+ 337 0023 3E       		.uleb128 0x3e
+ 338 0024 0B       		.uleb128 0xb
+ 339 0025 03       		.uleb128 0x3
+ 340 0026 0E       		.uleb128 0xe
+ 341 0027 00       		.byte	0
+ 342 0028 00       		.byte	0
+ 343 0029 04       		.uleb128 0x4
+ 344 002a 16       		.uleb128 0x16
+ 345 002b 00       		.byte	0
+ 346 002c 03       		.uleb128 0x3
+ 347 002d 0E       		.uleb128 0xe
+ 348 002e 3A       		.uleb128 0x3a
+ 349 002f 0B       		.uleb128 0xb
+ 350 0030 3B       		.uleb128 0x3b
+ 351 0031 0B       		.uleb128 0xb
+ 352 0032 49       		.uleb128 0x49
+ 353 0033 13       		.uleb128 0x13
+ 354 0034 00       		.byte	0
+ 355 0035 00       		.byte	0
+ 356 0036 05       		.uleb128 0x5
+ 357 0037 16       		.uleb128 0x16
+ 358 0038 00       		.byte	0
+ 359 0039 03       		.uleb128 0x3
+ 360 003a 0E       		.uleb128 0xe
+ 361 003b 3A       		.uleb128 0x3a
+ 362 003c 0B       		.uleb128 0xb
+ 363 003d 3B       		.uleb128 0x3b
+ 364 003e 05       		.uleb128 0x5
+ 365 003f 49       		.uleb128 0x49
+ 366 0040 13       		.uleb128 0x13
+ 367 0041 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 8
+
+
+ 368 0042 00       		.byte	0
+ 369 0043 06       		.uleb128 0x6
+ 370 0044 2E       		.uleb128 0x2e
+ 371 0045 01       		.byte	0x1
+ 372 0046 3F       		.uleb128 0x3f
+ 373 0047 19       		.uleb128 0x19
+ 374 0048 03       		.uleb128 0x3
+ 375 0049 0E       		.uleb128 0xe
+ 376 004a 3A       		.uleb128 0x3a
+ 377 004b 0B       		.uleb128 0xb
+ 378 004c 3B       		.uleb128 0x3b
+ 379 004d 0B       		.uleb128 0xb
+ 380 004e 27       		.uleb128 0x27
+ 381 004f 19       		.uleb128 0x19
+ 382 0050 49       		.uleb128 0x49
+ 383 0051 13       		.uleb128 0x13
+ 384 0052 11       		.uleb128 0x11
+ 385 0053 01       		.uleb128 0x1
+ 386 0054 12       		.uleb128 0x12
+ 387 0055 06       		.uleb128 0x6
+ 388 0056 40       		.uleb128 0x40
+ 389 0057 18       		.uleb128 0x18
+ 390 0058 9642     		.uleb128 0x2116
+ 391 005a 19       		.uleb128 0x19
+ 392 005b 01       		.uleb128 0x1
+ 393 005c 13       		.uleb128 0x13
+ 394 005d 00       		.byte	0
+ 395 005e 00       		.byte	0
+ 396 005f 07       		.uleb128 0x7
+ 397 0060 05       		.uleb128 0x5
+ 398 0061 00       		.byte	0
+ 399 0062 03       		.uleb128 0x3
+ 400 0063 0E       		.uleb128 0xe
+ 401 0064 3A       		.uleb128 0x3a
+ 402 0065 0B       		.uleb128 0xb
+ 403 0066 3B       		.uleb128 0x3b
+ 404 0067 0B       		.uleb128 0xb
+ 405 0068 49       		.uleb128 0x49
+ 406 0069 13       		.uleb128 0x13
+ 407 006a 02       		.uleb128 0x2
+ 408 006b 18       		.uleb128 0x18
+ 409 006c 00       		.byte	0
+ 410 006d 00       		.byte	0
+ 411 006e 08       		.uleb128 0x8
+ 412 006f 34       		.uleb128 0x34
+ 413 0070 00       		.byte	0
+ 414 0071 03       		.uleb128 0x3
+ 415 0072 08       		.uleb128 0x8
+ 416 0073 3A       		.uleb128 0x3a
+ 417 0074 0B       		.uleb128 0xb
+ 418 0075 3B       		.uleb128 0x3b
+ 419 0076 0B       		.uleb128 0xb
+ 420 0077 49       		.uleb128 0x49
+ 421 0078 13       		.uleb128 0x13
+ 422 0079 02       		.uleb128 0x2
+ 423 007a 18       		.uleb128 0x18
+ 424 007b 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 9
+
+
+ 425 007c 00       		.byte	0
+ 426 007d 09       		.uleb128 0x9
+ 427 007e 34       		.uleb128 0x34
+ 428 007f 00       		.byte	0
+ 429 0080 03       		.uleb128 0x3
+ 430 0081 0E       		.uleb128 0xe
+ 431 0082 3A       		.uleb128 0x3a
+ 432 0083 0B       		.uleb128 0xb
+ 433 0084 3B       		.uleb128 0x3b
+ 434 0085 05       		.uleb128 0x5
+ 435 0086 49       		.uleb128 0x49
+ 436 0087 13       		.uleb128 0x13
+ 437 0088 3F       		.uleb128 0x3f
+ 438 0089 19       		.uleb128 0x19
+ 439 008a 3C       		.uleb128 0x3c
+ 440 008b 19       		.uleb128 0x19
+ 441 008c 00       		.byte	0
+ 442 008d 00       		.byte	0
+ 443 008e 0A       		.uleb128 0xa
+ 444 008f 35       		.uleb128 0x35
+ 445 0090 00       		.byte	0
+ 446 0091 49       		.uleb128 0x49
+ 447 0092 13       		.uleb128 0x13
+ 448 0093 00       		.byte	0
+ 449 0094 00       		.byte	0
+ 450 0095 00       		.byte	0
+ 451              		.section	.debug_aranges,"",%progbits
+ 452 0000 24000000 		.4byte	0x24
+ 453 0004 0200     		.2byte	0x2
+ 454 0006 00000000 		.4byte	.Ldebug_info0
+ 455 000a 04       		.byte	0x4
+ 456 000b 00       		.byte	0
+ 457 000c 0000     		.2byte	0
+ 458 000e 0000     		.2byte	0
+ 459 0010 00000000 		.4byte	.LFB64
+ 460 0014 20000000 		.4byte	.LFE64-.LFB64
+ 461 0018 00000000 		.4byte	.LFB65
+ 462 001c 36000000 		.4byte	.LFE65-.LFB65
+ 463 0020 00000000 		.4byte	0
+ 464 0024 00000000 		.4byte	0
+ 465              		.section	.debug_ranges,"",%progbits
+ 466              	.Ldebug_ranges0:
+ 467 0000 00000000 		.4byte	.LFB64
+ 468 0004 20000000 		.4byte	.LFE64
+ 469 0008 00000000 		.4byte	.LFB65
+ 470 000c 36000000 		.4byte	.LFE65
+ 471 0010 00000000 		.4byte	0
+ 472 0014 00000000 		.4byte	0
+ 473              		.section	.debug_line,"",%progbits
+ 474              	.Ldebug_line0:
+ 475 0000 77010000 		.section	.debug_str,"MS",%progbits,1
+ 475      02004A01 
+ 475      00000201 
+ 475      FB0E0D00 
+ 475      01010101 
+ 476              	.LASF1:
+ 477 0000 6C6F6E67 		.ascii	"long long int\000"
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 10
+
+
+ 477      206C6F6E 
+ 477      6720696E 
+ 477      7400
+ 478              	.LASF6:
+ 479 000e 73686F72 		.ascii	"short unsigned int\000"
+ 479      7420756E 
+ 479      7369676E 
+ 479      65642069 
+ 479      6E7400
+ 480              	.LASF0:
+ 481 0021 756E7369 		.ascii	"unsigned int\000"
+ 481      676E6564 
+ 481      20696E74 
+ 481      00
+ 482              	.LASF14:
+ 483 002e 75696E74 		.ascii	"uint8\000"
+ 483      3800
+ 484              	.LASF25:
+ 485 0034 453A5C49 		.ascii	"E:\\IroTeam\\Developing Projects\\Cypress\\100 PIN\\"
+ 485      726F5465 
+ 485      616D5C44 
+ 485      6576656C 
+ 485      6F70696E 
+ 486 0063 63792D6D 		.ascii	"cy-micro\\cy-notask\\Start\\BoardSupport\\Cypress\\"
+ 486      6963726F 
+ 486      5C63792D 
+ 486      6E6F7461 
+ 486      736B5C53 
+ 487 0091 43593843 		.ascii	"CY8C5868_CY8CKIT_050_PSoC5_DK\\Start_CY8C5868_Acces"
+ 487      35383638 
+ 487      5F435938 
+ 487      434B4954 
+ 487      5F303530 
+ 488 00c3 7356322E 		.ascii	"sV2.0_OldBrd.cydsn\000"
+ 488      305F4F6C 
+ 488      64427264 
+ 488      2E637964 
+ 488      736E00
+ 489              	.LASF8:
+ 490 00d6 6C6F6E67 		.ascii	"long unsigned int\000"
+ 490      20756E73 
+ 490      69676E65 
+ 490      6420696E 
+ 490      7400
+ 491              	.LASF9:
+ 492 00e8 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 492      206C6F6E 
+ 492      6720756E 
+ 492      7369676E 
+ 492      65642069 
+ 493              	.LASF21:
+ 494 00ff 61646472 		.ascii	"addr\000"
+ 494      00
+ 495              	.LASF23:
+ 496 0104 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 496      43313120 
+ 496      352E342E 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 11
+
+
+ 496      31203230 
+ 496      31363036 
+ 497 0137 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 497      20726576 
+ 497      6973696F 
+ 497      6E203233 
+ 497      37373135 
+ 498 016a 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 498      66756E63 
+ 498      74696F6E 
+ 498      2D736563 
+ 498      74696F6E 
+ 499              	.LASF24:
+ 500 0192 65322E63 		.ascii	"e2.c\000"
+ 500      00
+ 501              	.LASF4:
+ 502 0197 756E7369 		.ascii	"unsigned char\000"
+ 502      676E6564 
+ 502      20636861 
+ 502      7200
+ 503              	.LASF11:
+ 504 01a5 63686172 		.ascii	"char\000"
+ 504      00
+ 505              	.LASF7:
+ 506 01aa 6C6F6E67 		.ascii	"long int\000"
+ 506      20696E74 
+ 506      00
+ 507              	.LASF5:
+ 508 01b3 73686F72 		.ascii	"short int\000"
+ 508      7420696E 
+ 508      7400
+ 509              	.LASF17:
+ 510 01bd 646F7562 		.ascii	"double\000"
+ 510      6C6500
+ 511              	.LASF22:
+ 512 01c4 62797465 		.ascii	"byte\000"
+ 512      00
+ 513              	.LASF19:
+ 514 01c9 6965325F 		.ascii	"ie2_read_byte\000"
+ 514      72656164 
+ 514      5F627974 
+ 514      6500
+ 515              	.LASF26:
+ 516 01d7 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 516      52784275 
+ 516      66666572 
+ 516      00
+ 517              	.LASF3:
+ 518 01e4 7369676E 		.ascii	"signed char\000"
+ 518      65642063 
+ 518      68617200 
+ 519              	.LASF2:
+ 520 01f0 6C6F6E67 		.ascii	"long double\000"
+ 520      20646F75 
+ 520      626C6500 
+ 521              	.LASF12:
+ 522 01fc 5F5F696E 		.ascii	"__int32_t\000"
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccvzqboK.s 			page 12
+
+
+ 522      7433325F 
+ 522      7400
+ 523              	.LASF16:
+ 524 0206 666C6F61 		.ascii	"float\000"
+ 524      7400
+ 525              	.LASF18:
+ 526 020c 63797374 		.ascii	"cystatus\000"
+ 526      61747573 
+ 526      00
+ 527              	.LASF15:
+ 528 0215 75696E74 		.ascii	"uint16\000"
+ 528      313600
+ 529              	.LASF13:
+ 530 021c 696E7433 		.ascii	"int32_t\000"
+ 530      325F7400 
+ 531              	.LASF10:
+ 532 0224 73697A65 		.ascii	"sizetype\000"
+ 532      74797065 
+ 532      00
+ 533              	.LASF20:
+ 534 022d 6965325F 		.ascii	"ie2_write_byte\000"
+ 534      77726974 
+ 534      655F6279 
+ 534      746500
+ 535              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

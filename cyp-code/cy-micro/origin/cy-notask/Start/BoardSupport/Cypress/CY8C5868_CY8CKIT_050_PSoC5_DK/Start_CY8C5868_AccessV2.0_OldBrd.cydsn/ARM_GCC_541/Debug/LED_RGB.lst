@@ -1,0 +1,897 @@
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"LED_RGB.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.LED_RGB_Write,"ax",%progbits
+  20              		.align	2
+  21              		.global	LED_RGB_Write
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	LED_RGB_Write, %function
+  25              	LED_RGB_Write:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\LED_RGB.c"
+   1:Generated_Source\PSoC5/LED_RGB.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/LED_RGB.c **** * File Name: LED_RGB.c  
+   3:Generated_Source\PSoC5/LED_RGB.c **** * Version 2.20
+   4:Generated_Source\PSoC5/LED_RGB.c **** *
+   5:Generated_Source\PSoC5/LED_RGB.c **** * Description:
+   6:Generated_Source\PSoC5/LED_RGB.c **** *  This file contains API to enable firmware control of a Pins component.
+   7:Generated_Source\PSoC5/LED_RGB.c **** *
+   8:Generated_Source\PSoC5/LED_RGB.c **** * Note:
+   9:Generated_Source\PSoC5/LED_RGB.c **** *
+  10:Generated_Source\PSoC5/LED_RGB.c **** ********************************************************************************
+  11:Generated_Source\PSoC5/LED_RGB.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  12:Generated_Source\PSoC5/LED_RGB.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  13:Generated_Source\PSoC5/LED_RGB.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  14:Generated_Source\PSoC5/LED_RGB.c **** * the software package with which this file was provided.
+  15:Generated_Source\PSoC5/LED_RGB.c **** *******************************************************************************/
+  16:Generated_Source\PSoC5/LED_RGB.c **** 
+  17:Generated_Source\PSoC5/LED_RGB.c **** #include "cytypes.h"
+  18:Generated_Source\PSoC5/LED_RGB.c **** #include "LED_RGB.h"
+  19:Generated_Source\PSoC5/LED_RGB.c **** 
+  20:Generated_Source\PSoC5/LED_RGB.c **** /* APIs are not generated for P15[7:6] on PSoC 5 */
+  21:Generated_Source\PSoC5/LED_RGB.c **** #if !(CY_PSOC5A &&\
+  22:Generated_Source\PSoC5/LED_RGB.c **** 	 LED_RGB__PORT == 15 && ((LED_RGB__MASK & 0xC0) != 0))
+  23:Generated_Source\PSoC5/LED_RGB.c **** 
+  24:Generated_Source\PSoC5/LED_RGB.c **** 
+  25:Generated_Source\PSoC5/LED_RGB.c **** /*******************************************************************************
+  26:Generated_Source\PSoC5/LED_RGB.c **** * Function Name: LED_RGB_Write
+  27:Generated_Source\PSoC5/LED_RGB.c **** ****************************************************************************//**
+  28:Generated_Source\PSoC5/LED_RGB.c **** *
+  29:Generated_Source\PSoC5/LED_RGB.c **** * \brief Writes the value to the physical port (data output register), masking
+  30:Generated_Source\PSoC5/LED_RGB.c **** *  and shifting the bits appropriately. 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 2
+
+
+  31:Generated_Source\PSoC5/LED_RGB.c **** *
+  32:Generated_Source\PSoC5/LED_RGB.c **** * The data output register controls the signal applied to the physical pin in 
+  33:Generated_Source\PSoC5/LED_RGB.c **** * conjunction with the drive mode parameter. This function avoids changing 
+  34:Generated_Source\PSoC5/LED_RGB.c **** * other bits in the port by using the appropriate method (read-modify-write or
+  35:Generated_Source\PSoC5/LED_RGB.c **** * bit banding).
+  36:Generated_Source\PSoC5/LED_RGB.c **** *
+  37:Generated_Source\PSoC5/LED_RGB.c **** * <b>Note</b> This function should not be used on a hardware digital output pin 
+  38:Generated_Source\PSoC5/LED_RGB.c **** * as it is driven by the hardware signal attached to it.
+  39:Generated_Source\PSoC5/LED_RGB.c **** *
+  40:Generated_Source\PSoC5/LED_RGB.c **** * \param value
+  41:Generated_Source\PSoC5/LED_RGB.c **** *  Value to write to the component instance.
+  42:Generated_Source\PSoC5/LED_RGB.c **** *
+  43:Generated_Source\PSoC5/LED_RGB.c **** * \return 
+  44:Generated_Source\PSoC5/LED_RGB.c **** *  None 
+  45:Generated_Source\PSoC5/LED_RGB.c **** *
+  46:Generated_Source\PSoC5/LED_RGB.c **** * \sideeffect
+  47:Generated_Source\PSoC5/LED_RGB.c **** *  If you use read-modify-write operations that are not atomic; the Interrupt 
+  48:Generated_Source\PSoC5/LED_RGB.c **** *  Service Routines (ISR) can cause corruption of this function. An ISR that 
+  49:Generated_Source\PSoC5/LED_RGB.c **** *  interrupts this function and performs writes to the Pins component data 
+  50:Generated_Source\PSoC5/LED_RGB.c **** *  register can cause corrupted port data. To avoid this issue, you should 
+  51:Generated_Source\PSoC5/LED_RGB.c **** *  either use the Per-Pin APIs (primary method) or disable interrupts around 
+  52:Generated_Source\PSoC5/LED_RGB.c **** *  this function.
+  53:Generated_Source\PSoC5/LED_RGB.c **** *
+  54:Generated_Source\PSoC5/LED_RGB.c **** * \funcusage
+  55:Generated_Source\PSoC5/LED_RGB.c **** *  \snippet LED_RGB_SUT.c usage_LED_RGB_Write
+  56:Generated_Source\PSoC5/LED_RGB.c **** *******************************************************************************/
+  57:Generated_Source\PSoC5/LED_RGB.c **** void LED_RGB_Write(uint8 value)
+  58:Generated_Source\PSoC5/LED_RGB.c **** {
+  28              		.loc 1 58 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 16
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 80B4     		push	{r7}
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 7, -4
+  36 0002 85B0     		sub	sp, sp, #20
+  37              		.cfi_def_cfa_offset 24
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  40 0006 0346     		mov	r3, r0
+  41 0008 FB71     		strb	r3, [r7, #7]
+  59:Generated_Source\PSoC5/LED_RGB.c ****     uint8 staticBits = (LED_RGB_DR & (uint8)(~LED_RGB_MASK));
+  42              		.loc 1 59 0
+  43 000a 0B4B     		ldr	r3, .L2
+  44 000c 1B78     		ldrb	r3, [r3]
+  45 000e DBB2     		uxtb	r3, r3
+  46 0010 23F07003 		bic	r3, r3, #112
+  47 0014 FB73     		strb	r3, [r7, #15]
+  60:Generated_Source\PSoC5/LED_RGB.c ****     LED_RGB_DR = staticBits | ((uint8)(value << LED_RGB_SHIFT) & LED_RGB_MASK);
+  48              		.loc 1 60 0
+  49 0016 0849     		ldr	r1, .L2
+  50 0018 FB79     		ldrb	r3, [r7, #7]
+  51 001a 1B01     		lsls	r3, r3, #4
+  52 001c DBB2     		uxtb	r3, r3
+  53 001e 03F07003 		and	r3, r3, #112
+  54 0022 DAB2     		uxtb	r2, r3
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 3
+
+
+  55 0024 FB7B     		ldrb	r3, [r7, #15]
+  56 0026 1343     		orrs	r3, r3, r2
+  57 0028 DBB2     		uxtb	r3, r3
+  58 002a 0B70     		strb	r3, [r1]
+  61:Generated_Source\PSoC5/LED_RGB.c **** }
+  59              		.loc 1 61 0
+  60 002c 00BF     		nop
+  61 002e 1437     		adds	r7, r7, #20
+  62              		.cfi_def_cfa_offset 4
+  63 0030 BD46     		mov	sp, r7
+  64              		.cfi_def_cfa_register 13
+  65              		@ sp needed
+  66 0032 80BC     		pop	{r7}
+  67              		.cfi_restore 7
+  68              		.cfi_def_cfa_offset 0
+  69 0034 7047     		bx	lr
+  70              	.L3:
+  71 0036 00BF     		.align	2
+  72              	.L2:
+  73 0038 00510040 		.word	1073762560
+  74              		.cfi_endproc
+  75              	.LFE0:
+  76              		.size	LED_RGB_Write, .-LED_RGB_Write
+  77              		.section	.text.LED_RGB_SetDriveMode,"ax",%progbits
+  78              		.align	2
+  79              		.global	LED_RGB_SetDriveMode
+  80              		.thumb
+  81              		.thumb_func
+  82              		.type	LED_RGB_SetDriveMode, %function
+  83              	LED_RGB_SetDriveMode:
+  84              	.LFB1:
+  62:Generated_Source\PSoC5/LED_RGB.c **** 
+  63:Generated_Source\PSoC5/LED_RGB.c **** 
+  64:Generated_Source\PSoC5/LED_RGB.c **** /*******************************************************************************
+  65:Generated_Source\PSoC5/LED_RGB.c **** * Function Name: LED_RGB_SetDriveMode
+  66:Generated_Source\PSoC5/LED_RGB.c **** ****************************************************************************//**
+  67:Generated_Source\PSoC5/LED_RGB.c **** *
+  68:Generated_Source\PSoC5/LED_RGB.c **** * \brief Sets the drive mode for each of the Pins component's pins.
+  69:Generated_Source\PSoC5/LED_RGB.c **** * 
+  70:Generated_Source\PSoC5/LED_RGB.c **** * <b>Note</b> This affects all pins in the Pins component instance. Use the
+  71:Generated_Source\PSoC5/LED_RGB.c **** * Per-Pin APIs if you wish to control individual pin's drive modes.
+  72:Generated_Source\PSoC5/LED_RGB.c **** *
+  73:Generated_Source\PSoC5/LED_RGB.c **** * \param mode
+  74:Generated_Source\PSoC5/LED_RGB.c **** *  Mode for the selected signals. Valid options are documented in 
+  75:Generated_Source\PSoC5/LED_RGB.c **** *  \ref driveMode.
+  76:Generated_Source\PSoC5/LED_RGB.c **** *
+  77:Generated_Source\PSoC5/LED_RGB.c **** * \return
+  78:Generated_Source\PSoC5/LED_RGB.c **** *  None
+  79:Generated_Source\PSoC5/LED_RGB.c **** *
+  80:Generated_Source\PSoC5/LED_RGB.c **** * \sideeffect
+  81:Generated_Source\PSoC5/LED_RGB.c **** *  If you use read-modify-write operations that are not atomic, the ISR can
+  82:Generated_Source\PSoC5/LED_RGB.c **** *  cause corruption of this function. An ISR that interrupts this function 
+  83:Generated_Source\PSoC5/LED_RGB.c **** *  and performs writes to the Pins component Drive Mode registers can cause 
+  84:Generated_Source\PSoC5/LED_RGB.c **** *  corrupted port data. To avoid this issue, you should either use the Per-Pin
+  85:Generated_Source\PSoC5/LED_RGB.c **** *  APIs (primary method) or disable interrupts around this function.
+  86:Generated_Source\PSoC5/LED_RGB.c **** *
+  87:Generated_Source\PSoC5/LED_RGB.c **** * \funcusage
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 4
+
+
+  88:Generated_Source\PSoC5/LED_RGB.c **** *  \snippet LED_RGB_SUT.c usage_LED_RGB_SetDriveMode
+  89:Generated_Source\PSoC5/LED_RGB.c **** *******************************************************************************/
+  90:Generated_Source\PSoC5/LED_RGB.c **** void LED_RGB_SetDriveMode(uint8 mode)
+  91:Generated_Source\PSoC5/LED_RGB.c **** {
+  85              		.loc 1 91 0
+  86              		.cfi_startproc
+  87              		@ args = 0, pretend = 0, frame = 8
+  88              		@ frame_needed = 1, uses_anonymous_args = 0
+  89              		@ link register save eliminated.
+  90 0000 80B4     		push	{r7}
+  91              		.cfi_def_cfa_offset 4
+  92              		.cfi_offset 7, -4
+  93 0002 83B0     		sub	sp, sp, #12
+  94              		.cfi_def_cfa_offset 16
+  95 0004 00AF     		add	r7, sp, #0
+  96              		.cfi_def_cfa_register 7
+  97 0006 0346     		mov	r3, r0
+  98 0008 FB71     		strb	r3, [r7, #7]
+  92:Generated_Source\PSoC5/LED_RGB.c **** 	CyPins_SetPinDriveMode(LED_RGB_0, mode);
+  99              		.loc 1 92 0
+ 100 000a 1C49     		ldr	r1, .L5
+ 101 000c 1B4B     		ldr	r3, .L5
+ 102 000e 1B78     		ldrb	r3, [r3]
+ 103 0010 DBB2     		uxtb	r3, r3
+ 104 0012 5BB2     		sxtb	r3, r3
+ 105 0014 23F00E03 		bic	r3, r3, #14
+ 106 0018 5AB2     		sxtb	r2, r3
+ 107 001a 97F90730 		ldrsb	r3, [r7, #7]
+ 108 001e 03F00E03 		and	r3, r3, #14
+ 109 0022 5BB2     		sxtb	r3, r3
+ 110 0024 1343     		orrs	r3, r3, r2
+ 111 0026 5BB2     		sxtb	r3, r3
+ 112 0028 DBB2     		uxtb	r3, r3
+ 113 002a 0B70     		strb	r3, [r1]
+  93:Generated_Source\PSoC5/LED_RGB.c **** 	CyPins_SetPinDriveMode(LED_RGB_1, mode);
+ 114              		.loc 1 93 0
+ 115 002c 1449     		ldr	r1, .L5+4
+ 116 002e 144B     		ldr	r3, .L5+4
+ 117 0030 1B78     		ldrb	r3, [r3]
+ 118 0032 DBB2     		uxtb	r3, r3
+ 119 0034 5BB2     		sxtb	r3, r3
+ 120 0036 23F00E03 		bic	r3, r3, #14
+ 121 003a 5AB2     		sxtb	r2, r3
+ 122 003c 97F90730 		ldrsb	r3, [r7, #7]
+ 123 0040 03F00E03 		and	r3, r3, #14
+ 124 0044 5BB2     		sxtb	r3, r3
+ 125 0046 1343     		orrs	r3, r3, r2
+ 126 0048 5BB2     		sxtb	r3, r3
+ 127 004a DBB2     		uxtb	r3, r3
+ 128 004c 0B70     		strb	r3, [r1]
+  94:Generated_Source\PSoC5/LED_RGB.c **** 	CyPins_SetPinDriveMode(LED_RGB_2, mode);
+ 129              		.loc 1 94 0
+ 130 004e 0D49     		ldr	r1, .L5+8
+ 131 0050 0C4B     		ldr	r3, .L5+8
+ 132 0052 1B78     		ldrb	r3, [r3]
+ 133 0054 DBB2     		uxtb	r3, r3
+ 134 0056 5BB2     		sxtb	r3, r3
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 5
+
+
+ 135 0058 23F00E03 		bic	r3, r3, #14
+ 136 005c 5AB2     		sxtb	r2, r3
+ 137 005e 97F90730 		ldrsb	r3, [r7, #7]
+ 138 0062 03F00E03 		and	r3, r3, #14
+ 139 0066 5BB2     		sxtb	r3, r3
+ 140 0068 1343     		orrs	r3, r3, r2
+ 141 006a 5BB2     		sxtb	r3, r3
+ 142 006c DBB2     		uxtb	r3, r3
+ 143 006e 0B70     		strb	r3, [r1]
+  95:Generated_Source\PSoC5/LED_RGB.c **** }
+ 144              		.loc 1 95 0
+ 145 0070 00BF     		nop
+ 146 0072 0C37     		adds	r7, r7, #12
+ 147              		.cfi_def_cfa_offset 4
+ 148 0074 BD46     		mov	sp, r7
+ 149              		.cfi_def_cfa_register 13
+ 150              		@ sp needed
+ 151 0076 80BC     		pop	{r7}
+ 152              		.cfi_restore 7
+ 153              		.cfi_def_cfa_offset 0
+ 154 0078 7047     		bx	lr
+ 155              	.L6:
+ 156 007a 00BF     		.align	2
+ 157              	.L5:
+ 158 007c 04500040 		.word	1073762308
+ 159 0080 05500040 		.word	1073762309
+ 160 0084 06500040 		.word	1073762310
+ 161              		.cfi_endproc
+ 162              	.LFE1:
+ 163              		.size	LED_RGB_SetDriveMode, .-LED_RGB_SetDriveMode
+ 164              		.section	.text.LED_RGB_Read,"ax",%progbits
+ 165              		.align	2
+ 166              		.global	LED_RGB_Read
+ 167              		.thumb
+ 168              		.thumb_func
+ 169              		.type	LED_RGB_Read, %function
+ 170              	LED_RGB_Read:
+ 171              	.LFB2:
+  96:Generated_Source\PSoC5/LED_RGB.c **** 
+  97:Generated_Source\PSoC5/LED_RGB.c **** 
+  98:Generated_Source\PSoC5/LED_RGB.c **** /*******************************************************************************
+  99:Generated_Source\PSoC5/LED_RGB.c **** * Function Name: LED_RGB_Read
+ 100:Generated_Source\PSoC5/LED_RGB.c **** ****************************************************************************//**
+ 101:Generated_Source\PSoC5/LED_RGB.c **** *
+ 102:Generated_Source\PSoC5/LED_RGB.c **** * \brief Reads the associated physical port (pin status register) and masks 
+ 103:Generated_Source\PSoC5/LED_RGB.c **** *  the required bits according to the width and bit position of the component
+ 104:Generated_Source\PSoC5/LED_RGB.c **** *  instance. 
+ 105:Generated_Source\PSoC5/LED_RGB.c **** *
+ 106:Generated_Source\PSoC5/LED_RGB.c **** * The pin's status register returns the current logic level present on the 
+ 107:Generated_Source\PSoC5/LED_RGB.c **** * physical pin.
+ 108:Generated_Source\PSoC5/LED_RGB.c **** *
+ 109:Generated_Source\PSoC5/LED_RGB.c **** * \return 
+ 110:Generated_Source\PSoC5/LED_RGB.c **** *  The current value for the pins in the component as a right justified number.
+ 111:Generated_Source\PSoC5/LED_RGB.c **** *
+ 112:Generated_Source\PSoC5/LED_RGB.c **** * \funcusage
+ 113:Generated_Source\PSoC5/LED_RGB.c **** *  \snippet LED_RGB_SUT.c usage_LED_RGB_Read  
+ 114:Generated_Source\PSoC5/LED_RGB.c **** *******************************************************************************/
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 6
+
+
+ 115:Generated_Source\PSoC5/LED_RGB.c **** uint8 LED_RGB_Read(void)
+ 116:Generated_Source\PSoC5/LED_RGB.c **** {
+ 172              		.loc 1 116 0
+ 173              		.cfi_startproc
+ 174              		@ args = 0, pretend = 0, frame = 0
+ 175              		@ frame_needed = 1, uses_anonymous_args = 0
+ 176              		@ link register save eliminated.
+ 177 0000 80B4     		push	{r7}
+ 178              		.cfi_def_cfa_offset 4
+ 179              		.cfi_offset 7, -4
+ 180 0002 00AF     		add	r7, sp, #0
+ 181              		.cfi_def_cfa_register 7
+ 117:Generated_Source\PSoC5/LED_RGB.c ****     return (LED_RGB_PS & LED_RGB_MASK) >> LED_RGB_SHIFT;
+ 182              		.loc 1 117 0
+ 183 0004 054B     		ldr	r3, .L9
+ 184 0006 1B78     		ldrb	r3, [r3]
+ 185 0008 DBB2     		uxtb	r3, r3
+ 186 000a 03F07003 		and	r3, r3, #112
+ 187 000e 1B09     		lsrs	r3, r3, #4
+ 188 0010 DBB2     		uxtb	r3, r3
+ 118:Generated_Source\PSoC5/LED_RGB.c **** }
+ 189              		.loc 1 118 0
+ 190 0012 1846     		mov	r0, r3
+ 191 0014 BD46     		mov	sp, r7
+ 192              		.cfi_def_cfa_register 13
+ 193              		@ sp needed
+ 194 0016 80BC     		pop	{r7}
+ 195              		.cfi_restore 7
+ 196              		.cfi_def_cfa_offset 0
+ 197 0018 7047     		bx	lr
+ 198              	.L10:
+ 199 001a 00BF     		.align	2
+ 200              	.L9:
+ 201 001c 01510040 		.word	1073762561
+ 202              		.cfi_endproc
+ 203              	.LFE2:
+ 204              		.size	LED_RGB_Read, .-LED_RGB_Read
+ 205              		.section	.text.LED_RGB_ReadDataReg,"ax",%progbits
+ 206              		.align	2
+ 207              		.global	LED_RGB_ReadDataReg
+ 208              		.thumb
+ 209              		.thumb_func
+ 210              		.type	LED_RGB_ReadDataReg, %function
+ 211              	LED_RGB_ReadDataReg:
+ 212              	.LFB3:
+ 119:Generated_Source\PSoC5/LED_RGB.c **** 
+ 120:Generated_Source\PSoC5/LED_RGB.c **** 
+ 121:Generated_Source\PSoC5/LED_RGB.c **** /*******************************************************************************
+ 122:Generated_Source\PSoC5/LED_RGB.c **** * Function Name: LED_RGB_ReadDataReg
+ 123:Generated_Source\PSoC5/LED_RGB.c **** ****************************************************************************//**
+ 124:Generated_Source\PSoC5/LED_RGB.c **** *
+ 125:Generated_Source\PSoC5/LED_RGB.c **** * \brief Reads the associated physical port's data output register and masks 
+ 126:Generated_Source\PSoC5/LED_RGB.c **** *  the correct bits according to the width and bit position of the component 
+ 127:Generated_Source\PSoC5/LED_RGB.c **** *  instance. 
+ 128:Generated_Source\PSoC5/LED_RGB.c **** *
+ 129:Generated_Source\PSoC5/LED_RGB.c **** * The data output register controls the signal applied to the physical pin in 
+ 130:Generated_Source\PSoC5/LED_RGB.c **** * conjunction with the drive mode parameter. This is not the same as the 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 7
+
+
+ 131:Generated_Source\PSoC5/LED_RGB.c **** * preferred LED_RGB_Read() API because the 
+ 132:Generated_Source\PSoC5/LED_RGB.c **** * LED_RGB_ReadDataReg() reads the data register instead of the status 
+ 133:Generated_Source\PSoC5/LED_RGB.c **** * register. For output pins this is a useful function to determine the value 
+ 134:Generated_Source\PSoC5/LED_RGB.c **** * just written to the pin.
+ 135:Generated_Source\PSoC5/LED_RGB.c **** *
+ 136:Generated_Source\PSoC5/LED_RGB.c **** * \return 
+ 137:Generated_Source\PSoC5/LED_RGB.c **** *  The current value of the data register masked and shifted into a right 
+ 138:Generated_Source\PSoC5/LED_RGB.c **** *  justified number for the component instance.
+ 139:Generated_Source\PSoC5/LED_RGB.c **** *
+ 140:Generated_Source\PSoC5/LED_RGB.c **** * \funcusage
+ 141:Generated_Source\PSoC5/LED_RGB.c **** *  \snippet LED_RGB_SUT.c usage_LED_RGB_ReadDataReg 
+ 142:Generated_Source\PSoC5/LED_RGB.c **** *******************************************************************************/
+ 143:Generated_Source\PSoC5/LED_RGB.c **** uint8 LED_RGB_ReadDataReg(void)
+ 144:Generated_Source\PSoC5/LED_RGB.c **** {
+ 213              		.loc 1 144 0
+ 214              		.cfi_startproc
+ 215              		@ args = 0, pretend = 0, frame = 0
+ 216              		@ frame_needed = 1, uses_anonymous_args = 0
+ 217              		@ link register save eliminated.
+ 218 0000 80B4     		push	{r7}
+ 219              		.cfi_def_cfa_offset 4
+ 220              		.cfi_offset 7, -4
+ 221 0002 00AF     		add	r7, sp, #0
+ 222              		.cfi_def_cfa_register 7
+ 145:Generated_Source\PSoC5/LED_RGB.c ****     return (LED_RGB_DR & LED_RGB_MASK) >> LED_RGB_SHIFT;
+ 223              		.loc 1 145 0
+ 224 0004 054B     		ldr	r3, .L13
+ 225 0006 1B78     		ldrb	r3, [r3]
+ 226 0008 DBB2     		uxtb	r3, r3
+ 227 000a 03F07003 		and	r3, r3, #112
+ 228 000e 1B09     		lsrs	r3, r3, #4
+ 229 0010 DBB2     		uxtb	r3, r3
+ 146:Generated_Source\PSoC5/LED_RGB.c **** }
+ 230              		.loc 1 146 0
+ 231 0012 1846     		mov	r0, r3
+ 232 0014 BD46     		mov	sp, r7
+ 233              		.cfi_def_cfa_register 13
+ 234              		@ sp needed
+ 235 0016 80BC     		pop	{r7}
+ 236              		.cfi_restore 7
+ 237              		.cfi_def_cfa_offset 0
+ 238 0018 7047     		bx	lr
+ 239              	.L14:
+ 240 001a 00BF     		.align	2
+ 241              	.L13:
+ 242 001c 00510040 		.word	1073762560
+ 243              		.cfi_endproc
+ 244              	.LFE3:
+ 245              		.size	LED_RGB_ReadDataReg, .-LED_RGB_ReadDataReg
+ 246              		.text
+ 247              	.Letext0:
+ 248              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 249              		.section	.debug_info,"",%progbits
+ 250              	.Ldebug_info0:
+ 251 0000 1A010000 		.4byte	0x11a
+ 252 0004 0400     		.2byte	0x4
+ 253 0006 00000000 		.4byte	.Ldebug_abbrev0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 8
+
+
+ 254 000a 04       		.byte	0x4
+ 255 000b 01       		.uleb128 0x1
+ 256 000c 00000000 		.4byte	.LASF20
+ 257 0010 0C       		.byte	0xc
+ 258 0011 8E000000 		.4byte	.LASF21
+ 259 0015 26010000 		.4byte	.LASF22
+ 260 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 261 001d 00000000 		.4byte	0
+ 262 0021 00000000 		.4byte	.Ldebug_line0
+ 263 0025 02       		.uleb128 0x2
+ 264 0026 01       		.byte	0x1
+ 265 0027 06       		.byte	0x6
+ 266 0028 2B020000 		.4byte	.LASF0
+ 267 002c 02       		.uleb128 0x2
+ 268 002d 01       		.byte	0x1
+ 269 002e 08       		.byte	0x8
+ 270 002f EE000000 		.4byte	.LASF1
+ 271 0033 02       		.uleb128 0x2
+ 272 0034 02       		.byte	0x2
+ 273 0035 05       		.byte	0x5
+ 274 0036 12020000 		.4byte	.LASF2
+ 275 003a 02       		.uleb128 0x2
+ 276 003b 02       		.byte	0x2
+ 277 003c 07       		.byte	0x7
+ 278 003d 13010000 		.4byte	.LASF3
+ 279 0041 02       		.uleb128 0x2
+ 280 0042 04       		.byte	0x4
+ 281 0043 05       		.byte	0x5
+ 282 0044 22020000 		.4byte	.LASF4
+ 283 0048 02       		.uleb128 0x2
+ 284 0049 04       		.byte	0x4
+ 285 004a 07       		.byte	0x7
+ 286 004b 01010000 		.4byte	.LASF5
+ 287 004f 02       		.uleb128 0x2
+ 288 0050 08       		.byte	0x8
+ 289 0051 05       		.byte	0x5
+ 290 0052 FF010000 		.4byte	.LASF6
+ 291 0056 02       		.uleb128 0x2
+ 292 0057 08       		.byte	0x8
+ 293 0058 07       		.byte	0x7
+ 294 0059 E3010000 		.4byte	.LASF7
+ 295 005d 03       		.uleb128 0x3
+ 296 005e 04       		.byte	0x4
+ 297 005f 05       		.byte	0x5
+ 298 0060 696E7400 		.ascii	"int\000"
+ 299 0064 02       		.uleb128 0x2
+ 300 0065 04       		.byte	0x4
+ 301 0066 07       		.byte	0x7
+ 302 0067 D6010000 		.4byte	.LASF8
+ 303 006b 04       		.uleb128 0x4
+ 304 006c 1C020000 		.4byte	.LASF12
+ 305 0070 02       		.byte	0x2
+ 306 0071 E801     		.2byte	0x1e8
+ 307 0073 2C000000 		.4byte	0x2c
+ 308 0077 02       		.uleb128 0x2
+ 309 0078 04       		.byte	0x4
+ 310 0079 04       		.byte	0x4
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 9
+
+
+ 311 007a E8000000 		.4byte	.LASF9
+ 312 007e 02       		.uleb128 0x2
+ 313 007f 08       		.byte	0x8
+ 314 0080 04       		.byte	0x4
+ 315 0081 D4000000 		.4byte	.LASF10
+ 316 0085 02       		.uleb128 0x2
+ 317 0086 01       		.byte	0x1
+ 318 0087 08       		.byte	0x8
+ 319 0088 0D020000 		.4byte	.LASF11
+ 320 008c 04       		.uleb128 0x4
+ 321 008d FC000000 		.4byte	.LASF13
+ 322 0091 02       		.byte	0x2
+ 323 0092 9202     		.2byte	0x292
+ 324 0094 98000000 		.4byte	0x98
+ 325 0098 05       		.uleb128 0x5
+ 326 0099 6B000000 		.4byte	0x6b
+ 327 009d 06       		.uleb128 0x6
+ 328 009e C8010000 		.4byte	.LASF14
+ 329 00a2 01       		.byte	0x1
+ 330 00a3 39       		.byte	0x39
+ 331 00a4 00000000 		.4byte	.LFB0
+ 332 00a8 3C000000 		.4byte	.LFE0-.LFB0
+ 333 00ac 01       		.uleb128 0x1
+ 334 00ad 9C       		.byte	0x9c
+ 335 00ae CF000000 		.4byte	0xcf
+ 336 00b2 07       		.uleb128 0x7
+ 337 00b3 C3000000 		.4byte	.LASF16
+ 338 00b7 01       		.byte	0x1
+ 339 00b8 39       		.byte	0x39
+ 340 00b9 6B000000 		.4byte	0x6b
+ 341 00bd 02       		.uleb128 0x2
+ 342 00be 91       		.byte	0x91
+ 343 00bf 6F       		.sleb128 -17
+ 344 00c0 08       		.uleb128 0x8
+ 345 00c1 C9000000 		.4byte	.LASF23
+ 346 00c5 01       		.byte	0x1
+ 347 00c6 3B       		.byte	0x3b
+ 348 00c7 6B000000 		.4byte	0x6b
+ 349 00cb 02       		.uleb128 0x2
+ 350 00cc 91       		.byte	0x91
+ 351 00cd 77       		.sleb128 -9
+ 352 00ce 00       		.byte	0
+ 353 00cf 06       		.uleb128 0x6
+ 354 00d0 37020000 		.4byte	.LASF15
+ 355 00d4 01       		.byte	0x1
+ 356 00d5 5A       		.byte	0x5a
+ 357 00d6 00000000 		.4byte	.LFB1
+ 358 00da 88000000 		.4byte	.LFE1-.LFB1
+ 359 00de 01       		.uleb128 0x1
+ 360 00df 9C       		.byte	0x9c
+ 361 00e0 F3000000 		.4byte	0xf3
+ 362 00e4 07       		.uleb128 0x7
+ 363 00e5 FA010000 		.4byte	.LASF17
+ 364 00e9 01       		.byte	0x1
+ 365 00ea 5A       		.byte	0x5a
+ 366 00eb 6B000000 		.4byte	0x6b
+ 367 00ef 02       		.uleb128 0x2
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 10
+
+
+ 368 00f0 91       		.byte	0x91
+ 369 00f1 77       		.sleb128 -9
+ 370 00f2 00       		.byte	0
+ 371 00f3 09       		.uleb128 0x9
+ 372 00f4 DB000000 		.4byte	.LASF18
+ 373 00f8 01       		.byte	0x1
+ 374 00f9 73       		.byte	0x73
+ 375 00fa 6B000000 		.4byte	0x6b
+ 376 00fe 00000000 		.4byte	.LFB2
+ 377 0102 20000000 		.4byte	.LFE2-.LFB2
+ 378 0106 01       		.uleb128 0x1
+ 379 0107 9C       		.byte	0x9c
+ 380 0108 09       		.uleb128 0x9
+ 381 0109 AF000000 		.4byte	.LASF19
+ 382 010d 01       		.byte	0x1
+ 383 010e 8F       		.byte	0x8f
+ 384 010f 6B000000 		.4byte	0x6b
+ 385 0113 00000000 		.4byte	.LFB3
+ 386 0117 20000000 		.4byte	.LFE3-.LFB3
+ 387 011b 01       		.uleb128 0x1
+ 388 011c 9C       		.byte	0x9c
+ 389 011d 00       		.byte	0
+ 390              		.section	.debug_abbrev,"",%progbits
+ 391              	.Ldebug_abbrev0:
+ 392 0000 01       		.uleb128 0x1
+ 393 0001 11       		.uleb128 0x11
+ 394 0002 01       		.byte	0x1
+ 395 0003 25       		.uleb128 0x25
+ 396 0004 0E       		.uleb128 0xe
+ 397 0005 13       		.uleb128 0x13
+ 398 0006 0B       		.uleb128 0xb
+ 399 0007 03       		.uleb128 0x3
+ 400 0008 0E       		.uleb128 0xe
+ 401 0009 1B       		.uleb128 0x1b
+ 402 000a 0E       		.uleb128 0xe
+ 403 000b 55       		.uleb128 0x55
+ 404 000c 17       		.uleb128 0x17
+ 405 000d 11       		.uleb128 0x11
+ 406 000e 01       		.uleb128 0x1
+ 407 000f 10       		.uleb128 0x10
+ 408 0010 17       		.uleb128 0x17
+ 409 0011 00       		.byte	0
+ 410 0012 00       		.byte	0
+ 411 0013 02       		.uleb128 0x2
+ 412 0014 24       		.uleb128 0x24
+ 413 0015 00       		.byte	0
+ 414 0016 0B       		.uleb128 0xb
+ 415 0017 0B       		.uleb128 0xb
+ 416 0018 3E       		.uleb128 0x3e
+ 417 0019 0B       		.uleb128 0xb
+ 418 001a 03       		.uleb128 0x3
+ 419 001b 0E       		.uleb128 0xe
+ 420 001c 00       		.byte	0
+ 421 001d 00       		.byte	0
+ 422 001e 03       		.uleb128 0x3
+ 423 001f 24       		.uleb128 0x24
+ 424 0020 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 11
+
+
+ 425 0021 0B       		.uleb128 0xb
+ 426 0022 0B       		.uleb128 0xb
+ 427 0023 3E       		.uleb128 0x3e
+ 428 0024 0B       		.uleb128 0xb
+ 429 0025 03       		.uleb128 0x3
+ 430 0026 08       		.uleb128 0x8
+ 431 0027 00       		.byte	0
+ 432 0028 00       		.byte	0
+ 433 0029 04       		.uleb128 0x4
+ 434 002a 16       		.uleb128 0x16
+ 435 002b 00       		.byte	0
+ 436 002c 03       		.uleb128 0x3
+ 437 002d 0E       		.uleb128 0xe
+ 438 002e 3A       		.uleb128 0x3a
+ 439 002f 0B       		.uleb128 0xb
+ 440 0030 3B       		.uleb128 0x3b
+ 441 0031 05       		.uleb128 0x5
+ 442 0032 49       		.uleb128 0x49
+ 443 0033 13       		.uleb128 0x13
+ 444 0034 00       		.byte	0
+ 445 0035 00       		.byte	0
+ 446 0036 05       		.uleb128 0x5
+ 447 0037 35       		.uleb128 0x35
+ 448 0038 00       		.byte	0
+ 449 0039 49       		.uleb128 0x49
+ 450 003a 13       		.uleb128 0x13
+ 451 003b 00       		.byte	0
+ 452 003c 00       		.byte	0
+ 453 003d 06       		.uleb128 0x6
+ 454 003e 2E       		.uleb128 0x2e
+ 455 003f 01       		.byte	0x1
+ 456 0040 3F       		.uleb128 0x3f
+ 457 0041 19       		.uleb128 0x19
+ 458 0042 03       		.uleb128 0x3
+ 459 0043 0E       		.uleb128 0xe
+ 460 0044 3A       		.uleb128 0x3a
+ 461 0045 0B       		.uleb128 0xb
+ 462 0046 3B       		.uleb128 0x3b
+ 463 0047 0B       		.uleb128 0xb
+ 464 0048 27       		.uleb128 0x27
+ 465 0049 19       		.uleb128 0x19
+ 466 004a 11       		.uleb128 0x11
+ 467 004b 01       		.uleb128 0x1
+ 468 004c 12       		.uleb128 0x12
+ 469 004d 06       		.uleb128 0x6
+ 470 004e 40       		.uleb128 0x40
+ 471 004f 18       		.uleb128 0x18
+ 472 0050 9742     		.uleb128 0x2117
+ 473 0052 19       		.uleb128 0x19
+ 474 0053 01       		.uleb128 0x1
+ 475 0054 13       		.uleb128 0x13
+ 476 0055 00       		.byte	0
+ 477 0056 00       		.byte	0
+ 478 0057 07       		.uleb128 0x7
+ 479 0058 05       		.uleb128 0x5
+ 480 0059 00       		.byte	0
+ 481 005a 03       		.uleb128 0x3
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 12
+
+
+ 482 005b 0E       		.uleb128 0xe
+ 483 005c 3A       		.uleb128 0x3a
+ 484 005d 0B       		.uleb128 0xb
+ 485 005e 3B       		.uleb128 0x3b
+ 486 005f 0B       		.uleb128 0xb
+ 487 0060 49       		.uleb128 0x49
+ 488 0061 13       		.uleb128 0x13
+ 489 0062 02       		.uleb128 0x2
+ 490 0063 18       		.uleb128 0x18
+ 491 0064 00       		.byte	0
+ 492 0065 00       		.byte	0
+ 493 0066 08       		.uleb128 0x8
+ 494 0067 34       		.uleb128 0x34
+ 495 0068 00       		.byte	0
+ 496 0069 03       		.uleb128 0x3
+ 497 006a 0E       		.uleb128 0xe
+ 498 006b 3A       		.uleb128 0x3a
+ 499 006c 0B       		.uleb128 0xb
+ 500 006d 3B       		.uleb128 0x3b
+ 501 006e 0B       		.uleb128 0xb
+ 502 006f 49       		.uleb128 0x49
+ 503 0070 13       		.uleb128 0x13
+ 504 0071 02       		.uleb128 0x2
+ 505 0072 18       		.uleb128 0x18
+ 506 0073 00       		.byte	0
+ 507 0074 00       		.byte	0
+ 508 0075 09       		.uleb128 0x9
+ 509 0076 2E       		.uleb128 0x2e
+ 510 0077 00       		.byte	0
+ 511 0078 3F       		.uleb128 0x3f
+ 512 0079 19       		.uleb128 0x19
+ 513 007a 03       		.uleb128 0x3
+ 514 007b 0E       		.uleb128 0xe
+ 515 007c 3A       		.uleb128 0x3a
+ 516 007d 0B       		.uleb128 0xb
+ 517 007e 3B       		.uleb128 0x3b
+ 518 007f 0B       		.uleb128 0xb
+ 519 0080 27       		.uleb128 0x27
+ 520 0081 19       		.uleb128 0x19
+ 521 0082 49       		.uleb128 0x49
+ 522 0083 13       		.uleb128 0x13
+ 523 0084 11       		.uleb128 0x11
+ 524 0085 01       		.uleb128 0x1
+ 525 0086 12       		.uleb128 0x12
+ 526 0087 06       		.uleb128 0x6
+ 527 0088 40       		.uleb128 0x40
+ 528 0089 18       		.uleb128 0x18
+ 529 008a 9742     		.uleb128 0x2117
+ 530 008c 19       		.uleb128 0x19
+ 531 008d 00       		.byte	0
+ 532 008e 00       		.byte	0
+ 533 008f 00       		.byte	0
+ 534              		.section	.debug_aranges,"",%progbits
+ 535 0000 34000000 		.4byte	0x34
+ 536 0004 0200     		.2byte	0x2
+ 537 0006 00000000 		.4byte	.Ldebug_info0
+ 538 000a 04       		.byte	0x4
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 13
+
+
+ 539 000b 00       		.byte	0
+ 540 000c 0000     		.2byte	0
+ 541 000e 0000     		.2byte	0
+ 542 0010 00000000 		.4byte	.LFB0
+ 543 0014 3C000000 		.4byte	.LFE0-.LFB0
+ 544 0018 00000000 		.4byte	.LFB1
+ 545 001c 88000000 		.4byte	.LFE1-.LFB1
+ 546 0020 00000000 		.4byte	.LFB2
+ 547 0024 20000000 		.4byte	.LFE2-.LFB2
+ 548 0028 00000000 		.4byte	.LFB3
+ 549 002c 20000000 		.4byte	.LFE3-.LFB3
+ 550 0030 00000000 		.4byte	0
+ 551 0034 00000000 		.4byte	0
+ 552              		.section	.debug_ranges,"",%progbits
+ 553              	.Ldebug_ranges0:
+ 554 0000 00000000 		.4byte	.LFB0
+ 555 0004 3C000000 		.4byte	.LFE0
+ 556 0008 00000000 		.4byte	.LFB1
+ 557 000c 88000000 		.4byte	.LFE1
+ 558 0010 00000000 		.4byte	.LFB2
+ 559 0014 20000000 		.4byte	.LFE2
+ 560 0018 00000000 		.4byte	.LFB3
+ 561 001c 20000000 		.4byte	.LFE3
+ 562 0020 00000000 		.4byte	0
+ 563 0024 00000000 		.4byte	0
+ 564              		.section	.debug_line,"",%progbits
+ 565              	.Ldebug_line0:
+ 566 0000 97000000 		.section	.debug_str,"MS",%progbits,1
+ 566      02004400 
+ 566      00000201 
+ 566      FB0E0D00 
+ 566      01010101 
+ 567              	.LASF20:
+ 568 0000 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 568      43313120 
+ 568      352E342E 
+ 568      31203230 
+ 568      31363036 
+ 569 0033 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 569      20726576 
+ 569      6973696F 
+ 569      6E203233 
+ 569      37373135 
+ 570 0066 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 570      66756E63 
+ 570      74696F6E 
+ 570      2D736563 
+ 570      74696F6E 
+ 571              	.LASF21:
+ 572 008e 47656E65 		.ascii	"Generated_Source\\PSoC5\\LED_RGB.c\000"
+ 572      72617465 
+ 572      645F536F 
+ 572      75726365 
+ 572      5C50536F 
+ 573              	.LASF19:
+ 574 00af 4C45445F 		.ascii	"LED_RGB_ReadDataReg\000"
+ 574      5247425F 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 14
+
+
+ 574      52656164 
+ 574      44617461 
+ 574      52656700 
+ 575              	.LASF16:
+ 576 00c3 76616C75 		.ascii	"value\000"
+ 576      6500
+ 577              	.LASF23:
+ 578 00c9 73746174 		.ascii	"staticBits\000"
+ 578      69634269 
+ 578      747300
+ 579              	.LASF10:
+ 580 00d4 646F7562 		.ascii	"double\000"
+ 580      6C6500
+ 581              	.LASF18:
+ 582 00db 4C45445F 		.ascii	"LED_RGB_Read\000"
+ 582      5247425F 
+ 582      52656164 
+ 582      00
+ 583              	.LASF9:
+ 584 00e8 666C6F61 		.ascii	"float\000"
+ 584      7400
+ 585              	.LASF1:
+ 586 00ee 756E7369 		.ascii	"unsigned char\000"
+ 586      676E6564 
+ 586      20636861 
+ 586      7200
+ 587              	.LASF13:
+ 588 00fc 72656738 		.ascii	"reg8\000"
+ 588      00
+ 589              	.LASF5:
+ 590 0101 6C6F6E67 		.ascii	"long unsigned int\000"
+ 590      20756E73 
+ 590      69676E65 
+ 590      6420696E 
+ 590      7400
+ 591              	.LASF3:
+ 592 0113 73686F72 		.ascii	"short unsigned int\000"
+ 592      7420756E 
+ 592      7369676E 
+ 592      65642069 
+ 592      6E7400
+ 593              	.LASF22:
+ 594 0126 453A5C49 		.ascii	"E:\\IroTeam\\Developing Projects\\Cypress\\100 PIN\\"
+ 594      726F5465 
+ 594      616D5C44 
+ 594      6576656C 
+ 594      6F70696E 
+ 595 0155 63792D6D 		.ascii	"cy-micro\\cy-notask\\Start\\BoardSupport\\Cypress\\"
+ 595      6963726F 
+ 595      5C63792D 
+ 595      6E6F7461 
+ 595      736B5C53 
+ 596 0183 43593843 		.ascii	"CY8C5868_CY8CKIT_050_PSoC5_DK\\Start_CY8C5868_Acces"
+ 596      35383638 
+ 596      5F435938 
+ 596      434B4954 
+ 596      5F303530 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\ccCBtlid.s 			page 15
+
+
+ 597 01b5 7356322E 		.ascii	"sV2.0_OldBrd.cydsn\000"
+ 597      305F4F6C 
+ 597      64427264 
+ 597      2E637964 
+ 597      736E00
+ 598              	.LASF14:
+ 599 01c8 4C45445F 		.ascii	"LED_RGB_Write\000"
+ 599      5247425F 
+ 599      57726974 
+ 599      6500
+ 600              	.LASF8:
+ 601 01d6 756E7369 		.ascii	"unsigned int\000"
+ 601      676E6564 
+ 601      20696E74 
+ 601      00
+ 602              	.LASF7:
+ 603 01e3 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 603      206C6F6E 
+ 603      6720756E 
+ 603      7369676E 
+ 603      65642069 
+ 604              	.LASF17:
+ 605 01fa 6D6F6465 		.ascii	"mode\000"
+ 605      00
+ 606              	.LASF6:
+ 607 01ff 6C6F6E67 		.ascii	"long long int\000"
+ 607      206C6F6E 
+ 607      6720696E 
+ 607      7400
+ 608              	.LASF11:
+ 609 020d 63686172 		.ascii	"char\000"
+ 609      00
+ 610              	.LASF2:
+ 611 0212 73686F72 		.ascii	"short int\000"
+ 611      7420696E 
+ 611      7400
+ 612              	.LASF12:
+ 613 021c 75696E74 		.ascii	"uint8\000"
+ 613      3800
+ 614              	.LASF4:
+ 615 0222 6C6F6E67 		.ascii	"long int\000"
+ 615      20696E74 
+ 615      00
+ 616              	.LASF0:
+ 617 022b 7369676E 		.ascii	"signed char\000"
+ 617      65642063 
+ 617      68617200 
+ 618              	.LASF15:
+ 619 0237 4C45445F 		.ascii	"LED_RGB_SetDriveMode\000"
+ 619      5247425F 
+ 619      53657444 
+ 619      72697665 
+ 619      4D6F6465 
+ 620              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

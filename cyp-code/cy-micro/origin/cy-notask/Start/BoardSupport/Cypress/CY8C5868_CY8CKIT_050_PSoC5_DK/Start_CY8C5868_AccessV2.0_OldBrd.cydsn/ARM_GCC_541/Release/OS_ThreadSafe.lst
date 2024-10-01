@@ -1,0 +1,43 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccB3aJ0O.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"OS_ThreadSafe.c"
+  16              		.section	.text.__malloc_lock,"ax",%progbits
+  17              		.align	2
+  18              		.global	__malloc_lock
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	__malloc_lock, %function
+  22              	__malloc_lock:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 FFF7FEBF 		b	OS_InterruptSafetyLock
+  27              		.size	__malloc_lock, .-__malloc_lock
+  28              		.section	.text.__malloc_unlock,"ax",%progbits
+  29              		.align	2
+  30              		.global	__malloc_unlock
+  31              		.thumb
+  32              		.thumb_func
+  33              		.type	__malloc_unlock, %function
+  34              	__malloc_unlock:
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37              		@ link register save eliminated.
+  38 0000 FFF7FEBF 		b	OS_InterruptSafetyUnlock
+  39              		.size	__malloc_unlock, .-__malloc_unlock
+  40              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

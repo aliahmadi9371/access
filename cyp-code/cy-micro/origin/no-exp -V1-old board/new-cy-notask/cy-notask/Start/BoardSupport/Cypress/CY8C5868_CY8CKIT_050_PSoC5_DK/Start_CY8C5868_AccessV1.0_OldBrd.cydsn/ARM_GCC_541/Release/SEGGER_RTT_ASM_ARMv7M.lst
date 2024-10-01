@@ -1,0 +1,324 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccWF9Gfy.s 			page 1
+
+
+   1              	# 1 "..\\SEGGER\\SEGGER_RTT_ASM_ARMv7M.S"
+   1              	/*********************************************************************
+   0              	
+   0              	
+   2              	*                     SEGGER Microcontroller GmbH                    *
+   3              	*                        The Embedded Experts                        *
+   4              	**********************************************************************
+   5              	*                                                                    *
+   6              	*       (c) 1995 - 2022 SEGGER Microcontroller GmbH                  *
+   7              	*                                                                    *
+   8              	*       Internet: segger.com  Support: support_embos@segger.com      *
+   9              	*                                                                    *
+  10              	**********************************************************************
+  11              	*                                                                    *
+  12              	*       embOS * Real time operating system                           *
+  13              	*                                                                    *
+  14              	*       Please note:                                                 *
+  15              	*                                                                    *
+  16              	*       Knowledge of this file may under no circumstances            *
+  17              	*       be used to write a similar product or a real-time            *
+  18              	*       operating system for in-house use.                           *
+  19              	*                                                                    *
+  20              	*       Thank you for your fairness !                                *
+  21              	*                                                                    *
+  22              	**********************************************************************
+  23              	*                                                                    *
+  24              	*       OS version: V5.16.1.0                                        *
+  25              	*                                                                    *
+  26              	**********************************************************************
+  27              	
+  28              	-------------------------- END-OF-HEADER -----------------------------
+  29              	
+  30              	File    : SEGGER_RTT_ASM_ARMv7M.S
+  31              	Purpose : Assembler implementation of RTT functions for ARMv7M
+  32              	
+  33              	Additional information:
+  34              	  This module is written to be assembler-independent and works with
+  35              	  GCC and clang (Embedded Studio) and IAR.
+  36              	*/
+  37              	
+  38              	#define SEGGER_RTT_ASM      // Used to control processed input from header file
+  39              	#include "SEGGER_RTT.h"
+   1              	/*********************************************************************
+   2              	*                     SEGGER Microcontroller GmbH                    *
+   3              	*                        The Embedded Experts                        *
+   4              	**********************************************************************
+   5              	*                                                                    *
+   6              	*       (c) 1995 - 2022 SEGGER Microcontroller GmbH                  *
+   7              	*                                                                    *
+   8              	*       Internet: segger.com  Support: support_embos@segger.com      *
+   9              	*                                                                    *
+  10              	**********************************************************************
+  11              	*                                                                    *
+  12              	*       embOS * Real time operating system                           *
+  13              	*                                                                    *
+  14              	*       Please note:                                                 *
+  15              	*                                                                    *
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccWF9Gfy.s 			page 2
+
+
+  16              	*       Knowledge of this file may under no circumstances            *
+  17              	*       be used to write a similar product or a real-time            *
+  18              	*       operating system for in-house use.                           *
+  19              	*                                                                    *
+  20              	*       Thank you for your fairness !                                *
+  21              	*                                                                    *
+  22              	**********************************************************************
+  23              	*                                                                    *
+  24              	*       OS version: V5.16.1.0                                        *
+  25              	*                                                                    *
+  26              	**********************************************************************
+  27              	
+  28              	---------------------------END-OF-HEADER------------------------------
+  29              	File    : SEGGER_RTT.h
+  30              	Purpose : Implementation of SEGGER real-time transfer which allows
+  31              	          real-time communication on targets which support debugger
+  32              	          memory accesses while the CPU is running.
+  33              	Revision: $Rev: 24346 $
+  34              	----------------------------------------------------------------------
+  35              	*/
+  36              	
+  37              	#ifndef SEGGER_RTT_H
+  38              	#define SEGGER_RTT_H
+  39              	
+  40              	#include "SEGGER_RTT_Conf.h"
+   1              	/*********************************************************************
+  41              	
+  40              	
+  41              	/*********************************************************************
+  42              	*
+  43              	*       Defines, fixed
+  44              	*
+  45              	**********************************************************************
+  46              	*/
+  47              	
+  48              	#define _CCIAR   0
+  49              	#define _CCCLANG 1
+  50              	
+  51              	#if (defined __SES_ARM) || (defined __GNUC__) || (defined __clang__)
+  52              	  #define _CC_TYPE             _CCCLANG
+  53              	  #define _PUB_SYM             .global
+  54              	  #define _EXT_SYM             .extern
+  55              	  #define _END                 .end
+  56              	  #define _WEAK                .weak
+  57              	  #define _THUMB_FUNC          .thumb_func
+  58              	  #define _THUMB_CODE          .code 16
+  59              	  #define _WORD                .word
+  60              	  #define _SECTION(Sect, Type, AlignExp) .section Sect ##, "ax"
+  61              	  #define _ALIGN(Exp)          .align Exp 
+  62              	  #define _PLACE_LITS          .ltorg
+  63              	  #define _DATA_SECT_START 
+  64              	  #define _C_STARTUP           _start
+  65              	  #define _STACK_END           __stack_end__
+  66              	  #define _RAMFUNC
+  67              	  //
+  68              	  // .text     => Link to flash
+  69              	  // .fast     => Link to RAM
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccWF9Gfy.s 			page 3
+
+
+  70              	  // OtherSect => Usually link to RAM
+  71              	  // Alignment is 2^x
+  72              	  //
+  73              	#elif defined (__IASMARM__)
+  74              	  #define _CC_TYPE             _CCIAR
+  75              	  #define _PUB_SYM             PUBLIC
+  76              	  #define _EXT_SYM             EXTERN
+  77              	  #define _END                 END
+  78              	  #define _WEAK                _WEAK
+  79              	  #define _THUMB_FUNC
+  80              	  #define _THUMB_CODE          THUMB
+  81              	  #define _WORD                DCD
+  82              	  #define _SECTION(Sect, Type, AlignExp) SECTION Sect ## : ## Type ## :REORDER:NOROOT ## (AlignExp)
+  83              	  #define _ALIGN(Exp)          alignrom Exp 
+  84              	  #define _PLACE_LITS
+  85              	  #define _DATA_SECT_START     DATA
+  86              	  #define _C_STARTUP           __iar_program_start
+  87              	  #define _STACK_END           sfe(CSTACK)
+  88              	  #define _RAMFUNC             SECTION_TYPE SHT_PROGBITS, SHF_WRITE | SHF_EXECINSTR
+  89              	  //
+  90              	  // .text     => Link to flash
+  91              	  // .textrw   => Link to RAM
+  92              	  // OtherSect => Usually link to RAM
+  93              	  // NOROOT    => Allows linker to throw away the function, if not referenced
+  94              	  // Alignment is 2^x
+  95              	  //
+  96              	#endif
+  97              	
+  98              	#if (_CC_TYPE == _CCIAR)
+  99              	        NAME SEGGER_RTT_ASM_ARMv7M
+ 100              	#else
+ 101              	        .syntax unified
+ 102              	#endif
+ 103              	
+ 104              	#if defined (RTT_USE_ASM) && (RTT_USE_ASM == 1)
+ 105              	        #define SHT_PROGBITS 0x1
+ 106              	
+ 107              	/*********************************************************************
+ 108              	*
+ 109              	*       Public / external symbols
+ 110              	*
+ 111              	**********************************************************************
+ 112              	*/
+ 113              	
+ 114              	        _EXT_SYM __aeabi_memcpy
+ 115              	        _EXT_SYM __aeabi_memcpy4
+ 116              	        _EXT_SYM _SEGGER_RTT
+ 117              	
+ 118              	        _PUB_SYM SEGGER_RTT_ASM_WriteSkipNoLock
+ 119              	
+ 120              	/*********************************************************************
+ 121              	*
+ 122              	*       SEGGER_RTT_WriteSkipNoLock
+ 123              	*
+ 124              	*  Function description
+ 125              	*    Stores a specified number of characters in SEGGER RTT
+ 126              	*    control block which is then read by the host.
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccWF9Gfy.s 			page 4
+
+
+ 127              	*    SEGGER_RTT_WriteSkipNoLock does not lock the application and
+ 128              	*    skips all data, if the data does not fit into the buffer.
+ 129              	*
+ 130              	*  Parameters
+ 131              	*    BufferIndex  Index of "Up"-buffer to be used (e.g. 0 for "Terminal").
+ 132              	*    pBuffer      Pointer to character array. Does not need to point to a \0 terminated string.
+ 133              	*    NumBytes     Number of bytes to be stored in the SEGGER RTT control block.
+ 134              	*                 MUST be > 0!!!
+ 135              	*                 This is done for performance reasons, so no initial check has do be done.
+ 136              	*
+ 137              	*  Return value
+ 138              	*    1: Data has been copied
+ 139              	*    0: No space, data has not been copied
+ 140              	*
+ 141              	*  Notes
+ 142              	*    (1) If there is not enough space in the "Up"-buffer, all data is dropped.
+ 143              	*    (2) For performance reasons this function does not call Init()
+ 144              	*        and may only be called after RTT has been initialized.
+ 145              	*        Either by calling SEGGER_RTT_Init() or calling another RTT API function first.
+ 146              	*/
+ 147              	        _SECTION(.text, CODE, 2)
+ 148              	        _ALIGN(2)
+ 149              	        _THUMB_FUNC
+ 150              	SEGGER_RTT_ASM_WriteSkipNoLock:   // unsigned SEGGER_RTT_WriteSkipNoLock(unsigned BufferIndex, cons
+ 151              	        //
+ 152              	        // Cases:
+ 153              	        //   1) RdOff <= WrOff => Space until wrap-around is sufficient
+ 154              	        //   2) RdOff <= WrOff => Space after wrap-around needed (copy in 2 chunks)
+ 155              	        //   3) RdOff <  WrOff => No space in buf
+ 156              	        //   4) RdOff >  WrOff => Space is sufficient
+ 157              	        //   5) RdOff >  WrOff => No space in buf
+ 158              	        //
+ 159              	        // 1) is the most common case for large buffers and assuming that J-Link reads the data fas
+ 160              	        //
+ 161              	        // Register usage:
+ 162              	        //   R0 Temporary needed as RdOff, <Tmp> register later on
+ 163              	        //   R1 pData
+ 164              	        //   R2 <NumBytes>
+ 165              	        //   R3 <Tmp> register. Hold free for subroutine calls
+ 166              	        //   R4 <Rem>
+ 167              	        //   R5 pRing->pBuffer
+ 168              	        //   R6 pRing (Points to active struct SEGGER_RTT_BUFFER_DOWN)
+ 169              	        //   R7 WrOff
+ 170              	        //
+ 171 0000 F0B4     	        PUSH     {R4-R7}
+ 172 0002 00EB4003 	        ADD      R3,R0,R0, LSL #+1
+ 173 0006 DFF88000 	        LDR.W    R0,=_SEGGER_RTT                 // pRing = &_SEGGER_RTT.aUp[BufferIndex];
+ 174 000a 00EBC300 	        ADD      R0,R0,R3, LSL #+3
+ 175 000e 00F11806 	        ADD      R6,R0,#+24
+ 176 0012 3069     	        LDR      R0,[R6, #+16]                   // RdOff = pRing->RdOff;
+ 177 0014 F768     	        LDR      R7,[R6, #+12]                   // WrOff = pRing->WrOff;
+ 178 0016 7568     	        LDR      R5,[R6, #+4]                    // pRing->pBuffer
+ 179 0018 8742     	        CMP      R7,R0
+ 180 001a 2ED3     	        BCC.N    _CheckCase4                     // if (RdOff <= WrOff) {                          
+ 181              	        //
+ 182              	        // Handling for case 1, later on identical to case 4
+ 183              	        //
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccWF9Gfy.s 			page 5
+
+
+ 184 001c B368     	        LDR      R3,[R6, #+8]                    //  Avail = pRing->SizeOfBuffer - WrOff - 1u;     
+ 185 001e DC1B     	        SUBS     R4,R3,R7                        // <Rem> (Used in case we jump into case 2 afterwa
+ 186 0020 631E     	        SUBS     R3,R4,#+1                       // <Avail>
+ 187 0022 9342     	        CMP      R3,R2
+ 188 0024 12D3     	        BCC.N    _CheckCase2                     // if (Avail >= NumBytes) {  => Case 1)?
+ 189              	_Case4:
+ 190 0026 7D19     	        ADDS     R5,R7,R5                        // pBuffer += WrOff
+ 191 0028 D019     	        ADDS     R0,R2,R7                        // v = WrOff + NumBytes
+ 192              	        //
+ 193              	        // 2x unrolling for the copy loop that is used most of the time
+ 194              	        // This is a special optimization for small SystemView packets and makes them even faster
+ 195              	        //
+ 196 002a 00BF     	        _ALIGN(2)
+ 197              	_LoopCopyStraight:                               // memcpy(pRing->pBuffer + WrOff, pData, NumBytes)
+ 198 002c 11F8013B 	        LDRB     R3,[R1], #+1
+ 199 0030 05F8013B 	        STRB     R3,[R5], #+1                    // *pDest++ = *pSrc++
+ 200 0034 013A     	        SUBS     R2,R2,#+1
+ 201 0036 05D0     	        BEQ      _CSDone
+ 202 0038 11F8013B 	        LDRB     R3,[R1], #+1
+ 203 003c 05F8013B 	        STRB     R3,[R5], #+1                    // *pDest++ = *pSrc++
+ 204 0040 013A     	        SUBS     R2,R2,#+1
+ 205 0042 F3D1     	        BNE      _LoopCopyStraight
+ 206              	_CSDone:
+ 207              	#if _CORE_NEEDS_DMB                              // Do not slow down cores that do not need a DMB i
+ 208              	        DMB                                      // Cortex-M7 may delay memory writes and also chan
+ 209              	#endif
+ 210 0044 F060     	        STR      R0,[R6, #+12]                   // pRing->WrOff = WrOff + NumBytes;
+ 211 0046 0120     	        MOVS     R0,#+1
+ 212 0048 F0BC     	        POP      {R4-R7}
+ 213 004a 7047     	        BX       LR                              // Return 1
+ 214              	_CheckCase2:
+ 215 004c C018     	        ADDS     R0,R0,R3                        // Avail += RdOff; => Space incl. wrap-around
+ 216 004e 9042     	        CMP      R0,R2
+ 217 0050 17D3     	        BCC.N    _Case3                          // if (Avail >= NumBytes) {           => Case 2? =
+ 218              	        //
+ 219              	        // Handling for case 2
+ 220              	        //
+ 221 0052 7819     	        ADDS     R0,R7,R5                        // v = pRing->pBuffer + WrOff => Do not change pRi
+ 222 0054 121B     	        SUBS     R2,R2,R4                        // NumBytes -= Rem;  (Rem = pRing->SizeOfBuffer - 
+ 223              	_LoopCopyBeforeWrapAround:                       // memcpy(pRing->pBuffer + WrOff, pData, Rem); => 
+ 224 0056 11F8013B 	        LDRB     R3,[R1], #+1
+ 225 005a 00F8013B 	        STRB     R3,[R0], #+1                    // *pDest++ = *pSrc++
+ 226 005e 013C     	        SUBS     R4,R4,#+1
+ 227 0060 F9D1     	        BNE      _LoopCopyBeforeWrapAround
+ 228              	        //
+ 229              	        // Special case: First check that assumed RdOff == 0 calculated that last element before wr
+ 230              	        // But 2nd check (considering space until wrap-around and until RdOff) revealed that RdOff 
+ 231              	        // In this case, we may use a copy straight until buffer end anyway without needing to copy
+ 232              	        // Therefore, check if 2nd memcpy is necessary at all
+ 233              	        //
+ 234 0062 141C     	        ADDS     R4,R2,#+0                       // Save <NumBytes> (needed as counter in loop but 
+ 235 0064 05D0     	        BEQ.N    _No2ChunkNeeded                 // if (NumBytes) {
+ 236              	_LoopCopyAfterWrapAround:                        // memcpy(pRing->pBuffer, pData + Rem, NumBytes);
+ 237 0066 11F8013B 	        LDRB     R3,[R1], #+1                    // pData already points to the next src byte due t
+ 238 006a 05F8013B 	        STRB     R3,[R5], #+1                    // *pDest++ = *pSrc++
+ 239 006e 013A     	        SUBS     R2,R2,#+1
+ 240 0070 F9D1     	        BNE      _LoopCopyAfterWrapAround
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccWF9Gfy.s 			page 6
+
+
+ 241              	_No2ChunkNeeded:
+ 242              	#if _CORE_NEEDS_DMB                              // Do not slow down cores that do not need a DMB i
+ 243              	        DMB                                      // Cortex-M7 may delay memory writes and also chan
+ 244              	#endif
+ 245 0072 F460     	        STR      R4,[R6, #+12]                   // pRing->WrOff = NumBytes; => Must be written aft
+ 246 0074 0120     	        MOVS     R0,#+1
+ 247 0076 F0BC     	        POP      {R4-R7}
+ 248 0078 7047     	        BX       LR                              // Return 1
+ 249              	_CheckCase4:
+ 250 007a C01B     	        SUBS     R0,R0,R7
+ 251 007c 0138     	        SUBS     R0,R0,#+1                       // Avail = RdOff - WrOff - 1u;
+ 252 007e 9042     	        CMP      R0,R2
+ 253 0080 D1D2     	        BCS.N    _Case4                          // if (Avail >= NumBytes) {      => Case 4) == 1) 
+ 254              	_Case3:
+ 255 0082 0020     	        MOVS     R0,#+0
+ 256 0084 F0BC     	        POP      {R4-R7}
+ 257 0086 7047     	        BX       LR                              // Return 0
+ 258 0088 00000000 	        _PLACE_LITS
+ 259              	
+ 260              	#endif  // defined (RTT_USE_ASM) && (RTT_USE_ASM == 1)
+ 261              	        _END

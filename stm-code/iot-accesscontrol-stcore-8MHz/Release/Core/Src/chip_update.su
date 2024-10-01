@@ -1,0 +1,6 @@
+../Drivers/CMSIS/Include/core_cm3.h:1762:34:__NVIC_SystemReset	4	static,ignoring_inline_asm
+../Core/Src/chip_update.c:99:6:proc_reset_chip	16	static
+../Core/Src/chip_update.c:113:18:update_check_packet	144	static
+../Core/Src/chip_update.c:153:18:update_start	240	static
+../Core/Src/chip_update.c:236:9:check_checksum	136	static
+../Core/Src/chip_update.c:265:6:update_procedure	256	static

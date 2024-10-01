@@ -1,0 +1,6 @@
+../Drivers/CMSIS/Include/core_cm3.h:1762:34:__NVIC_SystemReset	1
+../Core/Src/chip_update.c:99:6:proc_reset_chip	0
+../Core/Src/chip_update.c:113:18:update_check_packet	4
+../Core/Src/chip_update.c:153:18:update_start	8
+../Core/Src/chip_update.c:236:9:check_checksum	4
+../Core/Src/chip_update.c:265:6:update_procedure	18

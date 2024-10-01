@@ -1,0 +1,460 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc1o00I2.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"defines.c"
+  16              		.section	.text.strremove,"ax",%progbits
+  17              		.align	2
+  18              		.global	strremove
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	strremove, %function
+  22              	strremove:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+  26 0004 8046     		mov	r8, r0
+  27 0006 0846     		mov	r0, r1
+  28 0008 0F46     		mov	r7, r1
+  29 000a FFF7FEFF 		bl	strlen
+  30 000e 90B1     		cbz	r0, .L6
+  31 0010 0646     		mov	r6, r0
+  32 0012 4446     		mov	r4, r8
+  33 0014 07E0     		b	.L3
+  34              	.L4:
+  35 0016 2846     		mov	r0, r5
+  36 0018 FFF7FEFF 		bl	strlen
+  37 001c 2946     		mov	r1, r5
+  38 001e 421C     		adds	r2, r0, #1
+  39 0020 2046     		mov	r0, r4
+  40 0022 FFF7FEFF 		bl	memmove
+  41              	.L3:
+  42 0026 2046     		mov	r0, r4
+  43 0028 3946     		mov	r1, r7
+  44 002a FFF7FEFF 		bl	strstr
+  45 002e 0446     		mov	r4, r0
+  46 0030 8519     		adds	r5, r0, r6
+  47 0032 0028     		cmp	r0, #0
+  48 0034 EFD1     		bne	.L4
+  49              	.L6:
+  50 0036 4046     		mov	r0, r8
+  51 0038 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+  52              		.size	strremove, .-strremove
+  53              		.section	.text.q_put_message,"ax",%progbits
+  54              		.align	2
+  55              		.global	q_put_message
+  56              		.thumb
+  57              		.thumb_func
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc1o00I2.s 			page 2
+
+
+  58              		.type	q_put_message, %function
+  59              	q_put_message:
+  60              		@ args = 0, pretend = 0, frame = 0
+  61              		@ frame_needed = 0, uses_anonymous_args = 0
+  62 0000 70B5     		push	{r4, r5, r6, lr}
+  63 0002 0446     		mov	r4, r0
+  64 0004 0D46     		mov	r5, r1
+  65 0006 1646     		mov	r6, r2
+  66 0008 FFF7FEFF 		bl	CyWdtClear
+  67 000c 3246     		mov	r2, r6
+  68 000e 2946     		mov	r1, r5
+  69 0010 2046     		mov	r0, r4
+  70 0012 FFF7FEFF 		bl	OS_QUEUE_Put
+  71 0016 B0FA80F0 		clz	r0, r0
+  72 001a 4009     		lsrs	r0, r0, #5
+  73 001c 70BD     		pop	{r4, r5, r6, pc}
+  74              		.size	q_put_message, .-q_put_message
+  75 001e 00BF     		.section	.text.q_get_message,"ax",%progbits
+  76              		.align	2
+  77              		.global	q_get_message
+  78              		.thumb
+  79              		.thumb_func
+  80              		.type	q_get_message, %function
+  81              	q_get_message:
+  82              		@ args = 0, pretend = 0, frame = 8
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84 0000 00B5     		push	{lr}
+  85 0002 83B0     		sub	sp, sp, #12
+  86 0004 02A9     		add	r1, sp, #8
+  87 0006 0023     		movs	r3, #0
+  88 0008 41F8043D 		str	r3, [r1, #-4]!
+  89 000c FFF7FEFF 		bl	OS_QUEUE_GetPtr
+  90 0010 00B1     		cbz	r0, .L14
+  91 0012 0198     		ldr	r0, [sp, #4]
+  92              	.L14:
+  93 0014 03B0     		add	sp, sp, #12
+  94              		@ sp needed
+  95 0016 5DF804FB 		ldr	pc, [sp], #4
+  96              		.size	q_get_message, .-q_get_message
+  97 001a 00BF     		.section	.text.df_hexstring_hex,"ax",%progbits
+  98              		.align	2
+  99              		.global	df_hexstring_hex
+ 100              		.thumb
+ 101              		.thumb_func
+ 102              		.type	df_hexstring_hex, %function
+ 103              	df_hexstring_hex:
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              		@ link register save eliminated.
+ 107 0000 A0F13003 		sub	r3, r0, #48
+ 108 0004 DBB2     		uxtb	r3, r3
+ 109 0006 092B     		cmp	r3, #9
+ 110 0008 08D9     		bls	.L18
+ 111 000a 20F02000 		bic	r0, r0, #32
+ 112 000e 4138     		subs	r0, r0, #65
+ 113 0010 0528     		cmp	r0, #5
+ 114 0012 01D9     		bls	.L22
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc1o00I2.s 			page 3
+
+
+ 115              	.L21:
+ 116 0014 FF20     		movs	r0, #255
+ 117 0016 7047     		bx	lr
+ 118              	.L22:
+ 119 0018 362B     		cmp	r3, #54
+ 120 001a FBD8     		bhi	.L21
+ 121              	.L18:
+ 122 001c 014A     		ldr	r2, .L23
+ 123 001e D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+ 124 0020 7047     		bx	lr
+ 125              	.L24:
+ 126 0022 00BF     		.align	2
+ 127              	.L23:
+ 128 0024 00000000 		.word	.LANCHOR0
+ 129              		.size	df_hexstring_hex, .-df_hexstring_hex
+ 130              		.section	.text.df_hex_hexstring,"ax",%progbits
+ 131              		.align	2
+ 132              		.global	df_hex_hexstring
+ 133              		.thumb
+ 134              		.thumb_func
+ 135              		.type	df_hex_hexstring, %function
+ 136              	df_hex_hexstring:
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 0, uses_anonymous_args = 0
+ 139              		@ link register save eliminated.
+ 140 0000 0F28     		cmp	r0, #15
+ 141 0002 9DBF     		ittte	ls
+ 142 0004 024B     		ldrls	r3, .L28
+ 143 0006 C018     		addls	r0, r0, r3
+ 144 0008 90F83800 		ldrbls	r0, [r0, #56]	@ zero_extendqisi2
+ 145 000c 0020     		movhi	r0, #0
+ 146 000e 7047     		bx	lr
+ 147              	.L29:
+ 148              		.align	2
+ 149              	.L28:
+ 150 0010 00000000 		.word	.LANCHOR0
+ 151              		.size	df_hex_hexstring, .-df_hex_hexstring
+ 152              		.section	.text.byte_to_binary,"ax",%progbits
+ 153              		.align	2
+ 154              		.global	byte_to_binary
+ 155              		.thumb
+ 156              		.thumb_func
+ 157              		.type	byte_to_binary, %function
+ 158              	byte_to_binary:
+ 159              		@ args = 0, pretend = 0, frame = 0
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161 0000 10F0800F 		tst	r0, #128
+ 162 0004 14BF     		ite	ne
+ 163 0006 4FF0310C 		movne	ip, #49
+ 164 000a 4FF0300C 		moveq	ip, #48
+ 165 000e 10F0400F 		tst	r0, #64
+ 166 0012 F0B5     		push	{r4, r5, r6, r7, lr}
+ 167 0014 14BF     		ite	ne
+ 168 0016 4FF0310E 		movne	lr, #49
+ 169 001a 4FF0300E 		moveq	lr, #48
+ 170 001e 10F0200F 		tst	r0, #32
+ 171 0022 14BF     		ite	ne
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc1o00I2.s 			page 4
+
+
+ 172 0024 3127     		movne	r7, #49
+ 173 0026 3027     		moveq	r7, #48
+ 174 0028 10F0100F 		tst	r0, #16
+ 175 002c 14BF     		ite	ne
+ 176 002e 3126     		movne	r6, #49
+ 177 0030 3026     		moveq	r6, #48
+ 178 0032 10F0080F 		tst	r0, #8
+ 179 0036 14BF     		ite	ne
+ 180 0038 3125     		movne	r5, #49
+ 181 003a 3025     		moveq	r5, #48
+ 182 003c 10F0040F 		tst	r0, #4
+ 183 0040 14BF     		ite	ne
+ 184 0042 3124     		movne	r4, #49
+ 185 0044 3024     		moveq	r4, #48
+ 186 0046 10F0020F 		tst	r0, #2
+ 187 004a 14BF     		ite	ne
+ 188 004c 3122     		movne	r2, #49
+ 189 004e 3022     		moveq	r2, #48
+ 190 0050 10F0010F 		tst	r0, #1
+ 191 0054 14BF     		ite	ne
+ 192 0056 3123     		movne	r3, #49
+ 193 0058 3023     		moveq	r3, #48
+ 194 005a 0020     		movs	r0, #0
+ 195 005c 0872     		strb	r0, [r1, #8]
+ 196 005e 81F800C0 		strb	ip, [r1]
+ 197 0062 81F801E0 		strb	lr, [r1, #1]
+ 198 0066 8F70     		strb	r7, [r1, #2]
+ 199 0068 CE70     		strb	r6, [r1, #3]
+ 200 006a 0D71     		strb	r5, [r1, #4]
+ 201 006c 4C71     		strb	r4, [r1, #5]
+ 202 006e 8A71     		strb	r2, [r1, #6]
+ 203 0070 CB71     		strb	r3, [r1, #7]
+ 204 0072 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 205              		.size	byte_to_binary, .-byte_to_binary
+ 206              		.section	.text.swap,"ax",%progbits
+ 207              		.align	2
+ 208              		.global	swap
+ 209              		.thumb
+ 210              		.thumb_func
+ 211              		.type	swap, %function
+ 212              	swap:
+ 213              		@ args = 0, pretend = 0, frame = 0
+ 214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 215              		@ link register save eliminated.
+ 216 0000 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+ 217 0002 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 218 0004 0270     		strb	r2, [r0]
+ 219 0006 0B70     		strb	r3, [r1]
+ 220 0008 7047     		bx	lr
+ 221              		.size	swap, .-swap
+ 222 000a 00BF     		.section	.text.selectionSort,"ax",%progbits
+ 223              		.align	2
+ 224              		.global	selectionSort
+ 225              		.thumb
+ 226              		.thumb_func
+ 227              		.type	selectionSort, %function
+ 228              	selectionSort:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc1o00I2.s 			page 5
+
+
+ 229              		@ args = 0, pretend = 0, frame = 0
+ 230              		@ frame_needed = 0, uses_anonymous_args = 0
+ 231 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 232 0004 01F1FF39 		add	r9, r1, #-1
+ 233 0008 B9F1000F 		cmp	r9, #0
+ 234 000c 22DD     		ble	.L33
+ 235 000e 8046     		mov	r8, r0
+ 236 0010 0022     		movs	r2, #0
+ 237              	.L38:
+ 238 0012 02F1010C 		add	ip, r2, #1
+ 239 0016 8C45     		cmp	ip, r1
+ 240 0018 C646     		mov	lr, r8
+ 241 001a 1DDA     		bge	.L43
+ 242 001c 1EF801AB 		ldrb	r10, [lr], #1	@ zero_extendqisi2
+ 243 0020 6346     		mov	r3, ip
+ 244 0022 7646     		mov	r6, lr
+ 245 0024 5446     		mov	r4, r10
+ 246              	.L37:
+ 247 0026 3546     		mov	r5, r6
+ 248 0028 16F8017B 		ldrb	r7, [r6], #1	@ zero_extendqisi2
+ 249 002c 00EB020B 		add	fp, r0, r2
+ 250 0030 A742     		cmp	r7, r4
+ 251 0032 34BF     		ite	cc
+ 252 0034 1A46     		movcc	r2, r3
+ 253 0036 5D46     		movcs	r5, fp
+ 254 0038 0133     		adds	r3, r3, #1
+ 255 003a BC42     		cmp	r4, r7
+ 256 003c 28BF     		it	cs
+ 257 003e 3C46     		movcs	r4, r7
+ 258 0040 8B42     		cmp	r3, r1
+ 259 0042 F0D1     		bne	.L37
+ 260 0044 CC45     		cmp	ip, r9
+ 261 0046 85F800A0 		strb	r10, [r5]
+ 262 004a 6246     		mov	r2, ip
+ 263 004c 88F80040 		strb	r4, [r8]
+ 264 0050 F046     		mov	r8, lr
+ 265 0052 DEDB     		blt	.L38
+ 266              	.L33:
+ 267 0054 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 268              	.L43:
+ 269 0058 1EF8014B 		ldrb	r4, [lr], #1	@ zero_extendqisi2
+ 270 005c 4546     		mov	r5, r8
+ 271 005e A246     		mov	r10, r4
+ 272 0060 CC45     		cmp	ip, r9
+ 273 0062 85F800A0 		strb	r10, [r5]
+ 274 0066 6246     		mov	r2, ip
+ 275 0068 88F80040 		strb	r4, [r8]
+ 276 006c F046     		mov	r8, lr
+ 277 006e D0DB     		blt	.L38
+ 278 0070 F0E7     		b	.L33
+ 279              		.size	selectionSort, .-selectionSort
+ 280              		.comm	_QBuffer_Queue_Send,792,4
+ 281              		.comm	_Queue_Send,32,4
+ 282              		.comm	_QBuffer_Queue_Main,5160,4
+ 283              		.comm	_Queue_Main,32,4
+ 284              		.global	RGB_Color_Old
+ 285              		.global	RGB_Color
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc1o00I2.s 			page 6
+
+
+ 286              		.global	int_byte_ctr
+ 287              		.global	int_byte
+ 288              		.comm	server_fota_data,1500,4
+ 289              		.global	server_fota_App_lines
+ 290              		.global	server_fota_file_numbers
+ 291              		.comm	server_fota_folder_name,15,4
+ 292              		.global	server_fota_App_CRC
+ 293              		.global	server_fota_App_size
+ 294              		.global	fota_recv_byte_count
+ 295              		.global	fota_row_sequence
+ 296              		.global	fota_row_counter
+ 297              		.global	fota_file_numbers
+ 298              		.global	fota_flag_start
+ 299 0072 00BF     		.section	.rodata
+ 300              		.align	2
+ 301              		.set	.LANCHOR0,. + 0
+ 302              		.type	CSWTCH.10, %object
+ 303              		.size	CSWTCH.10, 55
+ 304              	CSWTCH.10:
+ 305 0000 00       		.byte	0
+ 306 0001 01       		.byte	1
+ 307 0002 02       		.byte	2
+ 308 0003 03       		.byte	3
+ 309 0004 04       		.byte	4
+ 310 0005 05       		.byte	5
+ 311 0006 06       		.byte	6
+ 312 0007 07       		.byte	7
+ 313 0008 08       		.byte	8
+ 314 0009 09       		.byte	9
+ 315 000a FF       		.byte	-1
+ 316 000b FF       		.byte	-1
+ 317 000c FF       		.byte	-1
+ 318 000d FF       		.byte	-1
+ 319 000e FF       		.byte	-1
+ 320 000f FF       		.byte	-1
+ 321 0010 FF       		.byte	-1
+ 322 0011 0A       		.byte	10
+ 323 0012 0B       		.byte	11
+ 324 0013 0C       		.byte	12
+ 325 0014 0D       		.byte	13
+ 326 0015 0E       		.byte	14
+ 327 0016 0F       		.byte	15
+ 328 0017 FF       		.byte	-1
+ 329 0018 FF       		.byte	-1
+ 330 0019 FF       		.byte	-1
+ 331 001a FF       		.byte	-1
+ 332 001b FF       		.byte	-1
+ 333 001c FF       		.byte	-1
+ 334 001d FF       		.byte	-1
+ 335 001e FF       		.byte	-1
+ 336 001f FF       		.byte	-1
+ 337 0020 FF       		.byte	-1
+ 338 0021 FF       		.byte	-1
+ 339 0022 FF       		.byte	-1
+ 340 0023 FF       		.byte	-1
+ 341 0024 FF       		.byte	-1
+ 342 0025 FF       		.byte	-1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc1o00I2.s 			page 7
+
+
+ 343 0026 FF       		.byte	-1
+ 344 0027 FF       		.byte	-1
+ 345 0028 FF       		.byte	-1
+ 346 0029 FF       		.byte	-1
+ 347 002a FF       		.byte	-1
+ 348 002b FF       		.byte	-1
+ 349 002c FF       		.byte	-1
+ 350 002d FF       		.byte	-1
+ 351 002e FF       		.byte	-1
+ 352 002f FF       		.byte	-1
+ 353 0030 FF       		.byte	-1
+ 354 0031 0A       		.byte	10
+ 355 0032 0B       		.byte	11
+ 356 0033 0C       		.byte	12
+ 357 0034 0D       		.byte	13
+ 358 0035 0E       		.byte	14
+ 359 0036 0F       		.byte	15
+ 360 0037 00       		.space	1
+ 361              		.type	CSWTCH.12, %object
+ 362              		.size	CSWTCH.12, 16
+ 363              	CSWTCH.12:
+ 364 0038 30       		.byte	48
+ 365 0039 31       		.byte	49
+ 366 003a 32       		.byte	50
+ 367 003b 33       		.byte	51
+ 368 003c 34       		.byte	52
+ 369 003d 35       		.byte	53
+ 370 003e 36       		.byte	54
+ 371 003f 00       		.byte	0
+ 372 0040 38       		.byte	56
+ 373 0041 39       		.byte	57
+ 374 0042 41       		.byte	65
+ 375 0043 42       		.byte	66
+ 376 0044 43       		.byte	67
+ 377 0045 44       		.byte	68
+ 378 0046 45       		.byte	69
+ 379 0047 46       		.byte	70
+ 380              		.data
+ 381              		.align	1
+ 382              		.type	fota_file_numbers, %object
+ 383              		.size	fota_file_numbers, 2
+ 384              	fota_file_numbers:
+ 385 0000 0100     		.short	1
+ 386              		.bss
+ 387              		.align	2
+ 388              		.type	RGB_Color_Old, %object
+ 389              		.size	RGB_Color_Old, 1
+ 390              	RGB_Color_Old:
+ 391 0000 00       		.space	1
+ 392              		.type	RGB_Color, %object
+ 393              		.size	RGB_Color, 1
+ 394              	RGB_Color:
+ 395 0001 00       		.space	1
+ 396              		.type	int_byte_ctr, %object
+ 397              		.size	int_byte_ctr, 1
+ 398              	int_byte_ctr:
+ 399 0002 00       		.space	1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc1o00I2.s 			page 8
+
+
+ 400              		.type	int_byte, %object
+ 401              		.size	int_byte, 1
+ 402              	int_byte:
+ 403 0003 00       		.space	1
+ 404              		.type	server_fota_App_lines, %object
+ 405              		.size	server_fota_App_lines, 2
+ 406              	server_fota_App_lines:
+ 407 0004 0000     		.space	2
+ 408              		.type	server_fota_file_numbers, %object
+ 409              		.size	server_fota_file_numbers, 2
+ 410              	server_fota_file_numbers:
+ 411 0006 0000     		.space	2
+ 412              		.type	server_fota_App_CRC, %object
+ 413              		.size	server_fota_App_CRC, 4
+ 414              	server_fota_App_CRC:
+ 415 0008 00000000 		.space	4
+ 416              		.type	server_fota_App_size, %object
+ 417              		.size	server_fota_App_size, 4
+ 418              	server_fota_App_size:
+ 419 000c 00000000 		.space	4
+ 420              		.type	fota_recv_byte_count, %object
+ 421              		.size	fota_recv_byte_count, 2
+ 422              	fota_recv_byte_count:
+ 423 0010 0000     		.space	2
+ 424              		.type	fota_row_sequence, %object
+ 425              		.size	fota_row_sequence, 2
+ 426              	fota_row_sequence:
+ 427 0012 0000     		.space	2
+ 428              		.type	fota_row_counter, %object
+ 429              		.size	fota_row_counter, 2
+ 430              	fota_row_counter:
+ 431 0014 0000     		.space	2
+ 432              		.type	fota_flag_start, %object
+ 433              		.size	fota_flag_start, 1
+ 434              	fota_flag_start:
+ 435 0016 00       		.space	1
+ 436              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

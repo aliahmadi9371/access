@@ -1,0 +1,30 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc7Yc0Jb.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cymetadata.c"
+  16              		.global	cy_meta_loadable
+  17              		.section	.cyloadablemeta,"a",%progbits
+  18              		.align	2
+  19              		.type	cy_meta_loadable, %object
+  20              		.size	cy_meta_loadable, 64
+  21              	cy_meta_loadable:
+  22 0000 00000000 		.space	64
+  22      00000000 
+  22      00000000 
+  22      00000000 
+  22      00000000 
+  23              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

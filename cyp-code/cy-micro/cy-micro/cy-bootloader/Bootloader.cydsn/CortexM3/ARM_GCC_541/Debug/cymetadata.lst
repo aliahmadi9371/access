@@ -1,0 +1,549 @@
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccRt0q2c.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cymetadata.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	cy_meta_loader
+  20              		.section	.cyloadermeta,"a",%progbits
+  21              		.align	2
+  22              		.type	cy_meta_loader, %object
+  23              		.size	cy_meta_loader, 64
+  24              	cy_meta_loader:
+  25 0000 00       		.byte	0
+  26 0001 00       		.byte	0
+  27 0002 00       		.byte	0
+  28 0003 00       		.byte	0
+  29 0004 00       		.byte	0
+  30 0005 00       		.byte	0
+  31 0006 00       		.byte	0
+  32 0007 00       		.byte	0
+  33 0008 00       		.byte	0
+  34 0009 00       		.byte	0
+  35 000a 00       		.byte	0
+  36 000b 00       		.byte	0
+  37 000c 00       		.byte	0
+  38 000d 00       		.byte	0
+  39 000e 00       		.byte	0
+  40 000f 00       		.byte	0
+  41 0010 00       		.byte	0
+  42 0011 00       		.byte	0
+  43 0012 00       		.byte	0
+  44 0013 00       		.byte	0
+  45 0014 01       		.byte	1
+  46 0015 00       		.byte	0
+  47 0016 00       		.byte	0
+  48 0017 00       		.byte	0
+  49 0018 00       		.byte	0
+  50 0019 00       		.byte	0
+  51 001a 00       		.byte	0
+  52 001b 00       		.byte	0
+  53 001c 00       		.byte	0
+  54 001d 00       		.byte	0
+  55 001e 00       		.byte	0
+  56 001f 00       		.byte	0
+  57 0020 00       		.byte	0
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccRt0q2c.s 			page 2
+
+
+  58 0021 00       		.byte	0
+  59 0022 00       		.byte	0
+  60 0023 00       		.byte	0
+  61 0024 00       		.byte	0
+  62 0025 00       		.byte	0
+  63 0026 00       		.byte	0
+  64 0027 00       		.byte	0
+  65 0028 00       		.byte	0
+  66 0029 00       		.byte	0
+  67 002a 00       		.byte	0
+  68 002b 00       		.byte	0
+  69 002c 00       		.byte	0
+  70 002d 00       		.byte	0
+  71 002e 00       		.byte	0
+  72 002f 00       		.byte	0
+  73 0030 00       		.byte	0
+  74 0031 00       		.byte	0
+  75 0032 00       		.byte	0
+  76 0033 00       		.byte	0
+  77 0034 00       		.byte	0
+  78 0035 00       		.byte	0
+  79 0036 00       		.byte	0
+  80 0037 00       		.byte	0
+  81 0038 00       		.byte	0
+  82 0039 00       		.byte	0
+  83 003a 00       		.byte	0
+  84 003b 00       		.byte	0
+  85 003c 00       		.byte	0
+  86 003d 00       		.byte	0
+  87 003e 00       		.byte	0
+  88 003f 00       		.byte	0
+  89              		.global	cy_meta_custnvl
+  90              		.section	.cycustnvl,"a",%progbits
+  91              		.align	2
+  92              		.type	cy_meta_custnvl, %object
+  93              		.size	cy_meta_custnvl, 4
+  94              	cy_meta_custnvl:
+  95 0000 00       		.byte	0
+  96 0001 00       		.byte	0
+  97 0002 40       		.byte	64
+  98 0003 0D       		.byte	13
+  99              		.global	cy_meta_wonvl
+ 100              		.section	.cywolatch,"a",%progbits
+ 101              		.align	2
+ 102              		.type	cy_meta_wonvl, %object
+ 103              		.size	cy_meta_wonvl, 4
+ 104              	cy_meta_wonvl:
+ 105 0000 BC       		.byte	-68
+ 106 0001 90       		.byte	-112
+ 107 0002 AC       		.byte	-84
+ 108 0003 AF       		.byte	-81
+ 109              		.global	cy_meta_flashprotect
+ 110              		.section	.cyflashprotect,"a",%progbits
+ 111              		.align	2
+ 112              		.type	cy_meta_flashprotect, %object
+ 113              		.size	cy_meta_flashprotect, 256
+ 114              	cy_meta_flashprotect:
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccRt0q2c.s 			page 3
+
+
+ 115 0000 00000000 		.space	256
+ 115      00000000 
+ 115      00000000 
+ 115      00000000 
+ 115      00000000 
+ 116              		.global	cy_metadata
+ 117              		.section	.cymeta,"a",%progbits
+ 118              		.align	2
+ 119              		.type	cy_metadata, %object
+ 120              		.size	cy_metadata, 12
+ 121              	cy_metadata:
+ 122 0000 00       		.byte	0
+ 123 0001 01       		.byte	1
+ 124 0002 2E       		.byte	46
+ 125 0003 12       		.byte	18
+ 126 0004 30       		.byte	48
+ 127 0005 69       		.byte	105
+ 128 0006 00       		.byte	0
+ 129 0007 01       		.byte	1
+ 130 0008 00       		.byte	0
+ 131 0009 00       		.byte	0
+ 132 000a 00       		.byte	0
+ 133 000b 00       		.byte	0
+ 134              		.text
+ 135              	.Letext0:
+ 136              		.file 1 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 137              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 138              		.file 3 "Generated_Source\\PSoC5\\cymetadata.c"
+ 139              		.section	.debug_info,"",%progbits
+ 140              	.Ldebug_info0:
+ 141 0000 30010000 		.4byte	0x130
+ 142 0004 0400     		.2byte	0x4
+ 143 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 144 000a 04       		.byte	0x4
+ 145 000b 01       		.uleb128 0x1
+ 146 000c 0A000000 		.4byte	.LASF17
+ 147 0010 0C       		.byte	0xc
+ 148 0011 E1010000 		.4byte	.LASF18
+ 149 0015 E6000000 		.4byte	.LASF19
+ 150 0019 00000000 		.4byte	.Ldebug_line0
+ 151 001d 02       		.uleb128 0x2
+ 152 001e 01       		.byte	0x1
+ 153 001f 06       		.byte	0x6
+ 154 0020 D5010000 		.4byte	.LASF0
+ 155 0024 03       		.uleb128 0x3
+ 156 0025 00000000 		.4byte	.LASF9
+ 157 0029 01       		.byte	0x1
+ 158 002a 1D       		.byte	0x1d
+ 159 002b 2F000000 		.4byte	0x2f
+ 160 002f 02       		.uleb128 0x2
+ 161 0030 01       		.byte	0x1
+ 162 0031 08       		.byte	0x8
+ 163 0032 B3000000 		.4byte	.LASF1
+ 164 0036 02       		.uleb128 0x2
+ 165 0037 02       		.byte	0x2
+ 166 0038 05       		.byte	0x5
+ 167 0039 C2010000 		.4byte	.LASF2
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccRt0q2c.s 			page 4
+
+
+ 168 003d 02       		.uleb128 0x2
+ 169 003e 02       		.byte	0x2
+ 170 003f 07       		.byte	0x7
+ 171 0040 D3000000 		.4byte	.LASF3
+ 172 0044 02       		.uleb128 0x2
+ 173 0045 04       		.byte	0x4
+ 174 0046 05       		.byte	0x5
+ 175 0047 CC010000 		.4byte	.LASF4
+ 176 004b 02       		.uleb128 0x2
+ 177 004c 04       		.byte	0x4
+ 178 004d 07       		.byte	0x7
+ 179 004e C1000000 		.4byte	.LASF5
+ 180 0052 02       		.uleb128 0x2
+ 181 0053 08       		.byte	0x8
+ 182 0054 05       		.byte	0x5
+ 183 0055 B4010000 		.4byte	.LASF6
+ 184 0059 02       		.uleb128 0x2
+ 185 005a 08       		.byte	0x8
+ 186 005b 07       		.byte	0x7
+ 187 005c 69010000 		.4byte	.LASF7
+ 188 0060 04       		.uleb128 0x4
+ 189 0061 04       		.byte	0x4
+ 190 0062 05       		.byte	0x5
+ 191 0063 696E7400 		.ascii	"int\000"
+ 192 0067 02       		.uleb128 0x2
+ 193 0068 04       		.byte	0x4
+ 194 0069 07       		.byte	0x7
+ 195 006a 5C010000 		.4byte	.LASF8
+ 196 006e 03       		.uleb128 0x3
+ 197 006f 80010000 		.4byte	.LASF10
+ 198 0073 02       		.byte	0x2
+ 199 0074 18       		.byte	0x18
+ 200 0075 24000000 		.4byte	0x24
+ 201 0079 05       		.uleb128 0x5
+ 202 007a 90000000 		.4byte	0x90
+ 203 007e 89000000 		.4byte	0x89
+ 204 0082 06       		.uleb128 0x6
+ 205 0083 89000000 		.4byte	0x89
+ 206 0087 3F       		.byte	0x3f
+ 207 0088 00       		.byte	0
+ 208 0089 02       		.uleb128 0x2
+ 209 008a 04       		.byte	0x4
+ 210 008b 07       		.byte	0x7
+ 211 008c AB010000 		.4byte	.LASF11
+ 212 0090 07       		.uleb128 0x7
+ 213 0091 6E000000 		.4byte	0x6e
+ 214 0095 08       		.uleb128 0x8
+ 215 0096 98000000 		.4byte	.LASF12
+ 216 009a 03       		.byte	0x3
+ 217 009b 1F       		.byte	0x1f
+ 218 009c A6000000 		.4byte	0xa6
+ 219 00a0 05       		.uleb128 0x5
+ 220 00a1 03       		.byte	0x3
+ 221 00a2 00000000 		.4byte	cy_meta_loader
+ 222 00a6 07       		.uleb128 0x7
+ 223 00a7 79000000 		.4byte	0x79
+ 224 00ab 05       		.uleb128 0x5
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccRt0q2c.s 			page 5
+
+
+ 225 00ac 90000000 		.4byte	0x90
+ 226 00b0 BB000000 		.4byte	0xbb
+ 227 00b4 06       		.uleb128 0x6
+ 228 00b5 89000000 		.4byte	0x89
+ 229 00b9 03       		.byte	0x3
+ 230 00ba 00       		.byte	0
+ 231 00bb 08       		.uleb128 0x8
+ 232 00bc 4C010000 		.4byte	.LASF13
+ 233 00c0 03       		.byte	0x3
+ 234 00c1 34       		.byte	0x34
+ 235 00c2 CC000000 		.4byte	0xcc
+ 236 00c6 05       		.uleb128 0x5
+ 237 00c7 03       		.byte	0x3
+ 238 00c8 00000000 		.4byte	cy_meta_custnvl
+ 239 00cc 07       		.uleb128 0x7
+ 240 00cd AB000000 		.4byte	0xab
+ 241 00d1 08       		.uleb128 0x8
+ 242 00d2 9D010000 		.4byte	.LASF14
+ 243 00d6 03       		.byte	0x3
+ 244 00d7 42       		.byte	0x42
+ 245 00d8 E2000000 		.4byte	0xe2
+ 246 00dc 05       		.uleb128 0x5
+ 247 00dd 03       		.byte	0x3
+ 248 00de 00000000 		.4byte	cy_meta_wonvl
+ 249 00e2 07       		.uleb128 0x7
+ 250 00e3 AB000000 		.4byte	0xab
+ 251 00e7 05       		.uleb128 0x5
+ 252 00e8 90000000 		.4byte	0x90
+ 253 00ec F7000000 		.4byte	0xf7
+ 254 00f0 06       		.uleb128 0x6
+ 255 00f1 89000000 		.4byte	0x89
+ 256 00f5 FF       		.byte	0xff
+ 257 00f6 00       		.byte	0
+ 258 00f7 08       		.uleb128 0x8
+ 259 00f8 88010000 		.4byte	.LASF15
+ 260 00fc 03       		.byte	0x3
+ 261 00fd 50       		.byte	0x50
+ 262 00fe 08010000 		.4byte	0x108
+ 263 0102 05       		.uleb128 0x5
+ 264 0103 03       		.byte	0x3
+ 265 0104 00000000 		.4byte	cy_meta_flashprotect
+ 266 0108 07       		.uleb128 0x7
+ 267 0109 E7000000 		.4byte	0xe7
+ 268 010d 05       		.uleb128 0x5
+ 269 010e 90000000 		.4byte	0x90
+ 270 0112 1D010000 		.4byte	0x11d
+ 271 0116 06       		.uleb128 0x6
+ 272 0117 89000000 		.4byte	0x89
+ 273 011b 0B       		.byte	0xb
+ 274 011c 00       		.byte	0
+ 275 011d 08       		.uleb128 0x8
+ 276 011e A7000000 		.4byte	.LASF16
+ 277 0122 03       		.byte	0x3
+ 278 0123 7D       		.byte	0x7d
+ 279 0124 2E010000 		.4byte	0x12e
+ 280 0128 05       		.uleb128 0x5
+ 281 0129 03       		.byte	0x3
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccRt0q2c.s 			page 6
+
+
+ 282 012a 00000000 		.4byte	cy_metadata
+ 283 012e 07       		.uleb128 0x7
+ 284 012f 0D010000 		.4byte	0x10d
+ 285 0133 00       		.byte	0
+ 286              		.section	.debug_abbrev,"",%progbits
+ 287              	.Ldebug_abbrev0:
+ 288 0000 01       		.uleb128 0x1
+ 289 0001 11       		.uleb128 0x11
+ 290 0002 01       		.byte	0x1
+ 291 0003 25       		.uleb128 0x25
+ 292 0004 0E       		.uleb128 0xe
+ 293 0005 13       		.uleb128 0x13
+ 294 0006 0B       		.uleb128 0xb
+ 295 0007 03       		.uleb128 0x3
+ 296 0008 0E       		.uleb128 0xe
+ 297 0009 1B       		.uleb128 0x1b
+ 298 000a 0E       		.uleb128 0xe
+ 299 000b 10       		.uleb128 0x10
+ 300 000c 17       		.uleb128 0x17
+ 301 000d 00       		.byte	0
+ 302 000e 00       		.byte	0
+ 303 000f 02       		.uleb128 0x2
+ 304 0010 24       		.uleb128 0x24
+ 305 0011 00       		.byte	0
+ 306 0012 0B       		.uleb128 0xb
+ 307 0013 0B       		.uleb128 0xb
+ 308 0014 3E       		.uleb128 0x3e
+ 309 0015 0B       		.uleb128 0xb
+ 310 0016 03       		.uleb128 0x3
+ 311 0017 0E       		.uleb128 0xe
+ 312 0018 00       		.byte	0
+ 313 0019 00       		.byte	0
+ 314 001a 03       		.uleb128 0x3
+ 315 001b 16       		.uleb128 0x16
+ 316 001c 00       		.byte	0
+ 317 001d 03       		.uleb128 0x3
+ 318 001e 0E       		.uleb128 0xe
+ 319 001f 3A       		.uleb128 0x3a
+ 320 0020 0B       		.uleb128 0xb
+ 321 0021 3B       		.uleb128 0x3b
+ 322 0022 0B       		.uleb128 0xb
+ 323 0023 49       		.uleb128 0x49
+ 324 0024 13       		.uleb128 0x13
+ 325 0025 00       		.byte	0
+ 326 0026 00       		.byte	0
+ 327 0027 04       		.uleb128 0x4
+ 328 0028 24       		.uleb128 0x24
+ 329 0029 00       		.byte	0
+ 330 002a 0B       		.uleb128 0xb
+ 331 002b 0B       		.uleb128 0xb
+ 332 002c 3E       		.uleb128 0x3e
+ 333 002d 0B       		.uleb128 0xb
+ 334 002e 03       		.uleb128 0x3
+ 335 002f 08       		.uleb128 0x8
+ 336 0030 00       		.byte	0
+ 337 0031 00       		.byte	0
+ 338 0032 05       		.uleb128 0x5
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccRt0q2c.s 			page 7
+
+
+ 339 0033 01       		.uleb128 0x1
+ 340 0034 01       		.byte	0x1
+ 341 0035 49       		.uleb128 0x49
+ 342 0036 13       		.uleb128 0x13
+ 343 0037 01       		.uleb128 0x1
+ 344 0038 13       		.uleb128 0x13
+ 345 0039 00       		.byte	0
+ 346 003a 00       		.byte	0
+ 347 003b 06       		.uleb128 0x6
+ 348 003c 21       		.uleb128 0x21
+ 349 003d 00       		.byte	0
+ 350 003e 49       		.uleb128 0x49
+ 351 003f 13       		.uleb128 0x13
+ 352 0040 2F       		.uleb128 0x2f
+ 353 0041 0B       		.uleb128 0xb
+ 354 0042 00       		.byte	0
+ 355 0043 00       		.byte	0
+ 356 0044 07       		.uleb128 0x7
+ 357 0045 26       		.uleb128 0x26
+ 358 0046 00       		.byte	0
+ 359 0047 49       		.uleb128 0x49
+ 360 0048 13       		.uleb128 0x13
+ 361 0049 00       		.byte	0
+ 362 004a 00       		.byte	0
+ 363 004b 08       		.uleb128 0x8
+ 364 004c 34       		.uleb128 0x34
+ 365 004d 00       		.byte	0
+ 366 004e 03       		.uleb128 0x3
+ 367 004f 0E       		.uleb128 0xe
+ 368 0050 3A       		.uleb128 0x3a
+ 369 0051 0B       		.uleb128 0xb
+ 370 0052 3B       		.uleb128 0x3b
+ 371 0053 0B       		.uleb128 0xb
+ 372 0054 49       		.uleb128 0x49
+ 373 0055 13       		.uleb128 0x13
+ 374 0056 3F       		.uleb128 0x3f
+ 375 0057 19       		.uleb128 0x19
+ 376 0058 02       		.uleb128 0x2
+ 377 0059 18       		.uleb128 0x18
+ 378 005a 00       		.byte	0
+ 379 005b 00       		.byte	0
+ 380 005c 00       		.byte	0
+ 381              		.section	.debug_aranges,"",%progbits
+ 382 0000 14000000 		.4byte	0x14
+ 383 0004 0200     		.2byte	0x2
+ 384 0006 00000000 		.4byte	.Ldebug_info0
+ 385 000a 04       		.byte	0x4
+ 386 000b 00       		.byte	0
+ 387 000c 0000     		.2byte	0
+ 388 000e 0000     		.2byte	0
+ 389 0010 00000000 		.4byte	0
+ 390 0014 00000000 		.4byte	0
+ 391              		.section	.debug_line,"",%progbits
+ 392              	.Ldebug_line0:
+ 393 0000 3D010000 		.section	.debug_str,"MS",%progbits,1
+ 393      02003701 
+ 393      00000201 
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccRt0q2c.s 			page 8
+
+
+ 393      FB0E0D00 
+ 393      01010101 
+ 394              	.LASF9:
+ 395 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 395      6E74385F 
+ 395      7400
+ 396              	.LASF17:
+ 397 000a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 397      43313120 
+ 397      352E342E 
+ 397      31203230 
+ 397      31363036 
+ 398 003d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 398      20726576 
+ 398      6973696F 
+ 398      6E203233 
+ 398      37373135 
+ 399 0070 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 399      66756E63 
+ 399      74696F6E 
+ 399      2D736563 
+ 399      74696F6E 
+ 400              	.LASF12:
+ 401 0098 63795F6D 		.ascii	"cy_meta_loader\000"
+ 401      6574615F 
+ 401      6C6F6164 
+ 401      657200
+ 402              	.LASF16:
+ 403 00a7 63795F6D 		.ascii	"cy_metadata\000"
+ 403      65746164 
+ 403      61746100 
+ 404              	.LASF1:
+ 405 00b3 756E7369 		.ascii	"unsigned char\000"
+ 405      676E6564 
+ 405      20636861 
+ 405      7200
+ 406              	.LASF5:
+ 407 00c1 6C6F6E67 		.ascii	"long unsigned int\000"
+ 407      20756E73 
+ 407      69676E65 
+ 407      6420696E 
+ 407      7400
+ 408              	.LASF3:
+ 409 00d3 73686F72 		.ascii	"short unsigned int\000"
+ 409      7420756E 
+ 409      7369676E 
+ 409      65642069 
+ 409      6E7400
+ 410              	.LASF19:
+ 411 00e6 433A5C55 		.ascii	"C:\\Users\\Taha\\Creative Cloud Files\\Desktop\\Iro"
+ 411      73657273 
+ 411      5C546168 
+ 411      615C4372 
+ 411      65617469 
+ 412 0114 5465616D 		.ascii	"Team\\current\\Ali\\IroTeam_CM_Bootloader\\Bootload"
+ 412      5C637572 
+ 412      72656E74 
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccRt0q2c.s 			page 9
+
+
+ 412      5C416C69 
+ 412      5C49726F 
+ 413 0143 65722E63 		.ascii	"er.cydsn\000"
+ 413      7964736E 
+ 413      00
+ 414              	.LASF13:
+ 415 014c 63795F6D 		.ascii	"cy_meta_custnvl\000"
+ 415      6574615F 
+ 415      63757374 
+ 415      6E766C00 
+ 416              	.LASF8:
+ 417 015c 756E7369 		.ascii	"unsigned int\000"
+ 417      676E6564 
+ 417      20696E74 
+ 417      00
+ 418              	.LASF7:
+ 419 0169 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 419      206C6F6E 
+ 419      6720756E 
+ 419      7369676E 
+ 419      65642069 
+ 420              	.LASF10:
+ 421 0180 75696E74 		.ascii	"uint8_t\000"
+ 421      385F7400 
+ 422              	.LASF15:
+ 423 0188 63795F6D 		.ascii	"cy_meta_flashprotect\000"
+ 423      6574615F 
+ 423      666C6173 
+ 423      6870726F 
+ 423      74656374 
+ 424              	.LASF14:
+ 425 019d 63795F6D 		.ascii	"cy_meta_wonvl\000"
+ 425      6574615F 
+ 425      776F6E76 
+ 425      6C00
+ 426              	.LASF11:
+ 427 01ab 73697A65 		.ascii	"sizetype\000"
+ 427      74797065 
+ 427      00
+ 428              	.LASF6:
+ 429 01b4 6C6F6E67 		.ascii	"long long int\000"
+ 429      206C6F6E 
+ 429      6720696E 
+ 429      7400
+ 430              	.LASF2:
+ 431 01c2 73686F72 		.ascii	"short int\000"
+ 431      7420696E 
+ 431      7400
+ 432              	.LASF4:
+ 433 01cc 6C6F6E67 		.ascii	"long int\000"
+ 433      20696E74 
+ 433      00
+ 434              	.LASF0:
+ 435 01d5 7369676E 		.ascii	"signed char\000"
+ 435      65642063 
+ 435      68617200 
+ 436              	.LASF18:
+ARM GAS  C:\Users\Taha\AppData\Local\Temp\ccRt0q2c.s 			page 10
+
+
+ 437 01e1 47656E65 		.ascii	"Generated_Source\\PSoC5\\cymetadata.c\000"
+ 437      72617465 
+ 437      645F536F 
+ 437      75726365 
+ 437      5C50536F 
+ 438              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

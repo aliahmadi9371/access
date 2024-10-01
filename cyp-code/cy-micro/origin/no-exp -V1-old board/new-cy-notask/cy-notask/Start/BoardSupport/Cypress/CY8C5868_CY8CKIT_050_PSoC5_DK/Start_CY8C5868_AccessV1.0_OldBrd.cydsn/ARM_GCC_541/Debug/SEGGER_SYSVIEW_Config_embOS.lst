@@ -1,0 +1,2037 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"SEGGER_SYSVIEW_Config_embOS.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.rodata
+  20              		.align	2
+  21              	.LC0:
+  22 0000 4E3D656D 		.ascii	"N=embOS start project,O=embOS,D=CY8C5868\000"
+  22      624F5320 
+  22      73746172 
+  22      74207072 
+  22      6F6A6563 
+  23 0029 000000   		.align	2
+  24              	.LC1:
+  25 002c 49233135 		.ascii	"I#15=SysTick\000"
+  25      3D537973 
+  25      5469636B 
+  25      00
+  26              		.section	.text._cbSendSystemDesc,"ax",%progbits
+  27              		.align	2
+  28              		.thumb
+  29              		.thumb_func
+  30              		.type	_cbSendSystemDesc, %function
+  31              	_cbSendSystemDesc:
+  32              	.LFB0:
+  33              		.file 1 "..\\SEGGER\\SEGGER_SYSVIEW_Config_embOS.c"
+   1:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** /*********************************************************************
+   2:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                     SEGGER Microcontroller GmbH                    *
+   3:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                        The Embedded Experts                        *
+   4:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** **********************************************************************
+   5:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                                                                    *
+   6:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       (c) 1995 - 2022 SEGGER Microcontroller GmbH                  *
+   7:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                                                                    *
+   8:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       Internet: segger.com  Support: support_embos@segger.com      *
+   9:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                                                                    *
+  10:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** **********************************************************************
+  11:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                                                                    *
+  12:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       embOS * Real time operating system                           *
+  13:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                                                                    *
+  14:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       Please note:                                                 *
+  15:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                                                                    *
+  16:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       Knowledge of this file may under no circumstances            *
+  17:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       be used to write a similar product or a real-time            *
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 2
+
+
+  18:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       operating system for in-house use.                           *
+  19:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                                                                    *
+  20:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       Thank you for your fairness !                                *
+  21:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                                                                    *
+  22:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** **********************************************************************
+  23:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                                                                    *
+  24:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       OS version: V5.16.1.0                                        *
+  25:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *                                                                    *
+  26:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** **********************************************************************
+  27:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** 
+  28:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** -------------------------- END-OF-HEADER -----------------------------
+  29:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** 
+  30:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** File    : SEGGER_SYSVIEW_Config_embOS.c
+  31:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** Purpose : Sample setup configuration of SystemView with embOS.
+  32:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** Revision: $Rev: 21319 $
+  33:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** */
+  34:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #include "RTOS.h"
+  35:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #include "SEGGER_SYSVIEW.h"
+  36:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #include "SEGGER_SYSVIEW_embOS.h"
+  37:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** 
+  38:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** /*********************************************************************
+  39:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *
+  40:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       Defines, fixed
+  41:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *
+  42:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** **********************************************************************
+  43:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** */
+  44:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #define DEMCR         (*(volatile U32*) (0xE000EDFCuL))  // Debug Exception and Monitor Control Reg
+  45:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #define TRACEENA_BIT  (1uL << 24)                        // Trace enable bit
+  46:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #define DWT_CTRL      (*(volatile U32*) (0xE0001000uL))  // DWT Control Register
+  47:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #define NOCYCCNT_BIT  (1uL << 25)                        // Cycle counter support bit
+  48:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #define CYCCNTENA_BIT (1uL << 0)                         // Cycle counter enable bit
+  49:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** //
+  50:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** // If events will be recorded without a debug probe (J-Link) attached,
+  51:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** // enable the cycle counter
+  52:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** //
+  53:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #define ENABLE_DWT_CYCCNT (SEGGER_SYSVIEW_POST_MORTEM_MODE || SEGGER_SYSVIEW_USE_INTERNAL_RECORDER)
+  54:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** 
+  55:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** /*********************************************************************
+  56:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *
+  57:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       Local functions
+  58:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *
+  59:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** **********************************************************************
+  60:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** */
+  61:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** /*********************************************************************
+  62:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *
+  63:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       _cbSendSystemDesc()
+  64:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *
+  65:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *  Function description
+  66:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *    Sends SystemView description strings.
+  67:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** */
+  68:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** static void _cbSendSystemDesc(void) {
+  34              		.loc 1 68 0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 1, uses_anonymous_args = 0
+  38 0000 80B5     		push	{r7, lr}
+  39              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 3
+
+
+  40              		.cfi_offset 7, -8
+  41              		.cfi_offset 14, -4
+  42 0002 00AF     		add	r7, sp, #0
+  43              		.cfi_def_cfa_register 7
+  69:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   SEGGER_SYSVIEW_SendSysDesc("N=" SEGGER_SYSVIEW_APP_NAME ",O=embOS,D=" SEGGER_SYSVIEW_DEVICE_NAME 
+  44              		.loc 1 69 0
+  45 0004 0348     		ldr	r0, .L2
+  46 0006 FFF7FEFF 		bl	SEGGER_SYSVIEW_SendSysDesc
+  70:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #ifdef SEGGER_SYSVIEW_SYSDESC0
+  71:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   SEGGER_SYSVIEW_SendSysDesc(SEGGER_SYSVIEW_SYSDESC0);
+  47              		.loc 1 71 0
+  48 000a 0348     		ldr	r0, .L2+4
+  49 000c FFF7FEFF 		bl	SEGGER_SYSVIEW_SendSysDesc
+  72:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #endif
+  73:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #ifdef SEGGER_SYSVIEW_SYSDESC1
+  74:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   SEGGER_SYSVIEW_SendSysDesc(SEGGER_SYSVIEW_SYSDESC1);
+  75:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #endif
+  76:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #ifdef SEGGER_SYSVIEW_SYSDESC2
+  77:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   SEGGER_SYSVIEW_SendSysDesc(SEGGER_SYSVIEW_SYSDESC2);
+  78:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #endif
+  79:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** }
+  50              		.loc 1 79 0
+  51 0010 00BF     		nop
+  52 0012 80BD     		pop	{r7, pc}
+  53              	.L3:
+  54              		.align	2
+  55              	.L2:
+  56 0014 00000000 		.word	.LC0
+  57 0018 2C000000 		.word	.LC1
+  58              		.cfi_endproc
+  59              	.LFE0:
+  60              		.size	_cbSendSystemDesc, .-_cbSendSystemDesc
+  61              		.section	.text.SEGGER_SYSVIEW_Conf,"ax",%progbits
+  62              		.align	2
+  63              		.global	SEGGER_SYSVIEW_Conf
+  64              		.thumb
+  65              		.thumb_func
+  66              		.type	SEGGER_SYSVIEW_Conf, %function
+  67              	SEGGER_SYSVIEW_Conf:
+  68              	.LFB1:
+  80:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** 
+  81:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** /*********************************************************************
+  82:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *
+  83:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       Global functions
+  84:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *
+  85:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** **********************************************************************
+  86:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** */
+  87:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** /*********************************************************************
+  88:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *
+  89:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *       SEGGER_SYSVIEW_Conf()
+  90:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *
+  91:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** * Function description
+  92:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *   Configure and initialize SystemView and register it with embOS.
+  93:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *
+  94:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** * Additional information
+  95:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *   If enabled, SEGGER_SYSVIEW_Conf() will also immediately start
+  96:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** *   recording events with SystemView.
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 4
+
+
+  97:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** */
+  98:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** void SEGGER_SYSVIEW_Conf(void) {
+  69              		.loc 1 98 0
+  70              		.cfi_startproc
+  71              		@ args = 0, pretend = 0, frame = 0
+  72              		@ frame_needed = 1, uses_anonymous_args = 0
+  73 0000 80B5     		push	{r7, lr}
+  74              		.cfi_def_cfa_offset 8
+  75              		.cfi_offset 7, -8
+  76              		.cfi_offset 14, -4
+  77 0002 00AF     		add	r7, sp, #0
+  78              		.cfi_def_cfa_register 7
+  99:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #if ENABLE_DWT_CYCCNT
+ 100:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   //
+ 101:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   // If no debugger is connected, the DWT must be enabled by the application
+ 102:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   //
+ 103:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   if ((DEMCR & TRACEENA_BIT) == 0) {
+ 104:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****     DEMCR |= TRACEENA_BIT;
+ 105:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   }
+ 106:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #endif
+ 107:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   //
+ 108:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   //  The cycle counter must be activated in order
+ 109:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   //  to use time related functions.
+ 110:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   //
+ 111:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   if ((DWT_CTRL & NOCYCCNT_BIT) == 0) {       // Cycle counter supported?
+  79              		.loc 1 111 0
+  80 0004 0E4B     		ldr	r3, .L6
+  81 0006 1B68     		ldr	r3, [r3]
+  82 0008 03F00073 		and	r3, r3, #33554432
+  83 000c 002B     		cmp	r3, #0
+  84 000e 0BD1     		bne	.L5
+ 112:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****     if ((DWT_CTRL & CYCCNTENA_BIT) == 0) {    // Cycle counter not enabled?
+  85              		.loc 1 112 0
+  86 0010 0B4B     		ldr	r3, .L6
+  87 0012 1B68     		ldr	r3, [r3]
+  88 0014 03F00103 		and	r3, r3, #1
+  89 0018 002B     		cmp	r3, #0
+  90 001a 05D1     		bne	.L5
+ 113:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****       DWT_CTRL |= CYCCNTENA_BIT;              // Enable Cycle counter
+  91              		.loc 1 113 0
+  92 001c 084A     		ldr	r2, .L6
+  93 001e 084B     		ldr	r3, .L6
+  94 0020 1B68     		ldr	r3, [r3]
+  95 0022 43F00103 		orr	r3, r3, #1
+  96 0026 1360     		str	r3, [r2]
+  97              	.L5:
+ 114:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****     }
+ 115:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   }
+ 116:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   SEGGER_SYSVIEW_Init(SEGGER_SYSVIEW_TIMESTAMP_FREQ, SEGGER_SYSVIEW_CPU_FREQ,
+  98              		.loc 1 116 0
+  99 0028 064B     		ldr	r3, .L6+4
+ 100 002a 074A     		ldr	r2, .L6+8
+ 101 002c 0749     		ldr	r1, .L6+12
+ 102 002e 0748     		ldr	r0, .L6+12
+ 103 0030 FFF7FEFF 		bl	SEGGER_SYSVIEW_Init
+ 117:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****                       &SYSVIEW_X_OS_TraceAPI, _cbSendSystemDesc);
+ 118:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   OS_TRACE_SetAPI(&embOS_TraceAPI_SYSVIEW);  // Configure embOS to use SYSVIEW.
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 5
+
+
+ 104              		.loc 1 118 0
+ 105 0034 0648     		ldr	r0, .L6+16
+ 106 0036 FFF7FEFF 		bl	OS_TRACE_SetAPI
+ 119:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #if SEGGER_SYSVIEW_START_ON_INIT
+ 120:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c ****   SEGGER_SYSVIEW_Start();                    // Start recording to catch system initialization.
+ 121:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** #endif
+ 122:..\SEGGER/SEGGER_SYSVIEW_Config_embOS.c **** }
+ 107              		.loc 1 122 0
+ 108 003a 00BF     		nop
+ 109 003c 80BD     		pop	{r7, pc}
+ 110              	.L7:
+ 111 003e 00BF     		.align	2
+ 112              	.L6:
+ 113 0040 001000E0 		.word	-536866816
+ 114 0044 00000000 		.word	_cbSendSystemDesc
+ 115 0048 00000000 		.word	SYSVIEW_X_OS_TraceAPI
+ 116 004c 80F0FA02 		.word	50000000
+ 117 0050 00000000 		.word	embOS_TraceAPI_SYSVIEW
+ 118              		.cfi_endproc
+ 119              	.LFE1:
+ 120              		.size	SEGGER_SYSVIEW_Conf, .-SEGGER_SYSVIEW_Conf
+ 121              		.text
+ 122              	.Letext0:
+ 123              		.file 2 "..\\..\\..\\..\\Inc/RTOS.h"
+ 124              		.file 3 "..\\SEGGER\\SEGGER_SYSVIEW.h"
+ 125              		.file 4 "..\\SEGGER\\SEGGER_SYSVIEW_embOS.h"
+ 126              		.section	.debug_info,"",%progbits
+ 127              	.Ldebug_info0:
+ 128 0000 13070000 		.4byte	0x713
+ 129 0004 0400     		.2byte	0x4
+ 130 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 131 000a 04       		.byte	0x4
+ 132 000b 01       		.uleb128 0x1
+ 133 000c B1000000 		.4byte	.LASF99
+ 134 0010 0C       		.byte	0xc
+ 135 0011 E7030000 		.4byte	.LASF100
+ 136 0015 E0050000 		.4byte	.LASF101
+ 137 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 138 001d 00000000 		.4byte	0
+ 139 0021 00000000 		.4byte	.Ldebug_line0
+ 140 0025 02       		.uleb128 0x2
+ 141 0026 04       		.byte	0x4
+ 142 0027 05       		.byte	0x5
+ 143 0028 696E7400 		.ascii	"int\000"
+ 144 002c 03       		.uleb128 0x3
+ 145 002d 04       		.byte	0x4
+ 146 002e 07       		.byte	0x7
+ 147 002f B6030000 		.4byte	.LASF0
+ 148 0033 03       		.uleb128 0x3
+ 149 0034 08       		.byte	0x8
+ 150 0035 05       		.byte	0x5
+ 151 0036 A8060000 		.4byte	.LASF1
+ 152 003a 03       		.uleb128 0x3
+ 153 003b 08       		.byte	0x8
+ 154 003c 04       		.byte	0x4
+ 155 003d 30030000 		.4byte	.LASF2
+ 156 0041 03       		.uleb128 0x3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 6
+
+
+ 157 0042 01       		.byte	0x1
+ 158 0043 06       		.byte	0x6
+ 159 0044 89030000 		.4byte	.LASF3
+ 160 0048 03       		.uleb128 0x3
+ 161 0049 01       		.byte	0x1
+ 162 004a 08       		.byte	0x8
+ 163 004b 3C030000 		.4byte	.LASF4
+ 164 004f 03       		.uleb128 0x3
+ 165 0050 02       		.byte	0x2
+ 166 0051 05       		.byte	0x5
+ 167 0052 AF010000 		.4byte	.LASF5
+ 168 0056 03       		.uleb128 0x3
+ 169 0057 02       		.byte	0x2
+ 170 0058 07       		.byte	0x7
+ 171 0059 1F040000 		.4byte	.LASF6
+ 172 005d 03       		.uleb128 0x3
+ 173 005e 04       		.byte	0x4
+ 174 005f 05       		.byte	0x5
+ 175 0060 8E020000 		.4byte	.LASF7
+ 176 0064 03       		.uleb128 0x3
+ 177 0065 04       		.byte	0x4
+ 178 0066 07       		.byte	0x7
+ 179 0067 E3040000 		.4byte	.LASF8
+ 180 006b 03       		.uleb128 0x3
+ 181 006c 08       		.byte	0x8
+ 182 006d 07       		.byte	0x7
+ 183 006e 95030000 		.4byte	.LASF9
+ 184 0072 03       		.uleb128 0x3
+ 185 0073 04       		.byte	0x4
+ 186 0074 07       		.byte	0x7
+ 187 0075 80000000 		.4byte	.LASF10
+ 188 0079 04       		.uleb128 0x4
+ 189 007a 04       		.byte	0x4
+ 190 007b 03       		.uleb128 0x3
+ 191 007c 01       		.byte	0x1
+ 192 007d 08       		.byte	0x8
+ 193 007e 47040000 		.4byte	.LASF11
+ 194 0082 05       		.uleb128 0x5
+ 195 0083 04       		.byte	0x4
+ 196 0084 88000000 		.4byte	0x88
+ 197 0088 06       		.uleb128 0x6
+ 198 0089 05       		.uleb128 0x5
+ 199 008a 04       		.byte	0x4
+ 200 008b 48000000 		.4byte	0x48
+ 201 008f 05       		.uleb128 0x5
+ 202 0090 04       		.byte	0x4
+ 203 0091 95000000 		.4byte	0x95
+ 204 0095 07       		.uleb128 0x7
+ 205 0096 7B000000 		.4byte	0x7b
+ 206 009a 08       		.uleb128 0x8
+ 207 009b 48       		.byte	0x48
+ 208 009c 02       		.byte	0x2
+ 209 009d 1001     		.2byte	0x110
+ 210 009f 8E010000 		.4byte	0x18e
+ 211 00a3 09       		.uleb128 0x9
+ 212 00a4 8F060000 		.4byte	.LASF12
+ 213 00a8 02       		.byte	0x2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 7
+
+
+ 214 00a9 1101     		.2byte	0x111
+ 215 00ab 64000000 		.4byte	0x64
+ 216 00af 00       		.byte	0
+ 217 00b0 09       		.uleb128 0x9
+ 218 00b1 6C010000 		.4byte	.LASF13
+ 219 00b5 02       		.byte	0x2
+ 220 00b6 1201     		.2byte	0x112
+ 221 00b8 64000000 		.4byte	0x64
+ 222 00bc 04       		.byte	0x4
+ 223 00bd 09       		.uleb128 0x9
+ 224 00be 9D000000 		.4byte	.LASF14
+ 225 00c2 02       		.byte	0x2
+ 226 00c3 1301     		.2byte	0x113
+ 227 00c5 64000000 		.4byte	0x64
+ 228 00c9 08       		.byte	0x8
+ 229 00ca 09       		.uleb128 0x9
+ 230 00cb 7E010000 		.4byte	.LASF15
+ 231 00cf 02       		.byte	0x2
+ 232 00d0 1401     		.2byte	0x114
+ 233 00d2 64000000 		.4byte	0x64
+ 234 00d6 0C       		.byte	0xc
+ 235 00d7 09       		.uleb128 0x9
+ 236 00d8 A7000000 		.4byte	.LASF16
+ 237 00dc 02       		.byte	0x2
+ 238 00dd 1501     		.2byte	0x115
+ 239 00df 64000000 		.4byte	0x64
+ 240 00e3 10       		.byte	0x10
+ 241 00e4 09       		.uleb128 0x9
+ 242 00e5 3F010000 		.4byte	.LASF17
+ 243 00e9 02       		.byte	0x2
+ 244 00ea 1601     		.2byte	0x116
+ 245 00ec 64000000 		.4byte	0x64
+ 246 00f0 14       		.byte	0x14
+ 247 00f1 09       		.uleb128 0x9
+ 248 00f2 A5010000 		.4byte	.LASF18
+ 249 00f6 02       		.byte	0x2
+ 250 00f7 1701     		.2byte	0x117
+ 251 00f9 64000000 		.4byte	0x64
+ 252 00fd 18       		.byte	0x18
+ 253 00fe 09       		.uleb128 0x9
+ 254 00ff C9020000 		.4byte	.LASF19
+ 255 0103 02       		.byte	0x2
+ 256 0104 1801     		.2byte	0x118
+ 257 0106 64000000 		.4byte	0x64
+ 258 010a 1C       		.byte	0x1c
+ 259 010b 09       		.uleb128 0x9
+ 260 010c D4020000 		.4byte	.LASF20
+ 261 0110 02       		.byte	0x2
+ 262 0111 1901     		.2byte	0x119
+ 263 0113 64000000 		.4byte	0x64
+ 264 0117 20       		.byte	0x20
+ 265 0118 09       		.uleb128 0x9
+ 266 0119 9B040000 		.4byte	.LASF21
+ 267 011d 02       		.byte	0x2
+ 268 011e 1A01     		.2byte	0x11a
+ 269 0120 64000000 		.4byte	0x64
+ 270 0124 24       		.byte	0x24
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 8
+
+
+ 271 0125 09       		.uleb128 0x9
+ 272 0126 4F000000 		.4byte	.LASF22
+ 273 012a 02       		.byte	0x2
+ 274 012b 1B01     		.2byte	0x11b
+ 275 012d 64000000 		.4byte	0x64
+ 276 0131 28       		.byte	0x28
+ 277 0132 09       		.uleb128 0x9
+ 278 0133 59000000 		.4byte	.LASF23
+ 279 0137 02       		.byte	0x2
+ 280 0138 1C01     		.2byte	0x11c
+ 281 013a 64000000 		.4byte	0x64
+ 282 013e 2C       		.byte	0x2c
+ 283 013f 09       		.uleb128 0x9
+ 284 0140 58010000 		.4byte	.LASF24
+ 285 0144 02       		.byte	0x2
+ 286 0145 1D01     		.2byte	0x11d
+ 287 0147 64000000 		.4byte	0x64
+ 288 014b 30       		.byte	0x30
+ 289 014c 09       		.uleb128 0x9
+ 290 014d 62010000 		.4byte	.LASF25
+ 291 0151 02       		.byte	0x2
+ 292 0152 1E01     		.2byte	0x11e
+ 293 0154 64000000 		.4byte	0x64
+ 294 0158 34       		.byte	0x34
+ 295 0159 09       		.uleb128 0x9
+ 296 015a DF020000 		.4byte	.LASF26
+ 297 015e 02       		.byte	0x2
+ 298 015f 1F01     		.2byte	0x11f
+ 299 0161 64000000 		.4byte	0x64
+ 300 0165 38       		.byte	0x38
+ 301 0166 09       		.uleb128 0x9
+ 302 0167 EA020000 		.4byte	.LASF27
+ 303 016b 02       		.byte	0x2
+ 304 016c 2001     		.2byte	0x120
+ 305 016e 64000000 		.4byte	0x64
+ 306 0172 3C       		.byte	0x3c
+ 307 0173 09       		.uleb128 0x9
+ 308 0174 A5040000 		.4byte	.LASF28
+ 309 0178 02       		.byte	0x2
+ 310 0179 2101     		.2byte	0x121
+ 311 017b 64000000 		.4byte	0x64
+ 312 017f 40       		.byte	0x40
+ 313 0180 09       		.uleb128 0x9
+ 314 0181 CE010000 		.4byte	.LASF29
+ 315 0185 02       		.byte	0x2
+ 316 0186 2201     		.2byte	0x122
+ 317 0188 64000000 		.4byte	0x64
+ 318 018c 44       		.byte	0x44
+ 319 018d 00       		.byte	0
+ 320 018e 0A       		.uleb128 0xa
+ 321 018f 35000000 		.4byte	.LASF31
+ 322 0193 02       		.byte	0x2
+ 323 0194 2301     		.2byte	0x123
+ 324 0196 9A000000 		.4byte	0x9a
+ 325 019a 08       		.uleb128 0x8
+ 326 019b 48       		.byte	0x48
+ 327 019c 02       		.byte	0x2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 9
+
+
+ 328 019d 2501     		.2byte	0x125
+ 329 019f B1010000 		.4byte	0x1b1
+ 330 01a3 09       		.uleb128 0x9
+ 331 01a4 6F040000 		.4byte	.LASF30
+ 332 01a8 02       		.byte	0x2
+ 333 01a9 2601     		.2byte	0x126
+ 334 01ab 8E010000 		.4byte	0x18e
+ 335 01af 00       		.byte	0
+ 336 01b0 00       		.byte	0
+ 337 01b1 0A       		.uleb128 0xa
+ 338 01b2 76010000 		.4byte	.LASF32
+ 339 01b6 02       		.byte	0x2
+ 340 01b7 2701     		.2byte	0x127
+ 341 01b9 9A010000 		.4byte	0x19a
+ 342 01bd 0B       		.uleb128 0xb
+ 343 01be C8010000 		.4byte	0x1c8
+ 344 01c2 0C       		.uleb128 0xc
+ 345 01c3 64000000 		.4byte	0x64
+ 346 01c7 00       		.byte	0
+ 347 01c8 05       		.uleb128 0x5
+ 348 01c9 04       		.byte	0x4
+ 349 01ca BD010000 		.4byte	0x1bd
+ 350 01ce 0A       		.uleb128 0xa
+ 351 01cf 58020000 		.4byte	.LASF33
+ 352 01d3 02       		.byte	0x2
+ 353 01d4 2D07     		.2byte	0x72d
+ 354 01d6 DA010000 		.4byte	0x1da
+ 355 01da 0D       		.uleb128 0xd
+ 356 01db 3A020000 		.4byte	.LASF57
+ 357 01df 54       		.byte	0x54
+ 358 01e0 02       		.byte	0x2
+ 359 01e1 E807     		.2byte	0x7e8
+ 360 01e3 12030000 		.4byte	0x312
+ 361 01e7 09       		.uleb128 0x9
+ 362 01e8 0F040000 		.4byte	.LASF34
+ 363 01ec 02       		.byte	0x2
+ 364 01ed E907     		.2byte	0x7e9
+ 365 01ef A9030000 		.4byte	0x3a9
+ 366 01f3 00       		.byte	0
+ 367 01f4 09       		.uleb128 0x9
+ 368 01f5 87020000 		.4byte	.LASF35
+ 369 01f9 02       		.byte	0x2
+ 370 01fa EA07     		.2byte	0x7ea
+ 371 01fc 59040000 		.4byte	0x459
+ 372 0200 04       		.byte	0x4
+ 373 0201 09       		.uleb128 0x9
+ 374 0202 4B050000 		.4byte	.LASF36
+ 375 0206 02       		.byte	0x2
+ 376 0207 EB07     		.2byte	0x7eb
+ 377 0209 9D030000 		.4byte	0x39d
+ 378 020d 08       		.byte	0x8
+ 379 020e 09       		.uleb128 0x9
+ 380 020f 32040000 		.4byte	.LASF37
+ 381 0213 02       		.byte	0x2
+ 382 0214 EC07     		.2byte	0x7ec
+ 383 0216 25000000 		.4byte	0x25
+ 384 021a 0C       		.byte	0xc
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 10
+
+
+ 385 021b 09       		.uleb128 0x9
+ 386 021c 2C000000 		.4byte	.LASF38
+ 387 0220 02       		.byte	0x2
+ 388 0221 ED07     		.2byte	0x7ed
+ 389 0223 64000000 		.4byte	0x64
+ 390 0227 10       		.byte	0x10
+ 391 0228 09       		.uleb128 0x9
+ 392 0229 EE010000 		.4byte	.LASF39
+ 393 022d 02       		.byte	0x2
+ 394 022e EE07     		.2byte	0x7ee
+ 395 0230 64000000 		.4byte	0x64
+ 396 0234 14       		.byte	0x14
+ 397 0235 09       		.uleb128 0x9
+ 398 0236 79000000 		.4byte	.LASF40
+ 399 023a 02       		.byte	0x2
+ 400 023b EF07     		.2byte	0x7ef
+ 401 023d 5F040000 		.4byte	0x45f
+ 402 0241 18       		.byte	0x18
+ 403 0242 09       		.uleb128 0x9
+ 404 0243 C4010000 		.4byte	.LASF41
+ 405 0247 02       		.byte	0x2
+ 406 0248 F007     		.2byte	0x7f0
+ 407 024a 64000000 		.4byte	0x64
+ 408 024e 1C       		.byte	0x1c
+ 409 024f 09       		.uleb128 0x9
+ 410 0250 34020000 		.4byte	.LASF42
+ 411 0254 02       		.byte	0x2
+ 412 0255 F207     		.2byte	0x7f2
+ 413 0257 A9030000 		.4byte	0x3a9
+ 414 025b 20       		.byte	0x20
+ 415 025c 09       		.uleb128 0x9
+ 416 025d 52010000 		.4byte	.LASF43
+ 417 0261 02       		.byte	0x2
+ 418 0262 F507     		.2byte	0x7f5
+ 419 0264 8F000000 		.4byte	0x8f
+ 420 0268 24       		.byte	0x24
+ 421 0269 09       		.uleb128 0x9
+ 422 026a F5040000 		.4byte	.LASF44
+ 423 026e 02       		.byte	0x2
+ 424 026f F807     		.2byte	0x7f8
+ 425 0271 2C000000 		.4byte	0x2c
+ 426 0275 28       		.byte	0x28
+ 427 0276 09       		.uleb128 0x9
+ 428 0277 B9010000 		.4byte	.LASF45
+ 429 027b 02       		.byte	0x2
+ 430 027c F907     		.2byte	0x7f9
+ 431 027e 89000000 		.4byte	0x89
+ 432 0282 2C       		.byte	0x2c
+ 433 0283 09       		.uleb128 0x9
+ 434 0284 8E000000 		.4byte	.LASF46
+ 435 0288 02       		.byte	0x2
+ 436 0289 FC07     		.2byte	0x7fc
+ 437 028b 64000000 		.4byte	0x64
+ 438 028f 30       		.byte	0x30
+ 439 0290 09       		.uleb128 0x9
+ 440 0291 9C050000 		.4byte	.LASF47
+ 441 0295 02       		.byte	0x2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 11
+
+
+ 442 0296 FD07     		.2byte	0x7fd
+ 443 0298 64000000 		.4byte	0x64
+ 444 029c 34       		.byte	0x34
+ 445 029d 09       		.uleb128 0x9
+ 446 029e 26030000 		.4byte	.LASF48
+ 447 02a2 02       		.byte	0x2
+ 448 02a3 0008     		.2byte	0x800
+ 449 02a5 64000000 		.4byte	0x64
+ 450 02a9 38       		.byte	0x38
+ 451 02aa 09       		.uleb128 0x9
+ 452 02ab 49010000 		.4byte	.LASF49
+ 453 02af 02       		.byte	0x2
+ 454 02b0 0108     		.2byte	0x801
+ 455 02b2 64000000 		.4byte	0x64
+ 456 02b6 3C       		.byte	0x3c
+ 457 02b7 09       		.uleb128 0x9
+ 458 02b8 35050000 		.4byte	.LASF50
+ 459 02bc 02       		.byte	0x2
+ 460 02bd 0208     		.2byte	0x802
+ 461 02bf 64000000 		.4byte	0x64
+ 462 02c3 40       		.byte	0x40
+ 463 02c4 09       		.uleb128 0x9
+ 464 02c5 D6030000 		.4byte	.LASF51
+ 465 02c9 02       		.byte	0x2
+ 466 02ca 0508     		.2byte	0x805
+ 467 02cc 4D040000 		.4byte	0x44d
+ 468 02d0 44       		.byte	0x44
+ 469 02d1 09       		.uleb128 0x9
+ 470 02d2 0B030000 		.4byte	.LASF52
+ 471 02d6 02       		.byte	0x2
+ 472 02d7 0808     		.2byte	0x808
+ 473 02d9 79000000 		.4byte	0x79
+ 474 02dd 4C       		.byte	0x4c
+ 475 02de 09       		.uleb128 0x9
+ 476 02df 89000000 		.4byte	.LASF53
+ 477 02e3 02       		.byte	0x2
+ 478 02e4 0D08     		.2byte	0x80d
+ 479 02e6 48000000 		.4byte	0x48
+ 480 02ea 50       		.byte	0x50
+ 481 02eb 09       		.uleb128 0x9
+ 482 02ec 3A040000 		.4byte	.LASF54
+ 483 02f0 02       		.byte	0x2
+ 484 02f1 0F08     		.2byte	0x80f
+ 485 02f3 48000000 		.4byte	0x48
+ 486 02f7 51       		.byte	0x51
+ 487 02f8 09       		.uleb128 0x9
+ 488 02f9 95010000 		.4byte	.LASF55
+ 489 02fd 02       		.byte	0x2
+ 490 02fe 1008     		.2byte	0x810
+ 491 0300 48000000 		.4byte	0x48
+ 492 0304 52       		.byte	0x52
+ 493 0305 0E       		.uleb128 0xe
+ 494 0306 496400   		.ascii	"Id\000"
+ 495 0309 02       		.byte	0x2
+ 496 030a 1308     		.2byte	0x813
+ 497 030c 48000000 		.4byte	0x48
+ 498 0310 53       		.byte	0x53
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 12
+
+
+ 499 0311 00       		.byte	0
+ 500 0312 0A       		.uleb128 0xa
+ 501 0313 88010000 		.4byte	.LASF56
+ 502 0317 02       		.byte	0x2
+ 503 0318 2E07     		.2byte	0x72e
+ 504 031a 1E030000 		.4byte	0x31e
+ 505 031e 0D       		.uleb128 0xd
+ 506 031f CC050000 		.4byte	.LASF58
+ 507 0323 10       		.byte	0x10
+ 508 0324 02       		.byte	0x2
+ 509 0325 4707     		.2byte	0x747
+ 510 0327 60030000 		.4byte	0x360
+ 511 032b 09       		.uleb128 0x9
+ 512 032c 0F040000 		.4byte	.LASF34
+ 513 0330 02       		.byte	0x2
+ 514 0331 4807     		.2byte	0x748
+ 515 0333 9D030000 		.4byte	0x39d
+ 516 0337 00       		.byte	0
+ 517 0338 09       		.uleb128 0x9
+ 518 0339 34020000 		.4byte	.LASF42
+ 519 033d 02       		.byte	0x2
+ 520 033e 4907     		.2byte	0x749
+ 521 0340 9D030000 		.4byte	0x39d
+ 522 0344 04       		.byte	0x4
+ 523 0345 09       		.uleb128 0x9
+ 524 0346 0D000000 		.4byte	.LASF59
+ 525 034a 02       		.byte	0x2
+ 526 034b 4A07     		.2byte	0x74a
+ 527 034d A3030000 		.4byte	0x3a3
+ 528 0351 08       		.byte	0x8
+ 529 0352 09       		.uleb128 0x9
+ 530 0353 B6060000 		.4byte	.LASF60
+ 531 0357 02       		.byte	0x2
+ 532 0358 4B07     		.2byte	0x74b
+ 533 035a A9030000 		.4byte	0x3a9
+ 534 035e 0C       		.byte	0xc
+ 535 035f 00       		.byte	0
+ 536 0360 0A       		.uleb128 0xa
+ 537 0361 0B050000 		.4byte	.LASF61
+ 538 0365 02       		.byte	0x2
+ 539 0366 2F07     		.2byte	0x72f
+ 540 0368 6C030000 		.4byte	0x36c
+ 541 036c 0D       		.uleb128 0xd
+ 542 036d C3030000 		.4byte	.LASF62
+ 543 0371 04       		.byte	0x4
+ 544 0372 02       		.byte	0x2
+ 545 0373 4307     		.2byte	0x743
+ 546 0375 87030000 		.4byte	0x387
+ 547 0379 09       		.uleb128 0x9
+ 548 037a 4B050000 		.4byte	.LASF36
+ 549 037e 02       		.byte	0x2
+ 550 037f 4407     		.2byte	0x744
+ 551 0381 9D030000 		.4byte	0x39d
+ 552 0385 00       		.byte	0
+ 553 0386 00       		.byte	0
+ 554 0387 0B       		.uleb128 0xb
+ 555 0388 92030000 		.4byte	0x392
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 13
+
+
+ 556 038c 0C       		.uleb128 0xc
+ 557 038d 92030000 		.4byte	0x392
+ 558 0391 00       		.byte	0
+ 559 0392 05       		.uleb128 0x5
+ 560 0393 04       		.byte	0x4
+ 561 0394 98030000 		.4byte	0x398
+ 562 0398 07       		.uleb128 0x7
+ 563 0399 CE010000 		.4byte	0x1ce
+ 564 039d 05       		.uleb128 0x5
+ 565 039e 04       		.byte	0x4
+ 566 039f 12030000 		.4byte	0x312
+ 567 03a3 05       		.uleb128 0x5
+ 568 03a4 04       		.byte	0x4
+ 569 03a5 60030000 		.4byte	0x360
+ 570 03a9 05       		.uleb128 0x5
+ 571 03aa 04       		.byte	0x4
+ 572 03ab CE010000 		.4byte	0x1ce
+ 573 03af 0D       		.uleb128 0xd
+ 574 03b0 17050000 		.4byte	.LASF63
+ 575 03b4 08       		.byte	0x8
+ 576 03b5 02       		.byte	0x2
+ 577 03b6 DA07     		.2byte	0x7da
+ 578 03b8 D7030000 		.4byte	0x3d7
+ 579 03bc 09       		.uleb128 0x9
+ 580 03bd 82030000 		.4byte	.LASF64
+ 581 03c1 02       		.byte	0x2
+ 582 03c2 DB07     		.2byte	0x7db
+ 583 03c4 E6030000 		.4byte	0x3e6
+ 584 03c8 00       		.byte	0
+ 585 03c9 09       		.uleb128 0x9
+ 586 03ca AB050000 		.4byte	.LASF65
+ 587 03ce 02       		.byte	0x2
+ 588 03cf DC07     		.2byte	0x7dc
+ 589 03d1 02040000 		.4byte	0x402
+ 590 03d5 04       		.byte	0x4
+ 591 03d6 00       		.byte	0
+ 592 03d7 0F       		.uleb128 0xf
+ 593 03d8 79000000 		.4byte	0x79
+ 594 03dc E6030000 		.4byte	0x3e6
+ 595 03e0 0C       		.uleb128 0xc
+ 596 03e1 79000000 		.4byte	0x79
+ 597 03e5 00       		.byte	0
+ 598 03e6 05       		.uleb128 0x5
+ 599 03e7 04       		.byte	0x4
+ 600 03e8 D7030000 		.4byte	0x3d7
+ 601 03ec 0F       		.uleb128 0xf
+ 602 03ed 79000000 		.4byte	0x79
+ 603 03f1 FB030000 		.4byte	0x3fb
+ 604 03f5 0C       		.uleb128 0xc
+ 605 03f6 FB030000 		.4byte	0x3fb
+ 606 03fa 00       		.byte	0
+ 607 03fb 05       		.uleb128 0x5
+ 608 03fc 04       		.byte	0x4
+ 609 03fd 01040000 		.4byte	0x401
+ 610 0401 10       		.uleb128 0x10
+ 611 0402 05       		.uleb128 0x5
+ 612 0403 04       		.byte	0x4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 14
+
+
+ 613 0404 EC030000 		.4byte	0x3ec
+ 614 0408 0A       		.uleb128 0xa
+ 615 0409 0A020000 		.4byte	.LASF66
+ 616 040d 02       		.byte	0x2
+ 617 040e DD07     		.2byte	0x7dd
+ 618 0410 AF030000 		.4byte	0x3af
+ 619 0414 0D       		.uleb128 0xd
+ 620 0415 4C040000 		.4byte	.LASF67
+ 621 0419 08       		.byte	0x8
+ 622 041a 02       		.byte	0x2
+ 623 041b DF07     		.2byte	0x7df
+ 624 041d 3C040000 		.4byte	0x43c
+ 625 0421 09       		.uleb128 0x9
+ 626 0422 BC020000 		.4byte	.LASF68
+ 627 0426 02       		.byte	0x2
+ 628 0427 E007     		.2byte	0x7e0
+ 629 0429 3C040000 		.4byte	0x43c
+ 630 042d 00       		.byte	0
+ 631 042e 09       		.uleb128 0x9
+ 632 042f 0F040000 		.4byte	.LASF34
+ 633 0433 02       		.byte	0x2
+ 634 0434 E107     		.2byte	0x7e1
+ 635 0436 47040000 		.4byte	0x447
+ 636 043a 04       		.byte	0x4
+ 637 043b 00       		.byte	0
+ 638 043c 05       		.uleb128 0x5
+ 639 043d 04       		.byte	0x4
+ 640 043e 42040000 		.4byte	0x442
+ 641 0442 07       		.uleb128 0x7
+ 642 0443 08040000 		.4byte	0x408
+ 643 0447 05       		.uleb128 0x5
+ 644 0448 04       		.byte	0x4
+ 645 0449 14040000 		.4byte	0x414
+ 646 044d 0A       		.uleb128 0xa
+ 647 044e 70050000 		.4byte	.LASF69
+ 648 0452 02       		.byte	0x2
+ 649 0453 E207     		.2byte	0x7e2
+ 650 0455 14040000 		.4byte	0x414
+ 651 0459 05       		.uleb128 0x5
+ 652 045a 04       		.byte	0x4
+ 653 045b B1010000 		.4byte	0x1b1
+ 654 045f 11       		.uleb128 0x11
+ 655 0460 64000000 		.4byte	0x64
+ 656 0464 08       		.uleb128 0x8
+ 657 0465 5C       		.byte	0x5c
+ 658 0466 02       		.byte	0x2
+ 659 0467 3309     		.2byte	0x933
+ 660 0469 99050000 		.4byte	0x599
+ 661 046d 09       		.uleb128 0x9
+ 662 046e 3A050000 		.4byte	.LASF70
+ 663 0472 02       		.byte	0x2
+ 664 0473 3709     		.2byte	0x937
+ 665 0475 82000000 		.4byte	0x82
+ 666 0479 00       		.byte	0
+ 667 047a 09       		.uleb128 0x9
+ 668 047b D3040000 		.4byte	.LASF71
+ 669 047f 02       		.byte	0x2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 15
+
+
+ 670 0480 3809     		.2byte	0x938
+ 671 0482 82000000 		.4byte	0x82
+ 672 0486 04       		.byte	0x4
+ 673 0487 09       		.uleb128 0x9
+ 674 0488 55050000 		.4byte	.LASF72
+ 675 048c 02       		.byte	0x2
+ 676 048d 3909     		.2byte	0x939
+ 677 048f 82000000 		.4byte	0x82
+ 678 0493 08       		.byte	0x8
+ 679 0494 09       		.uleb128 0x9
+ 680 0495 76020000 		.4byte	.LASF73
+ 681 0499 02       		.byte	0x2
+ 682 049a 3A09     		.2byte	0x93a
+ 683 049c 99050000 		.4byte	0x599
+ 684 04a0 0C       		.byte	0xc
+ 685 04a1 09       		.uleb128 0x9
+ 686 04a2 97020000 		.4byte	.LASF74
+ 687 04a6 02       		.byte	0x2
+ 688 04a7 3B09     		.2byte	0x93b
+ 689 04a9 C8010000 		.4byte	0x1c8
+ 690 04ad 10       		.byte	0x10
+ 691 04ae 09       		.uleb128 0x9
+ 692 04af 16000000 		.4byte	.LASF75
+ 693 04b3 02       		.byte	0x2
+ 694 04b4 3C09     		.2byte	0x93c
+ 695 04b6 C8010000 		.4byte	0x1c8
+ 696 04ba 14       		.byte	0x14
+ 697 04bb 09       		.uleb128 0x9
+ 698 04bc 74040000 		.4byte	.LASF76
+ 699 04c0 02       		.byte	0x2
+ 700 04c1 3D09     		.2byte	0x93d
+ 701 04c3 82000000 		.4byte	0x82
+ 702 04c7 18       		.byte	0x18
+ 703 04c8 09       		.uleb128 0x9
+ 704 04c9 B5050000 		.4byte	.LASF77
+ 705 04cd 02       		.byte	0x2
+ 706 04ce 3E09     		.2byte	0x93e
+ 707 04d0 C8010000 		.4byte	0x1c8
+ 708 04d4 1C       		.byte	0x1c
+ 709 04d5 09       		.uleb128 0x9
+ 710 04d6 60020000 		.4byte	.LASF78
+ 711 04da 02       		.byte	0x2
+ 712 04db 3F09     		.2byte	0x93f
+ 713 04dd AF050000 		.4byte	0x5af
+ 714 04e1 20       		.byte	0x20
+ 715 04e2 09       		.uleb128 0x9
+ 716 04e3 00000000 		.4byte	.LASF79
+ 717 04e7 02       		.byte	0x2
+ 718 04e8 4009     		.2byte	0x940
+ 719 04ea 82000000 		.4byte	0x82
+ 720 04ee 24       		.byte	0x24
+ 721 04ef 09       		.uleb128 0x9
+ 722 04f0 C6040000 		.4byte	.LASF80
+ 723 04f4 02       		.byte	0x2
+ 724 04f5 4409     		.2byte	0x944
+ 725 04f7 C0050000 		.4byte	0x5c0
+ 726 04fb 28       		.byte	0x28
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 16
+
+
+ 727 04fc 09       		.uleb128 0x9
+ 728 04fd FF040000 		.4byte	.LASF81
+ 729 0501 02       		.byte	0x2
+ 730 0502 4509     		.2byte	0x945
+ 731 0504 D6050000 		.4byte	0x5d6
+ 732 0508 2C       		.byte	0x2c
+ 733 0509 09       		.uleb128 0x9
+ 734 050a 4A030000 		.4byte	.LASF82
+ 735 050e 02       		.byte	0x2
+ 736 050f 4609     		.2byte	0x946
+ 737 0511 F1050000 		.4byte	0x5f1
+ 738 0515 30       		.byte	0x30
+ 739 0516 09       		.uleb128 0x9
+ 740 0517 58030000 		.4byte	.LASF83
+ 741 051b 02       		.byte	0x2
+ 742 051c 4709     		.2byte	0x947
+ 743 051e 11060000 		.4byte	0x611
+ 744 0522 34       		.byte	0x34
+ 745 0523 09       		.uleb128 0x9
+ 746 0524 66030000 		.4byte	.LASF84
+ 747 0528 02       		.byte	0x2
+ 748 0529 4809     		.2byte	0x948
+ 749 052b 36060000 		.4byte	0x636
+ 750 052f 38       		.byte	0x38
+ 751 0530 09       		.uleb128 0x9
+ 752 0531 15040000 		.4byte	.LASF85
+ 753 0535 02       		.byte	0x2
+ 754 0536 4909     		.2byte	0x949
+ 755 0538 4B060000 		.4byte	0x64b
+ 756 053c 3C       		.byte	0x3c
+ 757 053d 09       		.uleb128 0x9
+ 758 053e F7010000 		.4byte	.LASF86
+ 759 0542 02       		.byte	0x2
+ 760 0543 4D09     		.2byte	0x94d
+ 761 0545 C8010000 		.4byte	0x1c8
+ 762 0549 40       		.byte	0x40
+ 763 054a 09       		.uleb128 0x9
+ 764 054b 89040000 		.4byte	.LASF87
+ 765 054f 02       		.byte	0x2
+ 766 0550 4E09     		.2byte	0x94e
+ 767 0552 82000000 		.4byte	0x82
+ 768 0556 44       		.byte	0x44
+ 769 0557 09       		.uleb128 0x9
+ 770 0558 98060000 		.4byte	.LASF88
+ 771 055c 02       		.byte	0x2
+ 772 055d 4F09     		.2byte	0x94f
+ 773 055f C0050000 		.4byte	0x5c0
+ 774 0563 48       		.byte	0x48
+ 775 0564 09       		.uleb128 0x9
+ 776 0565 21020000 		.4byte	.LASF89
+ 777 0569 02       		.byte	0x2
+ 778 056a 5009     		.2byte	0x950
+ 779 056c D6050000 		.4byte	0x5d6
+ 780 0570 4C       		.byte	0x4c
+ 781 0571 09       		.uleb128 0x9
+ 782 0572 F5020000 		.4byte	.LASF90
+ 783 0576 02       		.byte	0x2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 17
+
+
+ 784 0577 5109     		.2byte	0x951
+ 785 0579 C8010000 		.4byte	0x1c8
+ 786 057d 50       		.byte	0x50
+ 787 057e 09       		.uleb128 0x9
+ 788 057f 74030000 		.4byte	.LASF91
+ 789 0583 02       		.byte	0x2
+ 790 0584 5209     		.2byte	0x952
+ 791 0586 75060000 		.4byte	0x675
+ 792 058a 54       		.byte	0x54
+ 793 058b 09       		.uleb128 0x9
+ 794 058c 8C050000 		.4byte	.LASF92
+ 795 0590 02       		.byte	0x2
+ 796 0591 5309     		.2byte	0x953
+ 797 0593 8B060000 		.4byte	0x68b
+ 798 0597 58       		.byte	0x58
+ 799 0598 00       		.byte	0
+ 800 0599 05       		.uleb128 0x5
+ 801 059a 04       		.byte	0x4
+ 802 059b 87030000 		.4byte	0x387
+ 803 059f 0B       		.uleb128 0xb
+ 804 05a0 AF050000 		.4byte	0x5af
+ 805 05a4 0C       		.uleb128 0xc
+ 806 05a5 64000000 		.4byte	0x64
+ 807 05a9 0C       		.uleb128 0xc
+ 808 05aa 2C000000 		.4byte	0x2c
+ 809 05ae 00       		.byte	0
+ 810 05af 05       		.uleb128 0x5
+ 811 05b0 04       		.byte	0x4
+ 812 05b1 9F050000 		.4byte	0x59f
+ 813 05b5 0B       		.uleb128 0xb
+ 814 05b6 C0050000 		.4byte	0x5c0
+ 815 05ba 0C       		.uleb128 0xc
+ 816 05bb 2C000000 		.4byte	0x2c
+ 817 05bf 00       		.byte	0
+ 818 05c0 05       		.uleb128 0x5
+ 819 05c1 04       		.byte	0x4
+ 820 05c2 B5050000 		.4byte	0x5b5
+ 821 05c6 0B       		.uleb128 0xb
+ 822 05c7 D6050000 		.4byte	0x5d6
+ 823 05cb 0C       		.uleb128 0xc
+ 824 05cc 2C000000 		.4byte	0x2c
+ 825 05d0 0C       		.uleb128 0xc
+ 826 05d1 64000000 		.4byte	0x64
+ 827 05d5 00       		.byte	0
+ 828 05d6 05       		.uleb128 0x5
+ 829 05d7 04       		.byte	0x4
+ 830 05d8 C6050000 		.4byte	0x5c6
+ 831 05dc 0B       		.uleb128 0xb
+ 832 05dd F1050000 		.4byte	0x5f1
+ 833 05e1 0C       		.uleb128 0xc
+ 834 05e2 2C000000 		.4byte	0x2c
+ 835 05e6 0C       		.uleb128 0xc
+ 836 05e7 64000000 		.4byte	0x64
+ 837 05eb 0C       		.uleb128 0xc
+ 838 05ec 64000000 		.4byte	0x64
+ 839 05f0 00       		.byte	0
+ 840 05f1 05       		.uleb128 0x5
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 18
+
+
+ 841 05f2 04       		.byte	0x4
+ 842 05f3 DC050000 		.4byte	0x5dc
+ 843 05f7 0B       		.uleb128 0xb
+ 844 05f8 11060000 		.4byte	0x611
+ 845 05fc 0C       		.uleb128 0xc
+ 846 05fd 2C000000 		.4byte	0x2c
+ 847 0601 0C       		.uleb128 0xc
+ 848 0602 64000000 		.4byte	0x64
+ 849 0606 0C       		.uleb128 0xc
+ 850 0607 64000000 		.4byte	0x64
+ 851 060b 0C       		.uleb128 0xc
+ 852 060c 64000000 		.4byte	0x64
+ 853 0610 00       		.byte	0
+ 854 0611 05       		.uleb128 0x5
+ 855 0612 04       		.byte	0x4
+ 856 0613 F7050000 		.4byte	0x5f7
+ 857 0617 0B       		.uleb128 0xb
+ 858 0618 36060000 		.4byte	0x636
+ 859 061c 0C       		.uleb128 0xc
+ 860 061d 2C000000 		.4byte	0x2c
+ 861 0621 0C       		.uleb128 0xc
+ 862 0622 64000000 		.4byte	0x64
+ 863 0626 0C       		.uleb128 0xc
+ 864 0627 64000000 		.4byte	0x64
+ 865 062b 0C       		.uleb128 0xc
+ 866 062c 64000000 		.4byte	0x64
+ 867 0630 0C       		.uleb128 0xc
+ 868 0631 64000000 		.4byte	0x64
+ 869 0635 00       		.byte	0
+ 870 0636 05       		.uleb128 0x5
+ 871 0637 04       		.byte	0x4
+ 872 0638 17060000 		.4byte	0x617
+ 873 063c 0F       		.uleb128 0xf
+ 874 063d 64000000 		.4byte	0x64
+ 875 0641 4B060000 		.4byte	0x64b
+ 876 0645 0C       		.uleb128 0xc
+ 877 0646 64000000 		.4byte	0x64
+ 878 064a 00       		.byte	0
+ 879 064b 05       		.uleb128 0x5
+ 880 064c 04       		.byte	0x4
+ 881 064d 3C060000 		.4byte	0x63c
+ 882 0651 0B       		.uleb128 0xb
+ 883 0652 75060000 		.4byte	0x675
+ 884 0656 0C       		.uleb128 0xc
+ 885 0657 2C000000 		.4byte	0x2c
+ 886 065b 0C       		.uleb128 0xc
+ 887 065c 64000000 		.4byte	0x64
+ 888 0660 0C       		.uleb128 0xc
+ 889 0661 64000000 		.4byte	0x64
+ 890 0665 0C       		.uleb128 0xc
+ 891 0666 64000000 		.4byte	0x64
+ 892 066a 0C       		.uleb128 0xc
+ 893 066b 64000000 		.4byte	0x64
+ 894 066f 0C       		.uleb128 0xc
+ 895 0670 64000000 		.4byte	0x64
+ 896 0674 00       		.byte	0
+ 897 0675 05       		.uleb128 0x5
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 19
+
+
+ 898 0676 04       		.byte	0x4
+ 899 0677 51060000 		.4byte	0x651
+ 900 067b 0B       		.uleb128 0xb
+ 901 067c 8B060000 		.4byte	0x68b
+ 902 0680 0C       		.uleb128 0xc
+ 903 0681 64000000 		.4byte	0x64
+ 904 0685 0C       		.uleb128 0xc
+ 905 0686 8F000000 		.4byte	0x8f
+ 906 068a 00       		.byte	0
+ 907 068b 05       		.uleb128 0x5
+ 908 068c 04       		.byte	0x4
+ 909 068d 7B060000 		.4byte	0x67b
+ 910 0691 0A       		.uleb128 0xa
+ 911 0692 42000000 		.4byte	.LASF93
+ 912 0696 02       		.byte	0x2
+ 913 0697 5409     		.2byte	0x954
+ 914 0699 64040000 		.4byte	0x464
+ 915 069d 07       		.uleb128 0x7
+ 916 069e 91060000 		.4byte	0x691
+ 917 06a2 12       		.uleb128 0x12
+ 918 06a3 08       		.byte	0x8
+ 919 06a4 03       		.byte	0x3
+ 920 06a5 DA       		.byte	0xda
+ 921 06a6 C3060000 		.4byte	0x6c3
+ 922 06aa 13       		.uleb128 0x13
+ 923 06ab AC030000 		.4byte	.LASF94
+ 924 06af 03       		.byte	0x3
+ 925 06b0 DB       		.byte	0xdb
+ 926 06b1 C8060000 		.4byte	0x6c8
+ 927 06b5 00       		.byte	0
+ 928 06b6 13       		.uleb128 0x13
+ 929 06b7 49020000 		.4byte	.LASF95
+ 930 06bb 03       		.byte	0x3
+ 931 06bc DC       		.byte	0xdc
+ 932 06bd 82000000 		.4byte	0x82
+ 933 06c1 04       		.byte	0x4
+ 934 06c2 00       		.byte	0
+ 935 06c3 14       		.uleb128 0x14
+ 936 06c4 6B000000 		.4byte	0x6b
+ 937 06c8 05       		.uleb128 0x5
+ 938 06c9 04       		.byte	0x4
+ 939 06ca C3060000 		.4byte	0x6c3
+ 940 06ce 15       		.uleb128 0x15
+ 941 06cf 63000000 		.4byte	.LASF96
+ 942 06d3 03       		.byte	0x3
+ 943 06d4 DD       		.byte	0xdd
+ 944 06d5 A2060000 		.4byte	0x6a2
+ 945 06d9 16       		.uleb128 0x16
+ 946 06da AA020000 		.4byte	.LASF102
+ 947 06de 01       		.byte	0x1
+ 948 06df 44       		.byte	0x44
+ 949 06e0 00000000 		.4byte	.LFB0
+ 950 06e4 1C000000 		.4byte	.LFE0-.LFB0
+ 951 06e8 01       		.uleb128 0x1
+ 952 06e9 9C       		.byte	0x9c
+ 953 06ea 17       		.uleb128 0x17
+ 954 06eb DA010000 		.4byte	.LASF103
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 20
+
+
+ 955 06ef 01       		.byte	0x1
+ 956 06f0 62       		.byte	0x62
+ 957 06f1 00000000 		.4byte	.LFB1
+ 958 06f5 54000000 		.4byte	.LFE1-.LFB1
+ 959 06f9 01       		.uleb128 0x1
+ 960 06fa 9C       		.byte	0x9c
+ 961 06fb 18       		.uleb128 0x18
+ 962 06fc AF040000 		.4byte	.LASF97
+ 963 0700 04       		.byte	0x4
+ 964 0701 2A       		.byte	0x2a
+ 965 0702 9D060000 		.4byte	0x69d
+ 966 0706 18       		.uleb128 0x18
+ 967 0707 10030000 		.4byte	.LASF98
+ 968 070b 04       		.byte	0x4
+ 969 070c 2D       		.byte	0x2d
+ 970 070d 11070000 		.4byte	0x711
+ 971 0711 07       		.uleb128 0x7
+ 972 0712 CE060000 		.4byte	0x6ce
+ 973 0716 00       		.byte	0
+ 974              		.section	.debug_abbrev,"",%progbits
+ 975              	.Ldebug_abbrev0:
+ 976 0000 01       		.uleb128 0x1
+ 977 0001 11       		.uleb128 0x11
+ 978 0002 01       		.byte	0x1
+ 979 0003 25       		.uleb128 0x25
+ 980 0004 0E       		.uleb128 0xe
+ 981 0005 13       		.uleb128 0x13
+ 982 0006 0B       		.uleb128 0xb
+ 983 0007 03       		.uleb128 0x3
+ 984 0008 0E       		.uleb128 0xe
+ 985 0009 1B       		.uleb128 0x1b
+ 986 000a 0E       		.uleb128 0xe
+ 987 000b 55       		.uleb128 0x55
+ 988 000c 17       		.uleb128 0x17
+ 989 000d 11       		.uleb128 0x11
+ 990 000e 01       		.uleb128 0x1
+ 991 000f 10       		.uleb128 0x10
+ 992 0010 17       		.uleb128 0x17
+ 993 0011 00       		.byte	0
+ 994 0012 00       		.byte	0
+ 995 0013 02       		.uleb128 0x2
+ 996 0014 24       		.uleb128 0x24
+ 997 0015 00       		.byte	0
+ 998 0016 0B       		.uleb128 0xb
+ 999 0017 0B       		.uleb128 0xb
+ 1000 0018 3E       		.uleb128 0x3e
+ 1001 0019 0B       		.uleb128 0xb
+ 1002 001a 03       		.uleb128 0x3
+ 1003 001b 08       		.uleb128 0x8
+ 1004 001c 00       		.byte	0
+ 1005 001d 00       		.byte	0
+ 1006 001e 03       		.uleb128 0x3
+ 1007 001f 24       		.uleb128 0x24
+ 1008 0020 00       		.byte	0
+ 1009 0021 0B       		.uleb128 0xb
+ 1010 0022 0B       		.uleb128 0xb
+ 1011 0023 3E       		.uleb128 0x3e
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 21
+
+
+ 1012 0024 0B       		.uleb128 0xb
+ 1013 0025 03       		.uleb128 0x3
+ 1014 0026 0E       		.uleb128 0xe
+ 1015 0027 00       		.byte	0
+ 1016 0028 00       		.byte	0
+ 1017 0029 04       		.uleb128 0x4
+ 1018 002a 0F       		.uleb128 0xf
+ 1019 002b 00       		.byte	0
+ 1020 002c 0B       		.uleb128 0xb
+ 1021 002d 0B       		.uleb128 0xb
+ 1022 002e 00       		.byte	0
+ 1023 002f 00       		.byte	0
+ 1024 0030 05       		.uleb128 0x5
+ 1025 0031 0F       		.uleb128 0xf
+ 1026 0032 00       		.byte	0
+ 1027 0033 0B       		.uleb128 0xb
+ 1028 0034 0B       		.uleb128 0xb
+ 1029 0035 49       		.uleb128 0x49
+ 1030 0036 13       		.uleb128 0x13
+ 1031 0037 00       		.byte	0
+ 1032 0038 00       		.byte	0
+ 1033 0039 06       		.uleb128 0x6
+ 1034 003a 15       		.uleb128 0x15
+ 1035 003b 00       		.byte	0
+ 1036 003c 27       		.uleb128 0x27
+ 1037 003d 19       		.uleb128 0x19
+ 1038 003e 00       		.byte	0
+ 1039 003f 00       		.byte	0
+ 1040 0040 07       		.uleb128 0x7
+ 1041 0041 26       		.uleb128 0x26
+ 1042 0042 00       		.byte	0
+ 1043 0043 49       		.uleb128 0x49
+ 1044 0044 13       		.uleb128 0x13
+ 1045 0045 00       		.byte	0
+ 1046 0046 00       		.byte	0
+ 1047 0047 08       		.uleb128 0x8
+ 1048 0048 13       		.uleb128 0x13
+ 1049 0049 01       		.byte	0x1
+ 1050 004a 0B       		.uleb128 0xb
+ 1051 004b 0B       		.uleb128 0xb
+ 1052 004c 3A       		.uleb128 0x3a
+ 1053 004d 0B       		.uleb128 0xb
+ 1054 004e 3B       		.uleb128 0x3b
+ 1055 004f 05       		.uleb128 0x5
+ 1056 0050 01       		.uleb128 0x1
+ 1057 0051 13       		.uleb128 0x13
+ 1058 0052 00       		.byte	0
+ 1059 0053 00       		.byte	0
+ 1060 0054 09       		.uleb128 0x9
+ 1061 0055 0D       		.uleb128 0xd
+ 1062 0056 00       		.byte	0
+ 1063 0057 03       		.uleb128 0x3
+ 1064 0058 0E       		.uleb128 0xe
+ 1065 0059 3A       		.uleb128 0x3a
+ 1066 005a 0B       		.uleb128 0xb
+ 1067 005b 3B       		.uleb128 0x3b
+ 1068 005c 05       		.uleb128 0x5
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 22
+
+
+ 1069 005d 49       		.uleb128 0x49
+ 1070 005e 13       		.uleb128 0x13
+ 1071 005f 38       		.uleb128 0x38
+ 1072 0060 0B       		.uleb128 0xb
+ 1073 0061 00       		.byte	0
+ 1074 0062 00       		.byte	0
+ 1075 0063 0A       		.uleb128 0xa
+ 1076 0064 16       		.uleb128 0x16
+ 1077 0065 00       		.byte	0
+ 1078 0066 03       		.uleb128 0x3
+ 1079 0067 0E       		.uleb128 0xe
+ 1080 0068 3A       		.uleb128 0x3a
+ 1081 0069 0B       		.uleb128 0xb
+ 1082 006a 3B       		.uleb128 0x3b
+ 1083 006b 05       		.uleb128 0x5
+ 1084 006c 49       		.uleb128 0x49
+ 1085 006d 13       		.uleb128 0x13
+ 1086 006e 00       		.byte	0
+ 1087 006f 00       		.byte	0
+ 1088 0070 0B       		.uleb128 0xb
+ 1089 0071 15       		.uleb128 0x15
+ 1090 0072 01       		.byte	0x1
+ 1091 0073 27       		.uleb128 0x27
+ 1092 0074 19       		.uleb128 0x19
+ 1093 0075 01       		.uleb128 0x1
+ 1094 0076 13       		.uleb128 0x13
+ 1095 0077 00       		.byte	0
+ 1096 0078 00       		.byte	0
+ 1097 0079 0C       		.uleb128 0xc
+ 1098 007a 05       		.uleb128 0x5
+ 1099 007b 00       		.byte	0
+ 1100 007c 49       		.uleb128 0x49
+ 1101 007d 13       		.uleb128 0x13
+ 1102 007e 00       		.byte	0
+ 1103 007f 00       		.byte	0
+ 1104 0080 0D       		.uleb128 0xd
+ 1105 0081 13       		.uleb128 0x13
+ 1106 0082 01       		.byte	0x1
+ 1107 0083 03       		.uleb128 0x3
+ 1108 0084 0E       		.uleb128 0xe
+ 1109 0085 0B       		.uleb128 0xb
+ 1110 0086 0B       		.uleb128 0xb
+ 1111 0087 3A       		.uleb128 0x3a
+ 1112 0088 0B       		.uleb128 0xb
+ 1113 0089 3B       		.uleb128 0x3b
+ 1114 008a 05       		.uleb128 0x5
+ 1115 008b 01       		.uleb128 0x1
+ 1116 008c 13       		.uleb128 0x13
+ 1117 008d 00       		.byte	0
+ 1118 008e 00       		.byte	0
+ 1119 008f 0E       		.uleb128 0xe
+ 1120 0090 0D       		.uleb128 0xd
+ 1121 0091 00       		.byte	0
+ 1122 0092 03       		.uleb128 0x3
+ 1123 0093 08       		.uleb128 0x8
+ 1124 0094 3A       		.uleb128 0x3a
+ 1125 0095 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 23
+
+
+ 1126 0096 3B       		.uleb128 0x3b
+ 1127 0097 05       		.uleb128 0x5
+ 1128 0098 49       		.uleb128 0x49
+ 1129 0099 13       		.uleb128 0x13
+ 1130 009a 38       		.uleb128 0x38
+ 1131 009b 0B       		.uleb128 0xb
+ 1132 009c 00       		.byte	0
+ 1133 009d 00       		.byte	0
+ 1134 009e 0F       		.uleb128 0xf
+ 1135 009f 15       		.uleb128 0x15
+ 1136 00a0 01       		.byte	0x1
+ 1137 00a1 27       		.uleb128 0x27
+ 1138 00a2 19       		.uleb128 0x19
+ 1139 00a3 49       		.uleb128 0x49
+ 1140 00a4 13       		.uleb128 0x13
+ 1141 00a5 01       		.uleb128 0x1
+ 1142 00a6 13       		.uleb128 0x13
+ 1143 00a7 00       		.byte	0
+ 1144 00a8 00       		.byte	0
+ 1145 00a9 10       		.uleb128 0x10
+ 1146 00aa 26       		.uleb128 0x26
+ 1147 00ab 00       		.byte	0
+ 1148 00ac 00       		.byte	0
+ 1149 00ad 00       		.byte	0
+ 1150 00ae 11       		.uleb128 0x11
+ 1151 00af 35       		.uleb128 0x35
+ 1152 00b0 00       		.byte	0
+ 1153 00b1 49       		.uleb128 0x49
+ 1154 00b2 13       		.uleb128 0x13
+ 1155 00b3 00       		.byte	0
+ 1156 00b4 00       		.byte	0
+ 1157 00b5 12       		.uleb128 0x12
+ 1158 00b6 13       		.uleb128 0x13
+ 1159 00b7 01       		.byte	0x1
+ 1160 00b8 0B       		.uleb128 0xb
+ 1161 00b9 0B       		.uleb128 0xb
+ 1162 00ba 3A       		.uleb128 0x3a
+ 1163 00bb 0B       		.uleb128 0xb
+ 1164 00bc 3B       		.uleb128 0x3b
+ 1165 00bd 0B       		.uleb128 0xb
+ 1166 00be 01       		.uleb128 0x1
+ 1167 00bf 13       		.uleb128 0x13
+ 1168 00c0 00       		.byte	0
+ 1169 00c1 00       		.byte	0
+ 1170 00c2 13       		.uleb128 0x13
+ 1171 00c3 0D       		.uleb128 0xd
+ 1172 00c4 00       		.byte	0
+ 1173 00c5 03       		.uleb128 0x3
+ 1174 00c6 0E       		.uleb128 0xe
+ 1175 00c7 3A       		.uleb128 0x3a
+ 1176 00c8 0B       		.uleb128 0xb
+ 1177 00c9 3B       		.uleb128 0x3b
+ 1178 00ca 0B       		.uleb128 0xb
+ 1179 00cb 49       		.uleb128 0x49
+ 1180 00cc 13       		.uleb128 0x13
+ 1181 00cd 38       		.uleb128 0x38
+ 1182 00ce 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 24
+
+
+ 1183 00cf 00       		.byte	0
+ 1184 00d0 00       		.byte	0
+ 1185 00d1 14       		.uleb128 0x14
+ 1186 00d2 15       		.uleb128 0x15
+ 1187 00d3 00       		.byte	0
+ 1188 00d4 27       		.uleb128 0x27
+ 1189 00d5 19       		.uleb128 0x19
+ 1190 00d6 49       		.uleb128 0x49
+ 1191 00d7 13       		.uleb128 0x13
+ 1192 00d8 00       		.byte	0
+ 1193 00d9 00       		.byte	0
+ 1194 00da 15       		.uleb128 0x15
+ 1195 00db 16       		.uleb128 0x16
+ 1196 00dc 00       		.byte	0
+ 1197 00dd 03       		.uleb128 0x3
+ 1198 00de 0E       		.uleb128 0xe
+ 1199 00df 3A       		.uleb128 0x3a
+ 1200 00e0 0B       		.uleb128 0xb
+ 1201 00e1 3B       		.uleb128 0x3b
+ 1202 00e2 0B       		.uleb128 0xb
+ 1203 00e3 49       		.uleb128 0x49
+ 1204 00e4 13       		.uleb128 0x13
+ 1205 00e5 00       		.byte	0
+ 1206 00e6 00       		.byte	0
+ 1207 00e7 16       		.uleb128 0x16
+ 1208 00e8 2E       		.uleb128 0x2e
+ 1209 00e9 00       		.byte	0
+ 1210 00ea 03       		.uleb128 0x3
+ 1211 00eb 0E       		.uleb128 0xe
+ 1212 00ec 3A       		.uleb128 0x3a
+ 1213 00ed 0B       		.uleb128 0xb
+ 1214 00ee 3B       		.uleb128 0x3b
+ 1215 00ef 0B       		.uleb128 0xb
+ 1216 00f0 27       		.uleb128 0x27
+ 1217 00f1 19       		.uleb128 0x19
+ 1218 00f2 11       		.uleb128 0x11
+ 1219 00f3 01       		.uleb128 0x1
+ 1220 00f4 12       		.uleb128 0x12
+ 1221 00f5 06       		.uleb128 0x6
+ 1222 00f6 40       		.uleb128 0x40
+ 1223 00f7 18       		.uleb128 0x18
+ 1224 00f8 9642     		.uleb128 0x2116
+ 1225 00fa 19       		.uleb128 0x19
+ 1226 00fb 00       		.byte	0
+ 1227 00fc 00       		.byte	0
+ 1228 00fd 17       		.uleb128 0x17
+ 1229 00fe 2E       		.uleb128 0x2e
+ 1230 00ff 00       		.byte	0
+ 1231 0100 3F       		.uleb128 0x3f
+ 1232 0101 19       		.uleb128 0x19
+ 1233 0102 03       		.uleb128 0x3
+ 1234 0103 0E       		.uleb128 0xe
+ 1235 0104 3A       		.uleb128 0x3a
+ 1236 0105 0B       		.uleb128 0xb
+ 1237 0106 3B       		.uleb128 0x3b
+ 1238 0107 0B       		.uleb128 0xb
+ 1239 0108 27       		.uleb128 0x27
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 25
+
+
+ 1240 0109 19       		.uleb128 0x19
+ 1241 010a 11       		.uleb128 0x11
+ 1242 010b 01       		.uleb128 0x1
+ 1243 010c 12       		.uleb128 0x12
+ 1244 010d 06       		.uleb128 0x6
+ 1245 010e 40       		.uleb128 0x40
+ 1246 010f 18       		.uleb128 0x18
+ 1247 0110 9642     		.uleb128 0x2116
+ 1248 0112 19       		.uleb128 0x19
+ 1249 0113 00       		.byte	0
+ 1250 0114 00       		.byte	0
+ 1251 0115 18       		.uleb128 0x18
+ 1252 0116 34       		.uleb128 0x34
+ 1253 0117 00       		.byte	0
+ 1254 0118 03       		.uleb128 0x3
+ 1255 0119 0E       		.uleb128 0xe
+ 1256 011a 3A       		.uleb128 0x3a
+ 1257 011b 0B       		.uleb128 0xb
+ 1258 011c 3B       		.uleb128 0x3b
+ 1259 011d 0B       		.uleb128 0xb
+ 1260 011e 49       		.uleb128 0x49
+ 1261 011f 13       		.uleb128 0x13
+ 1262 0120 3F       		.uleb128 0x3f
+ 1263 0121 19       		.uleb128 0x19
+ 1264 0122 3C       		.uleb128 0x3c
+ 1265 0123 19       		.uleb128 0x19
+ 1266 0124 00       		.byte	0
+ 1267 0125 00       		.byte	0
+ 1268 0126 00       		.byte	0
+ 1269              		.section	.debug_aranges,"",%progbits
+ 1270 0000 24000000 		.4byte	0x24
+ 1271 0004 0200     		.2byte	0x2
+ 1272 0006 00000000 		.4byte	.Ldebug_info0
+ 1273 000a 04       		.byte	0x4
+ 1274 000b 00       		.byte	0
+ 1275 000c 0000     		.2byte	0
+ 1276 000e 0000     		.2byte	0
+ 1277 0010 00000000 		.4byte	.LFB0
+ 1278 0014 1C000000 		.4byte	.LFE0-.LFB0
+ 1279 0018 00000000 		.4byte	.LFB1
+ 1280 001c 54000000 		.4byte	.LFE1-.LFB1
+ 1281 0020 00000000 		.4byte	0
+ 1282 0024 00000000 		.4byte	0
+ 1283              		.section	.debug_ranges,"",%progbits
+ 1284              	.Ldebug_ranges0:
+ 1285 0000 00000000 		.4byte	.LFB0
+ 1286 0004 1C000000 		.4byte	.LFE0
+ 1287 0008 00000000 		.4byte	.LFB1
+ 1288 000c 54000000 		.4byte	.LFE1
+ 1289 0010 00000000 		.4byte	0
+ 1290 0014 00000000 		.4byte	0
+ 1291              		.section	.debug_line,"",%progbits
+ 1292              	.Ldebug_line0:
+ 1293 0000 B7000000 		.section	.debug_str,"MS",%progbits,1
+ 1293      02008600 
+ 1293      00000201 
+ 1293      FB0E0D00 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 26
+
+
+ 1293      01010101 
+ 1294              	.LASF79:
+ 1295 0000 70665265 		.ascii	"pfRecordIdle\000"
+ 1295      636F7264 
+ 1295      49646C65 
+ 1295      00
+ 1296              	.LASF59:
+ 1297 000d 70576169 		.ascii	"pWaitObj\000"
+ 1297      744F626A 
+ 1297      00
+ 1298              	.LASF75:
+ 1299 0016 70665265 		.ascii	"pfRecordTaskStartExec\000"
+ 1299      636F7264 
+ 1299      5461736B 
+ 1299      53746172 
+ 1299      74457865 
+ 1300              	.LASF38:
+ 1301 002c 5072696F 		.ascii	"Priority\000"
+ 1301      72697479 
+ 1301      00
+ 1302              	.LASF31:
+ 1303 0035 4F535F52 		.ascii	"OS_REGS_BASE\000"
+ 1303      4547535F 
+ 1303      42415345 
+ 1303      00
+ 1304              	.LASF93:
+ 1305 0042 4F535F54 		.ascii	"OS_TRACE_API\000"
+ 1305      52414345 
+ 1305      5F415049 
+ 1305      00
+ 1306              	.LASF22:
+ 1307 004f 4F535F52 		.ascii	"OS_REG_R0\000"
+ 1307      45475F52 
+ 1307      3000
+ 1308              	.LASF23:
+ 1309 0059 4F535F52 		.ascii	"OS_REG_R1\000"
+ 1309      45475F52 
+ 1309      3100
+ 1310              	.LASF96:
+ 1311 0063 53454747 		.ascii	"SEGGER_SYSVIEW_OS_API\000"
+ 1311      45525F53 
+ 1311      59535649 
+ 1311      45575F4F 
+ 1311      535F4150 
+ 1312              	.LASF40:
+ 1313 0079 4576656E 		.ascii	"Events\000"
+ 1313      747300
+ 1314              	.LASF10:
+ 1315 0080 73697A65 		.ascii	"sizetype\000"
+ 1315      74797065 
+ 1315      00
+ 1316              	.LASF53:
+ 1317 0089 53746174 		.ascii	"Stat\000"
+ 1317      00
+ 1318              	.LASF46:
+ 1319 008e 4E756D41 		.ascii	"NumActivations\000"
+ 1319      63746976 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 27
+
+
+ 1319      6174696F 
+ 1319      6E7300
+ 1320              	.LASF14:
+ 1321 009d 4F535F52 		.ascii	"OS_REG_R5\000"
+ 1321      45475F52 
+ 1321      3500
+ 1322              	.LASF16:
+ 1323 00a7 4F535F52 		.ascii	"OS_REG_R7\000"
+ 1323      45475F52 
+ 1323      3700
+ 1324              	.LASF99:
+ 1325 00b1 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1325      43313120 
+ 1325      352E342E 
+ 1325      31203230 
+ 1325      31363036 
+ 1326 00e4 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1326      20726576 
+ 1326      6973696F 
+ 1326      6E203233 
+ 1326      37373135 
+ 1327 0117 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1327      66756E63 
+ 1327      74696F6E 
+ 1327      2D736563 
+ 1327      74696F6E 
+ 1328              	.LASF17:
+ 1329 013f 4F535F52 		.ascii	"OS_REG_R8\000"
+ 1329      45475F52 
+ 1329      3800
+ 1330              	.LASF49:
+ 1331 0149 45786563 		.ascii	"ExecLast\000"
+ 1331      4C617374 
+ 1331      00
+ 1332              	.LASF43:
+ 1333 0152 734E616D 		.ascii	"sName\000"
+ 1333      6500
+ 1334              	.LASF24:
+ 1335 0158 4F535F52 		.ascii	"OS_REG_R2\000"
+ 1335      45475F52 
+ 1335      3200
+ 1336              	.LASF25:
+ 1337 0162 4F535F52 		.ascii	"OS_REG_R3\000"
+ 1337      45475F52 
+ 1337      3300
+ 1338              	.LASF13:
+ 1339 016c 4F535F52 		.ascii	"OS_REG_R4\000"
+ 1339      45475F52 
+ 1339      3400
+ 1340              	.LASF32:
+ 1341 0176 4F535F52 		.ascii	"OS_REGS\000"
+ 1341      45475300 
+ 1342              	.LASF15:
+ 1343 017e 4F535F52 		.ascii	"OS_REG_R6\000"
+ 1343      45475F52 
+ 1343      3600
+ 1344              	.LASF56:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 28
+
+
+ 1345 0188 4F535F57 		.ascii	"OS_WAIT_LIST\000"
+ 1345      4149545F 
+ 1345      4C495354 
+ 1345      00
+ 1346              	.LASF55:
+ 1347 0195 54696D65 		.ascii	"TimeSliceReload\000"
+ 1347      536C6963 
+ 1347      6552656C 
+ 1347      6F616400 
+ 1348              	.LASF18:
+ 1349 01a5 4F535F52 		.ascii	"OS_REG_R9\000"
+ 1349      45475F52 
+ 1349      3900
+ 1350              	.LASF5:
+ 1351 01af 73686F72 		.ascii	"short int\000"
+ 1351      7420696E 
+ 1351      7400
+ 1352              	.LASF45:
+ 1353 01b9 70537461 		.ascii	"pStackBase\000"
+ 1353      636B4261 
+ 1353      736500
+ 1354              	.LASF41:
+ 1355 01c4 4576656E 		.ascii	"EventMask\000"
+ 1355      744D6173 
+ 1355      6B00
+ 1356              	.LASF29:
+ 1357 01ce 4F535F52 		.ascii	"OS_REG_XPSR\000"
+ 1357      45475F58 
+ 1357      50535200 
+ 1358              	.LASF103:
+ 1359 01da 53454747 		.ascii	"SEGGER_SYSVIEW_Conf\000"
+ 1359      45525F53 
+ 1359      59535649 
+ 1359      45575F43 
+ 1359      6F6E6600 
+ 1360              	.LASF39:
+ 1361 01ee 42617365 		.ascii	"BasePrio\000"
+ 1361      5072696F 
+ 1361      00
+ 1362              	.LASF86:
+ 1363 01f7 70665265 		.ascii	"pfRecordEnterTimer\000"
+ 1363      636F7264 
+ 1363      456E7465 
+ 1363      7254696D 
+ 1363      657200
+ 1364              	.LASF66:
+ 1365 020a 4F535F45 		.ascii	"OS_EXTEND_TASK_CONTEXT\000"
+ 1365      5854454E 
+ 1365      445F5441 
+ 1365      534B5F43 
+ 1365      4F4E5445 
+ 1366              	.LASF89:
+ 1367 0221 70665265 		.ascii	"pfRecordEndCallU32\000"
+ 1367      636F7264 
+ 1367      456E6443 
+ 1367      616C6C55 
+ 1367      333200
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 29
+
+
+ 1368              	.LASF42:
+ 1369 0234 70507265 		.ascii	"pPrev\000"
+ 1369      7600
+ 1370              	.LASF57:
+ 1371 023a 4F535F54 		.ascii	"OS_TASK_STRUCT\000"
+ 1371      41534B5F 
+ 1371      53545255 
+ 1371      435400
+ 1372              	.LASF95:
+ 1373 0249 70665365 		.ascii	"pfSendTaskList\000"
+ 1373      6E645461 
+ 1373      736B4C69 
+ 1373      737400
+ 1374              	.LASF33:
+ 1375 0258 4F535F54 		.ascii	"OS_TASK\000"
+ 1375      41534B00 
+ 1376              	.LASF78:
+ 1377 0260 70665265 		.ascii	"pfRecordTaskStopReady\000"
+ 1377      636F7264 
+ 1377      5461736B 
+ 1377      53746F70 
+ 1377      52656164 
+ 1378              	.LASF73:
+ 1379 0276 70665265 		.ascii	"pfRecordTaskInfo\000"
+ 1379      636F7264 
+ 1379      5461736B 
+ 1379      496E666F 
+ 1379      00
+ 1380              	.LASF35:
+ 1381 0287 70537461 		.ascii	"pStack\000"
+ 1381      636B00
+ 1382              	.LASF7:
+ 1383 028e 6C6F6E67 		.ascii	"long int\000"
+ 1383      20696E74 
+ 1383      00
+ 1384              	.LASF74:
+ 1385 0297 70665265 		.ascii	"pfRecordTaskCreate\000"
+ 1385      636F7264 
+ 1385      5461736B 
+ 1385      43726561 
+ 1385      746500
+ 1386              	.LASF102:
+ 1387 02aa 5F636253 		.ascii	"_cbSendSystemDesc\000"
+ 1387      656E6453 
+ 1387      79737465 
+ 1387      6D446573 
+ 1387      6300
+ 1388              	.LASF68:
+ 1389 02bc 70546173 		.ascii	"pTaskContext\000"
+ 1389      6B436F6E 
+ 1389      74657874 
+ 1389      00
+ 1390              	.LASF19:
+ 1391 02c9 4F535F52 		.ascii	"OS_REG_R10\000"
+ 1391      45475F52 
+ 1391      313000
+ 1392              	.LASF20:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 30
+
+
+ 1393 02d4 4F535F52 		.ascii	"OS_REG_R11\000"
+ 1393      45475F52 
+ 1393      313100
+ 1394              	.LASF26:
+ 1395 02df 4F535F52 		.ascii	"OS_REG_R12\000"
+ 1395      45475F52 
+ 1395      313200
+ 1396              	.LASF27:
+ 1397 02ea 4F535F52 		.ascii	"OS_REG_R14\000"
+ 1397      45475F52 
+ 1397      313400
+ 1398              	.LASF90:
+ 1399 02f5 70665265 		.ascii	"pfRecordTaskTerminate\000"
+ 1399      636F7264 
+ 1399      5461736B 
+ 1399      5465726D 
+ 1399      696E6174 
+ 1400              	.LASF52:
+ 1401 030b 70544C53 		.ascii	"pTLS\000"
+ 1401      00
+ 1402              	.LASF98:
+ 1403 0310 53595356 		.ascii	"SYSVIEW_X_OS_TraceAPI\000"
+ 1403      4945575F 
+ 1403      585F4F53 
+ 1403      5F547261 
+ 1403      63654150 
+ 1404              	.LASF48:
+ 1405 0326 45786563 		.ascii	"ExecTotal\000"
+ 1405      546F7461 
+ 1405      6C00
+ 1406              	.LASF2:
+ 1407 0330 6C6F6E67 		.ascii	"long double\000"
+ 1407      20646F75 
+ 1407      626C6500 
+ 1408              	.LASF4:
+ 1409 033c 756E7369 		.ascii	"unsigned char\000"
+ 1409      676E6564 
+ 1409      20636861 
+ 1409      7200
+ 1410              	.LASF82:
+ 1411 034a 70665265 		.ascii	"pfRecordU32x2\000"
+ 1411      636F7264 
+ 1411      55333278 
+ 1411      3200
+ 1412              	.LASF83:
+ 1413 0358 70665265 		.ascii	"pfRecordU32x3\000"
+ 1413      636F7264 
+ 1413      55333278 
+ 1413      3300
+ 1414              	.LASF84:
+ 1415 0366 70665265 		.ascii	"pfRecordU32x4\000"
+ 1415      636F7264 
+ 1415      55333278 
+ 1415      3400
+ 1416              	.LASF91:
+ 1417 0374 70665265 		.ascii	"pfRecordU32x5\000"
+ 1417      636F7264 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 31
+
+
+ 1417      55333278 
+ 1417      3500
+ 1418              	.LASF64:
+ 1419 0382 70665361 		.ascii	"pfSave\000"
+ 1419      766500
+ 1420              	.LASF3:
+ 1421 0389 7369676E 		.ascii	"signed char\000"
+ 1421      65642063 
+ 1421      68617200 
+ 1422              	.LASF9:
+ 1423 0395 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1423      206C6F6E 
+ 1423      6720756E 
+ 1423      7369676E 
+ 1423      65642069 
+ 1424              	.LASF94:
+ 1425 03ac 70664765 		.ascii	"pfGetTime\000"
+ 1425      7454696D 
+ 1425      6500
+ 1426              	.LASF0:
+ 1427 03b6 756E7369 		.ascii	"unsigned int\000"
+ 1427      676E6564 
+ 1427      20696E74 
+ 1427      00
+ 1428              	.LASF62:
+ 1429 03c3 4F535F57 		.ascii	"OS_WAIT_OBJ_STRUCT\000"
+ 1429      4149545F 
+ 1429      4F424A5F 
+ 1429      53545255 
+ 1429      435400
+ 1430              	.LASF51:
+ 1431 03d6 436F6E74 		.ascii	"ContextExtension\000"
+ 1431      65787445 
+ 1431      7874656E 
+ 1431      73696F6E 
+ 1431      00
+ 1432              	.LASF100:
+ 1433 03e7 2E2E5C53 		.ascii	"..\\SEGGER\\SEGGER_SYSVIEW_Config_embOS.c\000"
+ 1433      45474745 
+ 1433      525C5345 
+ 1433      47474552 
+ 1433      5F535953 
+ 1434              	.LASF34:
+ 1435 040f 704E6578 		.ascii	"pNext\000"
+ 1435      7400
+ 1436              	.LASF85:
+ 1437 0415 70665074 		.ascii	"pfPtrToId\000"
+ 1437      72546F49 
+ 1437      6400
+ 1438              	.LASF6:
+ 1439 041f 73686F72 		.ascii	"short unsigned int\000"
+ 1439      7420756E 
+ 1439      7369676E 
+ 1439      65642069 
+ 1439      6E7400
+ 1440              	.LASF37:
+ 1441 0432 54696D65 		.ascii	"Timeout\000"
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 32
+
+
+ 1441      6F757400 
+ 1442              	.LASF54:
+ 1443 043a 54696D65 		.ascii	"TimeSliceRem\000"
+ 1443      536C6963 
+ 1443      6552656D 
+ 1443      00
+ 1444              	.LASF11:
+ 1445 0447 63686172 		.ascii	"char\000"
+ 1445      00
+ 1446              	.LASF67:
+ 1447 044c 4F535F45 		.ascii	"OS_EXTEND_TASK_CONTEXT_LINK_STRUCT\000"
+ 1447      5854454E 
+ 1447      445F5441 
+ 1447      534B5F43 
+ 1447      4F4E5445 
+ 1448              	.LASF30:
+ 1449 046f 42617365 		.ascii	"Base\000"
+ 1449      00
+ 1450              	.LASF76:
+ 1451 0474 70665265 		.ascii	"pfRecordTaskStopExec\000"
+ 1451      636F7264 
+ 1451      5461736B 
+ 1451      53746F70 
+ 1451      45786563 
+ 1452              	.LASF87:
+ 1453 0489 70665265 		.ascii	"pfRecordExitTimer\000"
+ 1453      636F7264 
+ 1453      45786974 
+ 1453      54696D65 
+ 1453      7200
+ 1454              	.LASF21:
+ 1455 049b 4F535F52 		.ascii	"OS_REG_LR\000"
+ 1455      45475F4C 
+ 1455      5200
+ 1456              	.LASF28:
+ 1457 04a5 4F535F52 		.ascii	"OS_REG_PC\000"
+ 1457      45475F50 
+ 1457      4300
+ 1458              	.LASF97:
+ 1459 04af 656D624F 		.ascii	"embOS_TraceAPI_SYSVIEW\000"
+ 1459      535F5472 
+ 1459      61636541 
+ 1459      50495F53 
+ 1459      59535649 
+ 1460              	.LASF80:
+ 1461 04c6 70665265 		.ascii	"pfRecordVoid\000"
+ 1461      636F7264 
+ 1461      566F6964 
+ 1461      00
+ 1462              	.LASF71:
+ 1463 04d3 70665265 		.ascii	"pfRecordExitISR\000"
+ 1463      636F7264 
+ 1463      45786974 
+ 1463      49535200 
+ 1464              	.LASF8:
+ 1465 04e3 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1465      20756E73 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 33
+
+
+ 1465      69676E65 
+ 1465      6420696E 
+ 1465      7400
+ 1466              	.LASF44:
+ 1467 04f5 53746163 		.ascii	"StackSize\000"
+ 1467      6B53697A 
+ 1467      6500
+ 1468              	.LASF81:
+ 1469 04ff 70665265 		.ascii	"pfRecordU32\000"
+ 1469      636F7264 
+ 1469      55333200 
+ 1470              	.LASF61:
+ 1471 050b 4F535F57 		.ascii	"OS_WAIT_OBJ\000"
+ 1471      4149545F 
+ 1471      4F424A00 
+ 1472              	.LASF63:
+ 1473 0517 4F535F45 		.ascii	"OS_EXTEND_TASK_CONTEXT_STRUCT\000"
+ 1473      5854454E 
+ 1473      445F5441 
+ 1473      534B5F43 
+ 1473      4F4E5445 
+ 1474              	.LASF50:
+ 1475 0535 4C6F6164 		.ascii	"Load\000"
+ 1475      00
+ 1476              	.LASF70:
+ 1477 053a 70665265 		.ascii	"pfRecordEnterISR\000"
+ 1477      636F7264 
+ 1477      456E7465 
+ 1477      72495352 
+ 1477      00
+ 1478              	.LASF36:
+ 1479 054b 70576169 		.ascii	"pWaitList\000"
+ 1479      744C6973 
+ 1479      7400
+ 1480              	.LASF72:
+ 1481 0555 70665265 		.ascii	"pfRecordExitISRToScheduler\000"
+ 1481      636F7264 
+ 1481      45786974 
+ 1481      49535254 
+ 1481      6F536368 
+ 1482              	.LASF69:
+ 1483 0570 4F535F45 		.ascii	"OS_EXTEND_TASK_CONTEXT_LINK\000"
+ 1483      5854454E 
+ 1483      445F5441 
+ 1483      534B5F43 
+ 1483      4F4E5445 
+ 1484              	.LASF92:
+ 1485 058c 70665265 		.ascii	"pfRecordObjName\000"
+ 1485      636F7264 
+ 1485      4F626A4E 
+ 1485      616D6500 
+ 1486              	.LASF47:
+ 1487 059c 4E756D50 		.ascii	"NumPreemptions\000"
+ 1487      7265656D 
+ 1487      7074696F 
+ 1487      6E7300
+ 1488              	.LASF65:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccbDqXFf.s 			page 34
+
+
+ 1489 05ab 70665265 		.ascii	"pfRestore\000"
+ 1489      73746F72 
+ 1489      6500
+ 1490              	.LASF77:
+ 1491 05b5 70665265 		.ascii	"pfRecordTaskStartReady\000"
+ 1491      636F7264 
+ 1491      5461736B 
+ 1491      53746172 
+ 1491      74526561 
+ 1492              	.LASF58:
+ 1493 05cc 4F535F57 		.ascii	"OS_WAIT_LIST_STRUCT\000"
+ 1493      4149545F 
+ 1493      4C495354 
+ 1493      5F535452 
+ 1493      55435400 
+ 1494              	.LASF101:
+ 1495 05e0 453A5C69 		.ascii	"E:\\iroteam\\prg\\tulue\\code\\cypress\\no-exp -V1-"
+ 1495      726F7465 
+ 1495      616D5C70 
+ 1495      72675C74 
+ 1495      756C7565 
+ 1496 060d 6F6C6420 		.ascii	"old board\\new-cy-notask\\cy-notask\\Start\\BoardSu"
+ 1496      626F6172 
+ 1496      645C6E65 
+ 1496      772D6379 
+ 1496      2D6E6F74 
+ 1497 063c 70706F72 		.ascii	"pport\\Cypress\\CY8C5868_CY8CKIT_050_PSoC5_DK\\Star"
+ 1497      745C4379 
+ 1497      70726573 
+ 1497      735C4359 
+ 1497      38433538 
+ 1498 066c 745F4359 		.ascii	"t_CY8C5868_AccessV1.0_OldBrd.cydsn\000"
+ 1498      38433538 
+ 1498      36385F41 
+ 1498      63636573 
+ 1498      7356312E 
+ 1499              	.LASF12:
+ 1500 068f 436F756E 		.ascii	"Counters\000"
+ 1500      74657273 
+ 1500      00
+ 1501              	.LASF88:
+ 1502 0698 70665265 		.ascii	"pfRecordEndCall\000"
+ 1502      636F7264 
+ 1502      456E6443 
+ 1502      616C6C00 
+ 1503              	.LASF1:
+ 1504 06a8 6C6F6E67 		.ascii	"long long int\000"
+ 1504      206C6F6E 
+ 1504      6720696E 
+ 1504      7400
+ 1505              	.LASF60:
+ 1506 06b6 70546173 		.ascii	"pTask\000"
+ 1506      6B00
+ 1507              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

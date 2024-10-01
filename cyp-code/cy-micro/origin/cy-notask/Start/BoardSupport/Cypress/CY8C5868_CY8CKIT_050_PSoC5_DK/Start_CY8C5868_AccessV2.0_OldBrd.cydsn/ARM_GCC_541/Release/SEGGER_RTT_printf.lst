@@ -1,0 +1,893 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"SEGGER_RTT_printf.c"
+  16              		.section	.text._PrintUnsigned,"ax",%progbits
+  17              		.align	2
+  18              		.thumb
+  19              		.thumb_func
+  20              		.type	_PrintUnsigned, %function
+  21              	_PrintUnsigned:
+  22              		@ args = 8, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  25 0004 1746     		mov	r7, r2
+  26 0006 B942     		cmp	r1, r7
+  27 0008 8846     		mov	r8, r1
+  28 000a 0646     		mov	r6, r0
+  29 000c 1D46     		mov	r5, r3
+  30 000e DDF828A0 		ldr	r10, [sp, #40]
+  31 0012 0B9A     		ldr	r2, [sp, #44]
+  32 0014 C0F0B380 		bcc	.L34
+  33 0018 0B46     		mov	r3, r1
+  34 001a 4FF00109 		mov	r9, #1
+  35              	.L3:
+  36 001e B3FBF7F3 		udiv	r3, r3, r7
+  37 0022 9F42     		cmp	r7, r3
+  38 0024 09F10109 		add	r9, r9, #1
+  39 0028 F9D9     		bls	.L3
+  40              	.L2:
+  41 002a A945     		cmp	r9, r5
+  42 002c 38BF     		it	cc
+  43 002e A946     		movcc	r9, r5
+  44 0030 12F0010B 		ands	fp, r2, #1
+  45 0034 02D1     		bne	.L4
+  46 0036 BAF1000F 		cmp	r10, #0
+  47 003a 6AD1     		bne	.L50
+  48              	.L4:
+  49 003c F068     		ldr	r0, [r6, #12]
+  50 003e 0028     		cmp	r0, #0
+  51 0040 60DB     		blt	.L1
+  52 0042 B268     		ldr	r2, [r6, #8]
+  53              	.L33:
+  54 0044 0124     		movs	r4, #1
+  55 0046 02E0     		b	.L20
+  56              	.L51:
+  57 0048 013D     		subs	r5, r5, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 2
+
+
+  58              	.L18:
+  59 004a 07FB04F4 		mul	r4, r7, r4
+  60              	.L20:
+  61 004e 012D     		cmp	r5, #1
+  62 0050 FAD8     		bhi	.L51
+  63 0052 B8FBF4F1 		udiv	r1, r8, r4
+  64 0056 8F42     		cmp	r7, r1
+  65 0058 F7D9     		bls	.L18
+  66 005a 4C4D     		ldr	r5, .L57
+  67 005c 06E0     		b	.L25
+  68              	.L22:
+  69 005e 0028     		cmp	r0, #0
+  70 0060 21DB     		blt	.L24
+  71 0062 B4FBF7F4 		udiv	r4, r4, r7
+  72 0066 F4B1     		cbz	r4, .L24
+  73 0068 B8FBF4F1 		udiv	r1, r8, r4
+  74              	.L25:
+  75 006c 7368     		ldr	r3, [r6, #4]
+  76 006e 02F1010C 		add	ip, r2, #1
+  77 0072 9C45     		cmp	ip, r3
+  78 0074 01FB1488 		mls	r8, r1, r4, r8
+  79 0078 09D8     		bhi	.L21
+  80 007a 685C     		ldrb	r0, [r5, r1]	@ zero_extendqisi2
+  81 007c 3168     		ldr	r1, [r6]
+  82 007e 8854     		strb	r0, [r1, r2]
+  83 0080 6246     		mov	r2, ip
+  84 0082 F068     		ldr	r0, [r6, #12]
+  85 0084 7368     		ldr	r3, [r6, #4]
+  86 0086 0130     		adds	r0, r0, #1
+  87 0088 C6F808C0 		str	ip, [r6, #8]
+  88 008c F060     		str	r0, [r6, #12]
+  89              	.L21:
+  90 008e 9A42     		cmp	r2, r3
+  91 0090 E5D1     		bne	.L22
+  92 0092 3168     		ldr	r1, [r6]
+  93 0094 3069     		ldr	r0, [r6, #16]
+  94 0096 FFF7FEFF 		bl	SEGGER_RTT_Write
+  95 009a B268     		ldr	r2, [r6, #8]
+  96 009c 9042     		cmp	r0, r2
+  97 009e 33D0     		beq	.L23
+  98 00a0 4FF0FF33 		mov	r3, #-1
+  99 00a4 F360     		str	r3, [r6, #12]
+ 100              	.L24:
+ 101 00a6 BBF1000F 		cmp	fp, #0
+ 102 00aa 2BD0     		beq	.L1
+ 103 00ac BAF1000F 		cmp	r10, #0
+ 104 00b0 61D0     		beq	.L52
+ 105 00b2 D145     		cmp	r9, r10
+ 106 00b4 66D2     		bcs	.L53
+ 107 00b6 2025     		movs	r5, #32
+ 108 00b8 0024     		movs	r4, #0
+ 109 00ba 07E0     		b	.L32
+ 110              	.L28:
+ 111 00bc F368     		ldr	r3, [r6, #12]
+ 112 00be 002B     		cmp	r3, #0
+ 113 00c0 20DB     		blt	.L1
+ 114 00c2 BAF1000F 		cmp	r10, #0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 3
+
+
+ 115 00c6 58D0     		beq	.L54
+ 116 00c8 CA45     		cmp	r10, r9
+ 117 00ca 1BD9     		bls	.L1
+ 118              	.L32:
+ 119 00cc 7368     		ldr	r3, [r6, #4]
+ 120 00ce 511C     		adds	r1, r2, #1
+ 121 00d0 9942     		cmp	r1, r3
+ 122 00d2 0AF1FF3A 		add	r10, r10, #-1
+ 123 00d6 07D8     		bhi	.L27
+ 124 00d8 3368     		ldr	r3, [r6]
+ 125 00da 9D54     		strb	r5, [r3, r2]
+ 126 00dc 0A46     		mov	r2, r1
+ 127 00de F068     		ldr	r0, [r6, #12]
+ 128 00e0 7368     		ldr	r3, [r6, #4]
+ 129 00e2 0130     		adds	r0, r0, #1
+ 130 00e4 B160     		str	r1, [r6, #8]
+ 131 00e6 F060     		str	r0, [r6, #12]
+ 132              	.L27:
+ 133 00e8 9A42     		cmp	r2, r3
+ 134 00ea E7D1     		bne	.L28
+ 135 00ec 3168     		ldr	r1, [r6]
+ 136 00ee 3069     		ldr	r0, [r6, #16]
+ 137 00f0 FFF7FEFF 		bl	SEGGER_RTT_Write
+ 138 00f4 B368     		ldr	r3, [r6, #8]
+ 139 00f6 9842     		cmp	r0, r3
+ 140 00f8 35D0     		beq	.L29
+ 141              	.L48:
+ 142 00fa 4FF0FF33 		mov	r3, #-1
+ 143 00fe F360     		str	r3, [r6, #12]
+ 144 0100 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 145              	.L1:
+ 146 0104 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 147              	.L23:
+ 148 0108 0023     		movs	r3, #0
+ 149 010a F068     		ldr	r0, [r6, #12]
+ 150 010c B360     		str	r3, [r6, #8]
+ 151 010e 1A46     		mov	r2, r3
+ 152 0110 A5E7     		b	.L22
+ 153              	.L50:
+ 154 0112 9307     		lsls	r3, r2, #30
+ 155 0114 2AD4     		bmi	.L55
+ 156 0116 2024     		movs	r4, #32
+ 157              	.L7:
+ 158 0118 CA45     		cmp	r10, r9
+ 159 011a 8FD9     		bls	.L4
+ 160 011c B268     		ldr	r2, [r6, #8]
+ 161 011e 07E0     		b	.L16
+ 162              	.L9:
+ 163 0120 F068     		ldr	r0, [r6, #12]
+ 164 0122 0028     		cmp	r0, #0
+ 165 0124 30DB     		blt	.L56
+ 166 0126 BAF1000F 		cmp	r10, #0
+ 167 012a 8BD0     		beq	.L33
+ 168 012c CA45     		cmp	r10, r9
+ 169 012e 89D9     		bls	.L33
+ 170              	.L16:
+ 171 0130 7168     		ldr	r1, [r6, #4]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 4
+
+
+ 172 0132 531C     		adds	r3, r2, #1
+ 173 0134 8B42     		cmp	r3, r1
+ 174 0136 0AF1FF3A 		add	r10, r10, #-1
+ 175 013a 07D8     		bhi	.L8
+ 176 013c 3168     		ldr	r1, [r6]
+ 177 013e 8C54     		strb	r4, [r1, r2]
+ 178 0140 1A46     		mov	r2, r3
+ 179 0142 F068     		ldr	r0, [r6, #12]
+ 180 0144 7168     		ldr	r1, [r6, #4]
+ 181 0146 0130     		adds	r0, r0, #1
+ 182 0148 B360     		str	r3, [r6, #8]
+ 183 014a F060     		str	r0, [r6, #12]
+ 184              	.L8:
+ 185 014c 8A42     		cmp	r2, r1
+ 186 014e E7D1     		bne	.L9
+ 187 0150 3168     		ldr	r1, [r6]
+ 188 0152 3069     		ldr	r0, [r6, #16]
+ 189 0154 FFF7FEFF 		bl	SEGGER_RTT_Write
+ 190 0158 B268     		ldr	r2, [r6, #8]
+ 191 015a 9042     		cmp	r0, r2
+ 192 015c CDD1     		bne	.L48
+ 193 015e 0023     		movs	r3, #0
+ 194 0160 B360     		str	r3, [r6, #8]
+ 195 0162 1A46     		mov	r2, r3
+ 196 0164 DCE7     		b	.L9
+ 197              	.L29:
+ 198 0166 B460     		str	r4, [r6, #8]
+ 199 0168 0022     		movs	r2, #0
+ 200 016a A7E7     		b	.L28
+ 201              	.L55:
+ 202 016c 002D     		cmp	r5, #0
+ 203 016e 0CBF     		ite	eq
+ 204 0170 3024     		moveq	r4, #48
+ 205 0172 2024     		movne	r4, #32
+ 206 0174 D0E7     		b	.L7
+ 207              	.L52:
+ 208 0176 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 209              	.L54:
+ 210 017a BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 211              	.L34:
+ 212 017e 4FF00109 		mov	r9, #1
+ 213 0182 52E7     		b	.L2
+ 214              	.L53:
+ 215 0184 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 216              	.L56:
+ 217 0188 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 218              	.L58:
+ 219              		.align	2
+ 220              	.L57:
+ 221 018c 00000000 		.word	.LANCHOR0
+ 222              		.size	_PrintUnsigned, .-_PrintUnsigned
+ 223              		.section	.text.SEGGER_RTT_vprintf,"ax",%progbits
+ 224              		.align	2
+ 225              		.global	SEGGER_RTT_vprintf
+ 226              		.thumb
+ 227              		.thumb_func
+ 228              		.type	SEGGER_RTT_vprintf, %function
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 5
+
+
+ 229              	SEGGER_RTT_vprintf:
+ 230              		@ args = 0, pretend = 0, frame = 96
+ 231              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232 0000 0023     		movs	r3, #0
+ 233 0002 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 234 0006 9E46     		mov	lr, r3
+ 235 0008 9BB0     		sub	sp, sp, #108
+ 236 000a 0290     		str	r0, [sp, #8]
+ 237 000c 0990     		str	r0, [sp, #36]
+ 238 000e 0C46     		mov	r4, r1
+ 239 0010 7046     		mov	r0, lr
+ 240 0012 9146     		mov	r9, r2
+ 241 0014 9B46     		mov	fp, r3
+ 242 0016 4022     		movs	r2, #64
+ 243 0018 0793     		str	r3, [sp, #28]
+ 244 001a 0893     		str	r3, [sp, #32]
+ 245 001c DFF880A4 		ldr	r10, .L209
+ 246 0020 0AAB     		add	r3, sp, #40
+ 247 0022 0593     		str	r3, [sp, #20]
+ 248 0024 0692     		str	r2, [sp, #24]
+ 249              	.L60:
+ 250 0026 14F8013B 		ldrb	r3, [r4], #1	@ zero_extendqisi2
+ 251 002a 002B     		cmp	r3, #0
+ 252 002c 79D0     		beq	.L61
+ 253              	.L195:
+ 254 002e 252B     		cmp	r3, #37
+ 255 0030 55D1     		bne	.L62
+ 256 0032 0027     		movs	r7, #0
+ 257              	.L130:
+ 258 0034 2546     		mov	r5, r4
+ 259 0036 14F8011B 		ldrb	r1, [r4], #1	@ zero_extendqisi2
+ 260 003a A1F12303 		sub	r3, r1, #35
+ 261 003e 0D2B     		cmp	r3, #13
+ 262 0040 14D8     		bhi	.L63
+ 263 0042 DFE803F0 		tbb	[pc, r3]
+ 264              	.L65:
+ 265 0046 10       		.byte	(.L64-.L65)/2
+ 266 0047 13       		.byte	(.L63-.L65)/2
+ 267 0048 13       		.byte	(.L63-.L65)/2
+ 268 0049 13       		.byte	(.L63-.L65)/2
+ 269 004a 13       		.byte	(.L63-.L65)/2
+ 270 004b 13       		.byte	(.L63-.L65)/2
+ 271 004c 13       		.byte	(.L63-.L65)/2
+ 272 004d 13       		.byte	(.L63-.L65)/2
+ 273 004e 0D       		.byte	(.L66-.L65)/2
+ 274 004f 13       		.byte	(.L63-.L65)/2
+ 275 0050 0A       		.byte	(.L67-.L65)/2
+ 276 0051 13       		.byte	(.L63-.L65)/2
+ 277 0052 13       		.byte	(.L63-.L65)/2
+ 278 0053 07       		.byte	(.L68-.L65)/2
+ 279              		.p2align 1
+ 280              	.L68:
+ 281 0054 47F00207 		orr	r7, r7, #2
+ 282 0058 ECE7     		b	.L130
+ 283              	.L67:
+ 284 005a 47F00107 		orr	r7, r7, #1
+ 285 005e E9E7     		b	.L130
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 6
+
+
+ 286              	.L66:
+ 287 0060 47F00407 		orr	r7, r7, #4
+ 288 0064 E6E7     		b	.L130
+ 289              	.L64:
+ 290 0066 47F00807 		orr	r7, r7, #8
+ 291 006a E3E7     		b	.L130
+ 292              	.L63:
+ 293 006c A1F13003 		sub	r3, r1, #48
+ 294 0070 092B     		cmp	r3, #9
+ 295 0072 4FF00004 		mov	r4, #0
+ 296 0076 0AD8     		bhi	.L69
+ 297              	.L72:
+ 298 0078 04EB8404 		add	r4, r4, r4, lsl #2
+ 299 007c 01EB4404 		add	r4, r1, r4, lsl #1
+ 300 0080 15F8011F 		ldrb	r1, [r5, #1]!	@ zero_extendqisi2
+ 301 0084 303C     		subs	r4, r4, #48
+ 302 0086 A1F13003 		sub	r3, r1, #48
+ 303 008a 092B     		cmp	r3, #9
+ 304 008c F4D9     		bls	.L72
+ 305              	.L69:
+ 306 008e 2E29     		cmp	r1, #46
+ 307 0090 6DD0     		beq	.L189
+ 308 0092 0026     		movs	r6, #0
+ 309 0094 01E0     		b	.L76
+ 310              	.L190:
+ 311 0096 15F8011F 		ldrb	r1, [r5, #1]!	@ zero_extendqisi2
+ 312              	.L76:
+ 313 009a 01F0FB03 		and	r3, r1, #251
+ 314 009e 682B     		cmp	r3, #104
+ 315 00a0 F9D0     		beq	.L190
+ 316 00a2 6429     		cmp	r1, #100
+ 317 00a4 00F0DD80 		beq	.L78
+ 318 00a8 47D9     		bls	.L191
+ 319 00aa 7329     		cmp	r1, #115
+ 320 00ac 00F08480 		beq	.L83
+ 321 00b0 71D9     		bls	.L192
+ 322 00b2 7529     		cmp	r1, #117
+ 323 00b4 40F0AA80 		bne	.L193
+ 324 00b8 D9F80020 		ldr	r2, [r9]
+ 325 00bc 05A8     		add	r0, sp, #20
+ 326 00be 1168     		ldr	r1, [r2]
+ 327 00c0 0432     		adds	r2, r2, #4
+ 328 00c2 C9F80020 		str	r2, [r9]
+ 329 00c6 3346     		mov	r3, r6
+ 330 00c8 8DE89000 		stmia	sp, {r4, r7}
+ 331 00cc 0A22     		movs	r2, #10
+ 332 00ce FFF7FEFF 		bl	_PrintUnsigned
+ 333 00d2 0898     		ldr	r0, [sp, #32]
+ 334              	.L77:
+ 335 00d4 6C1C     		adds	r4, r5, #1
+ 336              	.L125:
+ 337 00d6 0028     		cmp	r0, #0
+ 338 00d8 A5DA     		bge	.L60
+ 339 00da 8646     		mov	lr, r0
+ 340 00dc 17E0     		b	.L155
+ 341              	.L62:
+ 342 00de 0799     		ldr	r1, [sp, #28]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 7
+
+
+ 343 00e0 069A     		ldr	r2, [sp, #24]
+ 344 00e2 4D1C     		adds	r5, r1, #1
+ 345 00e4 9542     		cmp	r5, r2
+ 346 00e6 16D8     		bhi	.L126
+ 347 00e8 059A     		ldr	r2, [sp, #20]
+ 348 00ea 5354     		strb	r3, [r2, r1]
+ 349 00ec 0898     		ldr	r0, [sp, #32]
+ 350 00ee 069A     		ldr	r2, [sp, #24]
+ 351 00f0 0130     		adds	r0, r0, #1
+ 352 00f2 9542     		cmp	r5, r2
+ 353 00f4 0795     		str	r5, [sp, #28]
+ 354 00f6 0890     		str	r0, [sp, #32]
+ 355 00f8 EDD1     		bne	.L125
+ 356              	.L136:
+ 357 00fa 0599     		ldr	r1, [sp, #20]
+ 358 00fc 0998     		ldr	r0, [sp, #36]
+ 359 00fe FFF7FEFF 		bl	SEGGER_RTT_Write
+ 360 0102 079B     		ldr	r3, [sp, #28]
+ 361 0104 9842     		cmp	r0, r3
+ 362 0106 00F02C81 		beq	.L194
+ 363 010a 4FF0FF3E 		mov	lr, #-1
+ 364              	.L155:
+ 365 010e 7046     		mov	r0, lr
+ 366 0110 1BB0     		add	sp, sp, #108
+ 367              		@ sp needed
+ 368 0112 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 369              	.L126:
+ 370 0116 9142     		cmp	r1, r2
+ 371 0118 EFD0     		beq	.L136
+ 372 011a 14F8013B 		ldrb	r3, [r4], #1	@ zero_extendqisi2
+ 373 011e 002B     		cmp	r3, #0
+ 374 0120 85D1     		bne	.L195
+ 375              	.L61:
+ 376 0122 0028     		cmp	r0, #0
+ 377 0124 8646     		mov	lr, r0
+ 378 0126 F2DD     		ble	.L155
+ 379 0128 079A     		ldr	r2, [sp, #28]
+ 380 012a 002A     		cmp	r2, #0
+ 381 012c 40F01D81 		bne	.L196
+ 382 0130 9644     		add	lr, lr, r2
+ 383              	.L205:
+ 384 0132 7046     		mov	r0, lr
+ 385 0134 1BB0     		add	sp, sp, #108
+ 386              		@ sp needed
+ 387 0136 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 388              	.L191:
+ 389 013a 5829     		cmp	r1, #88
+ 390 013c 69D0     		beq	.L80
+ 391 013e 6329     		cmp	r1, #99
+ 392 0140 76D0     		beq	.L81
+ 393 0142 2529     		cmp	r1, #37
+ 394 0144 C6D1     		bne	.L77
+ 395 0146 079C     		ldr	r4, [sp, #28]
+ 396 0148 069B     		ldr	r3, [sp, #24]
+ 397 014a 621C     		adds	r2, r4, #1
+ 398 014c 9A42     		cmp	r2, r3
+ 399 014e 40F20081 		bls	.L197
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 8
+
+
+ 400 0152 2246     		mov	r2, r4
+ 401              	.L124:
+ 402 0154 9A42     		cmp	r2, r3
+ 403 0156 BDD1     		bne	.L77
+ 404 0158 0599     		ldr	r1, [sp, #20]
+ 405 015a 0998     		ldr	r0, [sp, #36]
+ 406 015c FFF7FEFF 		bl	SEGGER_RTT_Write
+ 407 0160 079B     		ldr	r3, [sp, #28]
+ 408 0162 9842     		cmp	r0, r3
+ 409 0164 4ED1     		bne	.L185
+ 410 0166 0898     		ldr	r0, [sp, #32]
+ 411 0168 CDF81CB0 		str	fp, [sp, #28]
+ 412 016c B2E7     		b	.L77
+ 413              	.L189:
+ 414 016e 6978     		ldrb	r1, [r5, #1]	@ zero_extendqisi2
+ 415 0170 0026     		movs	r6, #0
+ 416 0172 A1F13003 		sub	r3, r1, #48
+ 417 0176 092B     		cmp	r3, #9
+ 418 0178 05F10105 		add	r5, r5, #1
+ 419 017c 8DD8     		bhi	.L76
+ 420              	.L74:
+ 421 017e 06EB8606 		add	r6, r6, r6, lsl #2
+ 422 0182 01EB4606 		add	r6, r1, r6, lsl #1
+ 423 0186 15F8011F 		ldrb	r1, [r5, #1]!	@ zero_extendqisi2
+ 424 018a 303E     		subs	r6, r6, #48
+ 425 018c A1F13003 		sub	r3, r1, #48
+ 426 0190 092B     		cmp	r3, #9
+ 427 0192 F4D9     		bls	.L74
+ 428 0194 81E7     		b	.L76
+ 429              	.L192:
+ 430 0196 7029     		cmp	r1, #112
+ 431 0198 9CD1     		bne	.L77
+ 432 019a D9F80020 		ldr	r2, [r9]
+ 433 019e 0823     		movs	r3, #8
+ 434 01a0 1168     		ldr	r1, [r2]
+ 435 01a2 0432     		adds	r2, r2, #4
+ 436 01a4 C9F80020 		str	r2, [r9]
+ 437 01a8 05A8     		add	r0, sp, #20
+ 438 01aa 8DE80808 		stmia	sp, {r3, fp}
+ 439 01ae 1022     		movs	r2, #16
+ 440 01b0 FFF7FEFF 		bl	_PrintUnsigned
+ 441 01b4 0898     		ldr	r0, [sp, #32]
+ 442 01b6 8DE7     		b	.L77
+ 443              	.L83:
+ 444 01b8 D9F80030 		ldr	r3, [r9]
+ 445 01bc 1A1D     		adds	r2, r3, #4
+ 446 01be C9F80020 		str	r2, [r9]
+ 447 01c2 1C68     		ldr	r4, [r3]
+ 448              	.L119:
+ 449 01c4 14F8011B 		ldrb	r1, [r4], #1	@ zero_extendqisi2
+ 450 01c8 0029     		cmp	r1, #0
+ 451 01ca 83D0     		beq	.L77
+ 452 01cc 079B     		ldr	r3, [sp, #28]
+ 453 01ce 069E     		ldr	r6, [sp, #24]
+ 454 01d0 5A1C     		adds	r2, r3, #1
+ 455 01d2 B242     		cmp	r2, r6
+ 456 01d4 0BD8     		bhi	.L120
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 9
+
+
+ 457 01d6 0598     		ldr	r0, [sp, #20]
+ 458 01d8 C154     		strb	r1, [r0, r3]
+ 459 01da 0898     		ldr	r0, [sp, #32]
+ 460 01dc 069B     		ldr	r3, [sp, #24]
+ 461 01de 0130     		adds	r0, r0, #1
+ 462 01e0 9A42     		cmp	r2, r3
+ 463 01e2 0792     		str	r2, [sp, #28]
+ 464 01e4 0890     		str	r0, [sp, #32]
+ 465 01e6 05D0     		beq	.L134
+ 466              	.L121:
+ 467 01e8 0028     		cmp	r0, #0
+ 468 01ea EBDA     		bge	.L119
+ 469 01ec 72E7     		b	.L77
+ 470              	.L120:
+ 471 01ee B342     		cmp	r3, r6
+ 472 01f0 E8D1     		bne	.L119
+ 473 01f2 1A46     		mov	r2, r3
+ 474              	.L134:
+ 475 01f4 0599     		ldr	r1, [sp, #20]
+ 476 01f6 0998     		ldr	r0, [sp, #36]
+ 477 01f8 FFF7FEFF 		bl	SEGGER_RTT_Write
+ 478 01fc 079B     		ldr	r3, [sp, #28]
+ 479 01fe 9842     		cmp	r0, r3
+ 480 0200 00F09580 		beq	.L198
+ 481              	.L185:
+ 482 0204 4FF0FF30 		mov	r0, #-1
+ 483 0208 0890     		str	r0, [sp, #32]
+ 484 020a 63E7     		b	.L77
+ 485              	.L193:
+ 486 020c 7829     		cmp	r1, #120
+ 487 020e 7FF461AF 		bne	.L77
+ 488              	.L80:
+ 489 0212 D9F80020 		ldr	r2, [r9]
+ 490 0216 05A8     		add	r0, sp, #20
+ 491 0218 1168     		ldr	r1, [r2]
+ 492 021a 0432     		adds	r2, r2, #4
+ 493 021c C9F80020 		str	r2, [r9]
+ 494 0220 3346     		mov	r3, r6
+ 495 0222 8DE89000 		stmia	sp, {r4, r7}
+ 496 0226 1022     		movs	r2, #16
+ 497 0228 FFF7FEFF 		bl	_PrintUnsigned
+ 498 022c 0898     		ldr	r0, [sp, #32]
+ 499 022e 51E7     		b	.L77
+ 500              	.L81:
+ 501 0230 0799     		ldr	r1, [sp, #28]
+ 502 0232 D9F80040 		ldr	r4, [r9]
+ 503 0236 069B     		ldr	r3, [sp, #24]
+ 504 0238 4A1C     		adds	r2, r1, #1
+ 505 023a 261D     		adds	r6, r4, #4
+ 506 023c 9A42     		cmp	r2, r3
+ 507 023e C9F80060 		str	r6, [r9]
+ 508 0242 7DD9     		bls	.L199
+ 509 0244 0A46     		mov	r2, r1
+ 510              	.L87:
+ 511 0246 9A42     		cmp	r2, r3
+ 512 0248 7FF444AF 		bne	.L77
+ 513 024c 0599     		ldr	r1, [sp, #20]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 10
+
+
+ 514 024e 0998     		ldr	r0, [sp, #36]
+ 515 0250 FFF7FEFF 		bl	SEGGER_RTT_Write
+ 516 0254 079B     		ldr	r3, [sp, #28]
+ 517 0256 9842     		cmp	r0, r3
+ 518 0258 D4D1     		bne	.L185
+ 519 025a CDF81CB0 		str	fp, [sp, #28]
+ 520 025e 0898     		ldr	r0, [sp, #32]
+ 521 0260 38E7     		b	.L77
+ 522              	.L78:
+ 523 0262 D9F80030 		ldr	r3, [r9]
+ 524 0266 D3F80080 		ldr	r8, [r3]
+ 525 026a 0433     		adds	r3, r3, #4
+ 526 026c 88EAE872 		eor	r2, r8, r8, asr #31
+ 527 0270 A2EBE872 		sub	r2, r2, r8, asr #31
+ 528 0274 092A     		cmp	r2, #9
+ 529 0276 C9F80030 		str	r3, [r9]
+ 530 027a 4FF00103 		mov	r3, #1
+ 531 027e 08DD     		ble	.L89
+ 532              	.L90:
+ 533 0280 8AFB02E1 		smull	lr, r1, r10, r2
+ 534 0284 D217     		asrs	r2, r2, #31
+ 535 0286 C2EBA102 		rsb	r2, r2, r1, asr #2
+ 536 028a 092A     		cmp	r2, #9
+ 537 028c 03F10103 		add	r3, r3, #1
+ 538 0290 F6DC     		bgt	.L90
+ 539              	.L89:
+ 540 0292 B342     		cmp	r3, r6
+ 541 0294 38BF     		it	cc
+ 542 0296 3346     		movcc	r3, r6
+ 543 0298 2CB1     		cbz	r4, .L91
+ 544 029a B8F1000F 		cmp	r8, #0
+ 545 029e 01DB     		blt	.L92
+ 546 02a0 7907     		lsls	r1, r7, #29
+ 547 02a2 00D5     		bpl	.L91
+ 548              	.L92:
+ 549 02a4 013C     		subs	r4, r4, #1
+ 550              	.L91:
+ 551 02a6 BA07     		lsls	r2, r7, #30
+ 552 02a8 45D4     		bmi	.L200
+ 553 02aa F907     		lsls	r1, r7, #31
+ 554 02ac 2CD4     		bmi	.L131
+ 555              	.L204:
+ 556 02ae 5CB3     		cbz	r4, .L131
+ 557 02b0 A342     		cmp	r3, r4
+ 558 02b2 29D2     		bcs	.L131
+ 559 02b4 0396     		str	r6, [sp, #12]
+ 560 02b6 079A     		ldr	r2, [sp, #28]
+ 561 02b8 1E46     		mov	r6, r3
+ 562 02ba 05E0     		b	.L102
+ 563              	.L97:
+ 564 02bc 0028     		cmp	r0, #0
+ 565 02be FFF609AF 		blt	.L77
+ 566 02c2 FCB1     		cbz	r4, .L184
+ 567 02c4 A642     		cmp	r6, r4
+ 568 02c6 1DD2     		bcs	.L184
+ 569              	.L102:
+ 570 02c8 0699     		ldr	r1, [sp, #24]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 11
+
+
+ 571 02ca 531C     		adds	r3, r2, #1
+ 572 02cc 8B42     		cmp	r3, r1
+ 573 02ce 04F1FF34 		add	r4, r4, #-1
+ 574 02d2 09D8     		bhi	.L96
+ 575 02d4 4FF02000 		mov	r0, #32
+ 576 02d8 0599     		ldr	r1, [sp, #20]
+ 577 02da 8854     		strb	r0, [r1, r2]
+ 578 02dc 1A46     		mov	r2, r3
+ 579 02de 0898     		ldr	r0, [sp, #32]
+ 580 02e0 0699     		ldr	r1, [sp, #24]
+ 581 02e2 0130     		adds	r0, r0, #1
+ 582 02e4 0793     		str	r3, [sp, #28]
+ 583 02e6 0890     		str	r0, [sp, #32]
+ 584              	.L96:
+ 585 02e8 8A42     		cmp	r2, r1
+ 586 02ea E7D1     		bne	.L97
+ 587 02ec 0599     		ldr	r1, [sp, #20]
+ 588 02ee 0998     		ldr	r0, [sp, #36]
+ 589 02f0 FFF7FEFF 		bl	SEGGER_RTT_Write
+ 590 02f4 079A     		ldr	r2, [sp, #28]
+ 591 02f6 9042     		cmp	r0, r2
+ 592 02f8 84D1     		bne	.L185
+ 593 02fa 0898     		ldr	r0, [sp, #32]
+ 594 02fc CDF81CB0 		str	fp, [sp, #28]
+ 595 0300 0022     		movs	r2, #0
+ 596 0302 DBE7     		b	.L97
+ 597              	.L184:
+ 598 0304 3346     		mov	r3, r6
+ 599 0306 039E     		ldr	r6, [sp, #12]
+ 600              	.L131:
+ 601 0308 B8F1000F 		cmp	r8, #0
+ 602 030c 36DB     		blt	.L201
+ 603 030e 7A07     		lsls	r2, r7, #29
+ 604 0310 4CD4     		bmi	.L202
+ 605              	.L107:
+ 606 0312 07F00302 		and	r2, r7, #3
+ 607 0316 022A     		cmp	r2, #2
+ 608 0318 5DD0     		beq	.L203
+ 609              	.L110:
+ 610 031a 05A8     		add	r0, sp, #20
+ 611 031c 8DE89000 		stmia	sp, {r4, r7}
+ 612 0320 3346     		mov	r3, r6
+ 613 0322 4146     		mov	r1, r8
+ 614 0324 0A22     		movs	r2, #10
+ 615 0326 FFF7FEFF 		bl	_PrintUnsigned
+ 616 032a 0898     		ldr	r0, [sp, #32]
+ 617 032c D2E6     		b	.L77
+ 618              	.L198:
+ 619 032e 0898     		ldr	r0, [sp, #32]
+ 620 0330 CDF81CB0 		str	fp, [sp, #28]
+ 621 0334 58E7     		b	.L121
+ 622              	.L200:
+ 623 0336 002E     		cmp	r6, #0
+ 624 0338 E6D0     		beq	.L131
+ 625 033a F907     		lsls	r1, r7, #31
+ 626 033c E4D4     		bmi	.L131
+ 627 033e B6E7     		b	.L204
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 12
+
+
+ 628              	.L199:
+ 629 0340 2068     		ldr	r0, [r4]
+ 630 0342 059B     		ldr	r3, [sp, #20]
+ 631 0344 5854     		strb	r0, [r3, r1]
+ 632 0346 0898     		ldr	r0, [sp, #32]
+ 633 0348 0792     		str	r2, [sp, #28]
+ 634 034a 0130     		adds	r0, r0, #1
+ 635 034c 0890     		str	r0, [sp, #32]
+ 636 034e 069B     		ldr	r3, [sp, #24]
+ 637 0350 79E7     		b	.L87
+ 638              	.L197:
+ 639 0352 059B     		ldr	r3, [sp, #20]
+ 640 0354 1955     		strb	r1, [r3, r4]
+ 641 0356 0898     		ldr	r0, [sp, #32]
+ 642 0358 0792     		str	r2, [sp, #28]
+ 643 035a 0130     		adds	r0, r0, #1
+ 644 035c 0890     		str	r0, [sp, #32]
+ 645 035e 069B     		ldr	r3, [sp, #24]
+ 646 0360 F8E6     		b	.L124
+ 647              	.L194:
+ 648 0362 0898     		ldr	r0, [sp, #32]
+ 649 0364 CDF81CB0 		str	fp, [sp, #28]
+ 650 0368 B5E6     		b	.L125
+ 651              	.L196:
+ 652 036a 0AA9     		add	r1, sp, #40
+ 653 036c 0298     		ldr	r0, [sp, #8]
+ 654 036e FFF7FEFF 		bl	SEGGER_RTT_Write
+ 655 0372 DDF820E0 		ldr	lr, [sp, #32]
+ 656 0376 079A     		ldr	r2, [sp, #28]
+ 657 0378 9644     		add	lr, lr, r2
+ 658 037a DAE6     		b	.L205
+ 659              	.L201:
+ 660 037c 0799     		ldr	r1, [sp, #28]
+ 661 037e 069A     		ldr	r2, [sp, #24]
+ 662 0380 01F1010E 		add	lr, r1, #1
+ 663 0384 9645     		cmp	lr, r2
+ 664 0386 C8F10008 		rsb	r8, r8, #0
+ 665 038a 66D9     		bls	.L206
+ 666 038c 9142     		cmp	r1, r2
+ 667 038e C0D1     		bne	.L107
+ 668              	.L132:
+ 669 0390 0599     		ldr	r1, [sp, #20]
+ 670 0392 0998     		ldr	r0, [sp, #36]
+ 671 0394 0393     		str	r3, [sp, #12]
+ 672 0396 FFF7FEFF 		bl	SEGGER_RTT_Write
+ 673 039a 079A     		ldr	r2, [sp, #28]
+ 674 039c 039B     		ldr	r3, [sp, #12]
+ 675 039e 9042     		cmp	r0, r2
+ 676 03a0 7FF430AF 		bne	.L185
+ 677 03a4 CDF81CB0 		str	fp, [sp, #28]
+ 678 03a8 0898     		ldr	r0, [sp, #32]
+ 679 03aa 10E0     		b	.L105
+ 680              	.L202:
+ 681 03ac 0799     		ldr	r1, [sp, #28]
+ 682 03ae 069A     		ldr	r2, [sp, #24]
+ 683 03b0 01F1010E 		add	lr, r1, #1
+ 684 03b4 9645     		cmp	lr, r2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 13
+
+
+ 685 03b6 3FD8     		bhi	.L108
+ 686 03b8 059A     		ldr	r2, [sp, #20]
+ 687 03ba 2B20     		movs	r0, #43
+ 688 03bc 5054     		strb	r0, [r2, r1]
+ 689 03be 0898     		ldr	r0, [sp, #32]
+ 690 03c0 069A     		ldr	r2, [sp, #24]
+ 691 03c2 0130     		adds	r0, r0, #1
+ 692 03c4 9645     		cmp	lr, r2
+ 693 03c6 CDF81CE0 		str	lr, [sp, #28]
+ 694 03ca 0890     		str	r0, [sp, #32]
+ 695 03cc 37D0     		beq	.L133
+ 696              	.L105:
+ 697 03ce 0028     		cmp	r0, #0
+ 698 03d0 FFF680AE 		blt	.L77
+ 699 03d4 9DE7     		b	.L107
+ 700              	.L203:
+ 701 03d6 002E     		cmp	r6, #0
+ 702 03d8 9FD1     		bne	.L110
+ 703 03da 002C     		cmp	r4, #0
+ 704 03dc 4ED0     		beq	.L116
+ 705 03de A342     		cmp	r3, r4
+ 706 03e0 9BD2     		bcs	.L110
+ 707 03e2 CDF80C90 		str	r9, [sp, #12]
+ 708 03e6 079A     		ldr	r2, [sp, #28]
+ 709 03e8 C146     		mov	r9, r8
+ 710 03ea B046     		mov	r8, r6
+ 711 03ec 2E46     		mov	r6, r5
+ 712 03ee 1D46     		mov	r5, r3
+ 713 03f0 05E0     		b	.L118
+ 714              	.L113:
+ 715 03f2 0028     		cmp	r0, #0
+ 716 03f4 4FDB     		blt	.L180
+ 717 03f6 002C     		cmp	r4, #0
+ 718 03f8 3BD0     		beq	.L207
+ 719 03fa A542     		cmp	r5, r4
+ 720 03fc 45D2     		bcs	.L208
+ 721              	.L118:
+ 722 03fe 0699     		ldr	r1, [sp, #24]
+ 723 0400 531C     		adds	r3, r2, #1
+ 724 0402 8B42     		cmp	r3, r1
+ 725 0404 04F1FF34 		add	r4, r4, #-1
+ 726 0408 09D8     		bhi	.L112
+ 727 040a 4FF03000 		mov	r0, #48
+ 728 040e 0599     		ldr	r1, [sp, #20]
+ 729 0410 8854     		strb	r0, [r1, r2]
+ 730 0412 1A46     		mov	r2, r3
+ 731 0414 0898     		ldr	r0, [sp, #32]
+ 732 0416 0699     		ldr	r1, [sp, #24]
+ 733 0418 0130     		adds	r0, r0, #1
+ 734 041a 0793     		str	r3, [sp, #28]
+ 735 041c 0890     		str	r0, [sp, #32]
+ 736              	.L112:
+ 737 041e 8A42     		cmp	r2, r1
+ 738 0420 E7D1     		bne	.L113
+ 739 0422 0599     		ldr	r1, [sp, #20]
+ 740 0424 0998     		ldr	r0, [sp, #36]
+ 741 0426 FFF7FEFF 		bl	SEGGER_RTT_Write
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 14
+
+
+ 742 042a 079A     		ldr	r2, [sp, #28]
+ 743 042c 9042     		cmp	r0, r2
+ 744 042e 27D0     		beq	.L114
+ 745 0430 3546     		mov	r5, r6
+ 746 0432 DDF80C90 		ldr	r9, [sp, #12]
+ 747 0436 E5E6     		b	.L185
+ 748              	.L108:
+ 749 0438 9142     		cmp	r1, r2
+ 750 043a 7FF46AAF 		bne	.L107
+ 751              	.L133:
+ 752 043e 0599     		ldr	r1, [sp, #20]
+ 753 0440 0998     		ldr	r0, [sp, #36]
+ 754 0442 0393     		str	r3, [sp, #12]
+ 755 0444 FFF7FEFF 		bl	SEGGER_RTT_Write
+ 756 0448 079A     		ldr	r2, [sp, #28]
+ 757 044a 039B     		ldr	r3, [sp, #12]
+ 758 044c 9042     		cmp	r0, r2
+ 759 044e 7FF4D9AE 		bne	.L185
+ 760 0452 0898     		ldr	r0, [sp, #32]
+ 761 0454 CDF81CB0 		str	fp, [sp, #28]
+ 762 0458 B9E7     		b	.L105
+ 763              	.L206:
+ 764 045a 059A     		ldr	r2, [sp, #20]
+ 765 045c 2D20     		movs	r0, #45
+ 766 045e 5054     		strb	r0, [r2, r1]
+ 767 0460 0898     		ldr	r0, [sp, #32]
+ 768 0462 069A     		ldr	r2, [sp, #24]
+ 769 0464 0130     		adds	r0, r0, #1
+ 770 0466 9645     		cmp	lr, r2
+ 771 0468 CDF81CE0 		str	lr, [sp, #28]
+ 772 046c 0890     		str	r0, [sp, #32]
+ 773 046e AED1     		bne	.L105
+ 774 0470 8EE7     		b	.L132
+ 775              	.L207:
+ 776 0472 3546     		mov	r5, r6
+ 777 0474 4646     		mov	r6, r8
+ 778 0476 C846     		mov	r8, r9
+ 779 0478 DDF80C90 		ldr	r9, [sp, #12]
+ 780              	.L116:
+ 781 047c 0024     		movs	r4, #0
+ 782 047e 4CE7     		b	.L110
+ 783              	.L114:
+ 784 0480 0898     		ldr	r0, [sp, #32]
+ 785 0482 CDF81CB0 		str	fp, [sp, #28]
+ 786 0486 0022     		movs	r2, #0
+ 787 0488 B3E7     		b	.L113
+ 788              	.L208:
+ 789 048a 3546     		mov	r5, r6
+ 790 048c 4646     		mov	r6, r8
+ 791 048e C846     		mov	r8, r9
+ 792 0490 DDF80C90 		ldr	r9, [sp, #12]
+ 793 0494 41E7     		b	.L110
+ 794              	.L180:
+ 795 0496 3546     		mov	r5, r6
+ 796 0498 DDF80C90 		ldr	r9, [sp, #12]
+ 797 049c 1AE6     		b	.L77
+ 798              	.L210:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc9r9KEO.s 			page 15
+
+
+ 799 049e 00BF     		.align	2
+ 800              	.L209:
+ 801 04a0 67666666 		.word	1717986919
+ 802              		.size	SEGGER_RTT_vprintf, .-SEGGER_RTT_vprintf
+ 803              		.section	.text.SEGGER_RTT_printf,"ax",%progbits
+ 804              		.align	2
+ 805              		.global	SEGGER_RTT_printf
+ 806              		.thumb
+ 807              		.thumb_func
+ 808              		.type	SEGGER_RTT_printf, %function
+ 809              	SEGGER_RTT_printf:
+ 810              		@ args = 4, pretend = 12, frame = 8
+ 811              		@ frame_needed = 0, uses_anonymous_args = 1
+ 812 0000 0EB4     		push	{r1, r2, r3}
+ 813 0002 00B5     		push	{lr}
+ 814 0004 82B0     		sub	sp, sp, #8
+ 815 0006 03AB     		add	r3, sp, #12
+ 816 0008 53F8041B 		ldr	r1, [r3], #4
+ 817 000c 02AA     		add	r2, sp, #8
+ 818 000e 42F8043D 		str	r3, [r2, #-4]!
+ 819 0012 FFF7FEFF 		bl	SEGGER_RTT_vprintf
+ 820 0016 02B0     		add	sp, sp, #8
+ 821              		@ sp needed
+ 822 0018 5DF804EB 		ldr	lr, [sp], #4
+ 823 001c 03B0     		add	sp, sp, #12
+ 824 001e 7047     		bx	lr
+ 825              		.size	SEGGER_RTT_printf, .-SEGGER_RTT_printf
+ 826              		.section	.rodata
+ 827              		.align	2
+ 828              		.set	.LANCHOR0,. + 0
+ 829              		.type	_aV2C.4939, %object
+ 830              		.size	_aV2C.4939, 16
+ 831              	_aV2C.4939:
+ 832 0000 30       		.byte	48
+ 833 0001 31       		.byte	49
+ 834 0002 32       		.byte	50
+ 835 0003 33       		.byte	51
+ 836 0004 34       		.byte	52
+ 837 0005 35       		.byte	53
+ 838 0006 36       		.byte	54
+ 839 0007 37       		.byte	55
+ 840 0008 38       		.byte	56
+ 841 0009 39       		.byte	57
+ 842 000a 41       		.byte	65
+ 843 000b 42       		.byte	66
+ 844 000c 43       		.byte	67
+ 845 000d 44       		.byte	68
+ 846 000e 45       		.byte	69
+ 847 000f 46       		.byte	70
+ 848              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

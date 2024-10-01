@@ -1,0 +1,10 @@
+../Core/Src/e2.c:13:19:internal_flash_write_byte	3
+../Core/Src/e2.c:38:10:internal_flash_read_byte	1
+../Core/Src/e2.c:43:9:internal_flash_erase	4
+../Core/Src/e2.c:77:19:ee2_read_byte	4
+../Core/Src/e2.c:93:19:ee2_write_byte	6
+../Core/Src/e2.c:121:9:ee2_full_write	4
+../Core/Src/e2.c:138:9:ee2_read_myId	2
+../Core/Src/e2.c:155:6:ee2_write_myId	2
+../Core/Src/e2.c:336:6:ee2_write_init	5
+../Core/Src/e2.c:359:6:init_info	2

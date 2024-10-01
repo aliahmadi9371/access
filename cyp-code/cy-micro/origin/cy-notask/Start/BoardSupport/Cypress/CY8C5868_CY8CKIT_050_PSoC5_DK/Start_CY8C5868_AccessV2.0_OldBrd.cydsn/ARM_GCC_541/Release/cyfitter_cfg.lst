@@ -1,0 +1,2031 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cyfitter_cfg.c"
+  16              		.section	.text.SetAnalogRoutingPumps,"ax",%progbits
+  17              		.align	2
+  18              		.global	SetAnalogRoutingPumps
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	SetAnalogRoutingPumps, %function
+  22              	SetAnalogRoutingPumps:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 024A     		ldr	r2, .L2
+  27 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  28 0004 DBB2     		uxtb	r3, r3
+  29 0006 1370     		strb	r3, [r2]
+  30 0008 7047     		bx	lr
+  31              	.L3:
+  32 000a 00BF     		.align	2
+  33              	.L2:
+  34 000c 76580040 		.word	1073764470
+  35              		.size	SetAnalogRoutingPumps, .-SetAnalogRoutingPumps
+  36              		.section	.text.cyfitter_cfg,"ax",%progbits
+  37              		.align	2
+  38              		.global	cyfitter_cfg
+  39              		.thumb
+  40              		.thumb_func
+  41              		.type	cyfitter_cfg, %function
+  42              	cyfitter_cfg:
+  43              		@ args = 0, pretend = 0, frame = 0
+  44              		@ frame_needed = 0, uses_anonymous_args = 0
+  45 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  46              		.syntax unified
+  47              	@ 371 "Generated_Source\PSoC5\cyfitter_cfg.c" 1
+  48 0002 72B6     		CPSID   i
+  49              	@ 0 "" 2
+  50              		.thumb
+  51              		.syntax unified
+  52 0004 834E     		ldr	r6, .L27
+  53 0006 844A     		ldr	r2, .L27+4
+  54 0008 3546     		mov	r5, r6
+  55 000a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  56 000c 0024     		movs	r4, #0
+  57 000e 43F00403 		orr	r3, r3, #4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 2
+
+
+  58 0012 1370     		strb	r3, [r2]
+  59              	.L5:
+  60 0014 04EB4403 		add	r3, r4, r4, lsl #1
+  61 0018 AA88     		ldrh	r2, [r5, #4]
+  62 001a 56F81300 		ldr	r0, [r6, r3, lsl #1]	@ unaligned
+  63 001e 0134     		adds	r4, r4, #1
+  64 0020 0021     		movs	r1, #0
+  65 0022 FFF7FEFF 		bl	memset
+  66 0026 072C     		cmp	r4, #7
+  67 0028 05F10605 		add	r5, r5, #6
+  68 002c F2D1     		bne	.L5
+  69 002e 7B4E     		ldr	r6, .L27+8
+  70 0030 8022     		movs	r2, #128
+  71 0032 7B49     		ldr	r1, .L27+12
+  72 0034 7B48     		ldr	r0, .L27+16
+  73 0036 FFF7FEFF 		bl	memcpy
+  74 003a 0025     		movs	r5, #0
+  75 003c 06F1580E 		add	lr, r6, #88
+  76 0040 06F15C07 		add	r7, r6, #92
+  77              	.L8:
+  78 0044 56F8043F 		ldr	r3, [r6, #4]!
+  79 0048 13F0FF0C 		ands	ip, r3, #255
+  80 004c 23F0FF04 		bic	r4, r3, #255
+  81 0050 14D0     		beq	.L6
+  82 0052 0CF1FF3C 		add	ip, ip, #-1
+  83 0056 5FFA8CFC 		uxtb	ip, ip
+  84 005a 0CEB0500 		add	r0, ip, r5
+  85 005e 07EB4000 		add	r0, r7, r0, lsl #1
+  86 0062 07EB4503 		add	r3, r7, r5, lsl #1
+  87 0066 0330     		adds	r0, r0, #3
+  88 0068 0133     		adds	r3, r3, #1
+  89              	.L7:
+  90 006a 13F8012C 		ldrb	r2, [r3, #-1]	@ zero_extendqisi2
+  91 006e 13F8021B 		ldrb	r1, [r3], #2	@ zero_extendqisi2
+  92 0072 8342     		cmp	r3, r0
+  93 0074 1155     		strb	r1, [r2, r4]
+  94 0076 F8D1     		bne	.L7
+  95 0078 0135     		adds	r5, r5, #1
+  96 007a 6544     		add	r5, r5, ip
+  97              	.L6:
+  98 007c 7645     		cmp	r6, lr
+  99 007e E1D1     		bne	.L8
+ 100 0080 694A     		ldr	r2, .L27+20
+ 101 0082 6A49     		ldr	r1, .L27+24
+ 102 0084 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 103 0086 41F25127 		movw	r7, #4689
+ 104 008a 43F00203 		orr	r3, r3, #2
+ 105 008e 1370     		strb	r3, [r2]
+ 106 0090 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 107 0092 A2F58632 		sub	r2, r2, #68608
+ 108 0096 43F00203 		orr	r3, r3, #2
+ 109 009a 0B70     		strb	r3, [r1]
+ 110 009c 633A     		subs	r2, r2, #99
+ 111 009e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 112 00a0 A1F58631 		sub	r1, r1, #68608
+ 113 00a4 43F04003 		orr	r3, r3, #64
+ 114 00a8 1370     		strb	r3, [r2]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 3
+
+
+ 115 00aa 5139     		subs	r1, r1, #81
+ 116 00ac 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 117 00ae 604C     		ldr	r4, .L27+28
+ 118 00b0 604B     		ldr	r3, .L27+32
+ 119 00b2 614D     		ldr	r5, .L27+36
+ 120 00b4 42F01002 		orr	r2, r2, #16
+ 121 00b8 0A70     		strb	r2, [r1]
+ 122 00ba 03CB     		ldmia	r3!, {r0, r1}
+ 123 00bc 2060     		str	r0, [r4]	@ unaligned
+ 124 00be 6160     		str	r1, [r4, #4]	@ unaligned
+ 125 00c0 93E80700 		ldmia	r3, {r0, r1, r2}
+ 126 00c4 03C5     		stmia	r5!, {r0, r1}
+ 127 00c6 DFF8B8C1 		ldr	ip, .L27+108
+ 128 00ca 03F1140E 		add	lr, r3, #20
+ 129 00ce 03F10C06 		add	r6, r3, #12
+ 130 00d2 1E34     		adds	r4, r4, #30
+ 131 00d4 2A80     		strh	r2, [r5]	@ movhi
+ 132 00d6 03CE     		ldmia	r6!, {r0, r1}
+ 133 00d8 CCF80000 		str	r0, [ip]	@ unaligned
+ 134 00dc CCF80410 		str	r1, [ip, #4]	@ unaligned
+ 135 00e0 9EE80700 		ldmia	lr, {r0, r1, r2}
+ 136 00e4 03C4     		stmia	r4!, {r0, r1}
+ 137 00e6 983D     		subs	r5, r5, #152
+ 138 00e8 03F12001 		add	r1, r3, #32
+ 139 00ec 2280     		strh	r2, [r4]	@ movhi
+ 140 00ee 07C9     		ldmia	r1, {r0, r1, r2}
+ 141 00f0 03C5     		stmia	r5!, {r0, r1}
+ 142 00f2 DFF890E1 		ldr	lr, .L27+112
+ 143 00f6 03F12C06 		add	r6, r3, #44
+ 144 00fa 3834     		adds	r4, r4, #56
+ 145 00fc 3433     		adds	r3, r3, #52
+ 146 00fe 2A80     		strh	r2, [r5]	@ movhi
+ 147 0100 03CE     		ldmia	r6!, {r0, r1}
+ 148 0102 CEF80000 		str	r0, [lr]	@ unaligned
+ 149 0106 CEF80410 		str	r1, [lr, #4]	@ unaligned
+ 150 010a 93E80700 		ldmia	r3, {r0, r1, r2}
+ 151 010e 03C4     		stmia	r4!, {r0, r1}
+ 152 0110 4A49     		ldr	r1, .L27+40
+ 153 0112 2280     		strh	r2, [r4]	@ movhi
+ 154 0114 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 155 0116 4A4A     		ldr	r2, .L27+44
+ 156 0118 43F00803 		orr	r3, r3, #8
+ 157 011c 0B70     		strb	r3, [r1]
+ 158 011e 494D     		ldr	r5, .L27+48
+ 159 0120 6123     		movs	r3, #97
+ 160 0122 1370     		strb	r3, [r2]
+ 161 0124 484C     		ldr	r4, .L27+52
+ 162 0126 6723     		movs	r3, #103
+ 163 0128 4848     		ldr	r0, .L27+56
+ 164 012a 2B80     		strh	r3, [r5]	@ movhi
+ 165 012c 484E     		ldr	r6, .L27+60
+ 166 012e 1825     		movs	r5, #24
+ 167 0130 DFF854C1 		ldr	ip, .L27+116
+ 168 0134 2570     		strb	r5, [r4]
+ 169 0136 A2F5C062 		sub	r2, r2, #1536
+ 170 013a 0380     		strh	r3, [r0]	@ movhi
+ 171 013c 4FF0060E 		mov	lr, #6
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 4
+
+
+ 172 0140 4FF04020 		mov	r0, #1073758208
+ 173 0144 0824     		movs	r4, #8
+ 174 0146 5221     		movs	r1, #82
+ 175 0148 424B     		ldr	r3, .L27+64
+ 176 014a 8CF80050 		strb	r5, [ip]
+ 177 014e 86F800E0 		strb	lr, [r6]
+ 178 0152 0470     		strb	r4, [r0]
+ 179 0154 1170     		strb	r1, [r2]
+ 180 0156 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 181 0158 3F49     		ldr	r1, .L27+68
+ 182 015a 404B     		ldr	r3, .L27+72
+ 183 015c D2B2     		uxtb	r2, r2
+ 184 015e 4FF4E264 		mov	r4, #1808
+ 185 0162 86F8A123 		strb	r2, [r6, #929]
+ 186 0166 A0F82242 		strh	r4, [r0, #546]	@ movhi
+ 187 016a 0F80     		strh	r7, [r1]	@ movhi
+ 188 016c 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 189 016e 4FF4F070 		mov	r0, #480
+ 190 0172 04F00104 		and	r4, r4, #1
+ 191 0176 1E46     		mov	r6, r3
+ 192 0178 FFF7FEFF 		bl	CyDelayCycles
+ 193 017c 01E0     		b	.L10
+ 194              	.L26:
+ 195 017e 032C     		cmp	r4, #3
+ 196 0180 0DD0     		beq	.L25
+ 197              	.L10:
+ 198 0182 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 199 0184 4FF4F070 		mov	r0, #480
+ 200 0188 03F00103 		and	r3, r3, #1
+ 201 018c 43EA4404 		orr	r4, r3, r4, lsl #1
+ 202 0190 FFF7FEFF 		bl	CyDelayCycles
+ 203 0194 013D     		subs	r5, r5, #1
+ 204 0196 04F00304 		and	r4, r4, #3
+ 205 019a F0D1     		bne	.L26
+ 206              	.L9:
+ 207 019c FEE7     		b	.L9
+ 208              	.L25:
+ 209 019e 304A     		ldr	r2, .L27+76
+ 210 01a0 3049     		ldr	r1, .L27+80
+ 211 01a2 314D     		ldr	r5, .L27+84
+ 212 01a4 314E     		ldr	r6, .L27+88
+ 213 01a6 3248     		ldr	r0, .L27+92
+ 214 01a8 4FF48077 		mov	r7, #256
+ 215 01ac 0724     		movs	r4, #7
+ 216 01ae 1780     		strh	r7, [r2]	@ movhi
+ 217 01b0 0023     		movs	r3, #0
+ 218 01b2 1470     		strb	r4, [r2]
+ 219 01b4 4827     		movs	r7, #72
+ 220 01b6 0224     		movs	r4, #2
+ 221 01b8 0B70     		strb	r3, [r1]
+ 222 01ba 3770     		strb	r7, [r6]
+ 223 01bc 1370     		strb	r3, [r2]
+ 224 01be 2B70     		strb	r3, [r5]
+ 225 01c0 0470     		strb	r4, [r0]
+ 226 01c2 91F89C33 		ldrb	r3, [r1, #924]	@ zero_extendqisi2
+ 227 01c6 00F5F820 		add	r0, r0, #507904
+ 228 01ca 0330     		adds	r0, r0, #3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 5
+
+
+ 229 01cc 43F00303 		orr	r3, r3, #3
+ 230 01d0 C126     		movs	r6, #193
+ 231 01d2 0124     		movs	r4, #1
+ 232 01d4 274A     		ldr	r2, .L27+96
+ 233 01d6 81F89C33 		strb	r3, [r1, #924]
+ 234 01da 85F8F767 		strb	r6, [r5, #2039]
+ 235 01de 0470     		strb	r4, [r0]
+ 236 01e0 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 237 01e2 01F5C351 		add	r1, r1, #6240
+ 238 01e6 DBB2     		uxtb	r3, r3
+ 239 01e8 A0F5F420 		sub	r0, r0, #499712
+ 240 01ec A0F29670 		subw	r0, r0, #1942
+ 241 01f0 0931     		adds	r1, r1, #9
+ 242 01f2 05F5C355 		add	r5, r5, #6240
+ 243 01f6 03F00707 		and	r7, r3, #7
+ 244 01fa 1F4A     		ldr	r2, .L27+100
+ 245 01fc 1B09     		lsrs	r3, r3, #4
+ 246 01fe 1F4C     		ldr	r4, .L27+104
+ 247 0200 0770     		strb	r7, [r0]
+ 248 0202 0D35     		adds	r5, r5, #13
+ 249 0204 0B70     		strb	r3, [r1]
+ 250 0206 4426     		movs	r6, #68
+ 251 0208 0FCA     		ldmia	r2, {r0, r1, r2, r3}
+ 252 020a 2E70     		strb	r6, [r5]
+ 253 020c 07C4     		stmia	r4!, {r0, r1, r2}
+ 254 020e 2380     		strh	r3, [r4]	@ movhi
+ 255 0210 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 256              	.L28:
+ 257 0212 00BF     		.align	2
+ 258              	.L27:
+ 259 0214 00000000 		.word	.LANCHOR0
+ 260 0218 E8460040 		.word	1073759976
+ 261 021c A8000000 		.word	.LANCHOR0+168
+ 262 0220 2C000000 		.word	.LANCHOR0+44
+ 263 0224 00140140 		.word	1073812480
+ 264 0228 03500140 		.word	1073827843
+ 265 022c 13500140 		.word	1073827859
+ 266 0230 02510040 		.word	1073762562
+ 267 0234 60060000 		.word	.LANCHOR0+1632
+ 268 0238 C0510040 		.word	1073762752
+ 269 023c 22430040 		.word	1073759010
+ 270 0240 00480040 		.word	1073760256
+ 271 0244 80400040 		.word	1073758336
+ 272 0248 82400040 		.word	1073758338
+ 273 024c 84400040 		.word	1073758340
+ 274 0250 00430040 		.word	1073758976
+ 275 0254 0F010049 		.word	1224737039
+ 276 0258 20420040 		.word	1073758752
+ 277 025c 25420040 		.word	1073758757
+ 278 0260 04400040 		.word	1073758212
+ 279 0264 06400040 		.word	1073758214
+ 280 0268 09400040 		.word	1073758217
+ 281 026c 08400040 		.word	1073758216
+ 282 0270 01400040 		.word	1073758209
+ 283 0274 CF010049 		.word	1224737231
+ 284 0278 A0430040 		.word	1073759136
+ 285 027c B0430040 		.word	1073759152
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 6
+
+
+ 286 0280 12510040 		.word	1073762578
+ 287 0284 52510040 		.word	1073762642
+ 288 0288 86400040 		.word	1073758342
+ 289              		.size	cyfitter_cfg, .-cyfitter_cfg
+ 290              		.section	.rodata
+ 291              		.align	2
+ 292              		.set	.LANCHOR0,. + 0
+ 293              		.type	cfg_memset_list.5027, %object
+ 294              		.size	cfg_memset_list.5027, 42
+ 295              	cfg_memset_list.5027:
+ 296 0000 40510040 		.word	1073762624
+ 297 0004 1000     		.short	16
+ 298 0006 F0510040 		.4byte	1073762800
+ 299 000a 1000     		.short	16
+ 300 000c 00000140 		.word	1073807360
+ 301 0010 0010     		.short	4096
+ 302 0012 80140140 		.4byte	1073812608
+ 303 0016 8007     		.short	1920
+ 304 0018 00400140 		.word	1073823744
+ 305 001c 000A     		.short	2560
+ 306 001e 004C0140 		.4byte	1073826816
+ 307 0022 0002     		.short	512
+ 308 0024 00500140 		.word	1073827840
+ 309 0028 2000     		.short	32
+ 310 002a 0000     		.space	2
+ 311              		.type	BS_UDB_1_0_0_CONFIG_VAL.5028, %object
+ 312              		.size	BS_UDB_1_0_0_CONFIG_VAL.5028, 128
+ 313              	BS_UDB_1_0_0_CONFIG_VAL.5028:
+ 314 002c 4C       		.byte	76
+ 315 002d 00       		.byte	0
+ 316 002e A3       		.byte	-93
+ 317 002f 00       		.byte	0
+ 318 0030 01       		.byte	1
+ 319 0031 30       		.byte	48
+ 320 0032 00       		.byte	0
+ 321 0033 00       		.byte	0
+ 322 0034 00       		.byte	0
+ 323 0035 10       		.byte	16
+ 324 0036 B3       		.byte	-77
+ 325 0037 00       		.byte	0
+ 326 0038 F3       		.byte	-13
+ 327 0039 20       		.byte	32
+ 328 003a 0C       		.byte	12
+ 329 003b 00       		.byte	0
+ 330 003c 42       		.byte	66
+ 331 003d 02       		.byte	2
+ 332 003e 00       		.byte	0
+ 333 003f 00       		.byte	0
+ 334 0040 4F       		.byte	79
+ 335 0041 00       		.byte	0
+ 336 0042 90       		.byte	-112
+ 337 0043 0B       		.byte	11
+ 338 0044 FF       		.byte	-1
+ 339 0045 01       		.byte	1
+ 340 0046 00       		.byte	0
+ 341 0047 00       		.byte	0
+ 342 0048 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 7
+
+
+ 343 0049 78       		.byte	120
+ 344 004a 40       		.byte	64
+ 345 004b 07       		.byte	7
+ 346 004c 08       		.byte	8
+ 347 004d 4F       		.byte	79
+ 348 004e 00       		.byte	0
+ 349 004f 30       		.byte	48
+ 350 0050 04       		.byte	4
+ 351 0051 70       		.byte	112
+ 352 0052 00       		.byte	0
+ 353 0053 0F       		.byte	15
+ 354 0054 0C       		.byte	12
+ 355 0055 7F       		.byte	127
+ 356 0056 00       		.byte	0
+ 357 0057 00       		.byte	0
+ 358 0058 03       		.byte	3
+ 359 0059 03       		.byte	3
+ 360 005a 00       		.byte	0
+ 361 005b 00       		.byte	0
+ 362 005c 0F       		.byte	15
+ 363 005d 04       		.byte	4
+ 364 005e 8C       		.byte	-116
+ 365 005f 40       		.byte	64
+ 366 0060 00       		.byte	0
+ 367 0061 38       		.byte	56
+ 368 0062 7C       		.byte	124
+ 369 0063 03       		.byte	3
+ 370 0064 00       		.byte	0
+ 371 0065 02       		.byte	2
+ 372 0066 AA       		.byte	-86
+ 373 0067 00       		.byte	0
+ 374 0068 00       		.byte	0
+ 375 0069 00       		.byte	0
+ 376 006a 00       		.byte	0
+ 377 006b 04       		.byte	4
+ 378 006c 13       		.byte	19
+ 379 006d 06       		.byte	6
+ 380 006e 02       		.byte	2
+ 381 006f 00       		.byte	0
+ 382 0070 04       		.byte	4
+ 383 0071 0C       		.byte	12
+ 384 0072 E0       		.byte	-32
+ 385 0073 00       		.byte	0
+ 386 0074 09       		.byte	9
+ 387 0075 FF       		.byte	-1
+ 388 0076 FF       		.byte	-1
+ 389 0077 FF       		.byte	-1
+ 390 0078 62       		.byte	98
+ 391 0079 A0       		.byte	-96
+ 392 007a F0       		.byte	-16
+ 393 007b 41       		.byte	65
+ 394 007c 0C       		.byte	12
+ 395 007d 00       		.byte	0
+ 396 007e 00       		.byte	0
+ 397 007f 00       		.byte	0
+ 398 0080 00       		.byte	0
+ 399 0081 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 8
+
+
+ 400 0082 02       		.byte	2
+ 401 0083 12       		.byte	18
+ 402 0084 04       		.byte	4
+ 403 0085 04       		.byte	4
+ 404 0086 04       		.byte	4
+ 405 0087 04       		.byte	4
+ 406 0088 11       		.byte	17
+ 407 0089 11       		.byte	17
+ 408 008a 00       		.byte	0
+ 409 008b 01       		.byte	1
+ 410 008c 00       		.byte	0
+ 411 008d 00       		.byte	0
+ 412 008e 00       		.byte	0
+ 413 008f 00       		.byte	0
+ 414 0090 00       		.byte	0
+ 415 0091 00       		.byte	0
+ 416 0092 40       		.byte	64
+ 417 0093 02       		.byte	2
+ 418 0094 00       		.byte	0
+ 419 0095 10       		.byte	16
+ 420 0096 30       		.byte	48
+ 421 0097 10       		.byte	16
+ 422 0098 00       		.byte	0
+ 423 0099 10       		.byte	16
+ 424 009a 10       		.byte	16
+ 425 009b 12       		.byte	18
+ 426 009c 00       		.byte	0
+ 427 009d 00       		.byte	0
+ 428 009e 00       		.byte	0
+ 429 009f 00       		.byte	0
+ 430 00a0 00       		.byte	0
+ 431 00a1 00       		.byte	0
+ 432 00a2 00       		.byte	0
+ 433 00a3 00       		.byte	0
+ 434 00a4 00       		.byte	0
+ 435 00a5 00       		.byte	0
+ 436 00a6 00       		.byte	0
+ 437 00a7 00       		.byte	0
+ 438 00a8 00       		.byte	0
+ 439 00a9 00       		.byte	0
+ 440 00aa 00       		.byte	0
+ 441 00ab 00       		.byte	0
+ 442              		.type	cy_cfg_addr_table.5016, %object
+ 443              		.size	cy_cfg_addr_table.5016, 88
+ 444              	cy_cfg_addr_table.5016:
+ 445 00ac 04450040 		.word	1073759492
+ 446 00b0 02520040 		.word	1073762818
+ 447 00b4 03640040 		.word	1073767427
+ 448 00b8 03650040 		.word	1073767683
+ 449 00bc 2D020140 		.word	1073807917
+ 450 00c0 23030140 		.word	1073808163
+ 451 00c4 55040140 		.word	1073808469
+ 452 00c8 3F050140 		.word	1073808703
+ 453 00cc 5F060140 		.word	1073808991
+ 454 00d0 3D070140 		.word	1073809213
+ 455 00d4 15140140 		.word	1073812501
+ 456 00d8 3F150140 		.word	1073812799
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 9
+
+
+ 457 00dc 54160140 		.word	1073813076
+ 458 00e0 43170140 		.word	1073813315
+ 459 00e4 06400140 		.word	1073823750
+ 460 00e8 04410140 		.word	1073824004
+ 461 00ec 0A420140 		.word	1073824266
+ 462 00f0 04430140 		.word	1073824516
+ 463 00f4 09480140 		.word	1073825801
+ 464 00f8 0A490140 		.word	1073826058
+ 465 00fc 09500140 		.word	1073827849
+ 466 0100 02510140 		.word	1073828098
+ 467              		.type	cy_cfg_data_table.5017, %object
+ 468              		.size	cy_cfg_data_table.5017, 1370
+ 469              	cy_cfg_data_table.5017:
+ 470 0104 11       		.byte	17
+ 471 0105 02       		.byte	2
+ 472 0106 12       		.byte	18
+ 473 0107 02       		.byte	2
+ 474 0108 34       		.byte	52
+ 475 0109 02       		.byte	2
+ 476 010a 35       		.byte	53
+ 477 010b 02       		.byte	2
+ 478 010c 18       		.byte	24
+ 479 010d 01       		.byte	1
+ 480 010e 61       		.byte	97
+ 481 010f 02       		.byte	2
+ 482 0110 82       		.byte	-126
+ 483 0111 72       		.byte	114
+ 484 0112 85       		.byte	-123
+ 485 0113 38       		.byte	56
+ 486 0114 87       		.byte	-121
+ 487 0115 0F       		.byte	15
+ 488 0116 84       		.byte	-124
+ 489 0117 72       		.byte	114
+ 490 0118 86       		.byte	-122
+ 491 0119 0F       		.byte	15
+ 492 011a 87       		.byte	-121
+ 493 011b 38       		.byte	56
+ 494 011c 01       		.byte	1
+ 495 011d 7F       		.byte	127
+ 496 011e 02       		.byte	2
+ 497 011f 40       		.byte	64
+ 498 0120 04       		.byte	4
+ 499 0121 01       		.byte	1
+ 500 0122 05       		.byte	5
+ 501 0123 01       		.byte	1
+ 502 0124 08       		.byte	8
+ 503 0125 04       		.byte	4
+ 504 0126 09       		.byte	9
+ 505 0127 10       		.byte	16
+ 506 0128 0C       		.byte	12
+ 507 0129 08       		.byte	8
+ 508 012a 0D       		.byte	13
+ 509 012b 70       		.byte	112
+ 510 012c 0F       		.byte	15
+ 511 012d 0F       		.byte	15
+ 512 012e 10       		.byte	16
+ 513 012f 4F       		.byte	79
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 10
+
+
+ 514 0130 12       		.byte	18
+ 515 0131 90       		.byte	-112
+ 516 0132 13       		.byte	19
+ 517 0133 0B       		.byte	11
+ 518 0134 14       		.byte	20
+ 519 0135 4C       		.byte	76
+ 520 0136 15       		.byte	21
+ 521 0137 03       		.byte	3
+ 522 0138 16       		.byte	22
+ 523 0139 A3       		.byte	-93
+ 524 013a 18       		.byte	24
+ 525 013b F3       		.byte	-13
+ 526 013c 19       		.byte	25
+ 527 013d 30       		.byte	48
+ 528 013e 1A       		.byte	26
+ 529 013f 0C       		.byte	12
+ 530 0140 1D       		.byte	29
+ 531 0141 20       		.byte	32
+ 532 0142 1E       		.byte	30
+ 533 0143 B3       		.byte	-77
+ 534 0144 20       		.byte	32
+ 535 0145 42       		.byte	66
+ 536 0146 24       		.byte	36
+ 537 0147 03       		.byte	3
+ 538 0148 25       		.byte	37
+ 539 0149 4F       		.byte	79
+ 540 014a 27       		.byte	39
+ 541 014b 30       		.byte	48
+ 542 014c 28       		.byte	40
+ 543 014d 0C       		.byte	12
+ 544 014e 29       		.byte	41
+ 545 014f 78       		.byte	120
+ 546 0150 2B       		.byte	43
+ 547 0151 07       		.byte	7
+ 548 0152 2C       		.byte	44
+ 549 0153 FF       		.byte	-1
+ 550 0154 2D       		.byte	45
+ 551 0155 02       		.byte	2
+ 552 0156 30       		.byte	48
+ 553 0157 8C       		.byte	-116
+ 554 0158 31       		.byte	49
+ 555 0159 04       		.byte	4
+ 556 015a 32       		.byte	50
+ 557 015b 7C       		.byte	124
+ 558 015c 33       		.byte	51
+ 559 015d 40       		.byte	64
+ 560 015e 34       		.byte	52
+ 561 015f 0F       		.byte	15
+ 562 0160 35       		.byte	53
+ 563 0161 38       		.byte	56
+ 564 0162 37       		.byte	55
+ 565 0163 03       		.byte	3
+ 566 0164 39       		.byte	57
+ 567 0165 02       		.byte	2
+ 568 0166 3A       		.byte	58
+ 569 0167 AA       		.byte	-86
+ 570 0168 3F       		.byte	63
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 11
+
+
+ 571 0169 04       		.byte	4
+ 572 016a 56       		.byte	86
+ 573 016b 02       		.byte	2
+ 574 016c 57       		.byte	87
+ 575 016d 12       		.byte	18
+ 576 016e 58       		.byte	88
+ 577 016f 04       		.byte	4
+ 578 0170 59       		.byte	89
+ 579 0171 04       		.byte	4
+ 580 0172 5B       		.byte	91
+ 581 0173 04       		.byte	4
+ 582 0174 5F       		.byte	95
+ 583 0175 01       		.byte	1
+ 584 0176 04       		.byte	4
+ 585 0177 06       		.byte	6
+ 586 0178 05       		.byte	5
+ 587 0179 40       		.byte	64
+ 588 017a 06       		.byte	6
+ 589 017b 04       		.byte	4
+ 590 017c 0D       		.byte	13
+ 591 017d 20       		.byte	32
+ 592 017e 0E       		.byte	14
+ 593 017f 62       		.byte	98
+ 594 0180 16       		.byte	22
+ 595 0181 82       		.byte	-126
+ 596 0182 17       		.byte	23
+ 597 0183 14       		.byte	20
+ 598 0184 1D       		.byte	29
+ 599 0185 20       		.byte	32
+ 600 0186 1E       		.byte	30
+ 601 0187 61       		.byte	97
+ 602 0188 1F       		.byte	31
+ 603 0189 28       		.byte	40
+ 604 018a 24       		.byte	36
+ 605 018b 88       		.byte	-120
+ 606 018c 26       		.byte	38
+ 607 018d 04       		.byte	4
+ 608 018e 27       		.byte	39
+ 609 018f 02       		.byte	2
+ 610 0190 2F       		.byte	47
+ 611 0191 29       		.byte	41
+ 612 0192 35       		.byte	53
+ 613 0193 40       		.byte	64
+ 614 0194 36       		.byte	54
+ 615 0195 01       		.byte	1
+ 616 0196 37       		.byte	55
+ 617 0197 14       		.byte	20
+ 618 0198 3C       		.byte	60
+ 619 0199 24       		.byte	36
+ 620 019a 3D       		.byte	61
+ 621 019b 0A       		.byte	10
+ 622 019c 3E       		.byte	62
+ 623 019d 43       		.byte	67
+ 624 019e 5E       		.byte	94
+ 625 019f 08       		.byte	8
+ 626 01a0 6D       		.byte	109
+ 627 01a1 14       		.byte	20
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 12
+
+
+ 628 01a2 6E       		.byte	110
+ 629 01a3 14       		.byte	20
+ 630 01a4 6F       		.byte	111
+ 631 01a5 01       		.byte	1
+ 632 01a6 74       		.byte	116
+ 633 01a7 10       		.byte	16
+ 634 01a8 75       		.byte	117
+ 635 01a9 40       		.byte	64
+ 636 01aa 76       		.byte	118
+ 637 01ab 04       		.byte	4
+ 638 01ac 77       		.byte	119
+ 639 01ad 10       		.byte	16
+ 640 01ae C0       		.byte	-64
+ 641 01af F0       		.byte	-16
+ 642 01b0 C2       		.byte	-62
+ 643 01b1 F0       		.byte	-16
+ 644 01b2 C4       		.byte	-60
+ 645 01b3 F0       		.byte	-16
+ 646 01b4 CA       		.byte	-54
+ 647 01b5 70       		.byte	112
+ 648 01b6 CC       		.byte	-52
+ 649 01b7 F0       		.byte	-16
+ 650 01b8 CE       		.byte	-50
+ 651 01b9 F0       		.byte	-16
+ 652 01ba D6       		.byte	-42
+ 653 01bb 40       		.byte	64
+ 654 01bc 03       		.byte	3
+ 655 01bd 03       		.byte	3
+ 656 01be 04       		.byte	4
+ 657 01bf 01       		.byte	1
+ 658 01c0 05       		.byte	5
+ 659 01c1 0C       		.byte	12
+ 660 01c2 06       		.byte	6
+ 661 01c3 0E       		.byte	14
+ 662 01c4 07       		.byte	7
+ 663 01c5 11       		.byte	17
+ 664 01c6 08       		.byte	8
+ 665 01c7 01       		.byte	1
+ 666 01c8 0A       		.byte	10
+ 667 01c9 26       		.byte	38
+ 668 01ca 0C       		.byte	12
+ 669 01cb 2C       		.byte	44
+ 670 01cc 0D       		.byte	13
+ 671 01cd 1C       		.byte	28
+ 672 01ce 0E       		.byte	14
+ 673 01cf 03       		.byte	3
+ 674 01d0 0F       		.byte	15
+ 675 01d1 02       		.byte	2
+ 676 01d2 15       		.byte	21
+ 677 01d3 10       		.byte	16
+ 678 01d4 16       		.byte	22
+ 679 01d5 2C       		.byte	44
+ 680 01d6 17       		.byte	23
+ 681 01d7 0C       		.byte	12
+ 682 01d8 19       		.byte	25
+ 683 01d9 09       		.byte	9
+ 684 01da 1B       		.byte	27
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 13
+
+
+ 685 01db 10       		.byte	16
+ 686 01dc 1D       		.byte	29
+ 687 01dd 10       		.byte	16
+ 688 01de 22       		.byte	34
+ 689 01df 08       		.byte	8
+ 690 01e0 2A       		.byte	42
+ 691 01e1 03       		.byte	3
+ 692 01e2 2C       		.byte	44
+ 693 01e3 10       		.byte	16
+ 694 01e4 2D       		.byte	45
+ 695 01e5 14       		.byte	20
+ 696 01e6 30       		.byte	48
+ 697 01e7 0F       		.byte	15
+ 698 01e8 31       		.byte	49
+ 699 01e9 1F       		.byte	31
+ 700 01ea 34       		.byte	52
+ 701 01eb 2A       		.byte	42
+ 702 01ec 36       		.byte	54
+ 703 01ed 10       		.byte	16
+ 704 01ee 3A       		.byte	58
+ 705 01ef 22       		.byte	34
+ 706 01f0 3E       		.byte	62
+ 707 01f1 40       		.byte	64
+ 708 01f2 58       		.byte	88
+ 709 01f3 04       		.byte	4
+ 710 01f4 59       		.byte	89
+ 711 01f5 04       		.byte	4
+ 712 01f6 5C       		.byte	92
+ 713 01f7 11       		.byte	17
+ 714 01f8 5F       		.byte	95
+ 715 01f9 01       		.byte	1
+ 716 01fa 85       		.byte	-123
+ 717 01fb 1F       		.byte	31
+ 718 01fc 86       		.byte	-122
+ 719 01fd 01       		.byte	1
+ 720 01fe 89       		.byte	-119
+ 721 01ff 1F       		.byte	31
+ 722 0200 8A       		.byte	-118
+ 723 0201 04       		.byte	4
+ 724 0202 8E       		.byte	-114
+ 725 0203 04       		.byte	4
+ 726 0204 95       		.byte	-107
+ 727 0205 01       		.byte	1
+ 728 0206 96       		.byte	-106
+ 729 0207 01       		.byte	1
+ 730 0208 97       		.byte	-105
+ 731 0209 26       		.byte	38
+ 732 020a 99       		.byte	-103
+ 733 020b 0A       		.byte	10
+ 734 020c 9B       		.byte	-101
+ 735 020d 51       		.byte	81
+ 736 020e A0       		.byte	-96
+ 737 020f 02       		.byte	2
+ 738 0210 A4       		.byte	-92
+ 739 0211 02       		.byte	2
+ 740 0212 A8       		.byte	-88
+ 741 0213 02       		.byte	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 14
+
+
+ 742 0214 AD       		.byte	-83
+ 743 0215 14       		.byte	20
+ 744 0216 AF       		.byte	-81
+ 745 0217 C9       		.byte	-55
+ 746 0218 B0       		.byte	-80
+ 747 0219 01       		.byte	1
+ 748 021a B1       		.byte	-79
+ 749 021b 60       		.byte	96
+ 750 021c B2       		.byte	-78
+ 751 021d 04       		.byte	4
+ 752 021e B3       		.byte	-77
+ 753 021f 18       		.byte	24
+ 754 0220 B5       		.byte	-75
+ 755 0221 07       		.byte	7
+ 756 0222 B6       		.byte	-74
+ 757 0223 02       		.byte	2
+ 758 0224 B7       		.byte	-73
+ 759 0225 80       		.byte	-128
+ 760 0226 BE       		.byte	-66
+ 761 0227 05       		.byte	5
+ 762 0228 BF       		.byte	-65
+ 763 0229 01       		.byte	1
+ 764 022a C0       		.byte	-64
+ 765 022b 25       		.byte	37
+ 766 022c C1       		.byte	-63
+ 767 022d 04       		.byte	4
+ 768 022e C2       		.byte	-62
+ 769 022f 03       		.byte	3
+ 770 0230 C4       		.byte	-60
+ 771 0231 01       		.byte	1
+ 772 0232 C6       		.byte	-58
+ 773 0233 C0       		.byte	-64
+ 774 0234 C7       		.byte	-57
+ 775 0235 0E       		.byte	14
+ 776 0236 C8       		.byte	-56
+ 777 0237 18       		.byte	24
+ 778 0238 C9       		.byte	-55
+ 779 0239 FF       		.byte	-1
+ 780 023a CA       		.byte	-54
+ 781 023b FF       		.byte	-1
+ 782 023c CB       		.byte	-53
+ 783 023d FF       		.byte	-1
+ 784 023e CC       		.byte	-52
+ 785 023f 62       		.byte	98
+ 786 0240 CD       		.byte	-51
+ 787 0241 A0       		.byte	-96
+ 788 0242 CE       		.byte	-50
+ 789 0243 F0       		.byte	-16
+ 790 0244 CF       		.byte	-49
+ 791 0245 41       		.byte	65
+ 792 0246 D0       		.byte	-48
+ 793 0247 0C       		.byte	12
+ 794 0248 D4       		.byte	-44
+ 795 0249 18       		.byte	24
+ 796 024a D6       		.byte	-42
+ 797 024b 04       		.byte	4
+ 798 024c D8       		.byte	-40
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 15
+
+
+ 799 024d 04       		.byte	4
+ 800 024e D9       		.byte	-39
+ 801 024f 04       		.byte	4
+ 802 0250 DA       		.byte	-38
+ 803 0251 04       		.byte	4
+ 804 0252 DB       		.byte	-37
+ 805 0253 04       		.byte	4
+ 806 0254 DF       		.byte	-33
+ 807 0255 01       		.byte	1
+ 808 0256 E6       		.byte	-26
+ 809 0257 40       		.byte	64
+ 810 0258 E7       		.byte	-25
+ 811 0259 02       		.byte	2
+ 812 025a E9       		.byte	-23
+ 813 025b 10       		.byte	16
+ 814 025c EA       		.byte	-22
+ 815 025d 30       		.byte	48
+ 816 025e EB       		.byte	-21
+ 817 025f 10       		.byte	16
+ 818 0260 ED       		.byte	-19
+ 819 0261 10       		.byte	16
+ 820 0262 EE       		.byte	-18
+ 821 0263 10       		.byte	16
+ 822 0264 EF       		.byte	-17
+ 823 0265 12       		.byte	18
+ 824 0266 00       		.byte	0
+ 825 0267 44       		.byte	68
+ 826 0268 03       		.byte	3
+ 827 0269 08       		.byte	8
+ 828 026a 04       		.byte	4
+ 829 026b 88       		.byte	-120
+ 830 026c 06       		.byte	6
+ 831 026d 14       		.byte	20
+ 832 026e 0A       		.byte	10
+ 833 026f 20       		.byte	32
+ 834 0270 0F       		.byte	15
+ 835 0271 20       		.byte	32
+ 836 0272 10       		.byte	16
+ 837 0273 88       		.byte	-120
+ 838 0274 12       		.byte	18
+ 839 0275 02       		.byte	2
+ 840 0276 15       		.byte	21
+ 841 0277 14       		.byte	20
+ 842 0278 17       		.byte	23
+ 843 0279 01       		.byte	1
+ 844 027a 18       		.byte	24
+ 845 027b 44       		.byte	68
+ 846 027c 19       		.byte	25
+ 847 027d 40       		.byte	64
+ 848 027e 1E       		.byte	30
+ 849 027f 42       		.byte	66
+ 850 0280 1F       		.byte	31
+ 851 0281 84       		.byte	-124
+ 852 0282 21       		.byte	33
+ 853 0283 01       		.byte	1
+ 854 0284 22       		.byte	34
+ 855 0285 02       		.byte	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 16
+
+
+ 856 0286 24       		.byte	36
+ 857 0287 02       		.byte	2
+ 858 0288 25       		.byte	37
+ 859 0289 04       		.byte	4
+ 860 028a 27       		.byte	39
+ 861 028b 64       		.byte	100
+ 862 028c 2A       		.byte	42
+ 863 028d 40       		.byte	64
+ 864 028e 2B       		.byte	43
+ 865 028f C0       		.byte	-64
+ 866 0290 2F       		.byte	47
+ 867 0291 01       		.byte	1
+ 868 0292 30       		.byte	48
+ 869 0293 80       		.byte	-128
+ 870 0294 32       		.byte	50
+ 871 0295 10       		.byte	16
+ 872 0296 33       		.byte	51
+ 873 0297 08       		.byte	8
+ 874 0298 37       		.byte	55
+ 875 0299 24       		.byte	36
+ 876 029a 38       		.byte	56
+ 877 029b 44       		.byte	68
+ 878 029c 39       		.byte	57
+ 879 029d 02       		.byte	2
+ 880 029e 3E       		.byte	62
+ 881 029f 14       		.byte	20
+ 882 02a0 45       		.byte	69
+ 883 02a1 21       		.byte	33
+ 884 02a2 46       		.byte	70
+ 885 02a3 10       		.byte	16
+ 886 02a4 47       		.byte	71
+ 887 02a5 40       		.byte	64
+ 888 02a6 4F       		.byte	79
+ 889 02a7 80       		.byte	-128
+ 890 02a8 56       		.byte	86
+ 891 02a9 04       		.byte	4
+ 892 02aa 57       		.byte	87
+ 893 02ab 10       		.byte	16
+ 894 02ac 5D       		.byte	93
+ 895 02ad 80       		.byte	-128
+ 896 02ae 5E       		.byte	94
+ 897 02af 40       		.byte	64
+ 898 02b0 5F       		.byte	95
+ 899 02b1 02       		.byte	2
+ 900 02b2 65       		.byte	101
+ 901 02b3 81       		.byte	-127
+ 902 02b4 67       		.byte	103
+ 903 02b5 48       		.byte	72
+ 904 02b6 81       		.byte	-127
+ 905 02b7 01       		.byte	1
+ 906 02b8 87       		.byte	-121
+ 907 02b9 40       		.byte	64
+ 908 02ba 90       		.byte	-112
+ 909 02bb 88       		.byte	-120
+ 910 02bc 91       		.byte	-111
+ 911 02bd 14       		.byte	20
+ 912 02be 92       		.byte	-110
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 17
+
+
+ 913 02bf 14       		.byte	20
+ 914 02c0 94       		.byte	-108
+ 915 02c1 02       		.byte	2
+ 916 02c2 97       		.byte	-105
+ 917 02c3 02       		.byte	2
+ 918 02c4 9B       		.byte	-101
+ 919 02c5 03       		.byte	3
+ 920 02c6 9E       		.byte	-98
+ 921 02c7 80       		.byte	-128
+ 922 02c8 9F       		.byte	-97
+ 923 02c9 04       		.byte	4
+ 924 02ca A1       		.byte	-95
+ 925 02cb 21       		.byte	33
+ 926 02cc A5       		.byte	-91
+ 927 02cd 04       		.byte	4
+ 928 02ce A6       		.byte	-90
+ 929 02cf 01       		.byte	1
+ 930 02d0 C0       		.byte	-64
+ 931 02d1 E7       		.byte	-25
+ 932 02d2 C2       		.byte	-62
+ 933 02d3 24       		.byte	36
+ 934 02d4 C4       		.byte	-60
+ 935 02d5 7B       		.byte	123
+ 936 02d6 CA       		.byte	-54
+ 937 02d7 18       		.byte	24
+ 938 02d8 CC       		.byte	-52
+ 939 02d9 6E       		.byte	110
+ 940 02da CE       		.byte	-50
+ 941 02db 6B       		.byte	107
+ 942 02dc D0       		.byte	-48
+ 943 02dd F0       		.byte	-16
+ 944 02de D2       		.byte	-46
+ 945 02df 10       		.byte	16
+ 946 02e0 D6       		.byte	-42
+ 947 02e1 80       		.byte	-128
+ 948 02e2 D8       		.byte	-40
+ 949 02e3 B0       		.byte	-80
+ 950 02e4 01       		.byte	1
+ 951 02e5 20       		.byte	32
+ 952 02e6 04       		.byte	4
+ 953 02e7 07       		.byte	7
+ 954 02e8 05       		.byte	5
+ 955 02e9 10       		.byte	16
+ 956 02ea 09       		.byte	9
+ 957 02eb 09       		.byte	9
+ 958 02ec 0B       		.byte	11
+ 959 02ed 10       		.byte	16
+ 960 02ee 10       		.byte	16
+ 961 02ef 02       		.byte	2
+ 962 02f0 11       		.byte	17
+ 963 02f1 10       		.byte	16
+ 964 02f2 12       		.byte	18
+ 965 02f3 04       		.byte	4
+ 966 02f4 13       		.byte	19
+ 967 02f5 0C       		.byte	12
+ 968 02f6 15       		.byte	21
+ 969 02f7 0C       		.byte	12
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 18
+
+
+ 970 02f8 17       		.byte	23
+ 971 02f9 11       		.byte	17
+ 972 02fa 19       		.byte	25
+ 973 02fb 40       		.byte	64
+ 974 02fc 1B       		.byte	27
+ 975 02fd 03       		.byte	3
+ 976 02fe 1C       		.byte	28
+ 977 02ff 08       		.byte	8
+ 978 0300 1E       		.byte	30
+ 979 0301 01       		.byte	1
+ 980 0302 20       		.byte	32
+ 981 0303 07       		.byte	7
+ 982 0304 25       		.byte	37
+ 983 0305 14       		.byte	20
+ 984 0306 2D       		.byte	45
+ 985 0307 1C       		.byte	28
+ 986 0308 2F       		.byte	47
+ 987 0309 02       		.byte	2
+ 988 030a 32       		.byte	50
+ 989 030b 0C       		.byte	12
+ 990 030c 33       		.byte	51
+ 991 030d 1F       		.byte	31
+ 992 030e 34       		.byte	52
+ 993 030f 03       		.byte	3
+ 994 0310 35       		.byte	53
+ 995 0311 20       		.byte	32
+ 996 0312 37       		.byte	55
+ 997 0313 40       		.byte	64
+ 998 0314 38       		.byte	56
+ 999 0315 28       		.byte	40
+ 1000 0316 3E       		.byte	62
+ 1001 0317 10       		.byte	16
+ 1002 0318 3F       		.byte	63
+ 1003 0319 50       		.byte	80
+ 1004 031a 40       		.byte	64
+ 1005 031b 02       		.byte	2
+ 1006 031c 47       		.byte	71
+ 1007 031d 04       		.byte	4
+ 1008 031e 49       		.byte	73
+ 1009 031f FF       		.byte	-1
+ 1010 0320 4A       		.byte	74
+ 1011 0321 07       		.byte	7
+ 1012 0322 4B       		.byte	75
+ 1013 0323 FF       		.byte	-1
+ 1014 0324 4C       		.byte	76
+ 1015 0325 40       		.byte	64
+ 1016 0326 4D       		.byte	77
+ 1017 0327 20       		.byte	32
+ 1018 0328 4E       		.byte	78
+ 1019 0329 F0       		.byte	-16
+ 1020 032a 4F       		.byte	79
+ 1021 032b 05       		.byte	5
+ 1022 032c 50       		.byte	80
+ 1023 032d 08       		.byte	8
+ 1024 032e 56       		.byte	86
+ 1025 032f 08       		.byte	8
+ 1026 0330 58       		.byte	88
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 19
+
+
+ 1027 0331 04       		.byte	4
+ 1028 0332 59       		.byte	89
+ 1029 0333 04       		.byte	4
+ 1030 0334 5A       		.byte	90
+ 1031 0335 04       		.byte	4
+ 1032 0336 5B       		.byte	91
+ 1033 0337 04       		.byte	4
+ 1034 0338 5D       		.byte	93
+ 1035 0339 90       		.byte	-112
+ 1036 033a 5F       		.byte	95
+ 1037 033b 01       		.byte	1
+ 1038 033c 60       		.byte	96
+ 1039 033d 40       		.byte	64
+ 1040 033e 61       		.byte	97
+ 1041 033f A8       		.byte	-88
+ 1042 0340 62       		.byte	98
+ 1043 0341 40       		.byte	64
+ 1044 0342 63       		.byte	99
+ 1045 0343 20       		.byte	32
+ 1046 0344 84       		.byte	-124
+ 1047 0345 03       		.byte	3
+ 1048 0346 85       		.byte	-123
+ 1049 0347 1B       		.byte	27
+ 1050 0348 86       		.byte	-122
+ 1051 0349 04       		.byte	4
+ 1052 034a 88       		.byte	-120
+ 1053 034b 03       		.byte	3
+ 1054 034c 8A       		.byte	-118
+ 1055 034d 0C       		.byte	12
+ 1056 034e 8B       		.byte	-117
+ 1057 034f 01       		.byte	1
+ 1058 0350 8C       		.byte	-116
+ 1059 0351 0A       		.byte	10
+ 1060 0352 8D       		.byte	-115
+ 1061 0353 10       		.byte	16
+ 1062 0354 8E       		.byte	-114
+ 1063 0355 04       		.byte	4
+ 1064 0356 8F       		.byte	-113
+ 1065 0357 03       		.byte	3
+ 1066 0358 95       		.byte	-107
+ 1067 0359 04       		.byte	4
+ 1068 035a 96       		.byte	-106
+ 1069 035b 08       		.byte	8
+ 1070 035c 97       		.byte	-105
+ 1071 035d 09       		.byte	9
+ 1072 035e A4       		.byte	-92
+ 1073 035f 03       		.byte	3
+ 1074 0360 A5       		.byte	-91
+ 1075 0361 1B       		.byte	27
+ 1076 0362 A6       		.byte	-90
+ 1077 0363 04       		.byte	4
+ 1078 0364 AA       		.byte	-86
+ 1079 0365 05       		.byte	5
+ 1080 0366 B1       		.byte	-79
+ 1081 0367 01       		.byte	1
+ 1082 0368 B2       		.byte	-78
+ 1083 0369 0F       		.byte	15
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 20
+
+
+ 1084 036a B3       		.byte	-77
+ 1085 036b 18       		.byte	24
+ 1086 036c B5       		.byte	-75
+ 1087 036d 06       		.byte	6
+ 1088 036e B9       		.byte	-71
+ 1089 036f 28       		.byte	40
+ 1090 0370 BA       		.byte	-70
+ 1091 0371 08       		.byte	8
+ 1092 0372 BF       		.byte	-65
+ 1093 0373 05       		.byte	5
+ 1094 0374 C0       		.byte	-64
+ 1095 0375 36       		.byte	54
+ 1096 0376 C1       		.byte	-63
+ 1097 0377 02       		.byte	2
+ 1098 0378 C5       		.byte	-59
+ 1099 0379 E0       		.byte	-32
+ 1100 037a C6       		.byte	-58
+ 1101 037b CB       		.byte	-53
+ 1102 037c C8       		.byte	-56
+ 1103 037d 0E       		.byte	14
+ 1104 037e C9       		.byte	-55
+ 1105 037f FF       		.byte	-1
+ 1106 0380 CA       		.byte	-54
+ 1107 0381 FF       		.byte	-1
+ 1108 0382 CB       		.byte	-53
+ 1109 0383 FF       		.byte	-1
+ 1110 0384 CE       		.byte	-50
+ 1111 0385 F0       		.byte	-16
+ 1112 0386 CF       		.byte	-49
+ 1113 0387 44       		.byte	68
+ 1114 0388 D0       		.byte	-48
+ 1115 0389 0C       		.byte	12
+ 1116 038a D4       		.byte	-44
+ 1117 038b 01       		.byte	1
+ 1118 038c D6       		.byte	-42
+ 1119 038d 04       		.byte	4
+ 1120 038e D8       		.byte	-40
+ 1121 038f 04       		.byte	4
+ 1122 0390 D9       		.byte	-39
+ 1123 0391 04       		.byte	4
+ 1124 0392 DA       		.byte	-38
+ 1125 0393 04       		.byte	4
+ 1126 0394 DB       		.byte	-37
+ 1127 0395 04       		.byte	4
+ 1128 0396 DC       		.byte	-36
+ 1129 0397 11       		.byte	17
+ 1130 0398 DD       		.byte	-35
+ 1131 0399 11       		.byte	17
+ 1132 039a DF       		.byte	-33
+ 1133 039b 01       		.byte	1
+ 1134 039c E6       		.byte	-26
+ 1135 039d C0       		.byte	-64
+ 1136 039e EA       		.byte	-22
+ 1137 039f 40       		.byte	64
+ 1138 03a0 EB       		.byte	-21
+ 1139 03a1 02       		.byte	2
+ 1140 03a2 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 21
+
+
+ 1141 03a3 44       		.byte	68
+ 1142 03a4 03       		.byte	3
+ 1143 03a5 08       		.byte	8
+ 1144 03a6 05       		.byte	5
+ 1145 03a7 04       		.byte	4
+ 1146 03a8 0A       		.byte	10
+ 1147 03a9 20       		.byte	32
+ 1148 03aa 0D       		.byte	13
+ 1149 03ab 80       		.byte	-128
+ 1150 03ac 0E       		.byte	14
+ 1151 03ad 40       		.byte	64
+ 1152 03ae 0F       		.byte	15
+ 1153 03af 02       		.byte	2
+ 1154 03b0 10       		.byte	16
+ 1155 03b1 38       		.byte	56
+ 1156 03b2 17       		.byte	23
+ 1157 03b3 01       		.byte	1
+ 1158 03b4 19       		.byte	25
+ 1159 03b5 08       		.byte	8
+ 1160 03b6 1B       		.byte	27
+ 1161 03b7 08       		.byte	8
+ 1162 03b8 1C       		.byte	28
+ 1163 03b9 10       		.byte	16
+ 1164 03ba 1D       		.byte	29
+ 1165 03bb 20       		.byte	32
+ 1166 03bc 21       		.byte	33
+ 1167 03bd 01       		.byte	1
+ 1168 03be 22       		.byte	34
+ 1169 03bf 18       		.byte	24
+ 1170 03c0 27       		.byte	39
+ 1171 03c1 26       		.byte	38
+ 1172 03c2 29       		.byte	41
+ 1173 03c3 08       		.byte	8
+ 1174 03c4 2E       		.byte	46
+ 1175 03c5 40       		.byte	64
+ 1176 03c6 2F       		.byte	47
+ 1177 03c7 20       		.byte	32
+ 1178 03c8 30       		.byte	48
+ 1179 03c9 08       		.byte	8
+ 1180 03ca 35       		.byte	53
+ 1181 03cb 04       		.byte	4
+ 1182 03cc 37       		.byte	55
+ 1183 03cd 21       		.byte	33
+ 1184 03ce 38       		.byte	56
+ 1185 03cf 64       		.byte	100
+ 1186 03d0 3C       		.byte	60
+ 1187 03d1 10       		.byte	16
+ 1188 03d2 3E       		.byte	62
+ 1189 03d3 08       		.byte	8
+ 1190 03d4 3F       		.byte	63
+ 1191 03d5 01       		.byte	1
+ 1192 03d6 40       		.byte	64
+ 1193 03d7 84       		.byte	-124
+ 1194 03d8 41       		.byte	65
+ 1195 03d9 01       		.byte	1
+ 1196 03da 43       		.byte	67
+ 1197 03db 08       		.byte	8
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 22
+
+
+ 1198 03dc 45       		.byte	69
+ 1199 03dd 20       		.byte	32
+ 1200 03de 48       		.byte	72
+ 1201 03df 08       		.byte	8
+ 1202 03e0 49       		.byte	73
+ 1203 03e1 01       		.byte	1
+ 1204 03e2 4B       		.byte	75
+ 1205 03e3 01       		.byte	1
+ 1206 03e4 4F       		.byte	79
+ 1207 03e5 02       		.byte	2
+ 1208 03e6 50       		.byte	80
+ 1209 03e7 30       		.byte	48
+ 1210 03e8 52       		.byte	82
+ 1211 03e9 40       		.byte	64
+ 1212 03ea 56       		.byte	86
+ 1213 03eb 0C       		.byte	12
+ 1214 03ec 58       		.byte	88
+ 1215 03ed 90       		.byte	-112
+ 1216 03ee 59       		.byte	89
+ 1217 03ef 01       		.byte	1
+ 1218 03f0 5B       		.byte	91
+ 1219 03f1 04       		.byte	4
+ 1220 03f2 5D       		.byte	93
+ 1221 03f3 40       		.byte	64
+ 1222 03f4 61       		.byte	97
+ 1223 03f5 02       		.byte	2
+ 1224 03f6 66       		.byte	102
+ 1225 03f7 80       		.byte	-128
+ 1226 03f8 67       		.byte	103
+ 1227 03f9 02       		.byte	2
+ 1228 03fa 90       		.byte	-112
+ 1229 03fb 44       		.byte	68
+ 1230 03fc 96       		.byte	-106
+ 1231 03fd 20       		.byte	32
+ 1232 03fe 97       		.byte	-105
+ 1233 03ff 02       		.byte	2
+ 1234 0400 9E       		.byte	-98
+ 1235 0401 C0       		.byte	-64
+ 1236 0402 A4       		.byte	-92
+ 1237 0403 88       		.byte	-120
+ 1238 0404 A7       		.byte	-89
+ 1239 0405 08       		.byte	8
+ 1240 0406 AD       		.byte	-83
+ 1241 0407 40       		.byte	64
+ 1242 0408 C0       		.byte	-64
+ 1243 0409 27       		.byte	39
+ 1244 040a C2       		.byte	-62
+ 1245 040b 94       		.byte	-108
+ 1246 040c C4       		.byte	-60
+ 1247 040d 16       		.byte	22
+ 1248 040e CA       		.byte	-54
+ 1249 040f 52       		.byte	82
+ 1250 0410 CC       		.byte	-52
+ 1251 0411 E2       		.byte	-30
+ 1252 0412 CE       		.byte	-50
+ 1253 0413 EE       		.byte	-18
+ 1254 0414 D0       		.byte	-48
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 23
+
+
+ 1255 0415 26       		.byte	38
+ 1256 0416 D2       		.byte	-46
+ 1257 0417 04       		.byte	4
+ 1258 0418 D6       		.byte	-42
+ 1259 0419 1F       		.byte	31
+ 1260 041a D8       		.byte	-40
+ 1261 041b 11       		.byte	17
+ 1262 041c 83       		.byte	-125
+ 1263 041d 01       		.byte	1
+ 1264 041e 8C       		.byte	-116
+ 1265 041f 01       		.byte	1
+ 1266 0420 8E       		.byte	-114
+ 1267 0421 26       		.byte	38
+ 1268 0422 94       		.byte	-108
+ 1269 0423 0A       		.byte	10
+ 1270 0424 96       		.byte	-106
+ 1271 0425 51       		.byte	81
+ 1272 0426 9C       		.byte	-100
+ 1273 0427 14       		.byte	20
+ 1274 0428 9E       		.byte	-98
+ 1275 0429 49       		.byte	73
+ 1276 042a A4       		.byte	-92
+ 1277 042b 1F       		.byte	31
+ 1278 042c A8       		.byte	-88
+ 1279 042d 1F       		.byte	31
+ 1280 042e B0       		.byte	-80
+ 1281 042f 60       		.byte	96
+ 1282 0430 B2       		.byte	-78
+ 1283 0431 18       		.byte	24
+ 1284 0432 B6       		.byte	-74
+ 1285 0433 07       		.byte	7
+ 1286 0434 B7       		.byte	-73
+ 1287 0435 01       		.byte	1
+ 1288 0436 BE       		.byte	-66
+ 1289 0437 01       		.byte	1
+ 1290 0438 D6       		.byte	-42
+ 1291 0439 08       		.byte	8
+ 1292 043a D8       		.byte	-40
+ 1293 043b 04       		.byte	4
+ 1294 043c D9       		.byte	-39
+ 1295 043d 04       		.byte	4
+ 1296 043e DB       		.byte	-37
+ 1297 043f 04       		.byte	4
+ 1298 0440 DC       		.byte	-36
+ 1299 0441 11       		.byte	17
+ 1300 0442 DD       		.byte	-35
+ 1301 0443 90       		.byte	-112
+ 1302 0444 DF       		.byte	-33
+ 1303 0445 01       		.byte	1
+ 1304 0446 00       		.byte	0
+ 1305 0447 40       		.byte	64
+ 1306 0448 02       		.byte	2
+ 1307 0449 20       		.byte	32
+ 1308 044a 03       		.byte	3
+ 1309 044b 88       		.byte	-120
+ 1310 044c 05       		.byte	5
+ 1311 044d 40       		.byte	64
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 24
+
+
+ 1312 044e 06       		.byte	6
+ 1313 044f 01       		.byte	1
+ 1314 0450 08       		.byte	8
+ 1315 0451 01       		.byte	1
+ 1316 0452 09       		.byte	9
+ 1317 0453 40       		.byte	64
+ 1318 0454 0A       		.byte	10
+ 1319 0455 14       		.byte	20
+ 1320 0456 0E       		.byte	14
+ 1321 0457 20       		.byte	32
+ 1322 0458 0F       		.byte	15
+ 1323 0459 01       		.byte	1
+ 1324 045a 10       		.byte	16
+ 1325 045b A8       		.byte	-88
+ 1326 045c 12       		.byte	18
+ 1327 045d 01       		.byte	1
+ 1328 045e 17       		.byte	23
+ 1329 045f 14       		.byte	20
+ 1330 0460 18       		.byte	24
+ 1331 0461 40       		.byte	64
+ 1332 0462 19       		.byte	25
+ 1333 0463 15       		.byte	21
+ 1334 0464 1A       		.byte	26
+ 1335 0465 14       		.byte	20
+ 1336 0466 1B       		.byte	27
+ 1337 0467 80       		.byte	-128
+ 1338 0468 1D       		.byte	29
+ 1339 0469 42       		.byte	66
+ 1340 046a 1E       		.byte	30
+ 1341 046b 20       		.byte	32
+ 1342 046c 20       		.byte	32
+ 1343 046d 04       		.byte	4
+ 1344 046e 21       		.byte	33
+ 1345 046f 01       		.byte	1
+ 1346 0470 22       		.byte	34
+ 1347 0471 14       		.byte	20
+ 1348 0472 23       		.byte	35
+ 1349 0473 02       		.byte	2
+ 1350 0474 25       		.byte	37
+ 1351 0475 40       		.byte	64
+ 1352 0476 29       		.byte	41
+ 1353 0477 55       		.byte	85
+ 1354 0478 2A       		.byte	42
+ 1355 0479 02       		.byte	2
+ 1356 047a 30       		.byte	48
+ 1357 047b 11       		.byte	17
+ 1358 047c 33       		.byte	51
+ 1359 047d 88       		.byte	-120
+ 1360 047e 34       		.byte	52
+ 1361 047f 10       		.byte	16
+ 1362 0480 36       		.byte	54
+ 1363 0481 30       		.byte	48
+ 1364 0482 38       		.byte	56
+ 1365 0483 A8       		.byte	-88
+ 1366 0484 3F       		.byte	63
+ 1367 0485 01       		.byte	1
+ 1368 0486 40       		.byte	64
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 25
+
+
+ 1369 0487 04       		.byte	4
+ 1370 0488 41       		.byte	65
+ 1371 0489 02       		.byte	2
+ 1372 048a 42       		.byte	66
+ 1373 048b 02       		.byte	2
+ 1374 048c 43       		.byte	67
+ 1375 048d 08       		.byte	8
+ 1376 048e 48       		.byte	72
+ 1377 048f 10       		.byte	16
+ 1378 0490 49       		.byte	73
+ 1379 0491 10       		.byte	16
+ 1380 0492 53       		.byte	83
+ 1381 0493 10       		.byte	16
+ 1382 0494 5A       		.byte	90
+ 1383 0495 08       		.byte	8
+ 1384 0496 5C       		.byte	92
+ 1385 0497 80       		.byte	-128
+ 1386 0498 64       		.byte	100
+ 1387 0499 01       		.byte	1
+ 1388 049a 67       		.byte	103
+ 1389 049b 01       		.byte	1
+ 1390 049c 69       		.byte	105
+ 1391 049d 54       		.byte	84
+ 1392 049e 6B       		.byte	107
+ 1393 049f 14       		.byte	20
+ 1394 04a0 70       		.byte	112
+ 1395 04a1 FC       		.byte	-4
+ 1396 04a2 84       		.byte	-124
+ 1397 04a3 80       		.byte	-128
+ 1398 04a4 95       		.byte	-107
+ 1399 04a5 56       		.byte	86
+ 1400 04a6 96       		.byte	-106
+ 1401 04a7 20       		.byte	32
+ 1402 04a8 97       		.byte	-105
+ 1403 04a9 20       		.byte	32
+ 1404 04aa 9F       		.byte	-97
+ 1405 04ab 02       		.byte	2
+ 1406 04ac A3       		.byte	-93
+ 1407 04ad 08       		.byte	8
+ 1408 04ae A4       		.byte	-92
+ 1409 04af 10       		.byte	16
+ 1410 04b0 C0       		.byte	-64
+ 1411 04b1 8F       		.byte	-113
+ 1412 04b2 C2       		.byte	-62
+ 1413 04b3 AF       		.byte	-81
+ 1414 04b4 C4       		.byte	-60
+ 1415 04b5 6F       		.byte	111
+ 1416 04b6 CA       		.byte	-54
+ 1417 04b7 0F       		.byte	15
+ 1418 04b8 CC       		.byte	-52
+ 1419 04b9 0F       		.byte	15
+ 1420 04ba CE       		.byte	-50
+ 1421 04bb 8E       		.byte	-114
+ 1422 04bc D0       		.byte	-48
+ 1423 04bd 0F       		.byte	15
+ 1424 04be D2       		.byte	-46
+ 1425 04bf 04       		.byte	4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 26
+
+
+ 1426 04c0 D6       		.byte	-42
+ 1427 04c1 12       		.byte	18
+ 1428 04c2 D8       		.byte	-40
+ 1429 04c3 10       		.byte	16
+ 1430 04c4 00       		.byte	0
+ 1431 04c5 1C       		.byte	28
+ 1432 04c6 02       		.byte	2
+ 1433 04c7 03       		.byte	3
+ 1434 04c8 03       		.byte	3
+ 1435 04c9 2A       		.byte	42
+ 1436 04ca 05       		.byte	5
+ 1437 04cb 06       		.byte	6
+ 1438 04cc 07       		.byte	7
+ 1439 04cd 28       		.byte	40
+ 1440 04ce 0A       		.byte	10
+ 1441 04cf 1C       		.byte	28
+ 1442 04d0 0B       		.byte	11
+ 1443 04d1 10       		.byte	16
+ 1444 04d2 0C       		.byte	12
+ 1445 04d3 01       		.byte	1
+ 1446 04d4 0E       		.byte	14
+ 1447 04d5 16       		.byte	22
+ 1448 04d6 11       		.byte	17
+ 1449 04d7 26       		.byte	38
+ 1450 04d8 13       		.byte	19
+ 1451 04d9 18       		.byte	24
+ 1452 04da 14       		.byte	20
+ 1453 04db 01       		.byte	1
+ 1454 04dc 15       		.byte	21
+ 1455 04dd 26       		.byte	38
+ 1456 04de 16       		.byte	22
+ 1457 04df 0E       		.byte	14
+ 1458 04e0 17       		.byte	23
+ 1459 04e1 08       		.byte	8
+ 1460 04e2 1D       		.byte	29
+ 1461 04e3 01       		.byte	1
+ 1462 04e4 1E       		.byte	30
+ 1463 04e5 03       		.byte	3
+ 1464 04e6 2A       		.byte	42
+ 1465 04e7 08       		.byte	8
+ 1466 04e8 2D       		.byte	45
+ 1467 04e9 14       		.byte	20
+ 1468 04ea 2F       		.byte	47
+ 1469 04eb 28       		.byte	40
+ 1470 04ec 30       		.byte	48
+ 1471 04ed 0F       		.byte	15
+ 1472 04ee 31       		.byte	49
+ 1473 04ef 20       		.byte	32
+ 1474 04f0 32       		.byte	50
+ 1475 04f1 1A       		.byte	26
+ 1476 04f2 35       		.byte	53
+ 1477 04f3 01       		.byte	1
+ 1478 04f4 37       		.byte	55
+ 1479 04f5 1E       		.byte	30
+ 1480 04f6 3A       		.byte	58
+ 1481 04f7 0A       		.byte	10
+ 1482 04f8 3B       		.byte	59
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 27
+
+
+ 1483 04f9 80       		.byte	-128
+ 1484 04fa 3F       		.byte	63
+ 1485 04fb 11       		.byte	17
+ 1486 04fc 40       		.byte	64
+ 1487 04fd 41       		.byte	65
+ 1488 04fe 41       		.byte	65
+ 1489 04ff 03       		.byte	3
+ 1490 0500 45       		.byte	69
+ 1491 0501 EC       		.byte	-20
+ 1492 0502 46       		.byte	70
+ 1493 0503 B0       		.byte	-80
+ 1494 0504 48       		.byte	72
+ 1495 0505 0B       		.byte	11
+ 1496 0506 49       		.byte	73
+ 1497 0507 FF       		.byte	-1
+ 1498 0508 4A       		.byte	74
+ 1499 0509 FF       		.byte	-1
+ 1500 050a 4B       		.byte	75
+ 1501 050b FF       		.byte	-1
+ 1502 050c 4E       		.byte	78
+ 1503 050d F0       		.byte	-16
+ 1504 050e 4F       		.byte	79
+ 1505 050f 44       		.byte	68
+ 1506 0510 50       		.byte	80
+ 1507 0511 0C       		.byte	12
+ 1508 0512 54       		.byte	84
+ 1509 0513 01       		.byte	1
+ 1510 0514 56       		.byte	86
+ 1511 0515 04       		.byte	4
+ 1512 0516 58       		.byte	88
+ 1513 0517 04       		.byte	4
+ 1514 0518 59       		.byte	89
+ 1515 0519 04       		.byte	4
+ 1516 051a 5A       		.byte	90
+ 1517 051b 04       		.byte	4
+ 1518 051c 5B       		.byte	91
+ 1519 051d 04       		.byte	4
+ 1520 051e 5F       		.byte	95
+ 1521 051f 01       		.byte	1
+ 1522 0520 66       		.byte	102
+ 1523 0521 C0       		.byte	-64
+ 1524 0522 6A       		.byte	106
+ 1525 0523 40       		.byte	64
+ 1526 0524 6B       		.byte	107
+ 1527 0525 02       		.byte	2
+ 1528 0526 83       		.byte	-125
+ 1529 0527 01       		.byte	1
+ 1530 0528 8A       		.byte	-118
+ 1531 0529 02       		.byte	2
+ 1532 052a 8B       		.byte	-117
+ 1533 052b 01       		.byte	1
+ 1534 052c 8C       		.byte	-116
+ 1535 052d 01       		.byte	1
+ 1536 052e 96       		.byte	-106
+ 1537 052f 02       		.byte	2
+ 1538 0530 A4       		.byte	-92
+ 1539 0531 01       		.byte	1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 28
+
+
+ 1540 0532 A8       		.byte	-88
+ 1541 0533 01       		.byte	1
+ 1542 0534 B0       		.byte	-80
+ 1543 0535 02       		.byte	2
+ 1544 0536 B2       		.byte	-78
+ 1545 0537 01       		.byte	1
+ 1546 0538 B5       		.byte	-75
+ 1547 0539 01       		.byte	1
+ 1548 053a BE       		.byte	-66
+ 1549 053b 01       		.byte	1
+ 1550 053c BF       		.byte	-65
+ 1551 053d 10       		.byte	16
+ 1552 053e C0       		.byte	-64
+ 1553 053f 06       		.byte	6
+ 1554 0540 C6       		.byte	-58
+ 1555 0541 04       		.byte	4
+ 1556 0542 C9       		.byte	-55
+ 1557 0543 FF       		.byte	-1
+ 1558 0544 CA       		.byte	-54
+ 1559 0545 07       		.byte	7
+ 1560 0546 CB       		.byte	-53
+ 1561 0547 FF       		.byte	-1
+ 1562 0548 CC       		.byte	-52
+ 1563 0549 40       		.byte	64
+ 1564 054a CD       		.byte	-51
+ 1565 054b 20       		.byte	32
+ 1566 054c CE       		.byte	-50
+ 1567 054d F0       		.byte	-16
+ 1568 054e CF       		.byte	-49
+ 1569 054f 05       		.byte	5
+ 1570 0550 D0       		.byte	-48
+ 1571 0551 08       		.byte	8
+ 1572 0552 D4       		.byte	-44
+ 1573 0553 18       		.byte	24
+ 1574 0554 D6       		.byte	-42
+ 1575 0555 04       		.byte	4
+ 1576 0556 D8       		.byte	-40
+ 1577 0557 04       		.byte	4
+ 1578 0558 D9       		.byte	-39
+ 1579 0559 04       		.byte	4
+ 1580 055a DA       		.byte	-38
+ 1581 055b 04       		.byte	4
+ 1582 055c DB       		.byte	-37
+ 1583 055d 04       		.byte	4
+ 1584 055e DC       		.byte	-36
+ 1585 055f 01       		.byte	1
+ 1586 0560 DD       		.byte	-35
+ 1587 0561 11       		.byte	17
+ 1588 0562 DF       		.byte	-33
+ 1589 0563 01       		.byte	1
+ 1590 0564 E0       		.byte	-32
+ 1591 0565 40       		.byte	64
+ 1592 0566 E1       		.byte	-31
+ 1593 0567 A8       		.byte	-88
+ 1594 0568 E2       		.byte	-30
+ 1595 0569 40       		.byte	64
+ 1596 056a E3       		.byte	-29
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 29
+
+
+ 1597 056b 20       		.byte	32
+ 1598 056c 00       		.byte	0
+ 1599 056d 20       		.byte	32
+ 1600 056e 01       		.byte	1
+ 1601 056f 40       		.byte	64
+ 1602 0570 04       		.byte	4
+ 1603 0571 10       		.byte	16
+ 1604 0572 05       		.byte	5
+ 1605 0573 01       		.byte	1
+ 1606 0574 07       		.byte	7
+ 1607 0575 01       		.byte	1
+ 1608 0576 08       		.byte	8
+ 1609 0577 20       		.byte	32
+ 1610 0578 0A       		.byte	10
+ 1611 0579 20       		.byte	32
+ 1612 057a 0B       		.byte	11
+ 1613 057b 04       		.byte	4
+ 1614 057c 0D       		.byte	13
+ 1615 057d 88       		.byte	-120
+ 1616 057e 11       		.byte	17
+ 1617 057f 14       		.byte	20
+ 1618 0580 16       		.byte	22
+ 1619 0581 04       		.byte	4
+ 1620 0582 1B       		.byte	27
+ 1621 0583 09       		.byte	9
+ 1622 0584 1D       		.byte	29
+ 1623 0585 0D       		.byte	13
+ 1624 0586 1E       		.byte	30
+ 1625 0587 40       		.byte	64
+ 1626 0588 20       		.byte	32
+ 1627 0589 04       		.byte	4
+ 1628 058a 27       		.byte	39
+ 1629 058b 89       		.byte	-119
+ 1630 058c 2E       		.byte	46
+ 1631 058d 40       		.byte	64
+ 1632 058e 35       		.byte	53
+ 1633 058f 04       		.byte	4
+ 1634 0590 36       		.byte	54
+ 1635 0591 80       		.byte	-128
+ 1636 0592 37       		.byte	55
+ 1637 0593 01       		.byte	1
+ 1638 0594 39       		.byte	57
+ 1639 0595 02       		.byte	2
+ 1640 0596 3B       		.byte	59
+ 1641 0597 20       		.byte	32
+ 1642 0598 3C       		.byte	60
+ 1643 0599 10       		.byte	16
+ 1644 059a 3E       		.byte	62
+ 1645 059b 02       		.byte	2
+ 1646 059c 3F       		.byte	63
+ 1647 059d 04       		.byte	4
+ 1648 059e 45       		.byte	69
+ 1649 059f 88       		.byte	-120
+ 1650 05a0 46       		.byte	70
+ 1651 05a1 02       		.byte	2
+ 1652 05a2 47       		.byte	71
+ 1653 05a3 01       		.byte	1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 30
+
+
+ 1654 05a4 4A       		.byte	74
+ 1655 05a5 08       		.byte	8
+ 1656 05a6 4D       		.byte	77
+ 1657 05a7 01       		.byte	1
+ 1658 05a8 4E       		.byte	78
+ 1659 05a9 80       		.byte	-128
+ 1660 05aa 4F       		.byte	79
+ 1661 05ab 04       		.byte	4
+ 1662 05ac 50       		.byte	80
+ 1663 05ad 88       		.byte	-120
+ 1664 05ae 57       		.byte	87
+ 1665 05af 20       		.byte	32
+ 1666 05b0 5B       		.byte	91
+ 1667 05b1 02       		.byte	2
+ 1668 05b2 5C       		.byte	92
+ 1669 05b3 20       		.byte	32
+ 1670 05b4 5D       		.byte	93
+ 1671 05b5 01       		.byte	1
+ 1672 05b6 5F       		.byte	95
+ 1673 05b7 88       		.byte	-120
+ 1674 05b8 60       		.byte	96
+ 1675 05b9 44       		.byte	68
+ 1676 05ba 63       		.byte	99
+ 1677 05bb 02       		.byte	2
+ 1678 05bc 67       		.byte	103
+ 1679 05bd 40       		.byte	64
+ 1680 05be 80       		.byte	-128
+ 1681 05bf 40       		.byte	64
+ 1682 05c0 87       		.byte	-121
+ 1683 05c1 40       		.byte	64
+ 1684 05c2 90       		.byte	-112
+ 1685 05c3 10       		.byte	16
+ 1686 05c4 96       		.byte	-106
+ 1687 05c5 40       		.byte	64
+ 1688 05c6 9A       		.byte	-102
+ 1689 05c7 04       		.byte	4
+ 1690 05c8 9D       		.byte	-99
+ 1691 05c9 04       		.byte	4
+ 1692 05ca 9F       		.byte	-97
+ 1693 05cb 01       		.byte	1
+ 1694 05cc A1       		.byte	-95
+ 1695 05cd 80       		.byte	-128
+ 1696 05ce A2       		.byte	-94
+ 1697 05cf 08       		.byte	8
+ 1698 05d0 A4       		.byte	-92
+ 1699 05d1 88       		.byte	-120
+ 1700 05d2 A7       		.byte	-89
+ 1701 05d3 20       		.byte	32
+ 1702 05d4 B5       		.byte	-75
+ 1703 05d5 42       		.byte	66
+ 1704 05d6 B7       		.byte	-73
+ 1705 05d7 02       		.byte	2
+ 1706 05d8 C0       		.byte	-64
+ 1707 05d9 D3       		.byte	-45
+ 1708 05da C2       		.byte	-62
+ 1709 05db A4       		.byte	-92
+ 1710 05dc C4       		.byte	-60
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 31
+
+
+ 1711 05dd 46       		.byte	70
+ 1712 05de CA       		.byte	-54
+ 1713 05df 10       		.byte	16
+ 1714 05e0 CC       		.byte	-52
+ 1715 05e1 D0       		.byte	-48
+ 1716 05e2 CE       		.byte	-50
+ 1717 05e3 E5       		.byte	-27
+ 1718 05e4 D0       		.byte	-48
+ 1719 05e5 D0       		.byte	-48
+ 1720 05e6 D2       		.byte	-46
+ 1721 05e7 04       		.byte	4
+ 1722 05e8 D6       		.byte	-42
+ 1723 05e9 F1       		.byte	-15
+ 1724 05ea D8       		.byte	-40
+ 1725 05eb 8D       		.byte	-115
+ 1726 05ec E8       		.byte	-24
+ 1727 05ed 40       		.byte	64
+ 1728 05ee EA       		.byte	-22
+ 1729 05ef 10       		.byte	16
+ 1730 05f0 EE       		.byte	-18
+ 1731 05f1 10       		.byte	16
+ 1732 05f2 30       		.byte	48
+ 1733 05f3 02       		.byte	2
+ 1734 05f4 33       		.byte	51
+ 1735 05f5 80       		.byte	-128
+ 1736 05f6 37       		.byte	55
+ 1737 05f7 82       		.byte	-126
+ 1738 05f8 3B       		.byte	59
+ 1739 05f9 20       		.byte	32
+ 1740 05fa CC       		.byte	-52
+ 1741 05fb F0       		.byte	-16
+ 1742 05fc CE       		.byte	-50
+ 1743 05fd 10       		.byte	16
+ 1744 05fe 97       		.byte	-105
+ 1745 05ff 20       		.byte	32
+ 1746 0600 9F       		.byte	-97
+ 1747 0601 82       		.byte	-126
+ 1748 0602 A4       		.byte	-92
+ 1749 0603 02       		.byte	2
+ 1750 0604 A7       		.byte	-89
+ 1751 0605 80       		.byte	-128
+ 1752 0606 52       		.byte	82
+ 1753 0607 80       		.byte	-128
+ 1754 0608 80       		.byte	-128
+ 1755 0609 02       		.byte	2
+ 1756 060a 87       		.byte	-121
+ 1757 060b 10       		.byte	16
+ 1758 060c 97       		.byte	-105
+ 1759 060d 20       		.byte	32
+ 1760 060e 9F       		.byte	-97
+ 1761 060f 82       		.byte	-126
+ 1762 0610 A4       		.byte	-92
+ 1763 0611 02       		.byte	2
+ 1764 0612 A7       		.byte	-89
+ 1765 0613 80       		.byte	-128
+ 1766 0614 D4       		.byte	-44
+ 1767 0615 20       		.byte	32
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 32
+
+
+ 1768 0616 E2       		.byte	-30
+ 1769 0617 20       		.byte	32
+ 1770 0618 E6       		.byte	-26
+ 1771 0619 40       		.byte	64
+ 1772 061a 9F       		.byte	-97
+ 1773 061b 82       		.byte	-126
+ 1774 061c A7       		.byte	-89
+ 1775 061d 80       		.byte	-128
+ 1776 061e AE       		.byte	-82
+ 1777 061f 80       		.byte	-128
+ 1778 0620 EE       		.byte	-18
+ 1779 0621 10       		.byte	16
+ 1780 0622 83       		.byte	-125
+ 1781 0623 80       		.byte	-128
+ 1782 0624 87       		.byte	-121
+ 1783 0625 02       		.byte	2
+ 1784 0626 9D       		.byte	-99
+ 1785 0627 02       		.byte	2
+ 1786 0628 9F       		.byte	-97
+ 1787 0629 02       		.byte	2
+ 1788 062a A3       		.byte	-93
+ 1789 062b 08       		.byte	8
+ 1790 062c A7       		.byte	-89
+ 1791 062d 80       		.byte	-128
+ 1792 062e B5       		.byte	-75
+ 1793 062f 02       		.byte	2
+ 1794 0630 B7       		.byte	-73
+ 1795 0631 88       		.byte	-120
+ 1796 0632 E6       		.byte	-26
+ 1797 0633 60       		.byte	96
+ 1798 0634 05       		.byte	5
+ 1799 0635 02       		.byte	2
+ 1800 0636 12       		.byte	18
+ 1801 0637 20       		.byte	32
+ 1802 0638 57       		.byte	87
+ 1803 0639 08       		.byte	8
+ 1804 063a 86       		.byte	-122
+ 1805 063b 20       		.byte	32
+ 1806 063c 9D       		.byte	-99
+ 1807 063d 02       		.byte	2
+ 1808 063e A3       		.byte	-93
+ 1809 063f 08       		.byte	8
+ 1810 0640 C0       		.byte	-64
+ 1811 0641 20       		.byte	32
+ 1812 0642 C4       		.byte	-60
+ 1813 0643 10       		.byte	16
+ 1814 0644 D4       		.byte	-44
+ 1815 0645 40       		.byte	64
+ 1816 0646 E4       		.byte	-28
+ 1817 0647 40       		.byte	64
+ 1818 0648 00       		.byte	0
+ 1819 0649 03       		.byte	3
+ 1820 064a 01       		.byte	1
+ 1821 064b 01       		.byte	1
+ 1822 064c 08       		.byte	8
+ 1823 064d 01       		.byte	1
+ 1824 064e 0A       		.byte	10
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 33
+
+
+ 1825 064f 03       		.byte	3
+ 1826 0650 0B       		.byte	11
+ 1827 0651 01       		.byte	1
+ 1828 0652 10       		.byte	16
+ 1829 0653 03       		.byte	3
+ 1830 0654 11       		.byte	17
+ 1831 0655 01       		.byte	1
+ 1832 0656 1A       		.byte	26
+ 1833 0657 03       		.byte	3
+ 1834 0658 1B       		.byte	27
+ 1835 0659 01       		.byte	1
+ 1836 065a 00       		.byte	0
+ 1837 065b FF       		.byte	-1
+ 1838 065c 01       		.byte	1
+ 1839 065d 03       		.byte	3
+ 1840 065e 0000     		.space	2
+ 1841              		.type	BS_IOPINS0_0_VAL.5009, %object
+ 1842              		.size	BS_IOPINS0_0_VAL.5009, 8
+ 1843              	BS_IOPINS0_0_VAL.5009:
+ 1844 0660 00       		.byte	0
+ 1845 0661 70       		.byte	112
+ 1846 0662 70       		.byte	112
+ 1847 0663 00       		.byte	0
+ 1848 0664 00       		.byte	0
+ 1849 0665 00       		.byte	0
+ 1850 0666 00       		.byte	0
+ 1851 0667 00       		.byte	0
+ 1852              		.type	BS_IOPINS0_7_VAL.5010, %object
+ 1853              		.size	BS_IOPINS0_7_VAL.5010, 10
+ 1854              	BS_IOPINS0_7_VAL.5010:
+ 1855 0668 02       		.byte	2
+ 1856 0669 00       		.byte	0
+ 1857 066a 01       		.byte	1
+ 1858 066b 02       		.byte	2
+ 1859 066c 02       		.byte	2
+ 1860 066d 00       		.byte	0
+ 1861 066e 02       		.byte	2
+ 1862 066f 00       		.byte	0
+ 1863 0670 00       		.byte	0
+ 1864 0671 00       		.byte	0
+ 1865 0672 0000     		.space	2
+ 1866              		.type	BS_IOPINS0_1_VAL.5011, %object
+ 1867              		.size	BS_IOPINS0_1_VAL.5011, 8
+ 1868              	BS_IOPINS0_1_VAL.5011:
+ 1869 0674 00       		.byte	0
+ 1870 0675 0B       		.byte	11
+ 1871 0676 0B       		.byte	11
+ 1872 0677 00       		.byte	0
+ 1873 0678 00       		.byte	0
+ 1874 0679 00       		.byte	0
+ 1875 067a 00       		.byte	0
+ 1876 067b 00       		.byte	0
+ 1877              		.type	BS_IOPINS0_2_VAL.5012, %object
+ 1878              		.size	BS_IOPINS0_2_VAL.5012, 10
+ 1879              	BS_IOPINS0_2_VAL.5012:
+ 1880 067c 98       		.byte	-104
+ 1881 067d 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYHekkK.s 			page 34
+
+
+ 1882 067e 06       		.byte	6
+ 1883 067f D8       		.byte	-40
+ 1884 0680 40       		.byte	64
+ 1885 0681 00       		.byte	0
+ 1886 0682 00       		.byte	0
+ 1887 0683 00       		.byte	0
+ 1888 0684 00       		.byte	0
+ 1889 0685 00       		.byte	0
+ 1890 0686 0000     		.space	2
+ 1891              		.type	BS_IOPINS0_3_VAL.5013, %object
+ 1892              		.size	BS_IOPINS0_3_VAL.5013, 10
+ 1893              	BS_IOPINS0_3_VAL.5013:
+ 1894 0688 01       		.byte	1
+ 1895 0689 00       		.byte	0
+ 1896 068a 02       		.byte	2
+ 1897 068b 01       		.byte	1
+ 1898 068c 01       		.byte	1
+ 1899 068d 00       		.byte	0
+ 1900 068e 01       		.byte	1
+ 1901 068f 00       		.byte	0
+ 1902 0690 00       		.byte	0
+ 1903 0691 00       		.byte	0
+ 1904 0692 0000     		.space	2
+ 1905              		.type	BS_IOPINS0_5_VAL.5014, %object
+ 1906              		.size	BS_IOPINS0_5_VAL.5014, 8
+ 1907              	BS_IOPINS0_5_VAL.5014:
+ 1908 0694 00       		.byte	0
+ 1909 0695 01       		.byte	1
+ 1910 0696 01       		.byte	1
+ 1911 0697 00       		.byte	0
+ 1912 0698 00       		.byte	0
+ 1913 0699 00       		.byte	0
+ 1914 069a 00       		.byte	0
+ 1915 069b 00       		.byte	0
+ 1916              		.type	BS_IOPINS0_6_VAL.5015, %object
+ 1917              		.size	BS_IOPINS0_6_VAL.5015, 10
+ 1918              	BS_IOPINS0_6_VAL.5015:
+ 1919 069c 40       		.byte	64
+ 1920 069d 00       		.byte	0
+ 1921 069e 30       		.byte	48
+ 1922 069f 40       		.byte	64
+ 1923 06a0 00       		.byte	0
+ 1924 06a1 00       		.byte	0
+ 1925 06a2 00       		.byte	0
+ 1926 06a3 00       		.byte	0
+ 1927 06a4 00       		.byte	0
+ 1928 06a5 00       		.byte	0
+ 1929              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

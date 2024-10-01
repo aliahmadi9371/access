@@ -1,0 +1,2585 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"OS_Main.c"
+  16              		.section	.text.Timer_Read_W_Port1_Callback,"ax",%progbits
+  17              		.align	2
+  18              		.global	Timer_Read_W_Port1_Callback
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	Timer_Read_W_Port1_Callback, %function
+  22              	Timer_Read_W_Port1_Callback:
+  23              		@ args = 0, pretend = 0, frame = 256
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 70B5     		push	{r4, r5, r6, lr}
+  26 0002 154C     		ldr	r4, .L3
+  27 0004 C2B0     		sub	sp, sp, #264
+  28 0006 1548     		ldr	r0, .L3+4
+  29 0008 FFF7FEFF 		bl	OS_TIMER_Stop
+  30 000c 94E80A00 		ldmia	r4, {r1, r3}
+  31 0010 0131     		adds	r1, r1, #1
+  32 0012 CE18     		adds	r6, r1, r3
+  33 0014 124D     		ldr	r5, .L3+8
+  34 0016 0A46     		mov	r2, r1
+  35 0018 2160     		str	r1, [r4]
+  36 001a 0096     		str	r6, [sp]
+  37 001c 1149     		ldr	r1, .L3+12
+  38 001e 02A8     		add	r0, sp, #8
+  39 0020 A660     		str	r6, [r4, #8]
+  40 0022 FFF7FEFF 		bl	sprintf
+  41 0026 2846     		mov	r0, r5
+  42 0028 FFF7FEFF 		bl	UART_Debug_PutString
+  43 002c 0E48     		ldr	r0, .L3+16
+  44 002e FFF7FEFF 		bl	UART_Debug_PutString
+  45 0032 FFF7FEFF 		bl	CyWdtClear
+  46 0036 02A8     		add	r0, sp, #8
+  47 0038 FFF7FEFF 		bl	UART_Debug_PutString
+  48 003c 2846     		mov	r0, r5
+  49 003e FFF7FEFF 		bl	UART_Debug_PutString
+  50 0042 FFF7FEFF 		bl	CyWdtClear
+  51 0046 094A     		ldr	r2, .L3+20
+  52 0048 0023     		movs	r3, #0
+  53 004a 2373     		strb	r3, [r4, #12]
+  54 004c 6373     		strb	r3, [r4, #13]
+  55 004e A373     		strb	r3, [r4, #14]
+  56 0050 1370     		strb	r3, [r2]
+  57 0052 42B0     		add	sp, sp, #264
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 2
+
+
+  58              		@ sp needed
+  59 0054 70BD     		pop	{r4, r5, r6, pc}
+  60              	.L4:
+  61 0056 00BF     		.align	2
+  62              	.L3:
+  63 0058 00000000 		.word	.LANCHOR0
+  64 005c 00000000 		.word	Timer_Read_W_Port1
+  65 0060 50000000 		.word	.LC1
+  66 0064 00000000 		.word	.LC0
+  67 0068 70000000 		.word	.LC2
+  68 006c 00000000 		.word	Port1_W
+  69              		.size	Timer_Read_W_Port1_Callback, .-Timer_Read_W_Port1_Callback
+  70              		.section	.text.Timer_Read_W_Port2_Callback,"ax",%progbits
+  71              		.align	2
+  72              		.global	Timer_Read_W_Port2_Callback
+  73              		.thumb
+  74              		.thumb_func
+  75              		.type	Timer_Read_W_Port2_Callback, %function
+  76              	Timer_Read_W_Port2_Callback:
+  77              		@ args = 0, pretend = 0, frame = 256
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79 0000 70B5     		push	{r4, r5, r6, lr}
+  80 0002 154C     		ldr	r4, .L7
+  81 0004 C2B0     		sub	sp, sp, #264
+  82 0006 1548     		ldr	r0, .L7+4
+  83 0008 FFF7FEFF 		bl	OS_TIMER_Stop
+  84 000c 6168     		ldr	r1, [r4, #4]
+  85 000e 2268     		ldr	r2, [r4]
+  86 0010 0131     		adds	r1, r1, #1
+  87 0012 8E18     		adds	r6, r1, r2
+  88 0014 124D     		ldr	r5, .L7+8
+  89 0016 0B46     		mov	r3, r1
+  90 0018 6160     		str	r1, [r4, #4]
+  91 001a 0096     		str	r6, [sp]
+  92 001c 1149     		ldr	r1, .L7+12
+  93 001e 02A8     		add	r0, sp, #8
+  94 0020 A660     		str	r6, [r4, #8]
+  95 0022 FFF7FEFF 		bl	sprintf
+  96 0026 2846     		mov	r0, r5
+  97 0028 FFF7FEFF 		bl	UART_Debug_PutString
+  98 002c 0E48     		ldr	r0, .L7+16
+  99 002e FFF7FEFF 		bl	UART_Debug_PutString
+ 100 0032 FFF7FEFF 		bl	CyWdtClear
+ 101 0036 02A8     		add	r0, sp, #8
+ 102 0038 FFF7FEFF 		bl	UART_Debug_PutString
+ 103 003c 2846     		mov	r0, r5
+ 104 003e FFF7FEFF 		bl	UART_Debug_PutString
+ 105 0042 FFF7FEFF 		bl	CyWdtClear
+ 106 0046 094A     		ldr	r2, .L7+20
+ 107 0048 0023     		movs	r3, #0
+ 108 004a E373     		strb	r3, [r4, #15]
+ 109 004c 2374     		strb	r3, [r4, #16]
+ 110 004e 6374     		strb	r3, [r4, #17]
+ 111 0050 1370     		strb	r3, [r2]
+ 112 0052 42B0     		add	sp, sp, #264
+ 113              		@ sp needed
+ 114 0054 70BD     		pop	{r4, r5, r6, pc}
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 3
+
+
+ 115              	.L8:
+ 116 0056 00BF     		.align	2
+ 117              	.L7:
+ 118 0058 00000000 		.word	.LANCHOR0
+ 119 005c 00000000 		.word	Timer_Read_W_Port2
+ 120 0060 50000000 		.word	.LC1
+ 121 0064 00000000 		.word	.LC0
+ 122 0068 90000000 		.word	.LC3
+ 123 006c 00000000 		.word	Port2_W
+ 124              		.size	Timer_Read_W_Port2_Callback, .-Timer_Read_W_Port2_Callback
+ 125              		.section	.text.Timer_AfterRead_Input1_Callback,"ax",%progbits
+ 126              		.align	2
+ 127              		.global	Timer_AfterRead_Input1_Callback
+ 128              		.thumb
+ 129              		.thumb_func
+ 130              		.type	Timer_AfterRead_Input1_Callback, %function
+ 131              	Timer_AfterRead_Input1_Callback:
+ 132              		@ args = 0, pretend = 0, frame = 256
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134 0000 70B5     		push	{r4, r5, r6, lr}
+ 135 0002 144C     		ldr	r4, .L11
+ 136 0004 C2B0     		sub	sp, sp, #264
+ 137 0006 1448     		ldr	r0, .L11+4
+ 138 0008 FFF7FEFF 		bl	OS_TIMER_Stop
+ 139 000c 6169     		ldr	r1, [r4, #20]
+ 140 000e A369     		ldr	r3, [r4, #24]
+ 141 0010 0131     		adds	r1, r1, #1
+ 142 0012 CE18     		adds	r6, r1, r3
+ 143 0014 114D     		ldr	r5, .L11+8
+ 144 0016 0A46     		mov	r2, r1
+ 145 0018 6161     		str	r1, [r4, #20]
+ 146 001a 0096     		str	r6, [sp]
+ 147 001c 1049     		ldr	r1, .L11+12
+ 148 001e 02A8     		add	r0, sp, #8
+ 149 0020 E661     		str	r6, [r4, #28]
+ 150 0022 FFF7FEFF 		bl	sprintf
+ 151 0026 2846     		mov	r0, r5
+ 152 0028 FFF7FEFF 		bl	UART_Debug_PutString
+ 153 002c 0D48     		ldr	r0, .L11+16
+ 154 002e FFF7FEFF 		bl	UART_Debug_PutString
+ 155 0032 FFF7FEFF 		bl	CyWdtClear
+ 156 0036 02A8     		add	r0, sp, #8
+ 157 0038 FFF7FEFF 		bl	UART_Debug_PutString
+ 158 003c 2846     		mov	r0, r5
+ 159 003e FFF7FEFF 		bl	UART_Debug_PutString
+ 160 0042 FFF7FEFF 		bl	CyWdtClear
+ 161 0046 084B     		ldr	r3, .L11+20
+ 162 0048 0022     		movs	r2, #0
+ 163 004a 1A70     		strb	r2, [r3]
+ 164 004c 5A70     		strb	r2, [r3, #1]
+ 165 004e 9A70     		strb	r2, [r3, #2]
+ 166 0050 42B0     		add	sp, sp, #264
+ 167              		@ sp needed
+ 168 0052 70BD     		pop	{r4, r5, r6, pc}
+ 169              	.L12:
+ 170              		.align	2
+ 171              	.L11:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 4
+
+
+ 172 0054 00000000 		.word	.LANCHOR0
+ 173 0058 00000000 		.word	Timer_AfterRead_In1
+ 174 005c 50000000 		.word	.LC1
+ 175 0060 B0000000 		.word	.LC4
+ 176 0064 24010000 		.word	.LC5
+ 177 0068 00000000 		.word	In1
+ 178              		.size	Timer_AfterRead_Input1_Callback, .-Timer_AfterRead_Input1_Callback
+ 179              		.section	.text.Timer_AfterRead_Port1_Callback,"ax",%progbits
+ 180              		.align	2
+ 181              		.global	Timer_AfterRead_Port1_Callback
+ 182              		.thumb
+ 183              		.thumb_func
+ 184              		.type	Timer_AfterRead_Port1_Callback, %function
+ 185              	Timer_AfterRead_Port1_Callback:
+ 186              		@ args = 0, pretend = 0, frame = 256
+ 187              		@ frame_needed = 0, uses_anonymous_args = 0
+ 188 0000 70B5     		push	{r4, r5, r6, lr}
+ 189 0002 154C     		ldr	r4, .L15
+ 190 0004 C2B0     		sub	sp, sp, #264
+ 191 0006 1548     		ldr	r0, .L15+4
+ 192 0008 FFF7FEFF 		bl	OS_TIMER_Stop
+ 193 000c 216A     		ldr	r1, [r4, #32]
+ 194 000e 636A     		ldr	r3, [r4, #36]
+ 195 0010 0131     		adds	r1, r1, #1
+ 196 0012 CE18     		adds	r6, r1, r3
+ 197 0014 124D     		ldr	r5, .L15+8
+ 198 0016 0A46     		mov	r2, r1
+ 199 0018 2162     		str	r1, [r4, #32]
+ 200 001a 0096     		str	r6, [sp]
+ 201 001c 1149     		ldr	r1, .L15+12
+ 202 001e 02A8     		add	r0, sp, #8
+ 203 0020 A662     		str	r6, [r4, #40]
+ 204 0022 FFF7FEFF 		bl	sprintf
+ 205 0026 2846     		mov	r0, r5
+ 206 0028 FFF7FEFF 		bl	UART_Debug_PutString
+ 207 002c 0E48     		ldr	r0, .L15+16
+ 208 002e FFF7FEFF 		bl	UART_Debug_PutString
+ 209 0032 FFF7FEFF 		bl	CyWdtClear
+ 210 0036 02A8     		add	r0, sp, #8
+ 211 0038 FFF7FEFF 		bl	UART_Debug_PutString
+ 212 003c 2846     		mov	r0, r5
+ 213 003e FFF7FEFF 		bl	UART_Debug_PutString
+ 214 0042 FFF7FEFF 		bl	CyWdtClear
+ 215 0046 094A     		ldr	r2, .L15+20
+ 216 0048 0023     		movs	r3, #0
+ 217 004a 2373     		strb	r3, [r4, #12]
+ 218 004c 6373     		strb	r3, [r4, #13]
+ 219 004e A373     		strb	r3, [r4, #14]
+ 220 0050 1370     		strb	r3, [r2]
+ 221 0052 42B0     		add	sp, sp, #264
+ 222              		@ sp needed
+ 223 0054 70BD     		pop	{r4, r5, r6, pc}
+ 224              	.L16:
+ 225 0056 00BF     		.align	2
+ 226              	.L15:
+ 227 0058 00000000 		.word	.LANCHOR0
+ 228 005c 00000000 		.word	Timer_AfterRead_Port1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 5
+
+
+ 229 0060 50000000 		.word	.LC1
+ 230 0064 48010000 		.word	.LC6
+ 231 0068 AC010000 		.word	.LC7
+ 232 006c 00000000 		.word	Port1_W
+ 233              		.size	Timer_AfterRead_Port1_Callback, .-Timer_AfterRead_Port1_Callback
+ 234              		.section	.text.Timer_AfterRead_Input2_Callback,"ax",%progbits
+ 235              		.align	2
+ 236              		.global	Timer_AfterRead_Input2_Callback
+ 237              		.thumb
+ 238              		.thumb_func
+ 239              		.type	Timer_AfterRead_Input2_Callback, %function
+ 240              	Timer_AfterRead_Input2_Callback:
+ 241              		@ args = 0, pretend = 0, frame = 256
+ 242              		@ frame_needed = 0, uses_anonymous_args = 0
+ 243 0000 70B5     		push	{r4, r5, r6, lr}
+ 244 0002 144C     		ldr	r4, .L19
+ 245 0004 C2B0     		sub	sp, sp, #264
+ 246 0006 1448     		ldr	r0, .L19+4
+ 247 0008 FFF7FEFF 		bl	OS_TIMER_Stop
+ 248 000c A169     		ldr	r1, [r4, #24]
+ 249 000e 6269     		ldr	r2, [r4, #20]
+ 250 0010 0131     		adds	r1, r1, #1
+ 251 0012 8E18     		adds	r6, r1, r2
+ 252 0014 114D     		ldr	r5, .L19+8
+ 253 0016 0B46     		mov	r3, r1
+ 254 0018 A161     		str	r1, [r4, #24]
+ 255 001a 0096     		str	r6, [sp]
+ 256 001c 1049     		ldr	r1, .L19+12
+ 257 001e 02A8     		add	r0, sp, #8
+ 258 0020 E661     		str	r6, [r4, #28]
+ 259 0022 FFF7FEFF 		bl	sprintf
+ 260 0026 2846     		mov	r0, r5
+ 261 0028 FFF7FEFF 		bl	UART_Debug_PutString
+ 262 002c 0D48     		ldr	r0, .L19+16
+ 263 002e FFF7FEFF 		bl	UART_Debug_PutString
+ 264 0032 FFF7FEFF 		bl	CyWdtClear
+ 265 0036 02A8     		add	r0, sp, #8
+ 266 0038 FFF7FEFF 		bl	UART_Debug_PutString
+ 267 003c 2846     		mov	r0, r5
+ 268 003e FFF7FEFF 		bl	UART_Debug_PutString
+ 269 0042 FFF7FEFF 		bl	CyWdtClear
+ 270 0046 084B     		ldr	r3, .L19+20
+ 271 0048 0022     		movs	r2, #0
+ 272 004a 1A70     		strb	r2, [r3]
+ 273 004c 5A70     		strb	r2, [r3, #1]
+ 274 004e 9A70     		strb	r2, [r3, #2]
+ 275 0050 42B0     		add	sp, sp, #264
+ 276              		@ sp needed
+ 277 0052 70BD     		pop	{r4, r5, r6, pc}
+ 278              	.L20:
+ 279              		.align	2
+ 280              	.L19:
+ 281 0054 00000000 		.word	.LANCHOR0
+ 282 0058 00000000 		.word	Timer_AfterRead_In2
+ 283 005c 50000000 		.word	.LC1
+ 284 0060 B0000000 		.word	.LC4
+ 285 0064 D0010000 		.word	.LC8
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 6
+
+
+ 286 0068 00000000 		.word	In2
+ 287              		.size	Timer_AfterRead_Input2_Callback, .-Timer_AfterRead_Input2_Callback
+ 288              		.section	.text.Timer_AfterRead_Port2_Callback,"ax",%progbits
+ 289              		.align	2
+ 290              		.global	Timer_AfterRead_Port2_Callback
+ 291              		.thumb
+ 292              		.thumb_func
+ 293              		.type	Timer_AfterRead_Port2_Callback, %function
+ 294              	Timer_AfterRead_Port2_Callback:
+ 295              		@ args = 0, pretend = 0, frame = 256
+ 296              		@ frame_needed = 0, uses_anonymous_args = 0
+ 297 0000 70B5     		push	{r4, r5, r6, lr}
+ 298 0002 154C     		ldr	r4, .L23
+ 299 0004 C2B0     		sub	sp, sp, #264
+ 300 0006 1548     		ldr	r0, .L23+4
+ 301 0008 FFF7FEFF 		bl	OS_TIMER_Stop
+ 302 000c 616A     		ldr	r1, [r4, #36]
+ 303 000e 226A     		ldr	r2, [r4, #32]
+ 304 0010 0131     		adds	r1, r1, #1
+ 305 0012 8E18     		adds	r6, r1, r2
+ 306 0014 124D     		ldr	r5, .L23+8
+ 307 0016 0B46     		mov	r3, r1
+ 308 0018 6162     		str	r1, [r4, #36]
+ 309 001a 0096     		str	r6, [sp]
+ 310 001c 1149     		ldr	r1, .L23+12
+ 311 001e 02A8     		add	r0, sp, #8
+ 312 0020 A662     		str	r6, [r4, #40]
+ 313 0022 FFF7FEFF 		bl	sprintf
+ 314 0026 2846     		mov	r0, r5
+ 315 0028 FFF7FEFF 		bl	UART_Debug_PutString
+ 316 002c 0E48     		ldr	r0, .L23+16
+ 317 002e FFF7FEFF 		bl	UART_Debug_PutString
+ 318 0032 FFF7FEFF 		bl	CyWdtClear
+ 319 0036 02A8     		add	r0, sp, #8
+ 320 0038 FFF7FEFF 		bl	UART_Debug_PutString
+ 321 003c 2846     		mov	r0, r5
+ 322 003e FFF7FEFF 		bl	UART_Debug_PutString
+ 323 0042 FFF7FEFF 		bl	CyWdtClear
+ 324 0046 094A     		ldr	r2, .L23+20
+ 325 0048 0023     		movs	r3, #0
+ 326 004a E373     		strb	r3, [r4, #15]
+ 327 004c 2374     		strb	r3, [r4, #16]
+ 328 004e 6374     		strb	r3, [r4, #17]
+ 329 0050 1370     		strb	r3, [r2]
+ 330 0052 42B0     		add	sp, sp, #264
+ 331              		@ sp needed
+ 332 0054 70BD     		pop	{r4, r5, r6, pc}
+ 333              	.L24:
+ 334 0056 00BF     		.align	2
+ 335              	.L23:
+ 336 0058 00000000 		.word	.LANCHOR0
+ 337 005c 00000000 		.word	Timer_AfterRead_Port2
+ 338 0060 50000000 		.word	.LC1
+ 339 0064 48010000 		.word	.LC6
+ 340 0068 F4010000 		.word	.LC9
+ 341 006c 00000000 		.word	Port2_W
+ 342              		.size	Timer_AfterRead_Port2_Callback, .-Timer_AfterRead_Port2_Callback
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 7
+
+
+ 343              		.section	.text.Timer_WD_Callback,"ax",%progbits
+ 344              		.align	2
+ 345              		.global	Timer_WD_Callback
+ 346              		.thumb
+ 347              		.thumb_func
+ 348              		.type	Timer_WD_Callback, %function
+ 349              	Timer_WD_Callback:
+ 350              		@ args = 0, pretend = 0, frame = 0
+ 351              		@ frame_needed = 0, uses_anonymous_args = 0
+ 352 0000 10B5     		push	{r4, lr}
+ 353 0002 054C     		ldr	r4, .L27
+ 354 0004 2046     		mov	r0, r4
+ 355 0006 FFF7FEFF 		bl	OS_TIMER_Stop
+ 356 000a FFF7FEFF 		bl	CyWdtClear
+ 357 000e 2046     		mov	r0, r4
+ 358 0010 BDE81040 		pop	{r4, lr}
+ 359 0014 FFF7FEBF 		b	OS_TIMER_Restart
+ 360              	.L28:
+ 361              		.align	2
+ 362              	.L27:
+ 363 0018 00000000 		.word	Timer_WD
+ 364              		.size	Timer_WD_Callback, .-Timer_WD_Callback
+ 365              		.section	.text.Timer_RGB_LED_Callback,"ax",%progbits
+ 366              		.align	2
+ 367              		.global	Timer_RGB_LED_Callback
+ 368              		.thumb
+ 369              		.thumb_func
+ 370              		.type	Timer_RGB_LED_Callback, %function
+ 371              	Timer_RGB_LED_Callback:
+ 372              		@ args = 0, pretend = 0, frame = 256
+ 373              		@ frame_needed = 0, uses_anonymous_args = 0
+ 374 0000 10B5     		push	{r4, lr}
+ 375 0002 114C     		ldr	r4, .L36
+ 376 0004 C0B0     		sub	sp, sp, #256
+ 377 0006 1148     		ldr	r0, .L36+4
+ 378 0008 FFF7FEFF 		bl	OS_TIMER_Stop
+ 379 000c 94F82D20 		ldrb	r2, [r4, #45]	@ zero_extendqisi2
+ 380 0010 0123     		movs	r3, #1
+ 381 0012 9A42     		cmp	r2, r3
+ 382 0014 84F82C30 		strb	r3, [r4, #44]
+ 383 0018 11D0     		beq	.L30
+ 384 001a 1846     		mov	r0, r3
+ 385 001c 84F82D30 		strb	r3, [r4, #45]
+ 386 0020 FFF7FEFF 		bl	RGB
+ 387 0024 94F82C20 		ldrb	r2, [r4, #44]	@ zero_extendqisi2
+ 388 0028 0949     		ldr	r1, .L36+8
+ 389 002a 6846     		mov	r0, sp
+ 390 002c FFF7FEFF 		bl	sprintf
+ 391 0030 FFF7FEFF 		bl	CyWdtClear
+ 392 0034 6846     		mov	r0, sp
+ 393 0036 FFF7FEFF 		bl	UART_Debug_PutString
+ 394 003a FFF7FEFF 		bl	CyWdtClear
+ 395              	.L30:
+ 396 003e 0348     		ldr	r0, .L36+4
+ 397 0040 FFF7FEFF 		bl	OS_TIMER_Restart
+ 398 0044 40B0     		add	sp, sp, #256
+ 399              		@ sp needed
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 8
+
+
+ 400 0046 10BD     		pop	{r4, pc}
+ 401              	.L37:
+ 402              		.align	2
+ 403              	.L36:
+ 404 0048 00000000 		.word	.LANCHOR0
+ 405 004c 00000000 		.word	Timer_RGB_LED
+ 406 0050 18020000 		.word	.LC10
+ 407              		.size	Timer_RGB_LED_Callback, .-Timer_RGB_LED_Callback
+ 408              		.section	.text.Timer_Read_Linux_Callback,"ax",%progbits
+ 409              		.align	2
+ 410              		.global	Timer_Read_Linux_Callback
+ 411              		.thumb
+ 412              		.thumb_func
+ 413              		.type	Timer_Read_Linux_Callback, %function
+ 414              	Timer_Read_Linux_Callback:
+ 415              		@ args = 0, pretend = 0, frame = 128
+ 416              		@ frame_needed = 0, uses_anonymous_args = 0
+ 417 0000 30B5     		push	{r4, r5, lr}
+ 418 0002 144C     		ldr	r4, .L40
+ 419 0004 A1B0     		sub	sp, sp, #132
+ 420 0006 1448     		ldr	r0, .L40+4
+ 421 0008 FFF7FEFF 		bl	OS_TIMER_Stop
+ 422 000c 236B     		ldr	r3, [r4, #48]
+ 423 000e 134D     		ldr	r5, .L40+8
+ 424 0010 0133     		adds	r3, r3, #1
+ 425 0012 1A46     		mov	r2, r3
+ 426 0014 1249     		ldr	r1, .L40+12
+ 427 0016 6846     		mov	r0, sp
+ 428 0018 2363     		str	r3, [r4, #48]
+ 429 001a FFF7FEFF 		bl	sprintf
+ 430 001e 2846     		mov	r0, r5
+ 431 0020 FFF7FEFF 		bl	UART_Debug_PutString
+ 432 0024 0F48     		ldr	r0, .L40+16
+ 433 0026 FFF7FEFF 		bl	UART_Debug_PutString
+ 434 002a FFF7FEFF 		bl	CyWdtClear
+ 435 002e 6846     		mov	r0, sp
+ 436 0030 FFF7FEFF 		bl	UART_Debug_PutString
+ 437 0034 2846     		mov	r0, r5
+ 438 0036 FFF7FEFF 		bl	UART_Debug_PutString
+ 439 003a FFF7FEFF 		bl	CyWdtClear
+ 440 003e 626B     		ldr	r2, [r4, #52]
+ 441 0040 0021     		movs	r1, #0
+ 442 0042 0948     		ldr	r0, .L40+20
+ 443 0044 FFF7FEFF 		bl	memset
+ 444 0048 FFF7FEFF 		bl	CyWdtClear
+ 445 004c 0023     		movs	r3, #0
+ 446 004e 6363     		str	r3, [r4, #52]
+ 447 0050 21B0     		add	sp, sp, #132
+ 448              		@ sp needed
+ 449 0052 30BD     		pop	{r4, r5, pc}
+ 450              	.L41:
+ 451              		.align	2
+ 452              	.L40:
+ 453 0054 00000000 		.word	.LANCHOR0
+ 454 0058 00000000 		.word	Timer_Read_Linux
+ 455 005c 50000000 		.word	.LC1
+ 456 0060 44020000 		.word	.LC11
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 9
+
+
+ 457 0064 60020000 		.word	.LC12
+ 458 0068 00000000 		.word	UART_Linux_Rx_Buffer
+ 459              		.size	Timer_Read_Linux_Callback, .-Timer_Read_Linux_Callback
+ 460              		.section	.text.Port1_Job,"ax",%progbits
+ 461              		.align	2
+ 462              		.global	Port1_Job
+ 463              		.thumb
+ 464              		.thumb_func
+ 465              		.type	Port1_Job, %function
+ 466              	Port1_Job:
+ 467              		@ args = 0, pretend = 0, frame = 256
+ 468              		@ frame_needed = 0, uses_anonymous_args = 0
+ 469 0000 0138     		subs	r0, r0, #1
+ 470 0002 C0B2     		uxtb	r0, r0
+ 471 0004 0528     		cmp	r0, #5
+ 472 0006 19D8     		bhi	.L68
+ 473 0008 F0B5     		push	{r4, r5, r6, r7, lr}
+ 474 000a 604B     		ldr	r3, .L74
+ 475 000c 6049     		ldr	r1, .L74+4
+ 476 000e 614A     		ldr	r2, .L74+8
+ 477 0010 1B5C     		ldrb	r3, [r3, r0]	@ zero_extendqisi2
+ 478 0012 C3B0     		sub	sp, sp, #268
+ 479 0014 0D5C     		ldrb	r5, [r1, r0]	@ zero_extendqisi2
+ 480 0016 175C     		ldrb	r7, [r2, r0]	@ zero_extendqisi2
+ 481 0018 8BB1     		cbz	r3, .L69
+ 482 001a 5F48     		ldr	r0, .L74+12
+ 483 001c FFF7FEFF 		bl	OS_TIMER_GetStatus
+ 484 0020 5E4C     		ldr	r4, .L74+16
+ 485 0022 0028     		cmp	r0, #0
+ 486 0024 61D0     		beq	.L70
+ 487              	.L46:
+ 488 0026 A37B     		ldrb	r3, [r4, #14]	@ zero_extendqisi2
+ 489 0028 33B9     		cbnz	r3, .L42
+ 490 002a 002D     		cmp	r5, #0
+ 491 002c 00F0A680 		beq	.L71
+ 492              	.L49:
+ 493 0030 94F84430 		ldrb	r3, [r4, #68]	@ zero_extendqisi2
+ 494 0034 594E     		ldr	r6, .L74+16
+ 495 0036 23B1     		cbz	r3, .L72
+ 496              	.L42:
+ 497 0038 43B0     		add	sp, sp, #268
+ 498              		@ sp needed
+ 499 003a F0BD     		pop	{r4, r5, r6, r7, pc}
+ 500              	.L68:
+ 501 003c 7047     		bx	lr
+ 502              	.L69:
+ 503 003e 574C     		ldr	r4, .L74+16
+ 504 0040 F1E7     		b	.L46
+ 505              	.L72:
+ 506 0042 5748     		ldr	r0, .L74+20
+ 507 0044 FFF7FEFF 		bl	OS_TIMER_GetStatus
+ 508 0048 0028     		cmp	r0, #0
+ 509 004a F5D1     		bne	.L42
+ 510 004c 737B     		ldrb	r3, [r6, #13]	@ zero_extendqisi2
+ 511 004e 002B     		cmp	r3, #0
+ 512 0050 79D0     		beq	.L50
+ 513 0052 5448     		ldr	r0, .L74+24
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 10
+
+
+ 514 0054 FFF7FEFF 		bl	OS_TIMER_Restart
+ 515 0058 002D     		cmp	r5, #0
+ 516 005a 00F09580 		beq	.L73
+ 517 005e 337B     		ldrb	r3, [r6, #12]	@ zero_extendqisi2
+ 518 0060 514A     		ldr	r2, .L74+28
+ 519 0062 591C     		adds	r1, r3, #1
+ 520 0064 3020     		movs	r0, #48
+ 521 0066 C9B2     		uxtb	r1, r1
+ 522 0068 D054     		strb	r0, [r2, r3]
+ 523 006a 3173     		strb	r1, [r6, #12]
+ 524              	.L52:
+ 525 006c 2FB1     		cbz	r7, .L53
+ 526 006e 4E4A     		ldr	r2, .L74+28
+ 527 0070 3120     		movs	r0, #49
+ 528 0072 4B1C     		adds	r3, r1, #1
+ 529 0074 5054     		strb	r0, [r2, r1]
+ 530 0076 D9B2     		uxtb	r1, r3
+ 531 0078 2173     		strb	r1, [r4, #12]
+ 532              	.L53:
+ 533 007a 4C4B     		ldr	r3, .L74+32
+ 534 007c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 535 007e 0233     		adds	r3, r3, #2
+ 536 0080 8B42     		cmp	r3, r1
+ 537 0082 D9DA     		bge	.L42
+ 538 0084 A06C     		ldr	r0, [r4, #72]
+ 539 0086 E36C     		ldr	r3, [r4, #76]
+ 540 0088 0130     		adds	r0, r0, #1
+ 541 008a 474E     		ldr	r6, .L74+28
+ 542 008c C718     		adds	r7, r0, r3
+ 543 008e 0025     		movs	r5, #0
+ 544 0090 01F1010E 		add	lr, r1, #1
+ 545 0094 0246     		mov	r2, r0
+ 546 0096 0097     		str	r7, [sp]
+ 547 0098 A064     		str	r0, [r4, #72]
+ 548 009a 7554     		strb	r5, [r6, r1]
+ 549 009c 02A8     		add	r0, sp, #8
+ 550 009e 4449     		ldr	r1, .L74+36
+ 551 00a0 84F80CE0 		strb	lr, [r4, #12]
+ 552 00a4 2765     		str	r7, [r4, #80]
+ 553 00a6 FFF7FEFF 		bl	sprintf
+ 554 00aa 4248     		ldr	r0, .L74+40
+ 555 00ac FFF7FEFF 		bl	UART_Debug_PutString
+ 556 00b0 4148     		ldr	r0, .L74+44
+ 557 00b2 FFF7FEFF 		bl	UART_Debug_PutString
+ 558 00b6 FFF7FEFF 		bl	CyWdtClear
+ 559 00ba 3046     		mov	r0, r6
+ 560 00bc FFF7FEFF 		bl	UART_Debug_PutString
+ 561 00c0 FFF7FEFF 		bl	CyWdtClear
+ 562 00c4 3D48     		ldr	r0, .L74+48
+ 563 00c6 FFF7FEFF 		bl	UART_Debug_PutString
+ 564 00ca 02A8     		add	r0, sp, #8
+ 565 00cc FFF7FEFF 		bl	UART_Debug_PutString
+ 566 00d0 FFF7FEFF 		bl	CyWdtClear
+ 567 00d4 3348     		ldr	r0, .L74+24
+ 568 00d6 FFF7FEFF 		bl	OS_TIMER_Stop
+ 569 00da 0123     		movs	r3, #1
+ 570 00dc 3048     		ldr	r0, .L74+20
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 11
+
+
+ 571 00de 2573     		strb	r5, [r4, #12]
+ 572 00e0 6573     		strb	r5, [r4, #13]
+ 573 00e2 A373     		strb	r3, [r4, #14]
+ 574 00e4 FFF7FEFF 		bl	OS_TIMER_Restart
+ 575 00e8 A6E7     		b	.L42
+ 576              	.L70:
+ 577 00ea A16B     		ldr	r1, [r4, #56]
+ 578 00ec E36B     		ldr	r3, [r4, #60]
+ 579 00ee 0131     		adds	r1, r1, #1
+ 580 00f0 01EB030E 		add	lr, r1, r3
+ 581 00f4 324E     		ldr	r6, .L74+52
+ 582 00f6 0A46     		mov	r2, r1
+ 583 00f8 CDF800E0 		str	lr, [sp]
+ 584 00fc A163     		str	r1, [r4, #56]
+ 585 00fe C4F840E0 		str	lr, [r4, #64]
+ 586 0102 4921     		movs	r1, #73
+ 587 0104 4FF0310E 		mov	lr, #49
+ 588 0108 86F801E0 		strb	lr, [r6, #1]
+ 589 010c B070     		strb	r0, [r6, #2]
+ 590 010e 3170     		strb	r1, [r6]
+ 591 0110 02A8     		add	r0, sp, #8
+ 592 0112 2C49     		ldr	r1, .L74+56
+ 593 0114 FFF7FEFF 		bl	sprintf
+ 594 0118 2648     		ldr	r0, .L74+40
+ 595 011a FFF7FEFF 		bl	UART_Debug_PutString
+ 596 011e 2A48     		ldr	r0, .L74+60
+ 597 0120 FFF7FEFF 		bl	UART_Debug_PutString
+ 598 0124 FFF7FEFF 		bl	CyWdtClear
+ 599 0128 3046     		mov	r0, r6
+ 600 012a FFF7FEFF 		bl	UART_Debug_PutString
+ 601 012e 2348     		ldr	r0, .L74+48
+ 602 0130 FFF7FEFF 		bl	UART_Debug_PutString
+ 603 0134 02A8     		add	r0, sp, #8
+ 604 0136 FFF7FEFF 		bl	UART_Debug_PutString
+ 605 013a FFF7FEFF 		bl	CyWdtClear
+ 606 013e 1648     		ldr	r0, .L74+12
+ 607 0140 FFF7FEFF 		bl	OS_TIMER_Restart
+ 608 0144 6FE7     		b	.L46
+ 609              	.L50:
+ 610 0146 0123     		movs	r3, #1
+ 611 0148 1648     		ldr	r0, .L74+24
+ 612 014a 7373     		strb	r3, [r6, #13]
+ 613 014c FFF7FEFF 		bl	OS_TIMER_Restart
+ 614 0150 154A     		ldr	r2, .L74+28
+ 615 0152 5023     		movs	r3, #80
+ 616 0154 3120     		movs	r0, #49
+ 617 0156 5721     		movs	r1, #87
+ 618 0158 1370     		strb	r3, [r2]
+ 619 015a 0323     		movs	r3, #3
+ 620 015c 5070     		strb	r0, [r2, #1]
+ 621 015e 9170     		strb	r1, [r2, #2]
+ 622 0160 3373     		strb	r3, [r6, #12]
+ 623 0162 7DB1     		cbz	r5, .L55
+ 624 0164 3021     		movs	r1, #48
+ 625 0166 0423     		movs	r3, #4
+ 626 0168 D170     		strb	r1, [r2, #3]
+ 627 016a 3373     		strb	r3, [r6, #12]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 12
+
+
+ 628 016c 0521     		movs	r1, #5
+ 629              	.L54:
+ 630 016e 002F     		cmp	r7, #0
+ 631 0170 3FF462AF 		beq	.L42
+ 632 0174 3120     		movs	r0, #49
+ 633 0176 2173     		strb	r1, [r4, #12]
+ 634 0178 D054     		strb	r0, [r2, r3]
+ 635 017a 5DE7     		b	.L42
+ 636              	.L71:
+ 637 017c 002F     		cmp	r7, #0
+ 638 017e 7FF457AF 		bne	.L49
+ 639 0182 59E7     		b	.L42
+ 640              	.L55:
+ 641 0184 0421     		movs	r1, #4
+ 642 0186 F2E7     		b	.L54
+ 643              	.L73:
+ 644 0188 317B     		ldrb	r1, [r6, #12]	@ zero_extendqisi2
+ 645 018a 6FE7     		b	.L52
+ 646              	.L75:
+ 647              		.align	2
+ 648              	.L74:
+ 649 018c 10000000 		.word	CSWTCH.109
+ 650 0190 00000000 		.word	CSWTCH.107
+ 651 0194 08000000 		.word	CSWTCH.108
+ 652 0198 00000000 		.word	Timer_AfterRead_In1
+ 653 019c 00000000 		.word	.LANCHOR0
+ 654 01a0 00000000 		.word	Timer_AfterRead_Port1
+ 655 01a4 00000000 		.word	Timer_Read_W_Port1
+ 656 01a8 00000000 		.word	Port1_W
+ 657 01ac 00000000 		.word	.LANCHOR1
+ 658 01b0 0C030000 		.word	.LC17
+ 659 01b4 C8020000 		.word	.LC14
+ 660 01b8 5C030000 		.word	.LC18
+ 661 01bc 08030000 		.word	.LC16
+ 662 01c0 00000000 		.word	In1
+ 663 01c4 7C020000 		.word	.LC13
+ 664 01c8 EC020000 		.word	.LC15
+ 665              		.size	Port1_Job, .-Port1_Job
+ 666              		.section	.text.Port1_ISR,"ax",%progbits
+ 667              		.align	2
+ 668              		.global	Port1_ISR
+ 669              		.thumb
+ 670              		.thumb_func
+ 671              		.type	Port1_ISR, %function
+ 672              	Port1_ISR:
+ 673              		@ args = 0, pretend = 0, frame = 0
+ 674              		@ frame_needed = 0, uses_anonymous_args = 0
+ 675 0000 10B5     		push	{r4, lr}
+ 676              		.syntax unified
+ 677              	@ 656 "..\Application\OS_Main.c" 1
+ 678 0002 4FF08000 		mov  r0, #128    
+ 679 0006 80F31188 		msr  basepri, r0 
+ 680 000a 00BF     		nop              
+ 681 000c 00BF     		nop              
+ 682              		
+ 683              	@ 0 "" 2
+ 684              		.thumb
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 13
+
+
+ 685              		.syntax unified
+ 686 000e 114C     		ldr	r4, .L83
+ 687 0010 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 688 0012 0133     		adds	r3, r3, #1
+ 689 0014 DBB2     		uxtb	r3, r3
+ 690 0016 2370     		strb	r3, [r4]
+ 691 0018 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2
+ 692 001a 0133     		adds	r3, r3, #1
+ 693 001c DBB2     		uxtb	r3, r3
+ 694 001e 6370     		strb	r3, [r4, #1]
+ 695 0020 FFF7FEFF 		bl	Pins_Port1_ClearInterrupt
+ 696 0024 FFF7FEFF 		bl	Port1_Job
+ 697 0028 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2
+ 698 002a 013B     		subs	r3, r3, #1
+ 699 002c DBB2     		uxtb	r3, r3
+ 700 002e 6370     		strb	r3, [r4, #1]
+ 701 0030 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 702 0032 012B     		cmp	r3, #1
+ 703 0034 08D0     		beq	.L82
+ 704              	.L77:
+ 705 0036 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 706 0038 013B     		subs	r3, r3, #1
+ 707 003a DBB2     		uxtb	r3, r3
+ 708 003c 2370     		strb	r3, [r4]
+ 709              		.syntax unified
+ 710              	@ 662 "..\Application\OS_Main.c" 1
+ 711 003e 4FF00000 		mov  r0, #0      
+ 712 0042 80F31188 		msr  basepri, r0 
+ 713              		
+ 714              	@ 0 "" 2
+ 715              		.thumb
+ 716              		.syntax unified
+ 717 0046 10BD     		pop	{r4, pc}
+ 718              	.L82:
+ 719 0048 6368     		ldr	r3, [r4, #4]
+ 720 004a 002B     		cmp	r3, #0
+ 721 004c F3D0     		beq	.L77
+ 722 004e FFF7FEFF 		bl	OS_SwitchFromInt
+ 723 0052 F0E7     		b	.L77
+ 724              	.L84:
+ 725              		.align	2
+ 726              	.L83:
+ 727 0054 00000000 		.word	OS_Global
+ 728              		.size	Port1_ISR, .-Port1_ISR
+ 729              		.section	.text.Port2_Job,"ax",%progbits
+ 730              		.align	2
+ 731              		.global	Port2_Job
+ 732              		.thumb
+ 733              		.thumb_func
+ 734              		.type	Port2_Job, %function
+ 735              	Port2_Job:
+ 736              		@ args = 0, pretend = 0, frame = 256
+ 737              		@ frame_needed = 0, uses_anonymous_args = 0
+ 738 0000 0138     		subs	r0, r0, #1
+ 739 0002 C0B2     		uxtb	r0, r0
+ 740 0004 0528     		cmp	r0, #5
+ 741 0006 18D8     		bhi	.L111
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 14
+
+
+ 742 0008 F0B5     		push	{r4, r5, r6, r7, lr}
+ 743 000a 604A     		ldr	r2, .L117
+ 744 000c C3B0     		sub	sp, sp, #268
+ 745 000e 1318     		adds	r3, r2, r0
+ 746 0010 197C     		ldrb	r1, [r3, #16]	@ zero_extendqisi2
+ 747 0012 155C     		ldrb	r5, [r2, r0]	@ zero_extendqisi2
+ 748 0014 1F7A     		ldrb	r7, [r3, #8]	@ zero_extendqisi2
+ 749 0016 89B1     		cbz	r1, .L112
+ 750 0018 5D48     		ldr	r0, .L117+4
+ 751 001a FFF7FEFF 		bl	OS_TIMER_GetStatus
+ 752 001e 5D4C     		ldr	r4, .L117+8
+ 753 0020 0028     		cmp	r0, #0
+ 754 0022 61D0     		beq	.L113
+ 755              	.L89:
+ 756 0024 637C     		ldrb	r3, [r4, #17]	@ zero_extendqisi2
+ 757 0026 33B9     		cbnz	r3, .L85
+ 758 0028 002D     		cmp	r5, #0
+ 759 002a 00F0A680 		beq	.L114
+ 760              	.L92:
+ 761 002e 94F85430 		ldrb	r3, [r4, #84]	@ zero_extendqisi2
+ 762 0032 584E     		ldr	r6, .L117+8
+ 763 0034 23B1     		cbz	r3, .L115
+ 764              	.L85:
+ 765 0036 43B0     		add	sp, sp, #268
+ 766              		@ sp needed
+ 767 0038 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 768              	.L111:
+ 769 003a 7047     		bx	lr
+ 770              	.L112:
+ 771 003c 554C     		ldr	r4, .L117+8
+ 772 003e F1E7     		b	.L89
+ 773              	.L115:
+ 774 0040 5548     		ldr	r0, .L117+12
+ 775 0042 FFF7FEFF 		bl	OS_TIMER_GetStatus
+ 776 0046 0028     		cmp	r0, #0
+ 777 0048 F5D1     		bne	.L85
+ 778 004a 337C     		ldrb	r3, [r6, #16]	@ zero_extendqisi2
+ 779 004c 002B     		cmp	r3, #0
+ 780 004e 79D0     		beq	.L93
+ 781 0050 5248     		ldr	r0, .L117+16
+ 782 0052 FFF7FEFF 		bl	OS_TIMER_Restart
+ 783 0056 002D     		cmp	r5, #0
+ 784 0058 00F09580 		beq	.L116
+ 785 005c F37B     		ldrb	r3, [r6, #15]	@ zero_extendqisi2
+ 786 005e 504A     		ldr	r2, .L117+20
+ 787 0060 591C     		adds	r1, r3, #1
+ 788 0062 3020     		movs	r0, #48
+ 789 0064 C9B2     		uxtb	r1, r1
+ 790 0066 D054     		strb	r0, [r2, r3]
+ 791 0068 F173     		strb	r1, [r6, #15]
+ 792              	.L95:
+ 793 006a 2FB1     		cbz	r7, .L96
+ 794 006c 4C4A     		ldr	r2, .L117+20
+ 795 006e 3120     		movs	r0, #49
+ 796 0070 4B1C     		adds	r3, r1, #1
+ 797 0072 5054     		strb	r0, [r2, r1]
+ 798 0074 D9B2     		uxtb	r1, r3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 15
+
+
+ 799 0076 E173     		strb	r1, [r4, #15]
+ 800              	.L96:
+ 801 0078 4A4B     		ldr	r3, .L117+24
+ 802 007a 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 803 007c 0233     		adds	r3, r3, #2
+ 804 007e 8B42     		cmp	r3, r1
+ 805 0080 D9DA     		bge	.L85
+ 806 0082 E06C     		ldr	r0, [r4, #76]
+ 807 0084 A26C     		ldr	r2, [r4, #72]
+ 808 0086 0130     		adds	r0, r0, #1
+ 809 0088 454E     		ldr	r6, .L117+20
+ 810 008a 8718     		adds	r7, r0, r2
+ 811 008c 0025     		movs	r5, #0
+ 812 008e 01F1010E 		add	lr, r1, #1
+ 813 0092 0346     		mov	r3, r0
+ 814 0094 0097     		str	r7, [sp]
+ 815 0096 E064     		str	r0, [r4, #76]
+ 816 0098 7554     		strb	r5, [r6, r1]
+ 817 009a 02A8     		add	r0, sp, #8
+ 818 009c 4249     		ldr	r1, .L117+28
+ 819 009e 84F80FE0 		strb	lr, [r4, #15]
+ 820 00a2 2765     		str	r7, [r4, #80]
+ 821 00a4 FFF7FEFF 		bl	sprintf
+ 822 00a8 4048     		ldr	r0, .L117+32
+ 823 00aa FFF7FEFF 		bl	UART_Debug_PutString
+ 824 00ae 4048     		ldr	r0, .L117+36
+ 825 00b0 FFF7FEFF 		bl	UART_Debug_PutString
+ 826 00b4 FFF7FEFF 		bl	CyWdtClear
+ 827 00b8 3046     		mov	r0, r6
+ 828 00ba FFF7FEFF 		bl	UART_Debug_PutString
+ 829 00be FFF7FEFF 		bl	CyWdtClear
+ 830 00c2 3C48     		ldr	r0, .L117+40
+ 831 00c4 FFF7FEFF 		bl	UART_Debug_PutString
+ 832 00c8 FFF7FEFF 		bl	CyWdtClear
+ 833 00cc 02A8     		add	r0, sp, #8
+ 834 00ce FFF7FEFF 		bl	UART_Debug_PutString
+ 835 00d2 3248     		ldr	r0, .L117+16
+ 836 00d4 FFF7FEFF 		bl	OS_TIMER_Stop
+ 837 00d8 0123     		movs	r3, #1
+ 838 00da 2F48     		ldr	r0, .L117+12
+ 839 00dc E573     		strb	r5, [r4, #15]
+ 840 00de 2574     		strb	r5, [r4, #16]
+ 841 00e0 6374     		strb	r3, [r4, #17]
+ 842 00e2 FFF7FEFF 		bl	OS_TIMER_Restart
+ 843 00e6 A6E7     		b	.L85
+ 844              	.L113:
+ 845 00e8 E16B     		ldr	r1, [r4, #60]
+ 846 00ea A26B     		ldr	r2, [r4, #56]
+ 847 00ec 0131     		adds	r1, r1, #1
+ 848 00ee 01EB020E 		add	lr, r1, r2
+ 849 00f2 314E     		ldr	r6, .L117+44
+ 850 00f4 0B46     		mov	r3, r1
+ 851 00f6 CDF800E0 		str	lr, [sp]
+ 852 00fa E163     		str	r1, [r4, #60]
+ 853 00fc C4F840E0 		str	lr, [r4, #64]
+ 854 0100 4921     		movs	r1, #73
+ 855 0102 4FF0320E 		mov	lr, #50
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 16
+
+
+ 856 0106 86F801E0 		strb	lr, [r6, #1]
+ 857 010a B070     		strb	r0, [r6, #2]
+ 858 010c 3170     		strb	r1, [r6]
+ 859 010e 02A8     		add	r0, sp, #8
+ 860 0110 2A49     		ldr	r1, .L117+48
+ 861 0112 FFF7FEFF 		bl	sprintf
+ 862 0116 2548     		ldr	r0, .L117+32
+ 863 0118 FFF7FEFF 		bl	UART_Debug_PutString
+ 864 011c 2848     		ldr	r0, .L117+52
+ 865 011e FFF7FEFF 		bl	UART_Debug_PutString
+ 866 0122 FFF7FEFF 		bl	CyWdtClear
+ 867 0126 3046     		mov	r0, r6
+ 868 0128 FFF7FEFF 		bl	UART_Debug_PutString
+ 869 012c 2148     		ldr	r0, .L117+40
+ 870 012e FFF7FEFF 		bl	UART_Debug_PutString
+ 871 0132 02A8     		add	r0, sp, #8
+ 872 0134 FFF7FEFF 		bl	UART_Debug_PutString
+ 873 0138 FFF7FEFF 		bl	CyWdtClear
+ 874 013c 1448     		ldr	r0, .L117+4
+ 875 013e FFF7FEFF 		bl	OS_TIMER_Restart
+ 876 0142 6FE7     		b	.L89
+ 877              	.L93:
+ 878 0144 0123     		movs	r3, #1
+ 879 0146 1548     		ldr	r0, .L117+16
+ 880 0148 3374     		strb	r3, [r6, #16]
+ 881 014a FFF7FEFF 		bl	OS_TIMER_Restart
+ 882 014e 144A     		ldr	r2, .L117+20
+ 883 0150 5023     		movs	r3, #80
+ 884 0152 3220     		movs	r0, #50
+ 885 0154 5721     		movs	r1, #87
+ 886 0156 1370     		strb	r3, [r2]
+ 887 0158 0323     		movs	r3, #3
+ 888 015a 5070     		strb	r0, [r2, #1]
+ 889 015c 9170     		strb	r1, [r2, #2]
+ 890 015e F373     		strb	r3, [r6, #15]
+ 891 0160 7DB1     		cbz	r5, .L98
+ 892 0162 3021     		movs	r1, #48
+ 893 0164 0423     		movs	r3, #4
+ 894 0166 D170     		strb	r1, [r2, #3]
+ 895 0168 F373     		strb	r3, [r6, #15]
+ 896 016a 0521     		movs	r1, #5
+ 897              	.L97:
+ 898 016c 002F     		cmp	r7, #0
+ 899 016e 3FF462AF 		beq	.L85
+ 900 0172 3120     		movs	r0, #49
+ 901 0174 E173     		strb	r1, [r4, #15]
+ 902 0176 D054     		strb	r0, [r2, r3]
+ 903 0178 5DE7     		b	.L85
+ 904              	.L114:
+ 905 017a 002F     		cmp	r7, #0
+ 906 017c 7FF457AF 		bne	.L92
+ 907 0180 59E7     		b	.L85
+ 908              	.L98:
+ 909 0182 0421     		movs	r1, #4
+ 910 0184 F2E7     		b	.L97
+ 911              	.L116:
+ 912 0186 F17B     		ldrb	r1, [r6, #15]	@ zero_extendqisi2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 17
+
+
+ 913 0188 6FE7     		b	.L95
+ 914              	.L118:
+ 915 018a 00BF     		.align	2
+ 916              	.L117:
+ 917 018c 00000000 		.word	.LANCHOR2
+ 918 0190 00000000 		.word	Timer_AfterRead_In2
+ 919 0194 00000000 		.word	.LANCHOR0
+ 920 0198 00000000 		.word	Timer_AfterRead_Port2
+ 921 019c 00000000 		.word	Timer_Read_W_Port2
+ 922 01a0 00000000 		.word	Port2_W
+ 923 01a4 00000000 		.word	.LANCHOR1
+ 924 01a8 0C030000 		.word	.LC17
+ 925 01ac C8020000 		.word	.LC14
+ 926 01b0 88030000 		.word	.LC20
+ 927 01b4 08030000 		.word	.LC16
+ 928 01b8 00000000 		.word	In2
+ 929 01bc 7C020000 		.word	.LC13
+ 930 01c0 6C030000 		.word	.LC19
+ 931              		.size	Port2_Job, .-Port2_Job
+ 932              		.section	.text.Port2_ISR,"ax",%progbits
+ 933              		.align	2
+ 934              		.global	Port2_ISR
+ 935              		.thumb
+ 936              		.thumb_func
+ 937              		.type	Port2_ISR, %function
+ 938              	Port2_ISR:
+ 939              		@ args = 0, pretend = 0, frame = 0
+ 940              		@ frame_needed = 0, uses_anonymous_args = 0
+ 941 0000 10B5     		push	{r4, lr}
+ 942              		.syntax unified
+ 943              	@ 670 "..\Application\OS_Main.c" 1
+ 944 0002 4FF08000 		mov  r0, #128    
+ 945 0006 80F31188 		msr  basepri, r0 
+ 946 000a 00BF     		nop              
+ 947 000c 00BF     		nop              
+ 948              		
+ 949              	@ 0 "" 2
+ 950              		.thumb
+ 951              		.syntax unified
+ 952 000e 114C     		ldr	r4, .L126
+ 953 0010 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 954 0012 0133     		adds	r3, r3, #1
+ 955 0014 DBB2     		uxtb	r3, r3
+ 956 0016 2370     		strb	r3, [r4]
+ 957 0018 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2
+ 958 001a 0133     		adds	r3, r3, #1
+ 959 001c DBB2     		uxtb	r3, r3
+ 960 001e 6370     		strb	r3, [r4, #1]
+ 961 0020 FFF7FEFF 		bl	Pins_Port2_ClearInterrupt
+ 962 0024 FFF7FEFF 		bl	Port2_Job
+ 963 0028 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2
+ 964 002a 013B     		subs	r3, r3, #1
+ 965 002c DBB2     		uxtb	r3, r3
+ 966 002e 6370     		strb	r3, [r4, #1]
+ 967 0030 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 968 0032 012B     		cmp	r3, #1
+ 969 0034 08D0     		beq	.L125
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 18
+
+
+ 970              	.L120:
+ 971 0036 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 972 0038 013B     		subs	r3, r3, #1
+ 973 003a DBB2     		uxtb	r3, r3
+ 974 003c 2370     		strb	r3, [r4]
+ 975              		.syntax unified
+ 976              	@ 676 "..\Application\OS_Main.c" 1
+ 977 003e 4FF00000 		mov  r0, #0      
+ 978 0042 80F31188 		msr  basepri, r0 
+ 979              		
+ 980              	@ 0 "" 2
+ 981              		.thumb
+ 982              		.syntax unified
+ 983 0046 10BD     		pop	{r4, pc}
+ 984              	.L125:
+ 985 0048 6368     		ldr	r3, [r4, #4]
+ 986 004a 002B     		cmp	r3, #0
+ 987 004c F3D0     		beq	.L120
+ 988 004e FFF7FEFF 		bl	OS_SwitchFromInt
+ 989 0052 F0E7     		b	.L120
+ 990              	.L127:
+ 991              		.align	2
+ 992              	.L126:
+ 993 0054 00000000 		.word	OS_Global
+ 994              		.size	Port2_ISR, .-Port2_ISR
+ 995              		.section	.text.CmdTask,"ax",%progbits
+ 996              		.align	2
+ 997              		.global	CmdTask
+ 998              		.thumb
+ 999              		.thumb_func
+ 1000              		.type	CmdTask, %function
+ 1001              	CmdTask:
+ 1002              		@ args = 0, pretend = 0, frame = 256
+ 1003              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1004 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 1005 0002 0B22     		movs	r2, #11
+ 1006 0004 C3B0     		sub	sp, sp, #268
+ 1007 0006 B749     		ldr	r1, .L203
+ 1008 0008 0546     		mov	r5, r0
+ 1009 000a FFF7FEFF 		bl	memcmp
+ 1010 000e 48B9     		cbnz	r0, .L129
+ 1011 0010 B54D     		ldr	r5, .L203+4
+ 1012 0012 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 1013 0014 23B1     		cbz	r3, .L128
+ 1014 0016 B54E     		ldr	r6, .L203+8
+ 1015 0018 B37B     		ldrb	r3, [r6, #14]	@ zero_extendqisi2
+ 1016 001a 002B     		cmp	r3, #0
+ 1017 001c 40F09980 		bne	.L195
+ 1018              	.L128:
+ 1019 0020 43B0     		add	sp, sp, #268
+ 1020              		@ sp needed
+ 1021 0022 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 1022              	.L129:
+ 1023 0024 0B22     		movs	r2, #11
+ 1024 0026 B249     		ldr	r1, .L203+12
+ 1025 0028 2846     		mov	r0, r5
+ 1026 002a FFF7FEFF 		bl	memcmp
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 19
+
+
+ 1027 002e 0446     		mov	r4, r0
+ 1028 0030 0028     		cmp	r0, #0
+ 1029 0032 38D1     		bne	.L133
+ 1030 0034 AF4D     		ldr	r5, .L203+16
+ 1031 0036 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 1032 0038 002B     		cmp	r3, #0
+ 1033 003a F1D0     		beq	.L128
+ 1034 003c AB4E     		ldr	r6, .L203+8
+ 1035 003e 737C     		ldrb	r3, [r6, #17]	@ zero_extendqisi2
+ 1036 0040 002B     		cmp	r3, #0
+ 1037 0042 EDD0     		beq	.L128
+ 1038 0044 2846     		mov	r0, r5
+ 1039 0046 FFF7FEFF 		bl	strlen
+ 1040 004a 411C     		adds	r1, r0, #1
+ 1041 004c 89B2     		uxth	r1, r1
+ 1042 004e 2846     		mov	r0, r5
+ 1043 0050 FFF7FEFF 		bl	UART_Linux_PutArray
+ 1044 0054 F16D     		ldr	r1, [r6, #92]
+ 1045 0056 B26D     		ldr	r2, [r6, #88]
+ 1046 0058 0131     		adds	r1, r1, #1
+ 1047 005a 8F18     		adds	r7, r1, r2
+ 1048 005c 0B46     		mov	r3, r1
+ 1049 005e F165     		str	r1, [r6, #92]
+ 1050 0060 0097     		str	r7, [sp]
+ 1051 0062 A549     		ldr	r1, .L203+20
+ 1052 0064 02A8     		add	r0, sp, #8
+ 1053 0066 3766     		str	r7, [r6, #96]
+ 1054 0068 FFF7FEFF 		bl	sprintf
+ 1055 006c A348     		ldr	r0, .L203+24
+ 1056 006e FFF7FEFF 		bl	UART_Debug_PutString
+ 1057 0072 2846     		mov	r0, r5
+ 1058 0074 FFF7FEFF 		bl	UART_Debug_PutString
+ 1059 0078 FFF7FEFF 		bl	CyWdtClear
+ 1060 007c A048     		ldr	r0, .L203+28
+ 1061 007e FFF7FEFF 		bl	UART_Debug_PutString
+ 1062 0082 02A8     		add	r0, sp, #8
+ 1063 0084 FFF7FEFF 		bl	UART_Debug_PutString
+ 1064 0088 FFF7FEFF 		bl	CyWdtClear
+ 1065 008c 9D48     		ldr	r0, .L203+32
+ 1066 008e FFF7FEFF 		bl	OS_TIMER_Stop
+ 1067 0092 9D48     		ldr	r0, .L203+36
+ 1068 0094 F473     		strb	r4, [r6, #15]
+ 1069 0096 3474     		strb	r4, [r6, #16]
+ 1070 0098 2C70     		strb	r4, [r5]
+ 1071 009a 7474     		strb	r4, [r6, #17]
+ 1072 009c FFF7FEFF 		bl	UART_Debug_PutString
+ 1073 00a0 FFF7FEFF 		bl	CyWdtClear
+ 1074 00a4 BCE7     		b	.L128
+ 1075              	.L133:
+ 1076 00a6 0C22     		movs	r2, #12
+ 1077 00a8 9849     		ldr	r1, .L203+40
+ 1078 00aa 2846     		mov	r0, r5
+ 1079 00ac FFF7FEFF 		bl	memcmp
+ 1080 00b0 0446     		mov	r4, r0
+ 1081 00b2 50B3     		cbz	r0, .L196
+ 1082 00b4 0C22     		movs	r2, #12
+ 1083 00b6 9649     		ldr	r1, .L203+44
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 20
+
+
+ 1084 00b8 2846     		mov	r0, r5
+ 1085 00ba FFF7FEFF 		bl	memcmp
+ 1086 00be 0446     		mov	r4, r0
+ 1087 00c0 0028     		cmp	r0, #0
+ 1088 00c2 78D1     		bne	.L135
+ 1089 00c4 934D     		ldr	r5, .L203+48
+ 1090 00c6 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 1091 00c8 002B     		cmp	r3, #0
+ 1092 00ca A9D0     		beq	.L128
+ 1093 00cc 2846     		mov	r0, r5
+ 1094 00ce FFF7FEFF 		bl	strlen
+ 1095 00d2 411C     		adds	r1, r0, #1
+ 1096 00d4 89B2     		uxth	r1, r1
+ 1097 00d6 2846     		mov	r0, r5
+ 1098 00d8 FFF7FEFF 		bl	UART_Linux_PutArray
+ 1099 00dc 8E48     		ldr	r0, .L203+52
+ 1100 00de FFF7FEFF 		bl	UART_Debug_PutString
+ 1101 00e2 2846     		mov	r0, r5
+ 1102 00e4 FFF7FEFF 		bl	UART_Debug_PutString
+ 1103 00e8 FFF7FEFF 		bl	CyWdtClear
+ 1104 00ec 8448     		ldr	r0, .L203+28
+ 1105 00ee FFF7FEFF 		bl	UART_Debug_PutString
+ 1106 00f2 8A48     		ldr	r0, .L203+56
+ 1107 00f4 FFF7FEFF 		bl	OS_TIMER_Stop
+ 1108 00f8 8348     		ldr	r0, .L203+36
+ 1109 00fa 2C70     		strb	r4, [r5]
+ 1110 00fc 6C70     		strb	r4, [r5, #1]
+ 1111 00fe AC70     		strb	r4, [r5, #2]
+ 1112 0100 FFF7FEFF 		bl	UART_Debug_PutString
+ 1113 0104 FFF7FEFF 		bl	CyWdtClear
+ 1114 0108 8AE7     		b	.L128
+ 1115              	.L196:
+ 1116 010a 854D     		ldr	r5, .L203+60
+ 1117 010c 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 1118 010e 002B     		cmp	r3, #0
+ 1119 0110 86D0     		beq	.L128
+ 1120 0112 2846     		mov	r0, r5
+ 1121 0114 FFF7FEFF 		bl	strlen
+ 1122 0118 411C     		adds	r1, r0, #1
+ 1123 011a 89B2     		uxth	r1, r1
+ 1124 011c 2846     		mov	r0, r5
+ 1125 011e FFF7FEFF 		bl	UART_Linux_PutArray
+ 1126 0122 8048     		ldr	r0, .L203+64
+ 1127 0124 FFF7FEFF 		bl	OS_TIMER_Stop
+ 1128 0128 7F48     		ldr	r0, .L203+68
+ 1129 012a FFF7FEFF 		bl	UART_Debug_PutString
+ 1130 012e 2846     		mov	r0, r5
+ 1131 0130 FFF7FEFF 		bl	UART_Debug_PutString
+ 1132 0134 FFF7FEFF 		bl	CyWdtClear
+ 1133 0138 7148     		ldr	r0, .L203+28
+ 1134 013a FFF7FEFF 		bl	UART_Debug_PutString
+ 1135 013e 7948     		ldr	r0, .L203+64
+ 1136 0140 FFF7FEFF 		bl	OS_TIMER_Stop
+ 1137 0144 7048     		ldr	r0, .L203+36
+ 1138 0146 2C70     		strb	r4, [r5]
+ 1139 0148 6C70     		strb	r4, [r5, #1]
+ 1140 014a AC70     		strb	r4, [r5, #2]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 21
+
+
+ 1141 014c FFF7FEFF 		bl	UART_Debug_PutString
+ 1142 0150 66E7     		b	.L128
+ 1143              	.L195:
+ 1144 0152 0446     		mov	r4, r0
+ 1145 0154 2846     		mov	r0, r5
+ 1146 0156 FFF7FEFF 		bl	strlen
+ 1147 015a 411C     		adds	r1, r0, #1
+ 1148 015c 89B2     		uxth	r1, r1
+ 1149 015e 2846     		mov	r0, r5
+ 1150 0160 FFF7FEFF 		bl	UART_Linux_PutArray
+ 1151 0164 B16D     		ldr	r1, [r6, #88]
+ 1152 0166 F36D     		ldr	r3, [r6, #92]
+ 1153 0168 0131     		adds	r1, r1, #1
+ 1154 016a CF18     		adds	r7, r1, r3
+ 1155 016c 0A46     		mov	r2, r1
+ 1156 016e B165     		str	r1, [r6, #88]
+ 1157 0170 0097     		str	r7, [sp]
+ 1158 0172 6149     		ldr	r1, .L203+20
+ 1159 0174 02A8     		add	r0, sp, #8
+ 1160 0176 3766     		str	r7, [r6, #96]
+ 1161 0178 FFF7FEFF 		bl	sprintf
+ 1162 017c 6B48     		ldr	r0, .L203+72
+ 1163 017e FFF7FEFF 		bl	UART_Debug_PutString
+ 1164 0182 2846     		mov	r0, r5
+ 1165 0184 FFF7FEFF 		bl	UART_Debug_PutString
+ 1166 0188 FFF7FEFF 		bl	CyWdtClear
+ 1167 018c 5C48     		ldr	r0, .L203+28
+ 1168 018e FFF7FEFF 		bl	UART_Debug_PutString
+ 1169 0192 02A8     		add	r0, sp, #8
+ 1170 0194 FFF7FEFF 		bl	UART_Debug_PutString
+ 1171 0198 FFF7FEFF 		bl	CyWdtClear
+ 1172 019c 6448     		ldr	r0, .L203+76
+ 1173 019e FFF7FEFF 		bl	OS_TIMER_Stop
+ 1174 01a2 5948     		ldr	r0, .L203+36
+ 1175 01a4 3473     		strb	r4, [r6, #12]
+ 1176 01a6 7473     		strb	r4, [r6, #13]
+ 1177 01a8 2C70     		strb	r4, [r5]
+ 1178 01aa B473     		strb	r4, [r6, #14]
+ 1179 01ac FFF7FEFF 		bl	UART_Debug_PutString
+ 1180 01b0 FFF7FEFF 		bl	CyWdtClear
+ 1181 01b4 34E7     		b	.L128
+ 1182              	.L135:
+ 1183 01b6 0B22     		movs	r2, #11
+ 1184 01b8 5E49     		ldr	r1, .L203+80
+ 1185 01ba 2846     		mov	r0, r5
+ 1186 01bc FFF7FEFF 		bl	memcmp
+ 1187 01c0 D0B1     		cbz	r0, .L197
+ 1188 01c2 0C22     		movs	r2, #12
+ 1189 01c4 5C49     		ldr	r1, .L203+84
+ 1190 01c6 2846     		mov	r0, r5
+ 1191 01c8 FFF7FEFF 		bl	memcmp
+ 1192 01cc 0346     		mov	r3, r0
+ 1193 01ce 28BB     		cbnz	r0, .L138
+ 1194 01d0 464C     		ldr	r4, .L203+8
+ 1195 01d2 94F86500 		ldrb	r0, [r4, #101]	@ zero_extendqisi2
+ 1196 01d6 84F86430 		strb	r3, [r4, #100]
+ 1197 01da 40B1     		cbz	r0, .L139
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 22
+
+
+ 1198 01dc 5748     		ldr	r0, .L203+88
+ 1199 01de 84F86530 		strb	r3, [r4, #101]
+ 1200 01e2 FFF7FEFF 		bl	UART_Debug_PutString
+ 1201 01e6 FFF7FEFF 		bl	CyWdtClear
+ 1202 01ea 94F86400 		ldrb	r0, [r4, #100]	@ zero_extendqisi2
+ 1203              	.L139:
+ 1204 01ee FFF7FEFF 		bl	Relay_Port1_Write
+ 1205 01f2 FFF7FEFF 		bl	CyWdtClear
+ 1206 01f6 13E7     		b	.L128
+ 1207              	.L197:
+ 1208 01f8 3C4C     		ldr	r4, .L203+8
+ 1209 01fa 0123     		movs	r3, #1
+ 1210 01fc 94F86500 		ldrb	r0, [r4, #101]	@ zero_extendqisi2
+ 1211 0200 84F86430 		strb	r3, [r4, #100]
+ 1212 0204 9842     		cmp	r0, r3
+ 1213 0206 F2D0     		beq	.L139
+ 1214 0208 4D48     		ldr	r0, .L203+92
+ 1215 020a 84F86530 		strb	r3, [r4, #101]
+ 1216 020e FFF7FEFF 		bl	UART_Debug_PutString
+ 1217 0212 FFF7FEFF 		bl	CyWdtClear
+ 1218 0216 94F86400 		ldrb	r0, [r4, #100]	@ zero_extendqisi2
+ 1219 021a E8E7     		b	.L139
+ 1220              	.L138:
+ 1221 021c 0B22     		movs	r2, #11
+ 1222 021e 4949     		ldr	r1, .L203+96
+ 1223 0220 2846     		mov	r0, r5
+ 1224 0222 FFF7FEFF 		bl	memcmp
+ 1225 0226 A8B9     		cbnz	r0, .L140
+ 1226 0228 304C     		ldr	r4, .L203+8
+ 1227 022a 0123     		movs	r3, #1
+ 1228 022c 94F86700 		ldrb	r0, [r4, #103]	@ zero_extendqisi2
+ 1229 0230 84F86630 		strb	r3, [r4, #102]
+ 1230 0234 9842     		cmp	r0, r3
+ 1231 0236 08D0     		beq	.L143
+ 1232 0238 4348     		ldr	r0, .L203+100
+ 1233 023a 84F86730 		strb	r3, [r4, #103]
+ 1234 023e FFF7FEFF 		bl	UART_Debug_PutString
+ 1235 0242 FFF7FEFF 		bl	CyWdtClear
+ 1236 0246 94F86600 		ldrb	r0, [r4, #102]	@ zero_extendqisi2
+ 1237              	.L143:
+ 1238 024a FFF7FEFF 		bl	Relay_Port2_Write
+ 1239 024e FFF7FEFF 		bl	CyWdtClear
+ 1240 0252 E5E6     		b	.L128
+ 1241              	.L140:
+ 1242 0254 0C22     		movs	r2, #12
+ 1243 0256 3D49     		ldr	r1, .L203+104
+ 1244 0258 2846     		mov	r0, r5
+ 1245 025a FFF7FEFF 		bl	memcmp
+ 1246 025e 0346     		mov	r3, r0
+ 1247 0260 80B9     		cbnz	r0, .L142
+ 1248 0262 224C     		ldr	r4, .L203+8
+ 1249 0264 94F86700 		ldrb	r0, [r4, #103]	@ zero_extendqisi2
+ 1250 0268 84F86630 		strb	r3, [r4, #102]
+ 1251 026c 0028     		cmp	r0, #0
+ 1252 026e ECD0     		beq	.L143
+ 1253 0270 3748     		ldr	r0, .L203+108
+ 1254 0272 84F86730 		strb	r3, [r4, #103]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 23
+
+
+ 1255 0276 FFF7FEFF 		bl	UART_Debug_PutString
+ 1256 027a FFF7FEFF 		bl	CyWdtClear
+ 1257 027e 94F86600 		ldrb	r0, [r4, #102]	@ zero_extendqisi2
+ 1258 0282 E2E7     		b	.L143
+ 1259              	.L142:
+ 1260 0284 0B22     		movs	r2, #11
+ 1261 0286 3349     		ldr	r1, .L203+112
+ 1262 0288 2846     		mov	r0, r5
+ 1263 028a FFF7FEFF 		bl	memcmp
+ 1264 028e 80B9     		cbnz	r0, .L144
+ 1265 0290 164C     		ldr	r4, .L203+8
+ 1266 0292 0122     		movs	r2, #1
+ 1267 0294 94F86830 		ldrb	r3, [r4, #104]	@ zero_extendqisi2
+ 1268 0298 84F84420 		strb	r2, [r4, #68]
+ 1269 029c 9342     		cmp	r3, r2
+ 1270 029e 3FF4BFAE 		beq	.L128
+ 1271 02a2 2D48     		ldr	r0, .L203+116
+ 1272 02a4 84F86820 		strb	r2, [r4, #104]
+ 1273 02a8 FFF7FEFF 		bl	UART_Debug_PutString
+ 1274 02ac FFF7FEFF 		bl	CyWdtClear
+ 1275 02b0 B6E6     		b	.L128
+ 1276              	.L144:
+ 1277 02b2 0D22     		movs	r2, #13
+ 1278 02b4 2949     		ldr	r1, .L203+120
+ 1279 02b6 2846     		mov	r0, r5
+ 1280 02b8 FFF7FEFF 		bl	memcmp
+ 1281 02bc 0028     		cmp	r0, #0
+ 1282 02be 51D1     		bne	.L145
+ 1283 02c0 0A4B     		ldr	r3, .L203+8
+ 1284 02c2 0022     		movs	r2, #0
+ 1285 02c4 93F86810 		ldrb	r1, [r3, #104]	@ zero_extendqisi2
+ 1286 02c8 83F84420 		strb	r2, [r3, #68]
+ 1287 02cc 0029     		cmp	r1, #0
+ 1288 02ce 3FF4A7AE 		beq	.L128
+ 1289 02d2 2348     		ldr	r0, .L203+124
+ 1290 02d4 83F86820 		strb	r2, [r3, #104]
+ 1291 02d8 FFF7FEFF 		bl	UART_Debug_PutString
+ 1292 02dc FFF7FEFF 		bl	CyWdtClear
+ 1293 02e0 9EE6     		b	.L128
+ 1294              	.L204:
+ 1295 02e2 00BF     		.align	2
+ 1296              	.L203:
+ 1297 02e4 98030000 		.word	.LC21
+ 1298 02e8 00000000 		.word	Port1_W
+ 1299 02ec 00000000 		.word	.LANCHOR0
+ 1300 02f0 4C040000 		.word	.LC25
+ 1301 02f4 00000000 		.word	Port2_W
+ 1302 02f8 A4030000 		.word	.LC22
+ 1303 02fc 58040000 		.word	.LC26
+ 1304 0300 08030000 		.word	.LC16
+ 1305 0304 00000000 		.word	Timer_AfterRead_Port2
+ 1306 0308 2C040000 		.word	.LC24
+ 1307 030c 7C040000 		.word	.LC27
+ 1308 0310 B4040000 		.word	.LC29
+ 1309 0314 00000000 		.word	In2
+ 1310 0318 C4040000 		.word	.LC30
+ 1311 031c 00000000 		.word	Timer_AfterRead_In2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 24
+
+
+ 1312 0320 00000000 		.word	In1
+ 1313 0324 00000000 		.word	Timer_AfterRead_In1
+ 1314 0328 8C040000 		.word	.LC28
+ 1315 032c 08040000 		.word	.LC23
+ 1316 0330 00000000 		.word	Timer_AfterRead_Port1
+ 1317 0334 EC040000 		.word	.LC31
+ 1318 0338 08050000 		.word	.LC33
+ 1319 033c 18050000 		.word	.LC34
+ 1320 0340 F8040000 		.word	.LC32
+ 1321 0344 28050000 		.word	.LC35
+ 1322 0348 34050000 		.word	.LC36
+ 1323 034c 44050000 		.word	.LC37
+ 1324 0350 54050000 		.word	.LC38
+ 1325 0354 64050000 		.word	.LC39
+ 1326 0358 70050000 		.word	.LC40
+ 1327 035c 80050000 		.word	.LC41
+ 1328 0360 90050000 		.word	.LC42
+ 1329              	.L145:
+ 1330 0364 0B22     		movs	r2, #11
+ 1331 0366 6A49     		ldr	r1, .L205
+ 1332 0368 2846     		mov	r0, r5
+ 1333 036a FFF7FEFF 		bl	memcmp
+ 1334 036e 80B9     		cbnz	r0, .L146
+ 1335 0370 684B     		ldr	r3, .L205+4
+ 1336 0372 0122     		movs	r2, #1
+ 1337 0374 93F86910 		ldrb	r1, [r3, #105]	@ zero_extendqisi2
+ 1338 0378 83F85420 		strb	r2, [r3, #84]
+ 1339 037c 9142     		cmp	r1, r2
+ 1340 037e 3FF44FAE 		beq	.L128
+ 1341 0382 6548     		ldr	r0, .L205+8
+ 1342 0384 83F86920 		strb	r2, [r3, #105]
+ 1343 0388 FFF7FEFF 		bl	UART_Debug_PutString
+ 1344 038c FFF7FEFF 		bl	CyWdtClear
+ 1345 0390 46E6     		b	.L128
+ 1346              	.L146:
+ 1347 0392 0D22     		movs	r2, #13
+ 1348 0394 6149     		ldr	r1, .L205+12
+ 1349 0396 2846     		mov	r0, r5
+ 1350 0398 FFF7FEFF 		bl	memcmp
+ 1351 039c 0246     		mov	r2, r0
+ 1352 039e 78B9     		cbnz	r0, .L147
+ 1353 03a0 5C4B     		ldr	r3, .L205+4
+ 1354 03a2 93F86910 		ldrb	r1, [r3, #105]	@ zero_extendqisi2
+ 1355 03a6 83F85400 		strb	r0, [r3, #84]
+ 1356 03aa 0029     		cmp	r1, #0
+ 1357 03ac 3FF438AE 		beq	.L128
+ 1358 03b0 5B48     		ldr	r0, .L205+16
+ 1359 03b2 83F86920 		strb	r2, [r3, #105]
+ 1360 03b6 FFF7FEFF 		bl	UART_Debug_PutString
+ 1361 03ba FFF7FEFF 		bl	CyWdtClear
+ 1362 03be 2FE6     		b	.L128
+ 1363              	.L147:
+ 1364 03c0 0D22     		movs	r2, #13
+ 1365 03c2 5849     		ldr	r1, .L205+20
+ 1366 03c4 2846     		mov	r0, r5
+ 1367 03c6 FFF7FEFF 		bl	memcmp
+ 1368 03ca 18B3     		cbz	r0, .L198
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 25
+
+
+ 1369 03cc 0D22     		movs	r2, #13
+ 1370 03ce 5649     		ldr	r1, .L205+24
+ 1371 03d0 2846     		mov	r0, r5
+ 1372 03d2 FFF7FEFF 		bl	memcmp
+ 1373 03d6 0028     		cmp	r0, #0
+ 1374 03d8 3BD0     		beq	.L199
+ 1375 03da 0722     		movs	r2, #7
+ 1376 03dc 5349     		ldr	r1, .L205+28
+ 1377 03de 2846     		mov	r0, r5
+ 1378 03e0 FFF7FEFF 		bl	memcmp
+ 1379 03e4 0446     		mov	r4, r0
+ 1380 03e6 0028     		cmp	r0, #0
+ 1381 03e8 52D0     		beq	.L200
+ 1382 03ea 0822     		movs	r2, #8
+ 1383 03ec 5049     		ldr	r1, .L205+32
+ 1384 03ee 2846     		mov	r0, r5
+ 1385 03f0 FFF7FEFF 		bl	memcmp
+ 1386 03f4 0028     		cmp	r0, #0
+ 1387 03f6 00F08580 		beq	.L201
+ 1388 03fa 2846     		mov	r0, r5
+ 1389 03fc 0A22     		movs	r2, #10
+ 1390 03fe 4D49     		ldr	r1, .L205+36
+ 1391 0400 FFF7FEFF 		bl	memcmp
+ 1392 0404 0028     		cmp	r0, #0
+ 1393 0406 76D0     		beq	.L202
+ 1394 0408 4B48     		ldr	r0, .L205+40
+ 1395 040a FFF7FEFF 		bl	UART_Debug_PutString
+ 1396 040e FFF7FEFF 		bl	CyWdtClear
+ 1397 0412 05E6     		b	.L128
+ 1398              	.L198:
+ 1399 0414 4349     		ldr	r1, .L205+20
+ 1400 0416 2846     		mov	r0, r5
+ 1401 0418 FFF7FEFF 		bl	strremove
+ 1402 041c 0446     		mov	r4, r0
+ 1403 041e FFF7FEFF 		bl	CyWdtClear
+ 1404 0422 2046     		mov	r0, r4
+ 1405 0424 FFF7FEFF 		bl	atoi
+ 1406 0428 444C     		ldr	r4, .L205+44
+ 1407 042a 2070     		strb	r0, [r4]
+ 1408 042c FFF7FEFF 		bl	CyWdtClear
+ 1409 0430 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1410 0432 A278     		ldrb	r2, [r4, #2]	@ zero_extendqisi2
+ 1411 0434 9A42     		cmp	r2, r3
+ 1412 0436 3FF4F3AD 		beq	.L128
+ 1413 043a 1A46     		mov	r2, r3
+ 1414 043c 4049     		ldr	r1, .L205+48
+ 1415 043e 02A8     		add	r0, sp, #8
+ 1416 0440 A370     		strb	r3, [r4, #2]
+ 1417 0442 FFF7FEFF 		bl	sprintf
+ 1418 0446 02A8     		add	r0, sp, #8
+ 1419 0448 FFF7FEFF 		bl	UART_Debug_PutString
+ 1420 044c FFF7FEFF 		bl	CyWdtClear
+ 1421 0450 E6E5     		b	.L128
+ 1422              	.L199:
+ 1423 0452 3549     		ldr	r1, .L205+24
+ 1424 0454 2846     		mov	r0, r5
+ 1425 0456 FFF7FEFF 		bl	strremove
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 26
+
+
+ 1426 045a 0446     		mov	r4, r0
+ 1427 045c FFF7FEFF 		bl	CyWdtClear
+ 1428 0460 2046     		mov	r0, r4
+ 1429 0462 FFF7FEFF 		bl	atoi
+ 1430 0466 354C     		ldr	r4, .L205+44
+ 1431 0468 6070     		strb	r0, [r4, #1]
+ 1432 046a FFF7FEFF 		bl	CyWdtClear
+ 1433 046e 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2
+ 1434 0470 E278     		ldrb	r2, [r4, #3]	@ zero_extendqisi2
+ 1435 0472 9A42     		cmp	r2, r3
+ 1436 0474 3FF4D4AD 		beq	.L128
+ 1437 0478 1A46     		mov	r2, r3
+ 1438 047a 3249     		ldr	r1, .L205+52
+ 1439 047c 02A8     		add	r0, sp, #8
+ 1440 047e E370     		strb	r3, [r4, #3]
+ 1441 0480 FFF7FEFF 		bl	sprintf
+ 1442 0484 02A8     		add	r0, sp, #8
+ 1443 0486 FFF7FEFF 		bl	UART_Debug_PutString
+ 1444 048a FFF7FEFF 		bl	CyWdtClear
+ 1445 048e C7E5     		b	.L128
+ 1446              	.L200:
+ 1447 0490 2D48     		ldr	r0, .L205+56
+ 1448 0492 FFF7FEFF 		bl	OS_TIMER_Restart
+ 1449 0496 2549     		ldr	r1, .L205+28
+ 1450 0498 2846     		mov	r0, r5
+ 1451 049a FFF7FEFF 		bl	strremove
+ 1452 049e 0546     		mov	r5, r0
+ 1453 04a0 FFF7FEFF 		bl	CyWdtClear
+ 1454 04a4 2146     		mov	r1, r4
+ 1455 04a6 0A22     		movs	r2, #10
+ 1456 04a8 2846     		mov	r0, r5
+ 1457 04aa FFF7FEFF 		bl	strtol
+ 1458 04ae 0546     		mov	r5, r0
+ 1459 04b0 184C     		ldr	r4, .L205+4
+ 1460 04b2 FFF7FEFF 		bl	CyWdtClear
+ 1461 04b6 94F82D20 		ldrb	r2, [r4, #45]	@ zero_extendqisi2
+ 1462 04ba EBB2     		uxtb	r3, r5
+ 1463 04bc 9A42     		cmp	r2, r3
+ 1464 04be 84F82C30 		strb	r3, [r4, #44]
+ 1465 04c2 13D0     		beq	.L151
+ 1466 04c4 062B     		cmp	r3, #6
+ 1467 04c6 84F82D30 		strb	r3, [r4, #45]
+ 1468 04ca 04D9     		bls	.L152
+ 1469 04cc 0123     		movs	r3, #1
+ 1470 04ce 84F82C30 		strb	r3, [r4, #44]
+ 1471 04d2 84F82D30 		strb	r3, [r4, #45]
+ 1472              	.L152:
+ 1473 04d6 94F82C20 		ldrb	r2, [r4, #44]	@ zero_extendqisi2
+ 1474 04da 1C49     		ldr	r1, .L205+60
+ 1475 04dc 02A8     		add	r0, sp, #8
+ 1476 04de FFF7FEFF 		bl	sprintf
+ 1477 04e2 02A8     		add	r0, sp, #8
+ 1478 04e4 FFF7FEFF 		bl	UART_Debug_PutString
+ 1479 04e8 FFF7FEFF 		bl	CyWdtClear
+ 1480              	.L151:
+ 1481 04ec 94F82C00 		ldrb	r0, [r4, #44]	@ zero_extendqisi2
+ 1482 04f0 FFF7FEFF 		bl	RGB
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 27
+
+
+ 1483 04f4 94E5     		b	.L128
+ 1484              	.L202:
+ 1485 04f6 0D21     		movs	r1, #13
+ 1486 04f8 1548     		ldr	r0, .L205+64
+ 1487 04fa FFF7FEFF 		bl	UART_Linux_PutArray
+ 1488 04fe FFF7FEFF 		bl	CyWdtClear
+ 1489 0502 8DE5     		b	.L128
+ 1490              	.L201:
+ 1491 0504 FFF7FEFF 		bl	CyWdtClear
+ 1492 0508 FFF7FEFF 		bl	CySoftwareReset
+ 1493 050c 88E5     		b	.L128
+ 1494              	.L206:
+ 1495 050e 00BF     		.align	2
+ 1496              	.L205:
+ 1497 0510 A0050000 		.word	.LC43
+ 1498 0514 00000000 		.word	.LANCHOR0
+ 1499 0518 AC050000 		.word	.LC44
+ 1500 051c BC050000 		.word	.LC45
+ 1501 0520 CC050000 		.word	.LC46
+ 1502 0524 DC050000 		.word	.LC47
+ 1503 0528 00060000 		.word	.LC49
+ 1504 052c 24060000 		.word	.LC51
+ 1505 0530 40060000 		.word	.LC53
+ 1506 0534 4C060000 		.word	.LC54
+ 1507 0538 68060000 		.word	.LC56
+ 1508 053c 00000000 		.word	.LANCHOR1
+ 1509 0540 EC050000 		.word	.LC48
+ 1510 0544 10060000 		.word	.LC50
+ 1511 0548 00000000 		.word	Timer_RGB_LED
+ 1512 054c 2C060000 		.word	.LC52
+ 1513 0550 58060000 		.word	.LC55
+ 1514              		.size	CmdTask, .-CmdTask
+ 1515              		.section	.text.UART_Linux_Rx_ISR,"ax",%progbits
+ 1516              		.align	2
+ 1517              		.global	UART_Linux_Rx_ISR
+ 1518              		.thumb
+ 1519              		.thumb_func
+ 1520              		.type	UART_Linux_Rx_ISR, %function
+ 1521              	UART_Linux_Rx_ISR:
+ 1522              		@ args = 0, pretend = 0, frame = 0
+ 1523              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1524 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1525              		.syntax unified
+ 1526              	@ 627 "..\Application\OS_Main.c" 1
+ 1527 0002 4FF08000 		mov  r0, #128    
+ 1528 0006 80F31188 		msr  basepri, r0 
+ 1529 000a 00BF     		nop              
+ 1530 000c 00BF     		nop              
+ 1531              		
+ 1532              	@ 0 "" 2
+ 1533              		.thumb
+ 1534              		.syntax unified
+ 1535 000e 214C     		ldr	r4, .L217
+ 1536 0010 2148     		ldr	r0, .L217+4
+ 1537 0012 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1538 0014 0133     		adds	r3, r3, #1
+ 1539 0016 DBB2     		uxtb	r3, r3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 28
+
+
+ 1540 0018 2370     		strb	r3, [r4]
+ 1541 001a 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2
+ 1542 001c 0133     		adds	r3, r3, #1
+ 1543 001e DBB2     		uxtb	r3, r3
+ 1544 0020 6370     		strb	r3, [r4, #1]
+ 1545 0022 FFF7FEFF 		bl	OS_TIMER_Restart
+ 1546 0026 FFF7FEFF 		bl	UART_Linux_GetChar
+ 1547 002a 0546     		mov	r5, r0
+ 1548 002c E0B1     		cbz	r0, .L215
+ 1549 002e 1B4A     		ldr	r2, .L217+8
+ 1550 0030 1B49     		ldr	r1, .L217+12
+ 1551 0032 536B     		ldr	r3, [r2, #52]
+ 1552 0034 581C     		adds	r0, r3, #1
+ 1553 0036 5063     		str	r0, [r2, #52]
+ 1554 0038 CD54     		strb	r5, [r1, r3]
+ 1555              	.L209:
+ 1556 003a 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2
+ 1557 003c 154A     		ldr	r2, .L217
+ 1558 003e 013B     		subs	r3, r3, #1
+ 1559 0040 DBB2     		uxtb	r3, r3
+ 1560 0042 6370     		strb	r3, [r4, #1]
+ 1561 0044 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1562 0046 012B     		cmp	r3, #1
+ 1563 0048 08D0     		beq	.L216
+ 1564              	.L210:
+ 1565 004a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1566 004c 013B     		subs	r3, r3, #1
+ 1567 004e DBB2     		uxtb	r3, r3
+ 1568 0050 2370     		strb	r3, [r4]
+ 1569              		.syntax unified
+ 1570              	@ 648 "..\Application\OS_Main.c" 1
+ 1571 0052 4FF00000 		mov  r0, #0      
+ 1572 0056 80F31188 		msr  basepri, r0 
+ 1573              		
+ 1574              	@ 0 "" 2
+ 1575              		.thumb
+ 1576              		.syntax unified
+ 1577 005a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 1578              	.L216:
+ 1579 005c 5368     		ldr	r3, [r2, #4]
+ 1580 005e 002B     		cmp	r3, #0
+ 1581 0060 F3D0     		beq	.L210
+ 1582 0062 FFF7FEFF 		bl	OS_SwitchFromInt
+ 1583 0066 F0E7     		b	.L210
+ 1584              	.L215:
+ 1585 0068 0C4E     		ldr	r6, .L217+8
+ 1586 006a 0D4F     		ldr	r7, .L217+12
+ 1587 006c 736B     		ldr	r3, [r6, #52]
+ 1588 006e 3846     		mov	r0, r7
+ 1589 0070 5A1C     		adds	r2, r3, #1
+ 1590 0072 FD54     		strb	r5, [r7, r3]
+ 1591 0074 7263     		str	r2, [r6, #52]
+ 1592 0076 FFF7FEFF 		bl	CmdTask
+ 1593 007a 0748     		ldr	r0, .L217+4
+ 1594 007c FFF7FEFF 		bl	OS_TIMER_Stop
+ 1595 0080 726B     		ldr	r2, [r6, #52]
+ 1596 0082 2946     		mov	r1, r5
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 29
+
+
+ 1597 0084 3846     		mov	r0, r7
+ 1598 0086 FFF7FEFF 		bl	memset
+ 1599 008a FFF7FEFF 		bl	CyWdtClear
+ 1600 008e 7563     		str	r5, [r6, #52]
+ 1601 0090 D3E7     		b	.L209
+ 1602              	.L218:
+ 1603 0092 00BF     		.align	2
+ 1604              	.L217:
+ 1605 0094 00000000 		.word	OS_Global
+ 1606 0098 00000000 		.word	Timer_Read_Linux
+ 1607 009c 00000000 		.word	.LANCHOR0
+ 1608 00a0 00000000 		.word	UART_Linux_Rx_Buffer
+ 1609              		.size	UART_Linux_Rx_ISR, .-UART_Linux_Rx_ISR
+ 1610              		.section	.text.intrrupt_init,"ax",%progbits
+ 1611              		.align	2
+ 1612              		.global	intrrupt_init
+ 1613              		.thumb
+ 1614              		.thumb_func
+ 1615              		.type	intrrupt_init, %function
+ 1616              	intrrupt_init:
+ 1617              		@ args = 0, pretend = 0, frame = 0
+ 1618              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1619 0000 08B5     		push	{r3, lr}
+ 1620 0002 0748     		ldr	r0, .L221
+ 1621 0004 FFF7FEFF 		bl	intr_UART_Linux_Rx_StartEx
+ 1622 0008 064B     		ldr	r3, .L221+4
+ 1623 000a 0422     		movs	r2, #4
+ 1624 000c 1A60     		str	r2, [r3]
+ 1625 000e 0648     		ldr	r0, .L221+8
+ 1626 0010 FFF7FEFF 		bl	intr_Port1_StartEx
+ 1627 0014 BDE80840 		pop	{r3, lr}
+ 1628 0018 0448     		ldr	r0, .L221+12
+ 1629 001a FFF7FEBF 		b	intr_Port2_StartEx
+ 1630              	.L222:
+ 1631 001e 00BF     		.align	2
+ 1632              	.L221:
+ 1633 0020 00000000 		.word	UART_Linux_Rx_ISR
+ 1634 0024 00E100E0 		.word	-536813312
+ 1635 0028 00000000 		.word	Port1_ISR
+ 1636 002c 00000000 		.word	Port2_ISR
+ 1637              		.size	intrrupt_init, .-intrrupt_init
+ 1638              		.section	.text.init_vars,"ax",%progbits
+ 1639              		.align	2
+ 1640              		.global	init_vars
+ 1641              		.thumb
+ 1642              		.thumb_func
+ 1643              		.type	init_vars, %function
+ 1644              	init_vars:
+ 1645              		@ args = 0, pretend = 0, frame = 0
+ 1646              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1647              		@ link register save eliminated.
+ 1648 0000 0548     		ldr	r0, .L225
+ 1649 0002 0649     		ldr	r1, .L225+4
+ 1650 0004 064A     		ldr	r2, .L225+8
+ 1651 0006 10B4     		push	{r4}
+ 1652 0008 0023     		movs	r3, #0
+ 1653 000a 064C     		ldr	r4, .L225+12
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 30
+
+
+ 1654 000c 0370     		strb	r3, [r0]
+ 1655 000e 0B70     		strb	r3, [r1]
+ 1656 0010 1370     		strb	r3, [r2]
+ 1657 0012 2370     		strb	r3, [r4]
+ 1658 0014 10BC     		pop	{r4}
+ 1659 0016 7047     		bx	lr
+ 1660              	.L226:
+ 1661              		.align	2
+ 1662              	.L225:
+ 1663 0018 00000000 		.word	In1
+ 1664 001c 00000000 		.word	Port2_W
+ 1665 0020 00000000 		.word	In2
+ 1666 0024 00000000 		.word	Port1_W
+ 1667              		.size	init_vars, .-init_vars
+ 1668              		.section	.text.timers_create,"ax",%progbits
+ 1669              		.align	2
+ 1670              		.global	timers_create
+ 1671              		.thumb
+ 1672              		.thumb_func
+ 1673              		.type	timers_create, %function
+ 1674              	timers_create:
+ 1675              		@ args = 0, pretend = 0, frame = 0
+ 1676              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1677 0000 08B5     		push	{r3, lr}
+ 1678 0002 6422     		movs	r2, #100
+ 1679 0004 1949     		ldr	r1, .L229
+ 1680 0006 1A48     		ldr	r0, .L229+4
+ 1681 0008 FFF7FEFF 		bl	OS_TIMER_Create
+ 1682 000c 4FF47A72 		mov	r2, #1000
+ 1683 0010 1849     		ldr	r1, .L229+8
+ 1684 0012 1948     		ldr	r0, .L229+12
+ 1685 0014 FFF7FEFF 		bl	OS_TIMER_Create
+ 1686 0018 6422     		movs	r2, #100
+ 1687 001a 1849     		ldr	r1, .L229+16
+ 1688 001c 1848     		ldr	r0, .L229+20
+ 1689 001e FFF7FEFF 		bl	OS_TIMER_Create
+ 1690 0022 6422     		movs	r2, #100
+ 1691 0024 1749     		ldr	r1, .L229+24
+ 1692 0026 1848     		ldr	r0, .L229+28
+ 1693 0028 FFF7FEFF 		bl	OS_TIMER_Create
+ 1694 002c 4FF4FA72 		mov	r2, #500
+ 1695 0030 1649     		ldr	r1, .L229+32
+ 1696 0032 1748     		ldr	r0, .L229+36
+ 1697 0034 FFF7FEFF 		bl	OS_TIMER_Create
+ 1698 0038 4FF4FA72 		mov	r2, #500
+ 1699 003c 1549     		ldr	r1, .L229+40
+ 1700 003e 1648     		ldr	r0, .L229+44
+ 1701 0040 FFF7FEFF 		bl	OS_TIMER_Create
+ 1702 0044 4FF4FA72 		mov	r2, #500
+ 1703 0048 1449     		ldr	r1, .L229+48
+ 1704 004a 1548     		ldr	r0, .L229+52
+ 1705 004c FFF7FEFF 		bl	OS_TIMER_Create
+ 1706 0050 4FF4FA72 		mov	r2, #500
+ 1707 0054 1349     		ldr	r1, .L229+56
+ 1708 0056 1448     		ldr	r0, .L229+60
+ 1709 0058 FFF7FEFF 		bl	OS_TIMER_Create
+ 1710 005c BDE80840 		pop	{r3, lr}
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 31
+
+
+ 1711 0060 6422     		movs	r2, #100
+ 1712 0062 1249     		ldr	r1, .L229+64
+ 1713 0064 1248     		ldr	r0, .L229+68
+ 1714 0066 FFF7FEBF 		b	OS_TIMER_Create
+ 1715              	.L230:
+ 1716 006a 00BF     		.align	2
+ 1717              	.L229:
+ 1718 006c 00000000 		.word	Timer_Read_Linux_Callback
+ 1719 0070 00000000 		.word	Timer_Read_Linux
+ 1720 0074 00000000 		.word	Timer_RGB_LED_Callback
+ 1721 0078 00000000 		.word	Timer_RGB_LED
+ 1722 007c 00000000 		.word	Timer_Read_W_Port1_Callback
+ 1723 0080 00000000 		.word	Timer_Read_W_Port1
+ 1724 0084 00000000 		.word	Timer_Read_W_Port2_Callback
+ 1725 0088 00000000 		.word	Timer_Read_W_Port2
+ 1726 008c 00000000 		.word	Timer_AfterRead_Input1_Callback
+ 1727 0090 00000000 		.word	Timer_AfterRead_In1
+ 1728 0094 00000000 		.word	Timer_AfterRead_Port1_Callback
+ 1729 0098 00000000 		.word	Timer_AfterRead_Port1
+ 1730 009c 00000000 		.word	Timer_AfterRead_Input2_Callback
+ 1731 00a0 00000000 		.word	Timer_AfterRead_In2
+ 1732 00a4 00000000 		.word	Timer_AfterRead_Port2_Callback
+ 1733 00a8 00000000 		.word	Timer_AfterRead_Port2
+ 1734 00ac 00000000 		.word	Timer_WD_Callback
+ 1735 00b0 00000000 		.word	Timer_WD
+ 1736              		.size	timers_create, .-timers_create
+ 1737              		.section	.text.startup.main,"ax",%progbits
+ 1738              		.align	2
+ 1739              		.global	main
+ 1740              		.thumb
+ 1741              		.thumb_func
+ 1742              		.type	main, %function
+ 1743              	main:
+ 1744              		@ args = 0, pretend = 0, frame = 0
+ 1745              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1746 0000 38B5     		push	{r3, r4, r5, lr}
+ 1747              		.syntax unified
+ 1748              	@ 926 "..\Application\OS_Main.c" 1
+ 1749 0002 62B6     		CPSIE   i
+ 1750              	@ 0 "" 2
+ 1751              		.thumb
+ 1752              		.syntax unified
+ 1753 0004 0021     		movs	r1, #0
+ 1754 0006 0C46     		mov	r4, r1
+ 1755 0008 0320     		movs	r0, #3
+ 1756 000a 1D4D     		ldr	r5, .L233
+ 1757 000c FFF7FEFF 		bl	CyWdtStart
+ 1758 0010 FFF7FEFF 		bl	CyWdtClear
+ 1759 0014 FFF7FEFF 		bl	OS_Init_STD
+ 1760 0018 FFF7FEFF 		bl	OS_InitHW
+ 1761 001c FFF7FEFF 		bl	BSP_Init
+ 1762 0020 2046     		mov	r0, r4
+ 1763 0022 85F82C40 		strb	r4, [r5, #44]
+ 1764 0026 85F82D40 		strb	r4, [r5, #45]
+ 1765 002a FFF7FEFF 		bl	RGB
+ 1766 002e FFF7FEFF 		bl	intrrupt_init
+ 1767 0032 FFF7FEFF 		bl	CyWdtClear
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 32
+
+
+ 1768 0036 FFF7FEFF 		bl	timers_create
+ 1769 003a FFF7FEFF 		bl	CyWdtClear
+ 1770 003e 1149     		ldr	r1, .L233+4
+ 1771 0040 114A     		ldr	r2, .L233+8
+ 1772 0042 124B     		ldr	r3, .L233+12
+ 1773 0044 1248     		ldr	r0, .L233+16
+ 1774 0046 0C70     		strb	r4, [r1]
+ 1775 0048 1470     		strb	r4, [r2]
+ 1776 004a 1C70     		strb	r4, [r3]
+ 1777 004c 0470     		strb	r4, [r0]
+ 1778 004e FFF7FEFF 		bl	CyWdtClear
+ 1779 0052 1048     		ldr	r0, .L233+20
+ 1780 0054 FFF7FEFF 		bl	UART_Debug_PutString
+ 1781 0058 FFF7FEFF 		bl	CyWdtClear
+ 1782 005c FFF7FEFF 		bl	cymonitoring_get_lastWtd
+ 1783 0060 FFF7FEFF 		bl	CyWdtClear
+ 1784 0064 0123     		movs	r3, #1
+ 1785 0066 1846     		mov	r0, r3
+ 1786 0068 85F82C30 		strb	r3, [r5, #44]
+ 1787 006c 85F82D30 		strb	r3, [r5, #45]
+ 1788 0070 FFF7FEFF 		bl	RGB
+ 1789 0074 FFF7FEFF 		bl	Timer_WD_Callback
+ 1790 0078 FFF7FEFF 		bl	OS__Start
+ 1791 007c 2046     		mov	r0, r4
+ 1792 007e 38BD     		pop	{r3, r4, r5, pc}
+ 1793              	.L234:
+ 1794              		.align	2
+ 1795              	.L233:
+ 1796 0080 00000000 		.word	.LANCHOR0
+ 1797 0084 00000000 		.word	In1
+ 1798 0088 00000000 		.word	Port2_W
+ 1799 008c 00000000 		.word	In2
+ 1800 0090 00000000 		.word	Port1_W
+ 1801 0094 7C060000 		.word	.LC57
+ 1802              		.size	main, .-main
+ 1803              		.set	CSWTCH.109,CSWTCH.114
+ 1804              		.set	CSWTCH.108,CSWTCH.113
+ 1805              		.set	CSWTCH.107,CSWTCH.112
+ 1806              		.global	RGB_Color_Old
+ 1807              		.global	RGB_Color
+ 1808              		.global	UART_Linux_Rx_Counter
+ 1809              		.comm	UART_Linux_Rx_Buffer,1024,4
+ 1810              		.global	UART_Linux_StartBit
+ 1811              		.global	Port2_W_bits_Old
+ 1812              		.global	Port2_W_bits
+ 1813              		.global	Port2_W_Counter
+ 1814              		.comm	In2,3,4
+ 1815              		.comm	Port2_W,129,4
+ 1816              		.global	Port2_w_have
+ 1817              		.global	Port2_w_Start
+ 1818              		.global	Port2_Locked_Old
+ 1819              		.global	Port2_Locked
+ 1820              		.global	Port2_Relay_Old
+ 1821              		.global	Port2_Relay
+ 1822              		.global	Port1_W_bits_Old
+ 1823              		.global	Port1_W_bits
+ 1824              		.global	Port1_W_Counter
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 33
+
+
+ 1825              		.comm	In1,3,4
+ 1826              		.comm	Port1_W,129,4
+ 1827              		.global	Port1_w_have
+ 1828              		.global	Port1_w_Start
+ 1829              		.global	Port1_Locked_Old
+ 1830              		.global	Port1_Locked
+ 1831              		.global	Port1_Relay_Old
+ 1832              		.global	Port1_Relay
+ 1833              		.global	linux_uart_failure
+ 1834              		.global	linux_read_input_failure_total
+ 1835              		.global	linux_read_input_failure_port2
+ 1836              		.global	linux_read_input_failure_port1
+ 1837              		.global	read_input_total
+ 1838              		.global	read_input_port2
+ 1839              		.global	read_input_port1
+ 1840              		.global	linux_read_failure_total
+ 1841              		.global	linux_read_failure_port2
+ 1842              		.global	linux_read_failure_port1
+ 1843              		.global	linux_read_counter_total
+ 1844              		.global	linux_read_counter_port2
+ 1845              		.global	linux_read_counter_port1
+ 1846              		.global	read_failure_total
+ 1847              		.global	read_failure_port2
+ 1848              		.global	read_failure_port1
+ 1849              		.global	read_counter_total
+ 1850              		.global	read_counter_port2
+ 1851              		.global	read_counter_port1
+ 1852              		.comm	Timer_WD,20,4
+ 1853              		.comm	Timer_AfterRead_Port2,20,4
+ 1854              		.comm	Timer_AfterRead_In2,20,4
+ 1855              		.comm	Timer_AfterRead_Port1,20,4
+ 1856              		.comm	Timer_AfterRead_In1,20,4
+ 1857              		.comm	Timer_Read_W_Port2,20,4
+ 1858              		.comm	Timer_Read_W_Port1,20,4
+ 1859              		.comm	Timer_RGB_LED,20,4
+ 1860              		.comm	Timer_Read_Linux,20,4
+ 1861              		.section	.rodata
+ 1862              		.align	2
+ 1863              		.set	.LANCHOR2,. + 0
+ 1864              		.type	CSWTCH.112, %object
+ 1865              		.size	CSWTCH.112, 6
+ 1866              	CSWTCH.112:
+ 1867 0000 01       		.byte	1
+ 1868 0001 00       		.byte	0
+ 1869 0002 00       		.byte	0
+ 1870 0003 00       		.byte	0
+ 1871 0004 01       		.byte	1
+ 1872 0005 00       		.byte	0
+ 1873 0006 0000     		.space	2
+ 1874              		.type	CSWTCH.113, %object
+ 1875              		.size	CSWTCH.113, 6
+ 1876              	CSWTCH.113:
+ 1877 0008 00       		.byte	0
+ 1878 0009 01       		.byte	1
+ 1879 000a 00       		.byte	0
+ 1880 000b 00       		.byte	0
+ 1881 000c 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 34
+
+
+ 1882 000d 01       		.byte	1
+ 1883 000e 0000     		.space	2
+ 1884              		.type	CSWTCH.114, %object
+ 1885              		.size	CSWTCH.114, 6
+ 1886              	CSWTCH.114:
+ 1887 0010 00       		.byte	0
+ 1888 0011 00       		.byte	0
+ 1889 0012 00       		.byte	0
+ 1890 0013 01       		.byte	1
+ 1891 0014 01       		.byte	1
+ 1892 0015 01       		.byte	1
+ 1893              		.data
+ 1894              		.set	.LANCHOR1,. + 0
+ 1895              		.type	Port1_W_bits, %object
+ 1896              		.size	Port1_W_bits, 1
+ 1897              	Port1_W_bits:
+ 1898 0000 1A       		.byte	26
+ 1899              		.type	Port2_W_bits, %object
+ 1900              		.size	Port2_W_bits, 1
+ 1901              	Port2_W_bits:
+ 1902 0001 1A       		.byte	26
+ 1903              		.type	Port1_W_bits_Old, %object
+ 1904              		.size	Port1_W_bits_Old, 1
+ 1905              	Port1_W_bits_Old:
+ 1906 0002 1A       		.byte	26
+ 1907              		.type	Port2_W_bits_Old, %object
+ 1908              		.size	Port2_W_bits_Old, 1
+ 1909              	Port2_W_bits_Old:
+ 1910 0003 1A       		.byte	26
+ 1911              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1912              		.align	2
+ 1913              	.LC0:
+ 1914 0000 72656164 		.ascii	"read_failure_port1 = %lu, read_failure_port2 = %lu,"
+ 1914      5F666169 
+ 1914      6C757265 
+ 1914      5F706F72 
+ 1914      7431203D 
+ 1915 0033 20726561 		.ascii	" read_failure_total = %lu\015\012\000"
+ 1915      645F6661 
+ 1915      696C7572 
+ 1915      655F746F 
+ 1915      74616C20 
+ 1916 004f 00       		.space	1
+ 1917              	.LC1:
+ 1918 0050 2A2A2A2A 		.ascii	"****************************\015\012\000"
+ 1918      2A2A2A2A 
+ 1918      2A2A2A2A 
+ 1918      2A2A2A2A 
+ 1918      2A2A2A2A 
+ 1919 006f 00       		.space	1
+ 1920              	.LC2:
+ 1921 0070 54696D65 		.ascii	"Timer_Read_W_Port1_Callback\015\012\000"
+ 1921      725F5265 
+ 1921      61645F57 
+ 1921      5F506F72 
+ 1921      74315F43 
+ 1922 008e 0000     		.space	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 35
+
+
+ 1923              	.LC3:
+ 1924 0090 54696D65 		.ascii	"Timer_Read_W_Port2_Callback\015\012\000"
+ 1924      725F5265 
+ 1924      61645F57 
+ 1924      5F506F72 
+ 1924      74325F43 
+ 1925 00ae 0000     		.space	2
+ 1926              	.LC4:
+ 1927 00b0 6C696E75 		.ascii	"linux_read_input_failure_port1 = %lu, linux_read_in"
+ 1927      785F7265 
+ 1927      61645F69 
+ 1927      6E707574 
+ 1927      5F666169 
+ 1928 00e3 7075745F 		.ascii	"put_failure_port2 = %lu, linux_read_input_failure_t"
+ 1928      6661696C 
+ 1928      7572655F 
+ 1928      706F7274 
+ 1928      32203D20 
+ 1929 0116 6F74616C 		.ascii	"otal = %lu\015\012\000"
+ 1929      203D2025 
+ 1929      6C750D0A 
+ 1929      00
+ 1930 0123 00       		.space	1
+ 1931              	.LC5:
+ 1932 0124 54696D65 		.ascii	"Timer_AfterRead_Input1_Callback\015\012\000"
+ 1932      725F4166 
+ 1932      74657252 
+ 1932      6561645F 
+ 1932      496E7075 
+ 1933 0146 0000     		.space	2
+ 1934              	.LC6:
+ 1935 0148 6C696E75 		.ascii	"linux_read_failure_port1 = %lu, linux_read_failure_"
+ 1935      785F7265 
+ 1935      61645F66 
+ 1935      61696C75 
+ 1935      72655F70 
+ 1936 017b 706F7274 		.ascii	"port2 = %lu, linux_read_failure_total = %lu\015\012"
+ 1936      32203D20 
+ 1936      256C752C 
+ 1936      206C696E 
+ 1936      75785F72 
+ 1937 01a8 00       		.ascii	"\000"
+ 1938 01a9 000000   		.space	3
+ 1939              	.LC7:
+ 1940 01ac 54696D65 		.ascii	"Timer_AfterRead_Port1_Callback\015\012\000"
+ 1940      725F4166 
+ 1940      74657252 
+ 1940      6561645F 
+ 1940      506F7274 
+ 1941 01cd 000000   		.space	3
+ 1942              	.LC8:
+ 1943 01d0 54696D65 		.ascii	"Timer_AfterRead_Input2_Callback\015\012\000"
+ 1943      725F4166 
+ 1943      74657252 
+ 1943      6561645F 
+ 1943      496E7075 
+ 1944 01f2 0000     		.space	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 36
+
+
+ 1945              	.LC9:
+ 1946 01f4 54696D65 		.ascii	"Timer_AfterRead_Port2_Callback\015\012\000"
+ 1946      725F4166 
+ 1946      74657252 
+ 1946      6561645F 
+ 1946      506F7274 
+ 1947 0215 000000   		.space	3
+ 1948              	.LC10:
+ 1949 0218 54696D65 		.ascii	"Timer_RGB_LED_Callback --> RGB_Color = %d\015\012\000"
+ 1949      725F5247 
+ 1949      425F4C45 
+ 1949      445F4361 
+ 1949      6C6C6261 
+ 1950              	.LC11:
+ 1951 0244 6C696E75 		.ascii	"linux_uart_failure = %lu\015\012\000"
+ 1951      785F7561 
+ 1951      72745F66 
+ 1951      61696C75 
+ 1951      7265203D 
+ 1952 025f 00       		.space	1
+ 1953              	.LC12:
+ 1954 0260 54696D65 		.ascii	"Timer_Read_Linux_Callback\015\012\000"
+ 1954      725F5265 
+ 1954      61645F4C 
+ 1954      696E7578 
+ 1954      5F43616C 
+ 1955              	.LC13:
+ 1956 027c 72656164 		.ascii	"read_input_port1 = %lu, read_input_port2 = %lu, rea"
+ 1956      5F696E70 
+ 1956      75745F70 
+ 1956      6F727431 
+ 1956      203D2025 
+ 1957 02af 645F696E 		.ascii	"d_input_total = %lu\015\012\000"
+ 1957      7075745F 
+ 1957      746F7461 
+ 1957      6C203D20 
+ 1957      256C750D 
+ 1958 02c5 000000   		.space	3
+ 1959              	.LC14:
+ 1960 02c8 0D0A2D2D 		.ascii	"\015\012----------------------------\015\012\000"
+ 1960      2D2D2D2D 
+ 1960      2D2D2D2D 
+ 1960      2D2D2D2D 
+ 1960      2D2D2D2D 
+ 1961 02e9 000000   		.space	3
+ 1962              	.LC15:
+ 1963 02ec 52656164 		.ascii	"Read Input from Port 1: \000"
+ 1963      20496E70 
+ 1963      75742066 
+ 1963      726F6D20 
+ 1963      506F7274 
+ 1964 0305 000000   		.space	3
+ 1965              	.LC16:
+ 1966 0308 0D0A00   		.ascii	"\015\012\000"
+ 1967 030b 00       		.space	1
+ 1968              	.LC17:
+ 1969 030c 72656164 		.ascii	"read_counter_port1 = %lu, read_counter_port2 = %lu,"
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 37
+
+
+ 1969      5F636F75 
+ 1969      6E746572 
+ 1969      5F706F72 
+ 1969      7431203D 
+ 1970 033f 20726561 		.ascii	" read_counter_total = %lu\015\012\000"
+ 1970      645F636F 
+ 1970      756E7465 
+ 1970      725F746F 
+ 1970      74616C20 
+ 1971 035b 00       		.space	1
+ 1972              	.LC18:
+ 1973 035c 52656164 		.ascii	"Read W Port 1: \000"
+ 1973      20572050 
+ 1973      6F727420 
+ 1973      313A2000 
+ 1974              	.LC19:
+ 1975 036c 52656164 		.ascii	"Read Input from Port 2: \000"
+ 1975      20496E70 
+ 1975      75742066 
+ 1975      726F6D20 
+ 1975      506F7274 
+ 1976 0385 000000   		.space	3
+ 1977              	.LC20:
+ 1978 0388 52656164 		.ascii	"Read W Port 2: \000"
+ 1978      20572050 
+ 1978      6F727420 
+ 1978      323A2000 
+ 1979              	.LC21:
+ 1980 0398 506F7274 		.ascii	"Port 1 Read\000"
+ 1980      20312052 
+ 1980      65616400 
+ 1981              	.LC22:
+ 1982 03a4 6C696E75 		.ascii	"linux_read_counter_port1 = %lu, linux_read_counter_"
+ 1982      785F7265 
+ 1982      61645F63 
+ 1982      6F756E74 
+ 1982      65725F70 
+ 1983 03d7 706F7274 		.ascii	"port2 = %lu, linux_read_counter_total = %lu\015\012"
+ 1983      32203D20 
+ 1983      256C752C 
+ 1983      206C696E 
+ 1983      75785F72 
+ 1984 0404 00       		.ascii	"\000"
+ 1985 0405 000000   		.space	3
+ 1986              	.LC23:
+ 1987 0408 52656164 		.ascii	"Read New W from Port 1 with linux: \000"
+ 1987      204E6577 
+ 1987      20572066 
+ 1987      726F6D20 
+ 1987      506F7274 
+ 1988              	.LC24:
+ 1989 042c 2D2D2D2D 		.ascii	"----------------------------\015\012\000"
+ 1989      2D2D2D2D 
+ 1989      2D2D2D2D 
+ 1989      2D2D2D2D 
+ 1989      2D2D2D2D 
+ 1990 044b 00       		.space	1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 38
+
+
+ 1991              	.LC25:
+ 1992 044c 506F7274 		.ascii	"Port 2 Read\000"
+ 1992      20322052 
+ 1992      65616400 
+ 1993              	.LC26:
+ 1994 0458 52656164 		.ascii	"Read New W from Port 2 with linux: \000"
+ 1994      204E6577 
+ 1994      20572066 
+ 1994      726F6D20 
+ 1994      506F7274 
+ 1995              	.LC27:
+ 1996 047c 506F7274 		.ascii	"Port 1 Input\000"
+ 1996      20312049 
+ 1996      6E707574 
+ 1996      00
+ 1997 0489 000000   		.space	3
+ 1998              	.LC28:
+ 1999 048c 52656164 		.ascii	"Read New Input from Port 1 with linux: \000"
+ 1999      204E6577 
+ 1999      20496E70 
+ 1999      75742066 
+ 1999      726F6D20 
+ 2000              	.LC29:
+ 2001 04b4 506F7274 		.ascii	"Port 2 Input\000"
+ 2001      20322049 
+ 2001      6E707574 
+ 2001      00
+ 2002 04c1 000000   		.space	3
+ 2003              	.LC30:
+ 2004 04c4 52656164 		.ascii	"Read New Input from Port 2 with linux: \000"
+ 2004      204E6577 
+ 2004      20496E70 
+ 2004      75742066 
+ 2004      726F6D20 
+ 2005              	.LC31:
+ 2006 04ec 506F7274 		.ascii	"Port 1 Open\000"
+ 2006      2031204F 
+ 2006      70656E00 
+ 2007              	.LC32:
+ 2008 04f8 506F7274 		.ascii	"Port 1 Open\015\012\000"
+ 2008      2031204F 
+ 2008      70656E0D 
+ 2008      0A00
+ 2009 0506 0000     		.space	2
+ 2010              	.LC33:
+ 2011 0508 506F7274 		.ascii	"Port 1 Close\000"
+ 2011      20312043 
+ 2011      6C6F7365 
+ 2011      00
+ 2012 0515 000000   		.space	3
+ 2013              	.LC34:
+ 2014 0518 506F7274 		.ascii	"Port 1 Close\015\012\000"
+ 2014      20312043 
+ 2014      6C6F7365 
+ 2014      0D0A00
+ 2015 0527 00       		.space	1
+ 2016              	.LC35:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 39
+
+
+ 2017 0528 506F7274 		.ascii	"Port 2 Open\000"
+ 2017      2032204F 
+ 2017      70656E00 
+ 2018              	.LC36:
+ 2019 0534 506F7274 		.ascii	"Port 2 Open\015\012\000"
+ 2019      2032204F 
+ 2019      70656E0D 
+ 2019      0A00
+ 2020 0542 0000     		.space	2
+ 2021              	.LC37:
+ 2022 0544 506F7274 		.ascii	"Port 2 Close\000"
+ 2022      20322043 
+ 2022      6C6F7365 
+ 2022      00
+ 2023 0551 000000   		.space	3
+ 2024              	.LC38:
+ 2025 0554 506F7274 		.ascii	"Port 2 Close\015\012\000"
+ 2025      20322043 
+ 2025      6C6F7365 
+ 2025      0D0A00
+ 2026 0563 00       		.space	1
+ 2027              	.LC39:
+ 2028 0564 506F7274 		.ascii	"Port 1 Lock\000"
+ 2028      2031204C 
+ 2028      6F636B00 
+ 2029              	.LC40:
+ 2030 0570 506F7274 		.ascii	"Port 1 Lock\015\012\000"
+ 2030      2031204C 
+ 2030      6F636B0D 
+ 2030      0A00
+ 2031 057e 0000     		.space	2
+ 2032              	.LC41:
+ 2033 0580 506F7274 		.ascii	"Port 1 UnLock\000"
+ 2033      20312055 
+ 2033      6E4C6F63 
+ 2033      6B00
+ 2034 058e 0000     		.space	2
+ 2035              	.LC42:
+ 2036 0590 506F7274 		.ascii	"Port 1 UnLock\015\012\000"
+ 2036      20312055 
+ 2036      6E4C6F63 
+ 2036      6B0D0A00 
+ 2037              	.LC43:
+ 2038 05a0 506F7274 		.ascii	"Port 2 Lock\000"
+ 2038      2032204C 
+ 2038      6F636B00 
+ 2039              	.LC44:
+ 2040 05ac 506F7274 		.ascii	"Port 2 Lock\015\012\000"
+ 2040      2032204C 
+ 2040      6F636B0D 
+ 2040      0A00
+ 2041 05ba 0000     		.space	2
+ 2042              	.LC45:
+ 2043 05bc 506F7274 		.ascii	"Port 2 UnLock\000"
+ 2043      20322055 
+ 2043      6E4C6F63 
+ 2043      6B00
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 40
+
+
+ 2044 05ca 0000     		.space	2
+ 2045              	.LC46:
+ 2046 05cc 506F7274 		.ascii	"Port 2 UnLock\015\012\000"
+ 2046      20322055 
+ 2046      6E4C6F63 
+ 2046      6B0D0A00 
+ 2047              	.LC47:
+ 2048 05dc 506F7274 		.ascii	"Port 1 Wbits:\000"
+ 2048      20312057 
+ 2048      62697473 
+ 2048      3A00
+ 2049 05ea 0000     		.space	2
+ 2050              	.LC48:
+ 2051 05ec 506F7274 		.ascii	"Port 1 Wbits = %d\015\012\000"
+ 2051      20312057 
+ 2051      62697473 
+ 2051      203D2025 
+ 2051      640D0A00 
+ 2052              	.LC49:
+ 2053 0600 506F7274 		.ascii	"Port 2 Wbits:\000"
+ 2053      20322057 
+ 2053      62697473 
+ 2053      3A00
+ 2054 060e 0000     		.space	2
+ 2055              	.LC50:
+ 2056 0610 506F7274 		.ascii	"Port 2 Wbits = %d\015\012\000"
+ 2056      20322057 
+ 2056      62697473 
+ 2056      203D2025 
+ 2056      640D0A00 
+ 2057              	.LC51:
+ 2058 0624 43792052 		.ascii	"Cy RGB:\000"
+ 2058      47423A00 
+ 2059              	.LC52:
+ 2060 062c 5247425F 		.ascii	"RGB_Color = %d\015\012\000"
+ 2060      436F6C6F 
+ 2060      72203D20 
+ 2060      25640D0A 
+ 2060      00
+ 2061 063d 000000   		.space	3
+ 2062              	.LC53:
+ 2063 0640 43792052 		.ascii	"Cy Reset\000"
+ 2063      65736574 
+ 2063      00
+ 2064 0649 000000   		.space	3
+ 2065              	.LC54:
+ 2066 064c 43792043 		.ascii	"Cy Connect\000"
+ 2066      6F6E6E65 
+ 2066      637400
+ 2067 0657 00       		.space	1
+ 2068              	.LC55:
+ 2069 0658 43792043 		.ascii	"Cy Connected\000"
+ 2069      6F6E6E65 
+ 2069      63746564 
+ 2069      00
+ 2070 0665 000000   		.space	3
+ 2071              	.LC56:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 41
+
+
+ 2072 0668 57726F6E 		.ascii	"Wrong Msg!!!!! \015\012\000"
+ 2072      67204D73 
+ 2072      67212121 
+ 2072      2121200D 
+ 2072      0A00
+ 2073 067a 0000     		.space	2
+ 2074              	.LC57:
+ 2075 067c 2A2A2A2A 		.ascii	"********************************* Start Cy IO *****"
+ 2075      2A2A2A2A 
+ 2075      2A2A2A2A 
+ 2075      2A2A2A2A 
+ 2075      2A2A2A2A 
+ 2076 06af 2A2A2A2A 		.ascii	"****************************\015\012\000"
+ 2076      2A2A2A2A 
+ 2076      2A2A2A2A 
+ 2076      2A2A2A2A 
+ 2076      2A2A2A2A 
+ 2077              		.bss
+ 2078              		.align	2
+ 2079              		.set	.LANCHOR0,. + 0
+ 2080              		.type	read_failure_port1, %object
+ 2081              		.size	read_failure_port1, 4
+ 2082              	read_failure_port1:
+ 2083 0000 00000000 		.space	4
+ 2084              		.type	read_failure_port2, %object
+ 2085              		.size	read_failure_port2, 4
+ 2086              	read_failure_port2:
+ 2087 0004 00000000 		.space	4
+ 2088              		.type	read_failure_total, %object
+ 2089              		.size	read_failure_total, 4
+ 2090              	read_failure_total:
+ 2091 0008 00000000 		.space	4
+ 2092              		.type	Port1_W_Counter, %object
+ 2093              		.size	Port1_W_Counter, 1
+ 2094              	Port1_W_Counter:
+ 2095 000c 00       		.space	1
+ 2096              		.type	Port1_w_Start, %object
+ 2097              		.size	Port1_w_Start, 1
+ 2098              	Port1_w_Start:
+ 2099 000d 00       		.space	1
+ 2100              		.type	Port1_w_have, %object
+ 2101              		.size	Port1_w_have, 1
+ 2102              	Port1_w_have:
+ 2103 000e 00       		.space	1
+ 2104              		.type	Port2_W_Counter, %object
+ 2105              		.size	Port2_W_Counter, 1
+ 2106              	Port2_W_Counter:
+ 2107 000f 00       		.space	1
+ 2108              		.type	Port2_w_Start, %object
+ 2109              		.size	Port2_w_Start, 1
+ 2110              	Port2_w_Start:
+ 2111 0010 00       		.space	1
+ 2112              		.type	Port2_w_have, %object
+ 2113              		.size	Port2_w_have, 1
+ 2114              	Port2_w_have:
+ 2115 0011 00       		.space	1
+ 2116 0012 0000     		.space	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 42
+
+
+ 2117              		.type	linux_read_input_failure_port1, %object
+ 2118              		.size	linux_read_input_failure_port1, 4
+ 2119              	linux_read_input_failure_port1:
+ 2120 0014 00000000 		.space	4
+ 2121              		.type	linux_read_input_failure_port2, %object
+ 2122              		.size	linux_read_input_failure_port2, 4
+ 2123              	linux_read_input_failure_port2:
+ 2124 0018 00000000 		.space	4
+ 2125              		.type	linux_read_input_failure_total, %object
+ 2126              		.size	linux_read_input_failure_total, 4
+ 2127              	linux_read_input_failure_total:
+ 2128 001c 00000000 		.space	4
+ 2129              		.type	linux_read_failure_port1, %object
+ 2130              		.size	linux_read_failure_port1, 4
+ 2131              	linux_read_failure_port1:
+ 2132 0020 00000000 		.space	4
+ 2133              		.type	linux_read_failure_port2, %object
+ 2134              		.size	linux_read_failure_port2, 4
+ 2135              	linux_read_failure_port2:
+ 2136 0024 00000000 		.space	4
+ 2137              		.type	linux_read_failure_total, %object
+ 2138              		.size	linux_read_failure_total, 4
+ 2139              	linux_read_failure_total:
+ 2140 0028 00000000 		.space	4
+ 2141              		.type	RGB_Color, %object
+ 2142              		.size	RGB_Color, 1
+ 2143              	RGB_Color:
+ 2144 002c 00       		.space	1
+ 2145              		.type	RGB_Color_Old, %object
+ 2146              		.size	RGB_Color_Old, 1
+ 2147              	RGB_Color_Old:
+ 2148 002d 00       		.space	1
+ 2149 002e 0000     		.space	2
+ 2150              		.type	linux_uart_failure, %object
+ 2151              		.size	linux_uart_failure, 4
+ 2152              	linux_uart_failure:
+ 2153 0030 00000000 		.space	4
+ 2154              		.type	UART_Linux_Rx_Counter, %object
+ 2155              		.size	UART_Linux_Rx_Counter, 4
+ 2156              	UART_Linux_Rx_Counter:
+ 2157 0034 00000000 		.space	4
+ 2158              		.type	read_input_port1, %object
+ 2159              		.size	read_input_port1, 4
+ 2160              	read_input_port1:
+ 2161 0038 00000000 		.space	4
+ 2162              		.type	read_input_port2, %object
+ 2163              		.size	read_input_port2, 4
+ 2164              	read_input_port2:
+ 2165 003c 00000000 		.space	4
+ 2166              		.type	read_input_total, %object
+ 2167              		.size	read_input_total, 4
+ 2168              	read_input_total:
+ 2169 0040 00000000 		.space	4
+ 2170              		.type	Port1_Locked, %object
+ 2171              		.size	Port1_Locked, 1
+ 2172              	Port1_Locked:
+ 2173 0044 00       		.space	1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 43
+
+
+ 2174 0045 000000   		.space	3
+ 2175              		.type	read_counter_port1, %object
+ 2176              		.size	read_counter_port1, 4
+ 2177              	read_counter_port1:
+ 2178 0048 00000000 		.space	4
+ 2179              		.type	read_counter_port2, %object
+ 2180              		.size	read_counter_port2, 4
+ 2181              	read_counter_port2:
+ 2182 004c 00000000 		.space	4
+ 2183              		.type	read_counter_total, %object
+ 2184              		.size	read_counter_total, 4
+ 2185              	read_counter_total:
+ 2186 0050 00000000 		.space	4
+ 2187              		.type	Port2_Locked, %object
+ 2188              		.size	Port2_Locked, 1
+ 2189              	Port2_Locked:
+ 2190 0054 00       		.space	1
+ 2191 0055 000000   		.space	3
+ 2192              		.type	linux_read_counter_port1, %object
+ 2193              		.size	linux_read_counter_port1, 4
+ 2194              	linux_read_counter_port1:
+ 2195 0058 00000000 		.space	4
+ 2196              		.type	linux_read_counter_port2, %object
+ 2197              		.size	linux_read_counter_port2, 4
+ 2198              	linux_read_counter_port2:
+ 2199 005c 00000000 		.space	4
+ 2200              		.type	linux_read_counter_total, %object
+ 2201              		.size	linux_read_counter_total, 4
+ 2202              	linux_read_counter_total:
+ 2203 0060 00000000 		.space	4
+ 2204              		.type	Port1_Relay, %object
+ 2205              		.size	Port1_Relay, 1
+ 2206              	Port1_Relay:
+ 2207 0064 00       		.space	1
+ 2208              		.type	Port1_Relay_Old, %object
+ 2209              		.size	Port1_Relay_Old, 1
+ 2210              	Port1_Relay_Old:
+ 2211 0065 00       		.space	1
+ 2212              		.type	Port2_Relay, %object
+ 2213              		.size	Port2_Relay, 1
+ 2214              	Port2_Relay:
+ 2215 0066 00       		.space	1
+ 2216              		.type	Port2_Relay_Old, %object
+ 2217              		.size	Port2_Relay_Old, 1
+ 2218              	Port2_Relay_Old:
+ 2219 0067 00       		.space	1
+ 2220              		.type	Port1_Locked_Old, %object
+ 2221              		.size	Port1_Locked_Old, 1
+ 2222              	Port1_Locked_Old:
+ 2223 0068 00       		.space	1
+ 2224              		.type	Port2_Locked_Old, %object
+ 2225              		.size	Port2_Locked_Old, 1
+ 2226              	Port2_Locked_Old:
+ 2227 0069 00       		.space	1
+ 2228              		.type	UART_Linux_StartBit, %object
+ 2229              		.size	UART_Linux_StartBit, 1
+ 2230              	UART_Linux_StartBit:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmNKz5a.s 			page 44
+
+
+ 2231 006a 00       		.space	1
+ 2232              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,1425 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"UART_Linux.c"
+  16              		.section	.text.UART_Linux_Start,"ax",%progbits
+  17              		.align	2
+  18              		.global	UART_Linux_Start
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	UART_Linux_Start, %function
+  22              	UART_Linux_Start:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  26 0002 234C     		ldr	r4, .L5
+  27 0004 2578     		ldrb	r5, [r4]	@ zero_extendqisi2
+  28 0006 0DBB     		cbnz	r5, .L2
+  29 0008 2249     		ldr	r1, .L5+4
+  30 000a 0220     		movs	r0, #2
+  31 000c FFF7FEFF 		bl	CyIntSetVector
+  32 0010 0721     		movs	r1, #7
+  33 0012 0220     		movs	r0, #2
+  34 0014 FFF7FEFF 		bl	CyIntSetPriority
+  35 0018 1F4B     		ldr	r3, .L5+8
+  36 001a 2049     		ldr	r1, .L5+12
+  37 001c 2022     		movs	r2, #32
+  38 001e 7220     		movs	r0, #114
+  39 0020 0870     		strb	r0, [r1]
+  40 0022 1A70     		strb	r2, [r3]
+  41 0024 1E49     		ldr	r1, .L5+16
+  42 0026 0320     		movs	r0, #3
+  43 0028 6570     		strb	r5, [r4, #1]
+  44 002a FFF7FEFF 		bl	CyIntSetVector
+  45 002e 0721     		movs	r1, #7
+  46 0030 0320     		movs	r0, #3
+  47 0032 FFF7FEFF 		bl	CyIntSetPriority
+  48 0036 1B4E     		ldr	r6, .L5+20
+  49 0038 1B48     		ldr	r0, .L5+24
+  50 003a 1C4A     		ldr	r2, .L5+28
+  51 003c 0627     		movs	r7, #6
+  52 003e 4725     		movs	r5, #71
+  53 0040 0221     		movs	r1, #2
+  54 0042 0123     		movs	r3, #1
+  55 0044 3770     		strb	r7, [r6]
+  56 0046 0570     		strb	r5, [r0]
+  57 0048 1170     		strb	r1, [r2]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 2
+
+
+  58 004a 2370     		strb	r3, [r4]
+  59              	.L2:
+  60 004c FFF7FEFF 		bl	CyEnterCriticalSection
+  61 0050 0546     		mov	r5, r0
+  62 0052 174C     		ldr	r4, .L5+32
+  63 0054 1749     		ldr	r1, .L5+36
+  64 0056 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  65 0058 174A     		ldr	r2, .L5+40
+  66 005a 43F02003 		orr	r3, r3, #32
+  67 005e 2370     		strb	r3, [r4]
+  68 0060 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+  69 0062 0420     		movs	r0, #4
+  70 0064 43F01003 		orr	r3, r3, #16
+  71 0068 0B70     		strb	r3, [r1]
+  72 006a 1060     		str	r0, [r2]
+  73 006c 94F80431 		ldrb	r3, [r4, #260]	@ zero_extendqisi2
+  74 0070 1248     		ldr	r0, .L5+44
+  75 0072 43F01003 		orr	r3, r3, #16
+  76 0076 0821     		movs	r1, #8
+  77 0078 84F80431 		strb	r3, [r4, #260]
+  78 007c 0160     		str	r1, [r0]
+  79 007e 1160     		str	r1, [r2]
+  80 0080 FFF7FEFF 		bl	UART_Linux_IntClock_Start
+  81 0084 2846     		mov	r0, r5
+  82 0086 BDE8F840 		pop	{r3, r4, r5, r6, r7, lr}
+  83 008a FFF7FEBF 		b	CyExitCriticalSection
+  84              	.L6:
+  85 008e 00BF     		.align	2
+  86              	.L5:
+  87 0090 00000000 		.word	.LANCHOR0
+  88 0094 00000000 		.word	UART_Linux_RXISR
+  89 0098 85640040 		.word	1073767557
+  90 009c 82640040 		.word	1073767554
+  91 00a0 00000000 		.word	UART_Linux_TXISR
+  92 00a4 26640040 		.word	1073767462
+  93 00a8 36640040 		.word	1073767478
+  94 00ac 86650040 		.word	1073767814
+  95 00b0 92640040 		.word	1073767570
+  96 00b4 95640040 		.word	1073767573
+  97 00b8 00E100E0 		.word	-536813312
+  98 00bc 80E200E0 		.word	-536812928
+  99              		.size	UART_Linux_Start, .-UART_Linux_Start
+ 100              		.section	.text.UART_Linux_Init,"ax",%progbits
+ 101              		.align	2
+ 102              		.global	UART_Linux_Init
+ 103              		.thumb
+ 104              		.thumb_func
+ 105              		.type	UART_Linux_Init, %function
+ 106              	UART_Linux_Init:
+ 107              		@ args = 0, pretend = 0, frame = 0
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109 0000 38B5     		push	{r3, r4, r5, lr}
+ 110 0002 1149     		ldr	r1, .L9
+ 111 0004 0220     		movs	r0, #2
+ 112 0006 FFF7FEFF 		bl	CyIntSetVector
+ 113 000a 0721     		movs	r1, #7
+ 114 000c 0220     		movs	r0, #2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 3
+
+
+ 115 000e FFF7FEFF 		bl	CyIntSetPriority
+ 116 0012 0E4A     		ldr	r2, .L9+4
+ 117 0014 0E49     		ldr	r1, .L9+8
+ 118 0016 0F4B     		ldr	r3, .L9+12
+ 119 0018 7224     		movs	r4, #114
+ 120 001a 2020     		movs	r0, #32
+ 121 001c 1470     		strb	r4, [r2]
+ 122 001e 0022     		movs	r2, #0
+ 123 0020 0870     		strb	r0, [r1]
+ 124 0022 0D49     		ldr	r1, .L9+16
+ 125 0024 0320     		movs	r0, #3
+ 126 0026 5A70     		strb	r2, [r3, #1]
+ 127 0028 FFF7FEFF 		bl	CyIntSetVector
+ 128 002c 0721     		movs	r1, #7
+ 129 002e 0320     		movs	r0, #3
+ 130 0030 FFF7FEFF 		bl	CyIntSetPriority
+ 131 0034 094C     		ldr	r4, .L9+20
+ 132 0036 0A49     		ldr	r1, .L9+24
+ 133 0038 0A4B     		ldr	r3, .L9+28
+ 134 003a 0625     		movs	r5, #6
+ 135 003c 4720     		movs	r0, #71
+ 136 003e 0222     		movs	r2, #2
+ 137 0040 2570     		strb	r5, [r4]
+ 138 0042 0870     		strb	r0, [r1]
+ 139 0044 1A70     		strb	r2, [r3]
+ 140 0046 38BD     		pop	{r3, r4, r5, pc}
+ 141              	.L10:
+ 142              		.align	2
+ 143              	.L9:
+ 144 0048 00000000 		.word	UART_Linux_RXISR
+ 145 004c 82640040 		.word	1073767554
+ 146 0050 85640040 		.word	1073767557
+ 147 0054 00000000 		.word	.LANCHOR0
+ 148 0058 00000000 		.word	UART_Linux_TXISR
+ 149 005c 26640040 		.word	1073767462
+ 150 0060 36640040 		.word	1073767478
+ 151 0064 86650040 		.word	1073767814
+ 152              		.size	UART_Linux_Init, .-UART_Linux_Init
+ 153              		.section	.text.UART_Linux_Enable,"ax",%progbits
+ 154              		.align	2
+ 155              		.global	UART_Linux_Enable
+ 156              		.thumb
+ 157              		.thumb_func
+ 158              		.type	UART_Linux_Enable, %function
+ 159              	UART_Linux_Enable:
+ 160              		@ args = 0, pretend = 0, frame = 0
+ 161              		@ frame_needed = 0, uses_anonymous_args = 0
+ 162 0000 38B5     		push	{r3, r4, r5, lr}
+ 163 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 164 0006 0546     		mov	r5, r0
+ 165 0008 0E4C     		ldr	r4, .L13
+ 166 000a 0F49     		ldr	r1, .L13+4
+ 167 000c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 168 000e 0F4A     		ldr	r2, .L13+8
+ 169 0010 43F02003 		orr	r3, r3, #32
+ 170 0014 2370     		strb	r3, [r4]
+ 171 0016 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 4
+
+
+ 172 0018 0420     		movs	r0, #4
+ 173 001a 43F01003 		orr	r3, r3, #16
+ 174 001e 0B70     		strb	r3, [r1]
+ 175 0020 1060     		str	r0, [r2]
+ 176 0022 94F80431 		ldrb	r3, [r4, #260]	@ zero_extendqisi2
+ 177 0026 0A48     		ldr	r0, .L13+12
+ 178 0028 43F01003 		orr	r3, r3, #16
+ 179 002c 0821     		movs	r1, #8
+ 180 002e 84F80431 		strb	r3, [r4, #260]
+ 181 0032 0160     		str	r1, [r0]
+ 182 0034 1160     		str	r1, [r2]
+ 183 0036 FFF7FEFF 		bl	UART_Linux_IntClock_Start
+ 184 003a 2846     		mov	r0, r5
+ 185 003c BDE83840 		pop	{r3, r4, r5, lr}
+ 186 0040 FFF7FEBF 		b	CyExitCriticalSection
+ 187              	.L14:
+ 188              		.align	2
+ 189              	.L13:
+ 190 0044 92640040 		.word	1073767570
+ 191 0048 95640040 		.word	1073767573
+ 192 004c 00E100E0 		.word	-536813312
+ 193 0050 80E200E0 		.word	-536812928
+ 194              		.size	UART_Linux_Enable, .-UART_Linux_Enable
+ 195              		.section	.text.UART_Linux_Stop,"ax",%progbits
+ 196              		.align	2
+ 197              		.global	UART_Linux_Stop
+ 198              		.thumb
+ 199              		.thumb_func
+ 200              		.type	UART_Linux_Stop, %function
+ 201              	UART_Linux_Stop:
+ 202              		@ args = 0, pretend = 0, frame = 0
+ 203              		@ frame_needed = 0, uses_anonymous_args = 0
+ 204 0000 38B5     		push	{r3, r4, r5, lr}
+ 205 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 206 0006 0546     		mov	r5, r0
+ 207 0008 0D4A     		ldr	r2, .L17
+ 208 000a 0E4C     		ldr	r4, .L17+4
+ 209 000c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 210 000e 03F0DF03 		and	r3, r3, #223
+ 211 0012 1370     		strb	r3, [r2]
+ 212 0014 FFF7FEFF 		bl	UART_Linux_IntClock_Stop
+ 213 0018 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 214 001a 0B4A     		ldr	r2, .L17+8
+ 215 001c 0420     		movs	r0, #4
+ 216 001e 03F0EF03 		and	r3, r3, #239
+ 217 0022 0A49     		ldr	r1, .L17+12
+ 218 0024 2370     		strb	r3, [r4]
+ 219 0026 1060     		str	r0, [r2]
+ 220 0028 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 221 002a 0824     		movs	r4, #8
+ 222 002c 03F0EF03 		and	r3, r3, #239
+ 223 0030 0B70     		strb	r3, [r1]
+ 224 0032 2846     		mov	r0, r5
+ 225 0034 1460     		str	r4, [r2]
+ 226 0036 BDE83840 		pop	{r3, r4, r5, lr}
+ 227 003a FFF7FEBF 		b	CyExitCriticalSection
+ 228              	.L18:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 5
+
+
+ 229 003e 00BF     		.align	2
+ 230              	.L17:
+ 231 0040 92640040 		.word	1073767570
+ 232 0044 95640040 		.word	1073767573
+ 233 0048 80E100E0 		.word	-536813184
+ 234 004c 96650040 		.word	1073767830
+ 235              		.size	UART_Linux_Stop, .-UART_Linux_Stop
+ 236              		.section	.text.UART_Linux_ReadControlRegister,"ax",%progbits
+ 237              		.align	2
+ 238              		.global	UART_Linux_ReadControlRegister
+ 239              		.thumb
+ 240              		.thumb_func
+ 241              		.type	UART_Linux_ReadControlRegister, %function
+ 242              	UART_Linux_ReadControlRegister:
+ 243              		@ args = 0, pretend = 0, frame = 0
+ 244              		@ frame_needed = 0, uses_anonymous_args = 0
+ 245              		@ link register save eliminated.
+ 246 0000 0020     		movs	r0, #0
+ 247 0002 7047     		bx	lr
+ 248              		.size	UART_Linux_ReadControlRegister, .-UART_Linux_ReadControlRegister
+ 249              		.section	.text.UART_Linux_WriteControlRegister,"ax",%progbits
+ 250              		.align	2
+ 251              		.global	UART_Linux_WriteControlRegister
+ 252              		.thumb
+ 253              		.thumb_func
+ 254              		.type	UART_Linux_WriteControlRegister, %function
+ 255              	UART_Linux_WriteControlRegister:
+ 256              		@ args = 0, pretend = 0, frame = 0
+ 257              		@ frame_needed = 0, uses_anonymous_args = 0
+ 258              		@ link register save eliminated.
+ 259 0000 7047     		bx	lr
+ 260              		.size	UART_Linux_WriteControlRegister, .-UART_Linux_WriteControlRegister
+ 261 0002 00BF     		.section	.text.UART_Linux_SetRxInterruptMode,"ax",%progbits
+ 262              		.align	2
+ 263              		.global	UART_Linux_SetRxInterruptMode
+ 264              		.thumb
+ 265              		.thumb_func
+ 266              		.type	UART_Linux_SetRxInterruptMode, %function
+ 267              	UART_Linux_SetRxInterruptMode:
+ 268              		@ args = 0, pretend = 0, frame = 0
+ 269              		@ frame_needed = 0, uses_anonymous_args = 0
+ 270              		@ link register save eliminated.
+ 271 0000 014B     		ldr	r3, .L22
+ 272 0002 1870     		strb	r0, [r3]
+ 273 0004 7047     		bx	lr
+ 274              	.L23:
+ 275 0006 00BF     		.align	2
+ 276              	.L22:
+ 277 0008 85640040 		.word	1073767557
+ 278              		.size	UART_Linux_SetRxInterruptMode, .-UART_Linux_SetRxInterruptMode
+ 279              		.section	.text.UART_Linux_ReadRxData,"ax",%progbits
+ 280              		.align	2
+ 281              		.global	UART_Linux_ReadRxData
+ 282              		.thumb
+ 283              		.thumb_func
+ 284              		.type	UART_Linux_ReadRxData, %function
+ 285              	UART_Linux_ReadRxData:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 6
+
+
+ 286              		@ args = 0, pretend = 0, frame = 0
+ 287              		@ frame_needed = 0, uses_anonymous_args = 0
+ 288              		@ link register save eliminated.
+ 289 0000 10B4     		push	{r4}
+ 290 0002 124B     		ldr	r3, .L33
+ 291 0004 124A     		ldr	r2, .L33+4
+ 292 0006 0421     		movs	r1, #4
+ 293 0008 1960     		str	r1, [r3]
+ 294 000a 5188     		ldrh	r1, [r2, #2]
+ 295 000c 9388     		ldrh	r3, [r2, #4]
+ 296 000e 9079     		ldrb	r0, [r2, #6]	@ zero_extendqisi2
+ 297 0010 89B2     		uxth	r1, r1
+ 298 0012 10B9     		cbnz	r0, .L25
+ 299 0014 9BB2     		uxth	r3, r3
+ 300 0016 9942     		cmp	r1, r3
+ 301 0018 13D0     		beq	.L26
+ 302              	.L25:
+ 303 001a 4B1C     		adds	r3, r1, #1
+ 304 001c 9BB2     		uxth	r3, r3
+ 305 001e B3F5806F 		cmp	r3, #1024
+ 306 0022 0C48     		ldr	r0, .L33+8
+ 307 0024 28BF     		it	cs
+ 308 0026 0023     		movcs	r3, #0
+ 309 0028 405C     		ldrb	r0, [r0, r1]	@ zero_extendqisi2
+ 310 002a 5380     		strh	r3, [r2, #2]	@ movhi
+ 311 002c 9379     		ldrb	r3, [r2, #6]	@ zero_extendqisi2
+ 312 002e 084C     		ldr	r4, .L33+4
+ 313 0030 C0B2     		uxtb	r0, r0
+ 314 0032 0BB1     		cbz	r3, .L28
+ 315 0034 0023     		movs	r3, #0
+ 316 0036 A371     		strb	r3, [r4, #6]
+ 317              	.L28:
+ 318 0038 074B     		ldr	r3, .L33+12
+ 319 003a 0422     		movs	r2, #4
+ 320 003c 1A60     		str	r2, [r3]
+ 321 003e 10BC     		pop	{r4}
+ 322 0040 7047     		bx	lr
+ 323              	.L26:
+ 324 0042 064B     		ldr	r3, .L33+16
+ 325 0044 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 326 0046 C0B2     		uxtb	r0, r0
+ 327 0048 F6E7     		b	.L28
+ 328              	.L34:
+ 329 004a 00BF     		.align	2
+ 330              	.L33:
+ 331 004c 80E100E0 		.word	-536813184
+ 332 0050 00000000 		.word	.LANCHOR0
+ 333 0054 00000000 		.word	UART_Linux_rxBuffer
+ 334 0058 00E100E0 		.word	-536813312
+ 335 005c 45640040 		.word	1073767493
+ 336              		.size	UART_Linux_ReadRxData, .-UART_Linux_ReadRxData
+ 337              		.section	.text.UART_Linux_ReadRxStatus,"ax",%progbits
+ 338              		.align	2
+ 339              		.global	UART_Linux_ReadRxStatus
+ 340              		.thumb
+ 341              		.thumb_func
+ 342              		.type	UART_Linux_ReadRxStatus, %function
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 7
+
+
+ 343              	UART_Linux_ReadRxStatus:
+ 344              		@ args = 0, pretend = 0, frame = 0
+ 345              		@ frame_needed = 0, uses_anonymous_args = 0
+ 346              		@ link register save eliminated.
+ 347 0000 054A     		ldr	r2, .L40
+ 348 0002 064B     		ldr	r3, .L40+4
+ 349 0004 1078     		ldrb	r0, [r2]	@ zero_extendqisi2
+ 350 0006 DA79     		ldrb	r2, [r3, #7]	@ zero_extendqisi2
+ 351 0008 00F07F00 		and	r0, r0, #127
+ 352 000c 1AB1     		cbz	r2, .L36
+ 353 000e 0022     		movs	r2, #0
+ 354 0010 40F08000 		orr	r0, r0, #128
+ 355 0014 DA71     		strb	r2, [r3, #7]
+ 356              	.L36:
+ 357 0016 7047     		bx	lr
+ 358              	.L41:
+ 359              		.align	2
+ 360              	.L40:
+ 361 0018 65640040 		.word	1073767525
+ 362 001c 00000000 		.word	.LANCHOR0
+ 363              		.size	UART_Linux_ReadRxStatus, .-UART_Linux_ReadRxStatus
+ 364              		.section	.text.UART_Linux_GetChar,"ax",%progbits
+ 365              		.align	2
+ 366              		.global	UART_Linux_GetChar
+ 367              		.thumb
+ 368              		.thumb_func
+ 369              		.type	UART_Linux_GetChar, %function
+ 370              	UART_Linux_GetChar:
+ 371              		@ args = 0, pretend = 0, frame = 0
+ 372              		@ frame_needed = 0, uses_anonymous_args = 0
+ 373              		@ link register save eliminated.
+ 374 0000 10B4     		push	{r4}
+ 375 0002 184B     		ldr	r3, .L53
+ 376 0004 184A     		ldr	r2, .L53+4
+ 377 0006 0421     		movs	r1, #4
+ 378 0008 1960     		str	r1, [r3]
+ 379 000a 5188     		ldrh	r1, [r2, #2]
+ 380 000c 9388     		ldrh	r3, [r2, #4]
+ 381 000e 9079     		ldrb	r0, [r2, #6]	@ zero_extendqisi2
+ 382 0010 89B2     		uxth	r1, r1
+ 383 0012 10B9     		cbnz	r0, .L43
+ 384 0014 9BB2     		uxth	r3, r3
+ 385 0016 9942     		cmp	r1, r3
+ 386 0018 13D0     		beq	.L44
+ 387              	.L43:
+ 388 001a 4B1C     		adds	r3, r1, #1
+ 389 001c 9BB2     		uxth	r3, r3
+ 390 001e B3F5806F 		cmp	r3, #1024
+ 391 0022 1248     		ldr	r0, .L53+8
+ 392 0024 28BF     		it	cs
+ 393 0026 0023     		movcs	r3, #0
+ 394 0028 405C     		ldrb	r0, [r0, r1]	@ zero_extendqisi2
+ 395 002a 5380     		strh	r3, [r2, #2]	@ movhi
+ 396 002c 9379     		ldrb	r3, [r2, #6]	@ zero_extendqisi2
+ 397 002e 0E4C     		ldr	r4, .L53+4
+ 398 0030 C0B2     		uxtb	r0, r0
+ 399 0032 0BB1     		cbz	r3, .L46
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 8
+
+
+ 400 0034 0023     		movs	r3, #0
+ 401 0036 A371     		strb	r3, [r4, #6]
+ 402              	.L46:
+ 403 0038 0D4B     		ldr	r3, .L53+12
+ 404 003a 0422     		movs	r2, #4
+ 405 003c 1A60     		str	r2, [r3]
+ 406 003e 10BC     		pop	{r4}
+ 407 0040 7047     		bx	lr
+ 408              	.L44:
+ 409 0042 0C4B     		ldr	r3, .L53+16
+ 410 0044 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 411 0046 DBB2     		uxtb	r3, r3
+ 412 0048 03F02002 		and	r2, r3, #32
+ 413 004c 02F0FF00 		and	r0, r2, #255
+ 414 0050 002A     		cmp	r2, #0
+ 415 0052 F1D0     		beq	.L46
+ 416 0054 084A     		ldr	r2, .L53+20
+ 417 0056 13F01E0F 		tst	r3, #30
+ 418 005a 1078     		ldrb	r0, [r2]	@ zero_extendqisi2
+ 419 005c 18BF     		it	ne
+ 420 005e 0020     		movne	r0, #0
+ 421 0060 EAE7     		b	.L46
+ 422              	.L54:
+ 423 0062 00BF     		.align	2
+ 424              	.L53:
+ 425 0064 80E100E0 		.word	-536813184
+ 426 0068 00000000 		.word	.LANCHOR0
+ 427 006c 00000000 		.word	UART_Linux_rxBuffer
+ 428 0070 00E100E0 		.word	-536813312
+ 429 0074 65640040 		.word	1073767525
+ 430 0078 45640040 		.word	1073767493
+ 431              		.size	UART_Linux_GetChar, .-UART_Linux_GetChar
+ 432              		.section	.text.UART_Linux_GetByte,"ax",%progbits
+ 433              		.align	2
+ 434              		.global	UART_Linux_GetByte
+ 435              		.thumb
+ 436              		.thumb_func
+ 437              		.type	UART_Linux_GetByte, %function
+ 438              	UART_Linux_GetByte:
+ 439              		@ args = 0, pretend = 0, frame = 0
+ 440              		@ frame_needed = 0, uses_anonymous_args = 0
+ 441              		@ link register save eliminated.
+ 442 0000 30B4     		push	{r4, r5}
+ 443 0002 1649     		ldr	r1, .L64
+ 444 0004 164B     		ldr	r3, .L64+4
+ 445 0006 0422     		movs	r2, #4
+ 446 0008 164C     		ldr	r4, .L64+8
+ 447 000a 0A60     		str	r2, [r1]
+ 448 000c 0025     		movs	r5, #0
+ 449 000e 5878     		ldrb	r0, [r3, #1]	@ zero_extendqisi2
+ 450 0010 5D70     		strb	r5, [r3, #1]
+ 451 0012 2260     		str	r2, [r4]
+ 452 0014 0A60     		str	r2, [r1]
+ 453 0016 5988     		ldrh	r1, [r3, #2]
+ 454 0018 9A88     		ldrh	r2, [r3, #4]
+ 455 001a 9C79     		ldrb	r4, [r3, #6]	@ zero_extendqisi2
+ 456 001c 0002     		lsls	r0, r0, #8
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 9
+
+
+ 457 001e 89B2     		uxth	r1, r1
+ 458 0020 14B9     		cbnz	r4, .L56
+ 459 0022 92B2     		uxth	r2, r2
+ 460 0024 9142     		cmp	r1, r2
+ 461 0026 14D0     		beq	.L57
+ 462              	.L56:
+ 463 0028 4A1C     		adds	r2, r1, #1
+ 464 002a 92B2     		uxth	r2, r2
+ 465 002c B2F5806F 		cmp	r2, #1024
+ 466 0030 0D4C     		ldr	r4, .L64+12
+ 467 0032 28BF     		it	cs
+ 468 0034 0022     		movcs	r2, #0
+ 469 0036 615C     		ldrb	r1, [r4, r1]	@ zero_extendqisi2
+ 470 0038 5A80     		strh	r2, [r3, #2]	@ movhi
+ 471 003a 9A79     		ldrb	r2, [r3, #6]	@ zero_extendqisi2
+ 472 003c 084D     		ldr	r5, .L64+4
+ 473 003e CBB2     		uxtb	r3, r1
+ 474 0040 0AB1     		cbz	r2, .L59
+ 475 0042 0022     		movs	r2, #0
+ 476 0044 AA71     		strb	r2, [r5, #6]
+ 477              	.L59:
+ 478 0046 074A     		ldr	r2, .L64+8
+ 479 0048 0421     		movs	r1, #4
+ 480 004a 1843     		orrs	r0, r0, r3
+ 481 004c 1160     		str	r1, [r2]
+ 482 004e 30BC     		pop	{r4, r5}
+ 483 0050 7047     		bx	lr
+ 484              	.L57:
+ 485 0052 064B     		ldr	r3, .L64+16
+ 486 0054 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 487 0056 DBB2     		uxtb	r3, r3
+ 488 0058 F5E7     		b	.L59
+ 489              	.L65:
+ 490 005a 00BF     		.align	2
+ 491              	.L64:
+ 492 005c 80E100E0 		.word	-536813184
+ 493 0060 00000000 		.word	.LANCHOR0
+ 494 0064 00E100E0 		.word	-536813312
+ 495 0068 00000000 		.word	UART_Linux_rxBuffer
+ 496 006c 45640040 		.word	1073767493
+ 497              		.size	UART_Linux_GetByte, .-UART_Linux_GetByte
+ 498              		.section	.text.UART_Linux_GetRxBufferSize,"ax",%progbits
+ 499              		.align	2
+ 500              		.global	UART_Linux_GetRxBufferSize
+ 501              		.thumb
+ 502              		.thumb_func
+ 503              		.type	UART_Linux_GetRxBufferSize, %function
+ 504              	UART_Linux_GetRxBufferSize:
+ 505              		@ args = 0, pretend = 0, frame = 0
+ 506              		@ frame_needed = 0, uses_anonymous_args = 0
+ 507              		@ link register save eliminated.
+ 508 0000 124B     		ldr	r3, .L73
+ 509 0002 0421     		movs	r1, #4
+ 510 0004 124A     		ldr	r2, .L73+4
+ 511 0006 1960     		str	r1, [r3]
+ 512 0008 5188     		ldrh	r1, [r2, #2]
+ 513 000a 9388     		ldrh	r3, [r2, #4]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 10
+
+
+ 514 000c 89B2     		uxth	r1, r1
+ 515 000e 9BB2     		uxth	r3, r3
+ 516 0010 9942     		cmp	r1, r3
+ 517 0012 10D0     		beq	.L72
+ 518 0014 5188     		ldrh	r1, [r2, #2]
+ 519 0016 9388     		ldrh	r3, [r2, #4]
+ 520 0018 89B2     		uxth	r1, r1
+ 521 001a 9BB2     		uxth	r3, r3
+ 522 001c 9942     		cmp	r1, r3
+ 523 001e 9388     		ldrh	r3, [r2, #4]
+ 524 0020 5088     		ldrh	r0, [r2, #2]
+ 525 0022 24BF     		itt	cs
+ 526 0024 9BB2     		uxthcs	r3, r3
+ 527 0026 03F58063 		addcs	r3, r3, #1024
+ 528 002a 181A     		subs	r0, r3, r0
+ 529 002c 094B     		ldr	r3, .L73+8
+ 530 002e 0422     		movs	r2, #4
+ 531 0030 80B2     		uxth	r0, r0
+ 532 0032 1A60     		str	r2, [r3]
+ 533 0034 7047     		bx	lr
+ 534              	.L72:
+ 535 0036 9379     		ldrb	r3, [r2, #6]	@ zero_extendqisi2
+ 536 0038 0422     		movs	r2, #4
+ 537 003a 002B     		cmp	r3, #0
+ 538 003c 054B     		ldr	r3, .L73+8
+ 539 003e 14BF     		ite	ne
+ 540 0040 4FF48060 		movne	r0, #1024
+ 541 0044 0020     		moveq	r0, #0
+ 542 0046 1A60     		str	r2, [r3]
+ 543 0048 7047     		bx	lr
+ 544              	.L74:
+ 545 004a 00BF     		.align	2
+ 546              	.L73:
+ 547 004c 80E100E0 		.word	-536813184
+ 548 0050 00000000 		.word	.LANCHOR0
+ 549 0054 00E100E0 		.word	-536813312
+ 550              		.size	UART_Linux_GetRxBufferSize, .-UART_Linux_GetRxBufferSize
+ 551              		.section	.text.UART_Linux_ClearRxBuffer,"ax",%progbits
+ 552              		.align	2
+ 553              		.global	UART_Linux_ClearRxBuffer
+ 554              		.thumb
+ 555              		.thumb_func
+ 556              		.type	UART_Linux_ClearRxBuffer, %function
+ 557              	UART_Linux_ClearRxBuffer:
+ 558              		@ args = 0, pretend = 0, frame = 0
+ 559              		@ frame_needed = 0, uses_anonymous_args = 0
+ 560 0000 10B5     		push	{r4, lr}
+ 561 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 562 0006 0B4B     		ldr	r3, .L77
+ 563 0008 0B4C     		ldr	r4, .L77+4
+ 564 000a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 565 000c 42F00102 		orr	r2, r2, #1
+ 566 0010 1A70     		strb	r2, [r3]
+ 567 0012 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 568 0014 02F0FE02 		and	r2, r2, #254
+ 569 0018 1A70     		strb	r2, [r3]
+ 570 001a FFF7FEFF 		bl	CyExitCriticalSection
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 11
+
+
+ 571 001e 074B     		ldr	r3, .L77+8
+ 572 0020 0022     		movs	r2, #0
+ 573 0022 0421     		movs	r1, #4
+ 574 0024 0648     		ldr	r0, .L77+12
+ 575 0026 2160     		str	r1, [r4]
+ 576 0028 5A80     		strh	r2, [r3, #2]	@ movhi
+ 577 002a 9A80     		strh	r2, [r3, #4]	@ movhi
+ 578 002c 9A71     		strb	r2, [r3, #6]
+ 579 002e DA71     		strb	r2, [r3, #7]
+ 580 0030 0160     		str	r1, [r0]
+ 581 0032 10BD     		pop	{r4, pc}
+ 582              	.L78:
+ 583              		.align	2
+ 584              	.L77:
+ 585 0034 95640040 		.word	1073767573
+ 586 0038 80E100E0 		.word	-536813184
+ 587 003c 00000000 		.word	.LANCHOR0
+ 588 0040 00E100E0 		.word	-536813312
+ 589              		.size	UART_Linux_ClearRxBuffer, .-UART_Linux_ClearRxBuffer
+ 590              		.section	.text.UART_Linux_SetRxAddressMode,"ax",%progbits
+ 591              		.align	2
+ 592              		.global	UART_Linux_SetRxAddressMode
+ 593              		.thumb
+ 594              		.thumb_func
+ 595              		.type	UART_Linux_SetRxAddressMode, %function
+ 596              	UART_Linux_SetRxAddressMode:
+ 597              		@ args = 0, pretend = 0, frame = 0
+ 598              		@ frame_needed = 0, uses_anonymous_args = 0
+ 599              		@ link register save eliminated.
+ 600 0000 7047     		bx	lr
+ 601              		.size	UART_Linux_SetRxAddressMode, .-UART_Linux_SetRxAddressMode
+ 602 0002 00BF     		.section	.text.UART_Linux_SetRxAddress1,"ax",%progbits
+ 603              		.align	2
+ 604              		.global	UART_Linux_SetRxAddress1
+ 605              		.thumb
+ 606              		.thumb_func
+ 607              		.type	UART_Linux_SetRxAddress1, %function
+ 608              	UART_Linux_SetRxAddress1:
+ 609              		@ args = 0, pretend = 0, frame = 0
+ 610              		@ frame_needed = 0, uses_anonymous_args = 0
+ 611              		@ link register save eliminated.
+ 612 0000 014B     		ldr	r3, .L81
+ 613 0002 1870     		strb	r0, [r3]
+ 614 0004 7047     		bx	lr
+ 615              	.L82:
+ 616 0006 00BF     		.align	2
+ 617              	.L81:
+ 618 0008 25640040 		.word	1073767461
+ 619              		.size	UART_Linux_SetRxAddress1, .-UART_Linux_SetRxAddress1
+ 620              		.section	.text.UART_Linux_SetRxAddress2,"ax",%progbits
+ 621              		.align	2
+ 622              		.global	UART_Linux_SetRxAddress2
+ 623              		.thumb
+ 624              		.thumb_func
+ 625              		.type	UART_Linux_SetRxAddress2, %function
+ 626              	UART_Linux_SetRxAddress2:
+ 627              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 12
+
+
+ 628              		@ frame_needed = 0, uses_anonymous_args = 0
+ 629              		@ link register save eliminated.
+ 630 0000 014B     		ldr	r3, .L84
+ 631 0002 1870     		strb	r0, [r3]
+ 632 0004 7047     		bx	lr
+ 633              	.L85:
+ 634 0006 00BF     		.align	2
+ 635              	.L84:
+ 636 0008 35640040 		.word	1073767477
+ 637              		.size	UART_Linux_SetRxAddress2, .-UART_Linux_SetRxAddress2
+ 638              		.section	.text.UART_Linux_SetTxInterruptMode,"ax",%progbits
+ 639              		.align	2
+ 640              		.global	UART_Linux_SetTxInterruptMode
+ 641              		.thumb
+ 642              		.thumb_func
+ 643              		.type	UART_Linux_SetTxInterruptMode, %function
+ 644              	UART_Linux_SetTxInterruptMode:
+ 645              		@ args = 0, pretend = 0, frame = 0
+ 646              		@ frame_needed = 0, uses_anonymous_args = 0
+ 647              		@ link register save eliminated.
+ 648 0000 014B     		ldr	r3, .L87
+ 649 0002 1870     		strb	r0, [r3]
+ 650 0004 7047     		bx	lr
+ 651              	.L88:
+ 652 0006 00BF     		.align	2
+ 653              	.L87:
+ 654 0008 86650040 		.word	1073767814
+ 655              		.size	UART_Linux_SetTxInterruptMode, .-UART_Linux_SetTxInterruptMode
+ 656              		.section	.text.UART_Linux_WriteTxData,"ax",%progbits
+ 657              		.align	2
+ 658              		.global	UART_Linux_WriteTxData
+ 659              		.thumb
+ 660              		.thumb_func
+ 661              		.type	UART_Linux_WriteTxData, %function
+ 662              	UART_Linux_WriteTxData:
+ 663              		@ args = 0, pretend = 0, frame = 0
+ 664              		@ frame_needed = 0, uses_anonymous_args = 0
+ 665              		@ link register save eliminated.
+ 666 0000 10B4     		push	{r4}
+ 667 0002 114B     		ldr	r3, .L100
+ 668 0004 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 669 0006 AAB1     		cbz	r2, .L89
+ 670 0008 104A     		ldr	r2, .L100+4
+ 671 000a 0821     		movs	r1, #8
+ 672 000c 1160     		str	r1, [r2]
+ 673 000e 1989     		ldrh	r1, [r3, #8]
+ 674 0010 5A89     		ldrh	r2, [r3, #10]
+ 675 0012 89B2     		uxth	r1, r1
+ 676 0014 9142     		cmp	r1, r2
+ 677 0016 0FD0     		beq	.L99
+ 678              	.L91:
+ 679 0018 B2F5806F 		cmp	r2, #1024
+ 680 001c 38BF     		it	cc
+ 681 001e 511C     		addcc	r1, r2, #1
+ 682 0020 0B4C     		ldr	r4, .L100+8
+ 683 0022 32BF     		itee	cc
+ 684 0024 89B2     		uxthcc	r1, r1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 13
+
+
+ 685 0026 0121     		movcs	r1, #1
+ 686 0028 0022     		movcs	r2, #0
+ 687 002a 5981     		strh	r1, [r3, #10]	@ movhi
+ 688 002c A054     		strb	r0, [r4, r2]
+ 689              	.L92:
+ 690 002e 094B     		ldr	r3, .L100+12
+ 691 0030 0822     		movs	r2, #8
+ 692 0032 1A60     		str	r2, [r3]
+ 693              	.L89:
+ 694 0034 10BC     		pop	{r4}
+ 695 0036 7047     		bx	lr
+ 696              	.L99:
+ 697 0038 0749     		ldr	r1, .L100+16
+ 698 003a 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+ 699 003c 4907     		lsls	r1, r1, #29
+ 700 003e EBD4     		bmi	.L91
+ 701 0040 064B     		ldr	r3, .L100+20
+ 702 0042 1870     		strb	r0, [r3]
+ 703 0044 F3E7     		b	.L92
+ 704              	.L101:
+ 705 0046 00BF     		.align	2
+ 706              	.L100:
+ 707 0048 00000000 		.word	.LANCHOR0
+ 708 004c 80E100E0 		.word	-536813184
+ 709 0050 00000000 		.word	UART_Linux_txBuffer
+ 710 0054 00E100E0 		.word	-536813312
+ 711 0058 66650040 		.word	1073767782
+ 712 005c 46650040 		.word	1073767750
+ 713              		.size	UART_Linux_WriteTxData, .-UART_Linux_WriteTxData
+ 714              		.section	.text.UART_Linux_ReadTxStatus,"ax",%progbits
+ 715              		.align	2
+ 716              		.global	UART_Linux_ReadTxStatus
+ 717              		.thumb
+ 718              		.thumb_func
+ 719              		.type	UART_Linux_ReadTxStatus, %function
+ 720              	UART_Linux_ReadTxStatus:
+ 721              		@ args = 0, pretend = 0, frame = 0
+ 722              		@ frame_needed = 0, uses_anonymous_args = 0
+ 723              		@ link register save eliminated.
+ 724 0000 014B     		ldr	r3, .L103
+ 725 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 726 0004 7047     		bx	lr
+ 727              	.L104:
+ 728 0006 00BF     		.align	2
+ 729              	.L103:
+ 730 0008 66650040 		.word	1073767782
+ 731              		.size	UART_Linux_ReadTxStatus, .-UART_Linux_ReadTxStatus
+ 732              		.section	.text.UART_Linux_PutChar,"ax",%progbits
+ 733              		.align	2
+ 734              		.global	UART_Linux_PutChar
+ 735              		.thumb
+ 736              		.thumb_func
+ 737              		.type	UART_Linux_PutChar, %function
+ 738              	UART_Linux_PutChar:
+ 739              		@ args = 0, pretend = 0, frame = 0
+ 740              		@ frame_needed = 0, uses_anonymous_args = 0
+ 741              		@ link register save eliminated.
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 14
+
+
+ 742 0000 F0B4     		push	{r4, r5, r6, r7}
+ 743 0002 40F2FF37 		movw	r7, #1023
+ 744 0006 194D     		ldr	r5, .L117
+ 745 0008 6C89     		ldrh	r4, [r5, #10]
+ 746              	.L106:
+ 747 000a 2B89     		ldrh	r3, [r5, #8]
+ 748 000c 2646     		mov	r6, r4
+ 749 000e 9BB2     		uxth	r3, r3
+ 750 0010 591E     		subs	r1, r3, #1
+ 751 0012 E21A     		subs	r2, r4, r3
+ 752 0014 091B     		subs	r1, r1, r4
+ 753 0016 D21B     		subs	r2, r2, r7
+ 754 0018 B1FA81F1 		clz	r1, r1
+ 755 001c B2FA82F2 		clz	r2, r2
+ 756 0020 4909     		lsrs	r1, r1, #5
+ 757 0022 5209     		lsrs	r2, r2, #5
+ 758 0024 A342     		cmp	r3, r4
+ 759 0026 88BF     		it	hi
+ 760 0028 0A46     		movhi	r2, r1
+ 761 002a 002A     		cmp	r2, #0
+ 762 002c EDD1     		bne	.L106
+ 763 002e A342     		cmp	r3, r4
+ 764 0030 13D0     		beq	.L116
+ 765              	.L107:
+ 766 0032 B4F5806F 		cmp	r4, #1024
+ 767 0036 0E4A     		ldr	r2, .L117+4
+ 768 0038 28BF     		it	cs
+ 769 003a 0026     		movcs	r6, #0
+ 770 003c 0D4B     		ldr	r3, .L117+8
+ 771 003e 9055     		strb	r0, [r2, r6]
+ 772 0040 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 773 0042 3ABF     		itte	cc
+ 774 0044 0134     		addcc	r4, r4, #1
+ 775 0046 A4B2     		uxthcc	r4, r4
+ 776 0048 0124     		movcs	r4, #1
+ 777 004a 9B07     		lsls	r3, r3, #30
+ 778 004c 6C81     		strh	r4, [r5, #10]	@ movhi
+ 779 004e 02D5     		bpl	.L105
+ 780 0050 094B     		ldr	r3, .L117+12
+ 781 0052 0822     		movs	r2, #8
+ 782 0054 1A60     		str	r2, [r3]
+ 783              	.L105:
+ 784 0056 F0BC     		pop	{r4, r5, r6, r7}
+ 785 0058 7047     		bx	lr
+ 786              	.L116:
+ 787 005a 064B     		ldr	r3, .L117+8
+ 788 005c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 789 005e 5A07     		lsls	r2, r3, #29
+ 790 0060 E7D4     		bmi	.L107
+ 791 0062 064B     		ldr	r3, .L117+16
+ 792 0064 1870     		strb	r0, [r3]
+ 793 0066 F0BC     		pop	{r4, r5, r6, r7}
+ 794 0068 7047     		bx	lr
+ 795              	.L118:
+ 796 006a 00BF     		.align	2
+ 797              	.L117:
+ 798 006c 00000000 		.word	.LANCHOR0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 15
+
+
+ 799 0070 00000000 		.word	UART_Linux_txBuffer
+ 800 0074 66650040 		.word	1073767782
+ 801 0078 00E200E0 		.word	-536813056
+ 802 007c 46650040 		.word	1073767750
+ 803              		.size	UART_Linux_PutChar, .-UART_Linux_PutChar
+ 804              		.section	.text.UART_Linux_PutString,"ax",%progbits
+ 805              		.align	2
+ 806              		.global	UART_Linux_PutString
+ 807              		.thumb
+ 808              		.thumb_func
+ 809              		.type	UART_Linux_PutString, %function
+ 810              	UART_Linux_PutString:
+ 811              		@ args = 0, pretend = 0, frame = 0
+ 812              		@ frame_needed = 0, uses_anonymous_args = 0
+ 813 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 814 0004 254D     		ldr	r5, .L138
+ 815 0006 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 816 0008 002B     		cmp	r3, #0
+ 817 000a 3DD0     		beq	.L119
+ 818 000c 8046     		mov	r8, r0
+ 819 000e 0078     		ldrb	r0, [r0]	@ zero_extendqisi2
+ 820 0010 0028     		cmp	r0, #0
+ 821 0012 39D0     		beq	.L119
+ 822 0014 40F2FF37 		movw	r7, #1023
+ 823 0018 DFF88890 		ldr	r9, .L138+8
+ 824 001c DFF888C0 		ldr	ip, .L138+12
+ 825 0020 DFF888B0 		ldr	fp, .L138+16
+ 826 0024 4FF0000E 		mov	lr, #0
+ 827 0028 4FF0080A 		mov	r10, #8
+ 828              	.L126:
+ 829 002c 6989     		ldrh	r1, [r5, #10]
+ 830              	.L122:
+ 831 002e 2A89     		ldrh	r2, [r5, #8]
+ 832 0030 0C46     		mov	r4, r1
+ 833 0032 92B2     		uxth	r2, r2
+ 834 0034 561E     		subs	r6, r2, #1
+ 835 0036 8B1A     		subs	r3, r1, r2
+ 836 0038 761A     		subs	r6, r6, r1
+ 837 003a DB1B     		subs	r3, r3, r7
+ 838 003c B6FA86F6 		clz	r6, r6
+ 839 0040 B3FA83F3 		clz	r3, r3
+ 840 0044 7609     		lsrs	r6, r6, #5
+ 841 0046 5B09     		lsrs	r3, r3, #5
+ 842 0048 8A42     		cmp	r2, r1
+ 843 004a 88BF     		it	hi
+ 844 004c 3346     		movhi	r3, r6
+ 845 004e 002B     		cmp	r3, #0
+ 846 0050 EDD1     		bne	.L122
+ 847 0052 8A42     		cmp	r2, r1
+ 848 0054 1AD0     		beq	.L137
+ 849              	.L123:
+ 850 0056 B1F5806F 		cmp	r1, #1024
+ 851 005a 28BF     		it	cs
+ 852 005c 0024     		movcs	r4, #0
+ 853 005e 09F80400 		strb	r0, [r9, r4]
+ 854 0062 9CF80030 		ldrb	r3, [ip]	@ zero_extendqisi2
+ 855 0066 3ABF     		itte	cc
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 16
+
+
+ 856 0068 0131     		addcc	r1, r1, #1
+ 857 006a 89B2     		uxthcc	r1, r1
+ 858 006c 0121     		movcs	r1, #1
+ 859 006e 9B07     		lsls	r3, r3, #30
+ 860 0070 6981     		strh	r1, [r5, #10]	@ movhi
+ 861 0072 48BF     		it	mi
+ 862 0074 CBF800A0 		strmi	r10, [fp]
+ 863              	.L124:
+ 864 0078 0EF1010E 		add	lr, lr, #1
+ 865 007c 1FFA8EFE 		uxth	lr, lr
+ 866 0080 18F80E00 		ldrb	r0, [r8, lr]	@ zero_extendqisi2
+ 867 0084 0028     		cmp	r0, #0
+ 868 0086 D1D1     		bne	.L126
+ 869              	.L119:
+ 870 0088 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 871              	.L137:
+ 872 008c 9CF80030 		ldrb	r3, [ip]	@ zero_extendqisi2
+ 873 0090 5A07     		lsls	r2, r3, #29
+ 874 0092 E0D4     		bmi	.L123
+ 875 0094 024B     		ldr	r3, .L138+4
+ 876 0096 1870     		strb	r0, [r3]
+ 877 0098 EEE7     		b	.L124
+ 878              	.L139:
+ 879 009a 00BF     		.align	2
+ 880              	.L138:
+ 881 009c 00000000 		.word	.LANCHOR0
+ 882 00a0 46650040 		.word	1073767750
+ 883 00a4 00000000 		.word	UART_Linux_txBuffer
+ 884 00a8 66650040 		.word	1073767782
+ 885 00ac 00E200E0 		.word	-536813056
+ 886              		.size	UART_Linux_PutString, .-UART_Linux_PutString
+ 887              		.section	.text.UART_Linux_PutArray,"ax",%progbits
+ 888              		.align	2
+ 889              		.global	UART_Linux_PutArray
+ 890              		.thumb
+ 891              		.thumb_func
+ 892              		.type	UART_Linux_PutArray, %function
+ 893              	UART_Linux_PutArray:
+ 894              		@ args = 0, pretend = 0, frame = 0
+ 895              		@ frame_needed = 0, uses_anonymous_args = 0
+ 896 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 897 0004 254C     		ldr	r4, .L159
+ 898 0006 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 899 0008 002B     		cmp	r3, #0
+ 900 000a 3ED0     		beq	.L140
+ 901 000c 0029     		cmp	r1, #0
+ 902 000e 3CD0     		beq	.L140
+ 903 0010 40F2FF36 		movw	r6, #1023
+ 904 0014 01F1FF3C 		add	ip, r1, #-1
+ 905 0018 1FFA8CFC 		uxth	ip, ip
+ 906 001c DFF88490 		ldr	r9, .L159+8
+ 907 0020 DFF88480 		ldr	r8, .L159+12
+ 908 0024 DFF884B0 		ldr	fp, .L159+16
+ 909 0028 8444     		add	ip, ip, r0
+ 910 002a 471E     		subs	r7, r0, #1
+ 911 002c 4FF0080A 		mov	r10, #8
+ 912              	.L147:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 17
+
+
+ 913 0030 17F8015F 		ldrb	r5, [r7, #1]!	@ zero_extendqisi2
+ 914 0034 6189     		ldrh	r1, [r4, #10]
+ 915              	.L143:
+ 916 0036 2289     		ldrh	r2, [r4, #8]
+ 917 0038 0846     		mov	r0, r1
+ 918 003a 92B2     		uxth	r2, r2
+ 919 003c 02F1FF3E 		add	lr, r2, #-1
+ 920 0040 8B1A     		subs	r3, r1, r2
+ 921 0042 C1EB0E0E 		rsb	lr, r1, lr
+ 922 0046 9B1B     		subs	r3, r3, r6
+ 923 0048 BEFA8EFE 		clz	lr, lr
+ 924 004c B3FA83F3 		clz	r3, r3
+ 925 0050 4FEA5E1E 		lsr	lr, lr, #5
+ 926 0054 5B09     		lsrs	r3, r3, #5
+ 927 0056 8A42     		cmp	r2, r1
+ 928 0058 88BF     		it	hi
+ 929 005a 7346     		movhi	r3, lr
+ 930 005c 002B     		cmp	r3, #0
+ 931 005e EAD1     		bne	.L143
+ 932 0060 8A42     		cmp	r2, r1
+ 933 0062 14D0     		beq	.L158
+ 934              	.L144:
+ 935 0064 B1F5806F 		cmp	r1, #1024
+ 936 0068 28BF     		it	cs
+ 937 006a 0020     		movcs	r0, #0
+ 938 006c 09F80050 		strb	r5, [r9, r0]
+ 939 0070 98F80030 		ldrb	r3, [r8]	@ zero_extendqisi2
+ 940 0074 3ABF     		itte	cc
+ 941 0076 0131     		addcc	r1, r1, #1
+ 942 0078 89B2     		uxthcc	r1, r1
+ 943 007a 0121     		movcs	r1, #1
+ 944 007c 9B07     		lsls	r3, r3, #30
+ 945 007e 6181     		strh	r1, [r4, #10]	@ movhi
+ 946 0080 48BF     		it	mi
+ 947 0082 CBF800A0 		strmi	r10, [fp]
+ 948              	.L145:
+ 949 0086 BC45     		cmp	ip, r7
+ 950 0088 D2D1     		bne	.L147
+ 951              	.L140:
+ 952 008a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 953              	.L158:
+ 954 008e 98F80030 		ldrb	r3, [r8]	@ zero_extendqisi2
+ 955 0092 5A07     		lsls	r2, r3, #29
+ 956 0094 E6D4     		bmi	.L144
+ 957 0096 024B     		ldr	r3, .L159+4
+ 958 0098 1D70     		strb	r5, [r3]
+ 959 009a F4E7     		b	.L145
+ 960              	.L160:
+ 961              		.align	2
+ 962              	.L159:
+ 963 009c 00000000 		.word	.LANCHOR0
+ 964 00a0 46650040 		.word	1073767750
+ 965 00a4 00000000 		.word	UART_Linux_txBuffer
+ 966 00a8 66650040 		.word	1073767782
+ 967 00ac 00E200E0 		.word	-536813056
+ 968              		.size	UART_Linux_PutArray, .-UART_Linux_PutArray
+ 969              		.section	.text.UART_Linux_PutCRLF,"ax",%progbits
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 18
+
+
+ 970              		.align	2
+ 971              		.global	UART_Linux_PutCRLF
+ 972              		.thumb
+ 973              		.thumb_func
+ 974              		.type	UART_Linux_PutCRLF, %function
+ 975              	UART_Linux_PutCRLF:
+ 976              		@ args = 0, pretend = 0, frame = 0
+ 977              		@ frame_needed = 0, uses_anonymous_args = 0
+ 978              		@ link register save eliminated.
+ 979 0000 F0B4     		push	{r4, r5, r6, r7}
+ 980 0002 504C     		ldr	r4, .L196
+ 981 0004 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 982 0006 0BB9     		cbnz	r3, .L192
+ 983              	.L161:
+ 984 0008 F0BC     		pop	{r4, r5, r6, r7}
+ 985 000a 7047     		bx	lr
+ 986              	.L192:
+ 987 000c 40F2FF36 		movw	r6, #1023
+ 988 0010 6389     		ldrh	r3, [r4, #10]
+ 989              	.L164:
+ 990 0012 2289     		ldrh	r2, [r4, #8]
+ 991 0014 4B4F     		ldr	r7, .L196
+ 992 0016 92B2     		uxth	r2, r2
+ 993 0018 551E     		subs	r5, r2, #1
+ 994 001a 991A     		subs	r1, r3, r2
+ 995 001c ED1A     		subs	r5, r5, r3
+ 996 001e 891B     		subs	r1, r1, r6
+ 997 0020 B5FA85F5 		clz	r5, r5
+ 998 0024 B1FA81F1 		clz	r1, r1
+ 999 0028 6D09     		lsrs	r5, r5, #5
+ 1000 002a 4909     		lsrs	r1, r1, #5
+ 1001 002c 9A42     		cmp	r2, r3
+ 1002 002e 88BF     		it	hi
+ 1003 0030 2946     		movhi	r1, r5
+ 1004 0032 1D46     		mov	r5, r3
+ 1005 0034 0029     		cmp	r1, #0
+ 1006 0036 ECD1     		bne	.L164
+ 1007 0038 9A42     		cmp	r2, r3
+ 1008 003a 69D0     		beq	.L193
+ 1009              	.L165:
+ 1010 003c B3F5806F 		cmp	r3, #1024
+ 1011 0040 4149     		ldr	r1, .L196+4
+ 1012 0042 28BF     		it	cs
+ 1013 0044 0025     		movcs	r5, #0
+ 1014 0046 414A     		ldr	r2, .L196+8
+ 1015 0048 4855     		strb	r0, [r1, r5]
+ 1016 004a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 1017 004c 3ABF     		itte	cc
+ 1018 004e 0133     		addcc	r3, r3, #1
+ 1019 0050 9BB2     		uxthcc	r3, r3
+ 1020 0052 0123     		movcs	r3, #1
+ 1021 0054 9607     		lsls	r6, r2, #30
+ 1022 0056 6381     		strh	r3, [r4, #10]	@ movhi
+ 1023 0058 02D5     		bpl	.L168
+ 1024 005a 3D4A     		ldr	r2, .L196+12
+ 1025 005c 0821     		movs	r1, #8
+ 1026 005e 1160     		str	r1, [r2]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 19
+
+
+ 1027              	.L168:
+ 1028 0060 40F2FF35 		movw	r5, #1023
+ 1029              	.L166:
+ 1030 0064 2289     		ldrh	r2, [r4, #8]
+ 1031 0066 374E     		ldr	r6, .L196
+ 1032 0068 92B2     		uxth	r2, r2
+ 1033 006a 501E     		subs	r0, r2, #1
+ 1034 006c 991A     		subs	r1, r3, r2
+ 1035 006e C01A     		subs	r0, r0, r3
+ 1036 0070 491B     		subs	r1, r1, r5
+ 1037 0072 B0FA80F0 		clz	r0, r0
+ 1038 0076 B1FA81F1 		clz	r1, r1
+ 1039 007a 4009     		lsrs	r0, r0, #5
+ 1040 007c 4909     		lsrs	r1, r1, #5
+ 1041 007e 9A42     		cmp	r2, r3
+ 1042 0080 88BF     		it	hi
+ 1043 0082 0146     		movhi	r1, r0
+ 1044 0084 1846     		mov	r0, r3
+ 1045 0086 0029     		cmp	r1, #0
+ 1046 0088 ECD1     		bne	.L166
+ 1047 008a 9A42     		cmp	r2, r3
+ 1048 008c 50D0     		beq	.L194
+ 1049              	.L169:
+ 1050 008e B3F5806F 		cmp	r3, #1024
+ 1051 0092 2D49     		ldr	r1, .L196+4
+ 1052 0094 28BF     		it	cs
+ 1053 0096 0020     		movcs	r0, #0
+ 1054 0098 4FF00D05 		mov	r5, #13
+ 1055 009c 2B4A     		ldr	r2, .L196+8
+ 1056 009e 0D54     		strb	r5, [r1, r0]
+ 1057 00a0 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 1058 00a2 3ABF     		itte	cc
+ 1059 00a4 0133     		addcc	r3, r3, #1
+ 1060 00a6 9BB2     		uxthcc	r3, r3
+ 1061 00a8 0123     		movcs	r3, #1
+ 1062 00aa 9107     		lsls	r1, r2, #30
+ 1063 00ac 6381     		strh	r3, [r4, #10]	@ movhi
+ 1064 00ae 02D5     		bpl	.L172
+ 1065 00b0 274A     		ldr	r2, .L196+12
+ 1066 00b2 0821     		movs	r1, #8
+ 1067 00b4 1160     		str	r1, [r2]
+ 1068              	.L172:
+ 1069 00b6 40F2FF36 		movw	r6, #1023
+ 1070              	.L170:
+ 1071 00ba 2289     		ldrh	r2, [r4, #8]
+ 1072 00bc 1D46     		mov	r5, r3
+ 1073 00be 92B2     		uxth	r2, r2
+ 1074 00c0 501E     		subs	r0, r2, #1
+ 1075 00c2 991A     		subs	r1, r3, r2
+ 1076 00c4 C01A     		subs	r0, r0, r3
+ 1077 00c6 891B     		subs	r1, r1, r6
+ 1078 00c8 B0FA80F0 		clz	r0, r0
+ 1079 00cc B1FA81F1 		clz	r1, r1
+ 1080 00d0 4009     		lsrs	r0, r0, #5
+ 1081 00d2 4909     		lsrs	r1, r1, #5
+ 1082 00d4 9A42     		cmp	r2, r3
+ 1083 00d6 88BF     		it	hi
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 20
+
+
+ 1084 00d8 0146     		movhi	r1, r0
+ 1085 00da 0029     		cmp	r1, #0
+ 1086 00dc EDD1     		bne	.L170
+ 1087 00de 9A42     		cmp	r2, r3
+ 1088 00e0 1ED0     		beq	.L195
+ 1089              	.L173:
+ 1090 00e2 B3F5806F 		cmp	r3, #1024
+ 1091 00e6 1849     		ldr	r1, .L196+4
+ 1092 00e8 28BF     		it	cs
+ 1093 00ea 0025     		movcs	r5, #0
+ 1094 00ec 4FF00A00 		mov	r0, #10
+ 1095 00f0 164A     		ldr	r2, .L196+8
+ 1096 00f2 4855     		strb	r0, [r1, r5]
+ 1097 00f4 38BF     		it	cc
+ 1098 00f6 0133     		addcc	r3, r3, #1
+ 1099 00f8 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 1100 00fa 34BF     		ite	cc
+ 1101 00fc 9BB2     		uxthcc	r3, r3
+ 1102 00fe 0123     		movcs	r3, #1
+ 1103 0100 6381     		strh	r3, [r4, #10]	@ movhi
+ 1104 0102 9307     		lsls	r3, r2, #30
+ 1105 0104 80D5     		bpl	.L161
+ 1106 0106 F0BC     		pop	{r4, r5, r6, r7}
+ 1107 0108 114B     		ldr	r3, .L196+12
+ 1108 010a 0822     		movs	r2, #8
+ 1109 010c 1A60     		str	r2, [r3]
+ 1110 010e 7047     		bx	lr
+ 1111              	.L193:
+ 1112 0110 0E4A     		ldr	r2, .L196+8
+ 1113 0112 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 1114 0114 5207     		lsls	r2, r2, #29
+ 1115 0116 91D4     		bmi	.L165
+ 1116 0118 0E4A     		ldr	r2, .L196+16
+ 1117 011a 7B89     		ldrh	r3, [r7, #10]
+ 1118 011c 1070     		strb	r0, [r2]
+ 1119 011e 9FE7     		b	.L168
+ 1120              	.L195:
+ 1121 0120 0A4A     		ldr	r2, .L196+8
+ 1122 0122 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 1123 0124 5207     		lsls	r2, r2, #29
+ 1124 0126 DCD4     		bmi	.L173
+ 1125 0128 0A4B     		ldr	r3, .L196+16
+ 1126 012a 0A22     		movs	r2, #10
+ 1127 012c 1A70     		strb	r2, [r3]
+ 1128 012e 6BE7     		b	.L161
+ 1129              	.L194:
+ 1130 0130 064A     		ldr	r2, .L196+8
+ 1131 0132 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 1132 0134 5507     		lsls	r5, r2, #29
+ 1133 0136 AAD4     		bmi	.L169
+ 1134 0138 064A     		ldr	r2, .L196+16
+ 1135 013a 0D21     		movs	r1, #13
+ 1136 013c 7389     		ldrh	r3, [r6, #10]
+ 1137 013e 1170     		strb	r1, [r2]
+ 1138 0140 B9E7     		b	.L172
+ 1139              	.L197:
+ 1140 0142 00BF     		.align	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 21
+
+
+ 1141              	.L196:
+ 1142 0144 00000000 		.word	.LANCHOR0
+ 1143 0148 00000000 		.word	UART_Linux_txBuffer
+ 1144 014c 66650040 		.word	1073767782
+ 1145 0150 00E200E0 		.word	-536813056
+ 1146 0154 46650040 		.word	1073767750
+ 1147              		.size	UART_Linux_PutCRLF, .-UART_Linux_PutCRLF
+ 1148              		.section	.text.UART_Linux_GetTxBufferSize,"ax",%progbits
+ 1149              		.align	2
+ 1150              		.global	UART_Linux_GetTxBufferSize
+ 1151              		.thumb
+ 1152              		.thumb_func
+ 1153              		.type	UART_Linux_GetTxBufferSize, %function
+ 1154              	UART_Linux_GetTxBufferSize:
+ 1155              		@ args = 0, pretend = 0, frame = 0
+ 1156              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1157              		@ link register save eliminated.
+ 1158 0000 0D4B     		ldr	r3, .L203
+ 1159 0002 0821     		movs	r1, #8
+ 1160 0004 0D4A     		ldr	r2, .L203+4
+ 1161 0006 1960     		str	r1, [r3]
+ 1162 0008 1189     		ldrh	r1, [r2, #8]
+ 1163 000a 5389     		ldrh	r3, [r2, #10]
+ 1164 000c 89B2     		uxth	r1, r1
+ 1165 000e 9942     		cmp	r1, r3
+ 1166 0010 0CD0     		beq	.L201
+ 1167 0012 1189     		ldrh	r1, [r2, #8]
+ 1168 0014 1089     		ldrh	r0, [r2, #8]
+ 1169 0016 89B2     		uxth	r1, r1
+ 1170 0018 8B42     		cmp	r3, r1
+ 1171 001a 98BF     		it	ls
+ 1172 001c 03F58063 		addls	r3, r3, #1024
+ 1173 0020 181A     		subs	r0, r3, r0
+ 1174 0022 074B     		ldr	r3, .L203+8
+ 1175 0024 0822     		movs	r2, #8
+ 1176 0026 80B2     		uxth	r0, r0
+ 1177 0028 1A60     		str	r2, [r3]
+ 1178 002a 7047     		bx	lr
+ 1179              	.L201:
+ 1180 002c 044B     		ldr	r3, .L203+8
+ 1181 002e 0822     		movs	r2, #8
+ 1182 0030 0020     		movs	r0, #0
+ 1183 0032 1A60     		str	r2, [r3]
+ 1184 0034 7047     		bx	lr
+ 1185              	.L204:
+ 1186 0036 00BF     		.align	2
+ 1187              	.L203:
+ 1188 0038 80E100E0 		.word	-536813184
+ 1189 003c 00000000 		.word	.LANCHOR0
+ 1190 0040 00E100E0 		.word	-536813312
+ 1191              		.size	UART_Linux_GetTxBufferSize, .-UART_Linux_GetTxBufferSize
+ 1192              		.section	.text.UART_Linux_ClearTxBuffer,"ax",%progbits
+ 1193              		.align	2
+ 1194              		.global	UART_Linux_ClearTxBuffer
+ 1195              		.thumb
+ 1196              		.thumb_func
+ 1197              		.type	UART_Linux_ClearTxBuffer, %function
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 22
+
+
+ 1198              	UART_Linux_ClearTxBuffer:
+ 1199              		@ args = 0, pretend = 0, frame = 0
+ 1200              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1201 0000 10B5     		push	{r4, lr}
+ 1202 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 1203 0006 0A4B     		ldr	r3, .L207
+ 1204 0008 0A4C     		ldr	r4, .L207+4
+ 1205 000a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1206 000c 42F00102 		orr	r2, r2, #1
+ 1207 0010 1A70     		strb	r2, [r3]
+ 1208 0012 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1209 0014 02F0FE02 		and	r2, r2, #254
+ 1210 0018 1A70     		strb	r2, [r3]
+ 1211 001a FFF7FEFF 		bl	CyExitCriticalSection
+ 1212 001e 064A     		ldr	r2, .L207+8
+ 1213 0020 0648     		ldr	r0, .L207+12
+ 1214 0022 0823     		movs	r3, #8
+ 1215 0024 0021     		movs	r1, #0
+ 1216 0026 2360     		str	r3, [r4]
+ 1217 0028 5181     		strh	r1, [r2, #10]	@ movhi
+ 1218 002a 1181     		strh	r1, [r2, #8]	@ movhi
+ 1219 002c 0360     		str	r3, [r0]
+ 1220 002e 10BD     		pop	{r4, pc}
+ 1221              	.L208:
+ 1222              		.align	2
+ 1223              	.L207:
+ 1224 0030 96650040 		.word	1073767830
+ 1225 0034 80E100E0 		.word	-536813184
+ 1226 0038 00000000 		.word	.LANCHOR0
+ 1227 003c 00E100E0 		.word	-536813312
+ 1228              		.size	UART_Linux_ClearTxBuffer, .-UART_Linux_ClearTxBuffer
+ 1229              		.section	.text.UART_Linux_SendBreak,"ax",%progbits
+ 1230              		.align	2
+ 1231              		.global	UART_Linux_SendBreak
+ 1232              		.thumb
+ 1233              		.thumb_func
+ 1234              		.type	UART_Linux_SendBreak, %function
+ 1235              	UART_Linux_SendBreak:
+ 1236              		@ args = 0, pretend = 0, frame = 0
+ 1237              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1238              		@ link register save eliminated.
+ 1239 0000 1249     		ldr	r1, .L235
+ 1240 0002 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 1241 0004 C3B1     		cbz	r3, .L233
+ 1242 0006 F0B4     		push	{r4, r5, r6, r7}
+ 1243 0008 B8B9     		cbnz	r0, .L234
+ 1244              	.L212:
+ 1245 000a 114B     		ldr	r3, .L235+4
+ 1246 000c 114C     		ldr	r4, .L235+8
+ 1247 000e 1F78     		ldrb	r7, [r3]	@ zero_extendqisi2
+ 1248 0010 6726     		movs	r6, #103
+ 1249 0012 0025     		movs	r5, #0
+ 1250 0014 104A     		ldr	r2, .L235+12
+ 1251 0016 0F73     		strb	r7, [r1, #12]
+ 1252 0018 1E70     		strb	r6, [r3]
+ 1253 001a 2570     		strb	r5, [r4]
+ 1254              	.L214:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 23
+
+
+ 1255 001c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1256 001e 9C07     		lsls	r4, r3, #30
+ 1257 0020 FCD4     		bmi	.L214
+ 1258 0022 00F0FD03 		and	r3, r0, #253
+ 1259 0026 012B     		cmp	r3, #1
+ 1260 0028 0BD0     		beq	.L215
+ 1261              	.L219:
+ 1262 002a 0138     		subs	r0, r0, #1
+ 1263 002c 0228     		cmp	r0, #2
+ 1264 002e 02D8     		bhi	.L209
+ 1265 0030 0A7B     		ldrb	r2, [r1, #12]	@ zero_extendqisi2
+ 1266 0032 074B     		ldr	r3, .L235+4
+ 1267 0034 1A70     		strb	r2, [r3]
+ 1268              	.L209:
+ 1269 0036 F0BC     		pop	{r4, r5, r6, r7}
+ 1270              	.L233:
+ 1271 0038 7047     		bx	lr
+ 1272              	.L234:
+ 1273 003a 0328     		cmp	r0, #3
+ 1274 003c E5D0     		beq	.L212
+ 1275 003e 0128     		cmp	r0, #1
+ 1276 0040 F3D1     		bne	.L219
+ 1277              	.L215:
+ 1278 0042 054A     		ldr	r2, .L235+12
+ 1279              	.L218:
+ 1280 0044 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 1281 0046 DB07     		lsls	r3, r3, #31
+ 1282 0048 FCD5     		bpl	.L218
+ 1283 004a EEE7     		b	.L219
+ 1284              	.L236:
+ 1285              		.align	2
+ 1286              	.L235:
+ 1287 004c 00000000 		.word	.LANCHOR0
+ 1288 0050 36640040 		.word	1073767478
+ 1289 0054 46650040 		.word	1073767750
+ 1290 0058 66650040 		.word	1073767782
+ 1291              		.size	UART_Linux_SendBreak, .-UART_Linux_SendBreak
+ 1292              		.section	.text.UART_Linux_SetTxAddressMode,"ax",%progbits
+ 1293              		.align	2
+ 1294              		.global	UART_Linux_SetTxAddressMode
+ 1295              		.thumb
+ 1296              		.thumb_func
+ 1297              		.type	UART_Linux_SetTxAddressMode, %function
+ 1298              	UART_Linux_SetTxAddressMode:
+ 1299              		@ args = 0, pretend = 0, frame = 0
+ 1300              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1301              		@ link register save eliminated.
+ 1302 0000 7047     		bx	lr
+ 1303              		.size	UART_Linux_SetTxAddressMode, .-UART_Linux_SetTxAddressMode
+ 1304              		.global	UART_Linux_rxBufferOverflow
+ 1305              		.global	UART_Linux_rxBufferLoopDetect
+ 1306              		.global	UART_Linux_rxBufferWrite
+ 1307              		.global	UART_Linux_rxBufferRead
+ 1308              		.comm	UART_Linux_rxBuffer,1024,4
+ 1309              		.global	UART_Linux_errorStatus
+ 1310              		.global	UART_Linux_txBufferWrite
+ 1311              		.global	UART_Linux_txBufferRead
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccN1w2sE.s 			page 24
+
+
+ 1312              		.comm	UART_Linux_txBuffer,1024,4
+ 1313              		.global	UART_Linux_initVar
+ 1314 0002 00BF     		.bss
+ 1315              		.align	1
+ 1316              		.set	.LANCHOR0,. + 0
+ 1317              		.type	UART_Linux_initVar, %object
+ 1318              		.size	UART_Linux_initVar, 1
+ 1319              	UART_Linux_initVar:
+ 1320 0000 00       		.space	1
+ 1321              		.type	UART_Linux_errorStatus, %object
+ 1322              		.size	UART_Linux_errorStatus, 1
+ 1323              	UART_Linux_errorStatus:
+ 1324 0001 00       		.space	1
+ 1325              		.type	UART_Linux_rxBufferRead, %object
+ 1326              		.size	UART_Linux_rxBufferRead, 2
+ 1327              	UART_Linux_rxBufferRead:
+ 1328 0002 0000     		.space	2
+ 1329              		.type	UART_Linux_rxBufferWrite, %object
+ 1330              		.size	UART_Linux_rxBufferWrite, 2
+ 1331              	UART_Linux_rxBufferWrite:
+ 1332 0004 0000     		.space	2
+ 1333              		.type	UART_Linux_rxBufferLoopDetect, %object
+ 1334              		.size	UART_Linux_rxBufferLoopDetect, 1
+ 1335              	UART_Linux_rxBufferLoopDetect:
+ 1336 0006 00       		.space	1
+ 1337              		.type	UART_Linux_rxBufferOverflow, %object
+ 1338              		.size	UART_Linux_rxBufferOverflow, 1
+ 1339              	UART_Linux_rxBufferOverflow:
+ 1340 0007 00       		.space	1
+ 1341              		.type	UART_Linux_txBufferRead, %object
+ 1342              		.size	UART_Linux_txBufferRead, 2
+ 1343              	UART_Linux_txBufferRead:
+ 1344 0008 0000     		.space	2
+ 1345              		.type	UART_Linux_txBufferWrite, %object
+ 1346              		.size	UART_Linux_txBufferWrite, 2
+ 1347              	UART_Linux_txBufferWrite:
+ 1348 000a 0000     		.space	2
+ 1349              		.type	txPeriod.5150, %object
+ 1350              		.size	txPeriod.5150, 1
+ 1351              	txPeriod.5150:
+ 1352 000c 00       		.space	1
+ 1353              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

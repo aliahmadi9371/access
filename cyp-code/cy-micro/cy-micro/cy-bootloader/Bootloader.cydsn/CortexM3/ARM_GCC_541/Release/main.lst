@@ -1,0 +1,4373 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.internal_flash_read_byte,"ax",%progbits
+  20              		.align	1
+  21              		.global	internal_flash_read_byte
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	internal_flash_read_byte, %function
+  25              	internal_flash_read_byte:
+  26              	.LFB64:
+  27              		.file 1 "main.c"
+   1:main.c        **** /******************************************************************************
+   2:main.c        **** * File Name: main.c
+   3:main.c        **** *
+   4:main.c        **** * Version 1.10
+   5:main.c        **** *
+   6:main.c        **** * Description: 
+   7:main.c        **** *  This example project demonstrates the basic operation of the Bootloader
+   8:main.c        **** *  Component.
+   9:main.c        **** *
+  10:main.c        **** * Related Document: 
+  11:main.c        **** *  CE221653_PSoC_4_Bootloader_and_Bootloadable.pdf
+  12:main.c        **** *
+  13:main.c        **** * Hardware Dependency: 
+  14:main.c        **** *  See CE221653_PSoC_4_Bootloader_and_Bootloadable.pdf
+  15:main.c        **** *
+  16:main.c        **** *******************************************************************************
+  17:main.c        **** * Copyright (2017-2019), Cypress Semiconductor Corporation. All rights reserved.
+  18:main.c        **** *******************************************************************************
+  19:main.c        **** * This software, including source code, documentation and related materials
+  20:main.c        **** * (“Software”), is owned by Cypress Semiconductor Corporation or one of its
+  21:main.c        **** * subsidiaries (“Cypress”) and is protected by and subject to worldwide patent
+  22:main.c        **** * protection (United States and foreign), United States copyright laws and
+  23:main.c        **** * international treaty provisions. Therefore, you may use this Software only
+  24:main.c        **** * as provided in the license agreement accompanying the software package from
+  25:main.c        **** * which you obtained this Software (“EULA”).
+  26:main.c        **** *
+  27:main.c        **** * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
+  28:main.c        **** * non-transferable license to copy, modify, and compile the Software source
+  29:main.c        **** * code solely for use in connection with Cypress’s integrated circuit products.
+  30:main.c        **** * Any reproduction, modification, translation, compilation, or representation
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 2
+
+
+  31:main.c        **** * of this Software except as specified above is prohibited without the express
+  32:main.c        **** * written permission of Cypress.
+  33:main.c        **** *
+  34:main.c        **** * Disclaimer: THIS SOFTWARE IS PROVIDED AS-IS, WITH NO WARRANTY OF ANY KIND,
+  35:main.c        **** * EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT, IMPLIED
+  36:main.c        **** * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. Cypress
+  37:main.c        **** * reserves the right to make changes to the Software without notice. Cypress
+  38:main.c        **** * does not assume any liability arising out of the application or use of the
+  39:main.c        **** * Software or any product or circuit described in the Software. Cypress does
+  40:main.c        **** * not authorize its products for use in any products where a malfunction or
+  41:main.c        **** * failure of the Cypress product may reasonably be expected to result in
+  42:main.c        **** * significant property damage, injury or death (“High Risk Product”). By
+  43:main.c        **** * including Cypress’s product in a High Risk Product, the manufacturer of such
+  44:main.c        **** * system or application assumes all risk of such use and in doing so agrees to
+  45:main.c        **** * indemnify Cypress against all liability. 
+  46:main.c        **** *******************************************************************************/
+  47:main.c        **** 
+  48:main.c        **** #include "project.h"
+  49:main.c        **** #include <CyFlash.h>
+  50:main.c        **** #include <stdio.h>
+  51:main.c        **** 
+  52:main.c        **** // Reset Status Metadata                                          
+  53:main.c        **** #define IE2_Loc_Reset_Status                0x12               
+  54:main.c        **** #define IE2_Loc_Reset_Code_Address          0x13
+  55:main.c        **** // FOTA
+  56:main.c        **** #define FOTA_START                          1
+  57:main.c        **** #define FOTA_STOP                           0
+  58:main.c        **** #define FOTA_ROW_SIZE                       262
+  59:main.c        **** // external e2prom
+  60:main.c        **** #define EE2_1_CHIP_ADDR                     0x52
+  61:main.c        **** #define EE2_2_CHIP_ADDR                     0x50
+  62:main.c        **** 
+  63:main.c        **** #define IE2_Loc_FOTA_STATUS                 0x70
+  64:main.c        **** #define IE2_Loc_FOTA_CRC_BYTE0              0x71
+  65:main.c        **** #define IE2_Loc_FOTA_CRC_BYTE1              0x72
+  66:main.c        **** #define IE2_Loc_FOTA_CRC_BYTE2              0x73
+  67:main.c        **** #define IE2_Loc_FOTA_CRC_BYTE3              0x74
+  68:main.c        **** #define IE2_Loc_FOTA_App_SIZE_BYTE0         0x75
+  69:main.c        **** #define IE2_Loc_FOTA_App_SIZE_BYTE1         0x76
+  70:main.c        **** #define IE2_Loc_FOTA_App_SIZE_BYTE2         0x77    
+  71:main.c        **** #define IE2_Loc_FOTA_App_SIZE_BYTE3         0x78
+  72:main.c        **** #define IE2_Loc_FOTA_ROW_START_BYTE0        0x79
+  73:main.c        **** #define IE2_Loc_FOTA_ROW_START_BYTE1        0x7A
+  74:main.c        **** 
+  75:main.c        **** #define Das_E2_Loc_Reset_Status             18
+  76:main.c        **** 
+  77:main.c        **** // ----------------------------  Software ----------------------------
+  78:main.c        **** #define A_Reset_Code_Server                 0
+  79:main.c        **** #define A_Reset_Code_FOTA_EE2_Write_Fail    1
+  80:main.c        **** #define A_Reset_Code_FOTA_Done              2
+  81:main.c        **** #define Das_Reset_Code_FOTA_EE2_Write_Fail  3
+  82:main.c        **** #define Das_Reset_Code_Gw_Connection_Lost   4
+  83:main.c        **** #define A_Reset_Code_Invalid_SiliconId      5
+  84:main.c        **** #define A_Reset_Code_Bus_Connection_Lost    6
+  85:main.c        **** #define Gw_Reset_Code_Mqtt_Open_Fail        7
+  86:main.c        **** #define Gw_Reset_Code_Mqtt_Open_Resp_Fail   8
+  87:main.c        **** #define Gw_Reset_Code_Mqtt_Conn_Resp_Fail   9
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 3
+
+
+  88:main.c        **** #define Gw_Reset_Code_Mqtt_Sub_Resp_Fail    10
+  89:main.c        **** #define Gw_Reset_Code_Mqtt_Pub_Resp_Fail    11
+  90:main.c        **** #define Gw_Reset_Code_Quectel_Lost          12
+  91:main.c        **** #define Gw_Reset_Code_FOTA_Fail				13      
+  92:main.c        **** // ----------------------------  Total ----------------------------
+  93:main.c        **** 
+  94:main.c        **** 
+  95:main.c        **** //#if (CY_PSOC4_4100MS)
+  96:main.c        **** //    #define LED_BLUE_ON     (1u)
+  97:main.c        **** //    #define LED_BLUE_OFF    (0u)
+  98:main.c        **** //#else
+  99:main.c        **** //    #define LED_BLUE_ON     (0u)
+ 100:main.c        **** //    #define LED_BLUE_OFF    (1u)
+ 101:main.c        **** //#endif
+ 102:main.c        **** 
+ 103:main.c        **** 
+ 104:main.c        **** /******************************************************************************
+ 105:main.c        **** * Function Name: main
+ 106:main.c        **** *******************************************************************************
+ 107:main.c        **** *
+ 108:main.c        **** * Summary:
+ 109:main.c        **** *  The main function performs these functions:
+ 110:main.c        **** *  1. Shows the Bootloader status by enabling the blue LED.
+ 111:main.c        **** *  2. Starts the Bootloader communication.
+ 112:main.c        **** *
+ 113:main.c        **** ******************************************************************************/
+ 114:main.c        **** //  Device Address : |1|-|0|-|1|-|0|-|A2|-|A1|-|A0|
+ 115:main.c        **** uint8 counter = 0;
+ 116:main.c        **** uint32 appCRC = 0;
+ 117:main.c        **** uint32 newCRC = 0;
+ 118:main.c        **** char buff[100];
+ 119:main.c        **** 
+ 120:main.c        **** uint8 arrayID = 0;
+ 121:main.c        **** uint16 rowID = 0;
+ 122:main.c        **** 
+ 123:main.c        **** uint8 internal_flash_read_byte(uint8 arr_id, uint16 byte_add)
+ 124:main.c        **** {
+  28              		.loc 1 124 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              	.LVL0:
+ 125:main.c        ****     // 0000001B
+ 126:main.c        ****     uint32 flash_addr = (uint32)(arr_id << 16 | byte_add);
+ 127:main.c        ****     __IO uint32_t read_data = *(__IO uint32_t *)flash_addr;    
+  34              		.loc 1 127 0
+  35 0000 41EA0041 		orr	r1, r1, r0, lsl #16
+  36              	.LVL1:
+  37 0004 0B68     		ldr	r3, [r1]
+ 124:main.c        ****     // 0000001B
+  38              		.loc 1 124 0
+  39 0006 82B0     		sub	sp, sp, #8
+  40              		.cfi_def_cfa_offset 8
+  41              		.loc 1 127 0
+  42 0008 0193     		str	r3, [sp, #4]
+ 128:main.c        **** 	return (uint8)read_data;
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 4
+
+
+  43              		.loc 1 128 0
+  44 000a 0198     		ldr	r0, [sp, #4]
+  45              	.LVL2:
+ 129:main.c        **** }
+  46              		.loc 1 129 0
+  47 000c C0B2     		uxtb	r0, r0
+  48 000e 02B0     		add	sp, sp, #8
+  49              		.cfi_def_cfa_offset 0
+  50              		@ sp needed
+  51 0010 7047     		bx	lr
+  52              		.cfi_endproc
+  53              	.LFE64:
+  54              		.size	internal_flash_read_byte, .-internal_flash_read_byte
+  55              		.section	.text.ie2_read_byte,"ax",%progbits
+  56              		.align	1
+  57              		.global	ie2_read_byte
+  58              		.thumb
+  59              		.thumb_func
+  60              		.type	ie2_read_byte, %function
+  61              	ie2_read_byte:
+  62              	.LFB65:
+ 130:main.c        **** 
+ 131:main.c        **** uint8 ie2_read_byte(uint16 addr)
+ 132:main.c        **** {
+  63              		.loc 1 132 0
+  64              		.cfi_startproc
+  65              		@ args = 0, pretend = 0, frame = 0
+  66              		@ frame_needed = 0, uses_anonymous_args = 0
+  67              		@ link register save eliminated.
+  68              	.LVL3:
+ 133:main.c        ****     uint8 ret = Internal_EEPROM_ReadByte(addr); 
+  69              		.loc 1 133 0
+  70 0000 FFF7FEBF 		b	Internal_EEPROM_ReadByte
+  71              	.LVL4:
+  72              		.cfi_endproc
+  73              	.LFE65:
+  74              		.size	ie2_read_byte, .-ie2_read_byte
+  75              		.section	.text.ie2_writeByte,"ax",%progbits
+  76              		.align	1
+  77              		.global	ie2_writeByte
+  78              		.thumb
+  79              		.thumb_func
+  80              		.type	ie2_writeByte, %function
+  81              	ie2_writeByte:
+  82              	.LFB67:
+ 134:main.c        **** 
+ 135:main.c        ****     return ret;
+ 136:main.c        **** }
+ 137:main.c        **** 
+ 138:main.c        **** uint8 ie2_write_byte(uint8 byte, uint16 addr)
+ 139:main.c        **** {
+ 140:main.c        ****     uint8 ret = 0;
+ 141:main.c        ****     cystatus st = Internal_EEPROM_WriteByte(byte, addr);
+ 142:main.c        ****     if(st == CYRET_SUCCESS){
+ 143:main.c        ****         ret = 1;
+ 144:main.c        ****     }
+ 145:main.c        ****     
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 5
+
+
+ 146:main.c        ****     return ret;
+ 147:main.c        **** }
+ 148:main.c        **** 
+ 149:main.c        **** uint8 ie2_writeByte(uint8 byte, uint16 addr)
+ 150:main.c        **** {
+  83              		.loc 1 150 0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              	.LVL5:
+  88 0000 08B5     		push	{r3, lr}
+  89              		.cfi_def_cfa_offset 8
+  90              		.cfi_offset 3, -8
+  91              		.cfi_offset 14, -4
+ 151:main.c        ****     uint8 ret = 0;
+ 152:main.c        ****     cystatus st = Internal_EEPROM_WriteByte(byte, addr);
+  92              		.loc 1 152 0
+  93 0002 FFF7FEFF 		bl	Internal_EEPROM_WriteByte
+  94              	.LVL6:
+ 153:main.c        ****     if(st == CYRET_SUCCESS){
+ 154:main.c        ****         ret = 1;
+ 155:main.c        ****     }
+ 156:main.c        ****     
+ 157:main.c        ****     return ret;
+ 158:main.c        **** }
+  95              		.loc 1 158 0
+  96 0006 B0FA80F0 		clz	r0, r0
+  97              	.LVL7:
+  98 000a 4009     		lsrs	r0, r0, #5
+  99 000c 08BD     		pop	{r3, pc}
+ 100              		.cfi_endproc
+ 101              	.LFE67:
+ 102              		.size	ie2_writeByte, .-ie2_writeByte
+ 103              		.section	.text.ie2_write_byte,"ax",%progbits
+ 104              		.align	1
+ 105              		.global	ie2_write_byte
+ 106              		.thumb
+ 107              		.thumb_func
+ 108              		.type	ie2_write_byte, %function
+ 109              	ie2_write_byte:
+ 110              	.LFB73:
+ 111              		.cfi_startproc
+ 112              		@ args = 0, pretend = 0, frame = 0
+ 113              		@ frame_needed = 0, uses_anonymous_args = 0
+ 114              		@ link register save eliminated.
+ 115 0000 FFF7FEBF 		b	ie2_writeByte
+ 116              		.cfi_endproc
+ 117              	.LFE73:
+ 118              		.size	ie2_write_byte, .-ie2_write_byte
+ 119              		.section	.text.internal_flash_handle_error,"ax",%progbits
+ 120              		.align	1
+ 121              		.global	internal_flash_handle_error
+ 122              		.thumb
+ 123              		.thumb_func
+ 124              		.type	internal_flash_handle_error, %function
+ 125              	internal_flash_handle_error:
+ 126              	.LFB68:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 6
+
+
+ 159:main.c        **** 
+ 160:main.c        **** uint8 internal_flash_handle_error(cystatus value)
+ 161:main.c        **** {
+ 127              		.loc 1 161 0
+ 128              		.cfi_startproc
+ 129              		@ args = 0, pretend = 0, frame = 0
+ 130              		@ frame_needed = 0, uses_anonymous_args = 0
+ 131              	.LVL8:
+ 132              		.loc 1 161 0
+ 133 0000 08B5     		push	{r3, lr}
+ 134              		.cfi_def_cfa_offset 8
+ 135              		.cfi_offset 3, -8
+ 136              		.cfi_offset 14, -4
+ 162:main.c        ****     uint8 ret = 0;
+ 163:main.c        ****     if(value == CYRET_SUCCESS){
+ 137              		.loc 1 163 0
+ 138 0002 58B1     		cbz	r0, .L9
+ 164:main.c        ****         ret = 1;
+ 165:main.c        ****     } 
+ 166:main.c        ****     else if(value == CYRET_LOCKED){
+ 139              		.loc 1 166 0
+ 140 0004 0428     		cmp	r0, #4
+ 141 0006 01D1     		bne	.L7
+ 167:main.c        ****         RS232_Debug_PutString("Flash writing already in use\r\n");
+ 142              		.loc 1 167 0
+ 143 0008 0548     		ldr	r0, .L12
+ 144              	.LVL9:
+ 145 000a 03E0     		b	.L10
+ 146              	.LVL10:
+ 147              	.L7:
+ 148              	.LBB35:
+ 149              	.LBB36:
+ 168:main.c        ****     } 
+ 169:main.c        ****     else if(value == CYRET_CANCELED){
+ 150              		.loc 1 169 0
+ 151 000c 0928     		cmp	r0, #9
+ 170:main.c        ****         RS232_Debug_PutString("Command not accepted\r\n");
+ 152              		.loc 1 170 0
+ 153 000e 0CBF     		ite	eq
+ 154 0010 0448     		ldreq	r0, .L12+4
+ 155              	.LVL11:
+ 171:main.c        ****     } 
+ 172:main.c        ****     else{
+ 173:main.c        ****         RS232_Debug_PutString("Failure\r\n");
+ 156              		.loc 1 173 0
+ 157 0012 0548     		ldrne	r0, .L12+8
+ 158              	.LVL12:
+ 159              	.L10:
+ 160 0014 FFF7FEFF 		bl	RS232_Debug_PutString
+ 161              	.LVL13:
+ 162 0018 0020     		movs	r0, #0
+ 163 001a 08BD     		pop	{r3, pc}
+ 164              	.LVL14:
+ 165              	.L9:
+ 166              	.LBE36:
+ 167              	.LBE35:
+ 164:main.c        ****     } 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 7
+
+
+ 168              		.loc 1 164 0
+ 169 001c 0120     		movs	r0, #1
+ 170              	.LVL15:
+ 174:main.c        ****     }
+ 175:main.c        ****     
+ 176:main.c        ****     return ret;
+ 177:main.c        **** }
+ 171              		.loc 1 177 0
+ 172 001e 08BD     		pop	{r3, pc}
+ 173              	.L13:
+ 174              		.align	2
+ 175              	.L12:
+ 176 0020 00000000 		.word	.LC0
+ 177 0024 1F000000 		.word	.LC1
+ 178 0028 36000000 		.word	.LC2
+ 179              		.cfi_endproc
+ 180              	.LFE68:
+ 181              		.size	internal_flash_handle_error, .-internal_flash_handle_error
+ 182              		.global	__aeabi_ui2f
+ 183              		.global	__aeabi_fadd
+ 184              		.global	__aeabi_i2f
+ 185              		.global	__aeabi_fdiv
+ 186              		.global	__aeabi_fmul
+ 187              		.global	__aeabi_f2uiz
+ 188              		.section	.text.internal_flash_write_row,"ax",%progbits
+ 189              		.align	1
+ 190              		.global	internal_flash_write_row
+ 191              		.thumb
+ 192              		.thumb_func
+ 193              		.type	internal_flash_write_row, %function
+ 194              	internal_flash_write_row:
+ 195              	.LFB69:
+ 178:main.c        **** 
+ 179:main.c        **** uint8 internal_flash_write_row(uint16 appLines)
+ 180:main.c        **** {
+ 196              		.loc 1 180 0
+ 197              		.cfi_startproc
+ 198              		@ args = 0, pretend = 0, frame = 264
+ 199              		@ frame_needed = 0, uses_anonymous_args = 0
+ 200              	.LVL16:
+ 201 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 202              		.cfi_def_cfa_offset 28
+ 203              		.cfi_offset 4, -28
+ 204              		.cfi_offset 5, -24
+ 205              		.cfi_offset 6, -20
+ 206              		.cfi_offset 7, -16
+ 207              		.cfi_offset 8, -12
+ 208              		.cfi_offset 9, -8
+ 209              		.cfi_offset 14, -4
+ 210              	.LBB37:
+ 181:main.c        ****     uint8 fail = 0;
+ 182:main.c        ****     uint8 dataBuff[CY_FLASH_SIZEOF_ROW];
+ 183:main.c        ****     uint8 dataBuff_index = 0;
+ 184:main.c        ****     uint16 former_percent = 0;
+ 185:main.c        ****     for(uint16 i = 0; i < appLines; i++){
+ 211              		.loc 1 185 0
+ 212 0004 0024     		movs	r4, #0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 8
+
+
+ 213              	.LBE37:
+ 180:main.c        ****     uint8 fail = 0;
+ 214              		.loc 1 180 0
+ 215 0006 0646     		mov	r6, r0
+ 184:main.c        ****     for(uint16 i = 0; i < appLines; i++){
+ 216              		.loc 1 184 0
+ 217 0008 A046     		mov	r8, r4
+ 181:main.c        ****     uint8 fail = 0;
+ 218              		.loc 1 181 0
+ 219 000a 2546     		mov	r5, r4
+ 180:main.c        ****     uint8 fail = 0;
+ 220              		.loc 1 180 0
+ 221 000c C3B0     		sub	sp, sp, #268
+ 222              		.cfi_def_cfa_offset 296
+ 223              	.LVL17:
+ 224              	.L15:
+ 225              	.LBB44:
+ 226              		.loc 1 185 0 discriminator 1
+ 227 000e B442     		cmp	r4, r6
+ 228 0010 A0B2     		uxth	r0, r4
+ 229              	.LVL18:
+ 230 0012 00F08280 		beq	.L36
+ 231              	.LVL19:
+ 232 0016 2302     		lsls	r3, r4, #8
+ 233 0018 671C     		adds	r7, r4, #1
+ 234 001a 03F58071 		add	r1, r3, #256
+ 235              	.LBB38:
+ 236              	.LBB39:
+ 186:main.c        ****         dataBuff_index = 0;
+ 187:main.c        ****         for(uint j = CY_FLASH_SIZEOF_ROW * i; j < (CY_FLASH_SIZEOF_ROW * (i + 1)); j++){  // 0-255 
+ 188:main.c        ****             dataBuff[dataBuff_index] = internal_flash_read_byte(0x02, j);
+ 237              		.loc 1 188 0
+ 238 001e 0DF1080C 		add	ip, sp, #8
+ 239              	.LVL20:
+ 240              	.L16:
+ 187:main.c        ****             dataBuff[dataBuff_index] = internal_flash_read_byte(0x02, j);
+ 241              		.loc 1 187 0 discriminator 1
+ 242 0022 8B42     		cmp	r3, r1
+ 243 0024 5FFA83FE 		uxtb	lr, r3
+ 244              	.LVL21:
+ 245 0028 09D2     		bcs	.L37
+ 246              	.LVL22:
+ 247              	.LBB40:
+ 248              	.LBB41:
+ 127:main.c        **** 	return (uint8)read_data;
+ 249              		.loc 1 127 0 discriminator 3
+ 250 002a 9AB2     		uxth	r2, r3
+ 251 002c 42F40032 		orr	r2, r2, #131072
+ 252 0030 1268     		ldr	r2, [r2]
+ 253              	.LBE41:
+ 254              	.LBE40:
+ 187:main.c        ****             dataBuff[dataBuff_index] = internal_flash_read_byte(0x02, j);
+ 255              		.loc 1 187 0 discriminator 3
+ 256 0032 0133     		adds	r3, r3, #1
+ 257              	.LVL23:
+ 258              	.LBB43:
+ 259              	.LBB42:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 9
+
+
+ 127:main.c        **** 	return (uint8)read_data;
+ 260              		.loc 1 127 0 discriminator 3
+ 261 0034 0192     		str	r2, [sp, #4]
+ 128:main.c        **** }
+ 262              		.loc 1 128 0 discriminator 3
+ 263 0036 019A     		ldr	r2, [sp, #4]
+ 264              	.LVL24:
+ 265              	.LBE42:
+ 266              	.LBE43:
+ 267              		.loc 1 188 0 discriminator 3
+ 268 0038 0CF80E20 		strb	r2, [ip, lr]
+ 269              	.LVL25:
+ 270 003c F1E7     		b	.L16
+ 271              	.LVL26:
+ 272              	.L37:
+ 273              	.LBE39:
+ 189:main.c        ****             dataBuff_index++;
+ 190:main.c        ****         }
+ 191:main.c        ****         
+ 192:main.c        ****         uint8 percent = 0;
+ 193:main.c        ****         percent = (((float)i + 1)/ appLines) * 100;
+ 274              		.loc 1 193 0
+ 275 003e FFF7FEFF 		bl	__aeabi_ui2f
+ 276              	.LVL27:
+ 277 0042 4FF07E51 		mov	r1, #1065353216
+ 278 0046 FFF7FEFF 		bl	__aeabi_fadd
+ 279              	.LVL28:
+ 280 004a 8146     		mov	r9, r0
+ 281 004c 3046     		mov	r0, r6
+ 282 004e FFF7FEFF 		bl	__aeabi_i2f
+ 283              	.LVL29:
+ 284 0052 0146     		mov	r1, r0
+ 285 0054 4846     		mov	r0, r9
+ 286 0056 FFF7FEFF 		bl	__aeabi_fdiv
+ 287              	.LVL30:
+ 288 005a 3249     		ldr	r1, .L38
+ 289 005c FFF7FEFF 		bl	__aeabi_fmul
+ 290              	.LVL31:
+ 291 0060 FFF7FEFF 		bl	__aeabi_f2uiz
+ 292              	.LVL32:
+ 194:main.c        ****         
+ 195:main.c        ****         if(percent % 20 == 0 && percent != former_percent){
+ 293              		.loc 1 195 0
+ 294 0064 1422     		movs	r2, #20
+ 193:main.c        ****         
+ 295              		.loc 1 193 0
+ 296 0066 C0B2     		uxtb	r0, r0
+ 297              	.LVL33:
+ 298              		.loc 1 195 0
+ 299 0068 B0FBF2F3 		udiv	r3, r0, r2
+ 300 006c 02FB1303 		mls	r3, r2, r3, r0
+ 301 0070 13F0FF0F 		tst	r3, #255
+ 302 0074 19D1     		bne	.L29
+ 303              		.loc 1 195 0 is_stmt 0 discriminator 1
+ 304 0076 1FFA80F9 		uxth	r9, r0
+ 305 007a C845     		cmp	r8, r9
+ 306 007c 16D0     		beq	.L18
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 10
+
+
+ 307              	.LVL34:
+ 196:main.c        ****             former_percent = percent;
+ 197:main.c        ****             
+ 198:main.c        ****             if(percent == 20){
+ 308              		.loc 1 198 0 is_stmt 1
+ 309 007e 9042     		cmp	r0, r2
+ 310 0080 01D1     		bne	.L19
+ 199:main.c        ****                 RS232_Debug_PutString("Writing: 20%\r\n");
+ 311              		.loc 1 199 0
+ 312 0082 2948     		ldr	r0, .L38+4
+ 313              	.LVL35:
+ 314 0084 0EE0     		b	.L34
+ 315              	.LVL36:
+ 316              	.L19:
+ 200:main.c        ****             }
+ 201:main.c        ****             else if(percent == 40){
+ 317              		.loc 1 201 0
+ 318 0086 2828     		cmp	r0, #40
+ 319 0088 01D1     		bne	.L20
+ 202:main.c        ****                 RS232_Debug_PutString("Writing: 40%\r\n");
+ 320              		.loc 1 202 0
+ 321 008a 2848     		ldr	r0, .L38+8
+ 322              	.LVL37:
+ 323 008c 0AE0     		b	.L34
+ 324              	.LVL38:
+ 325              	.L20:
+ 203:main.c        ****             }
+ 204:main.c        ****             else if(percent == 60){
+ 326              		.loc 1 204 0
+ 327 008e 3C28     		cmp	r0, #60
+ 328 0090 01D1     		bne	.L21
+ 205:main.c        ****                 RS232_Debug_PutString("Writing: 60%\r\n");
+ 329              		.loc 1 205 0
+ 330 0092 2748     		ldr	r0, .L38+12
+ 331              	.LVL39:
+ 332 0094 06E0     		b	.L34
+ 333              	.LVL40:
+ 334              	.L21:
+ 206:main.c        ****             }
+ 207:main.c        ****             else if(percent == 80){
+ 335              		.loc 1 207 0
+ 336 0096 5028     		cmp	r0, #80
+ 337 0098 01D1     		bne	.L22
+ 208:main.c        ****                 RS232_Debug_PutString("Writing: 80%\r\n");
+ 338              		.loc 1 208 0
+ 339 009a 2648     		ldr	r0, .L38+16
+ 340              	.LVL41:
+ 341 009c 02E0     		b	.L34
+ 342              	.LVL42:
+ 343              	.L22:
+ 209:main.c        ****             }
+ 210:main.c        ****             else if(percent == 100){
+ 344              		.loc 1 210 0
+ 345 009e 6428     		cmp	r0, #100
+ 346 00a0 04D1     		bne	.L18
+ 211:main.c        ****                 RS232_Debug_PutString("Writing: 100%\r\n");
+ 347              		.loc 1 211 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 11
+
+
+ 348 00a2 2548     		ldr	r0, .L38+20
+ 349              	.LVL43:
+ 350              	.L34:
+ 351 00a4 FFF7FEFF 		bl	RS232_Debug_PutString
+ 352              	.LVL44:
+ 353 00a8 00E0     		b	.L18
+ 354              	.LVL45:
+ 355              	.L29:
+ 356 00aa C146     		mov	r9, r8
+ 357              	.LVL46:
+ 358              	.L18:
+ 212:main.c        ****             }
+ 213:main.c        ****             
+ 214:main.c        ****         }
+ 215:main.c        ****         CyDelay(25);
+ 359              		.loc 1 215 0
+ 360 00ac 1920     		movs	r0, #25
+ 361 00ae FFF7FEFF 		bl	CyDelay
+ 362              	.LVL47:
+ 216:main.c        ****         
+ 217:main.c        ****         if(CySetTemp() == CYRET_SUCCESS){
+ 363              		.loc 1 217 0
+ 364 00b2 FFF7FEFF 		bl	CySetTemp
+ 365              	.LVL48:
+ 366 00b6 DFF88480 		ldr	r8, .L38+24
+ 367 00ba F8B9     		cbnz	r0, .L30
+ 218:main.c        ****             if(i == appLines - 1){
+ 368              		.loc 1 218 0
+ 369 00bc 731E     		subs	r3, r6, #1
+ 370 00be A342     		cmp	r3, r4
+ 219:main.c        ****                 if(internal_flash_handle_error(CyWriteRowData(0x03, 0x00FF, dataBuff))){
+ 371              		.loc 1 219 0
+ 372 00c0 02AA     		add	r2, sp, #8
+ 218:main.c        ****             if(i == appLines - 1){
+ 373              		.loc 1 218 0
+ 374 00c2 08D1     		bne	.L24
+ 375              		.loc 1 219 0
+ 376 00c4 FF21     		movs	r1, #255
+ 377 00c6 0320     		movs	r0, #3
+ 378 00c8 FFF7FEFF 		bl	CyWriteRowData
+ 379              	.LVL49:
+ 380 00cc FFF7FEFF 		bl	internal_flash_handle_error
+ 381              	.LVL50:
+ 382 00d0 80B9     		cbnz	r0, .L35
+ 383              	.L26:
+ 220:main.c        ****                     CyDelay(10);
+ 221:main.c        ****                 }
+ 222:main.c        ****                 else{
+ 223:main.c        ****                     fail = 1;
+ 384              		.loc 1 223 0
+ 385 00d2 0125     		movs	r5, #1
+ 386 00d4 13E0     		b	.L23
+ 387              	.L24:
+ 224:main.c        ****                 }
+ 225:main.c        ****             }
+ 226:main.c        ****             else{
+ 227:main.c        ****                 if(internal_flash_handle_error(CyWriteRowData(arrayID, rowID, dataBuff))){
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 12
+
+
+ 388              		.loc 1 227 0
+ 389 00d6 B8F80010 		ldrh	r1, [r8]
+ 390 00da 98F80200 		ldrb	r0, [r8, #2]	@ zero_extendqisi2
+ 391 00de FFF7FEFF 		bl	CyWriteRowData
+ 392              	.LVL51:
+ 393 00e2 FFF7FEFF 		bl	internal_flash_handle_error
+ 394              	.LVL52:
+ 395 00e6 0028     		cmp	r0, #0
+ 396 00e8 F3D0     		beq	.L26
+ 228:main.c        ****                     rowID++;
+ 397              		.loc 1 228 0
+ 398 00ea B8F80030 		ldrh	r3, [r8]
+ 399 00ee 0133     		adds	r3, r3, #1
+ 400 00f0 A8F80030 		strh	r3, [r8]	@ movhi
+ 401              	.L35:
+ 229:main.c        ****                     CyDelay(10);
+ 402              		.loc 1 229 0
+ 403 00f4 0A20     		movs	r0, #10
+ 404 00f6 FFF7FEFF 		bl	CyDelay
+ 405              	.LVL53:
+ 406 00fa 00E0     		b	.L23
+ 407              	.L30:
+ 230:main.c        ****                 }
+ 231:main.c        ****                 else{
+ 232:main.c        ****                     fail = 1;
+ 233:main.c        ****                 }
+ 234:main.c        ****             }
+ 235:main.c        ****         }
+ 236:main.c        ****         else{
+ 237:main.c        ****             fail = 2;
+ 408              		.loc 1 237 0
+ 409 00fc 0225     		movs	r5, #2
+ 410              	.L23:
+ 238:main.c        ****         }
+ 239:main.c        ****                
+ 240:main.c        ****         if(rowID == 0x0100){
+ 411              		.loc 1 240 0
+ 412 00fe B8F80020 		ldrh	r2, [r8]
+ 413 0102 0E4B     		ldr	r3, .L38+24
+ 414 0104 B2F5807F 		cmp	r2, #256
+ 415 0108 04D1     		bne	.L27
+ 241:main.c        ****             rowID = 0;
+ 416              		.loc 1 241 0
+ 417 010a 0022     		movs	r2, #0
+ 418 010c 1A80     		strh	r2, [r3]	@ movhi
+ 242:main.c        ****             arrayID++;
+ 419              		.loc 1 242 0
+ 420 010e 9A78     		ldrb	r2, [r3, #2]	@ zero_extendqisi2
+ 421 0110 0132     		adds	r2, r2, #1
+ 422 0112 9A70     		strb	r2, [r3, #2]
+ 423              	.L27:
+ 424              	.LVL54:
+ 425 0114 3C46     		mov	r4, r7
+ 426              	.LBE38:
+ 427              	.LBE44:
+ 181:main.c        ****     uint8 dataBuff[CY_FLASH_SIZEOF_ROW];
+ 428              		.loc 1 181 0 discriminator 2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 13
+
+
+ 429 0116 C846     		mov	r8, r9
+ 430 0118 79E7     		b	.L15
+ 431              	.LVL55:
+ 432              	.L36:
+ 243:main.c        ****             
+ 244:main.c        ****         }
+ 245:main.c        ****     }
+ 246:main.c        ****     
+ 247:main.c        ****     memset(dataBuff, '\0', sizeof(dataBuff));
+ 248:main.c        **** 
+ 249:main.c        ****     return fail;
+ 250:main.c        **** }
+ 433              		.loc 1 250 0
+ 434 011a 2846     		mov	r0, r5
+ 435              	.LVL56:
+ 436 011c 43B0     		add	sp, sp, #268
+ 437              		.cfi_def_cfa_offset 28
+ 438              		@ sp needed
+ 439 011e BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 440              	.LVL57:
+ 441              	.L39:
+ 442 0122 00BF     		.align	2
+ 443              	.L38:
+ 444 0124 0000C842 		.word	1120403456
+ 445 0128 40000000 		.word	.LC3
+ 446 012c 4F000000 		.word	.LC4
+ 447 0130 5E000000 		.word	.LC5
+ 448 0134 6D000000 		.word	.LC6
+ 449 0138 7C000000 		.word	.LC7
+ 450 013c 00000000 		.word	.LANCHOR0
+ 451              		.cfi_endproc
+ 452              	.LFE69:
+ 453              		.size	internal_flash_write_row, .-internal_flash_write_row
+ 454              		.section	.text.startup.main,"ax",%progbits
+ 455              		.align	1
+ 456              		.global	main
+ 457              		.thumb
+ 458              		.thumb_func
+ 459              		.type	main, %function
+ 460              	main:
+ 461              	.LFB70:
+ 251:main.c        **** 
+ 252:main.c        **** int main()
+ 253:main.c        **** {
+ 462              		.loc 1 253 0
+ 463              		.cfi_startproc
+ 464              		@ args = 0, pretend = 0, frame = 0
+ 465              		@ frame_needed = 0, uses_anonymous_args = 0
+ 466 0000 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+ 467              		.cfi_def_cfa_offset 32
+ 468              		.cfi_offset 4, -20
+ 469              		.cfi_offset 5, -16
+ 470              		.cfi_offset 6, -12
+ 471              		.cfi_offset 7, -8
+ 472              		.cfi_offset 14, -4
+ 254:main.c        ****     /* Enable the global interrupts */
+ 255:main.c        ****     CyGlobalIntEnable;
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 14
+
+
+ 473              		.loc 1 255 0
+ 474              		.syntax unified
+ 475              	@ 255 "main.c" 1
+ 476 0002 62B6     		CPSIE   i
+ 477              	@ 0 "" 2
+ 256:main.c        ****     
+ 257:main.c        ****     Internal_EEPROM_Start();
+ 478              		.loc 1 257 0
+ 479              		.thumb
+ 480              		.syntax unified
+ 481 0004 FFF7FEFF 		bl	Internal_EEPROM_Start
+ 482              	.LVL58:
+ 258:main.c        ****     RS232_Debug_Start();
+ 483              		.loc 1 258 0
+ 484 0008 FFF7FEFF 		bl	RS232_Debug_Start
+ 485              	.LVL59:
+ 259:main.c        ****         
+ 260:main.c        ****     RS232_Debug_PutString("\r\n--------------------&&&&& Bootloader Start &&&&&--------------------
+ 486              		.loc 1 260 0
+ 487 000c 5C48     		ldr	r0, .L54
+ 488 000e FFF7FEFF 		bl	RS232_Debug_PutString
+ 489              	.LVL60:
+ 261:main.c        ****     
+ 262:main.c        ****     
+ 263:main.c        ****     ie2_writeByte(CyResetStatus, Das_E2_Loc_Reset_Status);
+ 490              		.loc 1 263 0
+ 491 0012 5C4B     		ldr	r3, .L54+4
+ 492 0014 1221     		movs	r1, #18
+ 493 0016 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 494 0018 FFF7FEFF 		bl	ie2_writeByte
+ 495              	.LVL61:
+ 496              	.LBB45:
+ 497              	.LBB46:
+ 133:main.c        **** 
+ 498              		.loc 1 133 0
+ 499 001c 7020     		movs	r0, #112
+ 500 001e FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+ 501              	.LVL62:
+ 502 0022 0746     		mov	r7, r0
+ 503              	.LVL63:
+ 504              	.LBE46:
+ 505              	.LBE45:
+ 506              	.LBB47:
+ 507              	.LBB48:
+ 508 0024 7420     		movs	r0, #116
+ 509 0026 FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+ 510              	.LVL64:
+ 511 002a 0546     		mov	r5, r0
+ 512              	.LVL65:
+ 513              	.LBE48:
+ 514              	.LBE47:
+ 515              	.LBB49:
+ 516              	.LBB50:
+ 517 002c 7320     		movs	r0, #115
+ 518 002e FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+ 519              	.LVL66:
+ 520              	.LBE50:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 15
+
+
+ 521              	.LBE49:
+ 264:main.c        ****     
+ 265:main.c        **** //    write_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_STATUS, FOTA_START);
+ 266:main.c        ****     
+ 267:main.c        ****     /* ***************************** CHECK METADATA FROM External EEPROM **************************
+ 268:main.c        **** //    uint8 status = read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_STATUS); 
+ 269:main.c        **** //    appCRC = read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_CRC_BYTE3) << 24 | read_e2prom_i2c(EE2
+ 270:main.c        **** //    uint32 appSize = read_e2prom_i2c(EE2_1_CHIP_ADDR, EE2_Loc_FOTA_App_SIZE_BYTE3) << 24 | read_e
+ 271:main.c        ****     
+ 272:main.c        ****     uint8 status = ie2_read_byte(IE2_Loc_FOTA_STATUS); 
+ 273:main.c        ****     appCRC = ie2_read_byte(IE2_Loc_FOTA_CRC_BYTE3) << 24 | ie2_read_byte(IE2_Loc_FOTA_CRC_BYTE2) <<
+ 522              		.loc 1 273 0
+ 523 0032 0004     		lsls	r0, r0, #16
+ 524 0034 40EA0565 		orr	r5, r0, r5, lsl #24
+ 525              	.LVL67:
+ 526              	.LBB51:
+ 527              	.LBB52:
+ 133:main.c        **** 
+ 528              		.loc 1 133 0
+ 529 0038 7220     		movs	r0, #114
+ 530 003a FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+ 531              	.LVL68:
+ 532 003e 0646     		mov	r6, r0
+ 533              	.LVL69:
+ 534              	.LBE52:
+ 535              	.LBE51:
+ 536              	.LBB53:
+ 537              	.LBB54:
+ 538 0040 7120     		movs	r0, #113
+ 539 0042 FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+ 540              	.LVL70:
+ 541              	.LBE54:
+ 542              	.LBE53:
+ 543              		.loc 1 273 0
+ 544 0046 504C     		ldr	r4, .L54+8
+ 545 0048 2843     		orrs	r0, r0, r5
+ 546 004a 40EA0620 		orr	r0, r0, r6, lsl #8
+ 547 004e 6060     		str	r0, [r4, #4]
+ 548              	.LVL71:
+ 549              	.LBB55:
+ 550              	.LBB56:
+ 133:main.c        **** 
+ 551              		.loc 1 133 0
+ 552 0050 7820     		movs	r0, #120
+ 553 0052 FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+ 554              	.LVL72:
+ 555 0056 0546     		mov	r5, r0
+ 556              	.LVL73:
+ 557              	.LBE56:
+ 558              	.LBE55:
+ 559              	.LBB57:
+ 560              	.LBB58:
+ 561 0058 7720     		movs	r0, #119
+ 562 005a FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+ 563              	.LVL74:
+ 564              	.LBE58:
+ 565              	.LBE57:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 16
+
+
+ 274:main.c        ****     uint32 appSize = ie2_read_byte(IE2_Loc_FOTA_App_SIZE_BYTE3) << 24 | ie2_read_byte(IE2_Loc_FOTA_
+ 566              		.loc 1 274 0
+ 567 005e 0004     		lsls	r0, r0, #16
+ 568 0060 40EA0565 		orr	r5, r0, r5, lsl #24
+ 569              	.LVL75:
+ 570              	.LBB59:
+ 571              	.LBB60:
+ 133:main.c        **** 
+ 572              		.loc 1 133 0
+ 573 0064 7620     		movs	r0, #118
+ 574 0066 FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+ 575              	.LVL76:
+ 576 006a 0646     		mov	r6, r0
+ 577              	.LVL77:
+ 578              	.LBE60:
+ 579              	.LBE59:
+ 580              	.LBB61:
+ 581              	.LBB62:
+ 582 006c 7520     		movs	r0, #117
+ 583 006e FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+ 584              	.LVL78:
+ 585              	.LBE62:
+ 586              	.LBE61:
+ 587              		.loc 1 274 0
+ 588 0072 2843     		orrs	r0, r0, r5
+ 589 0074 40EA0626 		orr	r6, r0, r6, lsl #8
+ 590              	.LVL79:
+ 591              	.LBB63:
+ 592              	.LBB64:
+ 133:main.c        **** 
+ 593              		.loc 1 133 0
+ 594 0078 7920     		movs	r0, #121
+ 595 007a FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+ 596              	.LVL80:
+ 597 007e 0546     		mov	r5, r0
+ 598              	.LVL81:
+ 599              	.LBE64:
+ 600              	.LBE63:
+ 601              	.LBB65:
+ 602              	.LBB66:
+ 603 0080 7A20     		movs	r0, #122
+ 604 0082 FFF7FEFF 		bl	Internal_EEPROM_ReadByte
+ 605              	.LVL82:
+ 606              	.LBE66:
+ 607              	.LBE65:
+ 275:main.c        **** 
+ 276:main.c        ****     rowID = ie2_read_byte(IE2_Loc_FOTA_ROW_START_BYTE0) << 8 | ie2_read_byte(IE2_Loc_FOTA_ROW_START
+ 608              		.loc 1 276 0
+ 609 0086 40EA0520 		orr	r0, r0, r5, lsl #8
+ 610 008a 80B2     		uxth	r0, r0
+ 611 008c 2080     		strh	r0, [r4]	@ movhi
+ 277:main.c        ****     /* ********************************************************************************************
+ 278:main.c        ****     
+ 279:main.c        ****     // every line has 262 bytes including [1-Byte ArrayID][2-Bytes ArrayAddress][2-Bytes Line Size(
+ 280:main.c        ****     sprintf(buff,"Application CRC on E2: 0x%08lX\r\nBootloader Status:0x%02X\r\nApp Size: %ld\r\nfi
+ 612              		.loc 1 280 0
+ 613 008e 0190     		str	r0, [sp, #4]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 17
+
+
+ 614 0090 3B46     		mov	r3, r7
+ 615 0092 6268     		ldr	r2, [r4, #4]
+ 616 0094 3D49     		ldr	r1, .L54+12
+ 617 0096 0096     		str	r6, [sp]
+ 618 0098 3D48     		ldr	r0, .L54+16
+ 619 009a FFF7FEFF 		bl	sprintf
+ 620              	.LVL83:
+ 281:main.c        ****     RS232_Debug_PutString(buff);
+ 621              		.loc 1 281 0
+ 622 009e 3C48     		ldr	r0, .L54+16
+ 623 00a0 FFF7FEFF 		bl	RS232_Debug_PutString
+ 624              	.LVL84:
+ 282:main.c        ****     uint8 fail = 0;
+ 283:main.c        ****     if(status == FOTA_START){
+ 625              		.loc 1 283 0
+ 626 00a4 012F     		cmp	r7, #1
+ 627 00a6 57D1     		bne	.L41
+ 628              	.LBB67:
+ 629              	.LBB68:
+ 630              	.LBB69:
+ 284:main.c        ****         RS232_Debug_PutString("\r\n--------------------&&&&& Start Writing New App to Internal Flas
+ 285:main.c        ****         uint8 arr_id = 2;
+ 286:main.c        ****         for(uint i = 0; i < appSize ; i++){
+ 287:main.c        ****             // Calculating CRC here
+ 288:main.c        ****             if(i != 0 && i % 0xffff == 0){
+ 631              		.loc 1 288 0
+ 632 00a8 4FF6FF77 		movw	r7, #65535
+ 633              	.LBE69:
+ 634              	.LBE68:
+ 284:main.c        ****         RS232_Debug_PutString("\r\n--------------------&&&&& Start Writing New App to Internal Flas
+ 635              		.loc 1 284 0
+ 636 00ac 3948     		ldr	r0, .L54+20
+ 637 00ae FFF7FEFF 		bl	RS232_Debug_PutString
+ 638              	.LVL85:
+ 639              	.LBB72:
+ 286:main.c        ****             // Calculating CRC here
+ 640              		.loc 1 286 0
+ 641 00b2 0025     		movs	r5, #0
+ 642              	.LBE72:
+ 285:main.c        ****         for(uint i = 0; i < appSize ; i++){
+ 643              		.loc 1 285 0
+ 644 00b4 0222     		movs	r2, #2
+ 645              	.LVL86:
+ 646              	.L42:
+ 647              	.LBB73:
+ 286:main.c        ****             // Calculating CRC here
+ 648              		.loc 1 286 0 discriminator 1
+ 649 00b6 B542     		cmp	r5, r6
+ 650 00b8 11D0     		beq	.L53
+ 651              	.LBB70:
+ 652              		.loc 1 288 0
+ 653 00ba 3DB1     		cbz	r5, .L43
+ 654              		.loc 1 288 0 is_stmt 0 discriminator 1
+ 655 00bc B5FBF7F3 		udiv	r3, r5, r7
+ 656 00c0 C3EB0343 		rsb	r3, r3, r3, lsl #16
+ 657 00c4 9D42     		cmp	r5, r3
+ 289:main.c        ****                 arr_id++;
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 18
+
+
+ 658              		.loc 1 289 0 is_stmt 1 discriminator 1
+ 659 00c6 04BF     		itt	eq
+ 660 00c8 0132     		addeq	r2, r2, #1
+ 661              	.LVL87:
+ 662 00ca D2B2     		uxtbeq	r2, r2
+ 663              	.LVL88:
+ 664              	.L43:
+ 290:main.c        ****             }
+ 291:main.c        ****             uint8 data = internal_flash_read_byte(arr_id, i);
+ 665              		.loc 1 291 0 discriminator 2
+ 666 00cc A9B2     		uxth	r1, r5
+ 667 00ce 1046     		mov	r0, r2
+ 668 00d0 FFF7FEFF 		bl	internal_flash_read_byte
+ 669              	.LVL89:
+ 292:main.c        ****             newCRC += data;
+ 670              		.loc 1 292 0 discriminator 2
+ 671 00d4 A368     		ldr	r3, [r4, #8]
+ 672              	.LBE70:
+ 286:main.c        ****             // Calculating CRC here
+ 673              		.loc 1 286 0 discriminator 2
+ 674 00d6 0135     		adds	r5, r5, #1
+ 675              	.LVL90:
+ 676              	.LBB71:
+ 677              		.loc 1 292 0 discriminator 2
+ 678 00d8 1844     		add	r0, r0, r3
+ 679              	.LVL91:
+ 680 00da A060     		str	r0, [r4, #8]
+ 681 00dc EBE7     		b	.L42
+ 682              	.LVL92:
+ 683              	.L53:
+ 684              	.LBE71:
+ 685              	.LBE73:
+ 293:main.c        ****         }
+ 294:main.c        ****         
+ 295:main.c        ****         newCRC = (~newCRC) + 1;
+ 686              		.loc 1 295 0
+ 687 00de A268     		ldr	r2, [r4, #8]
+ 688              	.LVL93:
+ 296:main.c        ****         sprintf(buff,"\r\nnewCRC: 0x%08lX , AppCRC: 0x%08lX\r\n", newCRC, appCRC);
+ 689              		.loc 1 296 0
+ 690 00e0 6368     		ldr	r3, [r4, #4]
+ 295:main.c        ****         sprintf(buff,"\r\nnewCRC: 0x%08lX , AppCRC: 0x%08lX\r\n", newCRC, appCRC);
+ 691              		.loc 1 295 0
+ 692 00e2 5242     		negs	r2, r2
+ 693              		.loc 1 296 0
+ 694 00e4 2C49     		ldr	r1, .L54+24
+ 695 00e6 2A48     		ldr	r0, .L54+16
+ 295:main.c        ****         sprintf(buff,"\r\nnewCRC: 0x%08lX , AppCRC: 0x%08lX\r\n", newCRC, appCRC);
+ 696              		.loc 1 295 0
+ 697 00e8 A260     		str	r2, [r4, #8]
+ 698              		.loc 1 296 0
+ 699 00ea FFF7FEFF 		bl	sprintf
+ 700              	.LVL94:
+ 297:main.c        ****         RS232_Debug_PutString(buff);
+ 701              		.loc 1 297 0
+ 702 00ee 2848     		ldr	r0, .L54+16
+ 703 00f0 FFF7FEFF 		bl	RS232_Debug_PutString
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 19
+
+
+ 704              	.LVL95:
+ 705              	.LBB74:
+ 298:main.c        **** //        
+ 299:main.c        **** //        if(newCRC == appCRC){
+ 300:main.c        ****         if(1){
+ 301:main.c        ****             RS232_Debug_PutString("CRCs are OK!\r\n");
+ 706              		.loc 1 301 0
+ 707 00f4 2948     		ldr	r0, .L54+28
+ 708 00f6 FFF7FEFF 		bl	RS232_Debug_PutString
+ 709              	.LVL96:
+ 302:main.c        ****             
+ 303:main.c        ****             uint16 appLines = appSize / CY_FLASH_SIZEOF_ROW;
+ 304:main.c        ****             
+ 305:main.c        ****             fail = internal_flash_write_row(appLines);
+ 710              		.loc 1 305 0
+ 711 00fa C5F30F20 		ubfx	r0, r5, #8, #16
+ 712 00fe FFF7FEFF 		bl	internal_flash_write_row
+ 713              	.LVL97:
+ 306:main.c        ****             
+ 307:main.c        ****             if(fail == 0){
+ 308:main.c        ****                 ie2_write_byte(FOTA_STOP, IE2_Loc_FOTA_STATUS);
+ 714              		.loc 1 308 0
+ 715 0102 7021     		movs	r1, #112
+ 307:main.c        ****                 ie2_write_byte(FOTA_STOP, IE2_Loc_FOTA_STATUS);
+ 716              		.loc 1 307 0
+ 717 0104 0346     		mov	r3, r0
+ 718 0106 38B9     		cbnz	r0, .L45
+ 719              		.loc 1 308 0
+ 720 0108 FFF7FEFF 		bl	ie2_writeByte
+ 721              	.LVL98:
+ 309:main.c        ****                 ie2_write_byte(A_Reset_Code_FOTA_Done, IE2_Loc_Reset_Code_Address);
+ 722              		.loc 1 309 0
+ 723 010c 1321     		movs	r1, #19
+ 724 010e 0220     		movs	r0, #2
+ 725 0110 FFF7FEFF 		bl	ie2_writeByte
+ 726              	.LVL99:
+ 310:main.c        ****                 RS232_Debug_PutString("\r\n--------------------&&&&& Bootloader Programmed Successf
+ 727              		.loc 1 310 0
+ 728 0114 2248     		ldr	r0, .L54+32
+ 729 0116 1CE0     		b	.L52
+ 730              	.LVL100:
+ 731              	.L45:
+ 311:main.c        ****             }
+ 312:main.c        ****             else if(fail == 1){
+ 732              		.loc 1 312 0
+ 733 0118 012B     		cmp	r3, #1
+ 313:main.c        ****                 ie2_write_byte(FOTA_STOP, IE2_Loc_FOTA_STATUS);
+ 734              		.loc 1 313 0
+ 735 011a 4FF00000 		mov	r0, #0
+ 736              	.LVL101:
+ 312:main.c        ****                 ie2_write_byte(FOTA_STOP, IE2_Loc_FOTA_STATUS);
+ 737              		.loc 1 312 0
+ 738 011e 07D1     		bne	.L47
+ 739              		.loc 1 313 0
+ 740 0120 FFF7FEFF 		bl	ie2_writeByte
+ 741              	.LVL102:
+ 314:main.c        ****                 ie2_write_byte(Gw_Reset_Code_FOTA_Fail, IE2_Loc_Reset_Code_Address);
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 20
+
+
+ 742              		.loc 1 314 0
+ 743 0124 1321     		movs	r1, #19
+ 744 0126 0D20     		movs	r0, #13
+ 745 0128 FFF7FEFF 		bl	ie2_writeByte
+ 746              	.LVL103:
+ 315:main.c        ****                 RS232_Debug_PutString("\r\n--------------------&&&&& Bootloader Programmed Failure 
+ 747              		.loc 1 315 0
+ 748 012c 1D48     		ldr	r0, .L54+36
+ 749 012e 10E0     		b	.L52
+ 750              	.L47:
+ 316:main.c        ****             }
+ 317:main.c        ****             else if(fail == 2){
+ 751              		.loc 1 317 0
+ 752 0130 022B     		cmp	r3, #2
+ 753 0132 07D1     		bne	.L48
+ 318:main.c        ****                 ie2_write_byte(FOTA_STOP, IE2_Loc_FOTA_STATUS);
+ 754              		.loc 1 318 0
+ 755 0134 FFF7FEFF 		bl	ie2_writeByte
+ 756              	.LVL104:
+ 319:main.c        ****                 ie2_write_byte(Gw_Reset_Code_FOTA_Fail, IE2_Loc_Reset_Code_Address);
+ 757              		.loc 1 319 0
+ 758 0138 1321     		movs	r1, #19
+ 759 013a 0D20     		movs	r0, #13
+ 760 013c FFF7FEFF 		bl	ie2_writeByte
+ 761              	.LVL105:
+ 320:main.c        ****                 RS232_Debug_PutString("\r\n--------------------&&&&& Bootloader Programmed Failure 
+ 762              		.loc 1 320 0
+ 763 0140 1948     		ldr	r0, .L54+40
+ 764 0142 06E0     		b	.L52
+ 765              	.L48:
+ 321:main.c        ****             }
+ 322:main.c        ****             else{
+ 323:main.c        ****                 ie2_write_byte(FOTA_STOP, IE2_Loc_FOTA_STATUS);
+ 766              		.loc 1 323 0
+ 767 0144 FFF7FEFF 		bl	ie2_writeByte
+ 768              	.LVL106:
+ 324:main.c        ****                 ie2_write_byte(Gw_Reset_Code_FOTA_Fail, IE2_Loc_Reset_Code_Address);
+ 769              		.loc 1 324 0
+ 770 0148 1321     		movs	r1, #19
+ 771 014a 0D20     		movs	r0, #13
+ 772 014c FFF7FEFF 		bl	ie2_writeByte
+ 773              	.LVL107:
+ 325:main.c        ****                 RS232_Debug_PutString("\r\n--------------------&&&&& Bootloader Programmed Failure 
+ 774              		.loc 1 325 0
+ 775 0150 1648     		ldr	r0, .L54+44
+ 776              	.L52:
+ 777 0152 FFF7FEFF 		bl	RS232_Debug_PutString
+ 778              	.LVL108:
+ 779 0156 06E0     		b	.L46
+ 780              	.LVL109:
+ 781              	.L41:
+ 782              	.LBE74:
+ 783              	.LBE67:
+ 326:main.c        ****             }
+ 327:main.c        ****         }
+ 328:main.c        ****         else{
+ 329:main.c        ****             ie2_write_byte(FOTA_STOP, IE2_Loc_FOTA_STATUS);
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 21
+
+
+ 330:main.c        ****             ie2_write_byte(Gw_Reset_Code_FOTA_Fail, IE2_Loc_Reset_Code_Address);
+ 331:main.c        ****             RS232_Debug_PutString("\r\n--------------------&&&&& Bootloader Failure --> App CRC != 
+ 332:main.c        ****         }
+ 333:main.c        ****     }
+ 334:main.c        ****     else{
+ 335:main.c        ****         RS232_Debug_PutString("\r\n--------------------&&&&& No New Program &&&&&------------------
+ 784              		.loc 1 335 0
+ 785 0158 1548     		ldr	r0, .L54+48
+ 786 015a FFF7FEFF 		bl	RS232_Debug_PutString
+ 787              	.LVL110:
+ 336:main.c        ****         CyDelay(1000);
+ 788              		.loc 1 336 0
+ 789 015e 4FF47A70 		mov	r0, #1000
+ 790 0162 FFF7FEFF 		bl	CyDelay
+ 791              	.LVL111:
+ 792              	.L46:
+ 337:main.c        ****     }
+ 338:main.c        ****     
+ 339:main.c        ****     RS232_Debug_PutString("\r\n--------------------&&&&& Bootloader Finish &&&&&-------------------
+ 793              		.loc 1 339 0
+ 794 0166 1348     		ldr	r0, .L54+52
+ 795 0168 FFF7FEFF 		bl	RS232_Debug_PutString
+ 796              	.LVL112:
+ 340:main.c        ****     CyDelay(1000);
+ 797              		.loc 1 340 0
+ 798 016c 4FF47A70 		mov	r0, #1000
+ 799 0170 FFF7FEFF 		bl	CyDelay
+ 800              	.LVL113:
+ 341:main.c        ****     Bootloader_Exit(Bootloader_EXIT_TO_BTLDB);
+ 801              		.loc 1 341 0
+ 802 0174 0020     		movs	r0, #0
+ 803 0176 FFF7FEFF 		bl	Bootloader_Exit
+ 804              	.LVL114:
+ 342:main.c        ****     
+ 343:main.c        ****     return 0;
+ 344:main.c        **** }
+ 805              		.loc 1 344 0
+ 806 017a 0020     		movs	r0, #0
+ 807 017c 03B0     		add	sp, sp, #12
+ 808              		.cfi_def_cfa_offset 20
+ 809              		@ sp needed
+ 810 017e F0BD     		pop	{r4, r5, r6, r7, pc}
+ 811              	.LVL115:
+ 812              	.L55:
+ 813              		.align	2
+ 814              	.L54:
+ 815 0180 8C000000 		.word	.LC8
+ 816 0184 00000000 		.word	CyResetStatus
+ 817 0188 00000000 		.word	.LANCHOR0
+ 818 018c D5000000 		.word	.LC9
+ 819 0190 00000000 		.word	buff
+ 820 0194 32010000 		.word	.LC10
+ 821 0198 92010000 		.word	.LC11
+ 822 019c B8010000 		.word	.LC12
+ 823 01a0 C7010000 		.word	.LC13
+ 824 01a4 22020000 		.word	.LC14
+ 825 01a8 8A020000 		.word	.LC15
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 22
+
+
+ 826 01ac 01030000 		.word	.LC16
+ 827 01b0 63030000 		.word	.LC17
+ 828 01b4 AA030000 		.word	.LC18
+ 829              		.cfi_endproc
+ 830              	.LFE70:
+ 831              		.size	main, .-main
+ 832              		.global	rowID
+ 833              		.global	arrayID
+ 834              		.comm	buff,100,1
+ 835              		.global	newCRC
+ 836              		.global	appCRC
+ 837              		.global	counter
+ 838              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 839              	.LC0:
+ 840 0000 466C6173 		.ascii	"Flash writing already in use\015\012\000"
+ 840      68207772 
+ 840      6974696E 
+ 840      6720616C 
+ 840      72656164 
+ 841              	.LC1:
+ 842 001f 436F6D6D 		.ascii	"Command not accepted\015\012\000"
+ 842      616E6420 
+ 842      6E6F7420 
+ 842      61636365 
+ 842      70746564 
+ 843              	.LC2:
+ 844 0036 4661696C 		.ascii	"Failure\015\012\000"
+ 844      7572650D 
+ 844      0A00
+ 845              	.LC3:
+ 846 0040 57726974 		.ascii	"Writing: 20%\015\012\000"
+ 846      696E673A 
+ 846      20323025 
+ 846      0D0A00
+ 847              	.LC4:
+ 848 004f 57726974 		.ascii	"Writing: 40%\015\012\000"
+ 848      696E673A 
+ 848      20343025 
+ 848      0D0A00
+ 849              	.LC5:
+ 850 005e 57726974 		.ascii	"Writing: 60%\015\012\000"
+ 850      696E673A 
+ 850      20363025 
+ 850      0D0A00
+ 851              	.LC6:
+ 852 006d 57726974 		.ascii	"Writing: 80%\015\012\000"
+ 852      696E673A 
+ 852      20383025 
+ 852      0D0A00
+ 853              	.LC7:
+ 854 007c 57726974 		.ascii	"Writing: 100%\015\012\000"
+ 854      696E673A 
+ 854      20313030 
+ 854      250D0A00 
+ 855              	.LC8:
+ 856 008c 0D0A2D2D 		.ascii	"\015\012--------------------&&&&& Bootloader Start "
+ 856      2D2D2D2D 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 23
+
+
+ 856      2D2D2D2D 
+ 856      2D2D2D2D 
+ 856      2D2D2D2D 
+ 857 00b9 26262626 		.ascii	"&&&&&--------------------\015\012\000"
+ 857      262D2D2D 
+ 857      2D2D2D2D 
+ 857      2D2D2D2D 
+ 857      2D2D2D2D 
+ 858              	.LC9:
+ 859 00d5 4170706C 		.ascii	"Application CRC on E2: 0x%08lX\015\012Bootloader St"
+ 859      69636174 
+ 859      696F6E20 
+ 859      43524320 
+ 859      6F6E2045 
+ 860 0102 61747573 		.ascii	"atus:0x%02X\015\012App Size: %ld\015\012first RowID"
+ 860      3A307825 
+ 860      3032580D 
+ 860      0A417070 
+ 860      2053697A 
+ 861 0129 3A202530 		.ascii	": %04X\015\012\000"
+ 861      34580D0A 
+ 861      00
+ 862              	.LC10:
+ 863 0132 0D0A2D2D 		.ascii	"\015\012--------------------&&&&& Start Writing New"
+ 863      2D2D2D2D 
+ 863      2D2D2D2D 
+ 863      2D2D2D2D 
+ 863      2D2D2D2D 
+ 864 015f 20417070 		.ascii	" App to Internal Flash &&&&&--------------------\015"
+ 864      20746F20 
+ 864      496E7465 
+ 864      726E616C 
+ 864      20466C61 
+ 865 0190 0A00     		.ascii	"\012\000"
+ 866              	.LC11:
+ 867 0192 0D0A6E65 		.ascii	"\015\012newCRC: 0x%08lX , AppCRC: 0x%08lX\015\012\000"
+ 867      77435243 
+ 867      3A203078 
+ 867      2530386C 
+ 867      58202C20 
+ 868              	.LC12:
+ 869 01b8 43524373 		.ascii	"CRCs are OK!\015\012\000"
+ 869      20617265 
+ 869      204F4B21 
+ 869      0D0A00
+ 870              	.LC13:
+ 871 01c7 0D0A2D2D 		.ascii	"\015\012--------------------&&&&& Bootloader Progra"
+ 871      2D2D2D2D 
+ 871      2D2D2D2D 
+ 871      2D2D2D2D 
+ 871      2D2D2D2D 
+ 872 01f4 6D6D6564 		.ascii	"mmed Successfully &&&&&--------------------\015\012"
+ 872      20537563 
+ 872      63657373 
+ 872      66756C6C 
+ 872      79202626 
+ 873 0221 00       		.ascii	"\000"
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 24
+
+
+ 874              	.LC14:
+ 875 0222 0D0A2D2D 		.ascii	"\015\012--------------------&&&&& Bootloader Progra"
+ 875      2D2D2D2D 
+ 875      2D2D2D2D 
+ 875      2D2D2D2D 
+ 875      2D2D2D2D 
+ 876 024f 6D6D6564 		.ascii	"mmed Failure --> row not write &&&&&---------------"
+ 876      20466169 
+ 876      6C757265 
+ 876      202D2D3E 
+ 876      20726F77 
+ 877 0282 2D2D2D2D 		.ascii	"-----\015\012\000"
+ 877      2D0D0A00 
+ 878              	.LC15:
+ 879 028a 0D0A2D2D 		.ascii	"\015\012--------------------&&&&& Bootloader Progra"
+ 879      2D2D2D2D 
+ 879      2D2D2D2D 
+ 879      2D2D2D2D 
+ 879      2D2D2D2D 
+ 880 02b7 6D6D6564 		.ascii	"mmed Failure --> CySetTemp() != CYRET_SUCCESS &&&&&"
+ 880      20466169 
+ 880      6C757265 
+ 880      202D2D3E 
+ 880      20437953 
+ 881 02ea 2D2D2D2D 		.ascii	"--------------------\015\012\000"
+ 881      2D2D2D2D 
+ 881      2D2D2D2D 
+ 881      2D2D2D2D 
+ 881      2D2D2D2D 
+ 882              	.LC16:
+ 883 0301 0D0A2D2D 		.ascii	"\015\012--------------------&&&&& Bootloader Progra"
+ 883      2D2D2D2D 
+ 883      2D2D2D2D 
+ 883      2D2D2D2D 
+ 883      2D2D2D2D 
+ 884 032e 6D6D6564 		.ascii	"mmed Failure --> Unknown &&&&&--------------------\015"
+ 884      20466169 
+ 884      6C757265 
+ 884      202D2D3E 
+ 884      20556E6B 
+ 885 0361 0A00     		.ascii	"\012\000"
+ 886              	.LC17:
+ 887 0363 0D0A2D2D 		.ascii	"\015\012--------------------&&&&& No New Program &&"
+ 887      2D2D2D2D 
+ 887      2D2D2D2D 
+ 887      2D2D2D2D 
+ 887      2D2D2D2D 
+ 888 0390 2626262D 		.ascii	"&&&--------------------\015\012\000"
+ 888      2D2D2D2D 
+ 888      2D2D2D2D 
+ 888      2D2D2D2D 
+ 888      2D2D2D2D 
+ 889              	.LC18:
+ 890 03aa 0D0A2D2D 		.ascii	"\015\012--------------------&&&&& Bootloader Finish"
+ 890      2D2D2D2D 
+ 890      2D2D2D2D 
+ 890      2D2D2D2D 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 25
+
+
+ 890      2D2D2D2D 
+ 891 03d7 20262626 		.ascii	" &&&&&--------------------\015\012\000"
+ 891      26262D2D 
+ 891      2D2D2D2D 
+ 891      2D2D2D2D 
+ 891      2D2D2D2D 
+ 892              		.bss
+ 893              		.align	2
+ 894              		.set	.LANCHOR0,. + 0
+ 895              		.type	rowID, %object
+ 896              		.size	rowID, 2
+ 897              	rowID:
+ 898 0000 0000     		.space	2
+ 899              		.type	arrayID, %object
+ 900              		.size	arrayID, 1
+ 901              	arrayID:
+ 902 0002 00       		.space	1
+ 903 0003 00       		.space	1
+ 904              		.type	appCRC, %object
+ 905              		.size	appCRC, 4
+ 906              	appCRC:
+ 907 0004 00000000 		.space	4
+ 908              		.type	newCRC, %object
+ 909              		.size	newCRC, 4
+ 910              	newCRC:
+ 911 0008 00000000 		.space	4
+ 912              		.type	counter, %object
+ 913              		.size	counter, 1
+ 914              	counter:
+ 915 000c 00       		.space	1
+ 916              		.text
+ 917              	.Letext0:
+ 918              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 919              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 920              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 921              		.file 5 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 922              		.file 6 "Generated_Source\\PSoC5/CyLib.h"
+ 923              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ 924              		.file 8 "Generated_Source\\PSoC5/Internal_EEPROM.h"
+ 925              		.file 9 "Generated_Source\\PSoC5/RS232_Debug.h"
+ 926              		.file 10 "Generated_Source\\PSoC5/CyFlash.h"
+ 927              		.file 11 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4
+ 928              		.file 12 "Generated_Source\\PSoC5/Bootloader.h"
+ 929              		.section	.debug_info,"",%progbits
+ 930              	.Ldebug_info0:
+ 931 0000 5B0A0000 		.4byte	0xa5b
+ 932 0004 0400     		.2byte	0x4
+ 933 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 934 000a 04       		.byte	0x4
+ 935 000b 01       		.uleb128 0x1
+ 936 000c B5010000 		.4byte	.LASF62
+ 937 0010 0C       		.byte	0xc
+ 938 0011 09030000 		.4byte	.LASF63
+ 939 0015 AF020000 		.4byte	.LASF64
+ 940 0019 70000000 		.4byte	.Ldebug_ranges0+0x70
+ 941 001d 00000000 		.4byte	0
+ 942 0021 00000000 		.4byte	.Ldebug_line0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 26
+
+
+ 943 0025 02       		.uleb128 0x2
+ 944 0026 01       		.byte	0x1
+ 945 0027 06       		.byte	0x6
+ 946 0028 63010000 		.4byte	.LASF0
+ 947 002c 02       		.uleb128 0x2
+ 948 002d 01       		.byte	0x1
+ 949 002e 08       		.byte	0x8
+ 950 002f 45010000 		.4byte	.LASF1
+ 951 0033 02       		.uleb128 0x2
+ 952 0034 02       		.byte	0x2
+ 953 0035 05       		.byte	0x5
+ 954 0036 23000000 		.4byte	.LASF2
+ 955 003a 02       		.uleb128 0x2
+ 956 003b 02       		.byte	0x2
+ 957 003c 07       		.byte	0x7
+ 958 003d 58020000 		.4byte	.LASF3
+ 959 0041 03       		.uleb128 0x3
+ 960 0042 3F030000 		.4byte	.LASF5
+ 961 0046 02       		.byte	0x2
+ 962 0047 3F       		.byte	0x3f
+ 963 0048 4C000000 		.4byte	0x4c
+ 964 004c 02       		.uleb128 0x2
+ 965 004d 04       		.byte	0x4
+ 966 004e 05       		.byte	0x5
+ 967 004f E3000000 		.4byte	.LASF4
+ 968 0053 03       		.uleb128 0x3
+ 969 0054 59000000 		.4byte	.LASF6
+ 970 0058 02       		.byte	0x2
+ 971 0059 41       		.byte	0x41
+ 972 005a 5E000000 		.4byte	0x5e
+ 973 005e 02       		.uleb128 0x2
+ 974 005f 04       		.byte	0x4
+ 975 0060 07       		.byte	0x7
+ 976 0061 10030000 		.4byte	.LASF7
+ 977 0065 02       		.uleb128 0x2
+ 978 0066 08       		.byte	0x8
+ 979 0067 05       		.byte	0x5
+ 980 0068 C9000000 		.4byte	.LASF8
+ 981 006c 02       		.uleb128 0x2
+ 982 006d 08       		.byte	0x8
+ 983 006e 07       		.byte	0x7
+ 984 006f 6F010000 		.4byte	.LASF9
+ 985 0073 04       		.uleb128 0x4
+ 986 0074 04       		.byte	0x4
+ 987 0075 05       		.byte	0x5
+ 988 0076 696E7400 		.ascii	"int\000"
+ 989 007a 02       		.uleb128 0x2
+ 990 007b 04       		.byte	0x4
+ 991 007c 07       		.byte	0x7
+ 992 007d 8F010000 		.4byte	.LASF10
+ 993 0081 03       		.uleb128 0x3
+ 994 0082 A7020000 		.4byte	.LASF11
+ 995 0086 03       		.byte	0x3
+ 996 0087 2C       		.byte	0x2c
+ 997 0088 41000000 		.4byte	0x41
+ 998 008c 03       		.uleb128 0x3
+ 999 008d 86010000 		.4byte	.LASF12
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 27
+
+
+ 1000 0091 03       		.byte	0x3
+ 1001 0092 30       		.byte	0x30
+ 1002 0093 53000000 		.4byte	0x53
+ 1003 0097 05       		.uleb128 0x5
+ 1004 0098 AD000000 		.4byte	.LASF13
+ 1005 009c 04       		.byte	0x4
+ 1006 009d E901     		.2byte	0x1e9
+ 1007 009f 2C000000 		.4byte	0x2c
+ 1008 00a3 05       		.uleb128 0x5
+ 1009 00a4 8A000000 		.4byte	.LASF14
+ 1010 00a8 04       		.byte	0x4
+ 1011 00a9 EA01     		.2byte	0x1ea
+ 1012 00ab 3A000000 		.4byte	0x3a
+ 1013 00af 05       		.uleb128 0x5
+ 1014 00b0 02030000 		.4byte	.LASF15
+ 1015 00b4 04       		.byte	0x4
+ 1016 00b5 EB01     		.2byte	0x1eb
+ 1017 00b7 5E000000 		.4byte	0x5e
+ 1018 00bb 02       		.uleb128 0x2
+ 1019 00bc 04       		.byte	0x4
+ 1020 00bd 04       		.byte	0x4
+ 1021 00be C3000000 		.4byte	.LASF16
+ 1022 00c2 02       		.uleb128 0x2
+ 1023 00c3 08       		.byte	0x8
+ 1024 00c4 04       		.byte	0x4
+ 1025 00c5 8D030000 		.4byte	.LASF17
+ 1026 00c9 02       		.uleb128 0x2
+ 1027 00ca 01       		.byte	0x1
+ 1028 00cb 08       		.byte	0x8
+ 1029 00cc 94020000 		.4byte	.LASF18
+ 1030 00d0 05       		.uleb128 0x5
+ 1031 00d1 99020000 		.4byte	.LASF19
+ 1032 00d5 04       		.byte	0x4
+ 1033 00d6 8B02     		.2byte	0x28b
+ 1034 00d8 5E000000 		.4byte	0x5e
+ 1035 00dc 02       		.uleb128 0x2
+ 1036 00dd 08       		.byte	0x8
+ 1037 00de 04       		.byte	0x4
+ 1038 00df 39010000 		.4byte	.LASF20
+ 1039 00e3 02       		.uleb128 0x2
+ 1040 00e4 04       		.byte	0x4
+ 1041 00e5 07       		.byte	0x7
+ 1042 00e6 36000000 		.4byte	.LASF21
+ 1043 00ea 06       		.uleb128 0x6
+ 1044 00eb 8C000000 		.4byte	0x8c
+ 1045 00ef 03       		.uleb128 0x3
+ 1046 00f0 69000000 		.4byte	.LASF22
+ 1047 00f4 05       		.byte	0x5
+ 1048 00f5 6C       		.byte	0x6c
+ 1049 00f6 7A000000 		.4byte	0x7a
+ 1050 00fa 07       		.uleb128 0x7
+ 1051 00fb 91000000 		.4byte	.LASF23
+ 1052 00ff 01       		.byte	0x1
+ 1053 0100 A0       		.byte	0xa0
+ 1054 0101 97000000 		.4byte	0x97
+ 1055 0105 01       		.byte	0x1
+ 1056 0106 21010000 		.4byte	0x121
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 28
+
+
+ 1057 010a 08       		.uleb128 0x8
+ 1058 010b 84000000 		.4byte	.LASF25
+ 1059 010f 01       		.byte	0x1
+ 1060 0110 A0       		.byte	0xa0
+ 1061 0111 D0000000 		.4byte	0xd0
+ 1062 0115 09       		.uleb128 0x9
+ 1063 0116 72657400 		.ascii	"ret\000"
+ 1064 011a 01       		.byte	0x1
+ 1065 011b A2       		.byte	0xa2
+ 1066 011c 97000000 		.4byte	0x97
+ 1067 0120 00       		.byte	0
+ 1068 0121 07       		.uleb128 0x7
+ 1069 0122 EC000000 		.4byte	.LASF24
+ 1070 0126 01       		.byte	0x1
+ 1071 0127 7B       		.byte	0x7b
+ 1072 0128 97000000 		.4byte	0x97
+ 1073 012c 01       		.byte	0x1
+ 1074 012d 5E010000 		.4byte	0x15e
+ 1075 0131 08       		.uleb128 0x8
+ 1076 0132 51020000 		.4byte	.LASF26
+ 1077 0136 01       		.byte	0x1
+ 1078 0137 7B       		.byte	0x7b
+ 1079 0138 97000000 		.4byte	0x97
+ 1080 013c 08       		.uleb128 0x8
+ 1081 013d 6B020000 		.4byte	.LASF27
+ 1082 0141 01       		.byte	0x1
+ 1083 0142 7B       		.byte	0x7b
+ 1084 0143 A3000000 		.4byte	0xa3
+ 1085 0147 0A       		.uleb128 0xa
+ 1086 0148 3F000000 		.4byte	.LASF28
+ 1087 014c 01       		.byte	0x1
+ 1088 014d 7E       		.byte	0x7e
+ 1089 014e AF000000 		.4byte	0xaf
+ 1090 0152 0A       		.uleb128 0xa
+ 1091 0153 30030000 		.4byte	.LASF29
+ 1092 0157 01       		.byte	0x1
+ 1093 0158 7F       		.byte	0x7f
+ 1094 0159 EA000000 		.4byte	0xea
+ 1095 015d 00       		.byte	0
+ 1096 015e 07       		.uleb128 0x7
+ 1097 015f 22030000 		.4byte	.LASF30
+ 1098 0163 01       		.byte	0x1
+ 1099 0164 83       		.byte	0x83
+ 1100 0165 97000000 		.4byte	0x97
+ 1101 0169 01       		.byte	0x1
+ 1102 016a 85010000 		.4byte	0x185
+ 1103 016e 08       		.uleb128 0x8
+ 1104 016f 05010000 		.4byte	.LASF31
+ 1105 0173 01       		.byte	0x1
+ 1106 0174 83       		.byte	0x83
+ 1107 0175 A3000000 		.4byte	0xa3
+ 1108 0179 09       		.uleb128 0x9
+ 1109 017a 72657400 		.ascii	"ret\000"
+ 1110 017e 01       		.byte	0x1
+ 1111 017f 85       		.byte	0x85
+ 1112 0180 97000000 		.4byte	0x97
+ 1113 0184 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 29
+
+
+ 1114 0185 0B       		.uleb128 0xb
+ 1115 0186 21010000 		.4byte	0x121
+ 1116 018a 00000000 		.4byte	.LFB64
+ 1117 018e 12000000 		.4byte	.LFE64-.LFB64
+ 1118 0192 01       		.uleb128 0x1
+ 1119 0193 9C       		.byte	0x9c
+ 1120 0194 BC010000 		.4byte	0x1bc
+ 1121 0198 0C       		.uleb128 0xc
+ 1122 0199 31010000 		.4byte	0x131
+ 1123 019d 00000000 		.4byte	.LLST0
+ 1124 01a1 0C       		.uleb128 0xc
+ 1125 01a2 3C010000 		.4byte	0x13c
+ 1126 01a6 21000000 		.4byte	.LLST1
+ 1127 01aa 0D       		.uleb128 0xd
+ 1128 01ab 47010000 		.4byte	0x147
+ 1129 01af 42000000 		.4byte	.LLST2
+ 1130 01b3 0E       		.uleb128 0xe
+ 1131 01b4 52010000 		.4byte	0x152
+ 1132 01b8 02       		.uleb128 0x2
+ 1133 01b9 91       		.byte	0x91
+ 1134 01ba 7C       		.sleb128 -4
+ 1135 01bb 00       		.byte	0
+ 1136 01bc 0B       		.uleb128 0xb
+ 1137 01bd 5E010000 		.4byte	0x15e
+ 1138 01c1 00000000 		.4byte	.LFB65
+ 1139 01c5 04000000 		.4byte	.LFE65-.LFB65
+ 1140 01c9 01       		.uleb128 0x1
+ 1141 01ca 9C       		.byte	0x9c
+ 1142 01cb E7010000 		.4byte	0x1e7
+ 1143 01cf 0C       		.uleb128 0xc
+ 1144 01d0 6E010000 		.4byte	0x16e
+ 1145 01d4 98000000 		.4byte	.LLST3
+ 1146 01d8 0F       		.uleb128 0xf
+ 1147 01d9 79010000 		.4byte	0x179
+ 1148 01dd 10       		.uleb128 0x10
+ 1149 01de 04000000 		.4byte	.LVL4
+ 1150 01e2 F0090000 		.4byte	0x9f0
+ 1151 01e6 00       		.byte	0
+ 1152 01e7 11       		.uleb128 0x11
+ 1153 01e8 70030000 		.4byte	.LASF33
+ 1154 01ec 01       		.byte	0x1
+ 1155 01ed 95       		.byte	0x95
+ 1156 01ee 97000000 		.4byte	0x97
+ 1157 01f2 00000000 		.4byte	.LFB67
+ 1158 01f6 0E000000 		.4byte	.LFE67-.LFB67
+ 1159 01fa 01       		.uleb128 0x1
+ 1160 01fb 9C       		.byte	0x9c
+ 1161 01fc 45020000 		.4byte	0x245
+ 1162 0200 12       		.uleb128 0x12
+ 1163 0201 3A030000 		.4byte	.LASF32
+ 1164 0205 01       		.byte	0x1
+ 1165 0206 95       		.byte	0x95
+ 1166 0207 97000000 		.4byte	0x97
+ 1167 020b B9000000 		.4byte	.LLST4
+ 1168 020f 12       		.uleb128 0x12
+ 1169 0210 05010000 		.4byte	.LASF31
+ 1170 0214 01       		.byte	0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 30
+
+
+ 1171 0215 95       		.byte	0x95
+ 1172 0216 A3000000 		.4byte	0xa3
+ 1173 021a DA000000 		.4byte	.LLST5
+ 1174 021e 13       		.uleb128 0x13
+ 1175 021f 72657400 		.ascii	"ret\000"
+ 1176 0223 01       		.byte	0x1
+ 1177 0224 97       		.byte	0x97
+ 1178 0225 97000000 		.4byte	0x97
+ 1179 0229 FB000000 		.4byte	.LLST6
+ 1180 022d 13       		.uleb128 0x13
+ 1181 022e 737400   		.ascii	"st\000"
+ 1182 0231 01       		.byte	0x1
+ 1183 0232 98       		.byte	0x98
+ 1184 0233 D0000000 		.4byte	0xd0
+ 1185 0237 1E010000 		.4byte	.LLST7
+ 1186 023b 14       		.uleb128 0x14
+ 1187 023c 06000000 		.4byte	.LVL6
+ 1188 0240 FB090000 		.4byte	0x9fb
+ 1189 0244 00       		.byte	0
+ 1190 0245 0B       		.uleb128 0xb
+ 1191 0246 FA000000 		.4byte	0xfa
+ 1192 024a 00000000 		.4byte	.LFB68
+ 1193 024e 2C000000 		.4byte	.LFE68-.LFB68
+ 1194 0252 01       		.uleb128 0x1
+ 1195 0253 9C       		.byte	0x9c
+ 1196 0254 96020000 		.4byte	0x296
+ 1197 0258 0C       		.uleb128 0xc
+ 1198 0259 0A010000 		.4byte	0x10a
+ 1199 025d 31010000 		.4byte	.LLST8
+ 1200 0261 0D       		.uleb128 0xd
+ 1201 0262 15010000 		.4byte	0x115
+ 1202 0266 84010000 		.4byte	.LLST9
+ 1203 026a 15       		.uleb128 0x15
+ 1204 026b 0C000000 		.4byte	.LBB35
+ 1205 026f 10000000 		.4byte	.LBE35-.LBB35
+ 1206 0273 0C       		.uleb128 0xc
+ 1207 0274 0A010000 		.4byte	0x10a
+ 1208 0278 A3010000 		.4byte	.LLST10
+ 1209 027c 15       		.uleb128 0x15
+ 1210 027d 0C000000 		.4byte	.LBB36
+ 1211 0281 10000000 		.4byte	.LBE36-.LBB36
+ 1212 0285 0F       		.uleb128 0xf
+ 1213 0286 15010000 		.4byte	0x115
+ 1214 028a 14       		.uleb128 0x14
+ 1215 028b 18000000 		.4byte	.LVL13
+ 1216 028f 060A0000 		.4byte	0xa06
+ 1217 0293 00       		.byte	0
+ 1218 0294 00       		.byte	0
+ 1219 0295 00       		.byte	0
+ 1220 0296 16       		.uleb128 0x16
+ 1221 0297 7B020000 		.4byte	.LASF34
+ 1222 029b 01       		.byte	0x1
+ 1223 029c B3       		.byte	0xb3
+ 1224 029d 97000000 		.4byte	0x97
+ 1225 02a1 00000000 		.4byte	.LFB69
+ 1226 02a5 40010000 		.4byte	.LFE69-.LFB69
+ 1227 02a9 01       		.uleb128 0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 31
+
+
+ 1228 02aa 9C       		.byte	0x9c
+ 1229 02ab EB030000 		.4byte	0x3eb
+ 1230 02af 12       		.uleb128 0x12
+ 1231 02b0 00000000 		.4byte	.LASF35
+ 1232 02b4 01       		.byte	0x1
+ 1233 02b5 B3       		.byte	0xb3
+ 1234 02b6 A3000000 		.4byte	0xa3
+ 1235 02ba C4010000 		.4byte	.LLST11
+ 1236 02be 17       		.uleb128 0x17
+ 1237 02bf D7000000 		.4byte	.LASF36
+ 1238 02c3 01       		.byte	0x1
+ 1239 02c4 B5       		.byte	0xb5
+ 1240 02c5 97000000 		.4byte	0x97
+ 1241 02c9 E5010000 		.4byte	.LLST12
+ 1242 02cd 18       		.uleb128 0x18
+ 1243 02ce 2D000000 		.4byte	.LASF37
+ 1244 02d2 01       		.byte	0x1
+ 1245 02d3 B6       		.byte	0xb6
+ 1246 02d4 EB030000 		.4byte	0x3eb
+ 1247 02d8 03       		.uleb128 0x3
+ 1248 02d9 91       		.byte	0x91
+ 1249 02da E07D     		.sleb128 -288
+ 1250 02dc 17       		.uleb128 0x17
+ 1251 02dd 4A000000 		.4byte	.LASF38
+ 1252 02e1 01       		.byte	0x1
+ 1253 02e2 B7       		.byte	0xb7
+ 1254 02e3 97000000 		.4byte	0x97
+ 1255 02e7 F9010000 		.4byte	.LLST13
+ 1256 02eb 17       		.uleb128 0x17
+ 1257 02ec 7E030000 		.4byte	.LASF39
+ 1258 02f0 01       		.byte	0x1
+ 1259 02f1 B8       		.byte	0xb8
+ 1260 02f2 A3000000 		.4byte	0xa3
+ 1261 02f6 2F020000 		.4byte	.LLST14
+ 1262 02fa 19       		.uleb128 0x19
+ 1263 02fb 00000000 		.4byte	.Ldebug_ranges0+0
+ 1264 02ff 13       		.uleb128 0x13
+ 1265 0300 6900     		.ascii	"i\000"
+ 1266 0302 01       		.byte	0x1
+ 1267 0303 B9       		.byte	0xb9
+ 1268 0304 A3000000 		.4byte	0xa3
+ 1269 0308 7A020000 		.4byte	.LLST15
+ 1270 030c 15       		.uleb128 0x15
+ 1271 030d 1E000000 		.4byte	.LBB38
+ 1272 0311 F8000000 		.4byte	.LBE38-.LBB38
+ 1273 0315 17       		.uleb128 0x17
+ 1274 0316 68030000 		.4byte	.LASF40
+ 1275 031a 01       		.byte	0x1
+ 1276 031b C0       		.byte	0xc0
+ 1277 031c 97000000 		.4byte	0x97
+ 1278 0320 C7020000 		.4byte	.LLST16
+ 1279 0324 1A       		.uleb128 0x1a
+ 1280 0325 1E000000 		.4byte	.LBB39
+ 1281 0329 20000000 		.4byte	.LBE39-.LBB39
+ 1282 032d 79030000 		.4byte	0x379
+ 1283 0331 13       		.uleb128 0x13
+ 1284 0332 6A00     		.ascii	"j\000"
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 32
+
+
+ 1285 0334 01       		.byte	0x1
+ 1286 0335 BB       		.byte	0xbb
+ 1287 0336 EF000000 		.4byte	0xef
+ 1288 033a 1D030000 		.4byte	.LLST17
+ 1289 033e 1B       		.uleb128 0x1b
+ 1290 033f 21010000 		.4byte	0x121
+ 1291 0343 2A000000 		.4byte	.LBB40
+ 1292 0347 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 1293 034b 01       		.byte	0x1
+ 1294 034c BC       		.byte	0xbc
+ 1295 034d 0C       		.uleb128 0xc
+ 1296 034e 3C010000 		.4byte	0x13c
+ 1297 0352 48030000 		.4byte	.LLST18
+ 1298 0356 0C       		.uleb128 0xc
+ 1299 0357 31010000 		.4byte	0x131
+ 1300 035b 5B030000 		.4byte	.LLST19
+ 1301 035f 19       		.uleb128 0x19
+ 1302 0360 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 1303 0364 0D       		.uleb128 0xd
+ 1304 0365 47010000 		.4byte	0x147
+ 1305 0369 6F030000 		.4byte	.LLST20
+ 1306 036d 0E       		.uleb128 0xe
+ 1307 036e 52010000 		.4byte	0x152
+ 1308 0372 03       		.uleb128 0x3
+ 1309 0373 91       		.byte	0x91
+ 1310 0374 DC7D     		.sleb128 -292
+ 1311 0376 00       		.byte	0
+ 1312 0377 00       		.byte	0
+ 1313 0378 00       		.byte	0
+ 1314 0379 14       		.uleb128 0x14
+ 1315 037a A8000000 		.4byte	.LVL44
+ 1316 037e 060A0000 		.4byte	0xa06
+ 1317 0382 1C       		.uleb128 0x1c
+ 1318 0383 B2000000 		.4byte	.LVL47
+ 1319 0387 110A0000 		.4byte	0xa11
+ 1320 038b 95030000 		.4byte	0x395
+ 1321 038f 1D       		.uleb128 0x1d
+ 1322 0390 01       		.uleb128 0x1
+ 1323 0391 50       		.byte	0x50
+ 1324 0392 01       		.uleb128 0x1
+ 1325 0393 49       		.byte	0x49
+ 1326 0394 00       		.byte	0
+ 1327 0395 14       		.uleb128 0x14
+ 1328 0396 B6000000 		.4byte	.LVL48
+ 1329 039a 1C0A0000 		.4byte	0xa1c
+ 1330 039e 1C       		.uleb128 0x1c
+ 1331 039f CC000000 		.4byte	.LVL49
+ 1332 03a3 270A0000 		.4byte	0xa27
+ 1333 03a7 BE030000 		.4byte	0x3be
+ 1334 03ab 1D       		.uleb128 0x1d
+ 1335 03ac 01       		.uleb128 0x1
+ 1336 03ad 50       		.byte	0x50
+ 1337 03ae 01       		.uleb128 0x1
+ 1338 03af 33       		.byte	0x33
+ 1339 03b0 1D       		.uleb128 0x1d
+ 1340 03b1 01       		.uleb128 0x1
+ 1341 03b2 51       		.byte	0x51
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 33
+
+
+ 1342 03b3 02       		.uleb128 0x2
+ 1343 03b4 08       		.byte	0x8
+ 1344 03b5 FF       		.byte	0xff
+ 1345 03b6 1D       		.uleb128 0x1d
+ 1346 03b7 01       		.uleb128 0x1
+ 1347 03b8 52       		.byte	0x52
+ 1348 03b9 03       		.uleb128 0x3
+ 1349 03ba 91       		.byte	0x91
+ 1350 03bb E07D     		.sleb128 -288
+ 1351 03bd 00       		.byte	0
+ 1352 03be 14       		.uleb128 0x14
+ 1353 03bf D0000000 		.4byte	.LVL50
+ 1354 03c3 FA000000 		.4byte	0xfa
+ 1355 03c7 14       		.uleb128 0x14
+ 1356 03c8 E2000000 		.4byte	.LVL51
+ 1357 03cc 270A0000 		.4byte	0xa27
+ 1358 03d0 14       		.uleb128 0x14
+ 1359 03d1 E6000000 		.4byte	.LVL52
+ 1360 03d5 FA000000 		.4byte	0xfa
+ 1361 03d9 1E       		.uleb128 0x1e
+ 1362 03da FA000000 		.4byte	.LVL53
+ 1363 03de 110A0000 		.4byte	0xa11
+ 1364 03e2 1D       		.uleb128 0x1d
+ 1365 03e3 01       		.uleb128 0x1
+ 1366 03e4 50       		.byte	0x50
+ 1367 03e5 01       		.uleb128 0x1
+ 1368 03e6 3A       		.byte	0x3a
+ 1369 03e7 00       		.byte	0
+ 1370 03e8 00       		.byte	0
+ 1371 03e9 00       		.byte	0
+ 1372 03ea 00       		.byte	0
+ 1373 03eb 1F       		.uleb128 0x1f
+ 1374 03ec 97000000 		.4byte	0x97
+ 1375 03f0 FB030000 		.4byte	0x3fb
+ 1376 03f4 20       		.uleb128 0x20
+ 1377 03f5 E3000000 		.4byte	0xe3
+ 1378 03f9 FF       		.byte	0xff
+ 1379 03fa 00       		.byte	0
+ 1380 03fb 21       		.uleb128 0x21
+ 1381 03fc A2020000 		.4byte	.LASF65
+ 1382 0400 01       		.byte	0x1
+ 1383 0401 FC       		.byte	0xfc
+ 1384 0402 73000000 		.4byte	0x73
+ 1385 0406 00000000 		.4byte	.LFB70
+ 1386 040a B8010000 		.4byte	.LFE70-.LFB70
+ 1387 040e 01       		.uleb128 0x1
+ 1388 040f 9C       		.byte	0x9c
+ 1389 0410 5E090000 		.4byte	0x95e
+ 1390 0414 22       		.uleb128 0x22
+ 1391 0415 74020000 		.4byte	.LASF41
+ 1392 0419 01       		.byte	0x1
+ 1393 041a 1001     		.2byte	0x110
+ 1394 041c 97000000 		.4byte	0x97
+ 1395 0420 23       		.uleb128 0x23
+ 1396 0421 A9030000 		.4byte	.LASF42
+ 1397 0425 01       		.byte	0x1
+ 1398 0426 1201     		.2byte	0x112
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 34
+
+
+ 1399 0428 AF000000 		.4byte	0xaf
+ 1400 042c A1030000 		.4byte	.LLST21
+ 1401 0430 23       		.uleb128 0x23
+ 1402 0431 D7000000 		.4byte	.LASF36
+ 1403 0435 01       		.byte	0x1
+ 1404 0436 1A01     		.2byte	0x11a
+ 1405 0438 97000000 		.4byte	0x97
+ 1406 043c B4030000 		.4byte	.LLST22
+ 1407 0440 24       		.uleb128 0x24
+ 1408 0441 5E010000 		.4byte	0x15e
+ 1409 0445 1C000000 		.4byte	.LBB45
+ 1410 0449 08000000 		.4byte	.LBE45-.LBB45
+ 1411 044d 01       		.byte	0x1
+ 1412 044e 1001     		.2byte	0x110
+ 1413 0450 7D040000 		.4byte	0x47d
+ 1414 0454 0C       		.uleb128 0xc
+ 1415 0455 6E010000 		.4byte	0x16e
+ 1416 0459 EA030000 		.4byte	.LLST23
+ 1417 045d 15       		.uleb128 0x15
+ 1418 045e 1C000000 		.4byte	.LBB46
+ 1419 0462 08000000 		.4byte	.LBE46-.LBB46
+ 1420 0466 0F       		.uleb128 0xf
+ 1421 0467 79010000 		.4byte	0x179
+ 1422 046b 1E       		.uleb128 0x1e
+ 1423 046c 22000000 		.4byte	.LVL62
+ 1424 0470 F0090000 		.4byte	0x9f0
+ 1425 0474 1D       		.uleb128 0x1d
+ 1426 0475 01       		.uleb128 0x1
+ 1427 0476 50       		.byte	0x50
+ 1428 0477 02       		.uleb128 0x2
+ 1429 0478 08       		.byte	0x8
+ 1430 0479 70       		.byte	0x70
+ 1431 047a 00       		.byte	0
+ 1432 047b 00       		.byte	0
+ 1433 047c 00       		.byte	0
+ 1434 047d 24       		.uleb128 0x24
+ 1435 047e 5E010000 		.4byte	0x15e
+ 1436 0482 24000000 		.4byte	.LBB47
+ 1437 0486 08000000 		.4byte	.LBE47-.LBB47
+ 1438 048a 01       		.byte	0x1
+ 1439 048b 1101     		.2byte	0x111
+ 1440 048d BA040000 		.4byte	0x4ba
+ 1441 0491 0C       		.uleb128 0xc
+ 1442 0492 6E010000 		.4byte	0x16e
+ 1443 0496 FF030000 		.4byte	.LLST24
+ 1444 049a 15       		.uleb128 0x15
+ 1445 049b 24000000 		.4byte	.LBB48
+ 1446 049f 08000000 		.4byte	.LBE48-.LBB48
+ 1447 04a3 0F       		.uleb128 0xf
+ 1448 04a4 79010000 		.4byte	0x179
+ 1449 04a8 1E       		.uleb128 0x1e
+ 1450 04a9 2A000000 		.4byte	.LVL64
+ 1451 04ad F0090000 		.4byte	0x9f0
+ 1452 04b1 1D       		.uleb128 0x1d
+ 1453 04b2 01       		.uleb128 0x1
+ 1454 04b3 50       		.byte	0x50
+ 1455 04b4 02       		.uleb128 0x2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 35
+
+
+ 1456 04b5 08       		.byte	0x8
+ 1457 04b6 74       		.byte	0x74
+ 1458 04b7 00       		.byte	0
+ 1459 04b8 00       		.byte	0
+ 1460 04b9 00       		.byte	0
+ 1461 04ba 24       		.uleb128 0x24
+ 1462 04bb 5E010000 		.4byte	0x15e
+ 1463 04bf 2C000000 		.4byte	.LBB49
+ 1464 04c3 06000000 		.4byte	.LBE49-.LBB49
+ 1465 04c7 01       		.byte	0x1
+ 1466 04c8 1101     		.2byte	0x111
+ 1467 04ca F7040000 		.4byte	0x4f7
+ 1468 04ce 0C       		.uleb128 0xc
+ 1469 04cf 6E010000 		.4byte	0x16e
+ 1470 04d3 14040000 		.4byte	.LLST25
+ 1471 04d7 15       		.uleb128 0x15
+ 1472 04d8 2C000000 		.4byte	.LBB50
+ 1473 04dc 06000000 		.4byte	.LBE50-.LBB50
+ 1474 04e0 0F       		.uleb128 0xf
+ 1475 04e1 79010000 		.4byte	0x179
+ 1476 04e5 1E       		.uleb128 0x1e
+ 1477 04e6 32000000 		.4byte	.LVL66
+ 1478 04ea F0090000 		.4byte	0x9f0
+ 1479 04ee 1D       		.uleb128 0x1d
+ 1480 04ef 01       		.uleb128 0x1
+ 1481 04f0 50       		.byte	0x50
+ 1482 04f1 02       		.uleb128 0x2
+ 1483 04f2 08       		.byte	0x8
+ 1484 04f3 73       		.byte	0x73
+ 1485 04f4 00       		.byte	0
+ 1486 04f5 00       		.byte	0
+ 1487 04f6 00       		.byte	0
+ 1488 04f7 24       		.uleb128 0x24
+ 1489 04f8 5E010000 		.4byte	0x15e
+ 1490 04fc 38000000 		.4byte	.LBB51
+ 1491 0500 08000000 		.4byte	.LBE51-.LBB51
+ 1492 0504 01       		.byte	0x1
+ 1493 0505 1101     		.2byte	0x111
+ 1494 0507 34050000 		.4byte	0x534
+ 1495 050b 0C       		.uleb128 0xc
+ 1496 050c 6E010000 		.4byte	0x16e
+ 1497 0510 29040000 		.4byte	.LLST26
+ 1498 0514 15       		.uleb128 0x15
+ 1499 0515 38000000 		.4byte	.LBB52
+ 1500 0519 08000000 		.4byte	.LBE52-.LBB52
+ 1501 051d 0F       		.uleb128 0xf
+ 1502 051e 79010000 		.4byte	0x179
+ 1503 0522 1E       		.uleb128 0x1e
+ 1504 0523 3E000000 		.4byte	.LVL68
+ 1505 0527 F0090000 		.4byte	0x9f0
+ 1506 052b 1D       		.uleb128 0x1d
+ 1507 052c 01       		.uleb128 0x1
+ 1508 052d 50       		.byte	0x50
+ 1509 052e 02       		.uleb128 0x2
+ 1510 052f 08       		.byte	0x8
+ 1511 0530 72       		.byte	0x72
+ 1512 0531 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 36
+
+
+ 1513 0532 00       		.byte	0
+ 1514 0533 00       		.byte	0
+ 1515 0534 24       		.uleb128 0x24
+ 1516 0535 5E010000 		.4byte	0x15e
+ 1517 0539 40000000 		.4byte	.LBB53
+ 1518 053d 06000000 		.4byte	.LBE53-.LBB53
+ 1519 0541 01       		.byte	0x1
+ 1520 0542 1101     		.2byte	0x111
+ 1521 0544 71050000 		.4byte	0x571
+ 1522 0548 0C       		.uleb128 0xc
+ 1523 0549 6E010000 		.4byte	0x16e
+ 1524 054d 3E040000 		.4byte	.LLST27
+ 1525 0551 15       		.uleb128 0x15
+ 1526 0552 40000000 		.4byte	.LBB54
+ 1527 0556 06000000 		.4byte	.LBE54-.LBB54
+ 1528 055a 0F       		.uleb128 0xf
+ 1529 055b 79010000 		.4byte	0x179
+ 1530 055f 1E       		.uleb128 0x1e
+ 1531 0560 46000000 		.4byte	.LVL70
+ 1532 0564 F0090000 		.4byte	0x9f0
+ 1533 0568 1D       		.uleb128 0x1d
+ 1534 0569 01       		.uleb128 0x1
+ 1535 056a 50       		.byte	0x50
+ 1536 056b 02       		.uleb128 0x2
+ 1537 056c 08       		.byte	0x8
+ 1538 056d 71       		.byte	0x71
+ 1539 056e 00       		.byte	0
+ 1540 056f 00       		.byte	0
+ 1541 0570 00       		.byte	0
+ 1542 0571 24       		.uleb128 0x24
+ 1543 0572 5E010000 		.4byte	0x15e
+ 1544 0576 50000000 		.4byte	.LBB55
+ 1545 057a 08000000 		.4byte	.LBE55-.LBB55
+ 1546 057e 01       		.byte	0x1
+ 1547 057f 1201     		.2byte	0x112
+ 1548 0581 AE050000 		.4byte	0x5ae
+ 1549 0585 0C       		.uleb128 0xc
+ 1550 0586 6E010000 		.4byte	0x16e
+ 1551 058a 53040000 		.4byte	.LLST28
+ 1552 058e 15       		.uleb128 0x15
+ 1553 058f 50000000 		.4byte	.LBB56
+ 1554 0593 08000000 		.4byte	.LBE56-.LBB56
+ 1555 0597 0F       		.uleb128 0xf
+ 1556 0598 79010000 		.4byte	0x179
+ 1557 059c 1E       		.uleb128 0x1e
+ 1558 059d 56000000 		.4byte	.LVL72
+ 1559 05a1 F0090000 		.4byte	0x9f0
+ 1560 05a5 1D       		.uleb128 0x1d
+ 1561 05a6 01       		.uleb128 0x1
+ 1562 05a7 50       		.byte	0x50
+ 1563 05a8 02       		.uleb128 0x2
+ 1564 05a9 08       		.byte	0x8
+ 1565 05aa 78       		.byte	0x78
+ 1566 05ab 00       		.byte	0
+ 1567 05ac 00       		.byte	0
+ 1568 05ad 00       		.byte	0
+ 1569 05ae 24       		.uleb128 0x24
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 37
+
+
+ 1570 05af 5E010000 		.4byte	0x15e
+ 1571 05b3 58000000 		.4byte	.LBB57
+ 1572 05b7 06000000 		.4byte	.LBE57-.LBB57
+ 1573 05bb 01       		.byte	0x1
+ 1574 05bc 1201     		.2byte	0x112
+ 1575 05be EB050000 		.4byte	0x5eb
+ 1576 05c2 0C       		.uleb128 0xc
+ 1577 05c3 6E010000 		.4byte	0x16e
+ 1578 05c7 68040000 		.4byte	.LLST29
+ 1579 05cb 15       		.uleb128 0x15
+ 1580 05cc 58000000 		.4byte	.LBB58
+ 1581 05d0 06000000 		.4byte	.LBE58-.LBB58
+ 1582 05d4 0F       		.uleb128 0xf
+ 1583 05d5 79010000 		.4byte	0x179
+ 1584 05d9 1E       		.uleb128 0x1e
+ 1585 05da 5E000000 		.4byte	.LVL74
+ 1586 05de F0090000 		.4byte	0x9f0
+ 1587 05e2 1D       		.uleb128 0x1d
+ 1588 05e3 01       		.uleb128 0x1
+ 1589 05e4 50       		.byte	0x50
+ 1590 05e5 02       		.uleb128 0x2
+ 1591 05e6 08       		.byte	0x8
+ 1592 05e7 77       		.byte	0x77
+ 1593 05e8 00       		.byte	0
+ 1594 05e9 00       		.byte	0
+ 1595 05ea 00       		.byte	0
+ 1596 05eb 24       		.uleb128 0x24
+ 1597 05ec 5E010000 		.4byte	0x15e
+ 1598 05f0 64000000 		.4byte	.LBB59
+ 1599 05f4 08000000 		.4byte	.LBE59-.LBB59
+ 1600 05f8 01       		.byte	0x1
+ 1601 05f9 1201     		.2byte	0x112
+ 1602 05fb 28060000 		.4byte	0x628
+ 1603 05ff 0C       		.uleb128 0xc
+ 1604 0600 6E010000 		.4byte	0x16e
+ 1605 0604 7D040000 		.4byte	.LLST30
+ 1606 0608 15       		.uleb128 0x15
+ 1607 0609 64000000 		.4byte	.LBB60
+ 1608 060d 08000000 		.4byte	.LBE60-.LBB60
+ 1609 0611 0F       		.uleb128 0xf
+ 1610 0612 79010000 		.4byte	0x179
+ 1611 0616 1E       		.uleb128 0x1e
+ 1612 0617 6A000000 		.4byte	.LVL76
+ 1613 061b F0090000 		.4byte	0x9f0
+ 1614 061f 1D       		.uleb128 0x1d
+ 1615 0620 01       		.uleb128 0x1
+ 1616 0621 50       		.byte	0x50
+ 1617 0622 02       		.uleb128 0x2
+ 1618 0623 08       		.byte	0x8
+ 1619 0624 76       		.byte	0x76
+ 1620 0625 00       		.byte	0
+ 1621 0626 00       		.byte	0
+ 1622 0627 00       		.byte	0
+ 1623 0628 24       		.uleb128 0x24
+ 1624 0629 5E010000 		.4byte	0x15e
+ 1625 062d 6C000000 		.4byte	.LBB61
+ 1626 0631 06000000 		.4byte	.LBE61-.LBB61
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 38
+
+
+ 1627 0635 01       		.byte	0x1
+ 1628 0636 1201     		.2byte	0x112
+ 1629 0638 65060000 		.4byte	0x665
+ 1630 063c 0C       		.uleb128 0xc
+ 1631 063d 6E010000 		.4byte	0x16e
+ 1632 0641 92040000 		.4byte	.LLST31
+ 1633 0645 15       		.uleb128 0x15
+ 1634 0646 6C000000 		.4byte	.LBB62
+ 1635 064a 06000000 		.4byte	.LBE62-.LBB62
+ 1636 064e 0F       		.uleb128 0xf
+ 1637 064f 79010000 		.4byte	0x179
+ 1638 0653 1E       		.uleb128 0x1e
+ 1639 0654 72000000 		.4byte	.LVL78
+ 1640 0658 F0090000 		.4byte	0x9f0
+ 1641 065c 1D       		.uleb128 0x1d
+ 1642 065d 01       		.uleb128 0x1
+ 1643 065e 50       		.byte	0x50
+ 1644 065f 02       		.uleb128 0x2
+ 1645 0660 08       		.byte	0x8
+ 1646 0661 75       		.byte	0x75
+ 1647 0662 00       		.byte	0
+ 1648 0663 00       		.byte	0
+ 1649 0664 00       		.byte	0
+ 1650 0665 24       		.uleb128 0x24
+ 1651 0666 5E010000 		.4byte	0x15e
+ 1652 066a 78000000 		.4byte	.LBB63
+ 1653 066e 08000000 		.4byte	.LBE63-.LBB63
+ 1654 0672 01       		.byte	0x1
+ 1655 0673 1401     		.2byte	0x114
+ 1656 0675 A2060000 		.4byte	0x6a2
+ 1657 0679 0C       		.uleb128 0xc
+ 1658 067a 6E010000 		.4byte	0x16e
+ 1659 067e A7040000 		.4byte	.LLST32
+ 1660 0682 15       		.uleb128 0x15
+ 1661 0683 78000000 		.4byte	.LBB64
+ 1662 0687 08000000 		.4byte	.LBE64-.LBB64
+ 1663 068b 0F       		.uleb128 0xf
+ 1664 068c 79010000 		.4byte	0x179
+ 1665 0690 1E       		.uleb128 0x1e
+ 1666 0691 7E000000 		.4byte	.LVL80
+ 1667 0695 F0090000 		.4byte	0x9f0
+ 1668 0699 1D       		.uleb128 0x1d
+ 1669 069a 01       		.uleb128 0x1
+ 1670 069b 50       		.byte	0x50
+ 1671 069c 02       		.uleb128 0x2
+ 1672 069d 08       		.byte	0x8
+ 1673 069e 79       		.byte	0x79
+ 1674 069f 00       		.byte	0
+ 1675 06a0 00       		.byte	0
+ 1676 06a1 00       		.byte	0
+ 1677 06a2 24       		.uleb128 0x24
+ 1678 06a3 5E010000 		.4byte	0x15e
+ 1679 06a7 80000000 		.4byte	.LBB65
+ 1680 06ab 06000000 		.4byte	.LBE65-.LBB65
+ 1681 06af 01       		.byte	0x1
+ 1682 06b0 1401     		.2byte	0x114
+ 1683 06b2 DF060000 		.4byte	0x6df
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 39
+
+
+ 1684 06b6 0C       		.uleb128 0xc
+ 1685 06b7 6E010000 		.4byte	0x16e
+ 1686 06bb BC040000 		.4byte	.LLST33
+ 1687 06bf 15       		.uleb128 0x15
+ 1688 06c0 80000000 		.4byte	.LBB66
+ 1689 06c4 06000000 		.4byte	.LBE66-.LBB66
+ 1690 06c8 0F       		.uleb128 0xf
+ 1691 06c9 79010000 		.4byte	0x179
+ 1692 06cd 1E       		.uleb128 0x1e
+ 1693 06ce 86000000 		.4byte	.LVL82
+ 1694 06d2 F0090000 		.4byte	0x9f0
+ 1695 06d6 1D       		.uleb128 0x1d
+ 1696 06d7 01       		.uleb128 0x1
+ 1697 06d8 50       		.byte	0x50
+ 1698 06d9 02       		.uleb128 0x2
+ 1699 06da 08       		.byte	0x8
+ 1700 06db 7A       		.byte	0x7a
+ 1701 06dc 00       		.byte	0
+ 1702 06dd 00       		.byte	0
+ 1703 06de 00       		.byte	0
+ 1704 06df 1A       		.uleb128 0x1a
+ 1705 06e0 A8000000 		.4byte	.LBB67
+ 1706 06e4 B0000000 		.4byte	.LBE67-.LBB67
+ 1707 06e8 76080000 		.4byte	0x876
+ 1708 06ec 23       		.uleb128 0x23
+ 1709 06ed 51020000 		.4byte	.LASF26
+ 1710 06f1 01       		.byte	0x1
+ 1711 06f2 1D01     		.2byte	0x11d
+ 1712 06f4 97000000 		.4byte	0x97
+ 1713 06f8 D1040000 		.4byte	.LLST34
+ 1714 06fc 25       		.uleb128 0x25
+ 1715 06fd 30000000 		.4byte	.Ldebug_ranges0+0x30
+ 1716 0701 3A070000 		.4byte	0x73a
+ 1717 0705 26       		.uleb128 0x26
+ 1718 0706 6900     		.ascii	"i\000"
+ 1719 0708 01       		.byte	0x1
+ 1720 0709 1E01     		.2byte	0x11e
+ 1721 070b EF000000 		.4byte	0xef
+ 1722 070f 06050000 		.4byte	.LLST35
+ 1723 0713 19       		.uleb128 0x19
+ 1724 0714 50000000 		.4byte	.Ldebug_ranges0+0x50
+ 1725 0718 23       		.uleb128 0x23
+ 1726 0719 F5020000 		.4byte	.LASF43
+ 1727 071d 01       		.byte	0x1
+ 1728 071e 2301     		.2byte	0x123
+ 1729 0720 97000000 		.4byte	0x97
+ 1730 0724 25050000 		.4byte	.LLST36
+ 1731 0728 1E       		.uleb128 0x1e
+ 1732 0729 D4000000 		.4byte	.LVL89
+ 1733 072d 21010000 		.4byte	0x121
+ 1734 0731 1D       		.uleb128 0x1d
+ 1735 0732 01       		.uleb128 0x1
+ 1736 0733 51       		.byte	0x51
+ 1737 0734 02       		.uleb128 0x2
+ 1738 0735 75       		.byte	0x75
+ 1739 0736 00       		.sleb128 0
+ 1740 0737 00       		.byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 40
+
+
+ 1741 0738 00       		.byte	0
+ 1742 0739 00       		.byte	0
+ 1743 073a 1A       		.uleb128 0x1a
+ 1744 073b F4000000 		.4byte	.LBB74
+ 1745 073f 64000000 		.4byte	.LBE74-.LBB74
+ 1746 0743 2B080000 		.4byte	0x82b
+ 1747 0747 23       		.uleb128 0x23
+ 1748 0748 00000000 		.4byte	.LASF35
+ 1749 074c 01       		.byte	0x1
+ 1750 074d 2F01     		.2byte	0x12f
+ 1751 074f A3000000 		.4byte	0xa3
+ 1752 0753 38050000 		.4byte	.LLST37
+ 1753 0757 1C       		.uleb128 0x1c
+ 1754 0758 FA000000 		.4byte	.LVL96
+ 1755 075c 060A0000 		.4byte	0xa06
+ 1756 0760 6E070000 		.4byte	0x76e
+ 1757 0764 1D       		.uleb128 0x1d
+ 1758 0765 01       		.uleb128 0x1
+ 1759 0766 50       		.byte	0x50
+ 1760 0767 05       		.uleb128 0x5
+ 1761 0768 03       		.byte	0x3
+ 1762 0769 B8010000 		.4byte	.LC12
+ 1763 076d 00       		.byte	0
+ 1764 076e 1C       		.uleb128 0x1c
+ 1765 076f 02010000 		.4byte	.LVL97
+ 1766 0773 96020000 		.4byte	0x296
+ 1767 0777 88070000 		.4byte	0x788
+ 1768 077b 1D       		.uleb128 0x1d
+ 1769 077c 01       		.uleb128 0x1
+ 1770 077d 50       		.byte	0x50
+ 1771 077e 08       		.uleb128 0x8
+ 1772 077f 75       		.byte	0x75
+ 1773 0780 00       		.sleb128 0
+ 1774 0781 09       		.byte	0x9
+ 1775 0782 EC       		.byte	0xec
+ 1776 0783 24       		.byte	0x24
+ 1777 0784 09       		.byte	0x9
+ 1778 0785 F4       		.byte	0xf4
+ 1779 0786 25       		.byte	0x25
+ 1780 0787 00       		.byte	0
+ 1781 0788 1C       		.uleb128 0x1c
+ 1782 0789 0C010000 		.4byte	.LVL98
+ 1783 078d E7010000 		.4byte	0x1e7
+ 1784 0791 9C070000 		.4byte	0x79c
+ 1785 0795 1D       		.uleb128 0x1d
+ 1786 0796 01       		.uleb128 0x1
+ 1787 0797 51       		.byte	0x51
+ 1788 0798 02       		.uleb128 0x2
+ 1789 0799 08       		.byte	0x8
+ 1790 079a 70       		.byte	0x70
+ 1791 079b 00       		.byte	0
+ 1792 079c 1C       		.uleb128 0x1c
+ 1793 079d 14010000 		.4byte	.LVL99
+ 1794 07a1 E7010000 		.4byte	0x1e7
+ 1795 07a5 B4070000 		.4byte	0x7b4
+ 1796 07a9 1D       		.uleb128 0x1d
+ 1797 07aa 01       		.uleb128 0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 41
+
+
+ 1798 07ab 50       		.byte	0x50
+ 1799 07ac 01       		.uleb128 0x1
+ 1800 07ad 32       		.byte	0x32
+ 1801 07ae 1D       		.uleb128 0x1d
+ 1802 07af 01       		.uleb128 0x1
+ 1803 07b0 51       		.byte	0x51
+ 1804 07b1 01       		.uleb128 0x1
+ 1805 07b2 43       		.byte	0x43
+ 1806 07b3 00       		.byte	0
+ 1807 07b4 1C       		.uleb128 0x1c
+ 1808 07b5 24010000 		.4byte	.LVL102
+ 1809 07b9 E7010000 		.4byte	0x1e7
+ 1810 07bd C7070000 		.4byte	0x7c7
+ 1811 07c1 1D       		.uleb128 0x1d
+ 1812 07c2 01       		.uleb128 0x1
+ 1813 07c3 50       		.byte	0x50
+ 1814 07c4 01       		.uleb128 0x1
+ 1815 07c5 30       		.byte	0x30
+ 1816 07c6 00       		.byte	0
+ 1817 07c7 1C       		.uleb128 0x1c
+ 1818 07c8 2C010000 		.4byte	.LVL103
+ 1819 07cc E7010000 		.4byte	0x1e7
+ 1820 07d0 DF070000 		.4byte	0x7df
+ 1821 07d4 1D       		.uleb128 0x1d
+ 1822 07d5 01       		.uleb128 0x1
+ 1823 07d6 50       		.byte	0x50
+ 1824 07d7 01       		.uleb128 0x1
+ 1825 07d8 3D       		.byte	0x3d
+ 1826 07d9 1D       		.uleb128 0x1d
+ 1827 07da 01       		.uleb128 0x1
+ 1828 07db 51       		.byte	0x51
+ 1829 07dc 01       		.uleb128 0x1
+ 1830 07dd 43       		.byte	0x43
+ 1831 07de 00       		.byte	0
+ 1832 07df 14       		.uleb128 0x14
+ 1833 07e0 38010000 		.4byte	.LVL104
+ 1834 07e4 E7010000 		.4byte	0x1e7
+ 1835 07e8 1C       		.uleb128 0x1c
+ 1836 07e9 40010000 		.4byte	.LVL105
+ 1837 07ed E7010000 		.4byte	0x1e7
+ 1838 07f1 00080000 		.4byte	0x800
+ 1839 07f5 1D       		.uleb128 0x1d
+ 1840 07f6 01       		.uleb128 0x1
+ 1841 07f7 50       		.byte	0x50
+ 1842 07f8 01       		.uleb128 0x1
+ 1843 07f9 3D       		.byte	0x3d
+ 1844 07fa 1D       		.uleb128 0x1d
+ 1845 07fb 01       		.uleb128 0x1
+ 1846 07fc 51       		.byte	0x51
+ 1847 07fd 01       		.uleb128 0x1
+ 1848 07fe 43       		.byte	0x43
+ 1849 07ff 00       		.byte	0
+ 1850 0800 14       		.uleb128 0x14
+ 1851 0801 48010000 		.4byte	.LVL106
+ 1852 0805 E7010000 		.4byte	0x1e7
+ 1853 0809 1C       		.uleb128 0x1c
+ 1854 080a 50010000 		.4byte	.LVL107
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 42
+
+
+ 1855 080e E7010000 		.4byte	0x1e7
+ 1856 0812 21080000 		.4byte	0x821
+ 1857 0816 1D       		.uleb128 0x1d
+ 1858 0817 01       		.uleb128 0x1
+ 1859 0818 50       		.byte	0x50
+ 1860 0819 01       		.uleb128 0x1
+ 1861 081a 3D       		.byte	0x3d
+ 1862 081b 1D       		.uleb128 0x1d
+ 1863 081c 01       		.uleb128 0x1
+ 1864 081d 51       		.byte	0x51
+ 1865 081e 01       		.uleb128 0x1
+ 1866 081f 43       		.byte	0x43
+ 1867 0820 00       		.byte	0
+ 1868 0821 14       		.uleb128 0x14
+ 1869 0822 56010000 		.4byte	.LVL108
+ 1870 0826 060A0000 		.4byte	0xa06
+ 1871 082a 00       		.byte	0
+ 1872 082b 1C       		.uleb128 0x1c
+ 1873 082c B2000000 		.4byte	.LVL85
+ 1874 0830 060A0000 		.4byte	0xa06
+ 1875 0834 42080000 		.4byte	0x842
+ 1876 0838 1D       		.uleb128 0x1d
+ 1877 0839 01       		.uleb128 0x1
+ 1878 083a 50       		.byte	0x50
+ 1879 083b 05       		.uleb128 0x5
+ 1880 083c 03       		.byte	0x3
+ 1881 083d 32010000 		.4byte	.LC10
+ 1882 0841 00       		.byte	0
+ 1883 0842 1C       		.uleb128 0x1c
+ 1884 0843 EE000000 		.4byte	.LVL94
+ 1885 0847 320A0000 		.4byte	0xa32
+ 1886 084b 62080000 		.4byte	0x862
+ 1887 084f 1D       		.uleb128 0x1d
+ 1888 0850 01       		.uleb128 0x1
+ 1889 0851 50       		.byte	0x50
+ 1890 0852 05       		.uleb128 0x5
+ 1891 0853 03       		.byte	0x3
+ 1892 0854 00000000 		.4byte	buff
+ 1893 0858 1D       		.uleb128 0x1d
+ 1894 0859 01       		.uleb128 0x1
+ 1895 085a 51       		.byte	0x51
+ 1896 085b 05       		.uleb128 0x5
+ 1897 085c 03       		.byte	0x3
+ 1898 085d 92010000 		.4byte	.LC11
+ 1899 0861 00       		.byte	0
+ 1900 0862 1E       		.uleb128 0x1e
+ 1901 0863 F4000000 		.4byte	.LVL95
+ 1902 0867 060A0000 		.4byte	0xa06
+ 1903 086b 1D       		.uleb128 0x1d
+ 1904 086c 01       		.uleb128 0x1
+ 1905 086d 50       		.byte	0x50
+ 1906 086e 05       		.uleb128 0x5
+ 1907 086f 03       		.byte	0x3
+ 1908 0870 00000000 		.4byte	buff
+ 1909 0874 00       		.byte	0
+ 1910 0875 00       		.byte	0
+ 1911 0876 14       		.uleb128 0x14
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 43
+
+
+ 1912 0877 08000000 		.4byte	.LVL58
+ 1913 087b 3D0A0000 		.4byte	0xa3d
+ 1914 087f 14       		.uleb128 0x14
+ 1915 0880 0C000000 		.4byte	.LVL59
+ 1916 0884 480A0000 		.4byte	0xa48
+ 1917 0888 1C       		.uleb128 0x1c
+ 1918 0889 12000000 		.4byte	.LVL60
+ 1919 088d 060A0000 		.4byte	0xa06
+ 1920 0891 9F080000 		.4byte	0x89f
+ 1921 0895 1D       		.uleb128 0x1d
+ 1922 0896 01       		.uleb128 0x1
+ 1923 0897 50       		.byte	0x50
+ 1924 0898 05       		.uleb128 0x5
+ 1925 0899 03       		.byte	0x3
+ 1926 089a 8C000000 		.4byte	.LC8
+ 1927 089e 00       		.byte	0
+ 1928 089f 1C       		.uleb128 0x1c
+ 1929 08a0 1C000000 		.4byte	.LVL61
+ 1930 08a4 E7010000 		.4byte	0x1e7
+ 1931 08a8 B2080000 		.4byte	0x8b2
+ 1932 08ac 1D       		.uleb128 0x1d
+ 1933 08ad 01       		.uleb128 0x1
+ 1934 08ae 51       		.byte	0x51
+ 1935 08af 01       		.uleb128 0x1
+ 1936 08b0 42       		.byte	0x42
+ 1937 08b1 00       		.byte	0
+ 1938 08b2 1C       		.uleb128 0x1c
+ 1939 08b3 9E000000 		.4byte	.LVL83
+ 1940 08b7 320A0000 		.4byte	0xa32
+ 1941 08bb DF080000 		.4byte	0x8df
+ 1942 08bf 1D       		.uleb128 0x1d
+ 1943 08c0 01       		.uleb128 0x1
+ 1944 08c1 50       		.byte	0x50
+ 1945 08c2 05       		.uleb128 0x5
+ 1946 08c3 03       		.byte	0x3
+ 1947 08c4 00000000 		.4byte	buff
+ 1948 08c8 1D       		.uleb128 0x1d
+ 1949 08c9 01       		.uleb128 0x1
+ 1950 08ca 51       		.byte	0x51
+ 1951 08cb 05       		.uleb128 0x5
+ 1952 08cc 03       		.byte	0x3
+ 1953 08cd D5000000 		.4byte	.LC9
+ 1954 08d1 1D       		.uleb128 0x1d
+ 1955 08d2 01       		.uleb128 0x1
+ 1956 08d3 53       		.byte	0x53
+ 1957 08d4 02       		.uleb128 0x2
+ 1958 08d5 77       		.byte	0x77
+ 1959 08d6 00       		.sleb128 0
+ 1960 08d7 1D       		.uleb128 0x1d
+ 1961 08d8 02       		.uleb128 0x2
+ 1962 08d9 7D       		.byte	0x7d
+ 1963 08da 00       		.sleb128 0
+ 1964 08db 02       		.uleb128 0x2
+ 1965 08dc 76       		.byte	0x76
+ 1966 08dd 00       		.sleb128 0
+ 1967 08de 00       		.byte	0
+ 1968 08df 1C       		.uleb128 0x1c
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 44
+
+
+ 1969 08e0 A4000000 		.4byte	.LVL84
+ 1970 08e4 060A0000 		.4byte	0xa06
+ 1971 08e8 F6080000 		.4byte	0x8f6
+ 1972 08ec 1D       		.uleb128 0x1d
+ 1973 08ed 01       		.uleb128 0x1
+ 1974 08ee 50       		.byte	0x50
+ 1975 08ef 05       		.uleb128 0x5
+ 1976 08f0 03       		.byte	0x3
+ 1977 08f1 00000000 		.4byte	buff
+ 1978 08f5 00       		.byte	0
+ 1979 08f6 1C       		.uleb128 0x1c
+ 1980 08f7 5E010000 		.4byte	.LVL110
+ 1981 08fb 060A0000 		.4byte	0xa06
+ 1982 08ff 0D090000 		.4byte	0x90d
+ 1983 0903 1D       		.uleb128 0x1d
+ 1984 0904 01       		.uleb128 0x1
+ 1985 0905 50       		.byte	0x50
+ 1986 0906 05       		.uleb128 0x5
+ 1987 0907 03       		.byte	0x3
+ 1988 0908 63030000 		.4byte	.LC17
+ 1989 090c 00       		.byte	0
+ 1990 090d 1C       		.uleb128 0x1c
+ 1991 090e 66010000 		.4byte	.LVL111
+ 1992 0912 110A0000 		.4byte	0xa11
+ 1993 0916 22090000 		.4byte	0x922
+ 1994 091a 1D       		.uleb128 0x1d
+ 1995 091b 01       		.uleb128 0x1
+ 1996 091c 50       		.byte	0x50
+ 1997 091d 03       		.uleb128 0x3
+ 1998 091e 0A       		.byte	0xa
+ 1999 091f E803     		.2byte	0x3e8
+ 2000 0921 00       		.byte	0
+ 2001 0922 1C       		.uleb128 0x1c
+ 2002 0923 6C010000 		.4byte	.LVL112
+ 2003 0927 060A0000 		.4byte	0xa06
+ 2004 092b 39090000 		.4byte	0x939
+ 2005 092f 1D       		.uleb128 0x1d
+ 2006 0930 01       		.uleb128 0x1
+ 2007 0931 50       		.byte	0x50
+ 2008 0932 05       		.uleb128 0x5
+ 2009 0933 03       		.byte	0x3
+ 2010 0934 AA030000 		.4byte	.LC18
+ 2011 0938 00       		.byte	0
+ 2012 0939 1C       		.uleb128 0x1c
+ 2013 093a 74010000 		.4byte	.LVL113
+ 2014 093e 110A0000 		.4byte	0xa11
+ 2015 0942 4E090000 		.4byte	0x94e
+ 2016 0946 1D       		.uleb128 0x1d
+ 2017 0947 01       		.uleb128 0x1
+ 2018 0948 50       		.byte	0x50
+ 2019 0949 03       		.uleb128 0x3
+ 2020 094a 0A       		.byte	0xa
+ 2021 094b E803     		.2byte	0x3e8
+ 2022 094d 00       		.byte	0
+ 2023 094e 1E       		.uleb128 0x1e
+ 2024 094f 7A010000 		.4byte	.LVL114
+ 2025 0953 530A0000 		.4byte	0xa53
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 45
+
+
+ 2026 0957 1D       		.uleb128 0x1d
+ 2027 0958 01       		.uleb128 0x1
+ 2028 0959 50       		.byte	0x50
+ 2029 095a 01       		.uleb128 0x1
+ 2030 095b 30       		.byte	0x30
+ 2031 095c 00       		.byte	0
+ 2032 095d 00       		.byte	0
+ 2033 095e 27       		.uleb128 0x27
+ 2034 095f 43020000 		.4byte	.LASF44
+ 2035 0963 06       		.byte	0x6
+ 2036 0964 2C       		.byte	0x2c
+ 2037 0965 97000000 		.4byte	0x97
+ 2038 0969 28       		.uleb128 0x28
+ 2039 096a 94030000 		.4byte	.LASF45
+ 2040 096e 07       		.byte	0x7
+ 2041 096f 1207     		.2byte	0x712
+ 2042 0971 75090000 		.4byte	0x975
+ 2043 0975 06       		.uleb128 0x6
+ 2044 0976 81000000 		.4byte	0x81
+ 2045 097a 29       		.uleb128 0x29
+ 2046 097b 53010000 		.4byte	.LASF46
+ 2047 097f 01       		.byte	0x1
+ 2048 0980 73       		.byte	0x73
+ 2049 0981 97000000 		.4byte	0x97
+ 2050 0985 05       		.uleb128 0x5
+ 2051 0986 03       		.byte	0x3
+ 2052 0987 00000000 		.4byte	counter
+ 2053 098b 29       		.uleb128 0x29
+ 2054 098c DC000000 		.4byte	.LASF47
+ 2055 0990 01       		.byte	0x1
+ 2056 0991 74       		.byte	0x74
+ 2057 0992 AF000000 		.4byte	0xaf
+ 2058 0996 05       		.uleb128 0x5
+ 2059 0997 03       		.byte	0x3
+ 2060 0998 00000000 		.4byte	appCRC
+ 2061 099c 29       		.uleb128 0x29
+ 2062 099d 32010000 		.4byte	.LASF48
+ 2063 09a1 01       		.byte	0x1
+ 2064 09a2 75       		.byte	0x75
+ 2065 09a3 AF000000 		.4byte	0xaf
+ 2066 09a7 05       		.uleb128 0x5
+ 2067 09a8 03       		.byte	0x3
+ 2068 09a9 00000000 		.4byte	newCRC
+ 2069 09ad 1F       		.uleb128 0x1f
+ 2070 09ae C9000000 		.4byte	0xc9
+ 2071 09b2 BD090000 		.4byte	0x9bd
+ 2072 09b6 20       		.uleb128 0x20
+ 2073 09b7 E3000000 		.4byte	0xe3
+ 2074 09bb 63       		.byte	0x63
+ 2075 09bc 00       		.byte	0
+ 2076 09bd 29       		.uleb128 0x29
+ 2077 09be 64000000 		.4byte	.LASF49
+ 2078 09c2 01       		.byte	0x1
+ 2079 09c3 76       		.byte	0x76
+ 2080 09c4 AD090000 		.4byte	0x9ad
+ 2081 09c8 05       		.uleb128 0x5
+ 2082 09c9 03       		.byte	0x3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 46
+
+
+ 2083 09ca 00000000 		.4byte	buff
+ 2084 09ce 29       		.uleb128 0x29
+ 2085 09cf FA020000 		.4byte	.LASF50
+ 2086 09d3 01       		.byte	0x1
+ 2087 09d4 78       		.byte	0x78
+ 2088 09d5 97000000 		.4byte	0x97
+ 2089 09d9 05       		.uleb128 0x5
+ 2090 09da 03       		.byte	0x3
+ 2091 09db 00000000 		.4byte	arrayID
+ 2092 09df 29       		.uleb128 0x29
+ 2093 09e0 BD000000 		.4byte	.LASF51
+ 2094 09e4 01       		.byte	0x1
+ 2095 09e5 79       		.byte	0x79
+ 2096 09e6 A3000000 		.4byte	0xa3
+ 2097 09ea 05       		.uleb128 0x5
+ 2098 09eb 03       		.byte	0x3
+ 2099 09ec 00000000 		.4byte	rowID
+ 2100 09f0 2A       		.uleb128 0x2a
+ 2101 09f1 9C010000 		.4byte	.LASF52
+ 2102 09f5 9C010000 		.4byte	.LASF52
+ 2103 09f9 08       		.byte	0x8
+ 2104 09fa 23       		.byte	0x23
+ 2105 09fb 2A       		.uleb128 0x2a
+ 2106 09fc 09000000 		.4byte	.LASF53
+ 2107 0a00 09000000 		.4byte	.LASF53
+ 2108 0a04 08       		.byte	0x8
+ 2109 0a05 21       		.byte	0x21
+ 2110 0a06 2A       		.uleb128 0x2a
+ 2111 0a07 0A010000 		.4byte	.LASF54
+ 2112 0a0b 0A010000 		.4byte	.LASF54
+ 2113 0a0f 09       		.byte	0x9
+ 2114 0a10 8B       		.byte	0x8b
+ 2115 0a11 2A       		.uleb128 0x2a
+ 2116 0a12 A1030000 		.4byte	.LASF55
+ 2117 0a16 A1030000 		.4byte	.LASF55
+ 2118 0a1a 06       		.byte	0x6
+ 2119 0a1b 76       		.byte	0x76
+ 2120 0a1c 2A       		.uleb128 0x2a
+ 2121 0a1d B3000000 		.4byte	.LASF56
+ 2122 0a21 B3000000 		.4byte	.LASF56
+ 2123 0a25 0A       		.byte	0xa
+ 2124 0a26 46       		.byte	0x46
+ 2125 0a27 2A       		.uleb128 0x2a
+ 2126 0a28 49030000 		.4byte	.LASF57
+ 2127 0a2c 49030000 		.4byte	.LASF57
+ 2128 0a30 0A       		.byte	0xa
+ 2129 0a31 4B       		.byte	0x4b
+ 2130 0a32 2A       		.uleb128 0x2a
+ 2131 0a33 5B010000 		.4byte	.LASF58
+ 2132 0a37 5B010000 		.4byte	.LASF58
+ 2133 0a3b 0B       		.byte	0xb
+ 2134 0a3c E7       		.byte	0xe7
+ 2135 0a3d 2A       		.uleb128 0x2a
+ 2136 0a3e 6E000000 		.4byte	.LASF59
+ 2137 0a42 6E000000 		.4byte	.LASF59
+ 2138 0a46 08       		.byte	0x8
+ 2139 0a47 1F       		.byte	0x1f
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 47
+
+
+ 2140 0a48 2A       		.uleb128 0x2a
+ 2141 0a49 20010000 		.4byte	.LASF60
+ 2142 0a4d 20010000 		.4byte	.LASF60
+ 2143 0a51 09       		.byte	0x9
+ 2144 0a52 54       		.byte	0x54
+ 2145 0a53 2A       		.uleb128 0x2a
+ 2146 0a54 58030000 		.4byte	.LASF61
+ 2147 0a58 58030000 		.4byte	.LASF61
+ 2148 0a5c 0C       		.byte	0xc
+ 2149 0a5d ED       		.byte	0xed
+ 2150 0a5e 00       		.byte	0
+ 2151              		.section	.debug_abbrev,"",%progbits
+ 2152              	.Ldebug_abbrev0:
+ 2153 0000 01       		.uleb128 0x1
+ 2154 0001 11       		.uleb128 0x11
+ 2155 0002 01       		.byte	0x1
+ 2156 0003 25       		.uleb128 0x25
+ 2157 0004 0E       		.uleb128 0xe
+ 2158 0005 13       		.uleb128 0x13
+ 2159 0006 0B       		.uleb128 0xb
+ 2160 0007 03       		.uleb128 0x3
+ 2161 0008 0E       		.uleb128 0xe
+ 2162 0009 1B       		.uleb128 0x1b
+ 2163 000a 0E       		.uleb128 0xe
+ 2164 000b 55       		.uleb128 0x55
+ 2165 000c 17       		.uleb128 0x17
+ 2166 000d 11       		.uleb128 0x11
+ 2167 000e 01       		.uleb128 0x1
+ 2168 000f 10       		.uleb128 0x10
+ 2169 0010 17       		.uleb128 0x17
+ 2170 0011 00       		.byte	0
+ 2171 0012 00       		.byte	0
+ 2172 0013 02       		.uleb128 0x2
+ 2173 0014 24       		.uleb128 0x24
+ 2174 0015 00       		.byte	0
+ 2175 0016 0B       		.uleb128 0xb
+ 2176 0017 0B       		.uleb128 0xb
+ 2177 0018 3E       		.uleb128 0x3e
+ 2178 0019 0B       		.uleb128 0xb
+ 2179 001a 03       		.uleb128 0x3
+ 2180 001b 0E       		.uleb128 0xe
+ 2181 001c 00       		.byte	0
+ 2182 001d 00       		.byte	0
+ 2183 001e 03       		.uleb128 0x3
+ 2184 001f 16       		.uleb128 0x16
+ 2185 0020 00       		.byte	0
+ 2186 0021 03       		.uleb128 0x3
+ 2187 0022 0E       		.uleb128 0xe
+ 2188 0023 3A       		.uleb128 0x3a
+ 2189 0024 0B       		.uleb128 0xb
+ 2190 0025 3B       		.uleb128 0x3b
+ 2191 0026 0B       		.uleb128 0xb
+ 2192 0027 49       		.uleb128 0x49
+ 2193 0028 13       		.uleb128 0x13
+ 2194 0029 00       		.byte	0
+ 2195 002a 00       		.byte	0
+ 2196 002b 04       		.uleb128 0x4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 48
+
+
+ 2197 002c 24       		.uleb128 0x24
+ 2198 002d 00       		.byte	0
+ 2199 002e 0B       		.uleb128 0xb
+ 2200 002f 0B       		.uleb128 0xb
+ 2201 0030 3E       		.uleb128 0x3e
+ 2202 0031 0B       		.uleb128 0xb
+ 2203 0032 03       		.uleb128 0x3
+ 2204 0033 08       		.uleb128 0x8
+ 2205 0034 00       		.byte	0
+ 2206 0035 00       		.byte	0
+ 2207 0036 05       		.uleb128 0x5
+ 2208 0037 16       		.uleb128 0x16
+ 2209 0038 00       		.byte	0
+ 2210 0039 03       		.uleb128 0x3
+ 2211 003a 0E       		.uleb128 0xe
+ 2212 003b 3A       		.uleb128 0x3a
+ 2213 003c 0B       		.uleb128 0xb
+ 2214 003d 3B       		.uleb128 0x3b
+ 2215 003e 05       		.uleb128 0x5
+ 2216 003f 49       		.uleb128 0x49
+ 2217 0040 13       		.uleb128 0x13
+ 2218 0041 00       		.byte	0
+ 2219 0042 00       		.byte	0
+ 2220 0043 06       		.uleb128 0x6
+ 2221 0044 35       		.uleb128 0x35
+ 2222 0045 00       		.byte	0
+ 2223 0046 49       		.uleb128 0x49
+ 2224 0047 13       		.uleb128 0x13
+ 2225 0048 00       		.byte	0
+ 2226 0049 00       		.byte	0
+ 2227 004a 07       		.uleb128 0x7
+ 2228 004b 2E       		.uleb128 0x2e
+ 2229 004c 01       		.byte	0x1
+ 2230 004d 3F       		.uleb128 0x3f
+ 2231 004e 19       		.uleb128 0x19
+ 2232 004f 03       		.uleb128 0x3
+ 2233 0050 0E       		.uleb128 0xe
+ 2234 0051 3A       		.uleb128 0x3a
+ 2235 0052 0B       		.uleb128 0xb
+ 2236 0053 3B       		.uleb128 0x3b
+ 2237 0054 0B       		.uleb128 0xb
+ 2238 0055 27       		.uleb128 0x27
+ 2239 0056 19       		.uleb128 0x19
+ 2240 0057 49       		.uleb128 0x49
+ 2241 0058 13       		.uleb128 0x13
+ 2242 0059 20       		.uleb128 0x20
+ 2243 005a 0B       		.uleb128 0xb
+ 2244 005b 01       		.uleb128 0x1
+ 2245 005c 13       		.uleb128 0x13
+ 2246 005d 00       		.byte	0
+ 2247 005e 00       		.byte	0
+ 2248 005f 08       		.uleb128 0x8
+ 2249 0060 05       		.uleb128 0x5
+ 2250 0061 00       		.byte	0
+ 2251 0062 03       		.uleb128 0x3
+ 2252 0063 0E       		.uleb128 0xe
+ 2253 0064 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 49
+
+
+ 2254 0065 0B       		.uleb128 0xb
+ 2255 0066 3B       		.uleb128 0x3b
+ 2256 0067 0B       		.uleb128 0xb
+ 2257 0068 49       		.uleb128 0x49
+ 2258 0069 13       		.uleb128 0x13
+ 2259 006a 00       		.byte	0
+ 2260 006b 00       		.byte	0
+ 2261 006c 09       		.uleb128 0x9
+ 2262 006d 34       		.uleb128 0x34
+ 2263 006e 00       		.byte	0
+ 2264 006f 03       		.uleb128 0x3
+ 2265 0070 08       		.uleb128 0x8
+ 2266 0071 3A       		.uleb128 0x3a
+ 2267 0072 0B       		.uleb128 0xb
+ 2268 0073 3B       		.uleb128 0x3b
+ 2269 0074 0B       		.uleb128 0xb
+ 2270 0075 49       		.uleb128 0x49
+ 2271 0076 13       		.uleb128 0x13
+ 2272 0077 00       		.byte	0
+ 2273 0078 00       		.byte	0
+ 2274 0079 0A       		.uleb128 0xa
+ 2275 007a 34       		.uleb128 0x34
+ 2276 007b 00       		.byte	0
+ 2277 007c 03       		.uleb128 0x3
+ 2278 007d 0E       		.uleb128 0xe
+ 2279 007e 3A       		.uleb128 0x3a
+ 2280 007f 0B       		.uleb128 0xb
+ 2281 0080 3B       		.uleb128 0x3b
+ 2282 0081 0B       		.uleb128 0xb
+ 2283 0082 49       		.uleb128 0x49
+ 2284 0083 13       		.uleb128 0x13
+ 2285 0084 00       		.byte	0
+ 2286 0085 00       		.byte	0
+ 2287 0086 0B       		.uleb128 0xb
+ 2288 0087 2E       		.uleb128 0x2e
+ 2289 0088 01       		.byte	0x1
+ 2290 0089 31       		.uleb128 0x31
+ 2291 008a 13       		.uleb128 0x13
+ 2292 008b 11       		.uleb128 0x11
+ 2293 008c 01       		.uleb128 0x1
+ 2294 008d 12       		.uleb128 0x12
+ 2295 008e 06       		.uleb128 0x6
+ 2296 008f 40       		.uleb128 0x40
+ 2297 0090 18       		.uleb128 0x18
+ 2298 0091 9742     		.uleb128 0x2117
+ 2299 0093 19       		.uleb128 0x19
+ 2300 0094 01       		.uleb128 0x1
+ 2301 0095 13       		.uleb128 0x13
+ 2302 0096 00       		.byte	0
+ 2303 0097 00       		.byte	0
+ 2304 0098 0C       		.uleb128 0xc
+ 2305 0099 05       		.uleb128 0x5
+ 2306 009a 00       		.byte	0
+ 2307 009b 31       		.uleb128 0x31
+ 2308 009c 13       		.uleb128 0x13
+ 2309 009d 02       		.uleb128 0x2
+ 2310 009e 17       		.uleb128 0x17
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 50
+
+
+ 2311 009f 00       		.byte	0
+ 2312 00a0 00       		.byte	0
+ 2313 00a1 0D       		.uleb128 0xd
+ 2314 00a2 34       		.uleb128 0x34
+ 2315 00a3 00       		.byte	0
+ 2316 00a4 31       		.uleb128 0x31
+ 2317 00a5 13       		.uleb128 0x13
+ 2318 00a6 02       		.uleb128 0x2
+ 2319 00a7 17       		.uleb128 0x17
+ 2320 00a8 00       		.byte	0
+ 2321 00a9 00       		.byte	0
+ 2322 00aa 0E       		.uleb128 0xe
+ 2323 00ab 34       		.uleb128 0x34
+ 2324 00ac 00       		.byte	0
+ 2325 00ad 31       		.uleb128 0x31
+ 2326 00ae 13       		.uleb128 0x13
+ 2327 00af 02       		.uleb128 0x2
+ 2328 00b0 18       		.uleb128 0x18
+ 2329 00b1 00       		.byte	0
+ 2330 00b2 00       		.byte	0
+ 2331 00b3 0F       		.uleb128 0xf
+ 2332 00b4 34       		.uleb128 0x34
+ 2333 00b5 00       		.byte	0
+ 2334 00b6 31       		.uleb128 0x31
+ 2335 00b7 13       		.uleb128 0x13
+ 2336 00b8 00       		.byte	0
+ 2337 00b9 00       		.byte	0
+ 2338 00ba 10       		.uleb128 0x10
+ 2339 00bb 898201   		.uleb128 0x4109
+ 2340 00be 00       		.byte	0
+ 2341 00bf 11       		.uleb128 0x11
+ 2342 00c0 01       		.uleb128 0x1
+ 2343 00c1 9542     		.uleb128 0x2115
+ 2344 00c3 19       		.uleb128 0x19
+ 2345 00c4 31       		.uleb128 0x31
+ 2346 00c5 13       		.uleb128 0x13
+ 2347 00c6 00       		.byte	0
+ 2348 00c7 00       		.byte	0
+ 2349 00c8 11       		.uleb128 0x11
+ 2350 00c9 2E       		.uleb128 0x2e
+ 2351 00ca 01       		.byte	0x1
+ 2352 00cb 3F       		.uleb128 0x3f
+ 2353 00cc 19       		.uleb128 0x19
+ 2354 00cd 03       		.uleb128 0x3
+ 2355 00ce 0E       		.uleb128 0xe
+ 2356 00cf 3A       		.uleb128 0x3a
+ 2357 00d0 0B       		.uleb128 0xb
+ 2358 00d1 3B       		.uleb128 0x3b
+ 2359 00d2 0B       		.uleb128 0xb
+ 2360 00d3 27       		.uleb128 0x27
+ 2361 00d4 19       		.uleb128 0x19
+ 2362 00d5 49       		.uleb128 0x49
+ 2363 00d6 13       		.uleb128 0x13
+ 2364 00d7 11       		.uleb128 0x11
+ 2365 00d8 01       		.uleb128 0x1
+ 2366 00d9 12       		.uleb128 0x12
+ 2367 00da 06       		.uleb128 0x6
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 51
+
+
+ 2368 00db 40       		.uleb128 0x40
+ 2369 00dc 18       		.uleb128 0x18
+ 2370 00dd 9742     		.uleb128 0x2117
+ 2371 00df 19       		.uleb128 0x19
+ 2372 00e0 01       		.uleb128 0x1
+ 2373 00e1 13       		.uleb128 0x13
+ 2374 00e2 00       		.byte	0
+ 2375 00e3 00       		.byte	0
+ 2376 00e4 12       		.uleb128 0x12
+ 2377 00e5 05       		.uleb128 0x5
+ 2378 00e6 00       		.byte	0
+ 2379 00e7 03       		.uleb128 0x3
+ 2380 00e8 0E       		.uleb128 0xe
+ 2381 00e9 3A       		.uleb128 0x3a
+ 2382 00ea 0B       		.uleb128 0xb
+ 2383 00eb 3B       		.uleb128 0x3b
+ 2384 00ec 0B       		.uleb128 0xb
+ 2385 00ed 49       		.uleb128 0x49
+ 2386 00ee 13       		.uleb128 0x13
+ 2387 00ef 02       		.uleb128 0x2
+ 2388 00f0 17       		.uleb128 0x17
+ 2389 00f1 00       		.byte	0
+ 2390 00f2 00       		.byte	0
+ 2391 00f3 13       		.uleb128 0x13
+ 2392 00f4 34       		.uleb128 0x34
+ 2393 00f5 00       		.byte	0
+ 2394 00f6 03       		.uleb128 0x3
+ 2395 00f7 08       		.uleb128 0x8
+ 2396 00f8 3A       		.uleb128 0x3a
+ 2397 00f9 0B       		.uleb128 0xb
+ 2398 00fa 3B       		.uleb128 0x3b
+ 2399 00fb 0B       		.uleb128 0xb
+ 2400 00fc 49       		.uleb128 0x49
+ 2401 00fd 13       		.uleb128 0x13
+ 2402 00fe 02       		.uleb128 0x2
+ 2403 00ff 17       		.uleb128 0x17
+ 2404 0100 00       		.byte	0
+ 2405 0101 00       		.byte	0
+ 2406 0102 14       		.uleb128 0x14
+ 2407 0103 898201   		.uleb128 0x4109
+ 2408 0106 00       		.byte	0
+ 2409 0107 11       		.uleb128 0x11
+ 2410 0108 01       		.uleb128 0x1
+ 2411 0109 31       		.uleb128 0x31
+ 2412 010a 13       		.uleb128 0x13
+ 2413 010b 00       		.byte	0
+ 2414 010c 00       		.byte	0
+ 2415 010d 15       		.uleb128 0x15
+ 2416 010e 0B       		.uleb128 0xb
+ 2417 010f 01       		.byte	0x1
+ 2418 0110 11       		.uleb128 0x11
+ 2419 0111 01       		.uleb128 0x1
+ 2420 0112 12       		.uleb128 0x12
+ 2421 0113 06       		.uleb128 0x6
+ 2422 0114 00       		.byte	0
+ 2423 0115 00       		.byte	0
+ 2424 0116 16       		.uleb128 0x16
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 52
+
+
+ 2425 0117 2E       		.uleb128 0x2e
+ 2426 0118 01       		.byte	0x1
+ 2427 0119 3F       		.uleb128 0x3f
+ 2428 011a 19       		.uleb128 0x19
+ 2429 011b 03       		.uleb128 0x3
+ 2430 011c 0E       		.uleb128 0xe
+ 2431 011d 3A       		.uleb128 0x3a
+ 2432 011e 0B       		.uleb128 0xb
+ 2433 011f 3B       		.uleb128 0x3b
+ 2434 0120 0B       		.uleb128 0xb
+ 2435 0121 27       		.uleb128 0x27
+ 2436 0122 19       		.uleb128 0x19
+ 2437 0123 49       		.uleb128 0x49
+ 2438 0124 13       		.uleb128 0x13
+ 2439 0125 11       		.uleb128 0x11
+ 2440 0126 01       		.uleb128 0x1
+ 2441 0127 12       		.uleb128 0x12
+ 2442 0128 06       		.uleb128 0x6
+ 2443 0129 40       		.uleb128 0x40
+ 2444 012a 18       		.uleb128 0x18
+ 2445 012b 9642     		.uleb128 0x2116
+ 2446 012d 19       		.uleb128 0x19
+ 2447 012e 01       		.uleb128 0x1
+ 2448 012f 13       		.uleb128 0x13
+ 2449 0130 00       		.byte	0
+ 2450 0131 00       		.byte	0
+ 2451 0132 17       		.uleb128 0x17
+ 2452 0133 34       		.uleb128 0x34
+ 2453 0134 00       		.byte	0
+ 2454 0135 03       		.uleb128 0x3
+ 2455 0136 0E       		.uleb128 0xe
+ 2456 0137 3A       		.uleb128 0x3a
+ 2457 0138 0B       		.uleb128 0xb
+ 2458 0139 3B       		.uleb128 0x3b
+ 2459 013a 0B       		.uleb128 0xb
+ 2460 013b 49       		.uleb128 0x49
+ 2461 013c 13       		.uleb128 0x13
+ 2462 013d 02       		.uleb128 0x2
+ 2463 013e 17       		.uleb128 0x17
+ 2464 013f 00       		.byte	0
+ 2465 0140 00       		.byte	0
+ 2466 0141 18       		.uleb128 0x18
+ 2467 0142 34       		.uleb128 0x34
+ 2468 0143 00       		.byte	0
+ 2469 0144 03       		.uleb128 0x3
+ 2470 0145 0E       		.uleb128 0xe
+ 2471 0146 3A       		.uleb128 0x3a
+ 2472 0147 0B       		.uleb128 0xb
+ 2473 0148 3B       		.uleb128 0x3b
+ 2474 0149 0B       		.uleb128 0xb
+ 2475 014a 49       		.uleb128 0x49
+ 2476 014b 13       		.uleb128 0x13
+ 2477 014c 02       		.uleb128 0x2
+ 2478 014d 18       		.uleb128 0x18
+ 2479 014e 00       		.byte	0
+ 2480 014f 00       		.byte	0
+ 2481 0150 19       		.uleb128 0x19
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 53
+
+
+ 2482 0151 0B       		.uleb128 0xb
+ 2483 0152 01       		.byte	0x1
+ 2484 0153 55       		.uleb128 0x55
+ 2485 0154 17       		.uleb128 0x17
+ 2486 0155 00       		.byte	0
+ 2487 0156 00       		.byte	0
+ 2488 0157 1A       		.uleb128 0x1a
+ 2489 0158 0B       		.uleb128 0xb
+ 2490 0159 01       		.byte	0x1
+ 2491 015a 11       		.uleb128 0x11
+ 2492 015b 01       		.uleb128 0x1
+ 2493 015c 12       		.uleb128 0x12
+ 2494 015d 06       		.uleb128 0x6
+ 2495 015e 01       		.uleb128 0x1
+ 2496 015f 13       		.uleb128 0x13
+ 2497 0160 00       		.byte	0
+ 2498 0161 00       		.byte	0
+ 2499 0162 1B       		.uleb128 0x1b
+ 2500 0163 1D       		.uleb128 0x1d
+ 2501 0164 01       		.byte	0x1
+ 2502 0165 31       		.uleb128 0x31
+ 2503 0166 13       		.uleb128 0x13
+ 2504 0167 52       		.uleb128 0x52
+ 2505 0168 01       		.uleb128 0x1
+ 2506 0169 55       		.uleb128 0x55
+ 2507 016a 17       		.uleb128 0x17
+ 2508 016b 58       		.uleb128 0x58
+ 2509 016c 0B       		.uleb128 0xb
+ 2510 016d 59       		.uleb128 0x59
+ 2511 016e 0B       		.uleb128 0xb
+ 2512 016f 00       		.byte	0
+ 2513 0170 00       		.byte	0
+ 2514 0171 1C       		.uleb128 0x1c
+ 2515 0172 898201   		.uleb128 0x4109
+ 2516 0175 01       		.byte	0x1
+ 2517 0176 11       		.uleb128 0x11
+ 2518 0177 01       		.uleb128 0x1
+ 2519 0178 31       		.uleb128 0x31
+ 2520 0179 13       		.uleb128 0x13
+ 2521 017a 01       		.uleb128 0x1
+ 2522 017b 13       		.uleb128 0x13
+ 2523 017c 00       		.byte	0
+ 2524 017d 00       		.byte	0
+ 2525 017e 1D       		.uleb128 0x1d
+ 2526 017f 8A8201   		.uleb128 0x410a
+ 2527 0182 00       		.byte	0
+ 2528 0183 02       		.uleb128 0x2
+ 2529 0184 18       		.uleb128 0x18
+ 2530 0185 9142     		.uleb128 0x2111
+ 2531 0187 18       		.uleb128 0x18
+ 2532 0188 00       		.byte	0
+ 2533 0189 00       		.byte	0
+ 2534 018a 1E       		.uleb128 0x1e
+ 2535 018b 898201   		.uleb128 0x4109
+ 2536 018e 01       		.byte	0x1
+ 2537 018f 11       		.uleb128 0x11
+ 2538 0190 01       		.uleb128 0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 54
+
+
+ 2539 0191 31       		.uleb128 0x31
+ 2540 0192 13       		.uleb128 0x13
+ 2541 0193 00       		.byte	0
+ 2542 0194 00       		.byte	0
+ 2543 0195 1F       		.uleb128 0x1f
+ 2544 0196 01       		.uleb128 0x1
+ 2545 0197 01       		.byte	0x1
+ 2546 0198 49       		.uleb128 0x49
+ 2547 0199 13       		.uleb128 0x13
+ 2548 019a 01       		.uleb128 0x1
+ 2549 019b 13       		.uleb128 0x13
+ 2550 019c 00       		.byte	0
+ 2551 019d 00       		.byte	0
+ 2552 019e 20       		.uleb128 0x20
+ 2553 019f 21       		.uleb128 0x21
+ 2554 01a0 00       		.byte	0
+ 2555 01a1 49       		.uleb128 0x49
+ 2556 01a2 13       		.uleb128 0x13
+ 2557 01a3 2F       		.uleb128 0x2f
+ 2558 01a4 0B       		.uleb128 0xb
+ 2559 01a5 00       		.byte	0
+ 2560 01a6 00       		.byte	0
+ 2561 01a7 21       		.uleb128 0x21
+ 2562 01a8 2E       		.uleb128 0x2e
+ 2563 01a9 01       		.byte	0x1
+ 2564 01aa 3F       		.uleb128 0x3f
+ 2565 01ab 19       		.uleb128 0x19
+ 2566 01ac 03       		.uleb128 0x3
+ 2567 01ad 0E       		.uleb128 0xe
+ 2568 01ae 3A       		.uleb128 0x3a
+ 2569 01af 0B       		.uleb128 0xb
+ 2570 01b0 3B       		.uleb128 0x3b
+ 2571 01b1 0B       		.uleb128 0xb
+ 2572 01b2 49       		.uleb128 0x49
+ 2573 01b3 13       		.uleb128 0x13
+ 2574 01b4 11       		.uleb128 0x11
+ 2575 01b5 01       		.uleb128 0x1
+ 2576 01b6 12       		.uleb128 0x12
+ 2577 01b7 06       		.uleb128 0x6
+ 2578 01b8 40       		.uleb128 0x40
+ 2579 01b9 18       		.uleb128 0x18
+ 2580 01ba 9742     		.uleb128 0x2117
+ 2581 01bc 19       		.uleb128 0x19
+ 2582 01bd 01       		.uleb128 0x1
+ 2583 01be 13       		.uleb128 0x13
+ 2584 01bf 00       		.byte	0
+ 2585 01c0 00       		.byte	0
+ 2586 01c1 22       		.uleb128 0x22
+ 2587 01c2 34       		.uleb128 0x34
+ 2588 01c3 00       		.byte	0
+ 2589 01c4 03       		.uleb128 0x3
+ 2590 01c5 0E       		.uleb128 0xe
+ 2591 01c6 3A       		.uleb128 0x3a
+ 2592 01c7 0B       		.uleb128 0xb
+ 2593 01c8 3B       		.uleb128 0x3b
+ 2594 01c9 05       		.uleb128 0x5
+ 2595 01ca 49       		.uleb128 0x49
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 55
+
+
+ 2596 01cb 13       		.uleb128 0x13
+ 2597 01cc 00       		.byte	0
+ 2598 01cd 00       		.byte	0
+ 2599 01ce 23       		.uleb128 0x23
+ 2600 01cf 34       		.uleb128 0x34
+ 2601 01d0 00       		.byte	0
+ 2602 01d1 03       		.uleb128 0x3
+ 2603 01d2 0E       		.uleb128 0xe
+ 2604 01d3 3A       		.uleb128 0x3a
+ 2605 01d4 0B       		.uleb128 0xb
+ 2606 01d5 3B       		.uleb128 0x3b
+ 2607 01d6 05       		.uleb128 0x5
+ 2608 01d7 49       		.uleb128 0x49
+ 2609 01d8 13       		.uleb128 0x13
+ 2610 01d9 02       		.uleb128 0x2
+ 2611 01da 17       		.uleb128 0x17
+ 2612 01db 00       		.byte	0
+ 2613 01dc 00       		.byte	0
+ 2614 01dd 24       		.uleb128 0x24
+ 2615 01de 1D       		.uleb128 0x1d
+ 2616 01df 01       		.byte	0x1
+ 2617 01e0 31       		.uleb128 0x31
+ 2618 01e1 13       		.uleb128 0x13
+ 2619 01e2 11       		.uleb128 0x11
+ 2620 01e3 01       		.uleb128 0x1
+ 2621 01e4 12       		.uleb128 0x12
+ 2622 01e5 06       		.uleb128 0x6
+ 2623 01e6 58       		.uleb128 0x58
+ 2624 01e7 0B       		.uleb128 0xb
+ 2625 01e8 59       		.uleb128 0x59
+ 2626 01e9 05       		.uleb128 0x5
+ 2627 01ea 01       		.uleb128 0x1
+ 2628 01eb 13       		.uleb128 0x13
+ 2629 01ec 00       		.byte	0
+ 2630 01ed 00       		.byte	0
+ 2631 01ee 25       		.uleb128 0x25
+ 2632 01ef 0B       		.uleb128 0xb
+ 2633 01f0 01       		.byte	0x1
+ 2634 01f1 55       		.uleb128 0x55
+ 2635 01f2 17       		.uleb128 0x17
+ 2636 01f3 01       		.uleb128 0x1
+ 2637 01f4 13       		.uleb128 0x13
+ 2638 01f5 00       		.byte	0
+ 2639 01f6 00       		.byte	0
+ 2640 01f7 26       		.uleb128 0x26
+ 2641 01f8 34       		.uleb128 0x34
+ 2642 01f9 00       		.byte	0
+ 2643 01fa 03       		.uleb128 0x3
+ 2644 01fb 08       		.uleb128 0x8
+ 2645 01fc 3A       		.uleb128 0x3a
+ 2646 01fd 0B       		.uleb128 0xb
+ 2647 01fe 3B       		.uleb128 0x3b
+ 2648 01ff 05       		.uleb128 0x5
+ 2649 0200 49       		.uleb128 0x49
+ 2650 0201 13       		.uleb128 0x13
+ 2651 0202 02       		.uleb128 0x2
+ 2652 0203 17       		.uleb128 0x17
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 56
+
+
+ 2653 0204 00       		.byte	0
+ 2654 0205 00       		.byte	0
+ 2655 0206 27       		.uleb128 0x27
+ 2656 0207 34       		.uleb128 0x34
+ 2657 0208 00       		.byte	0
+ 2658 0209 03       		.uleb128 0x3
+ 2659 020a 0E       		.uleb128 0xe
+ 2660 020b 3A       		.uleb128 0x3a
+ 2661 020c 0B       		.uleb128 0xb
+ 2662 020d 3B       		.uleb128 0x3b
+ 2663 020e 0B       		.uleb128 0xb
+ 2664 020f 49       		.uleb128 0x49
+ 2665 0210 13       		.uleb128 0x13
+ 2666 0211 3F       		.uleb128 0x3f
+ 2667 0212 19       		.uleb128 0x19
+ 2668 0213 3C       		.uleb128 0x3c
+ 2669 0214 19       		.uleb128 0x19
+ 2670 0215 00       		.byte	0
+ 2671 0216 00       		.byte	0
+ 2672 0217 28       		.uleb128 0x28
+ 2673 0218 34       		.uleb128 0x34
+ 2674 0219 00       		.byte	0
+ 2675 021a 03       		.uleb128 0x3
+ 2676 021b 0E       		.uleb128 0xe
+ 2677 021c 3A       		.uleb128 0x3a
+ 2678 021d 0B       		.uleb128 0xb
+ 2679 021e 3B       		.uleb128 0x3b
+ 2680 021f 05       		.uleb128 0x5
+ 2681 0220 49       		.uleb128 0x49
+ 2682 0221 13       		.uleb128 0x13
+ 2683 0222 3F       		.uleb128 0x3f
+ 2684 0223 19       		.uleb128 0x19
+ 2685 0224 3C       		.uleb128 0x3c
+ 2686 0225 19       		.uleb128 0x19
+ 2687 0226 00       		.byte	0
+ 2688 0227 00       		.byte	0
+ 2689 0228 29       		.uleb128 0x29
+ 2690 0229 34       		.uleb128 0x34
+ 2691 022a 00       		.byte	0
+ 2692 022b 03       		.uleb128 0x3
+ 2693 022c 0E       		.uleb128 0xe
+ 2694 022d 3A       		.uleb128 0x3a
+ 2695 022e 0B       		.uleb128 0xb
+ 2696 022f 3B       		.uleb128 0x3b
+ 2697 0230 0B       		.uleb128 0xb
+ 2698 0231 49       		.uleb128 0x49
+ 2699 0232 13       		.uleb128 0x13
+ 2700 0233 3F       		.uleb128 0x3f
+ 2701 0234 19       		.uleb128 0x19
+ 2702 0235 02       		.uleb128 0x2
+ 2703 0236 18       		.uleb128 0x18
+ 2704 0237 00       		.byte	0
+ 2705 0238 00       		.byte	0
+ 2706 0239 2A       		.uleb128 0x2a
+ 2707 023a 2E       		.uleb128 0x2e
+ 2708 023b 00       		.byte	0
+ 2709 023c 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 57
+
+
+ 2710 023d 19       		.uleb128 0x19
+ 2711 023e 3C       		.uleb128 0x3c
+ 2712 023f 19       		.uleb128 0x19
+ 2713 0240 6E       		.uleb128 0x6e
+ 2714 0241 0E       		.uleb128 0xe
+ 2715 0242 03       		.uleb128 0x3
+ 2716 0243 0E       		.uleb128 0xe
+ 2717 0244 3A       		.uleb128 0x3a
+ 2718 0245 0B       		.uleb128 0xb
+ 2719 0246 3B       		.uleb128 0x3b
+ 2720 0247 0B       		.uleb128 0xb
+ 2721 0248 00       		.byte	0
+ 2722 0249 00       		.byte	0
+ 2723 024a 00       		.byte	0
+ 2724              		.section	.debug_loc,"",%progbits
+ 2725              	.Ldebug_loc0:
+ 2726              	.LLST0:
+ 2727 0000 00000000 		.4byte	.LVL0
+ 2728 0004 0C000000 		.4byte	.LVL2
+ 2729 0008 0100     		.2byte	0x1
+ 2730 000a 50       		.byte	0x50
+ 2731 000b 0C000000 		.4byte	.LVL2
+ 2732 000f 12000000 		.4byte	.LFE64
+ 2733 0013 0400     		.2byte	0x4
+ 2734 0015 F3       		.byte	0xf3
+ 2735 0016 01       		.uleb128 0x1
+ 2736 0017 50       		.byte	0x50
+ 2737 0018 9F       		.byte	0x9f
+ 2738 0019 00000000 		.4byte	0
+ 2739 001d 00000000 		.4byte	0
+ 2740              	.LLST1:
+ 2741 0021 00000000 		.4byte	.LVL0
+ 2742 0025 04000000 		.4byte	.LVL1
+ 2743 0029 0100     		.2byte	0x1
+ 2744 002b 51       		.byte	0x51
+ 2745 002c 04000000 		.4byte	.LVL1
+ 2746 0030 12000000 		.4byte	.LFE64
+ 2747 0034 0400     		.2byte	0x4
+ 2748 0036 F3       		.byte	0xf3
+ 2749 0037 01       		.uleb128 0x1
+ 2750 0038 51       		.byte	0x51
+ 2751 0039 9F       		.byte	0x9f
+ 2752 003a 00000000 		.4byte	0
+ 2753 003e 00000000 		.4byte	0
+ 2754              	.LLST2:
+ 2755 0042 00000000 		.4byte	.LVL0
+ 2756 0046 04000000 		.4byte	.LVL1
+ 2757 004a 0F00     		.2byte	0xf
+ 2758 004c 70       		.byte	0x70
+ 2759 004d 00       		.sleb128 0
+ 2760 004e 08       		.byte	0x8
+ 2761 004f FF       		.byte	0xff
+ 2762 0050 1A       		.byte	0x1a
+ 2763 0051 40       		.byte	0x40
+ 2764 0052 24       		.byte	0x24
+ 2765 0053 71       		.byte	0x71
+ 2766 0054 00       		.sleb128 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 58
+
+
+ 2767 0055 0A       		.byte	0xa
+ 2768 0056 FFFF     		.2byte	0xffff
+ 2769 0058 1A       		.byte	0x1a
+ 2770 0059 21       		.byte	0x21
+ 2771 005a 9F       		.byte	0x9f
+ 2772 005b 04000000 		.4byte	.LVL1
+ 2773 005f 0C000000 		.4byte	.LVL2
+ 2774 0063 1000     		.2byte	0x10
+ 2775 0065 70       		.byte	0x70
+ 2776 0066 00       		.sleb128 0
+ 2777 0067 08       		.byte	0x8
+ 2778 0068 FF       		.byte	0xff
+ 2779 0069 1A       		.byte	0x1a
+ 2780 006a 40       		.byte	0x40
+ 2781 006b 24       		.byte	0x24
+ 2782 006c F3       		.byte	0xf3
+ 2783 006d 01       		.uleb128 0x1
+ 2784 006e 51       		.byte	0x51
+ 2785 006f 0A       		.byte	0xa
+ 2786 0070 FFFF     		.2byte	0xffff
+ 2787 0072 1A       		.byte	0x1a
+ 2788 0073 21       		.byte	0x21
+ 2789 0074 9F       		.byte	0x9f
+ 2790 0075 0C000000 		.4byte	.LVL2
+ 2791 0079 12000000 		.4byte	.LFE64
+ 2792 007d 1100     		.2byte	0x11
+ 2793 007f F3       		.byte	0xf3
+ 2794 0080 01       		.uleb128 0x1
+ 2795 0081 50       		.byte	0x50
+ 2796 0082 08       		.byte	0x8
+ 2797 0083 FF       		.byte	0xff
+ 2798 0084 1A       		.byte	0x1a
+ 2799 0085 40       		.byte	0x40
+ 2800 0086 24       		.byte	0x24
+ 2801 0087 F3       		.byte	0xf3
+ 2802 0088 01       		.uleb128 0x1
+ 2803 0089 51       		.byte	0x51
+ 2804 008a 0A       		.byte	0xa
+ 2805 008b FFFF     		.2byte	0xffff
+ 2806 008d 1A       		.byte	0x1a
+ 2807 008e 21       		.byte	0x21
+ 2808 008f 9F       		.byte	0x9f
+ 2809 0090 00000000 		.4byte	0
+ 2810 0094 00000000 		.4byte	0
+ 2811              	.LLST3:
+ 2812 0098 00000000 		.4byte	.LVL3
+ 2813 009c 03000000 		.4byte	.LVL4-1
+ 2814 00a0 0100     		.2byte	0x1
+ 2815 00a2 50       		.byte	0x50
+ 2816 00a3 03000000 		.4byte	.LVL4-1
+ 2817 00a7 04000000 		.4byte	.LFE65
+ 2818 00ab 0400     		.2byte	0x4
+ 2819 00ad F3       		.byte	0xf3
+ 2820 00ae 01       		.uleb128 0x1
+ 2821 00af 50       		.byte	0x50
+ 2822 00b0 9F       		.byte	0x9f
+ 2823 00b1 00000000 		.4byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 59
+
+
+ 2824 00b5 00000000 		.4byte	0
+ 2825              	.LLST4:
+ 2826 00b9 00000000 		.4byte	.LVL5
+ 2827 00bd 05000000 		.4byte	.LVL6-1
+ 2828 00c1 0100     		.2byte	0x1
+ 2829 00c3 50       		.byte	0x50
+ 2830 00c4 05000000 		.4byte	.LVL6-1
+ 2831 00c8 0E000000 		.4byte	.LFE67
+ 2832 00cc 0400     		.2byte	0x4
+ 2833 00ce F3       		.byte	0xf3
+ 2834 00cf 01       		.uleb128 0x1
+ 2835 00d0 50       		.byte	0x50
+ 2836 00d1 9F       		.byte	0x9f
+ 2837 00d2 00000000 		.4byte	0
+ 2838 00d6 00000000 		.4byte	0
+ 2839              	.LLST5:
+ 2840 00da 00000000 		.4byte	.LVL5
+ 2841 00de 05000000 		.4byte	.LVL6-1
+ 2842 00e2 0100     		.2byte	0x1
+ 2843 00e4 51       		.byte	0x51
+ 2844 00e5 05000000 		.4byte	.LVL6-1
+ 2845 00e9 0E000000 		.4byte	.LFE67
+ 2846 00ed 0400     		.2byte	0x4
+ 2847 00ef F3       		.byte	0xf3
+ 2848 00f0 01       		.uleb128 0x1
+ 2849 00f1 51       		.byte	0x51
+ 2850 00f2 9F       		.byte	0x9f
+ 2851 00f3 00000000 		.4byte	0
+ 2852 00f7 00000000 		.4byte	0
+ 2853              	.LLST6:
+ 2854 00fb 00000000 		.4byte	.LVL5
+ 2855 00ff 06000000 		.4byte	.LVL6
+ 2856 0103 0200     		.2byte	0x2
+ 2857 0105 30       		.byte	0x30
+ 2858 0106 9F       		.byte	0x9f
+ 2859 0107 06000000 		.4byte	.LVL6
+ 2860 010b 0A000000 		.4byte	.LVL7
+ 2861 010f 0500     		.2byte	0x5
+ 2862 0111 70       		.byte	0x70
+ 2863 0112 00       		.sleb128 0
+ 2864 0113 30       		.byte	0x30
+ 2865 0114 29       		.byte	0x29
+ 2866 0115 9F       		.byte	0x9f
+ 2867 0116 00000000 		.4byte	0
+ 2868 011a 00000000 		.4byte	0
+ 2869              	.LLST7:
+ 2870 011e 06000000 		.4byte	.LVL6
+ 2871 0122 0A000000 		.4byte	.LVL7
+ 2872 0126 0100     		.2byte	0x1
+ 2873 0128 50       		.byte	0x50
+ 2874 0129 00000000 		.4byte	0
+ 2875 012d 00000000 		.4byte	0
+ 2876              	.LLST8:
+ 2877 0131 00000000 		.4byte	.LVL8
+ 2878 0135 0A000000 		.4byte	.LVL9
+ 2879 0139 0100     		.2byte	0x1
+ 2880 013b 50       		.byte	0x50
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 60
+
+
+ 2881 013c 0A000000 		.4byte	.LVL9
+ 2882 0140 0C000000 		.4byte	.LVL10
+ 2883 0144 0400     		.2byte	0x4
+ 2884 0146 F3       		.byte	0xf3
+ 2885 0147 01       		.uleb128 0x1
+ 2886 0148 50       		.byte	0x50
+ 2887 0149 9F       		.byte	0x9f
+ 2888 014a 0C000000 		.4byte	.LVL10
+ 2889 014e 12000000 		.4byte	.LVL11
+ 2890 0152 0100     		.2byte	0x1
+ 2891 0154 50       		.byte	0x50
+ 2892 0155 12000000 		.4byte	.LVL11
+ 2893 0159 1C000000 		.4byte	.LVL14
+ 2894 015d 0400     		.2byte	0x4
+ 2895 015f F3       		.byte	0xf3
+ 2896 0160 01       		.uleb128 0x1
+ 2897 0161 50       		.byte	0x50
+ 2898 0162 9F       		.byte	0x9f
+ 2899 0163 1C000000 		.4byte	.LVL14
+ 2900 0167 1E000000 		.4byte	.LVL15
+ 2901 016b 0100     		.2byte	0x1
+ 2902 016d 50       		.byte	0x50
+ 2903 016e 1E000000 		.4byte	.LVL15
+ 2904 0172 2C000000 		.4byte	.LFE68
+ 2905 0176 0400     		.2byte	0x4
+ 2906 0178 F3       		.byte	0xf3
+ 2907 0179 01       		.uleb128 0x1
+ 2908 017a 50       		.byte	0x50
+ 2909 017b 9F       		.byte	0x9f
+ 2910 017c 00000000 		.4byte	0
+ 2911 0180 00000000 		.4byte	0
+ 2912              	.LLST9:
+ 2913 0184 00000000 		.4byte	.LVL8
+ 2914 0188 1E000000 		.4byte	.LVL15
+ 2915 018c 0200     		.2byte	0x2
+ 2916 018e 30       		.byte	0x30
+ 2917 018f 9F       		.byte	0x9f
+ 2918 0190 1E000000 		.4byte	.LVL15
+ 2919 0194 2C000000 		.4byte	.LFE68
+ 2920 0198 0100     		.2byte	0x1
+ 2921 019a 50       		.byte	0x50
+ 2922 019b 00000000 		.4byte	0
+ 2923 019f 00000000 		.4byte	0
+ 2924              	.LLST10:
+ 2925 01a3 0C000000 		.4byte	.LVL10
+ 2926 01a7 12000000 		.4byte	.LVL11
+ 2927 01ab 0100     		.2byte	0x1
+ 2928 01ad 50       		.byte	0x50
+ 2929 01ae 12000000 		.4byte	.LVL11
+ 2930 01b2 14000000 		.4byte	.LVL12
+ 2931 01b6 0400     		.2byte	0x4
+ 2932 01b8 F3       		.byte	0xf3
+ 2933 01b9 01       		.uleb128 0x1
+ 2934 01ba 50       		.byte	0x50
+ 2935 01bb 9F       		.byte	0x9f
+ 2936 01bc 00000000 		.4byte	0
+ 2937 01c0 00000000 		.4byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 61
+
+
+ 2938              	.LLST11:
+ 2939 01c4 00000000 		.4byte	.LVL16
+ 2940 01c8 0E000000 		.4byte	.LVL17
+ 2941 01cc 0100     		.2byte	0x1
+ 2942 01ce 50       		.byte	0x50
+ 2943 01cf 0E000000 		.4byte	.LVL17
+ 2944 01d3 40010000 		.4byte	.LFE69
+ 2945 01d7 0400     		.2byte	0x4
+ 2946 01d9 F3       		.byte	0xf3
+ 2947 01da 01       		.uleb128 0x1
+ 2948 01db 50       		.byte	0x50
+ 2949 01dc 9F       		.byte	0x9f
+ 2950 01dd 00000000 		.4byte	0
+ 2951 01e1 00000000 		.4byte	0
+ 2952              	.LLST12:
+ 2953 01e5 00000000 		.4byte	.LVL16
+ 2954 01e9 0E000000 		.4byte	.LVL17
+ 2955 01ed 0200     		.2byte	0x2
+ 2956 01ef 30       		.byte	0x30
+ 2957 01f0 9F       		.byte	0x9f
+ 2958 01f1 00000000 		.4byte	0
+ 2959 01f5 00000000 		.4byte	0
+ 2960              	.LLST13:
+ 2961 01f9 00000000 		.4byte	.LVL16
+ 2962 01fd 0E000000 		.4byte	.LVL17
+ 2963 0201 0200     		.2byte	0x2
+ 2964 0203 30       		.byte	0x30
+ 2965 0204 9F       		.byte	0x9f
+ 2966 0205 16000000 		.4byte	.LVL19
+ 2967 0209 22000000 		.4byte	.LVL20
+ 2968 020d 0200     		.2byte	0x2
+ 2969 020f 30       		.byte	0x30
+ 2970 0210 9F       		.byte	0x9f
+ 2971 0211 28000000 		.4byte	.LVL21
+ 2972 0215 3C000000 		.4byte	.LVL25
+ 2973 0219 0100     		.2byte	0x1
+ 2974 021b 5E       		.byte	0x5e
+ 2975 021c 3E000000 		.4byte	.LVL26
+ 2976 0220 41000000 		.4byte	.LVL27-1
+ 2977 0224 0100     		.2byte	0x1
+ 2978 0226 5E       		.byte	0x5e
+ 2979 0227 00000000 		.4byte	0
+ 2980 022b 00000000 		.4byte	0
+ 2981              	.LLST14:
+ 2982 022f 00000000 		.4byte	.LVL16
+ 2983 0233 0E000000 		.4byte	.LVL17
+ 2984 0237 0200     		.2byte	0x2
+ 2985 0239 30       		.byte	0x30
+ 2986 023a 9F       		.byte	0x9f
+ 2987 023b 12000000 		.4byte	.LVL18
+ 2988 023f 7E000000 		.4byte	.LVL34
+ 2989 0243 0100     		.2byte	0x1
+ 2990 0245 58       		.byte	0x58
+ 2991 0246 7E000000 		.4byte	.LVL34
+ 2992 024a AA000000 		.4byte	.LVL45
+ 2993 024e 0100     		.2byte	0x1
+ 2994 0250 59       		.byte	0x59
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 62
+
+
+ 2995 0251 AA000000 		.4byte	.LVL45
+ 2996 0255 AC000000 		.4byte	.LVL46
+ 2997 0259 0100     		.2byte	0x1
+ 2998 025b 58       		.byte	0x58
+ 2999 025c AC000000 		.4byte	.LVL46
+ 3000 0260 1A010000 		.4byte	.LVL55
+ 3001 0264 0100     		.2byte	0x1
+ 3002 0266 59       		.byte	0x59
+ 3003 0267 1A010000 		.4byte	.LVL55
+ 3004 026b 22010000 		.4byte	.LVL57
+ 3005 026f 0100     		.2byte	0x1
+ 3006 0271 58       		.byte	0x58
+ 3007 0272 00000000 		.4byte	0
+ 3008 0276 00000000 		.4byte	0
+ 3009              	.LLST15:
+ 3010 027a 00000000 		.4byte	.LVL16
+ 3011 027e 0E000000 		.4byte	.LVL17
+ 3012 0282 0200     		.2byte	0x2
+ 3013 0284 30       		.byte	0x30
+ 3014 0285 9F       		.byte	0x9f
+ 3015 0286 12000000 		.4byte	.LVL18
+ 3016 028a 41000000 		.4byte	.LVL27-1
+ 3017 028e 0100     		.2byte	0x1
+ 3018 0290 50       		.byte	0x50
+ 3019 0291 41000000 		.4byte	.LVL27-1
+ 3020 0295 14010000 		.4byte	.LVL54
+ 3021 0299 0100     		.2byte	0x1
+ 3022 029b 54       		.byte	0x54
+ 3023 029c 14010000 		.4byte	.LVL54
+ 3024 02a0 1A010000 		.4byte	.LVL55
+ 3025 02a4 0300     		.2byte	0x3
+ 3026 02a6 77       		.byte	0x77
+ 3027 02a7 01       		.sleb128 1
+ 3028 02a8 9F       		.byte	0x9f
+ 3029 02a9 1A010000 		.4byte	.LVL55
+ 3030 02ad 1C010000 		.4byte	.LVL56
+ 3031 02b1 0100     		.2byte	0x1
+ 3032 02b3 50       		.byte	0x50
+ 3033 02b4 1C010000 		.4byte	.LVL56
+ 3034 02b8 22010000 		.4byte	.LVL57
+ 3035 02bc 0100     		.2byte	0x1
+ 3036 02be 54       		.byte	0x54
+ 3037 02bf 00000000 		.4byte	0
+ 3038 02c3 00000000 		.4byte	0
+ 3039              	.LLST16:
+ 3040 02c7 3E000000 		.4byte	.LVL26
+ 3041 02cb 68000000 		.4byte	.LVL33
+ 3042 02cf 0200     		.2byte	0x2
+ 3043 02d1 30       		.byte	0x30
+ 3044 02d2 9F       		.byte	0x9f
+ 3045 02d3 68000000 		.4byte	.LVL33
+ 3046 02d7 84000000 		.4byte	.LVL35
+ 3047 02db 0100     		.2byte	0x1
+ 3048 02dd 50       		.byte	0x50
+ 3049 02de 86000000 		.4byte	.LVL36
+ 3050 02e2 8C000000 		.4byte	.LVL37
+ 3051 02e6 0100     		.2byte	0x1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 63
+
+
+ 3052 02e8 50       		.byte	0x50
+ 3053 02e9 8E000000 		.4byte	.LVL38
+ 3054 02ed 94000000 		.4byte	.LVL39
+ 3055 02f1 0100     		.2byte	0x1
+ 3056 02f3 50       		.byte	0x50
+ 3057 02f4 96000000 		.4byte	.LVL40
+ 3058 02f8 9C000000 		.4byte	.LVL41
+ 3059 02fc 0100     		.2byte	0x1
+ 3060 02fe 50       		.byte	0x50
+ 3061 02ff 9E000000 		.4byte	.LVL42
+ 3062 0303 A4000000 		.4byte	.LVL43
+ 3063 0307 0100     		.2byte	0x1
+ 3064 0309 50       		.byte	0x50
+ 3065 030a AA000000 		.4byte	.LVL45
+ 3066 030e AC000000 		.4byte	.LVL46
+ 3067 0312 0100     		.2byte	0x1
+ 3068 0314 50       		.byte	0x50
+ 3069 0315 00000000 		.4byte	0
+ 3070 0319 00000000 		.4byte	0
+ 3071              	.LLST17:
+ 3072 031d 28000000 		.4byte	.LVL21
+ 3073 0321 34000000 		.4byte	.LVL23
+ 3074 0325 0100     		.2byte	0x1
+ 3075 0327 53       		.byte	0x53
+ 3076 0328 34000000 		.4byte	.LVL23
+ 3077 032c 3C000000 		.4byte	.LVL25
+ 3078 0330 0300     		.2byte	0x3
+ 3079 0332 73       		.byte	0x73
+ 3080 0333 7F       		.sleb128 -1
+ 3081 0334 9F       		.byte	0x9f
+ 3082 0335 3C000000 		.4byte	.LVL25
+ 3083 0339 41000000 		.4byte	.LVL27-1
+ 3084 033d 0100     		.2byte	0x1
+ 3085 033f 53       		.byte	0x53
+ 3086 0340 00000000 		.4byte	0
+ 3087 0344 00000000 		.4byte	0
+ 3088              	.LLST18:
+ 3089 0348 2A000000 		.4byte	.LVL22
+ 3090 034c 34000000 		.4byte	.LVL23
+ 3091 0350 0100     		.2byte	0x1
+ 3092 0352 53       		.byte	0x53
+ 3093 0353 00000000 		.4byte	0
+ 3094 0357 00000000 		.4byte	0
+ 3095              	.LLST19:
+ 3096 035b 2A000000 		.4byte	.LVL22
+ 3097 035f 38000000 		.4byte	.LVL24
+ 3098 0363 0200     		.2byte	0x2
+ 3099 0365 32       		.byte	0x32
+ 3100 0366 9F       		.byte	0x9f
+ 3101 0367 00000000 		.4byte	0
+ 3102 036b 00000000 		.4byte	0
+ 3103              	.LLST20:
+ 3104 036f 2A000000 		.4byte	.LVL22
+ 3105 0373 34000000 		.4byte	.LVL23
+ 3106 0377 0B00     		.2byte	0xb
+ 3107 0379 73       		.byte	0x73
+ 3108 037a 00       		.sleb128 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 64
+
+
+ 3109 037b 0A       		.byte	0xa
+ 3110 037c FFFF     		.2byte	0xffff
+ 3111 037e 1A       		.byte	0x1a
+ 3112 037f 40       		.byte	0x40
+ 3113 0380 3D       		.byte	0x3d
+ 3114 0381 24       		.byte	0x24
+ 3115 0382 21       		.byte	0x21
+ 3116 0383 9F       		.byte	0x9f
+ 3117 0384 34000000 		.4byte	.LVL23
+ 3118 0388 3E000000 		.4byte	.LVL26
+ 3119 038c 0B00     		.2byte	0xb
+ 3120 038e 73       		.byte	0x73
+ 3121 038f 7F       		.sleb128 -1
+ 3122 0390 0A       		.byte	0xa
+ 3123 0391 FFFF     		.2byte	0xffff
+ 3124 0393 1A       		.byte	0x1a
+ 3125 0394 40       		.byte	0x40
+ 3126 0395 3D       		.byte	0x3d
+ 3127 0396 24       		.byte	0x24
+ 3128 0397 21       		.byte	0x21
+ 3129 0398 9F       		.byte	0x9f
+ 3130 0399 00000000 		.4byte	0
+ 3131 039d 00000000 		.4byte	0
+ 3132              	.LLST21:
+ 3133 03a1 78000000 		.4byte	.LVL79
+ 3134 03a5 80010000 		.4byte	.LVL115
+ 3135 03a9 0100     		.2byte	0x1
+ 3136 03ab 56       		.byte	0x56
+ 3137 03ac 00000000 		.4byte	0
+ 3138 03b0 00000000 		.4byte	0
+ 3139              	.LLST22:
+ 3140 03b4 A4000000 		.4byte	.LVL84
+ 3141 03b8 02010000 		.4byte	.LVL97
+ 3142 03bc 0200     		.2byte	0x2
+ 3143 03be 30       		.byte	0x30
+ 3144 03bf 9F       		.byte	0x9f
+ 3145 03c0 02010000 		.4byte	.LVL97
+ 3146 03c4 0B010000 		.4byte	.LVL98-1
+ 3147 03c8 0100     		.2byte	0x1
+ 3148 03ca 50       		.byte	0x50
+ 3149 03cb 18010000 		.4byte	.LVL100
+ 3150 03cf 1E010000 		.4byte	.LVL101
+ 3151 03d3 0100     		.2byte	0x1
+ 3152 03d5 50       		.byte	0x50
+ 3153 03d6 58010000 		.4byte	.LVL109
+ 3154 03da 66010000 		.4byte	.LVL111
+ 3155 03de 0200     		.2byte	0x2
+ 3156 03e0 30       		.byte	0x30
+ 3157 03e1 9F       		.byte	0x9f
+ 3158 03e2 00000000 		.4byte	0
+ 3159 03e6 00000000 		.4byte	0
+ 3160              	.LLST23:
+ 3161 03ea 1C000000 		.4byte	.LVL61
+ 3162 03ee 24000000 		.4byte	.LVL63
+ 3163 03f2 0300     		.2byte	0x3
+ 3164 03f4 08       		.byte	0x8
+ 3165 03f5 70       		.byte	0x70
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 65
+
+
+ 3166 03f6 9F       		.byte	0x9f
+ 3167 03f7 00000000 		.4byte	0
+ 3168 03fb 00000000 		.4byte	0
+ 3169              	.LLST24:
+ 3170 03ff 24000000 		.4byte	.LVL63
+ 3171 0403 2C000000 		.4byte	.LVL65
+ 3172 0407 0300     		.2byte	0x3
+ 3173 0409 08       		.byte	0x8
+ 3174 040a 74       		.byte	0x74
+ 3175 040b 9F       		.byte	0x9f
+ 3176 040c 00000000 		.4byte	0
+ 3177 0410 00000000 		.4byte	0
+ 3178              	.LLST25:
+ 3179 0414 2C000000 		.4byte	.LVL65
+ 3180 0418 32000000 		.4byte	.LVL66
+ 3181 041c 0300     		.2byte	0x3
+ 3182 041e 08       		.byte	0x8
+ 3183 041f 73       		.byte	0x73
+ 3184 0420 9F       		.byte	0x9f
+ 3185 0421 00000000 		.4byte	0
+ 3186 0425 00000000 		.4byte	0
+ 3187              	.LLST26:
+ 3188 0429 38000000 		.4byte	.LVL67
+ 3189 042d 40000000 		.4byte	.LVL69
+ 3190 0431 0300     		.2byte	0x3
+ 3191 0433 08       		.byte	0x8
+ 3192 0434 72       		.byte	0x72
+ 3193 0435 9F       		.byte	0x9f
+ 3194 0436 00000000 		.4byte	0
+ 3195 043a 00000000 		.4byte	0
+ 3196              	.LLST27:
+ 3197 043e 40000000 		.4byte	.LVL69
+ 3198 0442 46000000 		.4byte	.LVL70
+ 3199 0446 0300     		.2byte	0x3
+ 3200 0448 08       		.byte	0x8
+ 3201 0449 71       		.byte	0x71
+ 3202 044a 9F       		.byte	0x9f
+ 3203 044b 00000000 		.4byte	0
+ 3204 044f 00000000 		.4byte	0
+ 3205              	.LLST28:
+ 3206 0453 50000000 		.4byte	.LVL71
+ 3207 0457 58000000 		.4byte	.LVL73
+ 3208 045b 0300     		.2byte	0x3
+ 3209 045d 08       		.byte	0x8
+ 3210 045e 78       		.byte	0x78
+ 3211 045f 9F       		.byte	0x9f
+ 3212 0460 00000000 		.4byte	0
+ 3213 0464 00000000 		.4byte	0
+ 3214              	.LLST29:
+ 3215 0468 58000000 		.4byte	.LVL73
+ 3216 046c 5E000000 		.4byte	.LVL74
+ 3217 0470 0300     		.2byte	0x3
+ 3218 0472 08       		.byte	0x8
+ 3219 0473 77       		.byte	0x77
+ 3220 0474 9F       		.byte	0x9f
+ 3221 0475 00000000 		.4byte	0
+ 3222 0479 00000000 		.4byte	0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 66
+
+
+ 3223              	.LLST30:
+ 3224 047d 64000000 		.4byte	.LVL75
+ 3225 0481 6C000000 		.4byte	.LVL77
+ 3226 0485 0300     		.2byte	0x3
+ 3227 0487 08       		.byte	0x8
+ 3228 0488 76       		.byte	0x76
+ 3229 0489 9F       		.byte	0x9f
+ 3230 048a 00000000 		.4byte	0
+ 3231 048e 00000000 		.4byte	0
+ 3232              	.LLST31:
+ 3233 0492 6C000000 		.4byte	.LVL77
+ 3234 0496 72000000 		.4byte	.LVL78
+ 3235 049a 0300     		.2byte	0x3
+ 3236 049c 08       		.byte	0x8
+ 3237 049d 75       		.byte	0x75
+ 3238 049e 9F       		.byte	0x9f
+ 3239 049f 00000000 		.4byte	0
+ 3240 04a3 00000000 		.4byte	0
+ 3241              	.LLST32:
+ 3242 04a7 78000000 		.4byte	.LVL79
+ 3243 04ab 80000000 		.4byte	.LVL81
+ 3244 04af 0300     		.2byte	0x3
+ 3245 04b1 08       		.byte	0x8
+ 3246 04b2 79       		.byte	0x79
+ 3247 04b3 9F       		.byte	0x9f
+ 3248 04b4 00000000 		.4byte	0
+ 3249 04b8 00000000 		.4byte	0
+ 3250              	.LLST33:
+ 3251 04bc 80000000 		.4byte	.LVL81
+ 3252 04c0 86000000 		.4byte	.LVL82
+ 3253 04c4 0300     		.2byte	0x3
+ 3254 04c6 08       		.byte	0x8
+ 3255 04c7 7A       		.byte	0x7a
+ 3256 04c8 9F       		.byte	0x9f
+ 3257 04c9 00000000 		.4byte	0
+ 3258 04cd 00000000 		.4byte	0
+ 3259              	.LLST34:
+ 3260 04d1 B2000000 		.4byte	.LVL85
+ 3261 04d5 B6000000 		.4byte	.LVL86
+ 3262 04d9 0200     		.2byte	0x2
+ 3263 04db 32       		.byte	0x32
+ 3264 04dc 9F       		.byte	0x9f
+ 3265 04dd B6000000 		.4byte	.LVL86
+ 3266 04e1 CA000000 		.4byte	.LVL87
+ 3267 04e5 0100     		.2byte	0x1
+ 3268 04e7 52       		.byte	0x52
+ 3269 04e8 CC000000 		.4byte	.LVL88
+ 3270 04ec D3000000 		.4byte	.LVL89-1
+ 3271 04f0 0100     		.2byte	0x1
+ 3272 04f2 52       		.byte	0x52
+ 3273 04f3 DE000000 		.4byte	.LVL92
+ 3274 04f7 E0000000 		.4byte	.LVL93
+ 3275 04fb 0100     		.2byte	0x1
+ 3276 04fd 52       		.byte	0x52
+ 3277 04fe 00000000 		.4byte	0
+ 3278 0502 00000000 		.4byte	0
+ 3279              	.LLST35:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 67
+
+
+ 3280 0506 B2000000 		.4byte	.LVL85
+ 3281 050a B6000000 		.4byte	.LVL86
+ 3282 050e 0200     		.2byte	0x2
+ 3283 0510 30       		.byte	0x30
+ 3284 0511 9F       		.byte	0x9f
+ 3285 0512 B6000000 		.4byte	.LVL86
+ 3286 0516 58010000 		.4byte	.LVL109
+ 3287 051a 0100     		.2byte	0x1
+ 3288 051c 55       		.byte	0x55
+ 3289 051d 00000000 		.4byte	0
+ 3290 0521 00000000 		.4byte	0
+ 3291              	.LLST36:
+ 3292 0525 D4000000 		.4byte	.LVL89
+ 3293 0529 DA000000 		.4byte	.LVL91
+ 3294 052d 0100     		.2byte	0x1
+ 3295 052f 50       		.byte	0x50
+ 3296 0530 00000000 		.4byte	0
+ 3297 0534 00000000 		.4byte	0
+ 3298              	.LLST37:
+ 3299 0538 FA000000 		.4byte	.LVL96
+ 3300 053c 58010000 		.4byte	.LVL109
+ 3301 0540 0500     		.2byte	0x5
+ 3302 0542 75       		.byte	0x75
+ 3303 0543 00       		.sleb128 0
+ 3304 0544 38       		.byte	0x38
+ 3305 0545 25       		.byte	0x25
+ 3306 0546 9F       		.byte	0x9f
+ 3307 0547 00000000 		.4byte	0
+ 3308 054b 00000000 		.4byte	0
+ 3309              		.section	.debug_aranges,"",%progbits
+ 3310 0000 44000000 		.4byte	0x44
+ 3311 0004 0200     		.2byte	0x2
+ 3312 0006 00000000 		.4byte	.Ldebug_info0
+ 3313 000a 04       		.byte	0x4
+ 3314 000b 00       		.byte	0
+ 3315 000c 0000     		.2byte	0
+ 3316 000e 0000     		.2byte	0
+ 3317 0010 00000000 		.4byte	.LFB64
+ 3318 0014 12000000 		.4byte	.LFE64-.LFB64
+ 3319 0018 00000000 		.4byte	.LFB65
+ 3320 001c 04000000 		.4byte	.LFE65-.LFB65
+ 3321 0020 00000000 		.4byte	.LFB67
+ 3322 0024 0E000000 		.4byte	.LFE67-.LFB67
+ 3323 0028 00000000 		.4byte	.LFB68
+ 3324 002c 2C000000 		.4byte	.LFE68-.LFB68
+ 3325 0030 00000000 		.4byte	.LFB69
+ 3326 0034 40010000 		.4byte	.LFE69-.LFB69
+ 3327 0038 00000000 		.4byte	.LFB70
+ 3328 003c B8010000 		.4byte	.LFE70-.LFB70
+ 3329 0040 00000000 		.4byte	0
+ 3330 0044 00000000 		.4byte	0
+ 3331              		.section	.debug_ranges,"",%progbits
+ 3332              	.Ldebug_ranges0:
+ 3333 0000 04000000 		.4byte	.LBB37
+ 3334 0004 06000000 		.4byte	.LBE37
+ 3335 0008 0E000000 		.4byte	.LBB44
+ 3336 000c 16010000 		.4byte	.LBE44
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 68
+
+
+ 3337 0010 00000000 		.4byte	0
+ 3338 0014 00000000 		.4byte	0
+ 3339 0018 2A000000 		.4byte	.LBB40
+ 3340 001c 32000000 		.4byte	.LBE40
+ 3341 0020 34000000 		.4byte	.LBB43
+ 3342 0024 38000000 		.4byte	.LBE43
+ 3343 0028 00000000 		.4byte	0
+ 3344 002c 00000000 		.4byte	0
+ 3345 0030 A8000000 		.4byte	.LBB68
+ 3346 0034 AC000000 		.4byte	.LBE68
+ 3347 0038 B2000000 		.4byte	.LBB72
+ 3348 003c B4000000 		.4byte	.LBE72
+ 3349 0040 B6000000 		.4byte	.LBB73
+ 3350 0044 DE000000 		.4byte	.LBE73
+ 3351 0048 00000000 		.4byte	0
+ 3352 004c 00000000 		.4byte	0
+ 3353 0050 A8000000 		.4byte	.LBB69
+ 3354 0054 AC000000 		.4byte	.LBE69
+ 3355 0058 BA000000 		.4byte	.LBB70
+ 3356 005c D6000000 		.4byte	.LBE70
+ 3357 0060 D8000000 		.4byte	.LBB71
+ 3358 0064 DE000000 		.4byte	.LBE71
+ 3359 0068 00000000 		.4byte	0
+ 3360 006c 00000000 		.4byte	0
+ 3361 0070 00000000 		.4byte	.LFB64
+ 3362 0074 12000000 		.4byte	.LFE64
+ 3363 0078 00000000 		.4byte	.LFB65
+ 3364 007c 04000000 		.4byte	.LFE65
+ 3365 0080 00000000 		.4byte	.LFB67
+ 3366 0084 0E000000 		.4byte	.LFE67
+ 3367 0088 00000000 		.4byte	.LFB68
+ 3368 008c 2C000000 		.4byte	.LFE68
+ 3369 0090 00000000 		.4byte	.LFB69
+ 3370 0094 40010000 		.4byte	.LFE69
+ 3371 0098 00000000 		.4byte	.LFB70
+ 3372 009c B8010000 		.4byte	.LFE70
+ 3373 00a0 00000000 		.4byte	0
+ 3374 00a4 00000000 		.4byte	0
+ 3375              		.section	.debug_line,"",%progbits
+ 3376              	.Ldebug_line0:
+ 3377 0000 72030000 		.section	.debug_str,"MS",%progbits,1
+ 3377      02001802 
+ 3377      00000201 
+ 3377      FB0E0D00 
+ 3377      01010101 
+ 3378              	.LASF35:
+ 3379 0000 6170704C 		.ascii	"appLines\000"
+ 3379      696E6573 
+ 3379      00
+ 3380              	.LASF53:
+ 3381 0009 496E7465 		.ascii	"Internal_EEPROM_WriteByte\000"
+ 3381      726E616C 
+ 3381      5F454550 
+ 3381      524F4D5F 
+ 3381      57726974 
+ 3382              	.LASF2:
+ 3383 0023 73686F72 		.ascii	"short int\000"
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 69
+
+
+ 3383      7420696E 
+ 3383      7400
+ 3384              	.LASF37:
+ 3385 002d 64617461 		.ascii	"dataBuff\000"
+ 3385      42756666 
+ 3385      00
+ 3386              	.LASF21:
+ 3387 0036 73697A65 		.ascii	"sizetype\000"
+ 3387      74797065 
+ 3387      00
+ 3388              	.LASF28:
+ 3389 003f 666C6173 		.ascii	"flash_addr\000"
+ 3389      685F6164 
+ 3389      647200
+ 3390              	.LASF38:
+ 3391 004a 64617461 		.ascii	"dataBuff_index\000"
+ 3391      42756666 
+ 3391      5F696E64 
+ 3391      657800
+ 3392              	.LASF6:
+ 3393 0059 5F5F7569 		.ascii	"__uint32_t\000"
+ 3393      6E743332 
+ 3393      5F7400
+ 3394              	.LASF49:
+ 3395 0064 62756666 		.ascii	"buff\000"
+ 3395      00
+ 3396              	.LASF22:
+ 3397 0069 75696E74 		.ascii	"uint\000"
+ 3397      00
+ 3398              	.LASF59:
+ 3399 006e 496E7465 		.ascii	"Internal_EEPROM_Start\000"
+ 3399      726E616C 
+ 3399      5F454550 
+ 3399      524F4D5F 
+ 3399      53746172 
+ 3400              	.LASF25:
+ 3401 0084 76616C75 		.ascii	"value\000"
+ 3401      6500
+ 3402              	.LASF14:
+ 3403 008a 75696E74 		.ascii	"uint16\000"
+ 3403      313600
+ 3404              	.LASF23:
+ 3405 0091 696E7465 		.ascii	"internal_flash_handle_error\000"
+ 3405      726E616C 
+ 3405      5F666C61 
+ 3405      73685F68 
+ 3405      616E646C 
+ 3406              	.LASF13:
+ 3407 00ad 75696E74 		.ascii	"uint8\000"
+ 3407      3800
+ 3408              	.LASF56:
+ 3409 00b3 43795365 		.ascii	"CySetTemp\000"
+ 3409      7454656D 
+ 3409      7000
+ 3410              	.LASF51:
+ 3411 00bd 726F7749 		.ascii	"rowID\000"
+ 3411      4400
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 70
+
+
+ 3412              	.LASF16:
+ 3413 00c3 666C6F61 		.ascii	"float\000"
+ 3413      7400
+ 3414              	.LASF8:
+ 3415 00c9 6C6F6E67 		.ascii	"long long int\000"
+ 3415      206C6F6E 
+ 3415      6720696E 
+ 3415      7400
+ 3416              	.LASF36:
+ 3417 00d7 6661696C 		.ascii	"fail\000"
+ 3417      00
+ 3418              	.LASF47:
+ 3419 00dc 61707043 		.ascii	"appCRC\000"
+ 3419      524300
+ 3420              	.LASF4:
+ 3421 00e3 6C6F6E67 		.ascii	"long int\000"
+ 3421      20696E74 
+ 3421      00
+ 3422              	.LASF24:
+ 3423 00ec 696E7465 		.ascii	"internal_flash_read_byte\000"
+ 3423      726E616C 
+ 3423      5F666C61 
+ 3423      73685F72 
+ 3423      6561645F 
+ 3424              	.LASF31:
+ 3425 0105 61646472 		.ascii	"addr\000"
+ 3425      00
+ 3426              	.LASF54:
+ 3427 010a 52533233 		.ascii	"RS232_Debug_PutString\000"
+ 3427      325F4465 
+ 3427      6275675F 
+ 3427      50757453 
+ 3427      7472696E 
+ 3428              	.LASF60:
+ 3429 0120 52533233 		.ascii	"RS232_Debug_Start\000"
+ 3429      325F4465 
+ 3429      6275675F 
+ 3429      53746172 
+ 3429      7400
+ 3430              	.LASF48:
+ 3431 0132 6E657743 		.ascii	"newCRC\000"
+ 3431      524300
+ 3432              	.LASF20:
+ 3433 0139 6C6F6E67 		.ascii	"long double\000"
+ 3433      20646F75 
+ 3433      626C6500 
+ 3434              	.LASF1:
+ 3435 0145 756E7369 		.ascii	"unsigned char\000"
+ 3435      676E6564 
+ 3435      20636861 
+ 3435      7200
+ 3436              	.LASF46:
+ 3437 0153 636F756E 		.ascii	"counter\000"
+ 3437      74657200 
+ 3438              	.LASF58:
+ 3439 015b 73707269 		.ascii	"sprintf\000"
+ 3439      6E746600 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 71
+
+
+ 3440              	.LASF0:
+ 3441 0163 7369676E 		.ascii	"signed char\000"
+ 3441      65642063 
+ 3441      68617200 
+ 3442              	.LASF9:
+ 3443 016f 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3443      206C6F6E 
+ 3443      6720756E 
+ 3443      7369676E 
+ 3443      65642069 
+ 3444              	.LASF12:
+ 3445 0186 75696E74 		.ascii	"uint32_t\000"
+ 3445      33325F74 
+ 3445      00
+ 3446              	.LASF10:
+ 3447 018f 756E7369 		.ascii	"unsigned int\000"
+ 3447      676E6564 
+ 3447      20696E74 
+ 3447      00
+ 3448              	.LASF52:
+ 3449 019c 496E7465 		.ascii	"Internal_EEPROM_ReadByte\000"
+ 3449      726E616C 
+ 3449      5F454550 
+ 3449      524F4D5F 
+ 3449      52656164 
+ 3450              	.LASF62:
+ 3451 01b5 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3451      43313120 
+ 3451      352E342E 
+ 3451      31203230 
+ 3451      31363036 
+ 3452 01e8 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 3452      20726576 
+ 3452      6973696F 
+ 3452      6E203233 
+ 3452      37373135 
+ 3453 021b 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 3453      66756E63 
+ 3453      74696F6E 
+ 3453      2D736563 
+ 3453      74696F6E 
+ 3454              	.LASF44:
+ 3455 0243 43795265 		.ascii	"CyResetStatus\000"
+ 3455      73657453 
+ 3455      74617475 
+ 3455      7300
+ 3456              	.LASF26:
+ 3457 0251 6172725F 		.ascii	"arr_id\000"
+ 3457      696400
+ 3458              	.LASF3:
+ 3459 0258 73686F72 		.ascii	"short unsigned int\000"
+ 3459      7420756E 
+ 3459      7369676E 
+ 3459      65642069 
+ 3459      6E7400
+ 3460              	.LASF27:
+ 3461 026b 62797465 		.ascii	"byte_add\000"
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 72
+
+
+ 3461      5F616464 
+ 3461      00
+ 3462              	.LASF41:
+ 3463 0274 73746174 		.ascii	"status\000"
+ 3463      757300
+ 3464              	.LASF34:
+ 3465 027b 696E7465 		.ascii	"internal_flash_write_row\000"
+ 3465      726E616C 
+ 3465      5F666C61 
+ 3465      73685F77 
+ 3465      72697465 
+ 3466              	.LASF18:
+ 3467 0294 63686172 		.ascii	"char\000"
+ 3467      00
+ 3468              	.LASF19:
+ 3469 0299 63797374 		.ascii	"cystatus\000"
+ 3469      61747573 
+ 3469      00
+ 3470              	.LASF65:
+ 3471 02a2 6D61696E 		.ascii	"main\000"
+ 3471      00
+ 3472              	.LASF11:
+ 3473 02a7 696E7433 		.ascii	"int32_t\000"
+ 3473      325F7400 
+ 3474              	.LASF64:
+ 3475 02af 433A5C55 		.ascii	"C:\\Users\\ali\\Desktop\\cy-micro\\cy-micro\\cy-boo"
+ 3475      73657273 
+ 3475      5C616C69 
+ 3475      5C446573 
+ 3475      6B746F70 
+ 3476 02dc 746C6F61 		.ascii	"tloader\\Bootloader.cydsn\000"
+ 3476      6465725C 
+ 3476      426F6F74 
+ 3476      6C6F6164 
+ 3476      65722E63 
+ 3477              	.LASF43:
+ 3478 02f5 64617461 		.ascii	"data\000"
+ 3478      00
+ 3479              	.LASF50:
+ 3480 02fa 61727261 		.ascii	"arrayID\000"
+ 3480      79494400 
+ 3481              	.LASF15:
+ 3482 0302 75696E74 		.ascii	"uint32\000"
+ 3482      333200
+ 3483              	.LASF63:
+ 3484 0309 6D61696E 		.ascii	"main.c\000"
+ 3484      2E6300
+ 3485              	.LASF7:
+ 3486 0310 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3486      20756E73 
+ 3486      69676E65 
+ 3486      6420696E 
+ 3486      7400
+ 3487              	.LASF30:
+ 3488 0322 6965325F 		.ascii	"ie2_read_byte\000"
+ 3488      72656164 
+ 3488      5F627974 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXUAcQd.s 			page 73
+
+
+ 3488      6500
+ 3489              	.LASF29:
+ 3490 0330 72656164 		.ascii	"read_data\000"
+ 3490      5F646174 
+ 3490      6100
+ 3491              	.LASF32:
+ 3492 033a 62797465 		.ascii	"byte\000"
+ 3492      00
+ 3493              	.LASF5:
+ 3494 033f 5F5F696E 		.ascii	"__int32_t\000"
+ 3494      7433325F 
+ 3494      7400
+ 3495              	.LASF57:
+ 3496 0349 43795772 		.ascii	"CyWriteRowData\000"
+ 3496      69746552 
+ 3496      6F774461 
+ 3496      746100
+ 3497              	.LASF61:
+ 3498 0358 426F6F74 		.ascii	"Bootloader_Exit\000"
+ 3498      6C6F6164 
+ 3498      65725F45 
+ 3498      78697400 
+ 3499              	.LASF40:
+ 3500 0368 70657263 		.ascii	"percent\000"
+ 3500      656E7400 
+ 3501              	.LASF33:
+ 3502 0370 6965325F 		.ascii	"ie2_writeByte\000"
+ 3502      77726974 
+ 3502      65427974 
+ 3502      6500
+ 3503              	.LASF39:
+ 3504 037e 666F726D 		.ascii	"former_percent\000"
+ 3504      65725F70 
+ 3504      65726365 
+ 3504      6E7400
+ 3505              	.LASF17:
+ 3506 038d 646F7562 		.ascii	"double\000"
+ 3506      6C6500
+ 3507              	.LASF45:
+ 3508 0394 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3508      52784275 
+ 3508      66666572 
+ 3508      00
+ 3509              	.LASF55:
+ 3510 03a1 43794465 		.ascii	"CyDelay\000"
+ 3510      6C617900 
+ 3511              	.LASF42:
+ 3512 03a9 61707053 		.ascii	"appSize\000"
+ 3512      697A6500 
+ 3513              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,1319 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cy_em_eeprom.c"
+  16              		.section	.text.CheckCrcAndCopy.isra.2,"ax",%progbits
+  17              		.align	2
+  18              		.thumb
+  19              		.thumb_func
+  20              		.type	CheckCrcAndCopy.isra.2, %function
+  21              	CheckCrcAndCopy.isra.2:
+  22              		@ args = 8, pretend = 0, frame = 256
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+  25 0004 0446     		mov	r4, r0
+  26 0006 1646     		mov	r6, r2
+  27 0008 C0B0     		sub	sp, sp, #256
+  28 000a 0D46     		mov	r5, r1
+  29 000c 1F46     		mov	r7, r3
+  30 000e 4799     		ldr	r1, [sp, #284]
+  31 0010 469B     		ldr	r3, [sp, #280]
+  32 0012 D0F87C80 		ldr	r8, [r0, #124]
+  33 0016 5B1A     		subs	r3, r3, r1
+  34 0018 1918     		adds	r1, r3, r0
+  35 001a 00F17F0E 		add	lr, r0, #127
+  36 001e 00F1FF0C 		add	ip, r0, #255
+  37 0022 FF23     		movs	r3, #255
+  38              	.L2:
+  39 0024 1EF8012F 		ldrb	r2, [lr, #1]!	@ zero_extendqisi2
+  40 0028 5A40     		eors	r2, r2, r3
+  41 002a 5300     		lsls	r3, r2, #1
+  42 002c DBB2     		uxtb	r3, r3
+  43 002e 12F0800F 		tst	r2, #128
+  44 0032 83F03102 		eor	r2, r3, #49
+  45 0036 08BF     		it	eq
+  46 0038 1A46     		moveq	r2, r3
+  47 003a D2B2     		uxtb	r2, r2
+  48 003c 5300     		lsls	r3, r2, #1
+  49 003e DBB2     		uxtb	r3, r3
+  50 0040 12F0800F 		tst	r2, #128
+  51 0044 83F03102 		eor	r2, r3, #49
+  52 0048 08BF     		it	eq
+  53 004a 1A46     		moveq	r2, r3
+  54 004c D2B2     		uxtb	r2, r2
+  55 004e 5300     		lsls	r3, r2, #1
+  56 0050 DBB2     		uxtb	r3, r3
+  57 0052 12F0800F 		tst	r2, #128
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 2
+
+
+  58 0056 83F03102 		eor	r2, r3, #49
+  59 005a 08BF     		it	eq
+  60 005c 1A46     		moveq	r2, r3
+  61 005e D2B2     		uxtb	r2, r2
+  62 0060 5300     		lsls	r3, r2, #1
+  63 0062 DBB2     		uxtb	r3, r3
+  64 0064 12F0800F 		tst	r2, #128
+  65 0068 83F03102 		eor	r2, r3, #49
+  66 006c 08BF     		it	eq
+  67 006e 1A46     		moveq	r2, r3
+  68 0070 D2B2     		uxtb	r2, r2
+  69 0072 5300     		lsls	r3, r2, #1
+  70 0074 DBB2     		uxtb	r3, r3
+  71 0076 12F0800F 		tst	r2, #128
+  72 007a 83F03102 		eor	r2, r3, #49
+  73 007e 08BF     		it	eq
+  74 0080 1A46     		moveq	r2, r3
+  75 0082 D2B2     		uxtb	r2, r2
+  76 0084 5300     		lsls	r3, r2, #1
+  77 0086 DBB2     		uxtb	r3, r3
+  78 0088 12F0800F 		tst	r2, #128
+  79 008c 83F03100 		eor	r0, r3, #49
+  80 0090 08BF     		it	eq
+  81 0092 1846     		moveq	r0, r3
+  82 0094 C0B2     		uxtb	r0, r0
+  83 0096 4200     		lsls	r2, r0, #1
+  84 0098 D2B2     		uxtb	r2, r2
+  85 009a 82F03103 		eor	r3, r2, #49
+  86 009e 10F0800F 		tst	r0, #128
+  87 00a2 18BF     		it	ne
+  88 00a4 1A46     		movne	r2, r3
+  89 00a6 D2B2     		uxtb	r2, r2
+  90 00a8 5300     		lsls	r3, r2, #1
+  91 00aa DBB2     		uxtb	r3, r3
+  92 00ac 12F0800F 		tst	r2, #128
+  93 00b0 83F03102 		eor	r2, r3, #49
+  94 00b4 18BF     		it	ne
+  95 00b6 1346     		movne	r3, r2
+  96 00b8 F445     		cmp	ip, lr
+  97 00ba DBB2     		uxtb	r3, r3
+  98 00bc B2D1     		bne	.L2
+  99 00be 9845     		cmp	r8, r3
+ 100 00c0 5AD0     		beq	.L19
+ 101 00c2 D1F87CC0 		ldr	ip, [r1, #124]
+ 102 00c6 01F17F00 		add	r0, r1, #127
+ 103 00ca 01F1FF0E 		add	lr, r1, #255
+ 104 00ce FF22     		movs	r2, #255
+ 105              	.L5:
+ 106 00d0 10F8013F 		ldrb	r3, [r0, #1]!	@ zero_extendqisi2
+ 107 00d4 5A40     		eors	r2, r2, r3
+ 108 00d6 5300     		lsls	r3, r2, #1
+ 109 00d8 DBB2     		uxtb	r3, r3
+ 110 00da 12F0800F 		tst	r2, #128
+ 111 00de 83F03102 		eor	r2, r3, #49
+ 112 00e2 08BF     		it	eq
+ 113 00e4 1A46     		moveq	r2, r3
+ 114 00e6 D2B2     		uxtb	r2, r2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 3
+
+
+ 115 00e8 5300     		lsls	r3, r2, #1
+ 116 00ea DBB2     		uxtb	r3, r3
+ 117 00ec 12F0800F 		tst	r2, #128
+ 118 00f0 83F03102 		eor	r2, r3, #49
+ 119 00f4 08BF     		it	eq
+ 120 00f6 1A46     		moveq	r2, r3
+ 121 00f8 D2B2     		uxtb	r2, r2
+ 122 00fa 5300     		lsls	r3, r2, #1
+ 123 00fc DBB2     		uxtb	r3, r3
+ 124 00fe 12F0800F 		tst	r2, #128
+ 125 0102 83F03102 		eor	r2, r3, #49
+ 126 0106 08BF     		it	eq
+ 127 0108 1A46     		moveq	r2, r3
+ 128 010a D2B2     		uxtb	r2, r2
+ 129 010c 5300     		lsls	r3, r2, #1
+ 130 010e DBB2     		uxtb	r3, r3
+ 131 0110 12F0800F 		tst	r2, #128
+ 132 0114 83F03102 		eor	r2, r3, #49
+ 133 0118 08BF     		it	eq
+ 134 011a 1A46     		moveq	r2, r3
+ 135 011c D2B2     		uxtb	r2, r2
+ 136 011e 5300     		lsls	r3, r2, #1
+ 137 0120 DBB2     		uxtb	r3, r3
+ 138 0122 12F0800F 		tst	r2, #128
+ 139 0126 83F03102 		eor	r2, r3, #49
+ 140 012a 08BF     		it	eq
+ 141 012c 1A46     		moveq	r2, r3
+ 142 012e D2B2     		uxtb	r2, r2
+ 143 0130 5300     		lsls	r3, r2, #1
+ 144 0132 DBB2     		uxtb	r3, r3
+ 145 0134 12F0800F 		tst	r2, #128
+ 146 0138 83F03102 		eor	r2, r3, #49
+ 147 013c 08BF     		it	eq
+ 148 013e 1A46     		moveq	r2, r3
+ 149 0140 D2B2     		uxtb	r2, r2
+ 150 0142 5300     		lsls	r3, r2, #1
+ 151 0144 DBB2     		uxtb	r3, r3
+ 152 0146 12F0800F 		tst	r2, #128
+ 153 014a 83F03102 		eor	r2, r3, #49
+ 154 014e 18BF     		it	ne
+ 155 0150 1346     		movne	r3, r2
+ 156 0152 DBB2     		uxtb	r3, r3
+ 157 0154 5A00     		lsls	r2, r3, #1
+ 158 0156 D2B2     		uxtb	r2, r2
+ 159 0158 13F0800F 		tst	r3, #128
+ 160 015c 82F03103 		eor	r3, r2, #49
+ 161 0160 18BF     		it	ne
+ 162 0162 1A46     		movne	r2, r3
+ 163 0164 8645     		cmp	lr, r0
+ 164 0166 D2B2     		uxtb	r2, r2
+ 165 0168 B2D1     		bne	.L5
+ 166 016a 6245     		cmp	r2, ip
+ 167 016c 18BF     		it	ne
+ 168 016e 0220     		movne	r0, #2
+ 169 0170 0BD0     		beq	.L20
+ 170              	.L13:
+ 171 0172 40B0     		add	sp, sp, #256
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 4
+
+
+ 172              		@ sp needed
+ 173 0174 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 174              	.L19:
+ 175 0178 3A46     		mov	r2, r7
+ 176 017a A119     		adds	r1, r4, r6
+ 177 017c 2846     		mov	r0, r5
+ 178 017e FFF7FEFF 		bl	memcpy
+ 179 0182 0020     		movs	r0, #0
+ 180 0184 40B0     		add	sp, sp, #256
+ 181              		@ sp needed
+ 182 0186 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 183              	.L20:
+ 184 018a 4FF48072 		mov	r2, #256
+ 185 018e 6846     		mov	r0, sp
+ 186 0190 FFF7FEFF 		bl	memcpy
+ 187 0194 FFF7FEFF 		bl	CySetTemp
+ 188 0198 C4F30721 		ubfx	r1, r4, #8, #8
+ 189 019c C4F30740 		ubfx	r0, r4, #16, #8
+ 190 01a0 6A46     		mov	r2, sp
+ 191 01a2 FFF7FEFF 		bl	CyWriteRowData
+ 192 01a6 0446     		mov	r4, r0
+ 193 01a8 FFF7FEFF 		bl	CyFlushCache
+ 194 01ac 1CB1     		cbz	r4, .L6
+ 195 01ae 0420     		movs	r0, #4
+ 196 01b0 40B0     		add	sp, sp, #256
+ 197              		@ sp needed
+ 198 01b2 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 199              	.L6:
+ 200 01b6 3A46     		mov	r2, r7
+ 201 01b8 0DEB8601 		add	r1, sp, r6, lsl #2
+ 202 01bc 2846     		mov	r0, r5
+ 203 01be FFF7FEFF 		bl	memcpy
+ 204 01c2 2046     		mov	r0, r4
+ 205 01c4 D5E7     		b	.L13
+ 206              		.size	CheckCrcAndCopy.isra.2, .-CheckCrcAndCopy.isra.2
+ 207 01c6 00BF     		.section	.text.FillChecksum,"ax",%progbits
+ 208              		.align	2
+ 209              		.thumb
+ 210              		.thumb_func
+ 211              		.type	FillChecksum, %function
+ 212              	FillChecksum:
+ 213              		@ args = 0, pretend = 0, frame = 256
+ 214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 215 0000 0269     		ldr	r2, [r0, #16]
+ 216 0002 4368     		ldr	r3, [r0, #4]
+ 217 0004 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 218 0008 03FB02F3 		mul	r3, r3, r2
+ 219 000c 8668     		ldr	r6, [r0, #8]
+ 220 000e C1B0     		sub	sp, sp, #260
+ 221 0010 3768     		ldr	r7, [r6]
+ 222 0012 002B     		cmp	r3, #0
+ 223 0014 00F09580 		beq	.L28
+ 224 0018 0546     		mov	r5, r0
+ 225 001a B846     		mov	r8, r7
+ 226 001c 0DF1FF04 		add	r4, sp, #255
+ 227              	.L27:
+ 228 0020 4FF48072 		mov	r2, #256
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 5
+
+
+ 229 0024 3146     		mov	r1, r6
+ 230 0026 6846     		mov	r0, sp
+ 231 0028 08F10108 		add	r8, r8, #1
+ 232 002c FFF7FEFF 		bl	memcpy
+ 233 0030 0DF17F01 		add	r1, sp, #127
+ 234 0034 CDF80080 		str	r8, [sp]
+ 235 0038 FF22     		movs	r2, #255
+ 236              	.L23:
+ 237 003a 11F8013F 		ldrb	r3, [r1, #1]!	@ zero_extendqisi2
+ 238 003e 5340     		eors	r3, r3, r2
+ 239 0040 5A00     		lsls	r2, r3, #1
+ 240 0042 D2B2     		uxtb	r2, r2
+ 241 0044 13F0800F 		tst	r3, #128
+ 242 0048 82F03103 		eor	r3, r2, #49
+ 243 004c 18BF     		it	ne
+ 244 004e 1A46     		movne	r2, r3
+ 245 0050 D2B2     		uxtb	r2, r2
+ 246 0052 5300     		lsls	r3, r2, #1
+ 247 0054 DBB2     		uxtb	r3, r3
+ 248 0056 12F0800F 		tst	r2, #128
+ 249 005a 83F03102 		eor	r2, r3, #49
+ 250 005e 08BF     		it	eq
+ 251 0060 1A46     		moveq	r2, r3
+ 252 0062 D2B2     		uxtb	r2, r2
+ 253 0064 5300     		lsls	r3, r2, #1
+ 254 0066 DBB2     		uxtb	r3, r3
+ 255 0068 12F0800F 		tst	r2, #128
+ 256 006c 83F03102 		eor	r2, r3, #49
+ 257 0070 08BF     		it	eq
+ 258 0072 1A46     		moveq	r2, r3
+ 259 0074 D2B2     		uxtb	r2, r2
+ 260 0076 5300     		lsls	r3, r2, #1
+ 261 0078 DBB2     		uxtb	r3, r3
+ 262 007a 12F0800F 		tst	r2, #128
+ 263 007e 83F03102 		eor	r2, r3, #49
+ 264 0082 08BF     		it	eq
+ 265 0084 1A46     		moveq	r2, r3
+ 266 0086 D2B2     		uxtb	r2, r2
+ 267 0088 5300     		lsls	r3, r2, #1
+ 268 008a DBB2     		uxtb	r3, r3
+ 269 008c 12F0800F 		tst	r2, #128
+ 270 0090 83F03102 		eor	r2, r3, #49
+ 271 0094 08BF     		it	eq
+ 272 0096 1A46     		moveq	r2, r3
+ 273 0098 D2B2     		uxtb	r2, r2
+ 274 009a 5300     		lsls	r3, r2, #1
+ 275 009c DBB2     		uxtb	r3, r3
+ 276 009e 12F0800F 		tst	r2, #128
+ 277 00a2 83F03102 		eor	r2, r3, #49
+ 278 00a6 08BF     		it	eq
+ 279 00a8 1A46     		moveq	r2, r3
+ 280 00aa D2B2     		uxtb	r2, r2
+ 281 00ac 5300     		lsls	r3, r2, #1
+ 282 00ae DBB2     		uxtb	r3, r3
+ 283 00b0 12F0800F 		tst	r2, #128
+ 284 00b4 83F03102 		eor	r2, r3, #49
+ 285 00b8 18BF     		it	ne
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 6
+
+
+ 286 00ba 1346     		movne	r3, r2
+ 287 00bc DBB2     		uxtb	r3, r3
+ 288 00be 5A00     		lsls	r2, r3, #1
+ 289 00c0 D2B2     		uxtb	r2, r2
+ 290 00c2 13F0800F 		tst	r3, #128
+ 291 00c6 82F03103 		eor	r3, r2, #49
+ 292 00ca 18BF     		it	ne
+ 293 00cc 1A46     		movne	r2, r3
+ 294 00ce 8C42     		cmp	r4, r1
+ 295 00d0 D2B2     		uxtb	r2, r2
+ 296 00d2 B2D1     		bne	.L23
+ 297 00d4 1F92     		str	r2, [sp, #124]
+ 298 00d6 FFF7FEFF 		bl	CySetTemp
+ 299 00da C6F30721 		ubfx	r1, r6, #8, #8
+ 300 00de 6A46     		mov	r2, sp
+ 301 00e0 C6F30740 		ubfx	r0, r6, #16, #8
+ 302 00e4 FFF7FEFF 		bl	CyWriteRowData
+ 303 00e8 FFF7FEFF 		bl	CyFlushCache
+ 304 00ec AA69     		ldr	r2, [r5, #24]
+ 305 00ee 2B68     		ldr	r3, [r5]
+ 306 00f0 9B1A     		subs	r3, r3, r2
+ 307 00f2 03EB0609 		add	r9, r3, r6
+ 308 00f6 FFF7FEFF 		bl	CySetTemp
+ 309 00fa C9F30721 		ubfx	r1, r9, #8, #8
+ 310 00fe 6A46     		mov	r2, sp
+ 311 0100 C9F30740 		ubfx	r0, r9, #16, #8
+ 312 0104 FFF7FEFF 		bl	CyWriteRowData
+ 313 0108 8146     		mov	r9, r0
+ 314 010a FFF7FEFF 		bl	CyFlushCache
+ 315 010e B9F1000F 		cmp	r9, #0
+ 316 0112 14BF     		ite	ne
+ 317 0114 0420     		movne	r0, #4
+ 318 0116 0020     		moveq	r0, #0
+ 319 0118 B8F1000F 		cmp	r8, #0
+ 320 011c 01D0     		beq	.L25
+ 321 011e 06F58076 		add	r6, r6, #256
+ 322              	.L25:
+ 323 0122 2969     		ldr	r1, [r5, #16]
+ 324 0124 6A68     		ldr	r2, [r5, #4]
+ 325 0126 2B68     		ldr	r3, [r5]
+ 326 0128 02FB01F2 		mul	r2, r2, r1
+ 327 012c 9E42     		cmp	r6, r3
+ 328 012e C7EB0803 		rsb	r3, r7, r8
+ 329 0132 28BF     		it	cs
+ 330 0134 AE69     		ldrcs	r6, [r5, #24]
+ 331 0136 9A42     		cmp	r2, r3
+ 332 0138 3FF672AF 		bhi	.L27
+ 333 013c 41B0     		add	sp, sp, #260
+ 334              		@ sp needed
+ 335 013e BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 336              	.L28:
+ 337 0142 0120     		movs	r0, #1
+ 338 0144 41B0     		add	sp, sp, #260
+ 339              		@ sp needed
+ 340 0146 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 341              		.size	FillChecksum, .-FillChecksum
+ 342 014a 00BF     		.section	.text.Cy_Em_EEPROM_Init,"ax",%progbits
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 7
+
+
+ 343              		.align	2
+ 344              		.global	Cy_Em_EEPROM_Init
+ 345              		.thumb
+ 346              		.thumb_func
+ 347              		.type	Cy_Em_EEPROM_Init, %function
+ 348              	Cy_Em_EEPROM_Init:
+ 349              		@ args = 0, pretend = 0, frame = 0
+ 350              		@ frame_needed = 0, uses_anonymous_args = 0
+ 351 0000 0029     		cmp	r1, #0
+ 352 0002 4AD0     		beq	.L46
+ 353 0004 0028     		cmp	r0, #0
+ 354 0006 48D0     		beq	.L46
+ 355 0008 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 356 000a C568     		ldr	r5, [r0, #12]
+ 357 000c 002D     		cmp	r5, #0
+ 358 000e 40D0     		beq	.L49
+ 359 0010 4268     		ldr	r2, [r0, #4]
+ 360 0012 0A2A     		cmp	r2, #10
+ 361 0014 3DD8     		bhi	.L49
+ 362 0016 0668     		ldr	r6, [r0]
+ 363 0018 002E     		cmp	r6, #0
+ 364 001a 3AD0     		beq	.L49
+ 365 001c 077A     		ldrb	r7, [r0, #8]	@ zero_extendqisi2
+ 366 001e 1402     		lsls	r4, r2, #8
+ 367 0020 07FB0447 		mla	r7, r7, r4, r4
+ 368 0024 16F07F03 		ands	r3, r6, #127
+ 369 0028 18BF     		it	ne
+ 370 002a 0123     		movne	r3, #1
+ 371 002c 03EBD614 		add	r4, r3, r6, lsr #7
+ 372 0030 07FB0453 		mla	r3, r7, r4, r5
+ 373 0034 B3F5802F 		cmp	r3, #262144
+ 374 0038 2DD8     		bhi	.L67
+ 375 003a 0A61     		str	r2, [r1, #16]
+ 376 003c CE60     		str	r6, [r1, #12]
+ 377 003e 067A     		ldrb	r6, [r0, #8]	@ zero_extendqisi2
+ 378 0040 0E75     		strb	r6, [r1, #20]
+ 379 0042 437A     		ldrb	r3, [r0, #9]	@ zero_extendqisi2
+ 380 0044 4B75     		strb	r3, [r1, #21]
+ 381 0046 0768     		ldr	r7, [r0]
+ 382 0048 4568     		ldr	r5, [r0, #4]
+ 383 004a 17F07F04 		ands	r4, r7, #127
+ 384 004e C368     		ldr	r3, [r0, #12]
+ 385 0050 18BF     		it	ne
+ 386 0052 0124     		movne	r4, #1
+ 387 0054 04EBD710 		add	r0, r4, r7, lsr #7
+ 388 0058 2C02     		lsls	r4, r5, #8
+ 389 005a 00FB02F5 		mul	r5, r0, r2
+ 390 005e 00FB0432 		mla	r2, r0, r4, r3
+ 391 0062 4860     		str	r0, [r1, #4]
+ 392 0064 0A60     		str	r2, [r1]
+ 393 0066 8B61     		str	r3, [r1, #24]
+ 394 0068 8B60     		str	r3, [r1, #8]
+ 395 006a 6DB1     		cbz	r5, .L44
+ 396 006c 0022     		movs	r2, #0
+ 397 006e 1046     		mov	r0, r2
+ 398              	.L40:
+ 399 0070 1C68     		ldr	r4, [r3]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 8
+
+
+ 400 0072 0132     		adds	r2, r2, #1
+ 401 0074 1CB1     		cbz	r4, .L39
+ 402 0076 8442     		cmp	r4, r0
+ 403 0078 84BF     		itt	hi
+ 404 007a 2046     		movhi	r0, r4
+ 405 007c 8B60     		strhi	r3, [r1, #8]
+ 406              	.L39:
+ 407 007e AA42     		cmp	r2, r5
+ 408 0080 03F58073 		add	r3, r3, #256
+ 409 0084 F4D1     		bne	.L40
+ 410 0086 8B68     		ldr	r3, [r1, #8]
+ 411              	.L44:
+ 412 0088 1C68     		ldr	r4, [r3]
+ 413 008a 44B9     		cbnz	r4, .L51
+ 414 008c 4EB9     		cbnz	r6, .L68
+ 415 008e 3046     		mov	r0, r6
+ 416 0090 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 417              	.L49:
+ 418 0092 0120     		movs	r0, #1
+ 419 0094 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 420              	.L67:
+ 421 0096 0320     		movs	r0, #3
+ 422 0098 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 423              	.L46:
+ 424 009a 0120     		movs	r0, #1
+ 425 009c 7047     		bx	lr
+ 426              	.L51:
+ 427 009e 0020     		movs	r0, #0
+ 428 00a0 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 429              	.L68:
+ 430 00a2 0F46     		mov	r7, r1
+ 431 00a4 0846     		mov	r0, r1
+ 432 00a6 FFF7FEFF 		bl	FillChecksum
+ 433 00aa 7D68     		ldr	r5, [r7, #4]
+ 434 00ac 3B69     		ldr	r3, [r7, #16]
+ 435 00ae BA69     		ldr	r2, [r7, #24]
+ 436 00b0 03FB05F5 		mul	r5, r3, r5
+ 437 00b4 BA60     		str	r2, [r7, #8]
+ 438 00b6 6DB1     		cbz	r5, .L53
+ 439 00b8 2346     		mov	r3, r4
+ 440 00ba 2646     		mov	r6, r4
+ 441              	.L42:
+ 442 00bc 1468     		ldr	r4, [r2]
+ 443 00be 0133     		adds	r3, r3, #1
+ 444 00c0 1CB1     		cbz	r4, .L41
+ 445 00c2 B442     		cmp	r4, r6
+ 446 00c4 84BF     		itt	hi
+ 447 00c6 2646     		movhi	r6, r4
+ 448 00c8 BA60     		strhi	r2, [r7, #8]
+ 449              	.L41:
+ 450 00ca AB42     		cmp	r3, r5
+ 451 00cc 02F58072 		add	r2, r2, #256
+ 452 00d0 F4D1     		bne	.L42
+ 453 00d2 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 454              	.L53:
+ 455 00d4 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 456              		.size	Cy_Em_EEPROM_Init, .-Cy_Em_EEPROM_Init
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 9
+
+
+ 457 00d6 00BF     		.section	.text.Cy_Em_EEPROM_Read,"ax",%progbits
+ 458              		.align	2
+ 459              		.global	Cy_Em_EEPROM_Read
+ 460              		.thumb
+ 461              		.thumb_func
+ 462              		.type	Cy_Em_EEPROM_Read, %function
+ 463              	Cy_Em_EEPROM_Read:
+ 464              		@ args = 0, pretend = 0, frame = 24
+ 465              		@ frame_needed = 0, uses_anonymous_args = 0
+ 466 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 467 0004 89B0     		sub	sp, sp, #36
+ 468 0006 0491     		str	r1, [sp, #16]
+ 469 0008 002A     		cmp	r2, #0
+ 470 000a 00F08C80 		beq	.L132
+ 471 000e 1C46     		mov	r4, r3
+ 472 0010 DB68     		ldr	r3, [r3, #12]
+ 473 0012 1646     		mov	r6, r2
+ 474 0014 0244     		add	r2, r2, r0
+ 475 0016 9A42     		cmp	r2, r3
+ 476 0018 8046     		mov	r8, r0
+ 477 001a 1746     		mov	r7, r2
+ 478 001c 0692     		str	r2, [sp, #24]
+ 479 001e 00F28280 		bhi	.L132
+ 480 0022 0029     		cmp	r1, #0
+ 481 0024 7FD0     		beq	.L132
+ 482 0026 D4F808E0 		ldr	lr, [r4, #8]
+ 483 002a A169     		ldr	r1, [r4, #24]
+ 484 002c 6068     		ldr	r0, [r4, #4]
+ 485 002e C1EB0E02 		rsb	r2, r1, lr
+ 486 0032 0502     		lsls	r5, r0, #8
+ 487 0034 B2FBF5F2 		udiv	r2, r2, r5
+ 488 0038 4FEAD813 		lsr	r3, r8, #7
+ 489 003c C3F10103 		rsb	r3, r3, #1
+ 490 0040 05FB0215 		mla	r5, r5, r2, r1
+ 491 0044 7A1E     		subs	r2, r7, #1
+ 492 0046 03EBD213 		add	r3, r3, r2, lsr #7
+ 493 004a 0293     		str	r3, [sp, #8]
+ 494 004c DEF80030 		ldr	r3, [lr]
+ 495 0050 0593     		str	r3, [sp, #20]
+ 496 0052 0028     		cmp	r0, #0
+ 497 0054 6BD0     		beq	.L71
+ 498 0056 0122     		movs	r2, #1
+ 499 0058 0023     		movs	r3, #0
+ 500 005a 06E0     		b	.L99
+ 501              	.L109:
+ 502 005c 1146     		mov	r1, r2
+ 503 005e 8842     		cmp	r0, r1
+ 504 0060 03F18003 		add	r3, r3, #128
+ 505 0064 02F10102 		add	r2, r2, #1
+ 506 0068 61D9     		bls	.L71
+ 507              	.L99:
+ 508 006a 9845     		cmp	r8, r3
+ 509 006c 03F17F01 		add	r1, r3, #127
+ 510 0070 02F1FF37 		add	r7, r2, #-1
+ 511 0074 F2D3     		bcc	.L109
+ 512 0076 8845     		cmp	r8, r1
+ 513 0078 F0D8     		bhi	.L109
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 10
+
+
+ 514 007a 2369     		ldr	r3, [r4, #16]
+ 515 007c C5EB0E0E 		rsb	lr, r5, lr
+ 516 0080 4FEA1E22 		lsr	r2, lr, #8
+ 517 0084 012B     		cmp	r3, #1
+ 518 0086 0392     		str	r2, [sp, #12]
+ 519 0088 4BD9     		bls	.L74
+ 520 008a BA42     		cmp	r2, r7
+ 521 008c 029B     		ldr	r3, [sp, #8]
+ 522 008e 80F0F380 		bcs	.L133
+ 523 0092 002B     		cmp	r3, #0
+ 524 0094 47D0     		beq	.L132
+ 525              	.L76:
+ 526 0096 05EB0723 		add	r3, r5, r7, lsl #8
+ 527 009a C246     		mov	r10, r8
+ 528 009c CDF81C80 		str	r8, [sp, #28]
+ 529 00a0 DDF810B0 		ldr	fp, [sp, #16]
+ 530 00a4 9846     		mov	r8, r3
+ 531 00a6 4FF00009 		mov	r9, #0
+ 532 00aa 029B     		ldr	r3, [sp, #8]
+ 533 00ac 20E0     		b	.L87
+ 534              	.L135:
+ 535 00ae 6368     		ldr	r3, [r4, #4]
+ 536 00b0 A169     		ldr	r1, [r4, #24]
+ 537 00b2 A8EB0320 		sub	r0, r8, r3, lsl #8
+ 538 00b6 8842     		cmp	r0, r1
+ 539 00b8 03D2     		bcs	.L84
+ 540 00ba 2068     		ldr	r0, [r4]
+ 541 00bc DB1B     		subs	r3, r3, r7
+ 542 00be A0EB0320 		sub	r0, r0, r3, lsl #8
+ 543              	.L84:
+ 544 00c2 237D     		ldrb	r3, [r4, #20]	@ zero_extendqisi2
+ 545 00c4 33B3     		cbz	r3, .L85
+ 546              	.L136:
+ 547 00c6 A369     		ldr	r3, [r4, #24]
+ 548 00c8 2168     		ldr	r1, [r4]
+ 549 00ca 8DE80A00 		stmia	sp, {r1, r3}
+ 550 00ce 2B46     		mov	r3, r5
+ 551 00d0 5946     		mov	r1, fp
+ 552 00d2 FFF7FEFF 		bl	CheckCrcAndCopy.isra.2
+ 553 00d6 38BB     		cbnz	r0, .L117
+ 554              	.L86:
+ 555 00d8 029B     		ldr	r3, [sp, #8]
+ 556 00da AA44     		add	r10, r10, r5
+ 557 00dc 4B45     		cmp	r3, r9
+ 558 00de A6EB0506 		sub	r6, r6, r5
+ 559 00e2 AB44     		add	fp, fp, r5
+ 560 00e4 07F10107 		add	r7, r7, #1
+ 561 00e8 08F58078 		add	r8, r8, #256
+ 562 00ec 00F0C180 		beq	.L134
+ 563              	.L87:
+ 564 00f0 09F10109 		add	r9, r9, #1
+ 565 00f4 4B45     		cmp	r3, r9
+ 566 00f6 039B     		ldr	r3, [sp, #12]
+ 567 00f8 0AF07F05 		and	r5, r10, #127
+ 568 00fc 05F18002 		add	r2, r5, #128
+ 569 0100 8CBF     		ite	hi
+ 570 0102 C5F18005 		rsbhi	r5, r5, #128
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 11
+
+
+ 571 0106 3546     		movls	r5, r6
+ 572 0108 9F42     		cmp	r7, r3
+ 573 010a D0D8     		bhi	.L135
+ 574 010c 237D     		ldrb	r3, [r4, #20]	@ zero_extendqisi2
+ 575 010e 4046     		mov	r0, r8
+ 576 0110 002B     		cmp	r3, #0
+ 577 0112 D8D1     		bne	.L136
+ 578              	.L85:
+ 579 0114 8118     		adds	r1, r0, r2
+ 580 0116 2A46     		mov	r2, r5
+ 581 0118 5846     		mov	r0, fp
+ 582 011a FFF7FEFF 		bl	memcpy
+ 583 011e DBE7     		b	.L86
+ 584              	.L137:
+ 585 0120 0027     		movs	r7, #0
+ 586              	.L74:
+ 587 0122 029B     		ldr	r3, [sp, #8]
+ 588 0124 A3B9     		cbnz	r3, .L103
+ 589              	.L132:
+ 590 0126 0120     		movs	r0, #1
+ 591              	.L117:
+ 592 0128 09B0     		add	sp, sp, #36
+ 593              		@ sp needed
+ 594 012a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 595              	.L71:
+ 596 012e 2369     		ldr	r3, [r4, #16]
+ 597 0130 C5EB0E0E 		rsb	lr, r5, lr
+ 598 0134 4FEA1E22 		lsr	r2, lr, #8
+ 599 0138 012B     		cmp	r3, #1
+ 600 013a 0392     		str	r2, [sp, #12]
+ 601 013c F0D9     		bls	.L137
+ 602 013e 029B     		ldr	r3, [sp, #8]
+ 603 0140 0027     		movs	r7, #0
+ 604 0142 013B     		subs	r3, r3, #1
+ 605              	.L100:
+ 606 0144 029A     		ldr	r2, [sp, #8]
+ 607 0146 002A     		cmp	r2, #0
+ 608 0148 EDD0     		beq	.L132
+ 609 014a 039A     		ldr	r2, [sp, #12]
+ 610 014c 9A42     		cmp	r2, r3
+ 611 014e A2D3     		bcc	.L76
+ 612              	.L103:
+ 613 0150 C246     		mov	r10, r8
+ 614 0152 CDF80C80 		str	r8, [sp, #12]
+ 615 0156 DDF810B0 		ldr	fp, [sp, #16]
+ 616 015a 05EB0727 		add	r7, r5, r7, lsl #8
+ 617 015e 4FF00009 		mov	r9, #0
+ 618 0162 DDF80880 		ldr	r8, [sp, #8]
+ 619 0166 0BE0     		b	.L81
+ 620              	.L139:
+ 621 0168 5846     		mov	r0, fp
+ 622 016a 2A46     		mov	r2, r5
+ 623 016c FFF7FEFF 		bl	memcpy
+ 624 0170 C845     		cmp	r8, r9
+ 625 0172 AA44     		add	r10, r10, r5
+ 626 0174 A6EB0506 		sub	r6, r6, r5
+ 627 0178 AB44     		add	fp, fp, r5
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 12
+
+
+ 628 017a 07F58077 		add	r7, r7, #256
+ 629 017e 21D0     		beq	.L138
+ 630              	.L81:
+ 631 0180 0AF07F05 		and	r5, r10, #127
+ 632 0184 09F10109 		add	r9, r9, #1
+ 633 0188 237D     		ldrb	r3, [r4, #20]	@ zero_extendqisi2
+ 634 018a 05F18002 		add	r2, r5, #128
+ 635 018e C845     		cmp	r8, r9
+ 636 0190 8CBF     		ite	hi
+ 637 0192 C5F18005 		rsbhi	r5, r5, #128
+ 638 0196 3546     		movls	r5, r6
+ 639 0198 B918     		adds	r1, r7, r2
+ 640 019a 002B     		cmp	r3, #0
+ 641 019c E4D0     		beq	.L139
+ 642 019e A169     		ldr	r1, [r4, #24]
+ 643 01a0 2368     		ldr	r3, [r4]
+ 644 01a2 3846     		mov	r0, r7
+ 645 01a4 0191     		str	r1, [sp, #4]
+ 646 01a6 0093     		str	r3, [sp]
+ 647 01a8 5946     		mov	r1, fp
+ 648 01aa 2B46     		mov	r3, r5
+ 649 01ac FFF7FEFF 		bl	CheckCrcAndCopy.isra.2
+ 650 01b0 0028     		cmp	r0, #0
+ 651 01b2 B9D1     		bne	.L117
+ 652 01b4 C845     		cmp	r8, r9
+ 653 01b6 AA44     		add	r10, r10, r5
+ 654 01b8 A6EB0506 		sub	r6, r6, r5
+ 655 01bc AB44     		add	fp, fp, r5
+ 656 01be 07F58077 		add	r7, r7, #256
+ 657 01c2 DDD1     		bne	.L81
+ 658              	.L138:
+ 659 01c4 DDF80C80 		ldr	r8, [sp, #12]
+ 660              	.L82:
+ 661 01c8 059B     		ldr	r3, [sp, #20]
+ 662 01ca 002B     		cmp	r3, #0
+ 663 01cc 42D0     		beq	.L98
+ 664 01ce 1A46     		mov	r2, r3
+ 665 01d0 6368     		ldr	r3, [r4, #4]
+ 666 01d2 561C     		adds	r6, r2, #1
+ 667 01d4 9A42     		cmp	r2, r3
+ 668 01d6 94BF     		ite	ls
+ 669 01d8 B61A     		subls	r6, r6, r2
+ 670 01da F61A     		subhi	r6, r6, r3
+ 671 01dc B242     		cmp	r2, r6
+ 672 01de 39D3     		bcc	.L98
+ 673 01e0 9246     		mov	r10, r2
+ 674 01e2 08F10C09 		add	r9, r8, #12
+ 675 01e6 CDF80890 		str	r9, [sp, #8]
+ 676 01ea DDF818B0 		ldr	fp, [sp, #24]
+ 677 01ee DDF81090 		ldr	r9, [sp, #16]
+ 678              	.L97:
+ 679 01f2 D4F818E0 		ldr	lr, [r4, #24]
+ 680 01f6 2768     		ldr	r7, [r4]
+ 681 01f8 7546     		mov	r5, lr
+ 682 01fa 03E0     		b	.L89
+ 683              	.L91:
+ 684 01fc 05F58075 		add	r5, r5, #256
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 13
+
+
+ 685 0200 AF42     		cmp	r7, r5
+ 686 0202 24D9     		bls	.L90
+ 687              	.L89:
+ 688 0204 2B68     		ldr	r3, [r5]
+ 689 0206 9E42     		cmp	r6, r3
+ 690 0208 F8D1     		bne	.L91
+ 691 020a 05B3     		cbz	r5, .L90
+ 692 020c 6B68     		ldr	r3, [r5, #4]
+ 693 020e AA68     		ldr	r2, [r5, #8]
+ 694 0210 9845     		cmp	r8, r3
+ 695 0212 03EB020C 		add	ip, r3, r2
+ 696 0216 21D2     		bcs	.L93
+ 697 0218 9B45     		cmp	fp, r3
+ 698 021a 18D9     		bls	.L90
+ 699 021c C8EB0300 		rsb	r0, r8, r3
+ 700 0220 0C21     		movs	r1, #12
+ 701              	.L95:
+ 702 0222 4345     		cmp	r3, r8
+ 703 0224 38BF     		it	cc
+ 704 0226 4346     		movcc	r3, r8
+ 705 0228 227D     		ldrb	r2, [r4, #20]	@ zero_extendqisi2
+ 706 022a E345     		cmp	fp, ip
+ 707 022c 94BF     		ite	ls
+ 708 022e C3EB0B03 		rsbls	r3, r3, fp
+ 709 0232 C3EB0C03 		rsbhi	r3, r3, ip
+ 710 0236 4844     		add	r0, r0, r9
+ 711 0238 B2B1     		cbz	r2, .L96
+ 712 023a 0A46     		mov	r2, r1
+ 713 023c 8DE88040 		stmia	sp, {r7, lr}
+ 714 0240 0146     		mov	r1, r0
+ 715 0242 2846     		mov	r0, r5
+ 716 0244 FFF7FEFF 		bl	CheckCrcAndCopy.isra.2
+ 717 0248 0028     		cmp	r0, #0
+ 718 024a 7FF46DAF 		bne	.L117
+ 719              	.L90:
+ 720 024e 0136     		adds	r6, r6, #1
+ 721 0250 B245     		cmp	r10, r6
+ 722 0252 CED2     		bcs	.L97
+ 723              	.L98:
+ 724 0254 0020     		movs	r0, #0
+ 725 0256 09B0     		add	sp, sp, #36
+ 726              		@ sp needed
+ 727 0258 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 728              	.L93:
+ 729 025c E045     		cmp	r8, ip
+ 730 025e F6D2     		bcs	.L90
+ 731 0260 029A     		ldr	r2, [sp, #8]
+ 732 0262 0020     		movs	r0, #0
+ 733 0264 D11A     		subs	r1, r2, r3
+ 734 0266 DCE7     		b	.L95
+ 735              	.L96:
+ 736 0268 1A46     		mov	r2, r3
+ 737 026a 2944     		add	r1, r1, r5
+ 738 026c FFF7FEFF 		bl	memcpy
+ 739 0270 EDE7     		b	.L90
+ 740              	.L134:
+ 741 0272 DDF81C80 		ldr	r8, [sp, #28]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 14
+
+
+ 742 0276 A7E7     		b	.L82
+ 743              	.L133:
+ 744 0278 013B     		subs	r3, r3, #1
+ 745 027a 3B44     		add	r3, r3, r7
+ 746 027c 62E7     		b	.L100
+ 747              		.size	Cy_Em_EEPROM_Read, .-Cy_Em_EEPROM_Read
+ 748 027e 00BF     		.section	.text.Cy_Em_EEPROM_Write,"ax",%progbits
+ 749              		.align	2
+ 750              		.global	Cy_Em_EEPROM_Write
+ 751              		.thumb
+ 752              		.thumb_func
+ 753              		.type	Cy_Em_EEPROM_Write, %function
+ 754              	Cy_Em_EEPROM_Write:
+ 755              		@ args = 0, pretend = 0, frame = 288
+ 756              		@ frame_needed = 0, uses_anonymous_args = 0
+ 757 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 758 0004 C9B0     		sub	sp, sp, #292
+ 759 0006 0390     		str	r0, [sp, #12]
+ 760 0008 1E46     		mov	r6, r3
+ 761 000a 0492     		str	r2, [sp, #16]
+ 762 000c 002A     		cmp	r2, #0
+ 763 000e 00F01981 		beq	.L178
+ 764 0012 DB68     		ldr	r3, [r3, #12]
+ 765 0014 1446     		mov	r4, r2
+ 766 0016 0244     		add	r2, r2, r0
+ 767 0018 9A42     		cmp	r2, r3
+ 768 001a 00F21381 		bhi	.L178
+ 769 001e 0029     		cmp	r1, #0
+ 770 0020 00F01081 		beq	.L178
+ 771 0024 4FF0000B 		mov	fp, #0
+ 772 0028 D846     		mov	r8, fp
+ 773 002a DA46     		mov	r10, fp
+ 774 002c 631E     		subs	r3, r4, #1
+ 775 002e BC4A     		ldr	r2, .L205
+ 776 0030 1B09     		lsrs	r3, r3, #4
+ 777 0032 A2FB0323 		umull	r2, r3, r2, r3
+ 778 0036 D6F80890 		ldr	r9, [r6, #8]
+ 779 003a 0793     		str	r3, [sp, #28]
+ 780 003c 0133     		adds	r3, r3, #1
+ 781 003e 0191     		str	r1, [sp, #4]
+ 782 0040 CDF808B0 		str	fp, [sp, #8]
+ 783 0044 0693     		str	r3, [sp, #24]
+ 784 0046 0DF21F15 		addw	r5, sp, #287
+ 785              	.L167:
+ 786 004a D9F80070 		ldr	r7, [r9]
+ 787 004e 0FB1     		cbz	r7, .L142
+ 788 0050 09F58079 		add	r9, r9, #256
+ 789              	.L142:
+ 790 0054 3368     		ldr	r3, [r6]
+ 791 0056 7468     		ldr	r4, [r6, #4]
+ 792 0058 4B45     		cmp	r3, r9
+ 793 005a 98BF     		it	ls
+ 794 005c D6F81890 		ldrls	r9, [r6, #24]
+ 795 0060 A742     		cmp	r7, r4
+ 796 0062 C0F01581 		bcc	.L144
+ 797 0066 3269     		ldr	r2, [r6, #16]
+ 798 0068 012A     		cmp	r2, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 15
+
+
+ 799 006a 40F23681 		bls	.L179
+ 800 006e 2002     		lsls	r0, r4, #8
+ 801 0070 B169     		ldr	r1, [r6, #24]
+ 802 0072 C0EB0903 		rsb	r3, r0, r9
+ 803 0076 8B42     		cmp	r3, r1
+ 804 0078 05D2     		bcs	.L145
+ 805 007a 02F1FF13 		add	r3, r2, #16711935
+ 806 007e 03F57F43 		add	r3, r3, #65280
+ 807 0082 00FB0393 		mla	r3, r0, r3, r9
+ 808              	.L145:
+ 809 0086 4FF48072 		mov	r2, #256
+ 810 008a 0021     		movs	r1, #0
+ 811 008c 08A8     		add	r0, sp, #32
+ 812 008e 0593     		str	r3, [sp, #20]
+ 813 0090 FFF7FEFF 		bl	memset
+ 814 0094 039B     		ldr	r3, [sp, #12]
+ 815 0096 029A     		ldr	r2, [sp, #8]
+ 816 0098 0993     		str	r3, [sp, #36]
+ 817 009a 079B     		ldr	r3, [sp, #28]
+ 818 009c 0137     		adds	r7, r7, #1
+ 819 009e 9342     		cmp	r3, r2
+ 820 00a0 0897     		str	r7, [sp, #32]
+ 821 00a2 0199     		ldr	r1, [sp, #4]
+ 822 00a4 059B     		ldr	r3, [sp, #20]
+ 823 00a6 00F02E81 		beq	.L180
+ 824              	.L174:
+ 825 00aa 049A     		ldr	r2, [sp, #16]
+ 826 00ac 4FF0700E 		mov	lr, #112
+ 827 00b0 703A     		subs	r2, r2, #112
+ 828 00b2 0492     		str	r2, [sp, #16]
+ 829 00b4 039A     		ldr	r2, [sp, #12]
+ 830 00b6 7032     		adds	r2, r2, #112
+ 831 00b8 0392     		str	r2, [sp, #12]
+ 832 00ba 019A     		ldr	r2, [sp, #4]
+ 833 00bc 7032     		adds	r2, r2, #112
+ 834 00be 0192     		str	r2, [sp, #4]
+ 835              	.L146:
+ 836 00c0 7246     		mov	r2, lr
+ 837 00c2 0BA8     		add	r0, sp, #44
+ 838 00c4 0593     		str	r3, [sp, #20]
+ 839 00c6 CDF828E0 		str	lr, [sp, #40]
+ 840 00ca FFF7FEFF 		bl	memcpy
+ 841 00ce 059B     		ldr	r3, [sp, #20]
+ 842 00d0 002B     		cmp	r3, #0
+ 843 00d2 40F0FB80 		bne	.L201
+ 844              	.L147:
+ 845 00d6 BC42     		cmp	r4, r7
+ 846 00d8 3ABF     		itte	cc
+ 847 00da C4F10104 		rsbcc	r4, r4, #1
+ 848 00de E419     		addcc	r4, r4, r7
+ 849 00e0 0124     		movcs	r4, #1
+ 850 00e2 BC42     		cmp	r4, r7
+ 851 00e4 00F29C80 		bhi	.L149
+ 852 00e8 0022     		movs	r2, #0
+ 853              	.L164:
+ 854 00ea A742     		cmp	r7, r4
+ 855 00ec 00F01581 		beq	.L202
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 16
+
+
+ 856 00f0 B169     		ldr	r1, [r6, #24]
+ 857 00f2 3068     		ldr	r0, [r6]
+ 858 00f4 0B46     		mov	r3, r1
+ 859 00f6 8E46     		mov	lr, r1
+ 860 00f8 04E0     		b	.L152
+ 861              	.L154:
+ 862 00fa 03F58073 		add	r3, r3, #256
+ 863 00fe 9842     		cmp	r0, r3
+ 864 0100 40F2A480 		bls	.L153
+ 865              	.L152:
+ 866 0104 1968     		ldr	r1, [r3]
+ 867 0106 A142     		cmp	r1, r4
+ 868 0108 F7D1     		bne	.L154
+ 869 010a 7146     		mov	r1, lr
+ 870              	.L151:
+ 871 010c 002B     		cmp	r3, #0
+ 872 010e 00F09D80 		beq	.L153
+ 873 0112 C1EB090E 		rsb	lr, r1, r9
+ 874 0116 7068     		ldr	r0, [r6, #4]
+ 875 0118 4FEA1E22 		lsr	r2, lr, #8
+ 876 011c B2FBF0F1 		udiv	r1, r2, r0
+ 877 0120 00FB1122 		mls	r2, r0, r1, r2
+ 878 0124 5968     		ldr	r1, [r3, #4]
+ 879 0126 D201     		lsls	r2, r2, #7
+ 880 0128 8A42     		cmp	r2, r1
+ 881 012a D3F808E0 		ldr	lr, [r3, #8]
+ 882 012e 00F29180 		bhi	.L155
+ 883 0132 02F17F00 		add	r0, r2, #127
+ 884 0136 8142     		cmp	r1, r0
+ 885 0138 00F28C80 		bhi	.L155
+ 886 013c 01F07F0A 		and	r10, r1, #127
+ 887 0140 7144     		add	r1, r1, lr
+ 888 0142 8A42     		cmp	r2, r1
+ 889 0144 0AF1800A 		add	r10, r10, #128
+ 890 0148 00F29A80 		bhi	.L198
+ 891 014c 8842     		cmp	r0, r1
+ 892 014e C0F09780 		bcc	.L198
+ 893 0152 0EEB0A0B 		add	fp, lr, r10
+ 894 0156 4FF00008 		mov	r8, #0
+ 895              	.L158:
+ 896 015a 03EB0801 		add	r1, r3, r8
+ 897 015e 08AB     		add	r3, sp, #32
+ 898 0160 CAEB0B02 		rsb	r2, r10, fp
+ 899 0164 0C31     		adds	r1, r1, #12
+ 900 0166 03EB0A00 		add	r0, r3, r10
+ 901 016a FFF7FEFF 		bl	memcpy
+ 902 016e 0022     		movs	r2, #0
+ 903              	.L161:
+ 904 0170 337D     		ldrb	r3, [r6, #20]	@ zero_extendqisi2
+ 905 0172 002B     		cmp	r3, #0
+ 906 0174 50D0     		beq	.L162
+ 907              	.L175:
+ 908 0176 0DF19F01 		add	r1, sp, #159
+ 909 017a FF23     		movs	r3, #255
+ 910              	.L163:
+ 911 017c 11F8010F 		ldrb	r0, [r1, #1]!	@ zero_extendqisi2
+ 912 0180 5840     		eors	r0, r0, r3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 17
+
+
+ 913 0182 4300     		lsls	r3, r0, #1
+ 914 0184 DBB2     		uxtb	r3, r3
+ 915 0186 10F0800F 		tst	r0, #128
+ 916 018a 83F03100 		eor	r0, r3, #49
+ 917 018e 08BF     		it	eq
+ 918 0190 1846     		moveq	r0, r3
+ 919 0192 C0B2     		uxtb	r0, r0
+ 920 0194 4300     		lsls	r3, r0, #1
+ 921 0196 DBB2     		uxtb	r3, r3
+ 922 0198 10F0800F 		tst	r0, #128
+ 923 019c 83F03100 		eor	r0, r3, #49
+ 924 01a0 08BF     		it	eq
+ 925 01a2 1846     		moveq	r0, r3
+ 926 01a4 C0B2     		uxtb	r0, r0
+ 927 01a6 4300     		lsls	r3, r0, #1
+ 928 01a8 DBB2     		uxtb	r3, r3
+ 929 01aa 10F0800F 		tst	r0, #128
+ 930 01ae 83F03100 		eor	r0, r3, #49
+ 931 01b2 18BF     		it	ne
+ 932 01b4 0346     		movne	r3, r0
+ 933 01b6 DBB2     		uxtb	r3, r3
+ 934 01b8 5800     		lsls	r0, r3, #1
+ 935 01ba C0B2     		uxtb	r0, r0
+ 936 01bc 13F0800F 		tst	r3, #128
+ 937 01c0 80F03103 		eor	r3, r0, #49
+ 938 01c4 18BF     		it	ne
+ 939 01c6 1846     		movne	r0, r3
+ 940 01c8 C0B2     		uxtb	r0, r0
+ 941 01ca 4300     		lsls	r3, r0, #1
+ 942 01cc DBB2     		uxtb	r3, r3
+ 943 01ce 10F0800F 		tst	r0, #128
+ 944 01d2 83F03100 		eor	r0, r3, #49
+ 945 01d6 08BF     		it	eq
+ 946 01d8 1846     		moveq	r0, r3
+ 947 01da C0B2     		uxtb	r0, r0
+ 948 01dc 4300     		lsls	r3, r0, #1
+ 949 01de DBB2     		uxtb	r3, r3
+ 950 01e0 10F0800F 		tst	r0, #128
+ 951 01e4 83F03100 		eor	r0, r3, #49
+ 952 01e8 08BF     		it	eq
+ 953 01ea 1846     		moveq	r0, r3
+ 954 01ec C0B2     		uxtb	r0, r0
+ 955 01ee 4300     		lsls	r3, r0, #1
+ 956 01f0 DBB2     		uxtb	r3, r3
+ 957 01f2 10F0800F 		tst	r0, #128
+ 958 01f6 83F03100 		eor	r0, r3, #49
+ 959 01fa 18BF     		it	ne
+ 960 01fc 0346     		movne	r3, r0
+ 961 01fe DBB2     		uxtb	r3, r3
+ 962 0200 5800     		lsls	r0, r3, #1
+ 963 0202 C0B2     		uxtb	r0, r0
+ 964 0204 13F0800F 		tst	r3, #128
+ 965 0208 80F03103 		eor	r3, r0, #49
+ 966 020c 18BF     		it	ne
+ 967 020e 1846     		movne	r0, r3
+ 968 0210 8D42     		cmp	r5, r1
+ 969 0212 C3B2     		uxtb	r3, r0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 18
+
+
+ 970 0214 B2D1     		bne	.L163
+ 971 0216 2793     		str	r3, [sp, #156]
+ 972              	.L162:
+ 973 0218 0134     		adds	r4, r4, #1
+ 974 021a BC42     		cmp	r4, r7
+ 975 021c 7FF665AF 		bls	.L164
+ 976              	.L149:
+ 977 0220 FFF7FEFF 		bl	CySetTemp
+ 978 0224 08AA     		add	r2, sp, #32
+ 979 0226 C9F30721 		ubfx	r1, r9, #8, #8
+ 980 022a C9F30740 		ubfx	r0, r9, #16, #8
+ 981 022e FFF7FEFF 		bl	CyWriteRowData
+ 982 0232 0446     		mov	r4, r0
+ 983 0234 FFF7FEFF 		bl	CyFlushCache
+ 984 0238 002C     		cmp	r4, #0
+ 985 023a 3AD0     		beq	.L203
+ 986              	.L166:
+ 987 023c 0420     		movs	r0, #4
+ 988 023e 49B0     		add	sp, sp, #292
+ 989              		@ sp needed
+ 990 0240 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 991              	.L178:
+ 992 0244 0120     		movs	r0, #1
+ 993              	.L195:
+ 994 0246 49B0     		add	sp, sp, #292
+ 995              		@ sp needed
+ 996 0248 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 997              	.L153:
+ 998 024c 0132     		adds	r2, r2, #1
+ 999 024e 8FD1     		bne	.L161
+ 1000 0250 1346     		mov	r3, r2
+ 1001 0252 82E7     		b	.L158
+ 1002              	.L155:
+ 1003 0254 01EB0E00 		add	r0, r1, lr
+ 1004 0258 8242     		cmp	r2, r0
+ 1005 025a 0BD8     		bhi	.L160
+ 1006 025c 7F32     		adds	r2, r2, #127
+ 1007 025e 9042     		cmp	r0, r2
+ 1008 0260 08D8     		bhi	.L160
+ 1009 0262 01F07F08 		and	r8, r1, #127
+ 1010 0266 08EB0E0B 		add	fp, r8, lr
+ 1011 026a 4FF0800A 		mov	r10, #128
+ 1012 026e C8F18008 		rsb	r8, r8, #128
+ 1013 0272 72E7     		b	.L158
+ 1014              	.L160:
+ 1015 0274 337D     		ldrb	r3, [r6, #20]	@ zero_extendqisi2
+ 1016 0276 43B1     		cbz	r3, .L182
+ 1017 0278 4FF00008 		mov	r8, #0
+ 1018 027c 0122     		movs	r2, #1
+ 1019 027e 7AE7     		b	.L175
+ 1020              	.L198:
+ 1021 0280 4FF4807B 		mov	fp, #256
+ 1022 0284 4FF00008 		mov	r8, #0
+ 1023 0288 67E7     		b	.L158
+ 1024              	.L182:
+ 1025 028a 9846     		mov	r8, r3
+ 1026 028c 0122     		movs	r2, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 19
+
+
+ 1027 028e C3E7     		b	.L162
+ 1028              	.L144:
+ 1029 0290 4FF48072 		mov	r2, #256
+ 1030 0294 0021     		movs	r1, #0
+ 1031 0296 08A8     		add	r0, sp, #32
+ 1032 0298 FFF7FEFF 		bl	memset
+ 1033 029c 039B     		ldr	r3, [sp, #12]
+ 1034 029e 029A     		ldr	r2, [sp, #8]
+ 1035 02a0 0993     		str	r3, [sp, #36]
+ 1036 02a2 079B     		ldr	r3, [sp, #28]
+ 1037 02a4 0137     		adds	r7, r7, #1
+ 1038 02a6 9342     		cmp	r3, r2
+ 1039 02a8 0897     		str	r7, [sp, #32]
+ 1040 02aa 0199     		ldr	r1, [sp, #4]
+ 1041 02ac 2ED0     		beq	.L173
+ 1042 02ae 0023     		movs	r3, #0
+ 1043 02b0 FBE6     		b	.L174
+ 1044              	.L203:
+ 1045 02b2 337D     		ldrb	r3, [r6, #20]	@ zero_extendqisi2
+ 1046 02b4 9BB9     		cbnz	r3, .L204
+ 1047              	.L172:
+ 1048 02b6 029B     		ldr	r3, [sp, #8]
+ 1049 02b8 069A     		ldr	r2, [sp, #24]
+ 1050 02ba 0133     		adds	r3, r3, #1
+ 1051 02bc 9A42     		cmp	r2, r3
+ 1052 02be 0293     		str	r3, [sp, #8]
+ 1053 02c0 C6F80890 		str	r9, [r6, #8]
+ 1054 02c4 7FF4C1AE 		bne	.L167
+ 1055 02c8 0020     		movs	r0, #0
+ 1056 02ca BCE7     		b	.L195
+ 1057              	.L201:
+ 1058 02cc 03F18001 		add	r1, r3, #128
+ 1059 02d0 8022     		movs	r2, #128
+ 1060 02d2 28A8     		add	r0, sp, #160
+ 1061 02d4 FFF7FEFF 		bl	memcpy
+ 1062 02d8 FDE6     		b	.L147
+ 1063              	.L179:
+ 1064 02da 4B46     		mov	r3, r9
+ 1065 02dc D3E6     		b	.L145
+ 1066              	.L204:
+ 1067 02de B469     		ldr	r4, [r6, #24]
+ 1068 02e0 3368     		ldr	r3, [r6]
+ 1069 02e2 1B1B     		subs	r3, r3, r4
+ 1070 02e4 03EB0904 		add	r4, r3, r9
+ 1071 02e8 FFF7FEFF 		bl	CySetTemp
+ 1072 02ec C4F30721 		ubfx	r1, r4, #8, #8
+ 1073 02f0 C4F30740 		ubfx	r0, r4, #16, #8
+ 1074 02f4 08AA     		add	r2, sp, #32
+ 1075 02f6 FFF7FEFF 		bl	CyWriteRowData
+ 1076 02fa 0446     		mov	r4, r0
+ 1077 02fc FFF7FEFF 		bl	CyFlushCache
+ 1078 0300 002C     		cmp	r4, #0
+ 1079 0302 9BD1     		bne	.L166
+ 1080 0304 D7E7     		b	.L172
+ 1081              	.L180:
+ 1082 0306 DDF810E0 		ldr	lr, [sp, #16]
+ 1083 030a D9E6     		b	.L146
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 20
+
+
+ 1084              	.L173:
+ 1085 030c 049B     		ldr	r3, [sp, #16]
+ 1086 030e 0BA8     		add	r0, sp, #44
+ 1087 0310 1A46     		mov	r2, r3
+ 1088 0312 0A93     		str	r3, [sp, #40]
+ 1089 0314 FFF7FEFF 		bl	memcpy
+ 1090 0318 DDE6     		b	.L147
+ 1091              	.L202:
+ 1092 031a 08AB     		add	r3, sp, #32
+ 1093 031c B169     		ldr	r1, [r6, #24]
+ 1094 031e F5E6     		b	.L151
+ 1095              	.L206:
+ 1096              		.align	2
+ 1097              	.L205:
+ 1098 0320 26499224 		.word	613566758
+ 1099              		.size	Cy_Em_EEPROM_Write, .-Cy_Em_EEPROM_Write
+ 1100              		.section	.text.Cy_Em_EEPROM_Erase,"ax",%progbits
+ 1101              		.align	2
+ 1102              		.global	Cy_Em_EEPROM_Erase
+ 1103              		.thumb
+ 1104              		.thumb_func
+ 1105              		.type	Cy_Em_EEPROM_Erase, %function
+ 1106              	Cy_Em_EEPROM_Erase:
+ 1107              		@ args = 0, pretend = 0, frame = 256
+ 1108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1109 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1110 0004 8468     		ldr	r4, [r0, #8]
+ 1111 0006 C0B0     		sub	sp, sp, #256
+ 1112 0008 0646     		mov	r6, r0
+ 1113 000a 4FF48072 		mov	r2, #256
+ 1114 000e 6846     		mov	r0, sp
+ 1115 0010 0021     		movs	r1, #0
+ 1116 0012 FFF7FEFF 		bl	memset
+ 1117 0016 2368     		ldr	r3, [r4]
+ 1118 0018 1BB9     		cbnz	r3, .L208
+ 1119              	.L229:
+ 1120 001a 0420     		movs	r0, #4
+ 1121              	.L252:
+ 1122 001c 40B0     		add	sp, sp, #256
+ 1123              		@ sp needed
+ 1124 001e BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1125              	.L208:
+ 1126 0022 7268     		ldr	r2, [r6, #4]
+ 1127 0024 3569     		ldr	r5, [r6, #16]
+ 1128 0026 337D     		ldrb	r3, [r6, #20]	@ zero_extendqisi2
+ 1129 0028 05FB02F5 		mul	r5, r5, r2
+ 1130 002c 002B     		cmp	r3, #0
+ 1131 002e 3AD1     		bne	.L256
+ 1132              	.L210:
+ 1133 0030 002D     		cmp	r5, #0
+ 1134 0032 F2D0     		beq	.L229
+ 1135 0034 0027     		movs	r7, #0
+ 1136 0036 03E0     		b	.L235
+ 1137              	.L233:
+ 1138 0038 0420     		movs	r0, #4
+ 1139              	.L237:
+ 1140 003a 0137     		adds	r7, r7, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 21
+
+
+ 1141 003c BD42     		cmp	r5, r7
+ 1142 003e EDD0     		beq	.L252
+ 1143              	.L235:
+ 1144 0040 2368     		ldr	r3, [r4]
+ 1145 0042 0BB1     		cbz	r3, .L230
+ 1146 0044 04F58074 		add	r4, r4, #256
+ 1147              	.L230:
+ 1148 0048 3268     		ldr	r2, [r6]
+ 1149 004a 0133     		adds	r3, r3, #1
+ 1150 004c 9442     		cmp	r4, r2
+ 1151 004e 28BF     		it	cs
+ 1152 0050 B469     		ldrcs	r4, [r6, #24]
+ 1153 0052 0093     		str	r3, [sp]
+ 1154 0054 FFF7FEFF 		bl	CySetTemp
+ 1155 0058 6A46     		mov	r2, sp
+ 1156 005a C4F30721 		ubfx	r1, r4, #8, #8
+ 1157 005e C4F30740 		ubfx	r0, r4, #16, #8
+ 1158 0062 FFF7FEFF 		bl	CyWriteRowData
+ 1159 0066 8046     		mov	r8, r0
+ 1160 0068 FFF7FEFF 		bl	CyFlushCache
+ 1161 006c B8F1000F 		cmp	r8, #0
+ 1162 0070 E2D1     		bne	.L233
+ 1163 0072 337D     		ldrb	r3, [r6, #20]	@ zero_extendqisi2
+ 1164 0074 13B9     		cbnz	r3, .L257
+ 1165              	.L234:
+ 1166 0076 B460     		str	r4, [r6, #8]
+ 1167 0078 0020     		movs	r0, #0
+ 1168 007a DEE7     		b	.L237
+ 1169              	.L257:
+ 1170 007c B269     		ldr	r2, [r6, #24]
+ 1171 007e 3368     		ldr	r3, [r6]
+ 1172 0080 9B1A     		subs	r3, r3, r2
+ 1173 0082 03EB0408 		add	r8, r3, r4
+ 1174 0086 FFF7FEFF 		bl	CySetTemp
+ 1175 008a C8F30721 		ubfx	r1, r8, #8, #8
+ 1176 008e C8F30740 		ubfx	r0, r8, #16, #8
+ 1177 0092 6A46     		mov	r2, sp
+ 1178 0094 FFF7FEFF 		bl	CyWriteRowData
+ 1179 0098 8046     		mov	r8, r0
+ 1180 009a FFF7FEFF 		bl	CyFlushCache
+ 1181 009e B8F1000F 		cmp	r8, #0
+ 1182 00a2 C9D1     		bne	.L233
+ 1183 00a4 E7E7     		b	.L234
+ 1184              	.L256:
+ 1185 00a6 20AA     		add	r2, sp, #128
+ 1186 00a8 0DF1FF01 		add	r1, sp, #255
+ 1187 00ac 0020     		movs	r0, #0
+ 1188 00ae FF23     		movs	r3, #255
+ 1189 00b0 01E0     		b	.L228
+ 1190              	.L258:
+ 1191 00b2 12F8010F 		ldrb	r0, [r2, #1]!	@ zero_extendqisi2
+ 1192              	.L228:
+ 1193 00b6 4340     		eors	r3, r3, r0
+ 1194 00b8 13F0800F 		tst	r3, #128
+ 1195 00bc 4FEA4303 		lsl	r3, r3, #1
+ 1196 00c0 DBB2     		uxtb	r3, r3
+ 1197 00c2 18BF     		it	ne
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccUlYVVf.s 			page 22
+
+
+ 1198 00c4 83F03103 		eorne	r3, r3, #49
+ 1199 00c8 13F0800F 		tst	r3, #128
+ 1200 00cc 4FEA4303 		lsl	r3, r3, #1
+ 1201 00d0 DBB2     		uxtb	r3, r3
+ 1202 00d2 18BF     		it	ne
+ 1203 00d4 83F03103 		eorne	r3, r3, #49
+ 1204 00d8 13F0800F 		tst	r3, #128
+ 1205 00dc 4FEA4303 		lsl	r3, r3, #1
+ 1206 00e0 DBB2     		uxtb	r3, r3
+ 1207 00e2 18BF     		it	ne
+ 1208 00e4 83F03103 		eorne	r3, r3, #49
+ 1209 00e8 13F0800F 		tst	r3, #128
+ 1210 00ec 4FEA4303 		lsl	r3, r3, #1
+ 1211 00f0 DBB2     		uxtb	r3, r3
+ 1212 00f2 18BF     		it	ne
+ 1213 00f4 83F03103 		eorne	r3, r3, #49
+ 1214 00f8 13F0800F 		tst	r3, #128
+ 1215 00fc 4FEA4303 		lsl	r3, r3, #1
+ 1216 0100 DBB2     		uxtb	r3, r3
+ 1217 0102 18BF     		it	ne
+ 1218 0104 83F03103 		eorne	r3, r3, #49
+ 1219 0108 13F0800F 		tst	r3, #128
+ 1220 010c 4FEA4303 		lsl	r3, r3, #1
+ 1221 0110 DBB2     		uxtb	r3, r3
+ 1222 0112 18BF     		it	ne
+ 1223 0114 83F03103 		eorne	r3, r3, #49
+ 1224 0118 13F0800F 		tst	r3, #128
+ 1225 011c 4FEA4303 		lsl	r3, r3, #1
+ 1226 0120 DBB2     		uxtb	r3, r3
+ 1227 0122 18BF     		it	ne
+ 1228 0124 83F03103 		eorne	r3, r3, #49
+ 1229 0128 13F0800F 		tst	r3, #128
+ 1230 012c 4FEA4303 		lsl	r3, r3, #1
+ 1231 0130 DBB2     		uxtb	r3, r3
+ 1232 0132 18BF     		it	ne
+ 1233 0134 83F03103 		eorne	r3, r3, #49
+ 1234 0138 8A42     		cmp	r2, r1
+ 1235 013a BAD1     		bne	.L258
+ 1236 013c 1F93     		str	r3, [sp, #124]
+ 1237 013e 77E7     		b	.L210
+ 1238              		.size	Cy_Em_EEPROM_Erase, .-Cy_Em_EEPROM_Erase
+ 1239              		.section	.text.Cy_Em_EEPROM_NumWrites,"ax",%progbits
+ 1240              		.align	2
+ 1241              		.global	Cy_Em_EEPROM_NumWrites
+ 1242              		.thumb
+ 1243              		.thumb_func
+ 1244              		.type	Cy_Em_EEPROM_NumWrites, %function
+ 1245              	Cy_Em_EEPROM_NumWrites:
+ 1246              		@ args = 0, pretend = 0, frame = 0
+ 1247              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1248              		@ link register save eliminated.
+ 1249 0000 8368     		ldr	r3, [r0, #8]
+ 1250 0002 1868     		ldr	r0, [r3]
+ 1251 0004 7047     		bx	lr
+ 1252              		.size	Cy_Em_EEPROM_NumWrites, .-Cy_Em_EEPROM_NumWrites
+ 1253 0006 00BF     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

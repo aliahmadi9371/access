@@ -1,0 +1,384 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAnB8X.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"OS_Syscalls.c"
+  16              		.section	.text._close,"ax",%progbits
+  17              		.align	2
+  18              		.weak	_close
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	_close, %function
+  22              	_close:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 4FF0FF30 		mov	r0, #-1
+  27 0004 7047     		bx	lr
+  28              		.size	_close, .-_close
+  29 0006 00BF     		.section	.text._execve,"ax",%progbits
+  30              		.align	2
+  31              		.weak	_execve
+  32              		.thumb
+  33              		.thumb_func
+  34              		.type	_execve, %function
+  35              	_execve:
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38              		@ link register save eliminated.
+  39 0000 024B     		ldr	r3, .L3
+  40 0002 0C22     		movs	r2, #12
+  41 0004 1A60     		str	r2, [r3]
+  42 0006 4FF0FF30 		mov	r0, #-1
+  43 000a 7047     		bx	lr
+  44              	.L4:
+  45              		.align	2
+  46              	.L3:
+  47 000c 00000000 		.word	errno
+  48              		.size	_execve, .-_execve
+  49              		.section	.text._exit,"ax",%progbits
+  50              		.align	2
+  51              		.weak	_exit
+  52              		.thumb
+  53              		.thumb_func
+  54              		.type	_exit, %function
+  55              	_exit:
+  56              		@ Volatile: function does not return.
+  57              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAnB8X.s 			page 2
+
+
+  58              		@ frame_needed = 0, uses_anonymous_args = 0
+  59              		@ link register save eliminated.
+  60              	.L6:
+  61 0000 FEE7     		b	.L6
+  62              		.size	_exit, .-_exit
+  63 0002 00BF     		.section	.text._fork,"ax",%progbits
+  64              		.align	2
+  65              		.weak	_fork
+  66              		.thumb
+  67              		.thumb_func
+  68              		.type	_fork, %function
+  69              	_fork:
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72              		@ link register save eliminated.
+  73 0000 024B     		ldr	r3, .L8
+  74 0002 0B22     		movs	r2, #11
+  75 0004 1A60     		str	r2, [r3]
+  76 0006 4FF0FF30 		mov	r0, #-1
+  77 000a 7047     		bx	lr
+  78              	.L9:
+  79              		.align	2
+  80              	.L8:
+  81 000c 00000000 		.word	errno
+  82              		.size	_fork, .-_fork
+  83              		.section	.text._fstat,"ax",%progbits
+  84              		.align	2
+  85              		.weak	_fstat
+  86              		.thumb
+  87              		.thumb_func
+  88              		.type	_fstat, %function
+  89              	_fstat:
+  90              		@ args = 0, pretend = 0, frame = 0
+  91              		@ frame_needed = 0, uses_anonymous_args = 0
+  92              		@ link register save eliminated.
+  93 0000 4FF40053 		mov	r3, #8192
+  94 0004 4B60     		str	r3, [r1, #4]
+  95 0006 0020     		movs	r0, #0
+  96 0008 7047     		bx	lr
+  97              		.size	_fstat, .-_fstat
+  98 000a 00BF     		.section	.text._getpid,"ax",%progbits
+  99              		.align	2
+ 100              		.weak	_getpid
+ 101              		.thumb
+ 102              		.thumb_func
+ 103              		.type	_getpid, %function
+ 104              	_getpid:
+ 105              		@ args = 0, pretend = 0, frame = 0
+ 106              		@ frame_needed = 0, uses_anonymous_args = 0
+ 107              		@ link register save eliminated.
+ 108 0000 0120     		movs	r0, #1
+ 109 0002 7047     		bx	lr
+ 110              		.size	_getpid, .-_getpid
+ 111              		.section	.text._gettimeofday,"ax",%progbits
+ 112              		.align	2
+ 113              		.weak	_gettimeofday
+ 114              		.thumb
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAnB8X.s 			page 3
+
+
+ 115              		.thumb_func
+ 116              		.type	_gettimeofday, %function
+ 117              	_gettimeofday:
+ 118              		@ args = 0, pretend = 0, frame = 0
+ 119              		@ frame_needed = 0, uses_anonymous_args = 0
+ 120              		@ link register save eliminated.
+ 121 0000 024B     		ldr	r3, .L13
+ 122 0002 5822     		movs	r2, #88
+ 123 0004 1A60     		str	r2, [r3]
+ 124 0006 4FF0FF30 		mov	r0, #-1
+ 125 000a 7047     		bx	lr
+ 126              	.L14:
+ 127              		.align	2
+ 128              	.L13:
+ 129 000c 00000000 		.word	errno
+ 130              		.size	_gettimeofday, .-_gettimeofday
+ 131              		.section	.text._isatty,"ax",%progbits
+ 132              		.align	2
+ 133              		.weak	_isatty
+ 134              		.thumb
+ 135              		.thumb_func
+ 136              		.type	_isatty, %function
+ 137              	_isatty:
+ 138              		@ args = 0, pretend = 0, frame = 0
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140              		@ link register save eliminated.
+ 141 0000 0120     		movs	r0, #1
+ 142 0002 7047     		bx	lr
+ 143              		.size	_isatty, .-_isatty
+ 144              		.section	.text._kill,"ax",%progbits
+ 145              		.align	2
+ 146              		.weak	_kill
+ 147              		.thumb
+ 148              		.thumb_func
+ 149              		.type	_kill, %function
+ 150              	_kill:
+ 151              		@ args = 0, pretend = 0, frame = 0
+ 152              		@ frame_needed = 0, uses_anonymous_args = 0
+ 153              		@ link register save eliminated.
+ 154 0000 024B     		ldr	r3, .L17
+ 155 0002 1622     		movs	r2, #22
+ 156 0004 1A60     		str	r2, [r3]
+ 157 0006 4FF0FF30 		mov	r0, #-1
+ 158 000a 7047     		bx	lr
+ 159              	.L18:
+ 160              		.align	2
+ 161              	.L17:
+ 162 000c 00000000 		.word	errno
+ 163              		.size	_kill, .-_kill
+ 164              		.section	.text._link,"ax",%progbits
+ 165              		.align	2
+ 166              		.weak	_link
+ 167              		.thumb
+ 168              		.thumb_func
+ 169              		.type	_link, %function
+ 170              	_link:
+ 171              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAnB8X.s 			page 4
+
+
+ 172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 173              		@ link register save eliminated.
+ 174 0000 024B     		ldr	r3, .L20
+ 175 0002 1F22     		movs	r2, #31
+ 176 0004 1A60     		str	r2, [r3]
+ 177 0006 4FF0FF30 		mov	r0, #-1
+ 178 000a 7047     		bx	lr
+ 179              	.L21:
+ 180              		.align	2
+ 181              	.L20:
+ 182 000c 00000000 		.word	errno
+ 183              		.size	_link, .-_link
+ 184              		.section	.text._lseek,"ax",%progbits
+ 185              		.align	2
+ 186              		.weak	_lseek
+ 187              		.thumb
+ 188              		.thumb_func
+ 189              		.type	_lseek, %function
+ 190              	_lseek:
+ 191              		@ args = 0, pretend = 0, frame = 0
+ 192              		@ frame_needed = 0, uses_anonymous_args = 0
+ 193              		@ link register save eliminated.
+ 194 0000 0020     		movs	r0, #0
+ 195 0002 7047     		bx	lr
+ 196              		.size	_lseek, .-_lseek
+ 197              		.section	.text._open,"ax",%progbits
+ 198              		.align	2
+ 199              		.weak	_open
+ 200              		.thumb
+ 201              		.thumb_func
+ 202              		.type	_open, %function
+ 203              	_open:
+ 204              		@ args = 0, pretend = 0, frame = 0
+ 205              		@ frame_needed = 0, uses_anonymous_args = 0
+ 206              		@ link register save eliminated.
+ 207 0000 4FF0FF30 		mov	r0, #-1
+ 208 0004 7047     		bx	lr
+ 209              		.size	_open, .-_open
+ 210 0006 00BF     		.section	.text._read,"ax",%progbits
+ 211              		.align	2
+ 212              		.weak	_read
+ 213              		.thumb
+ 214              		.thumb_func
+ 215              		.type	_read, %function
+ 216              	_read:
+ 217              		@ args = 0, pretend = 0, frame = 0
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219              		@ link register save eliminated.
+ 220 0000 0020     		movs	r0, #0
+ 221 0002 7047     		bx	lr
+ 222              		.size	_read, .-_read
+ 223              		.section	.text._sbrk,"ax",%progbits
+ 224              		.align	2
+ 225              		.global	_sbrk
+ 226              		.thumb
+ 227              		.thumb_func
+ 228              		.type	_sbrk, %function
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAnB8X.s 			page 5
+
+
+ 229              	_sbrk:
+ 230              		@ args = 0, pretend = 0, frame = 0
+ 231              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232              		@ link register save eliminated.
+ 233 0000 094A     		ldr	r2, .L32
+ 234 0002 0346     		mov	r3, r0
+ 235 0004 1068     		ldr	r0, [r2]
+ 236 0006 58B1     		cbz	r0, .L30
+ 237              	.L26:
+ 238 0008 0849     		ldr	r1, .L32+4
+ 239 000a 0344     		add	r3, r3, r0
+ 240 000c 8B42     		cmp	r3, r1
+ 241 000e 01D8     		bhi	.L31
+ 242 0010 1360     		str	r3, [r2]
+ 243 0012 7047     		bx	lr
+ 244              	.L31:
+ 245 0014 064B     		ldr	r3, .L32+8
+ 246 0016 0C22     		movs	r2, #12
+ 247 0018 1A60     		str	r2, [r3]
+ 248 001a 4FF0FF30 		mov	r0, #-1
+ 249 001e 7047     		bx	lr
+ 250              	.L30:
+ 251 0020 0449     		ldr	r1, .L32+12
+ 252 0022 0846     		mov	r0, r1
+ 253 0024 1160     		str	r1, [r2]
+ 254 0026 EFE7     		b	.L26
+ 255              	.L33:
+ 256              		.align	2
+ 257              	.L32:
+ 258 0028 00000000 		.word	.LANCHOR0
+ 259 002c 00000000 		.word	__heap_end__
+ 260 0030 00000000 		.word	errno
+ 261 0034 00000000 		.word	__heap_start__
+ 262              		.size	_sbrk, .-_sbrk
+ 263              		.section	.text._stat,"ax",%progbits
+ 264              		.align	2
+ 265              		.weak	_stat
+ 266              		.thumb
+ 267              		.thumb_func
+ 268              		.type	_stat, %function
+ 269              	_stat:
+ 270              		@ args = 0, pretend = 0, frame = 0
+ 271              		@ frame_needed = 0, uses_anonymous_args = 0
+ 272              		@ link register save eliminated.
+ 273 0000 4FF40053 		mov	r3, #8192
+ 274 0004 4B60     		str	r3, [r1, #4]
+ 275 0006 0020     		movs	r0, #0
+ 276 0008 7047     		bx	lr
+ 277              		.size	_stat, .-_stat
+ 278 000a 00BF     		.section	.text._times,"ax",%progbits
+ 279              		.align	2
+ 280              		.weak	_times
+ 281              		.thumb
+ 282              		.thumb_func
+ 283              		.type	_times, %function
+ 284              	_times:
+ 285              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAnB8X.s 			page 6
+
+
+ 286              		@ frame_needed = 0, uses_anonymous_args = 0
+ 287              		@ link register save eliminated.
+ 288 0000 4FF0FF30 		mov	r0, #-1
+ 289 0004 7047     		bx	lr
+ 290              		.size	_times, .-_times
+ 291 0006 00BF     		.section	.text._unlink,"ax",%progbits
+ 292              		.align	2
+ 293              		.weak	_unlink
+ 294              		.thumb
+ 295              		.thumb_func
+ 296              		.type	_unlink, %function
+ 297              	_unlink:
+ 298              		@ args = 0, pretend = 0, frame = 0
+ 299              		@ frame_needed = 0, uses_anonymous_args = 0
+ 300              		@ link register save eliminated.
+ 301 0000 024B     		ldr	r3, .L37
+ 302 0002 0222     		movs	r2, #2
+ 303 0004 1A60     		str	r2, [r3]
+ 304 0006 4FF0FF30 		mov	r0, #-1
+ 305 000a 7047     		bx	lr
+ 306              	.L38:
+ 307              		.align	2
+ 308              	.L37:
+ 309 000c 00000000 		.word	errno
+ 310              		.size	_unlink, .-_unlink
+ 311              		.section	.text._wait,"ax",%progbits
+ 312              		.align	2
+ 313              		.weak	_wait
+ 314              		.thumb
+ 315              		.thumb_func
+ 316              		.type	_wait, %function
+ 317              	_wait:
+ 318              		@ args = 0, pretend = 0, frame = 0
+ 319              		@ frame_needed = 0, uses_anonymous_args = 0
+ 320              		@ link register save eliminated.
+ 321 0000 024B     		ldr	r3, .L40
+ 322 0002 0A22     		movs	r2, #10
+ 323 0004 1A60     		str	r2, [r3]
+ 324 0006 4FF0FF30 		mov	r0, #-1
+ 325 000a 7047     		bx	lr
+ 326              	.L41:
+ 327              		.align	2
+ 328              	.L40:
+ 329 000c 00000000 		.word	errno
+ 330              		.size	_wait, .-_wait
+ 331              		.section	.text._write,"ax",%progbits
+ 332              		.align	2
+ 333              		.weak	_write
+ 334              		.thumb
+ 335              		.thumb_func
+ 336              		.type	_write, %function
+ 337              	_write:
+ 338              		@ args = 0, pretend = 0, frame = 0
+ 339              		@ frame_needed = 0, uses_anonymous_args = 0
+ 340              		@ link register save eliminated.
+ 341 0000 1046     		mov	r0, r2
+ 342 0002 7047     		bx	lr
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccXAnB8X.s 			page 7
+
+
+ 343              		.size	_write, .-_write
+ 344              		.global	environ
+ 345              		.global	__env
+ 346              		.data
+ 347              		.align	2
+ 348              		.type	environ, %object
+ 349              		.size	environ, 4
+ 350              	environ:
+ 351 0000 00000000 		.word	__env
+ 352              		.bss
+ 353              		.align	2
+ 354              		.set	.LANCHOR0,. + 0
+ 355              		.type	heap_end.4801, %object
+ 356              		.size	heap_end.4801, 4
+ 357              	heap_end.4801:
+ 358 0000 00000000 		.space	4
+ 359              		.type	__env, %object
+ 360              		.size	__env, 4
+ 361              	__env:
+ 362 0004 00000000 		.space	4
+ 363              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

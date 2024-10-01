@@ -1,0 +1,12 @@
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:156:13:_Init	16	static
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:186:21:_LockTxBuf	16	static,ignoring_inline_asm
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:206:13:_UnlockTxBuf	4	static
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:217:13:_Receive	16	static
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:243:13:_FillTxBuf	32	static,ignoring_inline_asm
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:283:13:_DropTxData	8	static
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:298:13:_Send	8	static
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:331:6:JLINKMEM_Process	8	static
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:375:6:JLINKMEM_SendChar	16	static
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:422:6:JLINKMEM_SetpfOnRx	16	static
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:436:6:JLINKMEM_SetpfOnTx	16	static
+../Middlewares/Third_Party/SEGGER_RTOS_embOS/embOS/Source/JLINKMEM_Process.c:450:6:JLINKMEM_SetpfGetNextChar	16	static

@@ -1,0 +1,99 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc8AXOrF.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"UART_Linux_PM.c"
+  16              		.section	.text.UART_Linux_SaveConfig,"ax",%progbits
+  17              		.align	2
+  18              		.global	UART_Linux_SaveConfig
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	UART_Linux_SaveConfig, %function
+  22              	UART_Linux_SaveConfig:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 7047     		bx	lr
+  27              		.size	UART_Linux_SaveConfig, .-UART_Linux_SaveConfig
+  28 0002 00BF     		.section	.text.UART_Linux_RestoreConfig,"ax",%progbits
+  29              		.align	2
+  30              		.global	UART_Linux_RestoreConfig
+  31              		.thumb
+  32              		.thumb_func
+  33              		.type	UART_Linux_RestoreConfig, %function
+  34              	UART_Linux_RestoreConfig:
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37              		@ link register save eliminated.
+  38 0000 7047     		bx	lr
+  39              		.size	UART_Linux_RestoreConfig, .-UART_Linux_RestoreConfig
+  40 0002 00BF     		.section	.text.UART_Linux_Sleep,"ax",%progbits
+  41              		.align	2
+  42              		.global	UART_Linux_Sleep
+  43              		.thumb
+  44              		.thumb_func
+  45              		.type	UART_Linux_Sleep, %function
+  46              	UART_Linux_Sleep:
+  47              		@ args = 0, pretend = 0, frame = 0
+  48              		@ frame_needed = 0, uses_anonymous_args = 0
+  49              		@ link register save eliminated.
+  50 0000 034B     		ldr	r3, .L4
+  51 0002 044A     		ldr	r2, .L4+4
+  52 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  53 0006 C3F30013 		ubfx	r3, r3, #4, #1
+  54 000a 1370     		strb	r3, [r2]
+  55 000c FFF7FEBF 		b	UART_Linux_Stop
+  56              	.L5:
+  57              		.align	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc8AXOrF.s 			page 2
+
+
+  58              	.L4:
+  59 0010 95640040 		.word	1073767573
+  60 0014 00000000 		.word	.LANCHOR0
+  61              		.size	UART_Linux_Sleep, .-UART_Linux_Sleep
+  62              		.section	.text.UART_Linux_Wakeup,"ax",%progbits
+  63              		.align	2
+  64              		.global	UART_Linux_Wakeup
+  65              		.thumb
+  66              		.thumb_func
+  67              		.type	UART_Linux_Wakeup, %function
+  68              	UART_Linux_Wakeup:
+  69              		@ args = 0, pretend = 0, frame = 0
+  70              		@ frame_needed = 0, uses_anonymous_args = 0
+  71 0000 08B5     		push	{r3, lr}
+  72 0002 FFF7FEFF 		bl	UART_Linux_ClearRxBuffer
+  73 0006 FFF7FEFF 		bl	UART_Linux_ClearTxBuffer
+  74 000a 044B     		ldr	r3, .L11
+  75 000c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  76 000e 03B9     		cbnz	r3, .L10
+  77 0010 08BD     		pop	{r3, pc}
+  78              	.L10:
+  79 0012 BDE80840 		pop	{r3, lr}
+  80 0016 FFF7FEBF 		b	UART_Linux_Enable
+  81              	.L12:
+  82 001a 00BF     		.align	2
+  83              	.L11:
+  84 001c 00000000 		.word	.LANCHOR0
+  85              		.size	UART_Linux_Wakeup, .-UART_Linux_Wakeup
+  86              		.bss
+  87              		.align	2
+  88              		.set	.LANCHOR0,. + 0
+  89              		.type	UART_Linux_backup, %object
+  90              		.size	UART_Linux_backup, 1
+  91              	UART_Linux_backup:
+  92 0000 00       		.space	1
+  93              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

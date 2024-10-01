@@ -1,0 +1,4477 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"SEGGER_RTT.c"
+  16              		.section	.text.SEGGER_RTT_ReadUpBufferNoLock,"ax",%progbits
+  17              		.align	2
+  18              		.global	SEGGER_RTT_ReadUpBufferNoLock
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	SEGGER_RTT_ReadUpBufferNoLock, %function
+  22              	SEGGER_RTT_ReadUpBufferNoLock:
+  23              		@ args = 0, pretend = 0, frame = 8
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  26 0004 484C     		ldr	r4, .L23
+  27 0006 8246     		mov	r10, r0
+  28 0008 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+  29 000a 83B0     		sub	sp, sp, #12
+  30 000c 0091     		str	r1, [sp]
+  31 000e 9346     		mov	fp, r2
+  32 0010 78B3     		cbz	r0, .L2
+  33              	.L5:
+  34 0012 4FEA4A09 		lsl	r9, r10, #1
+  35 0016 09EB0A07 		add	r7, r9, r10
+  36 001a 04EBC707 		add	r7, r4, r7, lsl #3
+  37 001e BE6A     		ldr	r6, [r7, #40]
+  38 0020 7D6A     		ldr	r5, [r7, #36]
+  39 0022 414A     		ldr	r2, .L23
+  40 0024 AE42     		cmp	r6, r5
+  41 0026 58D8     		bhi	.L22
+  42 0028 AD1B     		subs	r5, r5, r6
+  43 002a 5D45     		cmp	r5, fp
+  44 002c 28BF     		it	cs
+  45 002e 5D46     		movcs	r5, fp
+  46 0030 25B9     		cbnz	r5, .L10
+  47 0032 A846     		mov	r8, r5
+  48              	.L13:
+  49 0034 4046     		mov	r0, r8
+  50 0036 03B0     		add	sp, sp, #12
+  51              		@ sp needed
+  52 0038 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+  53              	.L10:
+  54 003c 0098     		ldr	r0, [sp]
+  55 003e 4FF00008 		mov	r8, #0
+  56 0042 0AF10103 		add	r3, r10, #1
+  57              	.L9:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 2
+
+
+  58 0046 03EB4302 		add	r2, r3, r3, lsl #1
+  59 004a 04EBC202 		add	r2, r4, r2, lsl #3
+  60 004e 5168     		ldr	r1, [r2, #4]
+  61 0050 2A46     		mov	r2, r5
+  62 0052 3144     		add	r1, r1, r6
+  63 0054 FFF7FEFF 		bl	memcpy
+  64 0058 A844     		add	r8, r8, r5
+  65 005a 2E44     		add	r6, r6, r5
+  66              	.L7:
+  67 005c B8F1000F 		cmp	r8, #0
+  68 0060 E8D0     		beq	.L13
+  69 0062 4046     		mov	r0, r8
+  70 0064 D144     		add	r9, r9, r10
+  71 0066 04EBC904 		add	r4, r4, r9, lsl #3
+  72 006a A662     		str	r6, [r4, #40]
+  73 006c 03B0     		add	sp, sp, #12
+  74              		@ sp needed
+  75 006e BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+  76              	.L2:
+  77 0072 00F0FF05 		and	r5, r0, #255
+  78 0076 A822     		movs	r2, #168
+  79 0078 2946     		mov	r1, r5
+  80 007a 2046     		mov	r0, r4
+  81 007c FFF7FEFF 		bl	memset
+  82 0080 2A49     		ldr	r1, .L23+4
+  83 0082 2B4A     		ldr	r2, .L23+8
+  84 0084 0320     		movs	r0, #3
+  85 0086 2061     		str	r0, [r4, #16]
+  86 0088 6061     		str	r0, [r4, #20]
+  87 008a 4FF48060 		mov	r0, #1024
+  88 008e A261     		str	r2, [r4, #24]
+  89 0090 01F58067 		add	r7, r1, #1024
+  90 0094 E161     		str	r1, [r4, #28]
+  91 0096 5326     		movs	r6, #83
+  92 0098 2062     		str	r0, [r4, #32]
+  93 009a 1021     		movs	r1, #16
+  94 009c A562     		str	r5, [r4, #40]
+  95 009e 4520     		movs	r0, #69
+  96 00a0 6562     		str	r5, [r4, #36]
+  97 00a2 E562     		str	r5, [r4, #44]
+  98 00a4 2266     		str	r2, [r4, #96]
+  99 00a6 4722     		movs	r2, #71
+ 100 00a8 6766     		str	r7, [r4, #100]
+ 101 00aa A166     		str	r1, [r4, #104]
+ 102 00ac 2567     		str	r5, [r4, #112]
+ 103 00ae 5221     		movs	r1, #82
+ 104 00b0 E566     		str	r5, [r4, #108]
+ 105 00b2 6567     		str	r5, [r4, #116]
+ 106 00b4 2670     		strb	r6, [r4]
+ 107 00b6 6070     		strb	r0, [r4, #1]
+ 108 00b8 2026     		movs	r6, #32
+ 109 00ba A270     		strb	r2, [r4, #2]
+ 110 00bc E270     		strb	r2, [r4, #3]
+ 111 00be 5422     		movs	r2, #84
+ 112 00c0 2071     		strb	r0, [r4, #4]
+ 113 00c2 6171     		strb	r1, [r4, #5]
+ 114 00c4 A671     		strb	r6, [r4, #6]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 3
+
+
+ 115 00c6 E171     		strb	r1, [r4, #7]
+ 116 00c8 2272     		strb	r2, [r4, #8]
+ 117 00ca 6272     		strb	r2, [r4, #9]
+ 118 00cc A572     		strb	r5, [r4, #10]
+ 119 00ce E572     		strb	r5, [r4, #11]
+ 120 00d0 2573     		strb	r5, [r4, #12]
+ 121 00d2 6573     		strb	r5, [r4, #13]
+ 122 00d4 A573     		strb	r5, [r4, #14]
+ 123 00d6 E573     		strb	r5, [r4, #15]
+ 124 00d8 9BE7     		b	.L5
+ 125              	.L22:
+ 126 00da 396A     		ldr	r1, [r7, #32]
+ 127 00dc 0AF10103 		add	r3, r10, #1
+ 128 00e0 C6EB0108 		rsb	r8, r6, r1
+ 129 00e4 D845     		cmp	r8, fp
+ 130 00e6 28BF     		it	cs
+ 131 00e8 D846     		movcs	r8, fp
+ 132 00ea 03EB4301 		add	r1, r3, r3, lsl #1
+ 133 00ee 02EBC102 		add	r2, r2, r1, lsl #3
+ 134 00f2 5168     		ldr	r1, [r2, #4]
+ 135 00f4 0098     		ldr	r0, [sp]
+ 136 00f6 4246     		mov	r2, r8
+ 137 00f8 3144     		add	r1, r1, r6
+ 138 00fa 0193     		str	r3, [sp, #4]
+ 139 00fc FFF7FEFF 		bl	memcpy
+ 140 0100 3A6A     		ldr	r2, [r7, #32]
+ 141 0102 4644     		add	r6, r6, r8
+ 142 0104 9642     		cmp	r6, r2
+ 143 0106 08BF     		it	eq
+ 144 0108 0026     		moveq	r6, #0
+ 145 010a C8EB0B0B 		rsb	fp, r8, fp
+ 146 010e AD1B     		subs	r5, r5, r6
+ 147 0110 5D45     		cmp	r5, fp
+ 148 0112 28BF     		it	cs
+ 149 0114 5D46     		movcs	r5, fp
+ 150 0116 019B     		ldr	r3, [sp, #4]
+ 151 0118 002D     		cmp	r5, #0
+ 152 011a 9FD0     		beq	.L7
+ 153 011c 009A     		ldr	r2, [sp]
+ 154 011e 4244     		add	r2, r2, r8
+ 155 0120 0092     		str	r2, [sp]
+ 156 0122 1046     		mov	r0, r2
+ 157 0124 8FE7     		b	.L9
+ 158              	.L24:
+ 159 0126 00BF     		.align	2
+ 160              	.L23:
+ 161 0128 00000000 		.word	_SEGGER_RTT
+ 162 012c 00000000 		.word	.LANCHOR0
+ 163 0130 00000000 		.word	.LC0
+ 164              		.size	SEGGER_RTT_ReadUpBufferNoLock, .-SEGGER_RTT_ReadUpBufferNoLock
+ 165              		.section	.text.SEGGER_RTT_ReadNoLock,"ax",%progbits
+ 166              		.align	2
+ 167              		.global	SEGGER_RTT_ReadNoLock
+ 168              		.thumb
+ 169              		.thumb_func
+ 170              		.type	SEGGER_RTT_ReadNoLock, %function
+ 171              	SEGGER_RTT_ReadNoLock:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 4
+
+
+ 172              		@ args = 0, pretend = 0, frame = 8
+ 173              		@ frame_needed = 0, uses_anonymous_args = 0
+ 174 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 175 0004 424C     		ldr	r4, .L46
+ 176 0006 83B0     		sub	sp, sp, #12
+ 177 0008 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 178 000a 8246     		mov	r10, r0
+ 179 000c 8B46     		mov	fp, r1
+ 180 000e 1546     		mov	r5, r2
+ 181 0010 63B3     		cbz	r3, .L26
+ 182              	.L29:
+ 183 0012 4FEA4A08 		lsl	r8, r10, #1
+ 184 0016 08EB0A03 		add	r3, r8, r10
+ 185 001a 04EBC303 		add	r3, r4, r3, lsl #3
+ 186 001e 1F6F     		ldr	r7, [r3, #112]
+ 187 0020 DE6E     		ldr	r6, [r3, #108]
+ 188 0022 B742     		cmp	r7, r6
+ 189 0024 56D8     		bhi	.L45
+ 190 0026 F61B     		subs	r6, r6, r7
+ 191 0028 B542     		cmp	r5, r6
+ 192 002a 28BF     		it	cs
+ 193 002c 3546     		movcs	r5, r6
+ 194 002e 25B9     		cbnz	r5, .L34
+ 195 0030 A946     		mov	r9, r5
+ 196              	.L37:
+ 197 0032 4846     		mov	r0, r9
+ 198 0034 03B0     		add	sp, sp, #12
+ 199              		@ sp needed
+ 200 0036 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 201              	.L34:
+ 202 003a 4FF00009 		mov	r9, #0
+ 203              	.L33:
+ 204 003e 08EB0A03 		add	r3, r8, r10
+ 205 0042 04EBC303 		add	r3, r4, r3, lsl #3
+ 206 0046 596E     		ldr	r1, [r3, #100]
+ 207 0048 5846     		mov	r0, fp
+ 208 004a 3944     		add	r1, r1, r7
+ 209 004c 2A46     		mov	r2, r5
+ 210 004e FFF7FEFF 		bl	memcpy
+ 211 0052 A944     		add	r9, r9, r5
+ 212 0054 2F44     		add	r7, r7, r5
+ 213              	.L31:
+ 214 0056 B9F1000F 		cmp	r9, #0
+ 215 005a EAD0     		beq	.L37
+ 216 005c 4846     		mov	r0, r9
+ 217 005e D044     		add	r8, r8, r10
+ 218 0060 04EBC804 		add	r4, r4, r8, lsl #3
+ 219 0064 2767     		str	r7, [r4, #112]
+ 220 0066 03B0     		add	sp, sp, #12
+ 221              		@ sp needed
+ 222 0068 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 223              	.L26:
+ 224 006c 03F0FF06 		and	r6, r3, #255
+ 225 0070 A822     		movs	r2, #168
+ 226 0072 3146     		mov	r1, r6
+ 227 0074 2046     		mov	r0, r4
+ 228 0076 FFF7FEFF 		bl	memset
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 5
+
+
+ 229 007a 264A     		ldr	r2, .L46+4
+ 230 007c 264B     		ldr	r3, .L46+8
+ 231 007e 0321     		movs	r1, #3
+ 232 0080 2161     		str	r1, [r4, #16]
+ 233 0082 6161     		str	r1, [r4, #20]
+ 234 0084 4FF48061 		mov	r1, #1024
+ 235 0088 A361     		str	r3, [r4, #24]
+ 236 008a 02F58067 		add	r7, r2, #1024
+ 237 008e E261     		str	r2, [r4, #28]
+ 238 0090 5320     		movs	r0, #83
+ 239 0092 2162     		str	r1, [r4, #32]
+ 240 0094 1022     		movs	r2, #16
+ 241 0096 A662     		str	r6, [r4, #40]
+ 242 0098 4521     		movs	r1, #69
+ 243 009a 6662     		str	r6, [r4, #36]
+ 244 009c E662     		str	r6, [r4, #44]
+ 245 009e 2366     		str	r3, [r4, #96]
+ 246 00a0 4723     		movs	r3, #71
+ 247 00a2 6766     		str	r7, [r4, #100]
+ 248 00a4 A266     		str	r2, [r4, #104]
+ 249 00a6 2667     		str	r6, [r4, #112]
+ 250 00a8 5222     		movs	r2, #82
+ 251 00aa E666     		str	r6, [r4, #108]
+ 252 00ac 6667     		str	r6, [r4, #116]
+ 253 00ae 2070     		strb	r0, [r4]
+ 254 00b0 6170     		strb	r1, [r4, #1]
+ 255 00b2 2020     		movs	r0, #32
+ 256 00b4 A370     		strb	r3, [r4, #2]
+ 257 00b6 E370     		strb	r3, [r4, #3]
+ 258 00b8 5423     		movs	r3, #84
+ 259 00ba 2171     		strb	r1, [r4, #4]
+ 260 00bc 6271     		strb	r2, [r4, #5]
+ 261 00be A071     		strb	r0, [r4, #6]
+ 262 00c0 E271     		strb	r2, [r4, #7]
+ 263 00c2 2372     		strb	r3, [r4, #8]
+ 264 00c4 6372     		strb	r3, [r4, #9]
+ 265 00c6 A672     		strb	r6, [r4, #10]
+ 266 00c8 E672     		strb	r6, [r4, #11]
+ 267 00ca 2673     		strb	r6, [r4, #12]
+ 268 00cc 6673     		strb	r6, [r4, #13]
+ 269 00ce A673     		strb	r6, [r4, #14]
+ 270 00d0 E673     		strb	r6, [r4, #15]
+ 271 00d2 9EE7     		b	.L29
+ 272              	.L45:
+ 273 00d4 9A6E     		ldr	r2, [r3, #104]
+ 274 00d6 596E     		ldr	r1, [r3, #100]
+ 275 00d8 C7EB0209 		rsb	r9, r7, r2
+ 276 00dc A945     		cmp	r9, r5
+ 277 00de 28BF     		it	cs
+ 278 00e0 A946     		movcs	r9, r5
+ 279 00e2 3944     		add	r1, r1, r7
+ 280 00e4 4A46     		mov	r2, r9
+ 281 00e6 5846     		mov	r0, fp
+ 282 00e8 0193     		str	r3, [sp, #4]
+ 283 00ea FFF7FEFF 		bl	memcpy
+ 284 00ee 019B     		ldr	r3, [sp, #4]
+ 285 00f0 4F44     		add	r7, r7, r9
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 6
+
+
+ 286 00f2 9B6E     		ldr	r3, [r3, #104]
+ 287 00f4 C9EB0505 		rsb	r5, r9, r5
+ 288 00f8 9F42     		cmp	r7, r3
+ 289 00fa 08BF     		it	eq
+ 290 00fc 0027     		moveq	r7, #0
+ 291 00fe F61B     		subs	r6, r6, r7
+ 292 0100 B542     		cmp	r5, r6
+ 293 0102 28BF     		it	cs
+ 294 0104 3546     		movcs	r5, r6
+ 295 0106 002D     		cmp	r5, #0
+ 296 0108 A5D0     		beq	.L31
+ 297 010a CB44     		add	fp, fp, r9
+ 298 010c 97E7     		b	.L33
+ 299              	.L47:
+ 300 010e 00BF     		.align	2
+ 301              	.L46:
+ 302 0110 00000000 		.word	_SEGGER_RTT
+ 303 0114 00000000 		.word	.LANCHOR0
+ 304 0118 00000000 		.word	.LC0
+ 305              		.size	SEGGER_RTT_ReadNoLock, .-SEGGER_RTT_ReadNoLock
+ 306              		.section	.text.SEGGER_RTT_ReadUpBuffer,"ax",%progbits
+ 307              		.align	2
+ 308              		.global	SEGGER_RTT_ReadUpBuffer
+ 309              		.thumb
+ 310              		.thumb_func
+ 311              		.type	SEGGER_RTT_ReadUpBuffer, %function
+ 312              	SEGGER_RTT_ReadUpBuffer:
+ 313              		@ args = 0, pretend = 0, frame = 16
+ 314              		@ frame_needed = 0, uses_anonymous_args = 0
+ 315 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 316 0004 85B0     		sub	sp, sp, #20
+ 317 0006 8246     		mov	r10, r0
+ 318 0008 0291     		str	r1, [sp, #8]
+ 319 000a 9346     		mov	fp, r2
+ 320              		.syntax unified
+ 321              	@ 746 "..\SEGGER\SEGGER_RTT.c" 1
+ 322 000c EFF31183 		mrs   r3, basepri  
+ 323 0010 4FF02001 		mov   r1, #32       
+ 324 0014 81F31188 		msr   basepri, r1  
+ 325              		
+ 326              	@ 0 "" 2
+ 327              		.thumb
+ 328              		.syntax unified
+ 329 0018 464C     		ldr	r4, .L69
+ 330 001a 0193     		str	r3, [sp, #4]
+ 331 001c 2278     		ldrb	r2, [r4]	@ zero_extendqisi2
+ 332 001e 7AB3     		cbz	r2, .L49
+ 333              	.L52:
+ 334 0020 4FEA4A09 		lsl	r9, r10, #1
+ 335 0024 09EB0A07 		add	r7, r9, r10
+ 336 0028 04EBC707 		add	r7, r4, r7, lsl #3
+ 337 002c BE6A     		ldr	r6, [r7, #40]
+ 338 002e 7D6A     		ldr	r5, [r7, #36]
+ 339 0030 404A     		ldr	r2, .L69
+ 340 0032 AE42     		cmp	r6, r5
+ 341 0034 58D8     		bhi	.L68
+ 342 0036 AD1B     		subs	r5, r5, r6
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 7
+
+
+ 343 0038 5D45     		cmp	r5, fp
+ 344 003a 28BF     		it	cs
+ 345 003c 5D46     		movcs	r5, fp
+ 346 003e 3DB9     		cbnz	r5, .L57
+ 347 0040 A846     		mov	r8, r5
+ 348              	.L55:
+ 349 0042 019B     		ldr	r3, [sp, #4]
+ 350              		.syntax unified
+ 351              	@ 754 "..\SEGGER\SEGGER_RTT.c" 1
+ 352 0044 83F31188 		msr   basepri, r3  
+ 353              		
+ 354              	@ 0 "" 2
+ 355              		.thumb
+ 356              		.syntax unified
+ 357 0048 4046     		mov	r0, r8
+ 358 004a 05B0     		add	sp, sp, #20
+ 359              		@ sp needed
+ 360 004c BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 361              	.L57:
+ 362 0050 0298     		ldr	r0, [sp, #8]
+ 363 0052 4FF00008 		mov	r8, #0
+ 364 0056 0AF10103 		add	r3, r10, #1
+ 365              	.L56:
+ 366 005a 03EB4302 		add	r2, r3, r3, lsl #1
+ 367 005e 04EBC202 		add	r2, r4, r2, lsl #3
+ 368 0062 5168     		ldr	r1, [r2, #4]
+ 369 0064 2A46     		mov	r2, r5
+ 370 0066 3144     		add	r1, r1, r6
+ 371 0068 FFF7FEFF 		bl	memcpy
+ 372 006c A844     		add	r8, r8, r5
+ 373 006e 2E44     		add	r6, r6, r5
+ 374              	.L54:
+ 375 0070 B8F1000F 		cmp	r8, #0
+ 376 0074 E5D0     		beq	.L55
+ 377 0076 D144     		add	r9, r9, r10
+ 378 0078 04EBC904 		add	r4, r4, r9, lsl #3
+ 379 007c A662     		str	r6, [r4, #40]
+ 380 007e E0E7     		b	.L55
+ 381              	.L49:
+ 382 0080 02F0FF05 		and	r5, r2, #255
+ 383 0084 2946     		mov	r1, r5
+ 384 0086 A822     		movs	r2, #168
+ 385 0088 2046     		mov	r0, r4
+ 386 008a FFF7FEFF 		bl	memset
+ 387 008e 2A49     		ldr	r1, .L69+4
+ 388 0090 2A4A     		ldr	r2, .L69+8
+ 389 0092 0320     		movs	r0, #3
+ 390 0094 2061     		str	r0, [r4, #16]
+ 391 0096 6061     		str	r0, [r4, #20]
+ 392 0098 4FF48060 		mov	r0, #1024
+ 393 009c A261     		str	r2, [r4, #24]
+ 394 009e 01F58067 		add	r7, r1, #1024
+ 395 00a2 E161     		str	r1, [r4, #28]
+ 396 00a4 5326     		movs	r6, #83
+ 397 00a6 2062     		str	r0, [r4, #32]
+ 398 00a8 1021     		movs	r1, #16
+ 399 00aa A562     		str	r5, [r4, #40]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 8
+
+
+ 400 00ac 4520     		movs	r0, #69
+ 401 00ae 6562     		str	r5, [r4, #36]
+ 402 00b0 E562     		str	r5, [r4, #44]
+ 403 00b2 2266     		str	r2, [r4, #96]
+ 404 00b4 4722     		movs	r2, #71
+ 405 00b6 6766     		str	r7, [r4, #100]
+ 406 00b8 A166     		str	r1, [r4, #104]
+ 407 00ba 2567     		str	r5, [r4, #112]
+ 408 00bc 5221     		movs	r1, #82
+ 409 00be E566     		str	r5, [r4, #108]
+ 410 00c0 6567     		str	r5, [r4, #116]
+ 411 00c2 2670     		strb	r6, [r4]
+ 412 00c4 6070     		strb	r0, [r4, #1]
+ 413 00c6 2026     		movs	r6, #32
+ 414 00c8 A270     		strb	r2, [r4, #2]
+ 415 00ca E270     		strb	r2, [r4, #3]
+ 416 00cc 5422     		movs	r2, #84
+ 417 00ce 2071     		strb	r0, [r4, #4]
+ 418 00d0 6171     		strb	r1, [r4, #5]
+ 419 00d2 A671     		strb	r6, [r4, #6]
+ 420 00d4 E171     		strb	r1, [r4, #7]
+ 421 00d6 2272     		strb	r2, [r4, #8]
+ 422 00d8 6272     		strb	r2, [r4, #9]
+ 423 00da A572     		strb	r5, [r4, #10]
+ 424 00dc E572     		strb	r5, [r4, #11]
+ 425 00de 2573     		strb	r5, [r4, #12]
+ 426 00e0 6573     		strb	r5, [r4, #13]
+ 427 00e2 A573     		strb	r5, [r4, #14]
+ 428 00e4 E573     		strb	r5, [r4, #15]
+ 429 00e6 9BE7     		b	.L52
+ 430              	.L68:
+ 431 00e8 396A     		ldr	r1, [r7, #32]
+ 432 00ea 0AF10103 		add	r3, r10, #1
+ 433 00ee C6EB0108 		rsb	r8, r6, r1
+ 434 00f2 D845     		cmp	r8, fp
+ 435 00f4 28BF     		it	cs
+ 436 00f6 D846     		movcs	r8, fp
+ 437 00f8 03EB4301 		add	r1, r3, r3, lsl #1
+ 438 00fc 02EBC102 		add	r2, r2, r1, lsl #3
+ 439 0100 5168     		ldr	r1, [r2, #4]
+ 440 0102 0298     		ldr	r0, [sp, #8]
+ 441 0104 4246     		mov	r2, r8
+ 442 0106 3144     		add	r1, r1, r6
+ 443 0108 0393     		str	r3, [sp, #12]
+ 444 010a FFF7FEFF 		bl	memcpy
+ 445 010e 3A6A     		ldr	r2, [r7, #32]
+ 446 0110 4644     		add	r6, r6, r8
+ 447 0112 9642     		cmp	r6, r2
+ 448 0114 08BF     		it	eq
+ 449 0116 0026     		moveq	r6, #0
+ 450 0118 C8EB0B0B 		rsb	fp, r8, fp
+ 451 011c AD1B     		subs	r5, r5, r6
+ 452 011e 5D45     		cmp	r5, fp
+ 453 0120 28BF     		it	cs
+ 454 0122 5D46     		movcs	r5, fp
+ 455 0124 039B     		ldr	r3, [sp, #12]
+ 456 0126 002D     		cmp	r5, #0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 9
+
+
+ 457 0128 A2D0     		beq	.L54
+ 458 012a 029A     		ldr	r2, [sp, #8]
+ 459 012c 4244     		add	r2, r2, r8
+ 460 012e 0292     		str	r2, [sp, #8]
+ 461 0130 1046     		mov	r0, r2
+ 462 0132 92E7     		b	.L56
+ 463              	.L70:
+ 464              		.align	2
+ 465              	.L69:
+ 466 0134 00000000 		.word	_SEGGER_RTT
+ 467 0138 00000000 		.word	.LANCHOR0
+ 468 013c 00000000 		.word	.LC0
+ 469              		.size	SEGGER_RTT_ReadUpBuffer, .-SEGGER_RTT_ReadUpBuffer
+ 470              		.section	.text.SEGGER_RTT_Read,"ax",%progbits
+ 471              		.align	2
+ 472              		.global	SEGGER_RTT_Read
+ 473              		.thumb
+ 474              		.thumb_func
+ 475              		.type	SEGGER_RTT_Read, %function
+ 476              	SEGGER_RTT_Read:
+ 477              		@ args = 0, pretend = 0, frame = 8
+ 478              		@ frame_needed = 0, uses_anonymous_args = 0
+ 479 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 480 0004 0B46     		mov	r3, r1
+ 481 0006 83B0     		sub	sp, sp, #12
+ 482 0008 8246     		mov	r10, r0
+ 483 000a 9346     		mov	fp, r2
+ 484              		.syntax unified
+ 485              	@ 778 "..\SEGGER\SEGGER_RTT.c" 1
+ 486 000c EFF31182 		mrs   r2, basepri  
+ 487 0010 4FF02001 		mov   r1, #32       
+ 488 0014 81F31188 		msr   basepri, r1  
+ 489              		
+ 490              	@ 0 "" 2
+ 491              		.thumb
+ 492              		.syntax unified
+ 493 0018 414C     		ldr	r4, .L92
+ 494 001a 0092     		str	r2, [sp]
+ 495 001c 2278     		ldrb	r2, [r4]	@ zero_extendqisi2
+ 496 001e 62B3     		cbz	r2, .L72
+ 497              	.L75:
+ 498 0020 4FEA4A08 		lsl	r8, r10, #1
+ 499 0024 08EB0A07 		add	r7, r8, r10
+ 500 0028 04EBC707 		add	r7, r4, r7, lsl #3
+ 501 002c 3E6F     		ldr	r6, [r7, #112]
+ 502 002e FD6E     		ldr	r5, [r7, #108]
+ 503 0030 AE42     		cmp	r6, r5
+ 504 0032 58D8     		bhi	.L91
+ 505 0034 AD1B     		subs	r5, r5, r6
+ 506 0036 5D45     		cmp	r5, fp
+ 507 0038 28BF     		it	cs
+ 508 003a 5D46     		movcs	r5, fp
+ 509 003c 3DB9     		cbnz	r5, .L80
+ 510 003e A946     		mov	r9, r5
+ 511              	.L78:
+ 512 0040 009B     		ldr	r3, [sp]
+ 513              		.syntax unified
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 10
+
+
+ 514              	@ 786 "..\SEGGER\SEGGER_RTT.c" 1
+ 515 0042 83F31188 		msr   basepri, r3  
+ 516              		
+ 517              	@ 0 "" 2
+ 518              		.thumb
+ 519              		.syntax unified
+ 520 0046 4846     		mov	r0, r9
+ 521 0048 03B0     		add	sp, sp, #12
+ 522              		@ sp needed
+ 523 004a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 524              	.L80:
+ 525 004e 4FF00009 		mov	r9, #0
+ 526              	.L79:
+ 527 0052 08EB0A02 		add	r2, r8, r10
+ 528 0056 04EBC202 		add	r2, r4, r2, lsl #3
+ 529 005a 516E     		ldr	r1, [r2, #100]
+ 530 005c 1846     		mov	r0, r3
+ 531 005e 3144     		add	r1, r1, r6
+ 532 0060 2A46     		mov	r2, r5
+ 533 0062 FFF7FEFF 		bl	memcpy
+ 534 0066 A944     		add	r9, r9, r5
+ 535 0068 2E44     		add	r6, r6, r5
+ 536              	.L77:
+ 537 006a B9F1000F 		cmp	r9, #0
+ 538 006e E7D0     		beq	.L78
+ 539 0070 D044     		add	r8, r8, r10
+ 540 0072 04EBC804 		add	r4, r4, r8, lsl #3
+ 541 0076 2667     		str	r6, [r4, #112]
+ 542 0078 E2E7     		b	.L78
+ 543              	.L72:
+ 544 007a 02F0FF05 		and	r5, r2, #255
+ 545 007e 2946     		mov	r1, r5
+ 546 0080 A822     		movs	r2, #168
+ 547 0082 2046     		mov	r0, r4
+ 548 0084 0193     		str	r3, [sp, #4]
+ 549 0086 FFF7FEFF 		bl	memset
+ 550 008a 2649     		ldr	r1, .L92+4
+ 551 008c 264A     		ldr	r2, .L92+8
+ 552 008e 0320     		movs	r0, #3
+ 553 0090 2061     		str	r0, [r4, #16]
+ 554 0092 6061     		str	r0, [r4, #20]
+ 555 0094 4FF48060 		mov	r0, #1024
+ 556 0098 A261     		str	r2, [r4, #24]
+ 557 009a 01F58067 		add	r7, r1, #1024
+ 558 009e E161     		str	r1, [r4, #28]
+ 559 00a0 5326     		movs	r6, #83
+ 560 00a2 2062     		str	r0, [r4, #32]
+ 561 00a4 1021     		movs	r1, #16
+ 562 00a6 A562     		str	r5, [r4, #40]
+ 563 00a8 4520     		movs	r0, #69
+ 564 00aa 6562     		str	r5, [r4, #36]
+ 565 00ac E562     		str	r5, [r4, #44]
+ 566 00ae 2266     		str	r2, [r4, #96]
+ 567 00b0 4722     		movs	r2, #71
+ 568 00b2 6766     		str	r7, [r4, #100]
+ 569 00b4 A166     		str	r1, [r4, #104]
+ 570 00b6 2567     		str	r5, [r4, #112]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 11
+
+
+ 571 00b8 5221     		movs	r1, #82
+ 572 00ba E566     		str	r5, [r4, #108]
+ 573 00bc 6567     		str	r5, [r4, #116]
+ 574 00be 2670     		strb	r6, [r4]
+ 575 00c0 6070     		strb	r0, [r4, #1]
+ 576 00c2 2026     		movs	r6, #32
+ 577 00c4 A270     		strb	r2, [r4, #2]
+ 578 00c6 E270     		strb	r2, [r4, #3]
+ 579 00c8 5422     		movs	r2, #84
+ 580 00ca 2071     		strb	r0, [r4, #4]
+ 581 00cc 019B     		ldr	r3, [sp, #4]
+ 582 00ce 6171     		strb	r1, [r4, #5]
+ 583 00d0 A671     		strb	r6, [r4, #6]
+ 584 00d2 E171     		strb	r1, [r4, #7]
+ 585 00d4 2272     		strb	r2, [r4, #8]
+ 586 00d6 6272     		strb	r2, [r4, #9]
+ 587 00d8 A572     		strb	r5, [r4, #10]
+ 588 00da E572     		strb	r5, [r4, #11]
+ 589 00dc 2573     		strb	r5, [r4, #12]
+ 590 00de 6573     		strb	r5, [r4, #13]
+ 591 00e0 A573     		strb	r5, [r4, #14]
+ 592 00e2 E573     		strb	r5, [r4, #15]
+ 593 00e4 9CE7     		b	.L75
+ 594              	.L91:
+ 595 00e6 BA6E     		ldr	r2, [r7, #104]
+ 596 00e8 796E     		ldr	r1, [r7, #100]
+ 597 00ea C6EB0209 		rsb	r9, r6, r2
+ 598 00ee D945     		cmp	r9, fp
+ 599 00f0 28BF     		it	cs
+ 600 00f2 D946     		movcs	r9, fp
+ 601 00f4 3144     		add	r1, r1, r6
+ 602 00f6 4A46     		mov	r2, r9
+ 603 00f8 1846     		mov	r0, r3
+ 604 00fa FFF7FEFF 		bl	memcpy
+ 605 00fe BA6E     		ldr	r2, [r7, #104]
+ 606 0100 4E44     		add	r6, r6, r9
+ 607 0102 9642     		cmp	r6, r2
+ 608 0104 08BF     		it	eq
+ 609 0106 0026     		moveq	r6, #0
+ 610 0108 C9EB0B0B 		rsb	fp, r9, fp
+ 611 010c AD1B     		subs	r5, r5, r6
+ 612 010e 5D45     		cmp	r5, fp
+ 613 0110 28BF     		it	cs
+ 614 0112 5D46     		movcs	r5, fp
+ 615 0114 0346     		mov	r3, r0
+ 616 0116 002D     		cmp	r5, #0
+ 617 0118 A7D0     		beq	.L77
+ 618 011a 4B44     		add	r3, r3, r9
+ 619 011c 99E7     		b	.L79
+ 620              	.L93:
+ 621 011e 00BF     		.align	2
+ 622              	.L92:
+ 623 0120 00000000 		.word	_SEGGER_RTT
+ 624 0124 00000000 		.word	.LANCHOR0
+ 625 0128 00000000 		.word	.LC0
+ 626              		.size	SEGGER_RTT_Read, .-SEGGER_RTT_Read
+ 627              		.section	.text.SEGGER_RTT_WriteWithOverwriteNoLock,"ax",%progbits
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 12
+
+
+ 628              		.align	2
+ 629              		.global	SEGGER_RTT_WriteWithOverwriteNoLock
+ 630              		.thumb
+ 631              		.thumb_func
+ 632              		.type	SEGGER_RTT_WriteWithOverwriteNoLock, %function
+ 633              	SEGGER_RTT_WriteWithOverwriteNoLock:
+ 634              		@ args = 0, pretend = 0, frame = 8
+ 635              		@ frame_needed = 0, uses_anonymous_args = 0
+ 636 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 637 0004 4FEA400B 		lsl	fp, r0, #1
+ 638 0008 DFF8D080 		ldr	r8, .L112
+ 639 000c 0BEB0003 		add	r3, fp, r0
+ 640 0010 08EBC303 		add	r3, r8, r3, lsl #3
+ 641 0014 8146     		mov	r9, r0
+ 642 0016 9C6A     		ldr	r4, [r3, #40]
+ 643 0018 586A     		ldr	r0, [r3, #36]
+ 644 001a 83B0     		sub	sp, sp, #12
+ 645 001c A042     		cmp	r0, r4
+ 646 001e 0E46     		mov	r6, r1
+ 647 0020 1546     		mov	r5, r2
+ 648 0022 58D0     		beq	.L111
+ 649 0024 9A6A     		ldr	r2, [r3, #40]
+ 650 0026 1C6A     		ldr	r4, [r3, #32]
+ 651 0028 9042     		cmp	r0, r2
+ 652 002a 9A6A     		ldr	r2, [r3, #40]
+ 653 002c 2ABF     		itet	cs
+ 654 002e 1319     		addcs	r3, r2, r4
+ 655 0030 02F1FF33 		addcc	r3, r2, #-1
+ 656 0034 03F1FF33 		addcs	r3, r3, #-1
+ 657 0038 1B1A     		subs	r3, r3, r0
+ 658              	.L96:
+ 659 003a AB42     		cmp	r3, r5
+ 660 003c 10D2     		bcs	.L98
+ 661 003e 0BEB0902 		add	r2, fp, r9
+ 662 0042 08EBC202 		add	r2, r8, r2, lsl #3
+ 663 0046 916A     		ldr	r1, [r2, #40]
+ 664 0048 2944     		add	r1, r1, r5
+ 665 004a CB1A     		subs	r3, r1, r3
+ 666 004c 9362     		str	r3, [r2, #40]
+ 667 004e 936A     		ldr	r3, [r2, #40]
+ 668 0050 9C42     		cmp	r4, r3
+ 669 0052 05D8     		bhi	.L98
+ 670              	.L106:
+ 671 0054 936A     		ldr	r3, [r2, #40]
+ 672 0056 1B1B     		subs	r3, r3, r4
+ 673 0058 9362     		str	r3, [r2, #40]
+ 674 005a 936A     		ldr	r3, [r2, #40]
+ 675 005c A342     		cmp	r3, r4
+ 676 005e F9D2     		bcs	.L106
+ 677              	.L98:
+ 678 0060 241A     		subs	r4, r4, r0
+ 679 0062 09F10103 		add	r3, r9, #1
+ 680 0066 A542     		cmp	r5, r4
+ 681 0068 0193     		str	r3, [sp, #4]
+ 682 006a 1DD3     		bcc	.L100
+ 683 006c 03EB4303 		add	r3, r3, r3, lsl #1
+ 684 0070 0BEB0907 		add	r7, fp, r9
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 13
+
+
+ 685 0074 08EBC30A 		add	r10, r8, r3, lsl #3
+ 686 0078 FF00     		lsls	r7, r7, #3
+ 687 007a 01E0     		b	.L102
+ 688              	.L104:
+ 689 007c A542     		cmp	r5, r4
+ 690 007e 13D3     		bcc	.L100
+ 691              	.L102:
+ 692 0080 DAF80410 		ldr	r1, [r10, #4]
+ 693 0084 2246     		mov	r2, r4
+ 694 0086 0844     		add	r0, r0, r1
+ 695 0088 3146     		mov	r1, r6
+ 696 008a FFF7FEFF 		bl	memcpy
+ 697 008e 08EB0702 		add	r2, r8, r7
+ 698 0092 116A     		ldr	r1, [r2, #32]
+ 699 0094 2D1B     		subs	r5, r5, r4
+ 700 0096 0020     		movs	r0, #0
+ 701 0098 2644     		add	r6, r6, r4
+ 702 009a 5062     		str	r0, [r2, #36]
+ 703 009c 4C1E     		subs	r4, r1, #1
+ 704 009e 002D     		cmp	r5, #0
+ 705 00a0 ECD1     		bne	.L104
+ 706 00a2 03B0     		add	sp, sp, #12
+ 707              		@ sp needed
+ 708 00a4 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 709              	.L100:
+ 710 00a8 019B     		ldr	r3, [sp, #4]
+ 711 00aa 2A46     		mov	r2, r5
+ 712 00ac 03EB430A 		add	r10, r3, r3, lsl #1
+ 713 00b0 08EBCA0A 		add	r10, r8, r10, lsl #3
+ 714 00b4 DAF80430 		ldr	r3, [r10, #4]
+ 715 00b8 3146     		mov	r1, r6
+ 716 00ba 1844     		add	r0, r0, r3
+ 717 00bc FFF7FEFF 		bl	memcpy
+ 718 00c0 D944     		add	r9, r9, fp
+ 719 00c2 08EBC908 		add	r8, r8, r9, lsl #3
+ 720 00c6 D8F82430 		ldr	r3, [r8, #36]
+ 721 00ca 1D44     		add	r5, r5, r3
+ 722 00cc C8F82450 		str	r5, [r8, #36]
+ 723 00d0 03B0     		add	sp, sp, #12
+ 724              		@ sp needed
+ 725 00d2 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 726              	.L111:
+ 727 00d6 1C6A     		ldr	r4, [r3, #32]
+ 728 00d8 631E     		subs	r3, r4, #1
+ 729 00da AEE7     		b	.L96
+ 730              	.L113:
+ 731              		.align	2
+ 732              	.L112:
+ 733 00dc 00000000 		.word	_SEGGER_RTT
+ 734              		.size	SEGGER_RTT_WriteWithOverwriteNoLock, .-SEGGER_RTT_WriteWithOverwriteNoLock
+ 735              		.section	.text.SEGGER_RTT_WriteDownBufferNoLock,"ax",%progbits
+ 736              		.align	2
+ 737              		.global	SEGGER_RTT_WriteDownBufferNoLock
+ 738              		.thumb
+ 739              		.thumb_func
+ 740              		.type	SEGGER_RTT_WriteDownBufferNoLock, %function
+ 741              	SEGGER_RTT_WriteDownBufferNoLock:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 14
+
+
+ 742              		@ args = 0, pretend = 0, frame = 0
+ 743              		@ frame_needed = 0, uses_anonymous_args = 0
+ 744 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 745 0004 484B     		ldr	r3, .L139
+ 746 0006 00EB4000 		add	r0, r0, r0, lsl #1
+ 747 000a 03EBC006 		add	r6, r3, r0, lsl #3
+ 748 000e 7369     		ldr	r3, [r6, #20]
+ 749 0010 8946     		mov	r9, r1
+ 750 0012 012B     		cmp	r3, #1
+ 751 0014 1746     		mov	r7, r2
+ 752 0016 3BD0     		beq	.L116
+ 753 0018 2BD3     		bcc	.L117
+ 754 001a 022B     		cmp	r3, #2
+ 755 001c 33D1     		bne	.L130
+ 756 001e F568     		ldr	r5, [r6, #12]
+ 757 0020 B268     		ldr	r2, [r6, #8]
+ 758 0022 4FF00008 		mov	r8, #0
+ 759              	.L128:
+ 760 0026 3369     		ldr	r3, [r6, #16]
+ 761 0028 7068     		ldr	r0, [r6, #4]
+ 762 002a AB42     		cmp	r3, r5
+ 763 002c 03F1FF34 		add	r4, r3, #-1
+ 764 0030 96BF     		itet	ls
+ 765 0032 03F1FF33 		addls	r3, r3, #-1
+ 766 0036 631B     		subhi	r3, r4, r5
+ 767 0038 9B18     		addls	r3, r3, r2
+ 768 003a A2EB0504 		sub	r4, r2, r5
+ 769 003e 98BF     		it	ls
+ 770 0040 5B1B     		subls	r3, r3, r5
+ 771 0042 BC42     		cmp	r4, r7
+ 772 0044 28BF     		it	cs
+ 773 0046 3C46     		movcs	r4, r7
+ 774 0048 9C42     		cmp	r4, r3
+ 775 004a 28BF     		it	cs
+ 776 004c 1C46     		movcs	r4, r3
+ 777 004e 2844     		add	r0, r0, r5
+ 778 0050 2246     		mov	r2, r4
+ 779 0052 4946     		mov	r1, r9
+ 780 0054 FFF7FEFF 		bl	memcpy
+ 781 0058 B268     		ldr	r2, [r6, #8]
+ 782 005a 2544     		add	r5, r5, r4
+ 783 005c 9542     		cmp	r5, r2
+ 784 005e 08BF     		it	eq
+ 785 0060 0025     		moveq	r5, #0
+ 786 0062 3F1B     		subs	r7, r7, r4
+ 787 0064 A044     		add	r8, r8, r4
+ 788 0066 A144     		add	r9, r9, r4
+ 789 0068 F560     		str	r5, [r6, #12]
+ 790 006a DCD1     		bne	.L128
+ 791 006c 4046     		mov	r0, r8
+ 792 006e BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 793              	.L117:
+ 794 0072 3369     		ldr	r3, [r6, #16]
+ 795 0074 F468     		ldr	r4, [r6, #12]
+ 796 0076 A342     		cmp	r3, r4
+ 797 0078 9CBF     		itt	ls
+ 798 007a B268     		ldrls	r2, [r6, #8]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 15
+
+
+ 799 007c 9B18     		addls	r3, r3, r2
+ 800 007e 013B     		subs	r3, r3, #1
+ 801 0080 1B1B     		subs	r3, r3, r4
+ 802 0082 9F42     		cmp	r7, r3
+ 803 0084 2DD9     		bls	.L135
+ 804              	.L130:
+ 805 0086 4FF00008 		mov	r8, #0
+ 806              	.L115:
+ 807 008a 4046     		mov	r0, r8
+ 808 008c BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 809              	.L116:
+ 810 0090 3369     		ldr	r3, [r6, #16]
+ 811 0092 F468     		ldr	r4, [r6, #12]
+ 812 0094 A342     		cmp	r3, r4
+ 813 0096 1CD9     		bls	.L136
+ 814 0098 03F1FF38 		add	r8, r3, #-1
+ 815 009c B568     		ldr	r5, [r6, #8]
+ 816 009e C4EB0808 		rsb	r8, r4, r8
+ 817              	.L123:
+ 818 00a2 B845     		cmp	r8, r7
+ 819 00a4 28BF     		it	cs
+ 820 00a6 B846     		movcs	r8, r7
+ 821 00a8 2D1B     		subs	r5, r5, r4
+ 822 00aa A845     		cmp	r8, r5
+ 823 00ac 7068     		ldr	r0, [r6, #4]
+ 824 00ae 2BD3     		bcc	.L137
+ 825 00b0 2A46     		mov	r2, r5
+ 826 00b2 4946     		mov	r1, r9
+ 827 00b4 2044     		add	r0, r0, r4
+ 828 00b6 C5EB0804 		rsb	r4, r5, r8
+ 829 00ba FFF7FEFF 		bl	memcpy
+ 830 00be 09EB0501 		add	r1, r9, r5
+ 831 00c2 2246     		mov	r2, r4
+ 832 00c4 7068     		ldr	r0, [r6, #4]
+ 833 00c6 FFF7FEFF 		bl	memcpy
+ 834 00ca F460     		str	r4, [r6, #12]
+ 835 00cc 4046     		mov	r0, r8
+ 836 00ce BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 837              	.L136:
+ 838 00d2 B568     		ldr	r5, [r6, #8]
+ 839 00d4 03EB0508 		add	r8, r3, r5
+ 840 00d8 08F1FF38 		add	r8, r8, #-1
+ 841 00dc C4EB0808 		rsb	r8, r4, r8
+ 842 00e0 DFE7     		b	.L123
+ 843              	.L135:
+ 844 00e2 B568     		ldr	r5, [r6, #8]
+ 845 00e4 7068     		ldr	r0, [r6, #4]
+ 846 00e6 2D1B     		subs	r5, r5, r4
+ 847 00e8 AF42     		cmp	r7, r5
+ 848 00ea 15D3     		bcc	.L138
+ 849 00ec 2A46     		mov	r2, r5
+ 850 00ee 2044     		add	r0, r0, r4
+ 851 00f0 7C1B     		subs	r4, r7, r5
+ 852 00f2 FFF7FEFF 		bl	memcpy
+ 853 00f6 09EB0501 		add	r1, r9, r5
+ 854 00fa 2246     		mov	r2, r4
+ 855 00fc 7068     		ldr	r0, [r6, #4]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 16
+
+
+ 856 00fe FFF7FEFF 		bl	memcpy
+ 857 0102 B846     		mov	r8, r7
+ 858 0104 F460     		str	r4, [r6, #12]
+ 859 0106 C0E7     		b	.L115
+ 860              	.L137:
+ 861 0108 2044     		add	r0, r0, r4
+ 862 010a 4946     		mov	r1, r9
+ 863 010c 4246     		mov	r2, r8
+ 864 010e 4444     		add	r4, r4, r8
+ 865 0110 FFF7FEFF 		bl	memcpy
+ 866 0114 F460     		str	r4, [r6, #12]
+ 867 0116 B8E7     		b	.L115
+ 868              	.L138:
+ 869 0118 2044     		add	r0, r0, r4
+ 870 011a 3A46     		mov	r2, r7
+ 871 011c 3C44     		add	r4, r4, r7
+ 872 011e FFF7FEFF 		bl	memcpy
+ 873 0122 B846     		mov	r8, r7
+ 874 0124 F460     		str	r4, [r6, #12]
+ 875 0126 B0E7     		b	.L115
+ 876              	.L140:
+ 877              		.align	2
+ 878              	.L139:
+ 879 0128 60000000 		.word	_SEGGER_RTT+96
+ 880              		.size	SEGGER_RTT_WriteDownBufferNoLock, .-SEGGER_RTT_WriteDownBufferNoLock
+ 881              		.section	.text.SEGGER_RTT_WriteNoLock,"ax",%progbits
+ 882              		.align	2
+ 883              		.global	SEGGER_RTT_WriteNoLock
+ 884              		.thumb
+ 885              		.thumb_func
+ 886              		.type	SEGGER_RTT_WriteNoLock, %function
+ 887              	SEGGER_RTT_WriteNoLock:
+ 888              		@ args = 0, pretend = 0, frame = 0
+ 889              		@ frame_needed = 0, uses_anonymous_args = 0
+ 890 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 891 0004 4400     		lsls	r4, r0, #1
+ 892 0006 DFF87CA1 		ldr	r10, .L167
+ 893 000a 2318     		adds	r3, r4, r0
+ 894 000c 0AEBC303 		add	r3, r10, r3, lsl #3
+ 895 0010 8146     		mov	r9, r0
+ 896 0012 D86A     		ldr	r0, [r3, #44]
+ 897 0014 8B46     		mov	fp, r1
+ 898 0016 0128     		cmp	r0, #1
+ 899 0018 1646     		mov	r6, r2
+ 900 001a 42D0     		beq	.L143
+ 901 001c 32D3     		bcc	.L144
+ 902 001e 0228     		cmp	r0, #2
+ 903 0020 3AD1     		bne	.L157
+ 904 0022 09F10109 		add	r9, r9, #1
+ 905 0026 09EB4909 		add	r9, r9, r9, lsl #1
+ 906 002a 1F46     		mov	r7, r3
+ 907 002c 5D6A     		ldr	r5, [r3, #36]
+ 908 002e 4FEAC909 		lsl	r9, r9, #3
+ 909 0032 4FF00008 		mov	r8, #0
+ 910 0036 1BE0     		b	.L155
+ 911              	.L162:
+ 912 0038 3A6A     		ldr	r2, [r7, #32]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 17
+
+
+ 913 003a 641B     		subs	r4, r4, r5
+ 914              	.L153:
+ 915 003c B442     		cmp	r4, r6
+ 916 003e 2346     		mov	r3, r4
+ 917 0040 28BF     		it	cs
+ 918 0042 3346     		movcs	r3, r6
+ 919 0044 541B     		subs	r4, r2, r5
+ 920 0046 9C42     		cmp	r4, r3
+ 921 0048 28BF     		it	cs
+ 922 004a 1C46     		movcs	r4, r3
+ 923 004c 0AEB0903 		add	r3, r10, r9
+ 924 0050 5868     		ldr	r0, [r3, #4]
+ 925 0052 5946     		mov	r1, fp
+ 926 0054 2844     		add	r0, r0, r5
+ 927 0056 2246     		mov	r2, r4
+ 928 0058 FFF7FEFF 		bl	memcpy
+ 929 005c 3B6A     		ldr	r3, [r7, #32]
+ 930 005e 2544     		add	r5, r5, r4
+ 931 0060 9D42     		cmp	r5, r3
+ 932 0062 08BF     		it	eq
+ 933 0064 0025     		moveq	r5, #0
+ 934 0066 361B     		subs	r6, r6, r4
+ 935 0068 A044     		add	r8, r8, r4
+ 936 006a A344     		add	fp, fp, r4
+ 937 006c 7D62     		str	r5, [r7, #36]
+ 938 006e 15D0     		beq	.L142
+ 939              	.L155:
+ 940 0070 BB6A     		ldr	r3, [r7, #40]
+ 941 0072 AB42     		cmp	r3, r5
+ 942 0074 03F1FF34 		add	r4, r3, #-1
+ 943 0078 DED8     		bhi	.L162
+ 944 007a 3A6A     		ldr	r2, [r7, #32]
+ 945 007c 1344     		add	r3, r3, r2
+ 946 007e 013B     		subs	r3, r3, #1
+ 947 0080 5C1B     		subs	r4, r3, r5
+ 948 0082 DBE7     		b	.L153
+ 949              	.L144:
+ 950 0084 9A6A     		ldr	r2, [r3, #40]
+ 951 0086 5D6A     		ldr	r5, [r3, #36]
+ 952 0088 AA42     		cmp	r2, r5
+ 953 008a 9CBF     		itt	ls
+ 954 008c 1B6A     		ldrls	r3, [r3, #32]
+ 955 008e D218     		addls	r2, r2, r3
+ 956 0090 013A     		subs	r2, r2, #1
+ 957 0092 521B     		subs	r2, r2, r5
+ 958 0094 9642     		cmp	r6, r2
+ 959 0096 37D9     		bls	.L163
+ 960              	.L157:
+ 961 0098 4FF00008 		mov	r8, #0
+ 962              	.L142:
+ 963 009c 4046     		mov	r0, r8
+ 964 009e BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 965              	.L143:
+ 966 00a2 9A6A     		ldr	r2, [r3, #40]
+ 967 00a4 5D6A     		ldr	r5, [r3, #36]
+ 968 00a6 AA42     		cmp	r2, r5
+ 969 00a8 26D9     		bls	.L164
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 18
+
+
+ 970 00aa 02F1FF38 		add	r8, r2, #-1
+ 971 00ae 1B6A     		ldr	r3, [r3, #32]
+ 972 00b0 C5EB0808 		rsb	r8, r5, r8
+ 973              	.L150:
+ 974 00b4 B045     		cmp	r8, r6
+ 975 00b6 28BF     		it	cs
+ 976 00b8 B046     		movcs	r8, r6
+ 977 00ba 5E1B     		subs	r6, r3, r5
+ 978 00bc B045     		cmp	r8, r6
+ 979 00be 42D3     		bcc	.L165
+ 980 00c0 09F10107 		add	r7, r9, #1
+ 981 00c4 07EB4707 		add	r7, r7, r7, lsl #1
+ 982 00c8 0AEBC707 		add	r7, r10, r7, lsl #3
+ 983 00cc 7868     		ldr	r0, [r7, #4]
+ 984 00ce 3246     		mov	r2, r6
+ 985 00d0 5946     		mov	r1, fp
+ 986 00d2 2844     		add	r0, r0, r5
+ 987 00d4 A144     		add	r9, r9, r4
+ 988 00d6 C6EB0805 		rsb	r5, r6, r8
+ 989 00da FFF7FEFF 		bl	memcpy
+ 990 00de 0AEBC90A 		add	r10, r10, r9, lsl #3
+ 991 00e2 7868     		ldr	r0, [r7, #4]
+ 992 00e4 0BEB0601 		add	r1, fp, r6
+ 993 00e8 2A46     		mov	r2, r5
+ 994 00ea FFF7FEFF 		bl	memcpy
+ 995 00ee CAF82450 		str	r5, [r10, #36]
+ 996 00f2 4046     		mov	r0, r8
+ 997 00f4 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 998              	.L164:
+ 999 00f8 1B6A     		ldr	r3, [r3, #32]
+ 1000 00fa 02EB0308 		add	r8, r2, r3
+ 1001 00fe 08F1FF38 		add	r8, r8, #-1
+ 1002 0102 C5EB0808 		rsb	r8, r5, r8
+ 1003 0106 D5E7     		b	.L150
+ 1004              	.L163:
+ 1005 0108 4C44     		add	r4, r4, r9
+ 1006 010a 0AEBC40A 		add	r10, r10, r4, lsl #3
+ 1007 010e DAF82070 		ldr	r7, [r10, #32]
+ 1008 0112 09F10109 		add	r9, r9, #1
+ 1009 0116 7F1B     		subs	r7, r7, r5
+ 1010 0118 BE42     		cmp	r6, r7
+ 1011 011a 1A4B     		ldr	r3, .L167
+ 1012 011c 09EB4909 		add	r9, r9, r9, lsl #1
+ 1013 0120 24D3     		bcc	.L166
+ 1014 0122 03EBC904 		add	r4, r3, r9, lsl #3
+ 1015 0126 6068     		ldr	r0, [r4, #4]
+ 1016 0128 3A46     		mov	r2, r7
+ 1017 012a 2844     		add	r0, r0, r5
+ 1018 012c F51B     		subs	r5, r6, r7
+ 1019 012e FFF7FEFF 		bl	memcpy
+ 1020 0132 6068     		ldr	r0, [r4, #4]
+ 1021 0134 0BEB0701 		add	r1, fp, r7
+ 1022 0138 2A46     		mov	r2, r5
+ 1023 013a FFF7FEFF 		bl	memcpy
+ 1024 013e B046     		mov	r8, r6
+ 1025 0140 CAF82450 		str	r5, [r10, #36]
+ 1026 0144 AAE7     		b	.L142
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 19
+
+
+ 1027              	.L165:
+ 1028 0146 09F10103 		add	r3, r9, #1
+ 1029 014a 03EB4303 		add	r3, r3, r3, lsl #1
+ 1030 014e 0AEBC303 		add	r3, r10, r3, lsl #3
+ 1031 0152 5868     		ldr	r0, [r3, #4]
+ 1032 0154 A144     		add	r9, r9, r4
+ 1033 0156 2844     		add	r0, r0, r5
+ 1034 0158 5946     		mov	r1, fp
+ 1035 015a 4246     		mov	r2, r8
+ 1036 015c 0AEBC90A 		add	r10, r10, r9, lsl #3
+ 1037 0160 4544     		add	r5, r5, r8
+ 1038 0162 FFF7FEFF 		bl	memcpy
+ 1039 0166 CAF82450 		str	r5, [r10, #36]
+ 1040 016a 97E7     		b	.L142
+ 1041              	.L166:
+ 1042 016c 03EBC903 		add	r3, r3, r9, lsl #3
+ 1043 0170 5868     		ldr	r0, [r3, #4]
+ 1044 0172 3246     		mov	r2, r6
+ 1045 0174 2844     		add	r0, r0, r5
+ 1046 0176 3544     		add	r5, r5, r6
+ 1047 0178 FFF7FEFF 		bl	memcpy
+ 1048 017c B046     		mov	r8, r6
+ 1049 017e CAF82450 		str	r5, [r10, #36]
+ 1050 0182 8BE7     		b	.L142
+ 1051              	.L168:
+ 1052              		.align	2
+ 1053              	.L167:
+ 1054 0184 00000000 		.word	_SEGGER_RTT
+ 1055              		.size	SEGGER_RTT_WriteNoLock, .-SEGGER_RTT_WriteNoLock
+ 1056              		.section	.text.SEGGER_RTT_WriteDownBuffer,"ax",%progbits
+ 1057              		.align	2
+ 1058              		.global	SEGGER_RTT_WriteDownBuffer
+ 1059              		.thumb
+ 1060              		.thumb_func
+ 1061              		.type	SEGGER_RTT_WriteDownBuffer, %function
+ 1062              	SEGGER_RTT_WriteDownBuffer:
+ 1063              		@ args = 0, pretend = 0, frame = 0
+ 1064              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1065 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 1066 0004 6C4C     		ldr	r4, .L196
+ 1067 0006 0646     		mov	r6, r0
+ 1068 0008 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1069 000a 8A46     		mov	r10, r1
+ 1070 000c 1746     		mov	r7, r2
+ 1071 000e 002B     		cmp	r3, #0
+ 1072 0010 33D1     		bne	.L175
+ 1073 0012 03F0FF05 		and	r5, r3, #255
+ 1074 0016 A822     		movs	r2, #168
+ 1075 0018 2946     		mov	r1, r5
+ 1076 001a 2046     		mov	r0, r4
+ 1077 001c FFF7FEFF 		bl	memset
+ 1078 0020 664A     		ldr	r2, .L196+4
+ 1079 0022 674B     		ldr	r3, .L196+8
+ 1080 0024 0321     		movs	r1, #3
+ 1081 0026 2161     		str	r1, [r4, #16]
+ 1082 0028 6161     		str	r1, [r4, #20]
+ 1083 002a 4FF48061 		mov	r1, #1024
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 20
+
+
+ 1084 002e A361     		str	r3, [r4, #24]
+ 1085 0030 02F5806E 		add	lr, r2, #1024
+ 1086 0034 E261     		str	r2, [r4, #28]
+ 1087 0036 5320     		movs	r0, #83
+ 1088 0038 2162     		str	r1, [r4, #32]
+ 1089 003a 1022     		movs	r2, #16
+ 1090 003c A562     		str	r5, [r4, #40]
+ 1091 003e 4521     		movs	r1, #69
+ 1092 0040 6562     		str	r5, [r4, #36]
+ 1093 0042 E562     		str	r5, [r4, #44]
+ 1094 0044 2366     		str	r3, [r4, #96]
+ 1095 0046 4723     		movs	r3, #71
+ 1096 0048 C4F864E0 		str	lr, [r4, #100]
+ 1097 004c A266     		str	r2, [r4, #104]
+ 1098 004e 2567     		str	r5, [r4, #112]
+ 1099 0050 5222     		movs	r2, #82
+ 1100 0052 E566     		str	r5, [r4, #108]
+ 1101 0054 6567     		str	r5, [r4, #116]
+ 1102 0056 2070     		strb	r0, [r4]
+ 1103 0058 6170     		strb	r1, [r4, #1]
+ 1104 005a 2020     		movs	r0, #32
+ 1105 005c A370     		strb	r3, [r4, #2]
+ 1106 005e E370     		strb	r3, [r4, #3]
+ 1107 0060 5423     		movs	r3, #84
+ 1108 0062 2171     		strb	r1, [r4, #4]
+ 1109 0064 6271     		strb	r2, [r4, #5]
+ 1110 0066 A071     		strb	r0, [r4, #6]
+ 1111 0068 E271     		strb	r2, [r4, #7]
+ 1112 006a 2372     		strb	r3, [r4, #8]
+ 1113 006c 6372     		strb	r3, [r4, #9]
+ 1114 006e A572     		strb	r5, [r4, #10]
+ 1115 0070 E572     		strb	r5, [r4, #11]
+ 1116 0072 2573     		strb	r5, [r4, #12]
+ 1117 0074 6573     		strb	r5, [r4, #13]
+ 1118 0076 A573     		strb	r5, [r4, #14]
+ 1119 0078 E573     		strb	r5, [r4, #15]
+ 1120              	.L175:
+ 1121              		.syntax unified
+ 1122              	@ 1160 "..\SEGGER\SEGGER_RTT.c" 1
+ 1123 007a EFF31189 		mrs   r9, basepri  
+ 1124 007e 4FF02001 		mov   r1, #32       
+ 1125 0082 81F31188 		msr   basepri, r1  
+ 1126              		
+ 1127              	@ 0 "" 2
+ 1128              		.thumb
+ 1129              		.syntax unified
+ 1130 0086 06EB4606 		add	r6, r6, r6, lsl #1
+ 1131 008a 04EBC606 		add	r6, r4, r6, lsl #3
+ 1132 008e 6036     		adds	r6, r6, #96
+ 1133 0090 7369     		ldr	r3, [r6, #20]
+ 1134 0092 012B     		cmp	r3, #1
+ 1135 0094 3FD0     		beq	.L172
+ 1136 0096 2DD3     		bcc	.L173
+ 1137 0098 022B     		cmp	r3, #2
+ 1138 009a 35D1     		bne	.L187
+ 1139 009c F568     		ldr	r5, [r6, #12]
+ 1140 009e B268     		ldr	r2, [r6, #8]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 21
+
+
+ 1141 00a0 4FF00008 		mov	r8, #0
+ 1142              	.L185:
+ 1143 00a4 3369     		ldr	r3, [r6, #16]
+ 1144 00a6 7068     		ldr	r0, [r6, #4]
+ 1145 00a8 AB42     		cmp	r3, r5
+ 1146 00aa 03F1FF34 		add	r4, r3, #-1
+ 1147 00ae 96BF     		itet	ls
+ 1148 00b0 03F1FF33 		addls	r3, r3, #-1
+ 1149 00b4 631B     		subhi	r3, r4, r5
+ 1150 00b6 9B18     		addls	r3, r3, r2
+ 1151 00b8 A2EB0504 		sub	r4, r2, r5
+ 1152 00bc 98BF     		it	ls
+ 1153 00be 5B1B     		subls	r3, r3, r5
+ 1154 00c0 BC42     		cmp	r4, r7
+ 1155 00c2 28BF     		it	cs
+ 1156 00c4 3C46     		movcs	r4, r7
+ 1157 00c6 9C42     		cmp	r4, r3
+ 1158 00c8 28BF     		it	cs
+ 1159 00ca 1C46     		movcs	r4, r3
+ 1160 00cc 2844     		add	r0, r0, r5
+ 1161 00ce 2246     		mov	r2, r4
+ 1162 00d0 5146     		mov	r1, r10
+ 1163 00d2 FFF7FEFF 		bl	memcpy
+ 1164 00d6 B268     		ldr	r2, [r6, #8]
+ 1165 00d8 2544     		add	r5, r5, r4
+ 1166 00da 9542     		cmp	r5, r2
+ 1167 00dc 08BF     		it	eq
+ 1168 00de 0025     		moveq	r5, #0
+ 1169 00e0 3F1B     		subs	r7, r7, r4
+ 1170 00e2 A044     		add	r8, r8, r4
+ 1171 00e4 A244     		add	r10, r10, r4
+ 1172 00e6 F560     		str	r5, [r6, #12]
+ 1173 00e8 DCD1     		bne	.L185
+ 1174              		.syntax unified
+ 1175              	@ 1162 "..\SEGGER\SEGGER_RTT.c" 1
+ 1176 00ea 89F31188 		msr   basepri, r9  
+ 1177              		
+ 1178              	@ 0 "" 2
+ 1179              		.thumb
+ 1180              		.syntax unified
+ 1181 00ee 4046     		mov	r0, r8
+ 1182 00f0 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 1183              	.L173:
+ 1184 00f4 3369     		ldr	r3, [r6, #16]
+ 1185 00f6 F468     		ldr	r4, [r6, #12]
+ 1186 00f8 A342     		cmp	r3, r4
+ 1187 00fa 9CBF     		itt	ls
+ 1188 00fc B268     		ldrls	r2, [r6, #8]
+ 1189 00fe 9B18     		addls	r3, r3, r2
+ 1190 0100 013B     		subs	r3, r3, #1
+ 1191 0102 1B1B     		subs	r3, r3, r4
+ 1192 0104 9F42     		cmp	r7, r3
+ 1193 0106 31D9     		bls	.L192
+ 1194              	.L187:
+ 1195 0108 4FF00008 		mov	r8, #0
+ 1196              	.L171:
+ 1197              		.syntax unified
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 22
+
+
+ 1198              	@ 1162 "..\SEGGER\SEGGER_RTT.c" 1
+ 1199 010c 89F31188 		msr   basepri, r9  
+ 1200              		
+ 1201              	@ 0 "" 2
+ 1202              		.thumb
+ 1203              		.syntax unified
+ 1204 0110 4046     		mov	r0, r8
+ 1205 0112 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 1206              	.L172:
+ 1207 0116 3369     		ldr	r3, [r6, #16]
+ 1208 0118 F468     		ldr	r4, [r6, #12]
+ 1209 011a A342     		cmp	r3, r4
+ 1210 011c 1ED9     		bls	.L193
+ 1211 011e 03F1FF38 		add	r8, r3, #-1
+ 1212 0122 B568     		ldr	r5, [r6, #8]
+ 1213 0124 C4EB0808 		rsb	r8, r4, r8
+ 1214              	.L180:
+ 1215 0128 B845     		cmp	r8, r7
+ 1216 012a 28BF     		it	cs
+ 1217 012c B846     		movcs	r8, r7
+ 1218 012e 2D1B     		subs	r5, r5, r4
+ 1219 0130 A845     		cmp	r8, r5
+ 1220 0132 7068     		ldr	r0, [r6, #4]
+ 1221 0134 2ED3     		bcc	.L194
+ 1222 0136 2A46     		mov	r2, r5
+ 1223 0138 5146     		mov	r1, r10
+ 1224 013a 2044     		add	r0, r0, r4
+ 1225 013c C5EB0804 		rsb	r4, r5, r8
+ 1226 0140 FFF7FEFF 		bl	memcpy
+ 1227 0144 0AEB0501 		add	r1, r10, r5
+ 1228 0148 2246     		mov	r2, r4
+ 1229 014a 7068     		ldr	r0, [r6, #4]
+ 1230 014c FFF7FEFF 		bl	memcpy
+ 1231 0150 F460     		str	r4, [r6, #12]
+ 1232              		.syntax unified
+ 1233              	@ 1162 "..\SEGGER\SEGGER_RTT.c" 1
+ 1234 0152 89F31188 		msr   basepri, r9  
+ 1235              		
+ 1236              	@ 0 "" 2
+ 1237              		.thumb
+ 1238              		.syntax unified
+ 1239 0156 4046     		mov	r0, r8
+ 1240 0158 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 1241              	.L193:
+ 1242 015c B568     		ldr	r5, [r6, #8]
+ 1243 015e 03EB0508 		add	r8, r3, r5
+ 1244 0162 08F1FF38 		add	r8, r8, #-1
+ 1245 0166 C4EB0808 		rsb	r8, r4, r8
+ 1246 016a DDE7     		b	.L180
+ 1247              	.L192:
+ 1248 016c B568     		ldr	r5, [r6, #8]
+ 1249 016e 7068     		ldr	r0, [r6, #4]
+ 1250 0170 2D1B     		subs	r5, r5, r4
+ 1251 0172 AF42     		cmp	r7, r5
+ 1252 0174 16D3     		bcc	.L195
+ 1253 0176 2A46     		mov	r2, r5
+ 1254 0178 2044     		add	r0, r0, r4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 23
+
+
+ 1255 017a 5146     		mov	r1, r10
+ 1256 017c 7C1B     		subs	r4, r7, r5
+ 1257 017e FFF7FEFF 		bl	memcpy
+ 1258 0182 0AEB0501 		add	r1, r10, r5
+ 1259 0186 2246     		mov	r2, r4
+ 1260 0188 7068     		ldr	r0, [r6, #4]
+ 1261 018a FFF7FEFF 		bl	memcpy
+ 1262 018e B846     		mov	r8, r7
+ 1263 0190 F460     		str	r4, [r6, #12]
+ 1264 0192 BBE7     		b	.L171
+ 1265              	.L194:
+ 1266 0194 2044     		add	r0, r0, r4
+ 1267 0196 5146     		mov	r1, r10
+ 1268 0198 4246     		mov	r2, r8
+ 1269 019a 4444     		add	r4, r4, r8
+ 1270 019c FFF7FEFF 		bl	memcpy
+ 1271 01a0 F460     		str	r4, [r6, #12]
+ 1272 01a2 B3E7     		b	.L171
+ 1273              	.L195:
+ 1274 01a4 2044     		add	r0, r0, r4
+ 1275 01a6 5146     		mov	r1, r10
+ 1276 01a8 3A46     		mov	r2, r7
+ 1277 01aa 3C44     		add	r4, r4, r7
+ 1278 01ac FFF7FEFF 		bl	memcpy
+ 1279 01b0 B846     		mov	r8, r7
+ 1280 01b2 F460     		str	r4, [r6, #12]
+ 1281 01b4 AAE7     		b	.L171
+ 1282              	.L197:
+ 1283 01b6 00BF     		.align	2
+ 1284              	.L196:
+ 1285 01b8 00000000 		.word	_SEGGER_RTT
+ 1286 01bc 00000000 		.word	.LANCHOR0
+ 1287 01c0 00000000 		.word	.LC0
+ 1288              		.size	SEGGER_RTT_WriteDownBuffer, .-SEGGER_RTT_WriteDownBuffer
+ 1289              		.section	.text.SEGGER_RTT_Write,"ax",%progbits
+ 1290              		.align	2
+ 1291              		.global	SEGGER_RTT_Write
+ 1292              		.thumb
+ 1293              		.thumb_func
+ 1294              		.type	SEGGER_RTT_Write, %function
+ 1295              	SEGGER_RTT_Write:
+ 1296              		@ args = 0, pretend = 0, frame = 8
+ 1297              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1298 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 1299 0004 834D     		ldr	r5, .L226
+ 1300 0006 83B0     		sub	sp, sp, #12
+ 1301 0008 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 1302 000a 0446     		mov	r4, r0
+ 1303 000c 0F46     		mov	r7, r1
+ 1304 000e 9246     		mov	r10, r2
+ 1305 0010 002B     		cmp	r3, #0
+ 1306 0012 33D1     		bne	.L204
+ 1307 0014 03F0FF06 		and	r6, r3, #255
+ 1308 0018 A822     		movs	r2, #168
+ 1309 001a 3146     		mov	r1, r6
+ 1310 001c 2846     		mov	r0, r5
+ 1311 001e FFF7FEFF 		bl	memset
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 24
+
+
+ 1312 0022 7D4A     		ldr	r2, .L226+4
+ 1313 0024 7D4B     		ldr	r3, .L226+8
+ 1314 0026 0321     		movs	r1, #3
+ 1315 0028 2961     		str	r1, [r5, #16]
+ 1316 002a 6961     		str	r1, [r5, #20]
+ 1317 002c 4FF48061 		mov	r1, #1024
+ 1318 0030 AB61     		str	r3, [r5, #24]
+ 1319 0032 02F5806E 		add	lr, r2, #1024
+ 1320 0036 EA61     		str	r2, [r5, #28]
+ 1321 0038 5320     		movs	r0, #83
+ 1322 003a 2962     		str	r1, [r5, #32]
+ 1323 003c 1022     		movs	r2, #16
+ 1324 003e AE62     		str	r6, [r5, #40]
+ 1325 0040 4521     		movs	r1, #69
+ 1326 0042 6E62     		str	r6, [r5, #36]
+ 1327 0044 EE62     		str	r6, [r5, #44]
+ 1328 0046 2B66     		str	r3, [r5, #96]
+ 1329 0048 4723     		movs	r3, #71
+ 1330 004a C5F864E0 		str	lr, [r5, #100]
+ 1331 004e AA66     		str	r2, [r5, #104]
+ 1332 0050 2E67     		str	r6, [r5, #112]
+ 1333 0052 5222     		movs	r2, #82
+ 1334 0054 EE66     		str	r6, [r5, #108]
+ 1335 0056 6E67     		str	r6, [r5, #116]
+ 1336 0058 2870     		strb	r0, [r5]
+ 1337 005a 6970     		strb	r1, [r5, #1]
+ 1338 005c 2020     		movs	r0, #32
+ 1339 005e AB70     		strb	r3, [r5, #2]
+ 1340 0060 EB70     		strb	r3, [r5, #3]
+ 1341 0062 5423     		movs	r3, #84
+ 1342 0064 2971     		strb	r1, [r5, #4]
+ 1343 0066 6A71     		strb	r2, [r5, #5]
+ 1344 0068 A871     		strb	r0, [r5, #6]
+ 1345 006a EA71     		strb	r2, [r5, #7]
+ 1346 006c 2B72     		strb	r3, [r5, #8]
+ 1347 006e 6B72     		strb	r3, [r5, #9]
+ 1348 0070 AE72     		strb	r6, [r5, #10]
+ 1349 0072 EE72     		strb	r6, [r5, #11]
+ 1350 0074 2E73     		strb	r6, [r5, #12]
+ 1351 0076 6E73     		strb	r6, [r5, #13]
+ 1352 0078 AE73     		strb	r6, [r5, #14]
+ 1353 007a EE73     		strb	r6, [r5, #15]
+ 1354              	.L204:
+ 1355              		.syntax unified
+ 1356              	@ 1189 "..\SEGGER\SEGGER_RTT.c" 1
+ 1357 007c EFF31183 		mrs   r3, basepri  
+ 1358 0080 4FF02001 		mov   r1, #32       
+ 1359 0084 81F31188 		msr   basepri, r1  
+ 1360              		
+ 1361              	@ 0 "" 2
+ 1362              		.thumb
+ 1363              		.syntax unified
+ 1364 0088 4FEA4408 		lsl	r8, r4, #1
+ 1365 008c 0193     		str	r3, [sp, #4]
+ 1366 008e 08EB0403 		add	r3, r8, r4
+ 1367 0092 05EBC303 		add	r3, r5, r3, lsl #3
+ 1368 0096 DA6A     		ldr	r2, [r3, #44]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 25
+
+
+ 1369 0098 012A     		cmp	r2, #1
+ 1370 009a 4ED0     		beq	.L201
+ 1371 009c 3BD3     		bcc	.L202
+ 1372 009e 022A     		cmp	r2, #2
+ 1373 00a0 43D1     		bne	.L216
+ 1374 00a2 0134     		adds	r4, r4, #1
+ 1375 00a4 04EB4404 		add	r4, r4, r4, lsl #1
+ 1376 00a8 9846     		mov	r8, r3
+ 1377 00aa D3F82490 		ldr	r9, [r3, #36]
+ 1378 00ae 4FEAC40B 		lsl	fp, r4, #3
+ 1379 00b2 0026     		movs	r6, #0
+ 1380 00b4 22E0     		b	.L214
+ 1381              	.L221:
+ 1382 00b6 D8F82010 		ldr	r1, [r8, #32]
+ 1383 00ba C9EB0404 		rsb	r4, r9, r4
+ 1384              	.L212:
+ 1385 00be 5445     		cmp	r4, r10
+ 1386 00c0 2246     		mov	r2, r4
+ 1387 00c2 28BF     		it	cs
+ 1388 00c4 5246     		movcs	r2, r10
+ 1389 00c6 C9EB0104 		rsb	r4, r9, r1
+ 1390 00ca 9442     		cmp	r4, r2
+ 1391 00cc 28BF     		it	cs
+ 1392 00ce 1446     		movcs	r4, r2
+ 1393 00d0 05EB0B02 		add	r2, r5, fp
+ 1394 00d4 5068     		ldr	r0, [r2, #4]
+ 1395 00d6 3946     		mov	r1, r7
+ 1396 00d8 2246     		mov	r2, r4
+ 1397 00da 4844     		add	r0, r0, r9
+ 1398 00dc FFF7FEFF 		bl	memcpy
+ 1399 00e0 D8F82020 		ldr	r2, [r8, #32]
+ 1400 00e4 A144     		add	r9, r9, r4
+ 1401 00e6 9145     		cmp	r9, r2
+ 1402 00e8 08BF     		it	eq
+ 1403 00ea 4FF00009 		moveq	r9, #0
+ 1404 00ee BAEB040A 		subs	r10, r10, r4
+ 1405 00f2 2644     		add	r6, r6, r4
+ 1406 00f4 2744     		add	r7, r7, r4
+ 1407 00f6 C8F82490 		str	r9, [r8, #36]
+ 1408 00fa 17D0     		beq	.L200
+ 1409              	.L214:
+ 1410 00fc D8F82820 		ldr	r2, [r8, #40]
+ 1411 0100 4A45     		cmp	r2, r9
+ 1412 0102 02F1FF34 		add	r4, r2, #-1
+ 1413 0106 D6D8     		bhi	.L221
+ 1414 0108 D8F82010 		ldr	r1, [r8, #32]
+ 1415 010c 0A44     		add	r2, r2, r1
+ 1416 010e 013A     		subs	r2, r2, #1
+ 1417 0110 C9EB0204 		rsb	r4, r9, r2
+ 1418 0114 D3E7     		b	.L212
+ 1419              	.L202:
+ 1420 0116 9A6A     		ldr	r2, [r3, #40]
+ 1421 0118 5E6A     		ldr	r6, [r3, #36]
+ 1422 011a B242     		cmp	r2, r6
+ 1423 011c 9CBF     		itt	ls
+ 1424 011e 1B6A     		ldrls	r3, [r3, #32]
+ 1425 0120 D218     		addls	r2, r2, r3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 26
+
+
+ 1426 0122 013A     		subs	r2, r2, #1
+ 1427 0124 921B     		subs	r2, r2, r6
+ 1428 0126 9245     		cmp	r10, r2
+ 1429 0128 39D9     		bls	.L222
+ 1430              	.L216:
+ 1431 012a 0026     		movs	r6, #0
+ 1432              	.L200:
+ 1433 012c 019B     		ldr	r3, [sp, #4]
+ 1434              		.syntax unified
+ 1435              	@ 1191 "..\SEGGER\SEGGER_RTT.c" 1
+ 1436 012e 83F31188 		msr   basepri, r3  
+ 1437              		
+ 1438              	@ 0 "" 2
+ 1439              		.thumb
+ 1440              		.syntax unified
+ 1441 0132 3046     		mov	r0, r6
+ 1442 0134 03B0     		add	sp, sp, #12
+ 1443              		@ sp needed
+ 1444 0136 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 1445              	.L201:
+ 1446 013a 9A6A     		ldr	r2, [r3, #40]
+ 1447 013c D3F824B0 		ldr	fp, [r3, #36]
+ 1448 0140 5A45     		cmp	r2, fp
+ 1449 0142 26D9     		bls	.L223
+ 1450 0144 561E     		subs	r6, r2, #1
+ 1451 0146 1B6A     		ldr	r3, [r3, #32]
+ 1452 0148 CBEB0606 		rsb	r6, fp, r6
+ 1453              	.L209:
+ 1454 014c 5645     		cmp	r6, r10
+ 1455 014e 28BF     		it	cs
+ 1456 0150 5646     		movcs	r6, r10
+ 1457 0152 CBEB030A 		rsb	r10, fp, r3
+ 1458 0156 5645     		cmp	r6, r10
+ 1459 0158 04F10103 		add	r3, r4, #1
+ 1460 015c 03EB4303 		add	r3, r3, r3, lsl #1
+ 1461 0160 3DD3     		bcc	.L224
+ 1462 0162 05EBC309 		add	r9, r5, r3, lsl #3
+ 1463 0166 D9F80400 		ldr	r0, [r9, #4]
+ 1464 016a 5246     		mov	r2, r10
+ 1465 016c 5844     		add	r0, r0, fp
+ 1466 016e 3946     		mov	r1, r7
+ 1467 0170 CAEB060B 		rsb	fp, r10, r6
+ 1468 0174 4444     		add	r4, r4, r8
+ 1469 0176 FFF7FEFF 		bl	memcpy
+ 1470 017a 05EBC405 		add	r5, r5, r4, lsl #3
+ 1471 017e D9F80400 		ldr	r0, [r9, #4]
+ 1472 0182 07EB0A01 		add	r1, r7, r10
+ 1473 0186 5A46     		mov	r2, fp
+ 1474 0188 FFF7FEFF 		bl	memcpy
+ 1475 018c C5F824B0 		str	fp, [r5, #36]
+ 1476 0190 CCE7     		b	.L200
+ 1477              	.L223:
+ 1478 0192 1B6A     		ldr	r3, [r3, #32]
+ 1479 0194 D618     		adds	r6, r2, r3
+ 1480 0196 013E     		subs	r6, r6, #1
+ 1481 0198 CBEB0606 		rsb	r6, fp, r6
+ 1482 019c D6E7     		b	.L209
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 27
+
+
+ 1483              	.L222:
+ 1484 019e A044     		add	r8, r8, r4
+ 1485 01a0 05EBC805 		add	r5, r5, r8, lsl #3
+ 1486 01a4 2A6A     		ldr	r2, [r5, #32]
+ 1487 01a6 0134     		adds	r4, r4, #1
+ 1488 01a8 C6EB0208 		rsb	r8, r6, r2
+ 1489 01ac C245     		cmp	r10, r8
+ 1490 01ae 194B     		ldr	r3, .L226
+ 1491 01b0 04EB4404 		add	r4, r4, r4, lsl #1
+ 1492 01b4 22D3     		bcc	.L225
+ 1493 01b6 03EBC404 		add	r4, r3, r4, lsl #3
+ 1494 01ba 6068     		ldr	r0, [r4, #4]
+ 1495 01bc 4246     		mov	r2, r8
+ 1496 01be 3044     		add	r0, r0, r6
+ 1497 01c0 3946     		mov	r1, r7
+ 1498 01c2 C8EB0A0B 		rsb	fp, r8, r10
+ 1499 01c6 FFF7FEFF 		bl	memcpy
+ 1500 01ca 6068     		ldr	r0, [r4, #4]
+ 1501 01cc 07EB0801 		add	r1, r7, r8
+ 1502 01d0 5A46     		mov	r2, fp
+ 1503 01d2 FFF7FEFF 		bl	memcpy
+ 1504 01d6 5646     		mov	r6, r10
+ 1505 01d8 C5F824B0 		str	fp, [r5, #36]
+ 1506 01dc A6E7     		b	.L200
+ 1507              	.L224:
+ 1508 01de 05EBC303 		add	r3, r5, r3, lsl #3
+ 1509 01e2 5868     		ldr	r0, [r3, #4]
+ 1510 01e4 3946     		mov	r1, r7
+ 1511 01e6 5844     		add	r0, r0, fp
+ 1512 01e8 3246     		mov	r2, r6
+ 1513 01ea 4444     		add	r4, r4, r8
+ 1514 01ec FFF7FEFF 		bl	memcpy
+ 1515 01f0 05EBC405 		add	r5, r5, r4, lsl #3
+ 1516 01f4 0BEB0603 		add	r3, fp, r6
+ 1517 01f8 6B62     		str	r3, [r5, #36]
+ 1518 01fa 97E7     		b	.L200
+ 1519              	.L225:
+ 1520 01fc 03EBC403 		add	r3, r3, r4, lsl #3
+ 1521 0200 5868     		ldr	r0, [r3, #4]
+ 1522 0202 3946     		mov	r1, r7
+ 1523 0204 3044     		add	r0, r0, r6
+ 1524 0206 5246     		mov	r2, r10
+ 1525 0208 5644     		add	r6, r6, r10
+ 1526 020a FFF7FEFF 		bl	memcpy
+ 1527 020e 6E62     		str	r6, [r5, #36]
+ 1528 0210 5646     		mov	r6, r10
+ 1529 0212 8BE7     		b	.L200
+ 1530              	.L227:
+ 1531              		.align	2
+ 1532              	.L226:
+ 1533 0214 00000000 		.word	_SEGGER_RTT
+ 1534 0218 00000000 		.word	.LANCHOR0
+ 1535 021c 00000000 		.word	.LC0
+ 1536              		.size	SEGGER_RTT_Write, .-SEGGER_RTT_Write
+ 1537              		.section	.text.SEGGER_RTT_WriteString,"ax",%progbits
+ 1538              		.align	2
+ 1539              		.global	SEGGER_RTT_WriteString
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 28
+
+
+ 1540              		.thumb
+ 1541              		.thumb_func
+ 1542              		.type	SEGGER_RTT_WriteString, %function
+ 1543              	SEGGER_RTT_WriteString:
+ 1544              		@ args = 0, pretend = 0, frame = 8
+ 1545              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1546 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 1547 0004 0446     		mov	r4, r0
+ 1548 0006 83B0     		sub	sp, sp, #12
+ 1549 0008 0846     		mov	r0, r1
+ 1550 000a 0E46     		mov	r6, r1
+ 1551 000c FFF7FEFF 		bl	strlen
+ 1552 0010 824D     		ldr	r5, .L256
+ 1553 0012 8246     		mov	r10, r0
+ 1554 0014 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 1555 0016 002B     		cmp	r3, #0
+ 1556 0018 33D1     		bne	.L234
+ 1557 001a 03F0FF07 		and	r7, r3, #255
+ 1558 001e A822     		movs	r2, #168
+ 1559 0020 3946     		mov	r1, r7
+ 1560 0022 2846     		mov	r0, r5
+ 1561 0024 FFF7FEFF 		bl	memset
+ 1562 0028 7D4A     		ldr	r2, .L256+4
+ 1563 002a 7E4B     		ldr	r3, .L256+8
+ 1564 002c 0321     		movs	r1, #3
+ 1565 002e 2961     		str	r1, [r5, #16]
+ 1566 0030 6961     		str	r1, [r5, #20]
+ 1567 0032 4FF48061 		mov	r1, #1024
+ 1568 0036 AB61     		str	r3, [r5, #24]
+ 1569 0038 02F5806E 		add	lr, r2, #1024
+ 1570 003c EA61     		str	r2, [r5, #28]
+ 1571 003e 5320     		movs	r0, #83
+ 1572 0040 2962     		str	r1, [r5, #32]
+ 1573 0042 1022     		movs	r2, #16
+ 1574 0044 AF62     		str	r7, [r5, #40]
+ 1575 0046 4521     		movs	r1, #69
+ 1576 0048 6F62     		str	r7, [r5, #36]
+ 1577 004a EF62     		str	r7, [r5, #44]
+ 1578 004c 2B66     		str	r3, [r5, #96]
+ 1579 004e 4723     		movs	r3, #71
+ 1580 0050 C5F864E0 		str	lr, [r5, #100]
+ 1581 0054 AA66     		str	r2, [r5, #104]
+ 1582 0056 2F67     		str	r7, [r5, #112]
+ 1583 0058 5222     		movs	r2, #82
+ 1584 005a EF66     		str	r7, [r5, #108]
+ 1585 005c 6F67     		str	r7, [r5, #116]
+ 1586 005e 2870     		strb	r0, [r5]
+ 1587 0060 6970     		strb	r1, [r5, #1]
+ 1588 0062 2020     		movs	r0, #32
+ 1589 0064 AB70     		strb	r3, [r5, #2]
+ 1590 0066 EB70     		strb	r3, [r5, #3]
+ 1591 0068 5423     		movs	r3, #84
+ 1592 006a 2971     		strb	r1, [r5, #4]
+ 1593 006c 6A71     		strb	r2, [r5, #5]
+ 1594 006e A871     		strb	r0, [r5, #6]
+ 1595 0070 EA71     		strb	r2, [r5, #7]
+ 1596 0072 2B72     		strb	r3, [r5, #8]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 29
+
+
+ 1597 0074 6B72     		strb	r3, [r5, #9]
+ 1598 0076 AF72     		strb	r7, [r5, #10]
+ 1599 0078 EF72     		strb	r7, [r5, #11]
+ 1600 007a 2F73     		strb	r7, [r5, #12]
+ 1601 007c 6F73     		strb	r7, [r5, #13]
+ 1602 007e AF73     		strb	r7, [r5, #14]
+ 1603 0080 EF73     		strb	r7, [r5, #15]
+ 1604              	.L234:
+ 1605              		.syntax unified
+ 1606              	@ 1189 "..\SEGGER\SEGGER_RTT.c" 1
+ 1607 0082 EFF31183 		mrs   r3, basepri  
+ 1608 0086 4FF02001 		mov   r1, #32       
+ 1609 008a 81F31188 		msr   basepri, r1  
+ 1610              		
+ 1611              	@ 0 "" 2
+ 1612              		.thumb
+ 1613              		.syntax unified
+ 1614 008e 4FEA4408 		lsl	r8, r4, #1
+ 1615 0092 0193     		str	r3, [sp, #4]
+ 1616 0094 08EB0403 		add	r3, r8, r4
+ 1617 0098 05EBC303 		add	r3, r5, r3, lsl #3
+ 1618 009c DA6A     		ldr	r2, [r3, #44]
+ 1619 009e 012A     		cmp	r2, #1
+ 1620 00a0 4ED0     		beq	.L231
+ 1621 00a2 3BD3     		bcc	.L232
+ 1622 00a4 022A     		cmp	r2, #2
+ 1623 00a6 43D1     		bne	.L246
+ 1624 00a8 0134     		adds	r4, r4, #1
+ 1625 00aa 04EB4404 		add	r4, r4, r4, lsl #1
+ 1626 00ae 9846     		mov	r8, r3
+ 1627 00b0 D3F82490 		ldr	r9, [r3, #36]
+ 1628 00b4 4FEAC40B 		lsl	fp, r4, #3
+ 1629 00b8 0027     		movs	r7, #0
+ 1630 00ba 22E0     		b	.L244
+ 1631              	.L251:
+ 1632 00bc D8F82010 		ldr	r1, [r8, #32]
+ 1633 00c0 C9EB0404 		rsb	r4, r9, r4
+ 1634              	.L242:
+ 1635 00c4 5445     		cmp	r4, r10
+ 1636 00c6 2246     		mov	r2, r4
+ 1637 00c8 28BF     		it	cs
+ 1638 00ca 5246     		movcs	r2, r10
+ 1639 00cc C9EB0104 		rsb	r4, r9, r1
+ 1640 00d0 9442     		cmp	r4, r2
+ 1641 00d2 28BF     		it	cs
+ 1642 00d4 1446     		movcs	r4, r2
+ 1643 00d6 05EB0B02 		add	r2, r5, fp
+ 1644 00da 5068     		ldr	r0, [r2, #4]
+ 1645 00dc 3146     		mov	r1, r6
+ 1646 00de 2246     		mov	r2, r4
+ 1647 00e0 4844     		add	r0, r0, r9
+ 1648 00e2 FFF7FEFF 		bl	memcpy
+ 1649 00e6 D8F82020 		ldr	r2, [r8, #32]
+ 1650 00ea A144     		add	r9, r9, r4
+ 1651 00ec 9145     		cmp	r9, r2
+ 1652 00ee 08BF     		it	eq
+ 1653 00f0 4FF00009 		moveq	r9, #0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 30
+
+
+ 1654 00f4 BAEB040A 		subs	r10, r10, r4
+ 1655 00f8 2744     		add	r7, r7, r4
+ 1656 00fa 2644     		add	r6, r6, r4
+ 1657 00fc C8F82490 		str	r9, [r8, #36]
+ 1658 0100 17D0     		beq	.L230
+ 1659              	.L244:
+ 1660 0102 D8F82820 		ldr	r2, [r8, #40]
+ 1661 0106 4A45     		cmp	r2, r9
+ 1662 0108 02F1FF34 		add	r4, r2, #-1
+ 1663 010c D6D8     		bhi	.L251
+ 1664 010e D8F82010 		ldr	r1, [r8, #32]
+ 1665 0112 0A44     		add	r2, r2, r1
+ 1666 0114 013A     		subs	r2, r2, #1
+ 1667 0116 C9EB0204 		rsb	r4, r9, r2
+ 1668 011a D3E7     		b	.L242
+ 1669              	.L232:
+ 1670 011c 9A6A     		ldr	r2, [r3, #40]
+ 1671 011e 5F6A     		ldr	r7, [r3, #36]
+ 1672 0120 BA42     		cmp	r2, r7
+ 1673 0122 9CBF     		itt	ls
+ 1674 0124 1B6A     		ldrls	r3, [r3, #32]
+ 1675 0126 D218     		addls	r2, r2, r3
+ 1676 0128 013A     		subs	r2, r2, #1
+ 1677 012a D21B     		subs	r2, r2, r7
+ 1678 012c 9245     		cmp	r10, r2
+ 1679 012e 39D9     		bls	.L252
+ 1680              	.L246:
+ 1681 0130 0027     		movs	r7, #0
+ 1682              	.L230:
+ 1683 0132 019B     		ldr	r3, [sp, #4]
+ 1684              		.syntax unified
+ 1685              	@ 1191 "..\SEGGER\SEGGER_RTT.c" 1
+ 1686 0134 83F31188 		msr   basepri, r3  
+ 1687              		
+ 1688              	@ 0 "" 2
+ 1689              		.thumb
+ 1690              		.syntax unified
+ 1691 0138 3846     		mov	r0, r7
+ 1692 013a 03B0     		add	sp, sp, #12
+ 1693              		@ sp needed
+ 1694 013c BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 1695              	.L231:
+ 1696 0140 9A6A     		ldr	r2, [r3, #40]
+ 1697 0142 D3F824B0 		ldr	fp, [r3, #36]
+ 1698 0146 5A45     		cmp	r2, fp
+ 1699 0148 26D9     		bls	.L253
+ 1700 014a 571E     		subs	r7, r2, #1
+ 1701 014c 1B6A     		ldr	r3, [r3, #32]
+ 1702 014e CBEB0707 		rsb	r7, fp, r7
+ 1703              	.L239:
+ 1704 0152 5745     		cmp	r7, r10
+ 1705 0154 28BF     		it	cs
+ 1706 0156 5746     		movcs	r7, r10
+ 1707 0158 CBEB030A 		rsb	r10, fp, r3
+ 1708 015c 5745     		cmp	r7, r10
+ 1709 015e 04F10103 		add	r3, r4, #1
+ 1710 0162 03EB4303 		add	r3, r3, r3, lsl #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 31
+
+
+ 1711 0166 3DD3     		bcc	.L254
+ 1712 0168 05EBC309 		add	r9, r5, r3, lsl #3
+ 1713 016c D9F80400 		ldr	r0, [r9, #4]
+ 1714 0170 5246     		mov	r2, r10
+ 1715 0172 5844     		add	r0, r0, fp
+ 1716 0174 3146     		mov	r1, r6
+ 1717 0176 CAEB070B 		rsb	fp, r10, r7
+ 1718 017a 4444     		add	r4, r4, r8
+ 1719 017c FFF7FEFF 		bl	memcpy
+ 1720 0180 05EBC405 		add	r5, r5, r4, lsl #3
+ 1721 0184 D9F80400 		ldr	r0, [r9, #4]
+ 1722 0188 06EB0A01 		add	r1, r6, r10
+ 1723 018c 5A46     		mov	r2, fp
+ 1724 018e FFF7FEFF 		bl	memcpy
+ 1725 0192 C5F824B0 		str	fp, [r5, #36]
+ 1726 0196 CCE7     		b	.L230
+ 1727              	.L253:
+ 1728 0198 1B6A     		ldr	r3, [r3, #32]
+ 1729 019a D718     		adds	r7, r2, r3
+ 1730 019c 013F     		subs	r7, r7, #1
+ 1731 019e CBEB0707 		rsb	r7, fp, r7
+ 1732 01a2 D6E7     		b	.L239
+ 1733              	.L252:
+ 1734 01a4 A044     		add	r8, r8, r4
+ 1735 01a6 05EBC805 		add	r5, r5, r8, lsl #3
+ 1736 01aa 2A6A     		ldr	r2, [r5, #32]
+ 1737 01ac 0134     		adds	r4, r4, #1
+ 1738 01ae C7EB0208 		rsb	r8, r7, r2
+ 1739 01b2 C245     		cmp	r10, r8
+ 1740 01b4 194B     		ldr	r3, .L256
+ 1741 01b6 04EB4404 		add	r4, r4, r4, lsl #1
+ 1742 01ba 22D3     		bcc	.L255
+ 1743 01bc 03EBC404 		add	r4, r3, r4, lsl #3
+ 1744 01c0 6068     		ldr	r0, [r4, #4]
+ 1745 01c2 4246     		mov	r2, r8
+ 1746 01c4 3844     		add	r0, r0, r7
+ 1747 01c6 3146     		mov	r1, r6
+ 1748 01c8 C8EB0A0B 		rsb	fp, r8, r10
+ 1749 01cc FFF7FEFF 		bl	memcpy
+ 1750 01d0 6068     		ldr	r0, [r4, #4]
+ 1751 01d2 06EB0801 		add	r1, r6, r8
+ 1752 01d6 5A46     		mov	r2, fp
+ 1753 01d8 FFF7FEFF 		bl	memcpy
+ 1754 01dc 5746     		mov	r7, r10
+ 1755 01de C5F824B0 		str	fp, [r5, #36]
+ 1756 01e2 A6E7     		b	.L230
+ 1757              	.L254:
+ 1758 01e4 05EBC303 		add	r3, r5, r3, lsl #3
+ 1759 01e8 5868     		ldr	r0, [r3, #4]
+ 1760 01ea 3146     		mov	r1, r6
+ 1761 01ec 5844     		add	r0, r0, fp
+ 1762 01ee 3A46     		mov	r2, r7
+ 1763 01f0 4444     		add	r4, r4, r8
+ 1764 01f2 FFF7FEFF 		bl	memcpy
+ 1765 01f6 05EBC405 		add	r5, r5, r4, lsl #3
+ 1766 01fa 0BEB0703 		add	r3, fp, r7
+ 1767 01fe 6B62     		str	r3, [r5, #36]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 32
+
+
+ 1768 0200 97E7     		b	.L230
+ 1769              	.L255:
+ 1770 0202 03EBC403 		add	r3, r3, r4, lsl #3
+ 1771 0206 5868     		ldr	r0, [r3, #4]
+ 1772 0208 3146     		mov	r1, r6
+ 1773 020a 3844     		add	r0, r0, r7
+ 1774 020c 5246     		mov	r2, r10
+ 1775 020e 5744     		add	r7, r7, r10
+ 1776 0210 FFF7FEFF 		bl	memcpy
+ 1777 0214 6F62     		str	r7, [r5, #36]
+ 1778 0216 5746     		mov	r7, r10
+ 1779 0218 8BE7     		b	.L230
+ 1780              	.L257:
+ 1781 021a 00BF     		.align	2
+ 1782              	.L256:
+ 1783 021c 00000000 		.word	_SEGGER_RTT
+ 1784 0220 00000000 		.word	.LANCHOR0
+ 1785 0224 00000000 		.word	.LC0
+ 1786              		.size	SEGGER_RTT_WriteString, .-SEGGER_RTT_WriteString
+ 1787              		.section	.text.SEGGER_RTT_PutCharSkipNoLock,"ax",%progbits
+ 1788              		.align	2
+ 1789              		.global	SEGGER_RTT_PutCharSkipNoLock
+ 1790              		.thumb
+ 1791              		.thumb_func
+ 1792              		.type	SEGGER_RTT_PutCharSkipNoLock, %function
+ 1793              	SEGGER_RTT_PutCharSkipNoLock:
+ 1794              		@ args = 0, pretend = 0, frame = 0
+ 1795              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1796              		@ link register save eliminated.
+ 1797 0000 70B4     		push	{r4, r5, r6}
+ 1798 0002 0E4C     		ldr	r4, .L263
+ 1799 0004 00EB4003 		add	r3, r0, r0, lsl #1
+ 1800 0008 04EBC303 		add	r3, r4, r3, lsl #3
+ 1801 000c 5D6A     		ldr	r5, [r3, #36]
+ 1802 000e 1E6A     		ldr	r6, [r3, #32]
+ 1803 0010 6A1C     		adds	r2, r5, #1
+ 1804 0012 B242     		cmp	r2, r6
+ 1805 0014 08BF     		it	eq
+ 1806 0016 0022     		moveq	r2, #0
+ 1807 0018 9E6A     		ldr	r6, [r3, #40]
+ 1808 001a B242     		cmp	r2, r6
+ 1809 001c 0AD0     		beq	.L261
+ 1810 001e 0130     		adds	r0, r0, #1
+ 1811 0020 00EB4000 		add	r0, r0, r0, lsl #1
+ 1812 0024 04EBC000 		add	r0, r4, r0, lsl #3
+ 1813 0028 4468     		ldr	r4, [r0, #4]
+ 1814 002a 0120     		movs	r0, #1
+ 1815 002c 6155     		strb	r1, [r4, r5]
+ 1816 002e 5A62     		str	r2, [r3, #36]
+ 1817 0030 70BC     		pop	{r4, r5, r6}
+ 1818 0032 7047     		bx	lr
+ 1819              	.L261:
+ 1820 0034 0020     		movs	r0, #0
+ 1821 0036 70BC     		pop	{r4, r5, r6}
+ 1822 0038 7047     		bx	lr
+ 1823              	.L264:
+ 1824 003a 00BF     		.align	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 33
+
+
+ 1825              	.L263:
+ 1826 003c 00000000 		.word	_SEGGER_RTT
+ 1827              		.size	SEGGER_RTT_PutCharSkipNoLock, .-SEGGER_RTT_PutCharSkipNoLock
+ 1828              		.section	.text.SEGGER_RTT_PutCharSkip,"ax",%progbits
+ 1829              		.align	2
+ 1830              		.global	SEGGER_RTT_PutCharSkip
+ 1831              		.thumb
+ 1832              		.thumb_func
+ 1833              		.type	SEGGER_RTT_PutCharSkip, %function
+ 1834              	SEGGER_RTT_PutCharSkip:
+ 1835              		@ args = 0, pretend = 0, frame = 0
+ 1836              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1837 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1838 0002 2F4C     		ldr	r4, .L276
+ 1839 0004 0546     		mov	r5, r0
+ 1840 0006 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1841 0008 0F46     		mov	r7, r1
+ 1842 000a FBB1     		cbz	r3, .L266
+ 1843              	.L269:
+ 1844              		.syntax unified
+ 1845              	@ 1304 "..\SEGGER\SEGGER_RTT.c" 1
+ 1846 000c EFF31186 		mrs   r6, basepri  
+ 1847 0010 4FF02001 		mov   r1, #32       
+ 1848 0014 81F31188 		msr   basepri, r1  
+ 1849              		
+ 1850              	@ 0 "" 2
+ 1851              		.thumb
+ 1852              		.syntax unified
+ 1853 0018 05EB4503 		add	r3, r5, r5, lsl #1
+ 1854 001c 04EBC304 		add	r4, r4, r3, lsl #3
+ 1855 0020 616A     		ldr	r1, [r4, #36]
+ 1856 0022 226A     		ldr	r2, [r4, #32]
+ 1857 0024 4B1C     		adds	r3, r1, #1
+ 1858 0026 9342     		cmp	r3, r2
+ 1859 0028 08BF     		it	eq
+ 1860 002a 0023     		moveq	r3, #0
+ 1861 002c A06A     		ldr	r0, [r4, #40]
+ 1862 002e 244A     		ldr	r2, .L276
+ 1863 0030 8342     		cmp	r3, r0
+ 1864 0032 40D0     		beq	.L275
+ 1865 0034 0135     		adds	r5, r5, #1
+ 1866 0036 05EB4505 		add	r5, r5, r5, lsl #1
+ 1867 003a 02EBC505 		add	r5, r2, r5, lsl #3
+ 1868 003e 6A68     		ldr	r2, [r5, #4]
+ 1869 0040 0120     		movs	r0, #1
+ 1870 0042 5754     		strb	r7, [r2, r1]
+ 1871 0044 6362     		str	r3, [r4, #36]
+ 1872              		.syntax unified
+ 1873              	@ 1331 "..\SEGGER\SEGGER_RTT.c" 1
+ 1874 0046 86F31188 		msr   basepri, r6  
+ 1875              		
+ 1876              	@ 0 "" 2
+ 1877              		.thumb
+ 1878              		.syntax unified
+ 1879 004a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 1880              	.L266:
+ 1881 004c 03F0FF06 		and	r6, r3, #255
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 34
+
+
+ 1882 0050 A822     		movs	r2, #168
+ 1883 0052 3146     		mov	r1, r6
+ 1884 0054 2046     		mov	r0, r4
+ 1885 0056 FFF7FEFF 		bl	memset
+ 1886 005a 1A4A     		ldr	r2, .L276+4
+ 1887 005c 1A4B     		ldr	r3, .L276+8
+ 1888 005e 0321     		movs	r1, #3
+ 1889 0060 2161     		str	r1, [r4, #16]
+ 1890 0062 6161     		str	r1, [r4, #20]
+ 1891 0064 4FF48061 		mov	r1, #1024
+ 1892 0068 A361     		str	r3, [r4, #24]
+ 1893 006a 02F5806E 		add	lr, r2, #1024
+ 1894 006e E261     		str	r2, [r4, #28]
+ 1895 0070 5320     		movs	r0, #83
+ 1896 0072 2162     		str	r1, [r4, #32]
+ 1897 0074 1022     		movs	r2, #16
+ 1898 0076 A662     		str	r6, [r4, #40]
+ 1899 0078 4521     		movs	r1, #69
+ 1900 007a 6662     		str	r6, [r4, #36]
+ 1901 007c E662     		str	r6, [r4, #44]
+ 1902 007e 2366     		str	r3, [r4, #96]
+ 1903 0080 4723     		movs	r3, #71
+ 1904 0082 C4F864E0 		str	lr, [r4, #100]
+ 1905 0086 A266     		str	r2, [r4, #104]
+ 1906 0088 2667     		str	r6, [r4, #112]
+ 1907 008a 5222     		movs	r2, #82
+ 1908 008c E666     		str	r6, [r4, #108]
+ 1909 008e 6667     		str	r6, [r4, #116]
+ 1910 0090 2070     		strb	r0, [r4]
+ 1911 0092 6170     		strb	r1, [r4, #1]
+ 1912 0094 2020     		movs	r0, #32
+ 1913 0096 A370     		strb	r3, [r4, #2]
+ 1914 0098 E370     		strb	r3, [r4, #3]
+ 1915 009a 5423     		movs	r3, #84
+ 1916 009c 2171     		strb	r1, [r4, #4]
+ 1917 009e 6271     		strb	r2, [r4, #5]
+ 1918 00a0 A071     		strb	r0, [r4, #6]
+ 1919 00a2 E271     		strb	r2, [r4, #7]
+ 1920 00a4 2372     		strb	r3, [r4, #8]
+ 1921 00a6 6372     		strb	r3, [r4, #9]
+ 1922 00a8 A672     		strb	r6, [r4, #10]
+ 1923 00aa E672     		strb	r6, [r4, #11]
+ 1924 00ac 2673     		strb	r6, [r4, #12]
+ 1925 00ae 6673     		strb	r6, [r4, #13]
+ 1926 00b0 A673     		strb	r6, [r4, #14]
+ 1927 00b2 E673     		strb	r6, [r4, #15]
+ 1928 00b4 AAE7     		b	.L269
+ 1929              	.L275:
+ 1930 00b6 0020     		movs	r0, #0
+ 1931              		.syntax unified
+ 1932              	@ 1331 "..\SEGGER\SEGGER_RTT.c" 1
+ 1933 00b8 86F31188 		msr   basepri, r6  
+ 1934              		
+ 1935              	@ 0 "" 2
+ 1936              		.thumb
+ 1937              		.syntax unified
+ 1938 00bc F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 35
+
+
+ 1939              	.L277:
+ 1940 00be 00BF     		.align	2
+ 1941              	.L276:
+ 1942 00c0 00000000 		.word	_SEGGER_RTT
+ 1943 00c4 00000000 		.word	.LANCHOR0
+ 1944 00c8 00000000 		.word	.LC0
+ 1945              		.size	SEGGER_RTT_PutCharSkip, .-SEGGER_RTT_PutCharSkip
+ 1946              		.section	.text.SEGGER_RTT_PutChar,"ax",%progbits
+ 1947              		.align	2
+ 1948              		.global	SEGGER_RTT_PutChar
+ 1949              		.thumb
+ 1950              		.thumb_func
+ 1951              		.type	SEGGER_RTT_PutChar, %function
+ 1952              	SEGGER_RTT_PutChar:
+ 1953              		@ args = 0, pretend = 0, frame = 0
+ 1954              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1955 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1956 0002 384C     		ldr	r4, .L291
+ 1957 0004 0546     		mov	r5, r0
+ 1958 0006 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1959 0008 0E46     		mov	r6, r1
+ 1960 000a 002B     		cmp	r3, #0
+ 1961 000c 31D0     		beq	.L279
+ 1962              	.L282:
+ 1963              		.syntax unified
+ 1964              	@ 1363 "..\SEGGER\SEGGER_RTT.c" 1
+ 1965 000e EFF31187 		mrs   r7, basepri  
+ 1966 0012 4FF02001 		mov   r1, #32       
+ 1967 0016 81F31188 		msr   basepri, r1  
+ 1968              		
+ 1969              	@ 0 "" 2
+ 1970              		.thumb
+ 1971              		.syntax unified
+ 1972 001a 4FEA450C 		lsl	ip, r5, #1
+ 1973 001e 0CEB0503 		add	r3, ip, r5
+ 1974 0022 04EBC303 		add	r3, r4, r3, lsl #3
+ 1975 0026 D3F824E0 		ldr	lr, [r3, #36]
+ 1976 002a 186A     		ldr	r0, [r3, #32]
+ 1977 002c D96A     		ldr	r1, [r3, #44]
+ 1978 002e 0EF10102 		add	r2, lr, #1
+ 1979 0032 8242     		cmp	r2, r0
+ 1980 0034 08BF     		it	eq
+ 1981 0036 0022     		moveq	r2, #0
+ 1982 0038 0229     		cmp	r1, #2
+ 1983 003a 13D0     		beq	.L284
+ 1984              	.L283:
+ 1985 003c AC44     		add	ip, ip, r5
+ 1986 003e 04EBCC04 		add	r4, r4, ip, lsl #3
+ 1987 0042 A16A     		ldr	r1, [r4, #40]
+ 1988 0044 274B     		ldr	r3, .L291
+ 1989 0046 8A42     		cmp	r2, r1
+ 1990 0048 48D0     		beq	.L286
+ 1991 004a 0135     		adds	r5, r5, #1
+ 1992 004c 05EB4505 		add	r5, r5, r5, lsl #1
+ 1993 0050 03EBC505 		add	r5, r3, r5, lsl #3
+ 1994 0054 6B68     		ldr	r3, [r5, #4]
+ 1995 0056 0120     		movs	r0, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 36
+
+
+ 1996 0058 03F80E60 		strb	r6, [r3, lr]
+ 1997 005c 6262     		str	r2, [r4, #36]
+ 1998              		.syntax unified
+ 1999              	@ 1398 "..\SEGGER\SEGGER_RTT.c" 1
+ 2000 005e 87F31188 		msr   basepri, r7  
+ 2001              		
+ 2002              	@ 0 "" 2
+ 2003              		.thumb
+ 2004              		.syntax unified
+ 2005 0062 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 2006              	.L284:
+ 2007 0064 996A     		ldr	r1, [r3, #40]
+ 2008 0066 8A42     		cmp	r2, r1
+ 2009 0068 E8D1     		bne	.L283
+ 2010 006a 996A     		ldr	r1, [r3, #40]
+ 2011 006c 8A42     		cmp	r2, r1
+ 2012 006e F9D0     		beq	.L284
+ 2013 0070 E4E7     		b	.L283
+ 2014              	.L279:
+ 2015 0072 03F0FF07 		and	r7, r3, #255
+ 2016 0076 A822     		movs	r2, #168
+ 2017 0078 3946     		mov	r1, r7
+ 2018 007a 2046     		mov	r0, r4
+ 2019 007c FFF7FEFF 		bl	memset
+ 2020 0080 194A     		ldr	r2, .L291+4
+ 2021 0082 1A4B     		ldr	r3, .L291+8
+ 2022 0084 0321     		movs	r1, #3
+ 2023 0086 2161     		str	r1, [r4, #16]
+ 2024 0088 6161     		str	r1, [r4, #20]
+ 2025 008a 4FF48061 		mov	r1, #1024
+ 2026 008e A361     		str	r3, [r4, #24]
+ 2027 0090 02F5806E 		add	lr, r2, #1024
+ 2028 0094 E261     		str	r2, [r4, #28]
+ 2029 0096 5320     		movs	r0, #83
+ 2030 0098 2162     		str	r1, [r4, #32]
+ 2031 009a 1022     		movs	r2, #16
+ 2032 009c A762     		str	r7, [r4, #40]
+ 2033 009e 4521     		movs	r1, #69
+ 2034 00a0 6762     		str	r7, [r4, #36]
+ 2035 00a2 E762     		str	r7, [r4, #44]
+ 2036 00a4 2366     		str	r3, [r4, #96]
+ 2037 00a6 4723     		movs	r3, #71
+ 2038 00a8 C4F864E0 		str	lr, [r4, #100]
+ 2039 00ac A266     		str	r2, [r4, #104]
+ 2040 00ae 2767     		str	r7, [r4, #112]
+ 2041 00b0 5222     		movs	r2, #82
+ 2042 00b2 E766     		str	r7, [r4, #108]
+ 2043 00b4 6767     		str	r7, [r4, #116]
+ 2044 00b6 2070     		strb	r0, [r4]
+ 2045 00b8 6170     		strb	r1, [r4, #1]
+ 2046 00ba 2020     		movs	r0, #32
+ 2047 00bc A370     		strb	r3, [r4, #2]
+ 2048 00be E370     		strb	r3, [r4, #3]
+ 2049 00c0 5423     		movs	r3, #84
+ 2050 00c2 2171     		strb	r1, [r4, #4]
+ 2051 00c4 6271     		strb	r2, [r4, #5]
+ 2052 00c6 A071     		strb	r0, [r4, #6]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 37
+
+
+ 2053 00c8 E271     		strb	r2, [r4, #7]
+ 2054 00ca 2372     		strb	r3, [r4, #8]
+ 2055 00cc 6372     		strb	r3, [r4, #9]
+ 2056 00ce A772     		strb	r7, [r4, #10]
+ 2057 00d0 E772     		strb	r7, [r4, #11]
+ 2058 00d2 2773     		strb	r7, [r4, #12]
+ 2059 00d4 6773     		strb	r7, [r4, #13]
+ 2060 00d6 A773     		strb	r7, [r4, #14]
+ 2061 00d8 E773     		strb	r7, [r4, #15]
+ 2062 00da 98E7     		b	.L282
+ 2063              	.L286:
+ 2064 00dc 0020     		movs	r0, #0
+ 2065              		.syntax unified
+ 2066              	@ 1398 "..\SEGGER\SEGGER_RTT.c" 1
+ 2067 00de 87F31188 		msr   basepri, r7  
+ 2068              		
+ 2069              	@ 0 "" 2
+ 2070              		.thumb
+ 2071              		.syntax unified
+ 2072 00e2 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 2073              	.L292:
+ 2074              		.align	2
+ 2075              	.L291:
+ 2076 00e4 00000000 		.word	_SEGGER_RTT
+ 2077 00e8 00000000 		.word	.LANCHOR0
+ 2078 00ec 00000000 		.word	.LC0
+ 2079              		.size	SEGGER_RTT_PutChar, .-SEGGER_RTT_PutChar
+ 2080              		.section	.text.SEGGER_RTT_GetKey,"ax",%progbits
+ 2081              		.align	2
+ 2082              		.global	SEGGER_RTT_GetKey
+ 2083              		.thumb
+ 2084              		.thumb_func
+ 2085              		.type	SEGGER_RTT_GetKey, %function
+ 2086              	SEGGER_RTT_GetKey:
+ 2087              		@ args = 0, pretend = 0, frame = 8
+ 2088              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2089 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 2090 0004 82B0     		sub	sp, sp, #8
+ 2091              		.syntax unified
+ 2092              	@ 778 "..\SEGGER\SEGGER_RTT.c" 1
+ 2093 0006 EFF31188 		mrs   r8, basepri  
+ 2094 000a 4FF02001 		mov   r1, #32       
+ 2095 000e 81F31188 		msr   basepri, r1  
+ 2096              		
+ 2097              	@ 0 "" 2
+ 2098              		.thumb
+ 2099              		.syntax unified
+ 2100 0012 3B4C     		ldr	r4, .L317
+ 2101 0014 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 2102 0016 D3B1     		cbz	r3, .L294
+ 2103 0018 256F     		ldr	r5, [r4, #112]
+ 2104 001a E76E     		ldr	r7, [r4, #108]
+ 2105 001c 384B     		ldr	r3, .L317
+ 2106 001e BD42     		cmp	r5, r7
+ 2107 0020 4ED8     		bhi	.L314
+ 2108              	.L309:
+ 2109 0022 0BD1     		bne	.L315
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 38
+
+
+ 2110              	.L304:
+ 2111 0024 0026     		movs	r6, #0
+ 2112              	.L301:
+ 2113              		.syntax unified
+ 2114              	@ 786 "..\SEGGER\SEGGER_RTT.c" 1
+ 2115 0026 88F31188 		msr   basepri, r8  
+ 2116              		
+ 2117              	@ 0 "" 2
+ 2118              		.thumb
+ 2119              		.syntax unified
+ 2120 002a 012E     		cmp	r6, #1
+ 2121 002c 0CBF     		ite	eq
+ 2122 002e 9DF80700 		ldrbeq	r0, [sp, #7]	@ zero_extendqisi2
+ 2123 0032 4FF0FF30 		movne	r0, #-1
+ 2124 0036 02B0     		add	sp, sp, #8
+ 2125              		@ sp needed
+ 2126 0038 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 2127              	.L315:
+ 2128 003c 0126     		movs	r6, #1
+ 2129 003e 0DF10703 		add	r3, sp, #7
+ 2130              	.L303:
+ 2131 0042 626E     		ldr	r2, [r4, #100]
+ 2132 0044 525D     		ldrb	r2, [r2, r5]	@ zero_extendqisi2
+ 2133 0046 0135     		adds	r5, r5, #1
+ 2134 0048 1A70     		strb	r2, [r3]
+ 2135              	.L300:
+ 2136 004a 2567     		str	r5, [r4, #112]
+ 2137 004c EBE7     		b	.L301
+ 2138              	.L294:
+ 2139 004e 03F0FF05 		and	r5, r3, #255
+ 2140 0052 2946     		mov	r1, r5
+ 2141 0054 A822     		movs	r2, #168
+ 2142 0056 2046     		mov	r0, r4
+ 2143 0058 FFF7FEFF 		bl	memset
+ 2144 005c 294A     		ldr	r2, .L317+4
+ 2145 005e 2A4B     		ldr	r3, .L317+8
+ 2146 0060 0321     		movs	r1, #3
+ 2147 0062 02F5806E 		add	lr, r2, #1024
+ 2148 0066 4FF48060 		mov	r0, #1024
+ 2149 006a 1026     		movs	r6, #16
+ 2150 006c 2161     		str	r1, [r4, #16]
+ 2151 006e 5327     		movs	r7, #83
+ 2152 0070 6161     		str	r1, [r4, #20]
+ 2153 0072 A361     		str	r3, [r4, #24]
+ 2154 0074 4521     		movs	r1, #69
+ 2155 0076 E261     		str	r2, [r4, #28]
+ 2156 0078 2062     		str	r0, [r4, #32]
+ 2157 007a 5222     		movs	r2, #82
+ 2158 007c A562     		str	r5, [r4, #40]
+ 2159 007e 4720     		movs	r0, #71
+ 2160 0080 6562     		str	r5, [r4, #36]
+ 2161 0082 E562     		str	r5, [r4, #44]
+ 2162 0084 2366     		str	r3, [r4, #96]
+ 2163 0086 C4F864E0 		str	lr, [r4, #100]
+ 2164 008a 5423     		movs	r3, #84
+ 2165 008c A666     		str	r6, [r4, #104]
+ 2166 008e 2026     		movs	r6, #32
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 39
+
+
+ 2167 0090 2567     		str	r5, [r4, #112]
+ 2168 0092 E566     		str	r5, [r4, #108]
+ 2169 0094 6567     		str	r5, [r4, #116]
+ 2170 0096 2770     		strb	r7, [r4]
+ 2171 0098 6170     		strb	r1, [r4, #1]
+ 2172 009a A070     		strb	r0, [r4, #2]
+ 2173 009c E070     		strb	r0, [r4, #3]
+ 2174 009e 2171     		strb	r1, [r4, #4]
+ 2175 00a0 6271     		strb	r2, [r4, #5]
+ 2176 00a2 A671     		strb	r6, [r4, #6]
+ 2177 00a4 E271     		strb	r2, [r4, #7]
+ 2178 00a6 2372     		strb	r3, [r4, #8]
+ 2179 00a8 6372     		strb	r3, [r4, #9]
+ 2180 00aa A572     		strb	r5, [r4, #10]
+ 2181 00ac E572     		strb	r5, [r4, #11]
+ 2182 00ae 2573     		strb	r5, [r4, #12]
+ 2183 00b0 6573     		strb	r5, [r4, #13]
+ 2184 00b2 A573     		strb	r5, [r4, #14]
+ 2185 00b4 E573     		strb	r5, [r4, #15]
+ 2186 00b6 E76E     		ldr	r7, [r4, #108]
+ 2187 00b8 256F     		ldr	r5, [r4, #112]
+ 2188 00ba 114B     		ldr	r3, .L317
+ 2189 00bc BD42     		cmp	r5, r7
+ 2190 00be B0D9     		bls	.L309
+ 2191              	.L314:
+ 2192 00c0 9A6E     		ldr	r2, [r3, #104]
+ 2193 00c2 596E     		ldr	r1, [r3, #100]
+ 2194 00c4 561B     		subs	r6, r2, r5
+ 2195 00c6 012E     		cmp	r6, #1
+ 2196 00c8 28BF     		it	cs
+ 2197 00ca 0126     		movcs	r6, #1
+ 2198 00cc 2944     		add	r1, r1, r5
+ 2199 00ce 3544     		add	r5, r5, r6
+ 2200 00d0 AA42     		cmp	r2, r5
+ 2201 00d2 08BF     		it	eq
+ 2202 00d4 0025     		moveq	r5, #0
+ 2203 00d6 0DF10700 		add	r0, sp, #7
+ 2204 00da 3246     		mov	r2, r6
+ 2205 00dc FFF7FEFF 		bl	memcpy
+ 2206 00e0 7F1B     		subs	r7, r7, r5
+ 2207 00e2 C6F10103 		rsb	r3, r6, #1
+ 2208 00e6 9F42     		cmp	r7, r3
+ 2209 00e8 28BF     		it	cs
+ 2210 00ea 1F46     		movcs	r7, r3
+ 2211 00ec 1FB9     		cbnz	r7, .L316
+ 2212 00ee 002E     		cmp	r6, #0
+ 2213 00f0 98D0     		beq	.L304
+ 2214 00f2 0126     		movs	r6, #1
+ 2215 00f4 A9E7     		b	.L300
+ 2216              	.L316:
+ 2217 00f6 0DF10703 		add	r3, sp, #7
+ 2218 00fa 3344     		add	r3, r3, r6
+ 2219 00fc 0136     		adds	r6, r6, #1
+ 2220 00fe A0E7     		b	.L303
+ 2221              	.L318:
+ 2222              		.align	2
+ 2223              	.L317:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 40
+
+
+ 2224 0100 00000000 		.word	_SEGGER_RTT
+ 2225 0104 00000000 		.word	.LANCHOR0
+ 2226 0108 00000000 		.word	.LC0
+ 2227              		.size	SEGGER_RTT_GetKey, .-SEGGER_RTT_GetKey
+ 2228              		.section	.text.SEGGER_RTT_WaitKey,"ax",%progbits
+ 2229              		.align	2
+ 2230              		.global	SEGGER_RTT_WaitKey
+ 2231              		.thumb
+ 2232              		.thumb_func
+ 2233              		.type	SEGGER_RTT_WaitKey, %function
+ 2234              	SEGGER_RTT_WaitKey:
+ 2235              		@ args = 0, pretend = 0, frame = 8
+ 2236              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2237 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 2238 0004 444F     		ldr	r7, .L340
+ 2239 0006 DFF81C81 		ldr	r8, .L340+12
+ 2240 000a 3C46     		mov	r4, r7
+ 2241 000c 83B0     		sub	sp, sp, #12
+ 2242              	.L327:
+ 2243              		.syntax unified
+ 2244              	@ 778 "..\SEGGER\SEGGER_RTT.c" 1
+ 2245 000e EFF3118A 		mrs   r10, basepri  
+ 2246 0012 4FF02001 		mov   r1, #32       
+ 2247 0016 81F31188 		msr   basepri, r1  
+ 2248              		
+ 2249              	@ 0 "" 2
+ 2250              		.thumb
+ 2251              		.syntax unified
+ 2252 001a 3B78     		ldrb	r3, [r7]	@ zero_extendqisi2
+ 2253 001c 03F0FF05 		and	r5, r3, #255
+ 2254 0020 D3B1     		cbz	r3, .L336
+ 2255 0022 3D6F     		ldr	r5, [r7, #112]
+ 2256 0024 D7F86C90 		ldr	r9, [r7, #108]
+ 2257 0028 4D45     		cmp	r5, r9
+ 2258 002a 51D8     		bhi	.L337
+ 2259              	.L321:
+ 2260 002c 09D1     		bne	.L338
+ 2261              	.L328:
+ 2262 002e 0026     		movs	r6, #0
+ 2263              	.L325:
+ 2264              		.syntax unified
+ 2265              	@ 786 "..\SEGGER\SEGGER_RTT.c" 1
+ 2266 0030 8AF31188 		msr   basepri, r10  
+ 2267              		
+ 2268              	@ 0 "" 2
+ 2269              		.thumb
+ 2270              		.syntax unified
+ 2271 0034 012E     		cmp	r6, #1
+ 2272 0036 EAD1     		bne	.L327
+ 2273 0038 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 2274 003c 03B0     		add	sp, sp, #12
+ 2275              		@ sp needed
+ 2276 003e BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 2277              	.L338:
+ 2278 0042 D4F864B0 		ldr	fp, [r4, #100]
+ 2279 0046 0126     		movs	r6, #1
+ 2280 0048 0DF10703 		add	r3, sp, #7
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 41
+
+
+ 2281              	.L329:
+ 2282 004c 1BF80520 		ldrb	r2, [fp, r5]	@ zero_extendqisi2
+ 2283 0050 0135     		adds	r5, r5, #1
+ 2284 0052 1A70     		strb	r2, [r3]
+ 2285              	.L324:
+ 2286 0054 3D67     		str	r5, [r7, #112]
+ 2287 0056 EBE7     		b	.L325
+ 2288              	.L336:
+ 2289 0058 2946     		mov	r1, r5
+ 2290 005a A822     		movs	r2, #168
+ 2291 005c 2E48     		ldr	r0, .L340
+ 2292 005e FFF7FEFF 		bl	memset
+ 2293 0062 2E4B     		ldr	r3, .L340+4
+ 2294 0064 0322     		movs	r2, #3
+ 2295 0066 4FF4806C 		mov	ip, #1024
+ 2296 006a 2D4E     		ldr	r6, .L340+8
+ 2297 006c 2261     		str	r2, [r4, #16]
+ 2298 006e 4FF05309 		mov	r9, #83
+ 2299 0072 6261     		str	r2, [r4, #20]
+ 2300 0074 4521     		movs	r1, #69
+ 2301 0076 A361     		str	r3, [r4, #24]
+ 2302 0078 4720     		movs	r0, #71
+ 2303 007a C4F81C80 		str	r8, [r4, #28]
+ 2304 007e 5222     		movs	r2, #82
+ 2305 0080 C4F820C0 		str	ip, [r4, #32]
+ 2306 0084 4FF0100E 		mov	lr, #16
+ 2307 0088 A562     		str	r5, [r4, #40]
+ 2308 008a 4FF0200C 		mov	ip, #32
+ 2309 008e 6562     		str	r5, [r4, #36]
+ 2310 0090 E562     		str	r5, [r4, #44]
+ 2311 0092 2366     		str	r3, [r4, #96]
+ 2312 0094 5423     		movs	r3, #84
+ 2313 0096 6666     		str	r6, [r4, #100]
+ 2314 0098 C4F868E0 		str	lr, [r4, #104]
+ 2315 009c 2567     		str	r5, [r4, #112]
+ 2316 009e E566     		str	r5, [r4, #108]
+ 2317 00a0 6567     		str	r5, [r4, #116]
+ 2318 00a2 84F80090 		strb	r9, [r4]
+ 2319 00a6 6170     		strb	r1, [r4, #1]
+ 2320 00a8 A070     		strb	r0, [r4, #2]
+ 2321 00aa E070     		strb	r0, [r4, #3]
+ 2322 00ac 2171     		strb	r1, [r4, #4]
+ 2323 00ae 6271     		strb	r2, [r4, #5]
+ 2324 00b0 84F806C0 		strb	ip, [r4, #6]
+ 2325 00b4 E271     		strb	r2, [r4, #7]
+ 2326 00b6 2372     		strb	r3, [r4, #8]
+ 2327 00b8 6372     		strb	r3, [r4, #9]
+ 2328 00ba A572     		strb	r5, [r4, #10]
+ 2329 00bc E572     		strb	r5, [r4, #11]
+ 2330 00be 2573     		strb	r5, [r4, #12]
+ 2331 00c0 6573     		strb	r5, [r4, #13]
+ 2332 00c2 A573     		strb	r5, [r4, #14]
+ 2333 00c4 E573     		strb	r5, [r4, #15]
+ 2334 00c6 D7F86C90 		ldr	r9, [r7, #108]
+ 2335 00ca 3D6F     		ldr	r5, [r7, #112]
+ 2336 00cc 4D45     		cmp	r5, r9
+ 2337 00ce ADD9     		bls	.L321
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 42
+
+
+ 2338              	.L337:
+ 2339 00d0 A26E     		ldr	r2, [r4, #104]
+ 2340 00d2 D4F864B0 		ldr	fp, [r4, #100]
+ 2341 00d6 561B     		subs	r6, r2, r5
+ 2342 00d8 012E     		cmp	r6, #1
+ 2343 00da 28BF     		it	cs
+ 2344 00dc 0126     		movcs	r6, #1
+ 2345 00de 0BEB0501 		add	r1, fp, r5
+ 2346 00e2 3544     		add	r5, r5, r6
+ 2347 00e4 AA42     		cmp	r2, r5
+ 2348 00e6 08BF     		it	eq
+ 2349 00e8 0025     		moveq	r5, #0
+ 2350 00ea 0DF10700 		add	r0, sp, #7
+ 2351 00ee 3246     		mov	r2, r6
+ 2352 00f0 FFF7FEFF 		bl	memcpy
+ 2353 00f4 C5EB0903 		rsb	r3, r5, r9
+ 2354 00f8 C6F10102 		rsb	r2, r6, #1
+ 2355 00fc 9342     		cmp	r3, r2
+ 2356 00fe 28BF     		it	cs
+ 2357 0100 1346     		movcs	r3, r2
+ 2358 0102 1BB9     		cbnz	r3, .L339
+ 2359 0104 002E     		cmp	r6, #0
+ 2360 0106 92D0     		beq	.L328
+ 2361 0108 0126     		movs	r6, #1
+ 2362 010a A3E7     		b	.L324
+ 2363              	.L339:
+ 2364 010c 0DF10703 		add	r3, sp, #7
+ 2365 0110 3344     		add	r3, r3, r6
+ 2366 0112 0136     		adds	r6, r6, #1
+ 2367 0114 9AE7     		b	.L329
+ 2368              	.L341:
+ 2369 0116 00BF     		.align	2
+ 2370              	.L340:
+ 2371 0118 00000000 		.word	_SEGGER_RTT
+ 2372 011c 00000000 		.word	.LC0
+ 2373 0120 00040000 		.word	.LANCHOR0+1024
+ 2374 0124 00000000 		.word	.LANCHOR0
+ 2375              		.size	SEGGER_RTT_WaitKey, .-SEGGER_RTT_WaitKey
+ 2376              		.section	.text.SEGGER_RTT_HasKey,"ax",%progbits
+ 2377              		.align	2
+ 2378              		.global	SEGGER_RTT_HasKey
+ 2379              		.thumb
+ 2380              		.thumb_func
+ 2381              		.type	SEGGER_RTT_HasKey, %function
+ 2382              	SEGGER_RTT_HasKey:
+ 2383              		@ args = 0, pretend = 0, frame = 0
+ 2384              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2385 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 2386 0002 1F4C     		ldr	r4, .L348
+ 2387 0004 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 2388 0006 2BB1     		cbz	r3, .L347
+ 2389              	.L344:
+ 2390 0008 E06E     		ldr	r0, [r4, #108]
+ 2391 000a 236F     		ldr	r3, [r4, #112]
+ 2392 000c 181A     		subs	r0, r3, r0
+ 2393 000e 18BF     		it	ne
+ 2394 0010 0120     		movne	r0, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 43
+
+
+ 2395 0012 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 2396              	.L347:
+ 2397 0014 03F0FF05 		and	r5, r3, #255
+ 2398 0018 A822     		movs	r2, #168
+ 2399 001a 2946     		mov	r1, r5
+ 2400 001c 2046     		mov	r0, r4
+ 2401 001e FFF7FEFF 		bl	memset
+ 2402 0022 184A     		ldr	r2, .L348+4
+ 2403 0024 184B     		ldr	r3, .L348+8
+ 2404 0026 0321     		movs	r1, #3
+ 2405 0028 02F58066 		add	r6, r2, #1024
+ 2406 002c 4FF48060 		mov	r0, #1024
+ 2407 0030 2161     		str	r1, [r4, #16]
+ 2408 0032 4FF0100E 		mov	lr, #16
+ 2409 0036 6161     		str	r1, [r4, #20]
+ 2410 0038 5327     		movs	r7, #83
+ 2411 003a A361     		str	r3, [r4, #24]
+ 2412 003c 4521     		movs	r1, #69
+ 2413 003e E261     		str	r2, [r4, #28]
+ 2414 0040 2062     		str	r0, [r4, #32]
+ 2415 0042 5222     		movs	r2, #82
+ 2416 0044 A562     		str	r5, [r4, #40]
+ 2417 0046 4720     		movs	r0, #71
+ 2418 0048 6562     		str	r5, [r4, #36]
+ 2419 004a E562     		str	r5, [r4, #44]
+ 2420 004c 2366     		str	r3, [r4, #96]
+ 2421 004e 6666     		str	r6, [r4, #100]
+ 2422 0050 5423     		movs	r3, #84
+ 2423 0052 2026     		movs	r6, #32
+ 2424 0054 C4F868E0 		str	lr, [r4, #104]
+ 2425 0058 2567     		str	r5, [r4, #112]
+ 2426 005a E566     		str	r5, [r4, #108]
+ 2427 005c 6567     		str	r5, [r4, #116]
+ 2428 005e 2770     		strb	r7, [r4]
+ 2429 0060 6170     		strb	r1, [r4, #1]
+ 2430 0062 A070     		strb	r0, [r4, #2]
+ 2431 0064 E070     		strb	r0, [r4, #3]
+ 2432 0066 2171     		strb	r1, [r4, #4]
+ 2433 0068 6271     		strb	r2, [r4, #5]
+ 2434 006a A671     		strb	r6, [r4, #6]
+ 2435 006c E271     		strb	r2, [r4, #7]
+ 2436 006e 2372     		strb	r3, [r4, #8]
+ 2437 0070 6372     		strb	r3, [r4, #9]
+ 2438 0072 A572     		strb	r5, [r4, #10]
+ 2439 0074 E572     		strb	r5, [r4, #11]
+ 2440 0076 2573     		strb	r5, [r4, #12]
+ 2441 0078 6573     		strb	r5, [r4, #13]
+ 2442 007a A573     		strb	r5, [r4, #14]
+ 2443 007c E573     		strb	r5, [r4, #15]
+ 2444 007e C3E7     		b	.L344
+ 2445              	.L349:
+ 2446              		.align	2
+ 2447              	.L348:
+ 2448 0080 00000000 		.word	_SEGGER_RTT
+ 2449 0084 00000000 		.word	.LANCHOR0
+ 2450 0088 00000000 		.word	.LC0
+ 2451              		.size	SEGGER_RTT_HasKey, .-SEGGER_RTT_HasKey
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 44
+
+
+ 2452              		.section	.text.SEGGER_RTT_HasData,"ax",%progbits
+ 2453              		.align	2
+ 2454              		.global	SEGGER_RTT_HasData
+ 2455              		.thumb
+ 2456              		.thumb_func
+ 2457              		.type	SEGGER_RTT_HasData, %function
+ 2458              	SEGGER_RTT_HasData:
+ 2459              		@ args = 0, pretend = 0, frame = 0
+ 2460              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2461              		@ link register save eliminated.
+ 2462 0000 044B     		ldr	r3, .L351
+ 2463 0002 00EB4000 		add	r0, r0, r0, lsl #1
+ 2464 0006 03EBC003 		add	r3, r3, r0, lsl #3
+ 2465 000a D86E     		ldr	r0, [r3, #108]
+ 2466 000c 1B6F     		ldr	r3, [r3, #112]
+ 2467 000e C01A     		subs	r0, r0, r3
+ 2468 0010 7047     		bx	lr
+ 2469              	.L352:
+ 2470 0012 00BF     		.align	2
+ 2471              	.L351:
+ 2472 0014 00000000 		.word	_SEGGER_RTT
+ 2473              		.size	SEGGER_RTT_HasData, .-SEGGER_RTT_HasData
+ 2474              		.section	.text.SEGGER_RTT_HasDataUp,"ax",%progbits
+ 2475              		.align	2
+ 2476              		.global	SEGGER_RTT_HasDataUp
+ 2477              		.thumb
+ 2478              		.thumb_func
+ 2479              		.type	SEGGER_RTT_HasDataUp, %function
+ 2480              	SEGGER_RTT_HasDataUp:
+ 2481              		@ args = 0, pretend = 0, frame = 0
+ 2482              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2483              		@ link register save eliminated.
+ 2484 0000 044B     		ldr	r3, .L354
+ 2485 0002 00EB4000 		add	r0, r0, r0, lsl #1
+ 2486 0006 03EBC003 		add	r3, r3, r0, lsl #3
+ 2487 000a 9A6A     		ldr	r2, [r3, #40]
+ 2488 000c 586A     		ldr	r0, [r3, #36]
+ 2489 000e 801A     		subs	r0, r0, r2
+ 2490 0010 7047     		bx	lr
+ 2491              	.L355:
+ 2492 0012 00BF     		.align	2
+ 2493              	.L354:
+ 2494 0014 00000000 		.word	_SEGGER_RTT
+ 2495              		.size	SEGGER_RTT_HasDataUp, .-SEGGER_RTT_HasDataUp
+ 2496              		.section	.text.SEGGER_RTT_AllocDownBuffer,"ax",%progbits
+ 2497              		.align	2
+ 2498              		.global	SEGGER_RTT_AllocDownBuffer
+ 2499              		.thumb
+ 2500              		.thumb_func
+ 2501              		.type	SEGGER_RTT_AllocDownBuffer, %function
+ 2502              	SEGGER_RTT_AllocDownBuffer:
+ 2503              		@ args = 0, pretend = 0, frame = 8
+ 2504              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2505 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 2506 0004 3C4C     		ldr	r4, .L369
+ 2507 0006 0746     		mov	r7, r0
+ 2508 0008 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 45
+
+
+ 2509 000a 82B0     		sub	sp, sp, #8
+ 2510 000c 0E46     		mov	r6, r1
+ 2511 000e 1546     		mov	r5, r2
+ 2512 0010 38B3     		cbz	r0, .L357
+ 2513              	.L359:
+ 2514              		.syntax unified
+ 2515              	@ 1550 "..\SEGGER\SEGGER_RTT.c" 1
+ 2516 0012 EFF3118E 		mrs   lr, basepri  
+ 2517 0016 4FF02001 		mov   r1, #32       
+ 2518 001a 81F31188 		msr   basepri, r1  
+ 2519              		
+ 2520              	@ 0 "" 2
+ 2521              		.thumb
+ 2522              		.syntax unified
+ 2523 001e 0020     		movs	r0, #0
+ 2524 0020 3549     		ldr	r1, .L369
+ 2525 0022 03E0     		b	.L358
+ 2526              	.L368:
+ 2527 0024 4A69     		ldr	r2, [r1, #20]
+ 2528 0026 0130     		adds	r0, r0, #1
+ 2529 0028 9042     		cmp	r0, r2
+ 2530 002a 06DA     		bge	.L360
+ 2531              	.L358:
+ 2532 002c 00EB4002 		add	r2, r0, r0, lsl #1
+ 2533 0030 04EBC202 		add	r2, r4, r2, lsl #3
+ 2534 0034 526E     		ldr	r2, [r2, #100]
+ 2535 0036 002A     		cmp	r2, #0
+ 2536 0038 F4D1     		bne	.L368
+ 2537              	.L360:
+ 2538 003a 6169     		ldr	r1, [r4, #20]
+ 2539 003c 2E4A     		ldr	r2, .L369
+ 2540 003e 8842     		cmp	r0, r1
+ 2541 0040 56DA     		bge	.L362
+ 2542 0042 00EB4001 		add	r1, r0, r0, lsl #1
+ 2543 0046 02EBC102 		add	r2, r2, r1, lsl #3
+ 2544 004a 0021     		movs	r1, #0
+ 2545 004c 1766     		str	r7, [r2, #96]
+ 2546 004e 5666     		str	r6, [r2, #100]
+ 2547 0050 9566     		str	r5, [r2, #104]
+ 2548 0052 1167     		str	r1, [r2, #112]
+ 2549 0054 D166     		str	r1, [r2, #108]
+ 2550 0056 5367     		str	r3, [r2, #116]
+ 2551              	.L361:
+ 2552              		.syntax unified
+ 2553              	@ 1570 "..\SEGGER\SEGGER_RTT.c" 1
+ 2554 0058 8EF31188 		msr   basepri, lr  
+ 2555              		
+ 2556              	@ 0 "" 2
+ 2557              		.thumb
+ 2558              		.syntax unified
+ 2559 005c 02B0     		add	sp, sp, #8
+ 2560              		@ sp needed
+ 2561 005e BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 2562              	.L357:
+ 2563 0062 00F0FF08 		and	r8, r0, #255
+ 2564 0066 A822     		movs	r2, #168
+ 2565 0068 4146     		mov	r1, r8
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 46
+
+
+ 2566 006a 2046     		mov	r0, r4
+ 2567 006c 0193     		str	r3, [sp, #4]
+ 2568 006e FFF7FEFF 		bl	memset
+ 2569 0072 2249     		ldr	r1, .L369+4
+ 2570 0074 224A     		ldr	r2, .L369+8
+ 2571 0076 0320     		movs	r0, #3
+ 2572 0078 2061     		str	r0, [r4, #16]
+ 2573 007a 6061     		str	r0, [r4, #20]
+ 2574 007c 4FF48060 		mov	r0, #1024
+ 2575 0080 A261     		str	r2, [r4, #24]
+ 2576 0082 01F5806C 		add	ip, r1, #1024
+ 2577 0086 E161     		str	r1, [r4, #28]
+ 2578 0088 4FF0530E 		mov	lr, #83
+ 2579 008c 2062     		str	r0, [r4, #32]
+ 2580 008e 1021     		movs	r1, #16
+ 2581 0090 C4F82880 		str	r8, [r4, #40]
+ 2582 0094 4520     		movs	r0, #69
+ 2583 0096 C4F82480 		str	r8, [r4, #36]
+ 2584 009a C4F82C80 		str	r8, [r4, #44]
+ 2585 009e 2266     		str	r2, [r4, #96]
+ 2586 00a0 4722     		movs	r2, #71
+ 2587 00a2 C4F864C0 		str	ip, [r4, #100]
+ 2588 00a6 A166     		str	r1, [r4, #104]
+ 2589 00a8 C4F87080 		str	r8, [r4, #112]
+ 2590 00ac 5221     		movs	r1, #82
+ 2591 00ae C4F86C80 		str	r8, [r4, #108]
+ 2592 00b2 C4F87480 		str	r8, [r4, #116]
+ 2593 00b6 84F800E0 		strb	lr, [r4]
+ 2594 00ba 6070     		strb	r0, [r4, #1]
+ 2595 00bc 4FF0200E 		mov	lr, #32
+ 2596 00c0 A270     		strb	r2, [r4, #2]
+ 2597 00c2 E270     		strb	r2, [r4, #3]
+ 2598 00c4 5422     		movs	r2, #84
+ 2599 00c6 2071     		strb	r0, [r4, #4]
+ 2600 00c8 019B     		ldr	r3, [sp, #4]
+ 2601 00ca 6171     		strb	r1, [r4, #5]
+ 2602 00cc 84F806E0 		strb	lr, [r4, #6]
+ 2603 00d0 E171     		strb	r1, [r4, #7]
+ 2604 00d2 2272     		strb	r2, [r4, #8]
+ 2605 00d4 6272     		strb	r2, [r4, #9]
+ 2606 00d6 84F80A80 		strb	r8, [r4, #10]
+ 2607 00da 84F80B80 		strb	r8, [r4, #11]
+ 2608 00de 84F80C80 		strb	r8, [r4, #12]
+ 2609 00e2 84F80D80 		strb	r8, [r4, #13]
+ 2610 00e6 84F80E80 		strb	r8, [r4, #14]
+ 2611 00ea 84F80F80 		strb	r8, [r4, #15]
+ 2612 00ee 90E7     		b	.L359
+ 2613              	.L362:
+ 2614 00f0 4FF0FF30 		mov	r0, #-1
+ 2615 00f4 B0E7     		b	.L361
+ 2616              	.L370:
+ 2617 00f6 00BF     		.align	2
+ 2618              	.L369:
+ 2619 00f8 00000000 		.word	_SEGGER_RTT
+ 2620 00fc 00000000 		.word	.LANCHOR0
+ 2621 0100 00000000 		.word	.LC0
+ 2622              		.size	SEGGER_RTT_AllocDownBuffer, .-SEGGER_RTT_AllocDownBuffer
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 47
+
+
+ 2623              		.section	.text.SEGGER_RTT_AllocUpBuffer,"ax",%progbits
+ 2624              		.align	2
+ 2625              		.global	SEGGER_RTT_AllocUpBuffer
+ 2626              		.thumb
+ 2627              		.thumb_func
+ 2628              		.type	SEGGER_RTT_AllocUpBuffer, %function
+ 2629              	SEGGER_RTT_AllocUpBuffer:
+ 2630              		@ args = 0, pretend = 0, frame = 0
+ 2631              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2632 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 2633 0004 3F4C     		ldr	r4, .L386
+ 2634 0006 8046     		mov	r8, r0
+ 2635 0008 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 2636 000a 0F46     		mov	r7, r1
+ 2637 000c 1646     		mov	r6, r2
+ 2638 000e 1D46     		mov	r5, r3
+ 2639 0010 0028     		cmp	r0, #0
+ 2640 0012 2FD0     		beq	.L372
+ 2641              	.L376:
+ 2642              		.syntax unified
+ 2643              	@ 1598 "..\SEGGER\SEGGER_RTT.c" 1
+ 2644 0014 EFF3118E 		mrs   lr, basepri  
+ 2645 0018 4FF02001 		mov   r1, #32       
+ 2646 001c 81F31188 		msr   basepri, r1  
+ 2647              		
+ 2648              	@ 0 "" 2
+ 2649              		.thumb
+ 2650              		.syntax unified
+ 2651 0020 E069     		ldr	r0, [r4, #28]
+ 2652 0022 384B     		ldr	r3, .L386
+ 2653 0024 68B1     		cbz	r0, .L378
+ 2654 0026 1A69     		ldr	r2, [r3, #16]
+ 2655 0028 012A     		cmp	r2, #1
+ 2656 002a 66DD     		ble	.L381
+ 2657 002c 5A6B     		ldr	r2, [r3, #52]
+ 2658 002e 002A     		cmp	r2, #0
+ 2659 0030 63D0     		beq	.L381
+ 2660 0032 1A69     		ldr	r2, [r3, #16]
+ 2661 0034 022A     		cmp	r2, #2
+ 2662 0036 5EDD     		ble	.L385
+ 2663 0038 DA6C     		ldr	r2, [r3, #76]
+ 2664 003a 002A     		cmp	r2, #0
+ 2665 003c 5BD0     		beq	.L385
+ 2666 003e 1B69     		ldr	r3, [r3, #16]
+ 2667 0040 0320     		movs	r0, #3
+ 2668              	.L378:
+ 2669 0042 2369     		ldr	r3, [r4, #16]
+ 2670 0044 2F49     		ldr	r1, .L386
+ 2671 0046 9842     		cmp	r0, r3
+ 2672 0048 59DA     		bge	.L383
+ 2673 004a 421C     		adds	r2, r0, #1
+ 2674 004c 02EB4202 		add	r2, r2, r2, lsl #1
+ 2675 0050 D200     		lsls	r2, r2, #3
+ 2676 0052 00EB4003 		add	r3, r0, r0, lsl #1
+ 2677 0056 41F80280 		str	r8, [r1, r2]
+ 2678 005a 01EBC303 		add	r3, r1, r3, lsl #3
+ 2679 005e 0A44     		add	r2, r2, r1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 48
+
+
+ 2680 0060 0021     		movs	r1, #0
+ 2681 0062 5760     		str	r7, [r2, #4]
+ 2682 0064 1E62     		str	r6, [r3, #32]
+ 2683 0066 9962     		str	r1, [r3, #40]
+ 2684 0068 5962     		str	r1, [r3, #36]
+ 2685 006a DD62     		str	r5, [r3, #44]
+ 2686              	.L379:
+ 2687              		.syntax unified
+ 2688              	@ 1618 "..\SEGGER\SEGGER_RTT.c" 1
+ 2689 006c 8EF31188 		msr   basepri, lr  
+ 2690              		
+ 2691              	@ 0 "" 2
+ 2692              		.thumb
+ 2693              		.syntax unified
+ 2694 0070 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 2695              	.L372:
+ 2696 0074 00F0FF09 		and	r9, r0, #255
+ 2697 0078 A822     		movs	r2, #168
+ 2698 007a 4946     		mov	r1, r9
+ 2699 007c 2046     		mov	r0, r4
+ 2700 007e FFF7FEFF 		bl	memset
+ 2701 0082 214A     		ldr	r2, .L386+4
+ 2702 0084 214B     		ldr	r3, .L386+8
+ 2703 0086 0321     		movs	r1, #3
+ 2704 0088 2161     		str	r1, [r4, #16]
+ 2705 008a 6161     		str	r1, [r4, #20]
+ 2706 008c 4FF48061 		mov	r1, #1024
+ 2707 0090 A361     		str	r3, [r4, #24]
+ 2708 0092 02F5806E 		add	lr, r2, #1024
+ 2709 0096 E261     		str	r2, [r4, #28]
+ 2710 0098 5320     		movs	r0, #83
+ 2711 009a 2162     		str	r1, [r4, #32]
+ 2712 009c 1022     		movs	r2, #16
+ 2713 009e C4F82890 		str	r9, [r4, #40]
+ 2714 00a2 4521     		movs	r1, #69
+ 2715 00a4 C4F82490 		str	r9, [r4, #36]
+ 2716 00a8 C4F82C90 		str	r9, [r4, #44]
+ 2717 00ac 2366     		str	r3, [r4, #96]
+ 2718 00ae 4723     		movs	r3, #71
+ 2719 00b0 C4F864E0 		str	lr, [r4, #100]
+ 2720 00b4 A266     		str	r2, [r4, #104]
+ 2721 00b6 C4F87090 		str	r9, [r4, #112]
+ 2722 00ba 5222     		movs	r2, #82
+ 2723 00bc C4F86C90 		str	r9, [r4, #108]
+ 2724 00c0 C4F87490 		str	r9, [r4, #116]
+ 2725 00c4 2070     		strb	r0, [r4]
+ 2726 00c6 6170     		strb	r1, [r4, #1]
+ 2727 00c8 2020     		movs	r0, #32
+ 2728 00ca A370     		strb	r3, [r4, #2]
+ 2729 00cc E370     		strb	r3, [r4, #3]
+ 2730 00ce 5423     		movs	r3, #84
+ 2731 00d0 2171     		strb	r1, [r4, #4]
+ 2732 00d2 6271     		strb	r2, [r4, #5]
+ 2733 00d4 A071     		strb	r0, [r4, #6]
+ 2734 00d6 E271     		strb	r2, [r4, #7]
+ 2735 00d8 2372     		strb	r3, [r4, #8]
+ 2736 00da 6372     		strb	r3, [r4, #9]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 49
+
+
+ 2737 00dc 84F80A90 		strb	r9, [r4, #10]
+ 2738 00e0 84F80B90 		strb	r9, [r4, #11]
+ 2739 00e4 84F80C90 		strb	r9, [r4, #12]
+ 2740 00e8 84F80D90 		strb	r9, [r4, #13]
+ 2741 00ec 84F80E90 		strb	r9, [r4, #14]
+ 2742 00f0 84F80F90 		strb	r9, [r4, #15]
+ 2743 00f4 8EE7     		b	.L376
+ 2744              	.L385:
+ 2745 00f6 0220     		movs	r0, #2
+ 2746 00f8 A3E7     		b	.L378
+ 2747              	.L381:
+ 2748 00fa 0120     		movs	r0, #1
+ 2749 00fc A1E7     		b	.L378
+ 2750              	.L383:
+ 2751 00fe 4FF0FF30 		mov	r0, #-1
+ 2752 0102 B3E7     		b	.L379
+ 2753              	.L387:
+ 2754              		.align	2
+ 2755              	.L386:
+ 2756 0104 00000000 		.word	_SEGGER_RTT
+ 2757 0108 00000000 		.word	.LANCHOR0
+ 2758 010c 00000000 		.word	.LC0
+ 2759              		.size	SEGGER_RTT_AllocUpBuffer, .-SEGGER_RTT_AllocUpBuffer
+ 2760              		.section	.text.SEGGER_RTT_ConfigUpBuffer,"ax",%progbits
+ 2761              		.align	2
+ 2762              		.global	SEGGER_RTT_ConfigUpBuffer
+ 2763              		.thumb
+ 2764              		.thumb_func
+ 2765              		.type	SEGGER_RTT_ConfigUpBuffer, %function
+ 2766              	SEGGER_RTT_ConfigUpBuffer:
+ 2767              		@ args = 4, pretend = 0, frame = 0
+ 2768              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2769 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 2770 0004 384C     		ldr	r4, .L399
+ 2771 0006 0546     		mov	r5, r0
+ 2772 0008 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 2773 000a 8846     		mov	r8, r1
+ 2774 000c 1746     		mov	r7, r2
+ 2775 000e 1E46     		mov	r6, r3
+ 2776 0010 20B3     		cbz	r0, .L389
+ 2777              	.L392:
+ 2778 0012 022D     		cmp	r5, #2
+ 2779 0014 63D8     		bhi	.L398
+ 2780              		.syntax unified
+ 2781              	@ 1655 "..\SEGGER\SEGGER_RTT.c" 1
+ 2782 0016 EFF31180 		mrs   r0, basepri  
+ 2783 001a 4FF02001 		mov   r1, #32       
+ 2784 001e 81F31188 		msr   basepri, r1  
+ 2785              		
+ 2786              	@ 0 "" 2
+ 2787              		.thumb
+ 2788              		.syntax unified
+ 2789 0022 55B9     		cbnz	r5, .L396
+ 2790 0024 2946     		mov	r1, r5
+ 2791              	.L393:
+ 2792 0026 0D44     		add	r5, r5, r1
+ 2793 0028 089B     		ldr	r3, [sp, #32]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 50
+
+
+ 2794 002a 04EBC504 		add	r4, r4, r5, lsl #3
+ 2795 002e E362     		str	r3, [r4, #44]
+ 2796              		.syntax unified
+ 2797              	@ 1665 "..\SEGGER\SEGGER_RTT.c" 1
+ 2798 0030 80F31188 		msr   basepri, r0  
+ 2799              		
+ 2800              	@ 0 "" 2
+ 2801              		.thumb
+ 2802              		.syntax unified
+ 2803 0034 0020     		movs	r0, #0
+ 2804 0036 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 2805              	.L396:
+ 2806 003a 6A1C     		adds	r2, r5, #1
+ 2807 003c 02EB4202 		add	r2, r2, r2, lsl #1
+ 2808 0040 D200     		lsls	r2, r2, #3
+ 2809 0042 6900     		lsls	r1, r5, #1
+ 2810 0044 44F80280 		str	r8, [r4, r2]
+ 2811 0048 4B19     		adds	r3, r1, r5
+ 2812 004a 2244     		add	r2, r2, r4
+ 2813 004c 5760     		str	r7, [r2, #4]
+ 2814 004e 04EBC303 		add	r3, r4, r3, lsl #3
+ 2815 0052 0022     		movs	r2, #0
+ 2816 0054 1E62     		str	r6, [r3, #32]
+ 2817 0056 9A62     		str	r2, [r3, #40]
+ 2818 0058 5A62     		str	r2, [r3, #36]
+ 2819 005a E4E7     		b	.L393
+ 2820              	.L389:
+ 2821 005c 00F0FF09 		and	r9, r0, #255
+ 2822 0060 A822     		movs	r2, #168
+ 2823 0062 4946     		mov	r1, r9
+ 2824 0064 2046     		mov	r0, r4
+ 2825 0066 FFF7FEFF 		bl	memset
+ 2826 006a 204A     		ldr	r2, .L399+4
+ 2827 006c 204B     		ldr	r3, .L399+8
+ 2828 006e 0321     		movs	r1, #3
+ 2829 0070 2161     		str	r1, [r4, #16]
+ 2830 0072 6161     		str	r1, [r4, #20]
+ 2831 0074 4FF48061 		mov	r1, #1024
+ 2832 0078 A361     		str	r3, [r4, #24]
+ 2833 007a 02F5806E 		add	lr, r2, #1024
+ 2834 007e E261     		str	r2, [r4, #28]
+ 2835 0080 5320     		movs	r0, #83
+ 2836 0082 2162     		str	r1, [r4, #32]
+ 2837 0084 1022     		movs	r2, #16
+ 2838 0086 C4F82890 		str	r9, [r4, #40]
+ 2839 008a 4521     		movs	r1, #69
+ 2840 008c C4F82490 		str	r9, [r4, #36]
+ 2841 0090 C4F82C90 		str	r9, [r4, #44]
+ 2842 0094 2366     		str	r3, [r4, #96]
+ 2843 0096 4723     		movs	r3, #71
+ 2844 0098 C4F864E0 		str	lr, [r4, #100]
+ 2845 009c A266     		str	r2, [r4, #104]
+ 2846 009e C4F87090 		str	r9, [r4, #112]
+ 2847 00a2 5222     		movs	r2, #82
+ 2848 00a4 C4F86C90 		str	r9, [r4, #108]
+ 2849 00a8 C4F87490 		str	r9, [r4, #116]
+ 2850 00ac 2070     		strb	r0, [r4]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 51
+
+
+ 2851 00ae 6170     		strb	r1, [r4, #1]
+ 2852 00b0 2020     		movs	r0, #32
+ 2853 00b2 A370     		strb	r3, [r4, #2]
+ 2854 00b4 E370     		strb	r3, [r4, #3]
+ 2855 00b6 5423     		movs	r3, #84
+ 2856 00b8 2171     		strb	r1, [r4, #4]
+ 2857 00ba 6271     		strb	r2, [r4, #5]
+ 2858 00bc A071     		strb	r0, [r4, #6]
+ 2859 00be E271     		strb	r2, [r4, #7]
+ 2860 00c0 2372     		strb	r3, [r4, #8]
+ 2861 00c2 6372     		strb	r3, [r4, #9]
+ 2862 00c4 84F80A90 		strb	r9, [r4, #10]
+ 2863 00c8 84F80B90 		strb	r9, [r4, #11]
+ 2864 00cc 84F80C90 		strb	r9, [r4, #12]
+ 2865 00d0 84F80D90 		strb	r9, [r4, #13]
+ 2866 00d4 84F80E90 		strb	r9, [r4, #14]
+ 2867 00d8 84F80F90 		strb	r9, [r4, #15]
+ 2868 00dc 99E7     		b	.L392
+ 2869              	.L398:
+ 2870 00de 4FF0FF30 		mov	r0, #-1
+ 2871 00e2 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 2872              	.L400:
+ 2873 00e6 00BF     		.align	2
+ 2874              	.L399:
+ 2875 00e8 00000000 		.word	_SEGGER_RTT
+ 2876 00ec 00000000 		.word	.LANCHOR0
+ 2877 00f0 00000000 		.word	.LC0
+ 2878              		.size	SEGGER_RTT_ConfigUpBuffer, .-SEGGER_RTT_ConfigUpBuffer
+ 2879              		.section	.text.SEGGER_RTT_ConfigDownBuffer,"ax",%progbits
+ 2880              		.align	2
+ 2881              		.global	SEGGER_RTT_ConfigDownBuffer
+ 2882              		.thumb
+ 2883              		.thumb_func
+ 2884              		.type	SEGGER_RTT_ConfigDownBuffer, %function
+ 2885              	SEGGER_RTT_ConfigDownBuffer:
+ 2886              		@ args = 4, pretend = 0, frame = 0
+ 2887              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2888 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 2889 0004 304C     		ldr	r4, .L412
+ 2890 0006 0546     		mov	r5, r0
+ 2891 0008 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 2892 000a 8846     		mov	r8, r1
+ 2893 000c 1746     		mov	r7, r2
+ 2894 000e 9946     		mov	r9, r3
+ 2895 0010 00B3     		cbz	r0, .L402
+ 2896              	.L405:
+ 2897 0012 022D     		cmp	r5, #2
+ 2898 0014 53D8     		bhi	.L411
+ 2899              		.syntax unified
+ 2900              	@ 1706 "..\SEGGER\SEGGER_RTT.c" 1
+ 2901 0016 EFF31180 		mrs   r0, basepri  
+ 2902 001a 4FF02001 		mov   r1, #32       
+ 2903 001e 81F31188 		msr   basepri, r1  
+ 2904              		
+ 2905              	@ 0 "" 2
+ 2906              		.thumb
+ 2907              		.syntax unified
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 52
+
+
+ 2908 0022 55B9     		cbnz	r5, .L409
+ 2909 0024 2B46     		mov	r3, r5
+ 2910              	.L406:
+ 2911 0026 1D44     		add	r5, r5, r3
+ 2912 0028 089B     		ldr	r3, [sp, #32]
+ 2913 002a 04EBC504 		add	r4, r4, r5, lsl #3
+ 2914 002e 6367     		str	r3, [r4, #116]
+ 2915              		.syntax unified
+ 2916              	@ 1717 "..\SEGGER\SEGGER_RTT.c" 1
+ 2917 0030 80F31188 		msr   basepri, r0  
+ 2918              		
+ 2919              	@ 0 "" 2
+ 2920              		.thumb
+ 2921              		.syntax unified
+ 2922 0034 0020     		movs	r0, #0
+ 2923 0036 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 2924              	.L409:
+ 2925 003a 6B00     		lsls	r3, r5, #1
+ 2926 003c 5A19     		adds	r2, r3, r5
+ 2927 003e 04EBC202 		add	r2, r4, r2, lsl #3
+ 2928 0042 0021     		movs	r1, #0
+ 2929 0044 C2F86080 		str	r8, [r2, #96]
+ 2930 0048 5766     		str	r7, [r2, #100]
+ 2931 004a C2F86890 		str	r9, [r2, #104]
+ 2932 004e 1167     		str	r1, [r2, #112]
+ 2933 0050 D166     		str	r1, [r2, #108]
+ 2934 0052 E8E7     		b	.L406
+ 2935              	.L402:
+ 2936 0054 00F0FF06 		and	r6, r0, #255
+ 2937 0058 A822     		movs	r2, #168
+ 2938 005a 3146     		mov	r1, r6
+ 2939 005c 2046     		mov	r0, r4
+ 2940 005e FFF7FEFF 		bl	memset
+ 2941 0062 1A4A     		ldr	r2, .L412+4
+ 2942 0064 1A4B     		ldr	r3, .L412+8
+ 2943 0066 0321     		movs	r1, #3
+ 2944 0068 2161     		str	r1, [r4, #16]
+ 2945 006a 6161     		str	r1, [r4, #20]
+ 2946 006c 4FF48061 		mov	r1, #1024
+ 2947 0070 A361     		str	r3, [r4, #24]
+ 2948 0072 02F5806E 		add	lr, r2, #1024
+ 2949 0076 E261     		str	r2, [r4, #28]
+ 2950 0078 5320     		movs	r0, #83
+ 2951 007a 2162     		str	r1, [r4, #32]
+ 2952 007c 1022     		movs	r2, #16
+ 2953 007e A662     		str	r6, [r4, #40]
+ 2954 0080 4521     		movs	r1, #69
+ 2955 0082 6662     		str	r6, [r4, #36]
+ 2956 0084 E662     		str	r6, [r4, #44]
+ 2957 0086 2366     		str	r3, [r4, #96]
+ 2958 0088 4723     		movs	r3, #71
+ 2959 008a C4F864E0 		str	lr, [r4, #100]
+ 2960 008e A266     		str	r2, [r4, #104]
+ 2961 0090 2667     		str	r6, [r4, #112]
+ 2962 0092 5222     		movs	r2, #82
+ 2963 0094 E666     		str	r6, [r4, #108]
+ 2964 0096 6667     		str	r6, [r4, #116]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 53
+
+
+ 2965 0098 2070     		strb	r0, [r4]
+ 2966 009a 6170     		strb	r1, [r4, #1]
+ 2967 009c 2020     		movs	r0, #32
+ 2968 009e A370     		strb	r3, [r4, #2]
+ 2969 00a0 E370     		strb	r3, [r4, #3]
+ 2970 00a2 5423     		movs	r3, #84
+ 2971 00a4 2171     		strb	r1, [r4, #4]
+ 2972 00a6 6271     		strb	r2, [r4, #5]
+ 2973 00a8 A071     		strb	r0, [r4, #6]
+ 2974 00aa E271     		strb	r2, [r4, #7]
+ 2975 00ac 2372     		strb	r3, [r4, #8]
+ 2976 00ae 6372     		strb	r3, [r4, #9]
+ 2977 00b0 A672     		strb	r6, [r4, #10]
+ 2978 00b2 E672     		strb	r6, [r4, #11]
+ 2979 00b4 2673     		strb	r6, [r4, #12]
+ 2980 00b6 6673     		strb	r6, [r4, #13]
+ 2981 00b8 A673     		strb	r6, [r4, #14]
+ 2982 00ba E673     		strb	r6, [r4, #15]
+ 2983 00bc A9E7     		b	.L405
+ 2984              	.L411:
+ 2985 00be 4FF0FF30 		mov	r0, #-1
+ 2986 00c2 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 2987              	.L413:
+ 2988 00c6 00BF     		.align	2
+ 2989              	.L412:
+ 2990 00c8 00000000 		.word	_SEGGER_RTT
+ 2991 00cc 00000000 		.word	.LANCHOR0
+ 2992 00d0 00000000 		.word	.LC0
+ 2993              		.size	SEGGER_RTT_ConfigDownBuffer, .-SEGGER_RTT_ConfigDownBuffer
+ 2994              		.section	.text.SEGGER_RTT_SetNameUpBuffer,"ax",%progbits
+ 2995              		.align	2
+ 2996              		.global	SEGGER_RTT_SetNameUpBuffer
+ 2997              		.thumb
+ 2998              		.thumb_func
+ 2999              		.type	SEGGER_RTT_SetNameUpBuffer, %function
+ 3000              	SEGGER_RTT_SetNameUpBuffer:
+ 3001              		@ args = 0, pretend = 0, frame = 0
+ 3002              		@ frame_needed = 0, uses_anonymous_args = 0
+ 3003 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 3004 0002 274C     		ldr	r4, .L421
+ 3005 0004 0546     		mov	r5, r0
+ 3006 0006 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 3007 0008 0F46     		mov	r7, r1
+ 3008 000a 83B1     		cbz	r3, .L415
+ 3009              	.L418:
+ 3010 000c 022D     		cmp	r5, #2
+ 3011 000e 43D8     		bhi	.L420
+ 3012              		.syntax unified
+ 3013              	@ 1749 "..\SEGGER\SEGGER_RTT.c" 1
+ 3014 0010 EFF31183 		mrs   r3, basepri  
+ 3015 0014 4FF02001 		mov   r1, #32       
+ 3016 0018 81F31188 		msr   basepri, r1  
+ 3017              		
+ 3018              	@ 0 "" 2
+ 3019              		.thumb
+ 3020              		.syntax unified
+ 3021 001c 0135     		adds	r5, r5, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 54
+
+
+ 3022 001e 05EB4505 		add	r5, r5, r5, lsl #1
+ 3023 0022 ED00     		lsls	r5, r5, #3
+ 3024 0024 6751     		str	r7, [r4, r5]
+ 3025              		.syntax unified
+ 3026              	@ 1752 "..\SEGGER\SEGGER_RTT.c" 1
+ 3027 0026 83F31188 		msr   basepri, r3  
+ 3028              		
+ 3029              	@ 0 "" 2
+ 3030              		.thumb
+ 3031              		.syntax unified
+ 3032 002a 0020     		movs	r0, #0
+ 3033 002c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 3034              	.L415:
+ 3035 002e 03F0FF06 		and	r6, r3, #255
+ 3036 0032 A822     		movs	r2, #168
+ 3037 0034 3146     		mov	r1, r6
+ 3038 0036 2046     		mov	r0, r4
+ 3039 0038 FFF7FEFF 		bl	memset
+ 3040 003c 194A     		ldr	r2, .L421+4
+ 3041 003e 1A4B     		ldr	r3, .L421+8
+ 3042 0040 0321     		movs	r1, #3
+ 3043 0042 2161     		str	r1, [r4, #16]
+ 3044 0044 6161     		str	r1, [r4, #20]
+ 3045 0046 4FF48061 		mov	r1, #1024
+ 3046 004a A361     		str	r3, [r4, #24]
+ 3047 004c 02F5806E 		add	lr, r2, #1024
+ 3048 0050 E261     		str	r2, [r4, #28]
+ 3049 0052 5320     		movs	r0, #83
+ 3050 0054 2162     		str	r1, [r4, #32]
+ 3051 0056 1022     		movs	r2, #16
+ 3052 0058 A662     		str	r6, [r4, #40]
+ 3053 005a 4521     		movs	r1, #69
+ 3054 005c 6662     		str	r6, [r4, #36]
+ 3055 005e E662     		str	r6, [r4, #44]
+ 3056 0060 2366     		str	r3, [r4, #96]
+ 3057 0062 4723     		movs	r3, #71
+ 3058 0064 C4F864E0 		str	lr, [r4, #100]
+ 3059 0068 A266     		str	r2, [r4, #104]
+ 3060 006a 2667     		str	r6, [r4, #112]
+ 3061 006c 5222     		movs	r2, #82
+ 3062 006e E666     		str	r6, [r4, #108]
+ 3063 0070 6667     		str	r6, [r4, #116]
+ 3064 0072 2070     		strb	r0, [r4]
+ 3065 0074 6170     		strb	r1, [r4, #1]
+ 3066 0076 2020     		movs	r0, #32
+ 3067 0078 A370     		strb	r3, [r4, #2]
+ 3068 007a E370     		strb	r3, [r4, #3]
+ 3069 007c 5423     		movs	r3, #84
+ 3070 007e 2171     		strb	r1, [r4, #4]
+ 3071 0080 6271     		strb	r2, [r4, #5]
+ 3072 0082 A071     		strb	r0, [r4, #6]
+ 3073 0084 E271     		strb	r2, [r4, #7]
+ 3074 0086 2372     		strb	r3, [r4, #8]
+ 3075 0088 6372     		strb	r3, [r4, #9]
+ 3076 008a A672     		strb	r6, [r4, #10]
+ 3077 008c E672     		strb	r6, [r4, #11]
+ 3078 008e 2673     		strb	r6, [r4, #12]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 55
+
+
+ 3079 0090 6673     		strb	r6, [r4, #13]
+ 3080 0092 A673     		strb	r6, [r4, #14]
+ 3081 0094 E673     		strb	r6, [r4, #15]
+ 3082 0096 B9E7     		b	.L418
+ 3083              	.L420:
+ 3084 0098 4FF0FF30 		mov	r0, #-1
+ 3085 009c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 3086              	.L422:
+ 3087 009e 00BF     		.align	2
+ 3088              	.L421:
+ 3089 00a0 00000000 		.word	_SEGGER_RTT
+ 3090 00a4 00000000 		.word	.LANCHOR0
+ 3091 00a8 00000000 		.word	.LC0
+ 3092              		.size	SEGGER_RTT_SetNameUpBuffer, .-SEGGER_RTT_SetNameUpBuffer
+ 3093              		.section	.text.SEGGER_RTT_SetNameDownBuffer,"ax",%progbits
+ 3094              		.align	2
+ 3095              		.global	SEGGER_RTT_SetNameDownBuffer
+ 3096              		.thumb
+ 3097              		.thumb_func
+ 3098              		.type	SEGGER_RTT_SetNameDownBuffer, %function
+ 3099              	SEGGER_RTT_SetNameDownBuffer:
+ 3100              		@ args = 0, pretend = 0, frame = 0
+ 3101              		@ frame_needed = 0, uses_anonymous_args = 0
+ 3102 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 3103 0002 274C     		ldr	r4, .L430
+ 3104 0004 0546     		mov	r5, r0
+ 3105 0006 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 3106 0008 0F46     		mov	r7, r1
+ 3107 000a 83B1     		cbz	r3, .L424
+ 3108              	.L427:
+ 3109 000c 022D     		cmp	r5, #2
+ 3110 000e 43D8     		bhi	.L429
+ 3111              		.syntax unified
+ 3112              	@ 1784 "..\SEGGER\SEGGER_RTT.c" 1
+ 3113 0010 EFF31183 		mrs   r3, basepri  
+ 3114 0014 4FF02001 		mov   r1, #32       
+ 3115 0018 81F31188 		msr   basepri, r1  
+ 3116              		
+ 3117              	@ 0 "" 2
+ 3118              		.thumb
+ 3119              		.syntax unified
+ 3120 001c 05EB4505 		add	r5, r5, r5, lsl #1
+ 3121 0020 04EBC504 		add	r4, r4, r5, lsl #3
+ 3122 0024 2766     		str	r7, [r4, #96]
+ 3123              		.syntax unified
+ 3124              	@ 1787 "..\SEGGER\SEGGER_RTT.c" 1
+ 3125 0026 83F31188 		msr   basepri, r3  
+ 3126              		
+ 3127              	@ 0 "" 2
+ 3128              		.thumb
+ 3129              		.syntax unified
+ 3130 002a 0020     		movs	r0, #0
+ 3131 002c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 3132              	.L424:
+ 3133 002e 03F0FF06 		and	r6, r3, #255
+ 3134 0032 A822     		movs	r2, #168
+ 3135 0034 3146     		mov	r1, r6
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 56
+
+
+ 3136 0036 2046     		mov	r0, r4
+ 3137 0038 FFF7FEFF 		bl	memset
+ 3138 003c 194A     		ldr	r2, .L430+4
+ 3139 003e 1A4B     		ldr	r3, .L430+8
+ 3140 0040 0321     		movs	r1, #3
+ 3141 0042 2161     		str	r1, [r4, #16]
+ 3142 0044 6161     		str	r1, [r4, #20]
+ 3143 0046 4FF48061 		mov	r1, #1024
+ 3144 004a A361     		str	r3, [r4, #24]
+ 3145 004c 02F5806E 		add	lr, r2, #1024
+ 3146 0050 E261     		str	r2, [r4, #28]
+ 3147 0052 5320     		movs	r0, #83
+ 3148 0054 2162     		str	r1, [r4, #32]
+ 3149 0056 1022     		movs	r2, #16
+ 3150 0058 A662     		str	r6, [r4, #40]
+ 3151 005a 4521     		movs	r1, #69
+ 3152 005c 6662     		str	r6, [r4, #36]
+ 3153 005e E662     		str	r6, [r4, #44]
+ 3154 0060 2366     		str	r3, [r4, #96]
+ 3155 0062 4723     		movs	r3, #71
+ 3156 0064 C4F864E0 		str	lr, [r4, #100]
+ 3157 0068 A266     		str	r2, [r4, #104]
+ 3158 006a 2667     		str	r6, [r4, #112]
+ 3159 006c 5222     		movs	r2, #82
+ 3160 006e E666     		str	r6, [r4, #108]
+ 3161 0070 6667     		str	r6, [r4, #116]
+ 3162 0072 2070     		strb	r0, [r4]
+ 3163 0074 6170     		strb	r1, [r4, #1]
+ 3164 0076 2020     		movs	r0, #32
+ 3165 0078 A370     		strb	r3, [r4, #2]
+ 3166 007a E370     		strb	r3, [r4, #3]
+ 3167 007c 5423     		movs	r3, #84
+ 3168 007e 2171     		strb	r1, [r4, #4]
+ 3169 0080 6271     		strb	r2, [r4, #5]
+ 3170 0082 A071     		strb	r0, [r4, #6]
+ 3171 0084 E271     		strb	r2, [r4, #7]
+ 3172 0086 2372     		strb	r3, [r4, #8]
+ 3173 0088 6372     		strb	r3, [r4, #9]
+ 3174 008a A672     		strb	r6, [r4, #10]
+ 3175 008c E672     		strb	r6, [r4, #11]
+ 3176 008e 2673     		strb	r6, [r4, #12]
+ 3177 0090 6673     		strb	r6, [r4, #13]
+ 3178 0092 A673     		strb	r6, [r4, #14]
+ 3179 0094 E673     		strb	r6, [r4, #15]
+ 3180 0096 B9E7     		b	.L427
+ 3181              	.L429:
+ 3182 0098 4FF0FF30 		mov	r0, #-1
+ 3183 009c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 3184              	.L431:
+ 3185 009e 00BF     		.align	2
+ 3186              	.L430:
+ 3187 00a0 00000000 		.word	_SEGGER_RTT
+ 3188 00a4 00000000 		.word	.LANCHOR0
+ 3189 00a8 00000000 		.word	.LC0
+ 3190              		.size	SEGGER_RTT_SetNameDownBuffer, .-SEGGER_RTT_SetNameDownBuffer
+ 3191              		.section	.text.SEGGER_RTT_SetFlagsUpBuffer,"ax",%progbits
+ 3192              		.align	2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 57
+
+
+ 3193              		.global	SEGGER_RTT_SetFlagsUpBuffer
+ 3194              		.thumb
+ 3195              		.thumb_func
+ 3196              		.type	SEGGER_RTT_SetFlagsUpBuffer, %function
+ 3197              	SEGGER_RTT_SetFlagsUpBuffer:
+ 3198              		@ args = 0, pretend = 0, frame = 0
+ 3199              		@ frame_needed = 0, uses_anonymous_args = 0
+ 3200 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 3201 0002 274C     		ldr	r4, .L439
+ 3202 0004 0546     		mov	r5, r0
+ 3203 0006 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 3204 0008 0F46     		mov	r7, r1
+ 3205 000a 83B1     		cbz	r3, .L433
+ 3206              	.L436:
+ 3207 000c 022D     		cmp	r5, #2
+ 3208 000e 43D8     		bhi	.L438
+ 3209              		.syntax unified
+ 3210              	@ 1819 "..\SEGGER\SEGGER_RTT.c" 1
+ 3211 0010 EFF31183 		mrs   r3, basepri  
+ 3212 0014 4FF02001 		mov   r1, #32       
+ 3213 0018 81F31188 		msr   basepri, r1  
+ 3214              		
+ 3215              	@ 0 "" 2
+ 3216              		.thumb
+ 3217              		.syntax unified
+ 3218 001c 05EB4505 		add	r5, r5, r5, lsl #1
+ 3219 0020 04EBC504 		add	r4, r4, r5, lsl #3
+ 3220 0024 E762     		str	r7, [r4, #44]
+ 3221              		.syntax unified
+ 3222              	@ 1822 "..\SEGGER\SEGGER_RTT.c" 1
+ 3223 0026 83F31188 		msr   basepri, r3  
+ 3224              		
+ 3225              	@ 0 "" 2
+ 3226              		.thumb
+ 3227              		.syntax unified
+ 3228 002a 0020     		movs	r0, #0
+ 3229 002c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 3230              	.L433:
+ 3231 002e 03F0FF06 		and	r6, r3, #255
+ 3232 0032 A822     		movs	r2, #168
+ 3233 0034 3146     		mov	r1, r6
+ 3234 0036 2046     		mov	r0, r4
+ 3235 0038 FFF7FEFF 		bl	memset
+ 3236 003c 194A     		ldr	r2, .L439+4
+ 3237 003e 1A4B     		ldr	r3, .L439+8
+ 3238 0040 0321     		movs	r1, #3
+ 3239 0042 2161     		str	r1, [r4, #16]
+ 3240 0044 6161     		str	r1, [r4, #20]
+ 3241 0046 4FF48061 		mov	r1, #1024
+ 3242 004a A361     		str	r3, [r4, #24]
+ 3243 004c 02F5806E 		add	lr, r2, #1024
+ 3244 0050 E261     		str	r2, [r4, #28]
+ 3245 0052 5320     		movs	r0, #83
+ 3246 0054 2162     		str	r1, [r4, #32]
+ 3247 0056 1022     		movs	r2, #16
+ 3248 0058 A662     		str	r6, [r4, #40]
+ 3249 005a 4521     		movs	r1, #69
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 58
+
+
+ 3250 005c 6662     		str	r6, [r4, #36]
+ 3251 005e E662     		str	r6, [r4, #44]
+ 3252 0060 2366     		str	r3, [r4, #96]
+ 3253 0062 4723     		movs	r3, #71
+ 3254 0064 C4F864E0 		str	lr, [r4, #100]
+ 3255 0068 A266     		str	r2, [r4, #104]
+ 3256 006a 2667     		str	r6, [r4, #112]
+ 3257 006c 5222     		movs	r2, #82
+ 3258 006e E666     		str	r6, [r4, #108]
+ 3259 0070 6667     		str	r6, [r4, #116]
+ 3260 0072 2070     		strb	r0, [r4]
+ 3261 0074 6170     		strb	r1, [r4, #1]
+ 3262 0076 2020     		movs	r0, #32
+ 3263 0078 A370     		strb	r3, [r4, #2]
+ 3264 007a E370     		strb	r3, [r4, #3]
+ 3265 007c 5423     		movs	r3, #84
+ 3266 007e 2171     		strb	r1, [r4, #4]
+ 3267 0080 6271     		strb	r2, [r4, #5]
+ 3268 0082 A071     		strb	r0, [r4, #6]
+ 3269 0084 E271     		strb	r2, [r4, #7]
+ 3270 0086 2372     		strb	r3, [r4, #8]
+ 3271 0088 6372     		strb	r3, [r4, #9]
+ 3272 008a A672     		strb	r6, [r4, #10]
+ 3273 008c E672     		strb	r6, [r4, #11]
+ 3274 008e 2673     		strb	r6, [r4, #12]
+ 3275 0090 6673     		strb	r6, [r4, #13]
+ 3276 0092 A673     		strb	r6, [r4, #14]
+ 3277 0094 E673     		strb	r6, [r4, #15]
+ 3278 0096 B9E7     		b	.L436
+ 3279              	.L438:
+ 3280 0098 4FF0FF30 		mov	r0, #-1
+ 3281 009c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 3282              	.L440:
+ 3283 009e 00BF     		.align	2
+ 3284              	.L439:
+ 3285 00a0 00000000 		.word	_SEGGER_RTT
+ 3286 00a4 00000000 		.word	.LANCHOR0
+ 3287 00a8 00000000 		.word	.LC0
+ 3288              		.size	SEGGER_RTT_SetFlagsUpBuffer, .-SEGGER_RTT_SetFlagsUpBuffer
+ 3289              		.section	.text.SEGGER_RTT_SetFlagsDownBuffer,"ax",%progbits
+ 3290              		.align	2
+ 3291              		.global	SEGGER_RTT_SetFlagsDownBuffer
+ 3292              		.thumb
+ 3293              		.thumb_func
+ 3294              		.type	SEGGER_RTT_SetFlagsDownBuffer, %function
+ 3295              	SEGGER_RTT_SetFlagsDownBuffer:
+ 3296              		@ args = 0, pretend = 0, frame = 0
+ 3297              		@ frame_needed = 0, uses_anonymous_args = 0
+ 3298 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 3299 0002 274C     		ldr	r4, .L448
+ 3300 0004 0546     		mov	r5, r0
+ 3301 0006 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 3302 0008 0F46     		mov	r7, r1
+ 3303 000a 83B1     		cbz	r3, .L442
+ 3304              	.L445:
+ 3305 000c 022D     		cmp	r5, #2
+ 3306 000e 43D8     		bhi	.L447
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 59
+
+
+ 3307              		.syntax unified
+ 3308              	@ 1854 "..\SEGGER\SEGGER_RTT.c" 1
+ 3309 0010 EFF31183 		mrs   r3, basepri  
+ 3310 0014 4FF02001 		mov   r1, #32       
+ 3311 0018 81F31188 		msr   basepri, r1  
+ 3312              		
+ 3313              	@ 0 "" 2
+ 3314              		.thumb
+ 3315              		.syntax unified
+ 3316 001c 05EB4505 		add	r5, r5, r5, lsl #1
+ 3317 0020 04EBC504 		add	r4, r4, r5, lsl #3
+ 3318 0024 6767     		str	r7, [r4, #116]
+ 3319              		.syntax unified
+ 3320              	@ 1857 "..\SEGGER\SEGGER_RTT.c" 1
+ 3321 0026 83F31188 		msr   basepri, r3  
+ 3322              		
+ 3323              	@ 0 "" 2
+ 3324              		.thumb
+ 3325              		.syntax unified
+ 3326 002a 0020     		movs	r0, #0
+ 3327 002c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 3328              	.L442:
+ 3329 002e 03F0FF06 		and	r6, r3, #255
+ 3330 0032 A822     		movs	r2, #168
+ 3331 0034 3146     		mov	r1, r6
+ 3332 0036 2046     		mov	r0, r4
+ 3333 0038 FFF7FEFF 		bl	memset
+ 3334 003c 194A     		ldr	r2, .L448+4
+ 3335 003e 1A4B     		ldr	r3, .L448+8
+ 3336 0040 0321     		movs	r1, #3
+ 3337 0042 2161     		str	r1, [r4, #16]
+ 3338 0044 6161     		str	r1, [r4, #20]
+ 3339 0046 4FF48061 		mov	r1, #1024
+ 3340 004a A361     		str	r3, [r4, #24]
+ 3341 004c 02F5806E 		add	lr, r2, #1024
+ 3342 0050 E261     		str	r2, [r4, #28]
+ 3343 0052 5320     		movs	r0, #83
+ 3344 0054 2162     		str	r1, [r4, #32]
+ 3345 0056 1022     		movs	r2, #16
+ 3346 0058 A662     		str	r6, [r4, #40]
+ 3347 005a 4521     		movs	r1, #69
+ 3348 005c 6662     		str	r6, [r4, #36]
+ 3349 005e E662     		str	r6, [r4, #44]
+ 3350 0060 2366     		str	r3, [r4, #96]
+ 3351 0062 4723     		movs	r3, #71
+ 3352 0064 C4F864E0 		str	lr, [r4, #100]
+ 3353 0068 A266     		str	r2, [r4, #104]
+ 3354 006a 2667     		str	r6, [r4, #112]
+ 3355 006c 5222     		movs	r2, #82
+ 3356 006e E666     		str	r6, [r4, #108]
+ 3357 0070 6667     		str	r6, [r4, #116]
+ 3358 0072 2070     		strb	r0, [r4]
+ 3359 0074 6170     		strb	r1, [r4, #1]
+ 3360 0076 2020     		movs	r0, #32
+ 3361 0078 A370     		strb	r3, [r4, #2]
+ 3362 007a E370     		strb	r3, [r4, #3]
+ 3363 007c 5423     		movs	r3, #84
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 60
+
+
+ 3364 007e 2171     		strb	r1, [r4, #4]
+ 3365 0080 6271     		strb	r2, [r4, #5]
+ 3366 0082 A071     		strb	r0, [r4, #6]
+ 3367 0084 E271     		strb	r2, [r4, #7]
+ 3368 0086 2372     		strb	r3, [r4, #8]
+ 3369 0088 6372     		strb	r3, [r4, #9]
+ 3370 008a A672     		strb	r6, [r4, #10]
+ 3371 008c E672     		strb	r6, [r4, #11]
+ 3372 008e 2673     		strb	r6, [r4, #12]
+ 3373 0090 6673     		strb	r6, [r4, #13]
+ 3374 0092 A673     		strb	r6, [r4, #14]
+ 3375 0094 E673     		strb	r6, [r4, #15]
+ 3376 0096 B9E7     		b	.L445
+ 3377              	.L447:
+ 3378 0098 4FF0FF30 		mov	r0, #-1
+ 3379 009c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 3380              	.L449:
+ 3381 009e 00BF     		.align	2
+ 3382              	.L448:
+ 3383 00a0 00000000 		.word	_SEGGER_RTT
+ 3384 00a4 00000000 		.word	.LANCHOR0
+ 3385 00a8 00000000 		.word	.LC0
+ 3386              		.size	SEGGER_RTT_SetFlagsDownBuffer, .-SEGGER_RTT_SetFlagsDownBuffer
+ 3387              		.section	.text.SEGGER_RTT_Init,"ax",%progbits
+ 3388              		.align	2
+ 3389              		.global	SEGGER_RTT_Init
+ 3390              		.thumb
+ 3391              		.thumb_func
+ 3392              		.type	SEGGER_RTT_Init, %function
+ 3393              	SEGGER_RTT_Init:
+ 3394              		@ args = 0, pretend = 0, frame = 0
+ 3395              		@ frame_needed = 0, uses_anonymous_args = 0
+ 3396 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 3397 0002 1B4C     		ldr	r4, .L452
+ 3398 0004 A822     		movs	r2, #168
+ 3399 0006 0021     		movs	r1, #0
+ 3400 0008 2046     		mov	r0, r4
+ 3401 000a FFF7FEFF 		bl	memset
+ 3402 000e 1949     		ldr	r1, .L452+4
+ 3403 0010 194A     		ldr	r2, .L452+8
+ 3404 0012 0023     		movs	r3, #0
+ 3405 0014 0320     		movs	r0, #3
+ 3406 0016 01F58066 		add	r6, r1, #1024
+ 3407 001a 4FF48065 		mov	r5, #1024
+ 3408 001e 2061     		str	r0, [r4, #16]
+ 3409 0020 4FF0100E 		mov	lr, #16
+ 3410 0024 6061     		str	r0, [r4, #20]
+ 3411 0026 5327     		movs	r7, #83
+ 3412 0028 A261     		str	r2, [r4, #24]
+ 3413 002a 4520     		movs	r0, #69
+ 3414 002c E161     		str	r1, [r4, #28]
+ 3415 002e 2562     		str	r5, [r4, #32]
+ 3416 0030 5221     		movs	r1, #82
+ 3417 0032 A362     		str	r3, [r4, #40]
+ 3418 0034 4725     		movs	r5, #71
+ 3419 0036 6362     		str	r3, [r4, #36]
+ 3420 0038 E362     		str	r3, [r4, #44]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 61
+
+
+ 3421 003a 2266     		str	r2, [r4, #96]
+ 3422 003c 6666     		str	r6, [r4, #100]
+ 3423 003e 5422     		movs	r2, #84
+ 3424 0040 2026     		movs	r6, #32
+ 3425 0042 C4F868E0 		str	lr, [r4, #104]
+ 3426 0046 2367     		str	r3, [r4, #112]
+ 3427 0048 E366     		str	r3, [r4, #108]
+ 3428 004a 6367     		str	r3, [r4, #116]
+ 3429 004c 2770     		strb	r7, [r4]
+ 3430 004e 6070     		strb	r0, [r4, #1]
+ 3431 0050 A570     		strb	r5, [r4, #2]
+ 3432 0052 E570     		strb	r5, [r4, #3]
+ 3433 0054 2071     		strb	r0, [r4, #4]
+ 3434 0056 6171     		strb	r1, [r4, #5]
+ 3435 0058 A671     		strb	r6, [r4, #6]
+ 3436 005a E171     		strb	r1, [r4, #7]
+ 3437 005c 2272     		strb	r2, [r4, #8]
+ 3438 005e 6272     		strb	r2, [r4, #9]
+ 3439 0060 A372     		strb	r3, [r4, #10]
+ 3440 0062 E372     		strb	r3, [r4, #11]
+ 3441 0064 2373     		strb	r3, [r4, #12]
+ 3442 0066 6373     		strb	r3, [r4, #13]
+ 3443 0068 A373     		strb	r3, [r4, #14]
+ 3444 006a E373     		strb	r3, [r4, #15]
+ 3445 006c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 3446              	.L453:
+ 3447 006e 00BF     		.align	2
+ 3448              	.L452:
+ 3449 0070 00000000 		.word	_SEGGER_RTT
+ 3450 0074 00000000 		.word	.LANCHOR0
+ 3451 0078 00000000 		.word	.LC0
+ 3452              		.size	SEGGER_RTT_Init, .-SEGGER_RTT_Init
+ 3453              		.section	.text.SEGGER_RTT_SetTerminal,"ax",%progbits
+ 3454              		.align	2
+ 3455              		.global	SEGGER_RTT_SetTerminal
+ 3456              		.thumb
+ 3457              		.thumb_func
+ 3458              		.type	SEGGER_RTT_SetTerminal, %function
+ 3459              	SEGGER_RTT_SetTerminal:
+ 3460              		@ args = 0, pretend = 0, frame = 8
+ 3461              		@ frame_needed = 0, uses_anonymous_args = 0
+ 3462 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 3463 0004 584D     		ldr	r5, .L474
+ 3464 0006 83B0     		sub	sp, sp, #12
+ 3465 0008 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 3466 000a 0446     		mov	r4, r0
+ 3467 000c 002B     		cmp	r3, #0
+ 3468 000e 41D0     		beq	.L455
+ 3469              	.L458:
+ 3470 0010 FF23     		movs	r3, #255
+ 3471 0012 0F2C     		cmp	r4, #15
+ 3472 0014 8DF80430 		strb	r3, [sp, #4]
+ 3473 0018 88BF     		it	hi
+ 3474 001a 4FF0FF30 		movhi	r0, #-1
+ 3475 001e 33D8     		bhi	.L457
+ 3476 0020 524B     		ldr	r3, .L474+4
+ 3477 0022 1B5D     		ldrb	r3, [r3, r4]	@ zero_extendqisi2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 62
+
+
+ 3478 0024 8DF80530 		strb	r3, [sp, #5]
+ 3479              		.syntax unified
+ 3480              	@ 1907 "..\SEGGER\SEGGER_RTT.c" 1
+ 3481 0028 EFF31188 		mrs   r8, basepri  
+ 3482 002c 4FF02001 		mov   r1, #32       
+ 3483 0030 81F31188 		msr   basepri, r1  
+ 3484              		
+ 3485              	@ 0 "" 2
+ 3486              		.thumb
+ 3487              		.syntax unified
+ 3488 0034 EF6A     		ldr	r7, [r5, #44]
+ 3489 0036 4C49     		ldr	r1, .L474
+ 3490 0038 07F00307 		and	r7, r7, #3
+ 3491 003c 022F     		cmp	r7, #2
+ 3492 003e 68D0     		beq	.L472
+ 3493 0040 8B6A     		ldr	r3, [r1, #40]
+ 3494 0042 4A6A     		ldr	r2, [r1, #36]
+ 3495 0044 9342     		cmp	r3, r2
+ 3496 0046 9CBF     		itt	ls
+ 3497 0048 096A     		ldrls	r1, [r1, #32]
+ 3498 004a 5B18     		addls	r3, r3, r1
+ 3499 004c 013B     		subs	r3, r3, #1
+ 3500 004e 9B1A     		subs	r3, r3, r2
+ 3501 0050 012B     		cmp	r3, #1
+ 3502 0052 1CD9     		bls	.L469
+ 3503 0054 2D6A     		ldr	r5, [r5, #32]
+ 3504 0056 464B     		ldr	r3, .L474+8
+ 3505 0058 AD1A     		subs	r5, r5, r2
+ 3506 005a 022D     		cmp	r5, #2
+ 3507 005c 83F81044 		strb	r4, [r3, #1040]
+ 3508 0060 414C     		ldr	r4, .L474
+ 3509 0062 4ED8     		bhi	.L473
+ 3510 0064 E069     		ldr	r0, [r4, #28]
+ 3511 0066 01A9     		add	r1, sp, #4
+ 3512 0068 1044     		add	r0, r0, r2
+ 3513 006a 2A46     		mov	r2, r5
+ 3514 006c FFF7FEFF 		bl	memcpy
+ 3515 0070 C5F10206 		rsb	r6, r5, #2
+ 3516 0074 01AB     		add	r3, sp, #4
+ 3517 0076 5919     		adds	r1, r3, r5
+ 3518 0078 3246     		mov	r2, r6
+ 3519 007a E069     		ldr	r0, [r4, #28]
+ 3520 007c FFF7FEFF 		bl	memcpy
+ 3521 0080 6662     		str	r6, [r4, #36]
+ 3522 0082 0020     		movs	r0, #0
+ 3523              	.L464:
+ 3524              		.syntax unified
+ 3525              	@ 1920 "..\SEGGER\SEGGER_RTT.c" 1
+ 3526 0084 88F31188 		msr   basepri, r8  
+ 3527              		
+ 3528              	@ 0 "" 2
+ 3529              		.thumb
+ 3530              		.syntax unified
+ 3531              	.L457:
+ 3532 0088 03B0     		add	sp, sp, #12
+ 3533              		@ sp needed
+ 3534 008a BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 63
+
+
+ 3535              	.L469:
+ 3536 008e 4FF0FF30 		mov	r0, #-1
+ 3537 0092 F7E7     		b	.L464
+ 3538              	.L455:
+ 3539 0094 03F0FF06 		and	r6, r3, #255
+ 3540 0098 A822     		movs	r2, #168
+ 3541 009a 3146     		mov	r1, r6
+ 3542 009c 2846     		mov	r0, r5
+ 3543 009e FFF7FEFF 		bl	memset
+ 3544 00a2 334A     		ldr	r2, .L474+8
+ 3545 00a4 334B     		ldr	r3, .L474+12
+ 3546 00a6 0321     		movs	r1, #3
+ 3547 00a8 02F5806C 		add	ip, r2, #1024
+ 3548 00ac 4FF48060 		mov	r0, #1024
+ 3549 00b0 1027     		movs	r7, #16
+ 3550 00b2 2961     		str	r1, [r5, #16]
+ 3551 00b4 4FF0530E 		mov	lr, #83
+ 3552 00b8 6961     		str	r1, [r5, #20]
+ 3553 00ba AB61     		str	r3, [r5, #24]
+ 3554 00bc 4521     		movs	r1, #69
+ 3555 00be EA61     		str	r2, [r5, #28]
+ 3556 00c0 2862     		str	r0, [r5, #32]
+ 3557 00c2 5222     		movs	r2, #82
+ 3558 00c4 AE62     		str	r6, [r5, #40]
+ 3559 00c6 4720     		movs	r0, #71
+ 3560 00c8 6E62     		str	r6, [r5, #36]
+ 3561 00ca EE62     		str	r6, [r5, #44]
+ 3562 00cc 2B66     		str	r3, [r5, #96]
+ 3563 00ce C5F864C0 		str	ip, [r5, #100]
+ 3564 00d2 5423     		movs	r3, #84
+ 3565 00d4 AF66     		str	r7, [r5, #104]
+ 3566 00d6 2027     		movs	r7, #32
+ 3567 00d8 2E67     		str	r6, [r5, #112]
+ 3568 00da EE66     		str	r6, [r5, #108]
+ 3569 00dc 6E67     		str	r6, [r5, #116]
+ 3570 00de 85F800E0 		strb	lr, [r5]
+ 3571 00e2 6970     		strb	r1, [r5, #1]
+ 3572 00e4 A870     		strb	r0, [r5, #2]
+ 3573 00e6 E870     		strb	r0, [r5, #3]
+ 3574 00e8 2971     		strb	r1, [r5, #4]
+ 3575 00ea 6A71     		strb	r2, [r5, #5]
+ 3576 00ec AF71     		strb	r7, [r5, #6]
+ 3577 00ee EA71     		strb	r2, [r5, #7]
+ 3578 00f0 2B72     		strb	r3, [r5, #8]
+ 3579 00f2 6B72     		strb	r3, [r5, #9]
+ 3580 00f4 AE72     		strb	r6, [r5, #10]
+ 3581 00f6 EE72     		strb	r6, [r5, #11]
+ 3582 00f8 2E73     		strb	r6, [r5, #12]
+ 3583 00fa 6E73     		strb	r6, [r5, #13]
+ 3584 00fc AE73     		strb	r6, [r5, #14]
+ 3585 00fe EE73     		strb	r6, [r5, #15]
+ 3586 0100 86E7     		b	.L458
+ 3587              	.L473:
+ 3588 0102 BDF80400 		ldrh	r0, [sp, #4]	@ unaligned
+ 3589 0106 E169     		ldr	r1, [r4, #28]
+ 3590 0108 931C     		adds	r3, r2, #2
+ 3591 010a 8852     		strh	r0, [r1, r2]	@ unaligned
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 64
+
+
+ 3592 010c 0020     		movs	r0, #0
+ 3593 010e 6362     		str	r3, [r4, #36]
+ 3594 0110 B8E7     		b	.L464
+ 3595              	.L472:
+ 3596 0112 174B     		ldr	r3, .L474+8
+ 3597 0114 4E6A     		ldr	r6, [r1, #36]
+ 3598 0116 0A6A     		ldr	r2, [r1, #32]
+ 3599 0118 83F81044 		strb	r4, [r3, #1040]
+ 3600 011c 0DF10409 		add	r9, sp, #4
+ 3601              	.L463:
+ 3602 0120 AB6A     		ldr	r3, [r5, #40]
+ 3603 0122 E869     		ldr	r0, [r5, #28]
+ 3604 0124 B342     		cmp	r3, r6
+ 3605 0126 03F1FF34 		add	r4, r3, #-1
+ 3606 012a 96BF     		itet	ls
+ 3607 012c 03F1FF33 		addls	r3, r3, #-1
+ 3608 0130 A31B     		subhi	r3, r4, r6
+ 3609 0132 9B18     		addls	r3, r3, r2
+ 3610 0134 A2EB0604 		sub	r4, r2, r6
+ 3611 0138 98BF     		it	ls
+ 3612 013a 9B1B     		subls	r3, r3, r6
+ 3613 013c BC42     		cmp	r4, r7
+ 3614 013e 28BF     		it	cs
+ 3615 0140 3C46     		movcs	r4, r7
+ 3616 0142 9C42     		cmp	r4, r3
+ 3617 0144 28BF     		it	cs
+ 3618 0146 1C46     		movcs	r4, r3
+ 3619 0148 3044     		add	r0, r0, r6
+ 3620 014a 2246     		mov	r2, r4
+ 3621 014c 4946     		mov	r1, r9
+ 3622 014e FFF7FEFF 		bl	memcpy
+ 3623 0152 2A6A     		ldr	r2, [r5, #32]
+ 3624 0154 2644     		add	r6, r6, r4
+ 3625 0156 9642     		cmp	r6, r2
+ 3626 0158 08BF     		it	eq
+ 3627 015a 0026     		moveq	r6, #0
+ 3628 015c 3F1B     		subs	r7, r7, r4
+ 3629 015e A144     		add	r9, r9, r4
+ 3630 0160 6E62     		str	r6, [r5, #36]
+ 3631 0162 DDD1     		bne	.L463
+ 3632 0164 3846     		mov	r0, r7
+ 3633 0166 8DE7     		b	.L464
+ 3634              	.L475:
+ 3635              		.align	2
+ 3636              	.L474:
+ 3637 0168 00000000 		.word	_SEGGER_RTT
+ 3638 016c 00000000 		.word	.LANCHOR1
+ 3639 0170 00000000 		.word	.LANCHOR0
+ 3640 0174 00000000 		.word	.LC0
+ 3641              		.size	SEGGER_RTT_SetTerminal, .-SEGGER_RTT_SetTerminal
+ 3642              		.section	.text.SEGGER_RTT_TerminalOut,"ax",%progbits
+ 3643              		.align	2
+ 3644              		.global	SEGGER_RTT_TerminalOut
+ 3645              		.thumb
+ 3646              		.thumb_func
+ 3647              		.type	SEGGER_RTT_TerminalOut, %function
+ 3648              	SEGGER_RTT_TerminalOut:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 65
+
+
+ 3649              		@ args = 0, pretend = 0, frame = 24
+ 3650              		@ frame_needed = 0, uses_anonymous_args = 0
+ 3651 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 3652 0004 7F4D     		ldr	r5, .L551
+ 3653 0006 87B0     		sub	sp, sp, #28
+ 3654 0008 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 3655 000a 0746     		mov	r7, r0
+ 3656 000c 8946     		mov	r9, r1
+ 3657 000e 002B     		cmp	r3, #0
+ 3658 0010 00F0C480 		beq	.L477
+ 3659              	.L480:
+ 3660 0014 0F2F     		cmp	r7, #15
+ 3661 0016 88BF     		it	hi
+ 3662 0018 4FF0FF36 		movhi	r6, #-1
+ 3663 001c 00F2A980 		bhi	.L479
+ 3664 0020 4846     		mov	r0, r9
+ 3665 0022 FFF7FEFF 		bl	strlen
+ 3666 0026 8046     		mov	r8, r0
+ 3667              		.syntax unified
+ 3668              	@ 1967 "..\SEGGER\SEGGER_RTT.c" 1
+ 3669 0028 EFF3118B 		mrs   fp, basepri  
+ 3670 002c 4FF02001 		mov   r1, #32       
+ 3671 0030 81F31188 		msr   basepri, r1  
+ 3672              		
+ 3673              	@ 0 "" 2
+ 3674              		.thumb
+ 3675              		.syntax unified
+ 3676 0034 AB6A     		ldr	r3, [r5, #40]
+ 3677 0036 6C6A     		ldr	r4, [r5, #36]
+ 3678 0038 724A     		ldr	r2, .L551
+ 3679 003a A342     		cmp	r3, r4
+ 3680 003c 98BF     		it	ls
+ 3681 003e 126A     		ldrls	r2, [r2, #32]
+ 3682 0040 EE6A     		ldr	r6, [r5, #44]
+ 3683 0042 9ABF     		itte	ls
+ 3684 0044 03EB020A 		addls	r10, r3, r2
+ 3685 0048 0AF1FF3A 		addls	r10, r10, #-1
+ 3686 004c 03F1FF3A 		addhi	r10, r3, #-1
+ 3687 0050 06F00306 		and	r6, r6, #3
+ 3688 0054 C4EB0A03 		rsb	r3, r4, r10
+ 3689 0058 012E     		cmp	r6, #1
+ 3690 005a 0193     		str	r3, [sp, #4]
+ 3691 005c 694A     		ldr	r2, .L551
+ 3692 005e 00F09580 		beq	.L484
+ 3693 0062 C0F08A80 		bcc	.L485
+ 3694 0066 022E     		cmp	r6, #2
+ 3695 0068 40F09380 		bne	.L528
+ 3696 006c 05AB     		add	r3, sp, #20
+ 3697 006e 0393     		str	r3, [sp, #12]
+ 3698 0070 9A46     		mov	r10, r3
+ 3699 0072 654B     		ldr	r3, .L551+4
+ 3700 0074 1946     		mov	r1, r3
+ 3701 0076 C95D     		ldrb	r1, [r1, r7]	@ zero_extendqisi2
+ 3702 0078 0293     		str	r3, [sp, #8]
+ 3703 007a 136A     		ldr	r3, [r2, #32]
+ 3704 007c FF22     		movs	r2, #255
+ 3705 007e 8DF81510 		strb	r1, [sp, #21]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 66
+
+
+ 3706 0082 8DF81420 		strb	r2, [sp, #20]
+ 3707              	.L514:
+ 3708 0086 AA6A     		ldr	r2, [r5, #40]
+ 3709 0088 E869     		ldr	r0, [r5, #28]
+ 3710 008a A242     		cmp	r2, r4
+ 3711 008c 02F1FF37 		add	r7, r2, #-1
+ 3712 0090 9CBF     		itt	ls
+ 3713 0092 02F1FF37 		addls	r7, r2, #-1
+ 3714 0096 FF18     		addls	r7, r7, r3
+ 3715 0098 1B1B     		subs	r3, r3, r4
+ 3716 009a B342     		cmp	r3, r6
+ 3717 009c 28BF     		it	cs
+ 3718 009e 3346     		movcs	r3, r6
+ 3719 00a0 3F1B     		subs	r7, r7, r4
+ 3720 00a2 9F42     		cmp	r7, r3
+ 3721 00a4 28BF     		it	cs
+ 3722 00a6 1F46     		movcs	r7, r3
+ 3723 00a8 2044     		add	r0, r0, r4
+ 3724 00aa 5146     		mov	r1, r10
+ 3725 00ac 3A46     		mov	r2, r7
+ 3726 00ae FFF7FEFF 		bl	memcpy
+ 3727 00b2 2B6A     		ldr	r3, [r5, #32]
+ 3728 00b4 3C44     		add	r4, r4, r7
+ 3729 00b6 9C42     		cmp	r4, r3
+ 3730 00b8 08BF     		it	eq
+ 3731 00ba 0024     		moveq	r4, #0
+ 3732 00bc F61B     		subs	r6, r6, r7
+ 3733 00be BA44     		add	r10, r10, r7
+ 3734 00c0 6C62     		str	r4, [r5, #36]
+ 3735 00c2 E0D1     		bne	.L514
+ 3736              	.L518:
+ 3737 00c4 AA6A     		ldr	r2, [r5, #40]
+ 3738 00c6 E869     		ldr	r0, [r5, #28]
+ 3739 00c8 A242     		cmp	r2, r4
+ 3740 00ca 02F1FF37 		add	r7, r2, #-1
+ 3741 00ce 9ABF     		itte	ls
+ 3742 00d0 02F1FF32 		addls	r2, r2, #-1
+ 3743 00d4 D218     		addls	r2, r2, r3
+ 3744 00d6 3A1B     		subhi	r2, r7, r4
+ 3745 00d8 A3EB0407 		sub	r7, r3, r4
+ 3746 00dc 98BF     		it	ls
+ 3747 00de 121B     		subls	r2, r2, r4
+ 3748 00e0 4745     		cmp	r7, r8
+ 3749 00e2 28BF     		it	cs
+ 3750 00e4 4746     		movcs	r7, r8
+ 3751 00e6 9742     		cmp	r7, r2
+ 3752 00e8 28BF     		it	cs
+ 3753 00ea 1746     		movcs	r7, r2
+ 3754 00ec 2044     		add	r0, r0, r4
+ 3755 00ee 4946     		mov	r1, r9
+ 3756 00f0 3A46     		mov	r2, r7
+ 3757 00f2 FFF7FEFF 		bl	memcpy
+ 3758 00f6 2B6A     		ldr	r3, [r5, #32]
+ 3759 00f8 3C44     		add	r4, r4, r7
+ 3760 00fa 9C42     		cmp	r4, r3
+ 3761 00fc 08BF     		it	eq
+ 3762 00fe 0024     		moveq	r4, #0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 67
+
+
+ 3763 0100 B8EB0708 		subs	r8, r8, r7
+ 3764 0104 3E44     		add	r6, r6, r7
+ 3765 0106 B944     		add	r9, r9, r7
+ 3766 0108 6C62     		str	r4, [r5, #36]
+ 3767 010a DBD1     		bne	.L518
+ 3768 010c 3F4A     		ldr	r2, .L551+8
+ 3769 010e FF21     		movs	r1, #255
+ 3770 0110 92F81024 		ldrb	r2, [r2, #1040]	@ zero_extendqisi2
+ 3771 0114 8DF81410 		strb	r1, [sp, #20]
+ 3772 0118 0299     		ldr	r1, [sp, #8]
+ 3773 011a DDF80C80 		ldr	r8, [sp, #12]
+ 3774 011e 8A5C     		ldrb	r2, [r1, r2]	@ zero_extendqisi2
+ 3775 0120 4FF00209 		mov	r9, #2
+ 3776 0124 8DF81520 		strb	r2, [sp, #21]
+ 3777              	.L522:
+ 3778 0128 AA6A     		ldr	r2, [r5, #40]
+ 3779 012a E869     		ldr	r0, [r5, #28]
+ 3780 012c A242     		cmp	r2, r4
+ 3781 012e 02F1FF37 		add	r7, r2, #-1
+ 3782 0132 9ABF     		itte	ls
+ 3783 0134 02F1FF32 		addls	r2, r2, #-1
+ 3784 0138 D218     		addls	r2, r2, r3
+ 3785 013a 3A1B     		subhi	r2, r7, r4
+ 3786 013c A3EB0407 		sub	r7, r3, r4
+ 3787 0140 98BF     		it	ls
+ 3788 0142 121B     		subls	r2, r2, r4
+ 3789 0144 4F45     		cmp	r7, r9
+ 3790 0146 28BF     		it	cs
+ 3791 0148 4F46     		movcs	r7, r9
+ 3792 014a 9742     		cmp	r7, r2
+ 3793 014c 28BF     		it	cs
+ 3794 014e 1746     		movcs	r7, r2
+ 3795 0150 2044     		add	r0, r0, r4
+ 3796 0152 4146     		mov	r1, r8
+ 3797 0154 3A46     		mov	r2, r7
+ 3798 0156 FFF7FEFF 		bl	memcpy
+ 3799 015a 2B6A     		ldr	r3, [r5, #32]
+ 3800 015c 3C44     		add	r4, r4, r7
+ 3801 015e 9C42     		cmp	r4, r3
+ 3802 0160 08BF     		it	eq
+ 3803 0162 0024     		moveq	r4, #0
+ 3804 0164 B9EB0709 		subs	r9, r9, r7
+ 3805 0168 B844     		add	r8, r8, r7
+ 3806 016a 6C62     		str	r4, [r5, #36]
+ 3807 016c DCD1     		bne	.L522
+ 3808              	.L483:
+ 3809              		.syntax unified
+ 3810              	@ 2012 "..\SEGGER\SEGGER_RTT.c" 1
+ 3811 016e 8BF31188 		msr   basepri, fp  
+ 3812              		
+ 3813              	@ 0 "" 2
+ 3814              		.thumb
+ 3815              		.syntax unified
+ 3816              	.L479:
+ 3817 0172 3046     		mov	r0, r6
+ 3818 0174 07B0     		add	sp, sp, #28
+ 3819              		@ sp needed
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 68
+
+
+ 3820 0176 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 3821              	.L485:
+ 3822 017a 0199     		ldr	r1, [sp, #4]
+ 3823 017c 031D     		adds	r3, r0, #4
+ 3824 017e 8B42     		cmp	r3, r1
+ 3825 0180 40F2D180 		bls	.L549
+ 3826 0184 0026     		movs	r6, #0
+ 3827              		.syntax unified
+ 3828              	@ 2012 "..\SEGGER\SEGGER_RTT.c" 1
+ 3829 0186 8BF31188 		msr   basepri, fp  
+ 3830              		
+ 3831              	@ 0 "" 2
+ 3832              		.thumb
+ 3833              		.syntax unified
+ 3834 018a F2E7     		b	.L479
+ 3835              	.L484:
+ 3836 018c 019B     		ldr	r3, [sp, #4]
+ 3837 018e 032B     		cmp	r3, #3
+ 3838 0190 40D8     		bhi	.L550
+ 3839              	.L528:
+ 3840 0192 4FF0FF36 		mov	r6, #-1
+ 3841              		.syntax unified
+ 3842              	@ 2012 "..\SEGGER\SEGGER_RTT.c" 1
+ 3843 0196 8BF31188 		msr   basepri, fp  
+ 3844              		
+ 3845              	@ 0 "" 2
+ 3846              		.thumb
+ 3847              		.syntax unified
+ 3848 019a EAE7     		b	.L479
+ 3849              	.L477:
+ 3850 019c 03F0FF04 		and	r4, r3, #255
+ 3851 01a0 A822     		movs	r2, #168
+ 3852 01a2 2146     		mov	r1, r4
+ 3853 01a4 2846     		mov	r0, r5
+ 3854 01a6 FFF7FEFF 		bl	memset
+ 3855 01aa 184A     		ldr	r2, .L551+8
+ 3856 01ac 184B     		ldr	r3, .L551+12
+ 3857 01ae 0321     		movs	r1, #3
+ 3858 01b0 2961     		str	r1, [r5, #16]
+ 3859 01b2 6961     		str	r1, [r5, #20]
+ 3860 01b4 4FF48061 		mov	r1, #1024
+ 3861 01b8 AB61     		str	r3, [r5, #24]
+ 3862 01ba 02F58066 		add	r6, r2, #1024
+ 3863 01be EA61     		str	r2, [r5, #28]
+ 3864 01c0 5320     		movs	r0, #83
+ 3865 01c2 2962     		str	r1, [r5, #32]
+ 3866 01c4 1022     		movs	r2, #16
+ 3867 01c6 AC62     		str	r4, [r5, #40]
+ 3868 01c8 4521     		movs	r1, #69
+ 3869 01ca 6C62     		str	r4, [r5, #36]
+ 3870 01cc EC62     		str	r4, [r5, #44]
+ 3871 01ce 2B66     		str	r3, [r5, #96]
+ 3872 01d0 4723     		movs	r3, #71
+ 3873 01d2 6E66     		str	r6, [r5, #100]
+ 3874 01d4 AA66     		str	r2, [r5, #104]
+ 3875 01d6 2C67     		str	r4, [r5, #112]
+ 3876 01d8 5222     		movs	r2, #82
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 69
+
+
+ 3877 01da EC66     		str	r4, [r5, #108]
+ 3878 01dc 6C67     		str	r4, [r5, #116]
+ 3879 01de 2870     		strb	r0, [r5]
+ 3880 01e0 6970     		strb	r1, [r5, #1]
+ 3881 01e2 2020     		movs	r0, #32
+ 3882 01e4 AB70     		strb	r3, [r5, #2]
+ 3883 01e6 EB70     		strb	r3, [r5, #3]
+ 3884 01e8 5423     		movs	r3, #84
+ 3885 01ea 2971     		strb	r1, [r5, #4]
+ 3886 01ec 6A71     		strb	r2, [r5, #5]
+ 3887 01ee A871     		strb	r0, [r5, #6]
+ 3888 01f0 EA71     		strb	r2, [r5, #7]
+ 3889 01f2 2B72     		strb	r3, [r5, #8]
+ 3890 01f4 6B72     		strb	r3, [r5, #9]
+ 3891 01f6 AC72     		strb	r4, [r5, #10]
+ 3892 01f8 EC72     		strb	r4, [r5, #11]
+ 3893 01fa 2C73     		strb	r4, [r5, #12]
+ 3894 01fc 6C73     		strb	r4, [r5, #13]
+ 3895 01fe AC73     		strb	r4, [r5, #14]
+ 3896 0200 EC73     		strb	r4, [r5, #15]
+ 3897 0202 07E7     		b	.L480
+ 3898              	.L552:
+ 3899              		.align	2
+ 3900              	.L551:
+ 3901 0204 00000000 		.word	_SEGGER_RTT
+ 3902 0208 00000000 		.word	.LANCHOR1
+ 3903 020c 00000000 		.word	.LANCHOR0
+ 3904 0210 00000000 		.word	.LC0
+ 3905              	.L550:
+ 3906 0214 05AB     		add	r3, sp, #20
+ 3907 0216 0393     		str	r3, [sp, #12]
+ 3908 0218 9A46     		mov	r10, r3
+ 3909 021a 854B     		ldr	r3, .L553
+ 3910 021c 116A     		ldr	r1, [r2, #32]
+ 3911 021e D85D     		ldrb	r0, [r3, r7]	@ zero_extendqisi2
+ 3912 0220 FF22     		movs	r2, #255
+ 3913 0222 0293     		str	r3, [sp, #8]
+ 3914 0224 8DF81500 		strb	r0, [sp, #21]
+ 3915 0228 8DF81420 		strb	r2, [sp, #20]
+ 3916 022c 0227     		movs	r7, #2
+ 3917              	.L502:
+ 3918 022e AB6A     		ldr	r3, [r5, #40]
+ 3919 0230 E869     		ldr	r0, [r5, #28]
+ 3920 0232 A342     		cmp	r3, r4
+ 3921 0234 03F1FF36 		add	r6, r3, #-1
+ 3922 0238 9CBF     		itt	ls
+ 3923 023a 03F1FF36 		addls	r6, r3, #-1
+ 3924 023e 7618     		addls	r6, r6, r1
+ 3925 0240 091B     		subs	r1, r1, r4
+ 3926 0242 B942     		cmp	r1, r7
+ 3927 0244 28BF     		it	cs
+ 3928 0246 3946     		movcs	r1, r7
+ 3929 0248 361B     		subs	r6, r6, r4
+ 3930 024a 8E42     		cmp	r6, r1
+ 3931 024c 28BF     		it	cs
+ 3932 024e 0E46     		movcs	r6, r1
+ 3933 0250 2044     		add	r0, r0, r4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 70
+
+
+ 3934 0252 5146     		mov	r1, r10
+ 3935 0254 3246     		mov	r2, r6
+ 3936 0256 FFF7FEFF 		bl	memcpy
+ 3937 025a 296A     		ldr	r1, [r5, #32]
+ 3938 025c 3444     		add	r4, r4, r6
+ 3939 025e 8C42     		cmp	r4, r1
+ 3940 0260 08BF     		it	eq
+ 3941 0262 0024     		moveq	r4, #0
+ 3942 0264 BF1B     		subs	r7, r7, r6
+ 3943 0266 B244     		add	r10, r10, r6
+ 3944 0268 6C62     		str	r4, [r5, #36]
+ 3945 026a E0D1     		bne	.L502
+ 3946 026c 019B     		ldr	r3, [sp, #4]
+ 3947 026e 3E46     		mov	r6, r7
+ 3948 0270 A3F1040A 		sub	r10, r3, #4
+ 3949 0274 D045     		cmp	r8, r10
+ 3950 0276 28BF     		it	cs
+ 3951 0278 D046     		movcs	r8, r10
+ 3952              	.L506:
+ 3953 027a AB6A     		ldr	r3, [r5, #40]
+ 3954 027c E869     		ldr	r0, [r5, #28]
+ 3955 027e A342     		cmp	r3, r4
+ 3956 0280 03F1FF37 		add	r7, r3, #-1
+ 3957 0284 96BF     		itet	ls
+ 3958 0286 03F1FF33 		addls	r3, r3, #-1
+ 3959 028a 3B1B     		subhi	r3, r7, r4
+ 3960 028c 5B18     		addls	r3, r3, r1
+ 3961 028e A1EB0407 		sub	r7, r1, r4
+ 3962 0292 98BF     		it	ls
+ 3963 0294 1B1B     		subls	r3, r3, r4
+ 3964 0296 4745     		cmp	r7, r8
+ 3965 0298 28BF     		it	cs
+ 3966 029a 4746     		movcs	r7, r8
+ 3967 029c 9F42     		cmp	r7, r3
+ 3968 029e 28BF     		it	cs
+ 3969 02a0 1F46     		movcs	r7, r3
+ 3970 02a2 4946     		mov	r1, r9
+ 3971 02a4 2044     		add	r0, r0, r4
+ 3972 02a6 3A46     		mov	r2, r7
+ 3973 02a8 FFF7FEFF 		bl	memcpy
+ 3974 02ac 296A     		ldr	r1, [r5, #32]
+ 3975 02ae 3C44     		add	r4, r4, r7
+ 3976 02b0 8C42     		cmp	r4, r1
+ 3977 02b2 08BF     		it	eq
+ 3978 02b4 0024     		moveq	r4, #0
+ 3979 02b6 B8EB0708 		subs	r8, r8, r7
+ 3980 02ba 3E44     		add	r6, r6, r7
+ 3981 02bc B944     		add	r9, r9, r7
+ 3982 02be 6C62     		str	r4, [r5, #36]
+ 3983 02c0 DBD1     		bne	.L506
+ 3984 02c2 5C4B     		ldr	r3, .L553+4
+ 3985 02c4 FF22     		movs	r2, #255
+ 3986 02c6 93F81034 		ldrb	r3, [r3, #1040]	@ zero_extendqisi2
+ 3987 02ca 8DF81420 		strb	r2, [sp, #20]
+ 3988 02ce 029A     		ldr	r2, [sp, #8]
+ 3989 02d0 039F     		ldr	r7, [sp, #12]
+ 3990 02d2 D35C     		ldrb	r3, [r2, r3]	@ zero_extendqisi2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 71
+
+
+ 3991 02d4 4FF00208 		mov	r8, #2
+ 3992 02d8 8DF81530 		strb	r3, [sp, #21]
+ 3993              	.L510:
+ 3994 02dc AB6A     		ldr	r3, [r5, #40]
+ 3995 02de E869     		ldr	r0, [r5, #28]
+ 3996 02e0 A342     		cmp	r3, r4
+ 3997 02e2 03F1FF39 		add	r9, r3, #-1
+ 3998 02e6 96BF     		itet	ls
+ 3999 02e8 03F1FF33 		addls	r3, r3, #-1
+ 4000 02ec C4EB0903 		rsbhi	r3, r4, r9
+ 4001 02f0 5B18     		addls	r3, r3, r1
+ 4002 02f2 C4EB0109 		rsb	r9, r4, r1
+ 4003 02f6 98BF     		it	ls
+ 4004 02f8 1B1B     		subls	r3, r3, r4
+ 4005 02fa C145     		cmp	r9, r8
+ 4006 02fc 28BF     		it	cs
+ 4007 02fe C146     		movcs	r9, r8
+ 4008 0300 9945     		cmp	r9, r3
+ 4009 0302 28BF     		it	cs
+ 4010 0304 9946     		movcs	r9, r3
+ 4011 0306 3946     		mov	r1, r7
+ 4012 0308 2044     		add	r0, r0, r4
+ 4013 030a 4A46     		mov	r2, r9
+ 4014 030c FFF7FEFF 		bl	memcpy
+ 4015 0310 296A     		ldr	r1, [r5, #32]
+ 4016 0312 4C44     		add	r4, r4, r9
+ 4017 0314 8C42     		cmp	r4, r1
+ 4018 0316 08BF     		it	eq
+ 4019 0318 0024     		moveq	r4, #0
+ 4020 031a B8EB0908 		subs	r8, r8, r9
+ 4021 031e 4F44     		add	r7, r7, r9
+ 4022 0320 6C62     		str	r4, [r5, #36]
+ 4023 0322 DBD1     		bne	.L510
+ 4024 0324 23E7     		b	.L483
+ 4025              	.L549:
+ 4026 0326 05AB     		add	r3, sp, #20
+ 4027 0328 0393     		str	r3, [sp, #12]
+ 4028 032a 9A46     		mov	r10, r3
+ 4029 032c 404B     		ldr	r3, .L553
+ 4030 032e 1946     		mov	r1, r3
+ 4031 0330 C95D     		ldrb	r1, [r1, r7]	@ zero_extendqisi2
+ 4032 0332 0293     		str	r3, [sp, #8]
+ 4033 0334 136A     		ldr	r3, [r2, #32]
+ 4034 0336 FF22     		movs	r2, #255
+ 4035 0338 8DF81510 		strb	r1, [sp, #21]
+ 4036 033c 8DF81420 		strb	r2, [sp, #20]
+ 4037 0340 0227     		movs	r7, #2
+ 4038              	.L490:
+ 4039 0342 AA6A     		ldr	r2, [r5, #40]
+ 4040 0344 E869     		ldr	r0, [r5, #28]
+ 4041 0346 A242     		cmp	r2, r4
+ 4042 0348 02F1FF36 		add	r6, r2, #-1
+ 4043 034c 9CBF     		itt	ls
+ 4044 034e 02F1FF36 		addls	r6, r2, #-1
+ 4045 0352 F618     		addls	r6, r6, r3
+ 4046 0354 1B1B     		subs	r3, r3, r4
+ 4047 0356 BB42     		cmp	r3, r7
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 72
+
+
+ 4048 0358 28BF     		it	cs
+ 4049 035a 3B46     		movcs	r3, r7
+ 4050 035c 361B     		subs	r6, r6, r4
+ 4051 035e 9E42     		cmp	r6, r3
+ 4052 0360 28BF     		it	cs
+ 4053 0362 1E46     		movcs	r6, r3
+ 4054 0364 2044     		add	r0, r0, r4
+ 4055 0366 5146     		mov	r1, r10
+ 4056 0368 3246     		mov	r2, r6
+ 4057 036a FFF7FEFF 		bl	memcpy
+ 4058 036e 2B6A     		ldr	r3, [r5, #32]
+ 4059 0370 3444     		add	r4, r4, r6
+ 4060 0372 9C42     		cmp	r4, r3
+ 4061 0374 08BF     		it	eq
+ 4062 0376 0024     		moveq	r4, #0
+ 4063 0378 BF1B     		subs	r7, r7, r6
+ 4064 037a B244     		add	r10, r10, r6
+ 4065 037c 6C62     		str	r4, [r5, #36]
+ 4066 037e E0D1     		bne	.L490
+ 4067 0380 3E46     		mov	r6, r7
+ 4068              	.L494:
+ 4069 0382 AA6A     		ldr	r2, [r5, #40]
+ 4070 0384 E869     		ldr	r0, [r5, #28]
+ 4071 0386 A242     		cmp	r2, r4
+ 4072 0388 02F1FF37 		add	r7, r2, #-1
+ 4073 038c 9ABF     		itte	ls
+ 4074 038e 02F1FF32 		addls	r2, r2, #-1
+ 4075 0392 D218     		addls	r2, r2, r3
+ 4076 0394 3A1B     		subhi	r2, r7, r4
+ 4077 0396 A3EB0407 		sub	r7, r3, r4
+ 4078 039a 98BF     		it	ls
+ 4079 039c 121B     		subls	r2, r2, r4
+ 4080 039e 4745     		cmp	r7, r8
+ 4081 03a0 28BF     		it	cs
+ 4082 03a2 4746     		movcs	r7, r8
+ 4083 03a4 9742     		cmp	r7, r2
+ 4084 03a6 28BF     		it	cs
+ 4085 03a8 1746     		movcs	r7, r2
+ 4086 03aa 2044     		add	r0, r0, r4
+ 4087 03ac 4946     		mov	r1, r9
+ 4088 03ae 3A46     		mov	r2, r7
+ 4089 03b0 FFF7FEFF 		bl	memcpy
+ 4090 03b4 2B6A     		ldr	r3, [r5, #32]
+ 4091 03b6 3C44     		add	r4, r4, r7
+ 4092 03b8 9C42     		cmp	r4, r3
+ 4093 03ba 08BF     		it	eq
+ 4094 03bc 0024     		moveq	r4, #0
+ 4095 03be B8EB0708 		subs	r8, r8, r7
+ 4096 03c2 3E44     		add	r6, r6, r7
+ 4097 03c4 B944     		add	r9, r9, r7
+ 4098 03c6 6C62     		str	r4, [r5, #36]
+ 4099 03c8 DBD1     		bne	.L494
+ 4100 03ca 1A4A     		ldr	r2, .L553+4
+ 4101 03cc FF21     		movs	r1, #255
+ 4102 03ce 92F81024 		ldrb	r2, [r2, #1040]	@ zero_extendqisi2
+ 4103 03d2 8DF81410 		strb	r1, [sp, #20]
+ 4104 03d6 0299     		ldr	r1, [sp, #8]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 73
+
+
+ 4105 03d8 039F     		ldr	r7, [sp, #12]
+ 4106 03da 8A5C     		ldrb	r2, [r1, r2]	@ zero_extendqisi2
+ 4107 03dc 4FF00208 		mov	r8, #2
+ 4108 03e0 8DF81520 		strb	r2, [sp, #21]
+ 4109              	.L498:
+ 4110 03e4 AA6A     		ldr	r2, [r5, #40]
+ 4111 03e6 E869     		ldr	r0, [r5, #28]
+ 4112 03e8 A242     		cmp	r2, r4
+ 4113 03ea 02F1FF39 		add	r9, r2, #-1
+ 4114 03ee 9ABF     		itte	ls
+ 4115 03f0 02F1FF32 		addls	r2, r2, #-1
+ 4116 03f4 D218     		addls	r2, r2, r3
+ 4117 03f6 C4EB0902 		rsbhi	r2, r4, r9
+ 4118 03fa C4EB0309 		rsb	r9, r4, r3
+ 4119 03fe 98BF     		it	ls
+ 4120 0400 121B     		subls	r2, r2, r4
+ 4121 0402 C145     		cmp	r9, r8
+ 4122 0404 28BF     		it	cs
+ 4123 0406 C146     		movcs	r9, r8
+ 4124 0408 9145     		cmp	r9, r2
+ 4125 040a 28BF     		it	cs
+ 4126 040c 9146     		movcs	r9, r2
+ 4127 040e 2044     		add	r0, r0, r4
+ 4128 0410 3946     		mov	r1, r7
+ 4129 0412 4A46     		mov	r2, r9
+ 4130 0414 FFF7FEFF 		bl	memcpy
+ 4131 0418 2B6A     		ldr	r3, [r5, #32]
+ 4132 041a 4C44     		add	r4, r4, r9
+ 4133 041c 9C42     		cmp	r4, r3
+ 4134 041e 08BF     		it	eq
+ 4135 0420 0024     		moveq	r4, #0
+ 4136 0422 B8EB0908 		subs	r8, r8, r9
+ 4137 0426 4F44     		add	r7, r7, r9
+ 4138 0428 6C62     		str	r4, [r5, #36]
+ 4139 042a DBD1     		bne	.L498
+ 4140 042c 9FE6     		b	.L483
+ 4141              	.L554:
+ 4142 042e 00BF     		.align	2
+ 4143              	.L553:
+ 4144 0430 00000000 		.word	.LANCHOR1
+ 4145 0434 00000000 		.word	.LANCHOR0
+ 4146              		.size	SEGGER_RTT_TerminalOut, .-SEGGER_RTT_TerminalOut
+ 4147              		.section	.text.SEGGER_RTT_GetAvailWriteSpace,"ax",%progbits
+ 4148              		.align	2
+ 4149              		.global	SEGGER_RTT_GetAvailWriteSpace
+ 4150              		.thumb
+ 4151              		.thumb_func
+ 4152              		.type	SEGGER_RTT_GetAvailWriteSpace, %function
+ 4153              	SEGGER_RTT_GetAvailWriteSpace:
+ 4154              		@ args = 0, pretend = 0, frame = 0
+ 4155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 4156              		@ link register save eliminated.
+ 4157 0000 064B     		ldr	r3, .L558
+ 4158 0002 00EB4000 		add	r0, r0, r0, lsl #1
+ 4159 0006 03EBC003 		add	r3, r3, r0, lsl #3
+ 4160 000a 986A     		ldr	r0, [r3, #40]
+ 4161 000c 5A6A     		ldr	r2, [r3, #36]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 74
+
+
+ 4162 000e 9042     		cmp	r0, r2
+ 4163 0010 9CBF     		itt	ls
+ 4164 0012 1B6A     		ldrls	r3, [r3, #32]
+ 4165 0014 C018     		addls	r0, r0, r3
+ 4166 0016 0138     		subs	r0, r0, #1
+ 4167 0018 801A     		subs	r0, r0, r2
+ 4168 001a 7047     		bx	lr
+ 4169              	.L559:
+ 4170              		.align	2
+ 4171              	.L558:
+ 4172 001c 00000000 		.word	_SEGGER_RTT
+ 4173              		.size	SEGGER_RTT_GetAvailWriteSpace, .-SEGGER_RTT_GetAvailWriteSpace
+ 4174              		.section	.text.SEGGER_RTT_GetBytesInBuffer,"ax",%progbits
+ 4175              		.align	2
+ 4176              		.global	SEGGER_RTT_GetBytesInBuffer
+ 4177              		.thumb
+ 4178              		.thumb_func
+ 4179              		.type	SEGGER_RTT_GetBytesInBuffer, %function
+ 4180              	SEGGER_RTT_GetBytesInBuffer:
+ 4181              		@ args = 0, pretend = 0, frame = 0
+ 4182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 4183              		@ link register save eliminated.
+ 4184 0000 064B     		ldr	r3, .L563
+ 4185 0002 00EB4000 		add	r0, r0, r0, lsl #1
+ 4186 0006 03EBC003 		add	r3, r3, r0, lsl #3
+ 4187 000a 986A     		ldr	r0, [r3, #40]
+ 4188 000c 5A6A     		ldr	r2, [r3, #36]
+ 4189 000e 9042     		cmp	r0, r2
+ 4190 0010 89BF     		itett	hi
+ 4191 0012 1B6A     		ldrhi	r3, [r3, #32]
+ 4192 0014 101A     		subls	r0, r2, r0
+ 4193 0016 C018     		addhi	r0, r0, r3
+ 4194 0018 801A     		subhi	r0, r0, r2
+ 4195 001a 7047     		bx	lr
+ 4196              	.L564:
+ 4197              		.align	2
+ 4198              	.L563:
+ 4199 001c 00000000 		.word	_SEGGER_RTT
+ 4200              		.size	SEGGER_RTT_GetBytesInBuffer, .-SEGGER_RTT_GetBytesInBuffer
+ 4201              		.comm	_SEGGER_RTT,168,4
+ 4202              		.section	.rodata
+ 4203              		.align	2
+ 4204              		.set	.LANCHOR1,. + 0
+ 4205              		.type	_aTerminalId, %object
+ 4206              		.size	_aTerminalId, 16
+ 4207              	_aTerminalId:
+ 4208 0000 30       		.byte	48
+ 4209 0001 31       		.byte	49
+ 4210 0002 32       		.byte	50
+ 4211 0003 33       		.byte	51
+ 4212 0004 34       		.byte	52
+ 4213 0005 35       		.byte	53
+ 4214 0006 36       		.byte	54
+ 4215 0007 37       		.byte	55
+ 4216 0008 38       		.byte	56
+ 4217 0009 39       		.byte	57
+ 4218 000a 41       		.byte	65
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccAar42X.s 			page 75
+
+
+ 4219 000b 42       		.byte	66
+ 4220 000c 43       		.byte	67
+ 4221 000d 44       		.byte	68
+ 4222 000e 45       		.byte	69
+ 4223 000f 46       		.byte	70
+ 4224              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 4225              		.align	2
+ 4226              	.LC0:
+ 4227 0000 5465726D 		.ascii	"Terminal\000"
+ 4227      696E616C 
+ 4227      00
+ 4228              		.bss
+ 4229              		.align	2
+ 4230              		.set	.LANCHOR0,. + 0
+ 4231              		.type	_acUpBuffer, %object
+ 4232              		.size	_acUpBuffer, 1024
+ 4233              	_acUpBuffer:
+ 4234 0000 00000000 		.space	1024
+ 4234      00000000 
+ 4234      00000000 
+ 4234      00000000 
+ 4234      00000000 
+ 4235              		.type	_acDownBuffer, %object
+ 4236              		.size	_acDownBuffer, 16
+ 4237              	_acDownBuffer:
+ 4238 0400 00000000 		.space	16
+ 4238      00000000 
+ 4238      00000000 
+ 4238      00000000 
+ 4239              		.type	_ActiveTerminal, %object
+ 4240              		.size	_ActiveTerminal, 1
+ 4241              	_ActiveTerminal:
+ 4242 0410 00       		.space	1
+ 4243              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

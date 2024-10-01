@@ -1,0 +1,309 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cczqxYgC.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"intr_Port1.c"
+  16              		.section	.text.intr_Port1_Interrupt,"ax",%progbits
+  17              		.align	2
+  18              		.global	intr_Port1_Interrupt
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	intr_Port1_Interrupt, %function
+  22              	intr_Port1_Interrupt:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 7047     		bx	lr
+  27              		.size	intr_Port1_Interrupt, .-intr_Port1_Interrupt
+  28 0002 00BF     		.section	.text.intr_Port1_Start,"ax",%progbits
+  29              		.align	2
+  30              		.global	intr_Port1_Start
+  31              		.thumb
+  32              		.thumb_func
+  33              		.type	intr_Port1_Start, %function
+  34              	intr_Port1_Start:
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37              		@ link register save eliminated.
+  38 0000 70B4     		push	{r4, r5, r6}
+  39 0002 074B     		ldr	r3, .L4
+  40 0004 074E     		ldr	r6, .L4+4
+  41 0006 1C68     		ldr	r4, [r3]
+  42 0008 074D     		ldr	r5, .L4+8
+  43 000a 0849     		ldr	r1, .L4+12
+  44 000c 4023     		movs	r3, #64
+  45 000e 084A     		ldr	r2, .L4+16
+  46 0010 C020     		movs	r0, #192
+  47 0012 3360     		str	r3, [r6]
+  48 0014 A565     		str	r5, [r4, #88]
+  49 0016 0870     		strb	r0, [r1]
+  50 0018 70BC     		pop	{r4, r5, r6}
+  51 001a 1360     		str	r3, [r2]
+  52 001c 7047     		bx	lr
+  53              	.L5:
+  54 001e 00BF     		.align	2
+  55              	.L4:
+  56 0020 08ED00E0 		.word	-536810232
+  57 0024 80E100E0 		.word	-536813184
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cczqxYgC.s 			page 2
+
+
+  58 0028 00000000 		.word	intr_Port1_Interrupt
+  59 002c 06E400E0 		.word	-536812538
+  60 0030 00E100E0 		.word	-536813312
+  61              		.size	intr_Port1_Start, .-intr_Port1_Start
+  62              		.section	.text.intr_Port1_StartEx,"ax",%progbits
+  63              		.align	2
+  64              		.global	intr_Port1_StartEx
+  65              		.thumb
+  66              		.thumb_func
+  67              		.type	intr_Port1_StartEx, %function
+  68              	intr_Port1_StartEx:
+  69              		@ args = 0, pretend = 0, frame = 0
+  70              		@ frame_needed = 0, uses_anonymous_args = 0
+  71              		@ link register save eliminated.
+  72 0000 70B4     		push	{r4, r5, r6}
+  73 0002 064B     		ldr	r3, .L8
+  74 0004 064E     		ldr	r6, .L8+4
+  75 0006 1D68     		ldr	r5, [r3]
+  76 0008 0649     		ldr	r1, .L8+8
+  77 000a 4023     		movs	r3, #64
+  78 000c C024     		movs	r4, #192
+  79 000e 064A     		ldr	r2, .L8+12
+  80 0010 3360     		str	r3, [r6]
+  81 0012 A865     		str	r0, [r5, #88]
+  82 0014 0C70     		strb	r4, [r1]
+  83 0016 70BC     		pop	{r4, r5, r6}
+  84 0018 1360     		str	r3, [r2]
+  85 001a 7047     		bx	lr
+  86              	.L9:
+  87              		.align	2
+  88              	.L8:
+  89 001c 08ED00E0 		.word	-536810232
+  90 0020 80E100E0 		.word	-536813184
+  91 0024 06E400E0 		.word	-536812538
+  92 0028 00E100E0 		.word	-536813312
+  93              		.size	intr_Port1_StartEx, .-intr_Port1_StartEx
+  94              		.section	.text.intr_Port1_Stop,"ax",%progbits
+  95              		.align	2
+  96              		.global	intr_Port1_Stop
+  97              		.thumb
+  98              		.thumb_func
+  99              		.type	intr_Port1_Stop, %function
+ 100              	intr_Port1_Stop:
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103              		@ link register save eliminated.
+ 104 0000 034B     		ldr	r3, .L11
+ 105 0002 0449     		ldr	r1, .L11+4
+ 106 0004 1B68     		ldr	r3, [r3]
+ 107 0006 044A     		ldr	r2, .L11+8
+ 108 0008 4020     		movs	r0, #64
+ 109 000a 0860     		str	r0, [r1]
+ 110 000c 9A65     		str	r2, [r3, #88]
+ 111 000e 7047     		bx	lr
+ 112              	.L12:
+ 113              		.align	2
+ 114              	.L11:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cczqxYgC.s 			page 3
+
+
+ 115 0010 08ED00E0 		.word	-536810232
+ 116 0014 80E100E0 		.word	-536813184
+ 117 0018 00000000 		.word	IntDefaultHandler
+ 118              		.size	intr_Port1_Stop, .-intr_Port1_Stop
+ 119              		.section	.text.intr_Port1_SetVector,"ax",%progbits
+ 120              		.align	2
+ 121              		.global	intr_Port1_SetVector
+ 122              		.thumb
+ 123              		.thumb_func
+ 124              		.type	intr_Port1_SetVector, %function
+ 125              	intr_Port1_SetVector:
+ 126              		@ args = 0, pretend = 0, frame = 0
+ 127              		@ frame_needed = 0, uses_anonymous_args = 0
+ 128              		@ link register save eliminated.
+ 129 0000 014B     		ldr	r3, .L14
+ 130 0002 1B68     		ldr	r3, [r3]
+ 131 0004 9865     		str	r0, [r3, #88]
+ 132 0006 7047     		bx	lr
+ 133              	.L15:
+ 134              		.align	2
+ 135              	.L14:
+ 136 0008 08ED00E0 		.word	-536810232
+ 137              		.size	intr_Port1_SetVector, .-intr_Port1_SetVector
+ 138              		.section	.text.intr_Port1_GetVector,"ax",%progbits
+ 139              		.align	2
+ 140              		.global	intr_Port1_GetVector
+ 141              		.thumb
+ 142              		.thumb_func
+ 143              		.type	intr_Port1_GetVector, %function
+ 144              	intr_Port1_GetVector:
+ 145              		@ args = 0, pretend = 0, frame = 0
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147              		@ link register save eliminated.
+ 148 0000 014B     		ldr	r3, .L17
+ 149 0002 1B68     		ldr	r3, [r3]
+ 150 0004 986D     		ldr	r0, [r3, #88]
+ 151 0006 7047     		bx	lr
+ 152              	.L18:
+ 153              		.align	2
+ 154              	.L17:
+ 155 0008 08ED00E0 		.word	-536810232
+ 156              		.size	intr_Port1_GetVector, .-intr_Port1_GetVector
+ 157              		.section	.text.intr_Port1_SetPriority,"ax",%progbits
+ 158              		.align	2
+ 159              		.global	intr_Port1_SetPriority
+ 160              		.thumb
+ 161              		.thumb_func
+ 162              		.type	intr_Port1_SetPriority, %function
+ 163              	intr_Port1_SetPriority:
+ 164              		@ args = 0, pretend = 0, frame = 0
+ 165              		@ frame_needed = 0, uses_anonymous_args = 0
+ 166              		@ link register save eliminated.
+ 167 0000 4001     		lsls	r0, r0, #5
+ 168 0002 024B     		ldr	r3, .L20
+ 169 0004 C0B2     		uxtb	r0, r0
+ 170 0006 1870     		strb	r0, [r3]
+ 171 0008 7047     		bx	lr
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cczqxYgC.s 			page 4
+
+
+ 172              	.L21:
+ 173 000a 00BF     		.align	2
+ 174              	.L20:
+ 175 000c 06E400E0 		.word	-536812538
+ 176              		.size	intr_Port1_SetPriority, .-intr_Port1_SetPriority
+ 177              		.section	.text.intr_Port1_GetPriority,"ax",%progbits
+ 178              		.align	2
+ 179              		.global	intr_Port1_GetPriority
+ 180              		.thumb
+ 181              		.thumb_func
+ 182              		.type	intr_Port1_GetPriority, %function
+ 183              	intr_Port1_GetPriority:
+ 184              		@ args = 0, pretend = 0, frame = 0
+ 185              		@ frame_needed = 0, uses_anonymous_args = 0
+ 186              		@ link register save eliminated.
+ 187 0000 014B     		ldr	r3, .L23
+ 188 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 189 0004 4009     		lsrs	r0, r0, #5
+ 190 0006 7047     		bx	lr
+ 191              	.L24:
+ 192              		.align	2
+ 193              	.L23:
+ 194 0008 06E400E0 		.word	-536812538
+ 195              		.size	intr_Port1_GetPriority, .-intr_Port1_GetPriority
+ 196              		.section	.text.intr_Port1_Enable,"ax",%progbits
+ 197              		.align	2
+ 198              		.global	intr_Port1_Enable
+ 199              		.thumb
+ 200              		.thumb_func
+ 201              		.type	intr_Port1_Enable, %function
+ 202              	intr_Port1_Enable:
+ 203              		@ args = 0, pretend = 0, frame = 0
+ 204              		@ frame_needed = 0, uses_anonymous_args = 0
+ 205              		@ link register save eliminated.
+ 206 0000 014B     		ldr	r3, .L26
+ 207 0002 4022     		movs	r2, #64
+ 208 0004 1A60     		str	r2, [r3]
+ 209 0006 7047     		bx	lr
+ 210              	.L27:
+ 211              		.align	2
+ 212              	.L26:
+ 213 0008 00E100E0 		.word	-536813312
+ 214              		.size	intr_Port1_Enable, .-intr_Port1_Enable
+ 215              		.section	.text.intr_Port1_GetState,"ax",%progbits
+ 216              		.align	2
+ 217              		.global	intr_Port1_GetState
+ 218              		.thumb
+ 219              		.thumb_func
+ 220              		.type	intr_Port1_GetState, %function
+ 221              	intr_Port1_GetState:
+ 222              		@ args = 0, pretend = 0, frame = 0
+ 223              		@ frame_needed = 0, uses_anonymous_args = 0
+ 224              		@ link register save eliminated.
+ 225 0000 024B     		ldr	r3, .L29
+ 226 0002 1868     		ldr	r0, [r3]
+ 227 0004 C0F38010 		ubfx	r0, r0, #6, #1
+ 228 0008 7047     		bx	lr
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cczqxYgC.s 			page 5
+
+
+ 229              	.L30:
+ 230 000a 00BF     		.align	2
+ 231              	.L29:
+ 232 000c 00E100E0 		.word	-536813312
+ 233              		.size	intr_Port1_GetState, .-intr_Port1_GetState
+ 234              		.section	.text.intr_Port1_Disable,"ax",%progbits
+ 235              		.align	2
+ 236              		.global	intr_Port1_Disable
+ 237              		.thumb
+ 238              		.thumb_func
+ 239              		.type	intr_Port1_Disable, %function
+ 240              	intr_Port1_Disable:
+ 241              		@ args = 0, pretend = 0, frame = 0
+ 242              		@ frame_needed = 0, uses_anonymous_args = 0
+ 243              		@ link register save eliminated.
+ 244 0000 014B     		ldr	r3, .L32
+ 245 0002 4022     		movs	r2, #64
+ 246 0004 1A60     		str	r2, [r3]
+ 247 0006 7047     		bx	lr
+ 248              	.L33:
+ 249              		.align	2
+ 250              	.L32:
+ 251 0008 80E100E0 		.word	-536813184
+ 252              		.size	intr_Port1_Disable, .-intr_Port1_Disable
+ 253              		.section	.text.intr_Port1_SetPending,"ax",%progbits
+ 254              		.align	2
+ 255              		.global	intr_Port1_SetPending
+ 256              		.thumb
+ 257              		.thumb_func
+ 258              		.type	intr_Port1_SetPending, %function
+ 259              	intr_Port1_SetPending:
+ 260              		@ args = 0, pretend = 0, frame = 0
+ 261              		@ frame_needed = 0, uses_anonymous_args = 0
+ 262              		@ link register save eliminated.
+ 263 0000 014B     		ldr	r3, .L35
+ 264 0002 4022     		movs	r2, #64
+ 265 0004 1A60     		str	r2, [r3]
+ 266 0006 7047     		bx	lr
+ 267              	.L36:
+ 268              		.align	2
+ 269              	.L35:
+ 270 0008 00E200E0 		.word	-536813056
+ 271              		.size	intr_Port1_SetPending, .-intr_Port1_SetPending
+ 272              		.section	.text.intr_Port1_ClearPending,"ax",%progbits
+ 273              		.align	2
+ 274              		.global	intr_Port1_ClearPending
+ 275              		.thumb
+ 276              		.thumb_func
+ 277              		.type	intr_Port1_ClearPending, %function
+ 278              	intr_Port1_ClearPending:
+ 279              		@ args = 0, pretend = 0, frame = 0
+ 280              		@ frame_needed = 0, uses_anonymous_args = 0
+ 281              		@ link register save eliminated.
+ 282 0000 014B     		ldr	r3, .L38
+ 283 0002 4022     		movs	r2, #64
+ 284 0004 1A60     		str	r2, [r3]
+ 285 0006 7047     		bx	lr
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cczqxYgC.s 			page 6
+
+
+ 286              	.L39:
+ 287              		.align	2
+ 288              	.L38:
+ 289 0008 80E200E0 		.word	-536812928
+ 290              		.size	intr_Port1_ClearPending, .-intr_Port1_ClearPending
+ 291              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

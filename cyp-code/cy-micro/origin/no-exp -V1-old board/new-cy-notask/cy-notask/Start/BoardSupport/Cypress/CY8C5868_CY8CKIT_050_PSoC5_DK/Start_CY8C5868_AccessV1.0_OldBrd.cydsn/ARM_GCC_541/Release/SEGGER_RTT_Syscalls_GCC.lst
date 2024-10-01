@@ -1,0 +1,53 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccjWwDzi.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"SEGGER_RTT_Syscalls_GCC.c"
+  16              		.section	.text._write,"ax",%progbits
+  17              		.align	2
+  18              		.global	_write
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	_write, %function
+  22              	_write:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 10B5     		push	{r4, lr}
+  26 0002 1446     		mov	r4, r2
+  27 0004 0020     		movs	r0, #0
+  28 0006 FFF7FEFF 		bl	SEGGER_RTT_Write
+  29 000a 2046     		mov	r0, r4
+  30 000c 10BD     		pop	{r4, pc}
+  31              		.size	_write, .-_write
+  32 000e 00BF     		.section	.text._write_r,"ax",%progbits
+  33              		.align	2
+  34              		.global	_write_r
+  35              		.thumb
+  36              		.thumb_func
+  37              		.type	_write_r, %function
+  38              	_write_r:
+  39              		@ args = 0, pretend = 0, frame = 0
+  40              		@ frame_needed = 0, uses_anonymous_args = 0
+  41 0000 10B5     		push	{r4, lr}
+  42 0002 1C46     		mov	r4, r3
+  43 0004 1146     		mov	r1, r2
+  44 0006 0020     		movs	r0, #0
+  45 0008 1A46     		mov	r2, r3
+  46 000a FFF7FEFF 		bl	SEGGER_RTT_Write
+  47 000e 2046     		mov	r0, r4
+  48 0010 10BD     		pop	{r4, pc}
+  49              		.size	_write_r, .-_write_r
+  50 0012 00BF     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

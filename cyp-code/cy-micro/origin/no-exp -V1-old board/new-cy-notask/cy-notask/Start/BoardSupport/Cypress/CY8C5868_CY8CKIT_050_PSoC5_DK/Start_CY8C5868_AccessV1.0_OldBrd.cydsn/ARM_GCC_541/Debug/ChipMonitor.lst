@@ -1,0 +1,635 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccxanlgh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"ChipMonitor.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.rodata
+  20              		.align	2
+  21              	.LC0:
+  22 0000 63796D6F 		.ascii	"cymonitoring_get_lastWtd: last reset cause: Hardwar"
+  22      6E69746F 
+  22      72696E67 
+  22      5F676574 
+  22      5F6C6173 
+  23 0033 65205265 		.ascii	"e Reset\015\012\000"
+  23      7365740D 
+  23      0A00
+  24 003d 000000   		.align	2
+  25              	.LC1:
+  26 0040 63796D6F 		.ascii	"cymonitoring_get_lastWtd: last reset cause: Watchdo"
+  26      6E69746F 
+  26      72696E67 
+  26      5F676574 
+  26      5F6C6173 
+  27 0073 67205265 		.ascii	"g Reset\015\012\000"
+  27      7365740D 
+  27      0A00
+  28 007d 000000   		.align	2
+  29              	.LC2:
+  30 0080 63796D6F 		.ascii	"cymonitoring_get_lastWtd: last reset cause: Softwar"
+  30      6E69746F 
+  30      72696E67 
+  30      5F676574 
+  30      5F6C6173 
+  31 00b3 65205265 		.ascii	"e Reset\015\012\000"
+  31      7365740D 
+  31      0A00
+  32              		.section	.text.cymonitoring_get_lastWtd,"ax",%progbits
+  33              		.align	2
+  34              		.global	cymonitoring_get_lastWtd
+  35              		.thumb
+  36              		.thumb_func
+  37              		.type	cymonitoring_get_lastWtd, %function
+  38              	cymonitoring_get_lastWtd:
+  39              	.LFB64:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccxanlgh.s 			page 2
+
+
+  40              		.file 1 "ChipMonitor.c"
+   1:ChipMonitor.c **** /* ========================================
+   2:ChipMonitor.c ****  *
+   3:ChipMonitor.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:ChipMonitor.c ****  * All Rights Reserved
+   5:ChipMonitor.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:ChipMonitor.c ****  *
+   7:ChipMonitor.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:ChipMonitor.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:ChipMonitor.c ****  *
+  10:ChipMonitor.c ****  * ========================================
+  11:ChipMonitor.c **** */
+  12:ChipMonitor.c **** 
+  13:ChipMonitor.c **** // ###################################################### Includes ################################
+  14:ChipMonitor.c **** #include "ChipMonitor.h"
+  15:ChipMonitor.c **** // ################################################################################################
+  16:ChipMonitor.c ****     
+  17:ChipMonitor.c **** // ###################################################### Prototypes ##############################
+  18:ChipMonitor.c **** void cymonitoring_get_lastWtd()
+  19:ChipMonitor.c **** {
+  41              		.loc 1 19 0
+  42              		.cfi_startproc
+  43              		@ args = 0, pretend = 0, frame = 8
+  44              		@ frame_needed = 1, uses_anonymous_args = 0
+  45 0000 80B5     		push	{r7, lr}
+  46              		.cfi_def_cfa_offset 8
+  47              		.cfi_offset 7, -8
+  48              		.cfi_offset 14, -4
+  49 0002 82B0     		sub	sp, sp, #8
+  50              		.cfi_def_cfa_offset 16
+  51 0004 00AF     		add	r7, sp, #0
+  52              		.cfi_def_cfa_register 7
+  20:ChipMonitor.c ****     uint8 stat = CyResetStatus;
+  53              		.loc 1 20 0
+  54 0006 0D4B     		ldr	r3, .L8
+  55 0008 1B78     		ldrb	r3, [r3]
+  56 000a FB71     		strb	r3, [r7, #7]
+  21:ChipMonitor.c ****     switch(stat){
+  57              		.loc 1 21 0
+  58 000c FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  59 000e 082B     		cmp	r3, #8
+  60 0010 08D0     		beq	.L3
+  61 0012 202B     		cmp	r3, #32
+  62 0014 0AD0     		beq	.L4
+  63 0016 002B     		cmp	r3, #0
+  64 0018 00D0     		beq	.L5
+  22:ChipMonitor.c ****         case 0:
+  23:ChipMonitor.c ****             // Hardware Reset
+  24:ChipMonitor.c ****             UART_Debug_PutString("cymonitoring_get_lastWtd: last reset cause: Hardware Reset\r\n");
+  25:ChipMonitor.c ****             break;
+  26:ChipMonitor.c ****         case 8:
+  27:ChipMonitor.c ****             // Watchdog Reset
+  28:ChipMonitor.c ****             UART_Debug_PutString("cymonitoring_get_lastWtd: last reset cause: Watchdog Reset\r\n");
+  29:ChipMonitor.c ****             break;
+  30:ChipMonitor.c ****         case 32:
+  31:ChipMonitor.c ****             // Software Reset
+  32:ChipMonitor.c ****             UART_Debug_PutString("cymonitoring_get_lastWtd: last reset cause: Software Reset\r\n");
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccxanlgh.s 			page 3
+
+
+  33:ChipMonitor.c ****             break;
+  34:ChipMonitor.c ****         default:
+  35:ChipMonitor.c ****             break;
+  65              		.loc 1 35 0
+  66 001a 0BE0     		b	.L6
+  67              	.L5:
+  24:ChipMonitor.c ****             break;
+  68              		.loc 1 24 0
+  69 001c 0848     		ldr	r0, .L8+4
+  70 001e FFF7FEFF 		bl	UART_Debug_PutString
+  25:ChipMonitor.c ****         case 8:
+  71              		.loc 1 25 0
+  72 0022 07E0     		b	.L6
+  73              	.L3:
+  28:ChipMonitor.c ****             break;
+  74              		.loc 1 28 0
+  75 0024 0748     		ldr	r0, .L8+8
+  76 0026 FFF7FEFF 		bl	UART_Debug_PutString
+  29:ChipMonitor.c ****         case 32:
+  77              		.loc 1 29 0
+  78 002a 03E0     		b	.L6
+  79              	.L4:
+  32:ChipMonitor.c ****             break;
+  80              		.loc 1 32 0
+  81 002c 0648     		ldr	r0, .L8+12
+  82 002e FFF7FEFF 		bl	UART_Debug_PutString
+  33:ChipMonitor.c ****         default:
+  83              		.loc 1 33 0
+  84 0032 00BF     		nop
+  85              	.L6:
+  36:ChipMonitor.c ****     }
+  37:ChipMonitor.c ****     
+  38:ChipMonitor.c ****     return;
+  86              		.loc 1 38 0 discriminator 1
+  87 0034 00BF     		nop
+  39:ChipMonitor.c **** }
+  88              		.loc 1 39 0 discriminator 1
+  89 0036 0837     		adds	r7, r7, #8
+  90              		.cfi_def_cfa_offset 8
+  91 0038 BD46     		mov	sp, r7
+  92              		.cfi_def_cfa_register 13
+  93              		@ sp needed
+  94 003a 80BD     		pop	{r7, pc}
+  95              	.L9:
+  96              		.align	2
+  97              	.L8:
+  98 003c 00000000 		.word	CyResetStatus
+  99 0040 00000000 		.word	.LC0
+ 100 0044 40000000 		.word	.LC1
+ 101 0048 80000000 		.word	.LC2
+ 102              		.cfi_endproc
+ 103              	.LFE64:
+ 104              		.size	cymonitoring_get_lastWtd, .-cymonitoring_get_lastWtd
+ 105              		.text
+ 106              	.Letext0:
+ 107              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 108              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccxanlgh.s 			page 4
+
+
+ 109              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 110              		.file 5 "Generated_Source\\PSoC5/CyLib.h"
+ 111              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 112              		.section	.debug_info,"",%progbits
+ 113              	.Ldebug_info0:
+ 114 0000 ED000000 		.4byte	0xed
+ 115 0004 0400     		.2byte	0x4
+ 116 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 117 000a 04       		.byte	0x4
+ 118 000b 01       		.uleb128 0x1
+ 119 000c 7E000000 		.4byte	.LASF19
+ 120 0010 0C       		.byte	0xc
+ 121 0011 2E000000 		.4byte	.LASF20
+ 122 0015 48010000 		.4byte	.LASF21
+ 123 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 124 001d 00000000 		.4byte	0
+ 125 0021 00000000 		.4byte	.Ldebug_line0
+ 126 0025 02       		.uleb128 0x2
+ 127 0026 04       		.byte	0x4
+ 128 0027 05       		.byte	0x5
+ 129 0028 696E7400 		.ascii	"int\000"
+ 130 002c 03       		.uleb128 0x3
+ 131 002d 04       		.byte	0x4
+ 132 002e 07       		.byte	0x7
+ 133 002f 21000000 		.4byte	.LASF0
+ 134 0033 03       		.uleb128 0x3
+ 135 0034 08       		.byte	0x8
+ 136 0035 05       		.byte	0x5
+ 137 0036 00000000 		.4byte	.LASF1
+ 138 003a 03       		.uleb128 0x3
+ 139 003b 08       		.byte	0x8
+ 140 003c 04       		.byte	0x4
+ 141 003d 03020000 		.4byte	.LASF2
+ 142 0041 03       		.uleb128 0x3
+ 143 0042 01       		.byte	0x1
+ 144 0043 06       		.byte	0x6
+ 145 0044 F7010000 		.4byte	.LASF3
+ 146 0048 03       		.uleb128 0x3
+ 147 0049 01       		.byte	0x1
+ 148 004a 08       		.byte	0x8
+ 149 004b 0C010000 		.4byte	.LASF4
+ 150 004f 03       		.uleb128 0x3
+ 151 0050 02       		.byte	0x2
+ 152 0051 05       		.byte	0x5
+ 153 0052 1F020000 		.4byte	.LASF5
+ 154 0056 03       		.uleb128 0x3
+ 155 0057 02       		.byte	0x2
+ 156 0058 07       		.byte	0x7
+ 157 0059 0E000000 		.4byte	.LASF6
+ 158 005d 04       		.uleb128 0x4
+ 159 005e 0F020000 		.4byte	.LASF12
+ 160 0062 02       		.byte	0x2
+ 161 0063 3F       		.byte	0x3f
+ 162 0064 68000000 		.4byte	0x68
+ 163 0068 03       		.uleb128 0x3
+ 164 0069 04       		.byte	0x4
+ 165 006a 05       		.byte	0x5
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccxanlgh.s 			page 5
+
+
+ 166 006b 38010000 		.4byte	.LASF7
+ 167 006f 03       		.uleb128 0x3
+ 168 0070 04       		.byte	0x4
+ 169 0071 07       		.byte	0x7
+ 170 0072 50000000 		.4byte	.LASF8
+ 171 0076 03       		.uleb128 0x3
+ 172 0077 08       		.byte	0x8
+ 173 0078 07       		.byte	0x7
+ 174 0079 62000000 		.4byte	.LASF9
+ 175 007d 03       		.uleb128 0x3
+ 176 007e 04       		.byte	0x4
+ 177 007f 07       		.byte	0x7
+ 178 0080 31020000 		.4byte	.LASF10
+ 179 0084 03       		.uleb128 0x3
+ 180 0085 01       		.byte	0x1
+ 181 0086 08       		.byte	0x8
+ 182 0087 1A010000 		.4byte	.LASF11
+ 183 008b 04       		.uleb128 0x4
+ 184 008c 29020000 		.4byte	.LASF13
+ 185 0090 03       		.byte	0x3
+ 186 0091 2C       		.byte	0x2c
+ 187 0092 5D000000 		.4byte	0x5d
+ 188 0096 05       		.uleb128 0x5
+ 189 0097 4A000000 		.4byte	.LASF14
+ 190 009b 04       		.byte	0x4
+ 191 009c E801     		.2byte	0x1e8
+ 192 009e 48000000 		.4byte	0x48
+ 193 00a2 03       		.uleb128 0x3
+ 194 00a3 04       		.byte	0x4
+ 195 00a4 04       		.byte	0x4
+ 196 00a5 19020000 		.4byte	.LASF15
+ 197 00a9 03       		.uleb128 0x3
+ 198 00aa 08       		.byte	0x8
+ 199 00ab 04       		.byte	0x4
+ 200 00ac 41010000 		.4byte	.LASF16
+ 201 00b0 06       		.uleb128 0x6
+ 202 00b1 1F010000 		.4byte	.LASF22
+ 203 00b5 01       		.byte	0x1
+ 204 00b6 12       		.byte	0x12
+ 205 00b7 00000000 		.4byte	.LFB64
+ 206 00bb 4C000000 		.4byte	.LFE64-.LFB64
+ 207 00bf 01       		.uleb128 0x1
+ 208 00c0 9C       		.byte	0x9c
+ 209 00c1 D4000000 		.4byte	0xd4
+ 210 00c5 07       		.uleb128 0x7
+ 211 00c6 79000000 		.4byte	.LASF23
+ 212 00ca 01       		.byte	0x1
+ 213 00cb 14       		.byte	0x14
+ 214 00cc 96000000 		.4byte	0x96
+ 215 00d0 02       		.uleb128 0x2
+ 216 00d1 91       		.byte	0x91
+ 217 00d2 77       		.sleb128 -9
+ 218 00d3 00       		.byte	0
+ 219 00d4 08       		.uleb128 0x8
+ 220 00d5 3C000000 		.4byte	.LASF17
+ 221 00d9 05       		.byte	0x5
+ 222 00da 2C       		.byte	0x2c
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccxanlgh.s 			page 6
+
+
+ 223 00db 96000000 		.4byte	0x96
+ 224 00df 09       		.uleb128 0x9
+ 225 00e0 EA010000 		.4byte	.LASF18
+ 226 00e4 06       		.byte	0x6
+ 227 00e5 1207     		.2byte	0x712
+ 228 00e7 EB000000 		.4byte	0xeb
+ 229 00eb 0A       		.uleb128 0xa
+ 230 00ec 8B000000 		.4byte	0x8b
+ 231 00f0 00       		.byte	0
+ 232              		.section	.debug_abbrev,"",%progbits
+ 233              	.Ldebug_abbrev0:
+ 234 0000 01       		.uleb128 0x1
+ 235 0001 11       		.uleb128 0x11
+ 236 0002 01       		.byte	0x1
+ 237 0003 25       		.uleb128 0x25
+ 238 0004 0E       		.uleb128 0xe
+ 239 0005 13       		.uleb128 0x13
+ 240 0006 0B       		.uleb128 0xb
+ 241 0007 03       		.uleb128 0x3
+ 242 0008 0E       		.uleb128 0xe
+ 243 0009 1B       		.uleb128 0x1b
+ 244 000a 0E       		.uleb128 0xe
+ 245 000b 55       		.uleb128 0x55
+ 246 000c 17       		.uleb128 0x17
+ 247 000d 11       		.uleb128 0x11
+ 248 000e 01       		.uleb128 0x1
+ 249 000f 10       		.uleb128 0x10
+ 250 0010 17       		.uleb128 0x17
+ 251 0011 00       		.byte	0
+ 252 0012 00       		.byte	0
+ 253 0013 02       		.uleb128 0x2
+ 254 0014 24       		.uleb128 0x24
+ 255 0015 00       		.byte	0
+ 256 0016 0B       		.uleb128 0xb
+ 257 0017 0B       		.uleb128 0xb
+ 258 0018 3E       		.uleb128 0x3e
+ 259 0019 0B       		.uleb128 0xb
+ 260 001a 03       		.uleb128 0x3
+ 261 001b 08       		.uleb128 0x8
+ 262 001c 00       		.byte	0
+ 263 001d 00       		.byte	0
+ 264 001e 03       		.uleb128 0x3
+ 265 001f 24       		.uleb128 0x24
+ 266 0020 00       		.byte	0
+ 267 0021 0B       		.uleb128 0xb
+ 268 0022 0B       		.uleb128 0xb
+ 269 0023 3E       		.uleb128 0x3e
+ 270 0024 0B       		.uleb128 0xb
+ 271 0025 03       		.uleb128 0x3
+ 272 0026 0E       		.uleb128 0xe
+ 273 0027 00       		.byte	0
+ 274 0028 00       		.byte	0
+ 275 0029 04       		.uleb128 0x4
+ 276 002a 16       		.uleb128 0x16
+ 277 002b 00       		.byte	0
+ 278 002c 03       		.uleb128 0x3
+ 279 002d 0E       		.uleb128 0xe
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccxanlgh.s 			page 7
+
+
+ 280 002e 3A       		.uleb128 0x3a
+ 281 002f 0B       		.uleb128 0xb
+ 282 0030 3B       		.uleb128 0x3b
+ 283 0031 0B       		.uleb128 0xb
+ 284 0032 49       		.uleb128 0x49
+ 285 0033 13       		.uleb128 0x13
+ 286 0034 00       		.byte	0
+ 287 0035 00       		.byte	0
+ 288 0036 05       		.uleb128 0x5
+ 289 0037 16       		.uleb128 0x16
+ 290 0038 00       		.byte	0
+ 291 0039 03       		.uleb128 0x3
+ 292 003a 0E       		.uleb128 0xe
+ 293 003b 3A       		.uleb128 0x3a
+ 294 003c 0B       		.uleb128 0xb
+ 295 003d 3B       		.uleb128 0x3b
+ 296 003e 05       		.uleb128 0x5
+ 297 003f 49       		.uleb128 0x49
+ 298 0040 13       		.uleb128 0x13
+ 299 0041 00       		.byte	0
+ 300 0042 00       		.byte	0
+ 301 0043 06       		.uleb128 0x6
+ 302 0044 2E       		.uleb128 0x2e
+ 303 0045 01       		.byte	0x1
+ 304 0046 3F       		.uleb128 0x3f
+ 305 0047 19       		.uleb128 0x19
+ 306 0048 03       		.uleb128 0x3
+ 307 0049 0E       		.uleb128 0xe
+ 308 004a 3A       		.uleb128 0x3a
+ 309 004b 0B       		.uleb128 0xb
+ 310 004c 3B       		.uleb128 0x3b
+ 311 004d 0B       		.uleb128 0xb
+ 312 004e 11       		.uleb128 0x11
+ 313 004f 01       		.uleb128 0x1
+ 314 0050 12       		.uleb128 0x12
+ 315 0051 06       		.uleb128 0x6
+ 316 0052 40       		.uleb128 0x40
+ 317 0053 18       		.uleb128 0x18
+ 318 0054 9642     		.uleb128 0x2116
+ 319 0056 19       		.uleb128 0x19
+ 320 0057 01       		.uleb128 0x1
+ 321 0058 13       		.uleb128 0x13
+ 322 0059 00       		.byte	0
+ 323 005a 00       		.byte	0
+ 324 005b 07       		.uleb128 0x7
+ 325 005c 34       		.uleb128 0x34
+ 326 005d 00       		.byte	0
+ 327 005e 03       		.uleb128 0x3
+ 328 005f 0E       		.uleb128 0xe
+ 329 0060 3A       		.uleb128 0x3a
+ 330 0061 0B       		.uleb128 0xb
+ 331 0062 3B       		.uleb128 0x3b
+ 332 0063 0B       		.uleb128 0xb
+ 333 0064 49       		.uleb128 0x49
+ 334 0065 13       		.uleb128 0x13
+ 335 0066 02       		.uleb128 0x2
+ 336 0067 18       		.uleb128 0x18
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccxanlgh.s 			page 8
+
+
+ 337 0068 00       		.byte	0
+ 338 0069 00       		.byte	0
+ 339 006a 08       		.uleb128 0x8
+ 340 006b 34       		.uleb128 0x34
+ 341 006c 00       		.byte	0
+ 342 006d 03       		.uleb128 0x3
+ 343 006e 0E       		.uleb128 0xe
+ 344 006f 3A       		.uleb128 0x3a
+ 345 0070 0B       		.uleb128 0xb
+ 346 0071 3B       		.uleb128 0x3b
+ 347 0072 0B       		.uleb128 0xb
+ 348 0073 49       		.uleb128 0x49
+ 349 0074 13       		.uleb128 0x13
+ 350 0075 3F       		.uleb128 0x3f
+ 351 0076 19       		.uleb128 0x19
+ 352 0077 3C       		.uleb128 0x3c
+ 353 0078 19       		.uleb128 0x19
+ 354 0079 00       		.byte	0
+ 355 007a 00       		.byte	0
+ 356 007b 09       		.uleb128 0x9
+ 357 007c 34       		.uleb128 0x34
+ 358 007d 00       		.byte	0
+ 359 007e 03       		.uleb128 0x3
+ 360 007f 0E       		.uleb128 0xe
+ 361 0080 3A       		.uleb128 0x3a
+ 362 0081 0B       		.uleb128 0xb
+ 363 0082 3B       		.uleb128 0x3b
+ 364 0083 05       		.uleb128 0x5
+ 365 0084 49       		.uleb128 0x49
+ 366 0085 13       		.uleb128 0x13
+ 367 0086 3F       		.uleb128 0x3f
+ 368 0087 19       		.uleb128 0x19
+ 369 0088 3C       		.uleb128 0x3c
+ 370 0089 19       		.uleb128 0x19
+ 371 008a 00       		.byte	0
+ 372 008b 00       		.byte	0
+ 373 008c 0A       		.uleb128 0xa
+ 374 008d 35       		.uleb128 0x35
+ 375 008e 00       		.byte	0
+ 376 008f 49       		.uleb128 0x49
+ 377 0090 13       		.uleb128 0x13
+ 378 0091 00       		.byte	0
+ 379 0092 00       		.byte	0
+ 380 0093 00       		.byte	0
+ 381              		.section	.debug_aranges,"",%progbits
+ 382 0000 1C000000 		.4byte	0x1c
+ 383 0004 0200     		.2byte	0x2
+ 384 0006 00000000 		.4byte	.Ldebug_info0
+ 385 000a 04       		.byte	0x4
+ 386 000b 00       		.byte	0
+ 387 000c 0000     		.2byte	0
+ 388 000e 0000     		.2byte	0
+ 389 0010 00000000 		.4byte	.LFB64
+ 390 0014 4C000000 		.4byte	.LFE64-.LFB64
+ 391 0018 00000000 		.4byte	0
+ 392 001c 00000000 		.4byte	0
+ 393              		.section	.debug_ranges,"",%progbits
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccxanlgh.s 			page 9
+
+
+ 394              	.Ldebug_ranges0:
+ 395 0000 00000000 		.4byte	.LFB64
+ 396 0004 4C000000 		.4byte	.LFE64
+ 397 0008 00000000 		.4byte	0
+ 398 000c 00000000 		.4byte	0
+ 399              		.section	.debug_line,"",%progbits
+ 400              	.Ldebug_line0:
+ 401 0000 8A010000 		.section	.debug_str,"MS",%progbits,1
+ 401      02005E01 
+ 401      00000201 
+ 401      FB0E0D00 
+ 401      01010101 
+ 402              	.LASF1:
+ 403 0000 6C6F6E67 		.ascii	"long long int\000"
+ 403      206C6F6E 
+ 403      6720696E 
+ 403      7400
+ 404              	.LASF6:
+ 405 000e 73686F72 		.ascii	"short unsigned int\000"
+ 405      7420756E 
+ 405      7369676E 
+ 405      65642069 
+ 405      6E7400
+ 406              	.LASF0:
+ 407 0021 756E7369 		.ascii	"unsigned int\000"
+ 407      676E6564 
+ 407      20696E74 
+ 407      00
+ 408              	.LASF20:
+ 409 002e 43686970 		.ascii	"ChipMonitor.c\000"
+ 409      4D6F6E69 
+ 409      746F722E 
+ 409      6300
+ 410              	.LASF17:
+ 411 003c 43795265 		.ascii	"CyResetStatus\000"
+ 411      73657453 
+ 411      74617475 
+ 411      7300
+ 412              	.LASF14:
+ 413 004a 75696E74 		.ascii	"uint8\000"
+ 413      3800
+ 414              	.LASF8:
+ 415 0050 6C6F6E67 		.ascii	"long unsigned int\000"
+ 415      20756E73 
+ 415      69676E65 
+ 415      6420696E 
+ 415      7400
+ 416              	.LASF9:
+ 417 0062 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 417      206C6F6E 
+ 417      6720756E 
+ 417      7369676E 
+ 417      65642069 
+ 418              	.LASF23:
+ 419 0079 73746174 		.ascii	"stat\000"
+ 419      00
+ 420              	.LASF19:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccxanlgh.s 			page 10
+
+
+ 421 007e 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 421      43313120 
+ 421      352E342E 
+ 421      31203230 
+ 421      31363036 
+ 422 00b1 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 422      20726576 
+ 422      6973696F 
+ 422      6E203233 
+ 422      37373135 
+ 423 00e4 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 423      66756E63 
+ 423      74696F6E 
+ 423      2D736563 
+ 423      74696F6E 
+ 424              	.LASF4:
+ 425 010c 756E7369 		.ascii	"unsigned char\000"
+ 425      676E6564 
+ 425      20636861 
+ 425      7200
+ 426              	.LASF11:
+ 427 011a 63686172 		.ascii	"char\000"
+ 427      00
+ 428              	.LASF22:
+ 429 011f 63796D6F 		.ascii	"cymonitoring_get_lastWtd\000"
+ 429      6E69746F 
+ 429      72696E67 
+ 429      5F676574 
+ 429      5F6C6173 
+ 430              	.LASF7:
+ 431 0138 6C6F6E67 		.ascii	"long int\000"
+ 431      20696E74 
+ 431      00
+ 432              	.LASF16:
+ 433 0141 646F7562 		.ascii	"double\000"
+ 433      6C6500
+ 434              	.LASF21:
+ 435 0148 433A5C55 		.ascii	"C:\\Users\\ali\\Desktop\\no-exp -V1-old board\\new-"
+ 435      73657273 
+ 435      5C616C69 
+ 435      5C446573 
+ 435      6B746F70 
+ 436 0176 63792D6E 		.ascii	"cy-notask\\cy-notask\\Start\\BoardSupport\\Cypress\\"
+ 436      6F746173 
+ 436      6B5C6379 
+ 436      2D6E6F74 
+ 436      61736B5C 
+ 437 01a5 43593843 		.ascii	"CY8C5868_CY8CKIT_050_PSoC5_DK\\Start_CY8C5868_Acces"
+ 437      35383638 
+ 437      5F435938 
+ 437      434B4954 
+ 437      5F303530 
+ 438 01d7 7356312E 		.ascii	"sV1.0_OldBrd.cydsn\000"
+ 438      305F4F6C 
+ 438      64427264 
+ 438      2E637964 
+ 438      736E00
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccxanlgh.s 			page 11
+
+
+ 439              	.LASF18:
+ 440 01ea 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 440      52784275 
+ 440      66666572 
+ 440      00
+ 441              	.LASF3:
+ 442 01f7 7369676E 		.ascii	"signed char\000"
+ 442      65642063 
+ 442      68617200 
+ 443              	.LASF2:
+ 444 0203 6C6F6E67 		.ascii	"long double\000"
+ 444      20646F75 
+ 444      626C6500 
+ 445              	.LASF12:
+ 446 020f 5F5F696E 		.ascii	"__int32_t\000"
+ 446      7433325F 
+ 446      7400
+ 447              	.LASF15:
+ 448 0219 666C6F61 		.ascii	"float\000"
+ 448      7400
+ 449              	.LASF5:
+ 450 021f 73686F72 		.ascii	"short int\000"
+ 450      7420696E 
+ 450      7400
+ 451              	.LASF13:
+ 452 0229 696E7433 		.ascii	"int32_t\000"
+ 452      325F7400 
+ 453              	.LASF10:
+ 454 0231 73697A65 		.ascii	"sizetype\000"
+ 454      74797065 
+ 454      00
+ 455              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,450 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccNtILI3.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"UART_Linux_IntClock.c"
+  16              		.section	.text.UART_Linux_IntClock_Start,"ax",%progbits
+  17              		.align	2
+  18              		.global	UART_Linux_IntClock_Start
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	UART_Linux_IntClock_Start, %function
+  22              	UART_Linux_IntClock_Start:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 0549     		ldr	r1, .L2
+  27 0002 064A     		ldr	r2, .L2+4
+  28 0004 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+  29 0006 43F00103 		orr	r3, r3, #1
+  30 000a 0B70     		strb	r3, [r1]
+  31 000c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  32 000e 43F00103 		orr	r3, r3, #1
+  33 0012 1370     		strb	r3, [r2]
+  34 0014 7047     		bx	lr
+  35              	.L3:
+  36 0016 00BF     		.align	2
+  37              	.L2:
+  38 0018 A2430040 		.word	1073759138
+  39 001c B2430040 		.word	1073759154
+  40              		.size	UART_Linux_IntClock_Start, .-UART_Linux_IntClock_Start
+  41              		.section	.text.UART_Linux_IntClock_Stop,"ax",%progbits
+  42              		.align	2
+  43              		.global	UART_Linux_IntClock_Stop
+  44              		.thumb
+  45              		.thumb_func
+  46              		.type	UART_Linux_IntClock_Stop, %function
+  47              	UART_Linux_IntClock_Stop:
+  48              		@ args = 0, pretend = 0, frame = 0
+  49              		@ frame_needed = 0, uses_anonymous_args = 0
+  50              		@ link register save eliminated.
+  51 0000 0549     		ldr	r1, .L5
+  52 0002 064A     		ldr	r2, .L5+4
+  53 0004 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+  54 0006 03F0FE03 		and	r3, r3, #254
+  55 000a 0B70     		strb	r3, [r1]
+  56 000c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  57 000e 03F0FE03 		and	r3, r3, #254
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccNtILI3.s 			page 2
+
+
+  58 0012 1370     		strb	r3, [r2]
+  59 0014 7047     		bx	lr
+  60              	.L6:
+  61 0016 00BF     		.align	2
+  62              	.L5:
+  63 0018 A2430040 		.word	1073759138
+  64 001c B2430040 		.word	1073759154
+  65              		.size	UART_Linux_IntClock_Stop, .-UART_Linux_IntClock_Stop
+  66              		.section	.text.UART_Linux_IntClock_StopBlock,"ax",%progbits
+  67              		.align	2
+  68              		.global	UART_Linux_IntClock_StopBlock
+  69              		.thumb
+  70              		.thumb_func
+  71              		.type	UART_Linux_IntClock_StopBlock, %function
+  72              	UART_Linux_IntClock_StopBlock:
+  73              		@ args = 0, pretend = 0, frame = 0
+  74              		@ frame_needed = 0, uses_anonymous_args = 0
+  75              		@ link register save eliminated.
+  76 0000 164B     		ldr	r3, .L18
+  77 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  78 0004 DB07     		lsls	r3, r3, #31
+  79 0006 28D5     		bpl	.L16
+  80 0008 154B     		ldr	r3, .L18+4
+  81 000a 70B4     		push	{r4, r5, r6}
+  82 000c 1946     		mov	r1, r3
+  83 000e 154C     		ldr	r4, .L18+8
+  84 0010 154D     		ldr	r5, .L18+12
+  85 0012 0022     		movs	r2, #0
+  86 0014 1548     		ldr	r0, .L18+16
+  87 0016 0126     		movs	r6, #1
+  88 0018 1A70     		strb	r2, [r3]
+  89 001a 2E70     		strb	r6, [r5]
+  90 001c 2270     		strb	r2, [r4]
+  91 001e 0278     		ldrb	r2, [r0]	@ zero_extendqisi2
+  92 0020 02F07F02 		and	r2, r2, #127
+  93 0024 0270     		strb	r2, [r0]
+  94 0026 B4F86C00 		ldrh	r0, [r4, #108]
+  95 002a 0722     		movs	r2, #7
+  96 002c 80B2     		uxth	r0, r0
+  97 002e 24F8120C 		strh	r0, [r4, #-18]	@ movhi
+  98 0032 1A70     		strb	r2, [r3]
+  99              	.L9:
+ 100 0034 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 101 0036 0A4A     		ldr	r2, .L18+4
+ 102 0038 13F00103 		ands	r3, r3, #1
+ 103 003c FAD1     		bne	.L9
+ 104 003e 074D     		ldr	r5, .L18
+ 105 0040 0B4C     		ldr	r4, .L18+20
+ 106 0042 2978     		ldrb	r1, [r5]	@ zero_extendqisi2
+ 107 0044 0B4E     		ldr	r6, .L18+24
+ 108 0046 01F0FE01 		and	r1, r1, #254
+ 109 004a 2970     		strb	r1, [r5]
+ 110 004c 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 111 004e 01F0FE01 		and	r1, r1, #254
+ 112 0052 2170     		strb	r1, [r4]
+ 113 0054 1370     		strb	r3, [r2]
+ 114 0056 3080     		strh	r0, [r6]	@ movhi
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccNtILI3.s 			page 3
+
+
+ 115 0058 70BC     		pop	{r4, r5, r6}
+ 116              	.L16:
+ 117 005a 7047     		bx	lr
+ 118              	.L19:
+ 119              		.align	2
+ 120              	.L18:
+ 121 005c A2430040 		.word	1073759138
+ 122 0060 01400040 		.word	1073758209
+ 123 0064 14400040 		.word	1073758228
+ 124 0068 10400040 		.word	1073758224
+ 125 006c 08400040 		.word	1073758216
+ 126 0070 B2430040 		.word	1073759154
+ 127 0074 80400040 		.word	1073758336
+ 128              		.size	UART_Linux_IntClock_StopBlock, .-UART_Linux_IntClock_StopBlock
+ 129              		.section	.text.UART_Linux_IntClock_StandbyPower,"ax",%progbits
+ 130              		.align	2
+ 131              		.global	UART_Linux_IntClock_StandbyPower
+ 132              		.thumb
+ 133              		.thumb_func
+ 134              		.type	UART_Linux_IntClock_StandbyPower, %function
+ 135              	UART_Linux_IntClock_StandbyPower:
+ 136              		@ args = 0, pretend = 0, frame = 0
+ 137              		@ frame_needed = 0, uses_anonymous_args = 0
+ 138              		@ link register save eliminated.
+ 139 0000 054A     		ldr	r2, .L24
+ 140 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 141 0004 18B1     		cbz	r0, .L23
+ 142 0006 43F00103 		orr	r3, r3, #1
+ 143 000a 1370     		strb	r3, [r2]
+ 144 000c 7047     		bx	lr
+ 145              	.L23:
+ 146 000e 03F0FE03 		and	r3, r3, #254
+ 147 0012 1370     		strb	r3, [r2]
+ 148 0014 7047     		bx	lr
+ 149              	.L25:
+ 150 0016 00BF     		.align	2
+ 151              	.L24:
+ 152 0018 B2430040 		.word	1073759154
+ 153              		.size	UART_Linux_IntClock_StandbyPower, .-UART_Linux_IntClock_StandbyPower
+ 154              		.section	.text.UART_Linux_IntClock_SetDividerRegister,"ax",%progbits
+ 155              		.align	2
+ 156              		.global	UART_Linux_IntClock_SetDividerRegister
+ 157              		.thumb
+ 158              		.thumb_func
+ 159              		.type	UART_Linux_IntClock_SetDividerRegister, %function
+ 160              	UART_Linux_IntClock_SetDividerRegister:
+ 161              		@ args = 0, pretend = 0, frame = 0
+ 162              		@ frame_needed = 0, uses_anonymous_args = 0
+ 163              		@ link register save eliminated.
+ 164 0000 F0B4     		push	{r4, r5, r6, r7}
+ 165 0002 314D     		ldr	r5, .L50
+ 166 0004 314E     		ldr	r6, .L50+4
+ 167 0006 2A78     		ldrb	r2, [r5]	@ zero_extendqisi2
+ 168 0008 3388     		ldrh	r3, [r6]
+ 169 000a 9BB2     		uxth	r3, r3
+ 170 000c 9842     		cmp	r0, r3
+ 171 000e 0BD0     		beq	.L26
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccNtILI3.s 			page 4
+
+
+ 172 0010 2F4C     		ldr	r4, .L50+8
+ 173 0012 02F00702 		and	r2, r2, #7
+ 174 0016 2478     		ldrb	r4, [r4]	@ zero_extendqisi2
+ 175 0018 E4B2     		uxtb	r4, r4
+ 176 001a 4AB9     		cbnz	r2, .L29
+ 177 001c 33B9     		cbnz	r3, .L48
+ 178 001e 3080     		strh	r0, [r6]	@ movhi
+ 179 0020 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 180 0022 03F0BF03 		and	r3, r3, #191
+ 181 0026 2B70     		strb	r3, [r5]
+ 182              	.L26:
+ 183 0028 F0BC     		pop	{r4, r5, r6, r7}
+ 184 002a 7047     		bx	lr
+ 185              	.L48:
+ 186 002c 0028     		cmp	r0, #0
+ 187 002e 43D0     		beq	.L31
+ 188              	.L29:
+ 189 0030 14F00104 		ands	r4, r4, #1
+ 190 0034 22D0     		beq	.L33
+ 191 0036 274F     		ldr	r7, .L50+12
+ 192 0038 274D     		ldr	r5, .L50+16
+ 193 003a 284E     		ldr	r6, .L50+20
+ 194 003c 0022     		movs	r2, #0
+ 195 003e 3A70     		strb	r2, [r7]
+ 196 0040 0127     		movs	r7, #1
+ 197 0042 2F70     		strb	r7, [r5]
+ 198 0044 3270     		strb	r2, [r6]
+ 199 0046 15F8082C 		ldrb	r2, [r5, #-8]	@ zero_extendqisi2
+ 200 004a 02F07F02 		and	r2, r2, #127
+ 201 004e 05F8082C 		strb	r2, [r5, #-8]
+ 202 0052 96F86E20 		ldrb	r2, [r6, #110]	@ zero_extendqisi2
+ 203 0056 1607     		lsls	r6, r2, #28
+ 204 0058 2BD4     		bmi	.L49
+ 205              	.L34:
+ 206 005a 1E4A     		ldr	r2, .L50+12
+ 207 005c 204F     		ldr	r7, .L50+24
+ 208 005e 1546     		mov	r5, r2
+ 209 0060 0726     		movs	r6, #7
+ 210 0062 3B80     		strh	r3, [r7]	@ movhi
+ 211 0064 1670     		strb	r6, [r2]
+ 212              	.L36:
+ 213 0066 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 214 0068 1A4A     		ldr	r2, .L50+12
+ 215 006a 13F00103 		ands	r3, r3, #1
+ 216 006e FAD1     		bne	.L36
+ 217 0070 174E     		ldr	r6, .L50+8
+ 218 0072 3578     		ldrb	r5, [r6]	@ zero_extendqisi2
+ 219 0074 05F0FE05 		and	r5, r5, #254
+ 220 0078 3570     		strb	r5, [r6]
+ 221 007a 1370     		strb	r3, [r2]
+ 222              	.L33:
+ 223 007c 144B     		ldr	r3, .L50+8
+ 224 007e 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 225 0080 D507     		lsls	r5, r2, #31
+ 226 0082 0FD5     		bpl	.L37
+ 227 0084 6FF46872 		mvn	r2, #928
+ 228 0088 1344     		add	r3, r3, r2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccNtILI3.s 			page 5
+
+
+ 229 008a 1A46     		mov	r2, r3
+ 230 008c 0029     		cmp	r1, #0
+ 231 008e 144C     		ldr	r4, .L50+24
+ 232 0090 14BF     		ite	ne
+ 233 0092 0321     		movne	r1, #3
+ 234 0094 0121     		moveq	r1, #1
+ 235 0096 2080     		strh	r0, [r4]	@ movhi
+ 236 0098 1970     		strb	r1, [r3]
+ 237              	.L39:
+ 238 009a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 239 009c DB07     		lsls	r3, r3, #31
+ 240 009e FCD4     		bmi	.L39
+ 241 00a0 F0BC     		pop	{r4, r5, r6, r7}
+ 242 00a2 7047     		bx	lr
+ 243              	.L37:
+ 244 00a4 094A     		ldr	r2, .L50+4
+ 245 00a6 1080     		strh	r0, [r2]	@ movhi
+ 246 00a8 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 247 00aa 1443     		orrs	r4, r4, r2
+ 248 00ac 1C70     		strb	r4, [r3]
+ 249 00ae F0BC     		pop	{r4, r5, r6, r7}
+ 250 00b0 7047     		bx	lr
+ 251              	.L49:
+ 252 00b2 0028     		cmp	r0, #0
+ 253 00b4 E2D1     		bne	.L33
+ 254 00b6 D0E7     		b	.L34
+ 255              	.L31:
+ 256 00b8 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 257 00ba 43F04003 		orr	r3, r3, #64
+ 258 00be 2B70     		strb	r3, [r5]
+ 259 00c0 3080     		strh	r0, [r6]	@ movhi
+ 260 00c2 F0BC     		pop	{r4, r5, r6, r7}
+ 261 00c4 7047     		bx	lr
+ 262              	.L51:
+ 263 00c6 00BF     		.align	2
+ 264              	.L50:
+ 265 00c8 82400040 		.word	1073758338
+ 266 00cc 80400040 		.word	1073758336
+ 267 00d0 A2430040 		.word	1073759138
+ 268 00d4 01400040 		.word	1073758209
+ 269 00d8 10400040 		.word	1073758224
+ 270 00dc 14400040 		.word	1073758228
+ 271 00e0 02400040 		.word	1073758210
+ 272              		.size	UART_Linux_IntClock_SetDividerRegister, .-UART_Linux_IntClock_SetDividerRegister
+ 273              		.section	.text.UART_Linux_IntClock_GetDividerRegister,"ax",%progbits
+ 274              		.align	2
+ 275              		.global	UART_Linux_IntClock_GetDividerRegister
+ 276              		.thumb
+ 277              		.thumb_func
+ 278              		.type	UART_Linux_IntClock_GetDividerRegister, %function
+ 279              	UART_Linux_IntClock_GetDividerRegister:
+ 280              		@ args = 0, pretend = 0, frame = 0
+ 281              		@ frame_needed = 0, uses_anonymous_args = 0
+ 282              		@ link register save eliminated.
+ 283 0000 014B     		ldr	r3, .L53
+ 284 0002 1888     		ldrh	r0, [r3]
+ 285 0004 80B2     		uxth	r0, r0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccNtILI3.s 			page 6
+
+
+ 286 0006 7047     		bx	lr
+ 287              	.L54:
+ 288              		.align	2
+ 289              	.L53:
+ 290 0008 80400040 		.word	1073758336
+ 291              		.size	UART_Linux_IntClock_GetDividerRegister, .-UART_Linux_IntClock_GetDividerRegister
+ 292              		.section	.text.UART_Linux_IntClock_SetModeRegister,"ax",%progbits
+ 293              		.align	2
+ 294              		.global	UART_Linux_IntClock_SetModeRegister
+ 295              		.thumb
+ 296              		.thumb_func
+ 297              		.type	UART_Linux_IntClock_SetModeRegister, %function
+ 298              	UART_Linux_IntClock_SetModeRegister:
+ 299              		@ args = 0, pretend = 0, frame = 0
+ 300              		@ frame_needed = 0, uses_anonymous_args = 0
+ 301              		@ link register save eliminated.
+ 302 0000 034A     		ldr	r2, .L56
+ 303 0002 00F0F800 		and	r0, r0, #248
+ 304 0006 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 305 0008 1843     		orrs	r0, r0, r3
+ 306 000a 1070     		strb	r0, [r2]
+ 307 000c 7047     		bx	lr
+ 308              	.L57:
+ 309 000e 00BF     		.align	2
+ 310              	.L56:
+ 311 0010 82400040 		.word	1073758338
+ 312              		.size	UART_Linux_IntClock_SetModeRegister, .-UART_Linux_IntClock_SetModeRegister
+ 313              		.section	.text.UART_Linux_IntClock_ClearModeRegister,"ax",%progbits
+ 314              		.align	2
+ 315              		.global	UART_Linux_IntClock_ClearModeRegister
+ 316              		.thumb
+ 317              		.thumb_func
+ 318              		.type	UART_Linux_IntClock_ClearModeRegister, %function
+ 319              	UART_Linux_IntClock_ClearModeRegister:
+ 320              		@ args = 0, pretend = 0, frame = 0
+ 321              		@ frame_needed = 0, uses_anonymous_args = 0
+ 322              		@ link register save eliminated.
+ 323 0000 C043     		mvns	r0, r0
+ 324 0002 034B     		ldr	r3, .L59
+ 325 0004 40F00700 		orr	r0, r0, #7
+ 326 0008 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 327 000a 1040     		ands	r0, r0, r2
+ 328 000c 1870     		strb	r0, [r3]
+ 329 000e 7047     		bx	lr
+ 330              	.L60:
+ 331              		.align	2
+ 332              	.L59:
+ 333 0010 82400040 		.word	1073758338
+ 334              		.size	UART_Linux_IntClock_ClearModeRegister, .-UART_Linux_IntClock_ClearModeRegister
+ 335              		.section	.text.UART_Linux_IntClock_GetModeRegister,"ax",%progbits
+ 336              		.align	2
+ 337              		.global	UART_Linux_IntClock_GetModeRegister
+ 338              		.thumb
+ 339              		.thumb_func
+ 340              		.type	UART_Linux_IntClock_GetModeRegister, %function
+ 341              	UART_Linux_IntClock_GetModeRegister:
+ 342              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccNtILI3.s 			page 7
+
+
+ 343              		@ frame_needed = 0, uses_anonymous_args = 0
+ 344              		@ link register save eliminated.
+ 345 0000 024B     		ldr	r3, .L62
+ 346 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 347 0004 00F0F800 		and	r0, r0, #248
+ 348 0008 7047     		bx	lr
+ 349              	.L63:
+ 350 000a 00BF     		.align	2
+ 351              	.L62:
+ 352 000c 82400040 		.word	1073758338
+ 353              		.size	UART_Linux_IntClock_GetModeRegister, .-UART_Linux_IntClock_GetModeRegister
+ 354              		.section	.text.UART_Linux_IntClock_SetSourceRegister,"ax",%progbits
+ 355              		.align	2
+ 356              		.global	UART_Linux_IntClock_SetSourceRegister
+ 357              		.thumb
+ 358              		.thumb_func
+ 359              		.type	UART_Linux_IntClock_SetSourceRegister, %function
+ 360              	UART_Linux_IntClock_SetSourceRegister:
+ 361              		@ args = 0, pretend = 0, frame = 0
+ 362              		@ frame_needed = 0, uses_anonymous_args = 0
+ 363              		@ link register save eliminated.
+ 364 0000 134B     		ldr	r3, .L72
+ 365 0002 144A     		ldr	r2, .L72+4
+ 366 0004 1B88     		ldrh	r3, [r3]
+ 367 0006 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 368 0008 9BB2     		uxth	r3, r3
+ 369 000a 4907     		lsls	r1, r1, #29
+ 370 000c 08D0     		beq	.L65
+ 371 000e 00B9     		cbnz	r0, .L66
+ 372 0010 A3B1     		cbz	r3, .L71
+ 373              	.L66:
+ 374 0012 104A     		ldr	r2, .L72+4
+ 375 0014 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 376 0016 03F0F803 		and	r3, r3, #248
+ 377 001a 1843     		orrs	r0, r0, r3
+ 378 001c 1070     		strb	r0, [r2]
+ 379 001e 7047     		bx	lr
+ 380              	.L65:
+ 381 0020 0028     		cmp	r0, #0
+ 382 0022 F6D0     		beq	.L66
+ 383 0024 002B     		cmp	r3, #0
+ 384 0026 F4D1     		bne	.L66
+ 385 0028 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 386 002a 03F0F803 		and	r3, r3, #248
+ 387 002e 1843     		orrs	r0, r0, r3
+ 388 0030 1070     		strb	r0, [r2]
+ 389 0032 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 390 0034 03F0BF03 		and	r3, r3, #191
+ 391 0038 1370     		strb	r3, [r2]
+ 392 003a 7047     		bx	lr
+ 393              	.L71:
+ 394 003c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 395 003e 43F04003 		orr	r3, r3, #64
+ 396 0042 1370     		strb	r3, [r2]
+ 397 0044 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 398 0046 03F0F803 		and	r3, r3, #248
+ 399 004a 1370     		strb	r3, [r2]
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccNtILI3.s 			page 8
+
+
+ 400 004c 7047     		bx	lr
+ 401              	.L73:
+ 402 004e 00BF     		.align	2
+ 403              	.L72:
+ 404 0050 80400040 		.word	1073758336
+ 405 0054 82400040 		.word	1073758338
+ 406              		.size	UART_Linux_IntClock_SetSourceRegister, .-UART_Linux_IntClock_SetSourceRegister
+ 407              		.section	.text.UART_Linux_IntClock_GetSourceRegister,"ax",%progbits
+ 408              		.align	2
+ 409              		.global	UART_Linux_IntClock_GetSourceRegister
+ 410              		.thumb
+ 411              		.thumb_func
+ 412              		.type	UART_Linux_IntClock_GetSourceRegister, %function
+ 413              	UART_Linux_IntClock_GetSourceRegister:
+ 414              		@ args = 0, pretend = 0, frame = 0
+ 415              		@ frame_needed = 0, uses_anonymous_args = 0
+ 416              		@ link register save eliminated.
+ 417 0000 024B     		ldr	r3, .L75
+ 418 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 419 0004 00F00700 		and	r0, r0, #7
+ 420 0008 7047     		bx	lr
+ 421              	.L76:
+ 422 000a 00BF     		.align	2
+ 423              	.L75:
+ 424 000c 82400040 		.word	1073758338
+ 425              		.size	UART_Linux_IntClock_GetSourceRegister, .-UART_Linux_IntClock_GetSourceRegister
+ 426              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

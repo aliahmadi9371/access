@@ -1,0 +1,11 @@
+[Unit]
+Description=Access-Control application for Tulue company by IroTeam dev team: AliAhmadi9371@gmail.com (+989126470868)
+After=mariadb.service
+After=network.target
+After=network-manager.service
+
+[Service]
+ExecStart=sudo /opt/Access-V1-0-0/bin/auto/app.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+C:/Users/ali/Desktop/cyp/cy-notask/Start/BoardSupport/Cypress/CY8C5868_CY8CKIT_050_PSoC5_DK/Start_CY8C5868_AccessV2.0_OldBrd.cydsn/ARM_GCC_541/Release/CyBootAsmGnu.o : C:/Users/ali/Desktop/cyp/cy-notask/Start/BoardSupport/Cypress/CY8C5868_CY8CKIT_050_PSoC5_DK/Start_CY8C5868_AccessV2.0_OldBrd.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s C:/Users/ali/Desktop/cyp/cy-notask/Start/BoardSupport/Cypress/CY8C5868_CY8CKIT_050_PSoC5_DK/Start_CY8C5868_AccessV2.0_OldBrd.cydsn/Generated_Source/PSoC5/cydevicegnu.inc C:/Users/ali/Desktop/cyp/cy-notask/Start/BoardSupport/Cypress/CY8C5868_CY8CKIT_050_PSoC5_DK/Start_CY8C5868_AccessV2.0_OldBrd.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc C:/Users/ali/Desktop/cyp/cy-notask/Start/BoardSupport/Cypress/CY8C5868_CY8CKIT_050_PSoC5_DK/Start_CY8C5868_AccessV2.0_OldBrd.cydsn/Generated_Source/PSoC5/cyfittergnu.inc 
+
+C:/Users/ali/Desktop/cyp/cy-notask/Start/BoardSupport/Cypress/CY8C5868_CY8CKIT_050_PSoC5_DK/Start_CY8C5868_AccessV2.0_OldBrd.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s : 
+
+C:/Users/ali/Desktop/cyp/cy-notask/Start/BoardSupport/Cypress/CY8C5868_CY8CKIT_050_PSoC5_DK/Start_CY8C5868_AccessV2.0_OldBrd.cydsn/Generated_Source/PSoC5/cydevicegnu.inc : 
+
+C:/Users/ali/Desktop/cyp/cy-notask/Start/BoardSupport/Cypress/CY8C5868_CY8CKIT_050_PSoC5_DK/Start_CY8C5868_AccessV2.0_OldBrd.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc : 
+
+C:/Users/ali/Desktop/cyp/cy-notask/Start/BoardSupport/Cypress/CY8C5868_CY8CKIT_050_PSoC5_DK/Start_CY8C5868_AccessV2.0_OldBrd.cydsn/Generated_Source/PSoC5/cyfittergnu.inc : 
+

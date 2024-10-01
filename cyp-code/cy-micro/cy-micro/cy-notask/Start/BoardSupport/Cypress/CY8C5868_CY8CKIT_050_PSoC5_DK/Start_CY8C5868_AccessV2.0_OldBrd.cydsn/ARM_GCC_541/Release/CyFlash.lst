@@ -1,0 +1,770 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"CyFlash.c"
+  16              		.section	.text.CyFlash_Start,"ax",%progbits
+  17              		.align	2
+  18              		.global	CyFlash_Start
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	CyFlash_Start, %function
+  22              	CyFlash_Start:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 38B5     		push	{r3, r4, r5, lr}
+  26 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+  27 0006 0F4A     		ldr	r2, .L7
+  28 0008 0F49     		ldr	r1, .L7+4
+  29 000a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  30 000c 0F4C     		ldr	r4, .L7+8
+  31 000e 43F00803 		orr	r3, r3, #8
+  32 0012 1370     		strb	r3, [r2]
+  33 0014 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+  34 0016 C825     		movs	r5, #200
+  35 0018 43F00803 		orr	r3, r3, #8
+  36 001c 0B70     		strb	r3, [r1]
+  37 001e 2570     		strb	r5, [r4]
+  38 0020 137B     		ldrb	r3, [r2, #12]	@ zero_extendqisi2
+  39 0022 43F00F03 		orr	r3, r3, #15
+  40 0026 1373     		strb	r3, [r2, #12]
+  41 0028 0B7B     		ldrb	r3, [r1, #12]	@ zero_extendqisi2
+  42 002a 02F55872 		add	r2, r2, #864
+  43 002e 43F00F03 		orr	r3, r3, #15
+  44 0032 0B73     		strb	r3, [r1, #12]
+  45              	.L2:
+  46 0034 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  47 0036 9B06     		lsls	r3, r3, #26
+  48 0038 FCD5     		bpl	.L2
+  49 003a BDE83840 		pop	{r3, r4, r5, lr}
+  50 003e FFF7FEBF 		b	CyExitCriticalSection
+  51              	.L8:
+  52 0042 00BF     		.align	2
+  53              	.L7:
+  54 0044 A0430040 		.word	1073759136
+  55 0048 B0430040 		.word	1073759152
+  56 004c 01470040 		.word	1073760001
+  57              		.size	CyFlash_Start, .-CyFlash_Start
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 2
+
+
+  58              		.section	.text.CyFlash_Stop,"ax",%progbits
+  59              		.align	2
+  60              		.global	CyFlash_Stop
+  61              		.thumb
+  62              		.thumb_func
+  63              		.type	CyFlash_Stop, %function
+  64              	CyFlash_Stop:
+  65              		@ args = 0, pretend = 0, frame = 0
+  66              		@ frame_needed = 0, uses_anonymous_args = 0
+  67 0000 08B5     		push	{r3, lr}
+  68 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+  69 0006 0749     		ldr	r1, .L11
+  70 0008 074A     		ldr	r2, .L11+4
+  71 000a 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+  72 000c 03F0F003 		and	r3, r3, #240
+  73 0010 0B70     		strb	r3, [r1]
+  74 0012 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  75 0014 03F0F003 		and	r3, r3, #240
+  76 0018 1370     		strb	r3, [r2]
+  77 001a BDE80840 		pop	{r3, lr}
+  78 001e FFF7FEBF 		b	CyExitCriticalSection
+  79              	.L12:
+  80 0022 00BF     		.align	2
+  81              	.L11:
+  82 0024 AC430040 		.word	1073759148
+  83 0028 BC430040 		.word	1073759164
+  84              		.size	CyFlash_Stop, .-CyFlash_Stop
+  85              		.section	.text.CyFlash_EraseRow,"ax",%progbits
+  86              		.align	2
+  87              		.global	CyFlash_EraseRow
+  88              		.thumb
+  89              		.thumb_func
+  90              		.type	CyFlash_EraseRow, %function
+  91              	CyFlash_EraseRow:
+  92              		@ args = 0, pretend = 0, frame = 8
+  93              		@ frame_needed = 0, uses_anonymous_args = 0
+  94 0000 3F28     		cmp	r0, #63
+  95 0002 02D8     		bhi	.L20
+  96 0004 B1F5807F 		cmp	r1, #256
+  97 0008 01D9     		bls	.L28
+  98              	.L20:
+  99 000a 0120     		movs	r0, #1
+ 100 000c 7047     		bx	lr
+ 101              	.L28:
+ 102 000e 30B5     		push	{r4, r5, lr}
+ 103 0010 83B0     		sub	sp, sp, #12
+ 104 0012 0D46     		mov	r5, r1
+ 105 0014 0446     		mov	r4, r0
+ 106 0016 FFF7FEFF 		bl	CySpcLock
+ 107 001a 10B1     		cbz	r0, .L29
+ 108 001c 0420     		movs	r0, #4
+ 109              	.L14:
+ 110 001e 03B0     		add	sp, sp, #12
+ 111              		@ sp needed
+ 112 0020 30BD     		pop	{r4, r5, pc}
+ 113              	.L29:
+ 114 0022 134A     		ldr	r2, .L31
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 3
+
+
+ 115 0024 2946     		mov	r1, r5
+ 116 0026 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 117 0028 2046     		mov	r0, r4
+ 118 002a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 119 002c FFF7FEFF 		bl	CySpcEraseRow
+ 120 0030 0728     		cmp	r0, #7
+ 121 0032 05D0     		beq	.L30
+ 122 0034 0920     		movs	r0, #9
+ 123              	.L15:
+ 124 0036 0190     		str	r0, [sp, #4]
+ 125 0038 FFF7FEFF 		bl	CySpcUnlock
+ 126 003c 0198     		ldr	r0, [sp, #4]
+ 127 003e EEE7     		b	.L14
+ 128              	.L30:
+ 129 0040 0C4C     		ldr	r4, .L31+4
+ 130 0042 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 131 0044 9907     		lsls	r1, r3, #30
+ 132 0046 05D4     		bmi	.L18
+ 133              	.L16:
+ 134 0048 0120     		movs	r0, #1
+ 135 004a FFF7FEFF 		bl	CyDelayUs
+ 136 004e 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 137 0050 9B07     		lsls	r3, r3, #30
+ 138 0052 F9D5     		bpl	.L16
+ 139              	.L18:
+ 140 0054 074B     		ldr	r3, .L31+4
+ 141 0056 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 142 0058 9207     		lsls	r2, r2, #30
+ 143 005a 02D4     		bmi	.L17
+ 144 005c 4FF0FF30 		mov	r0, #-1
+ 145 0060 E9E7     		b	.L15
+ 146              	.L17:
+ 147 0062 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 148 0064 9B08     		lsrs	r3, r3, #2
+ 149 0066 14BF     		ite	ne
+ 150 0068 4FF0FF30 		movne	r0, #-1
+ 151 006c 0020     		moveq	r0, #0
+ 152 006e E2E7     		b	.L15
+ 153              	.L32:
+ 154              		.align	2
+ 155              	.L31:
+ 156 0070 00000000 		.word	dieTemperature
+ 157 0074 22470040 		.word	1073760034
+ 158              		.size	CyFlash_EraseRow, .-CyFlash_EraseRow
+ 159              		.section	.text.CyFlashGetSpcAlgorithm,"ax",%progbits
+ 160              		.align	2
+ 161              		.global	CyFlashGetSpcAlgorithm
+ 162              		.thumb
+ 163              		.thumb_func
+ 164              		.type	CyFlashGetSpcAlgorithm, %function
+ 165              	CyFlashGetSpcAlgorithm:
+ 166              		@ args = 0, pretend = 0, frame = 0
+ 167              		@ frame_needed = 0, uses_anonymous_args = 0
+ 168 0000 38B5     		push	{r3, r4, r5, lr}
+ 169 0002 FFF7FEFF 		bl	CySpcStart
+ 170 0006 FFF7FEFF 		bl	CySpcLock
+ 171 000a 10B1     		cbz	r0, .L44
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 4
+
+
+ 172 000c 0424     		movs	r4, #4
+ 173 000e 2046     		mov	r0, r4
+ 174 0010 38BD     		pop	{r3, r4, r5, pc}
+ 175              	.L44:
+ 176 0012 FFF7FEFF 		bl	CySpcGetAlgorithm
+ 177 0016 0728     		cmp	r0, #7
+ 178 0018 0446     		mov	r4, r0
+ 179 001a 03D0     		beq	.L45
+ 180              	.L35:
+ 181 001c FFF7FEFF 		bl	CySpcUnlock
+ 182 0020 2046     		mov	r0, r4
+ 183 0022 38BD     		pop	{r3, r4, r5, pc}
+ 184              	.L45:
+ 185 0024 094D     		ldr	r5, .L46
+ 186 0026 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 187 0028 9907     		lsls	r1, r3, #30
+ 188 002a 05D4     		bmi	.L38
+ 189              	.L36:
+ 190 002c 0120     		movs	r0, #1
+ 191 002e FFF7FEFF 		bl	CyDelayUs
+ 192 0032 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 193 0034 9B07     		lsls	r3, r3, #30
+ 194 0036 F9D5     		bpl	.L36
+ 195              	.L38:
+ 196 0038 044B     		ldr	r3, .L46
+ 197 003a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 198 003c 9207     		lsls	r2, r2, #30
+ 199 003e EDD5     		bpl	.L35
+ 200 0040 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 201 0042 9B08     		lsrs	r3, r3, #2
+ 202 0044 14BF     		ite	ne
+ 203 0046 0724     		movne	r4, #7
+ 204 0048 0024     		moveq	r4, #0
+ 205 004a E7E7     		b	.L35
+ 206              	.L47:
+ 207              		.align	2
+ 208              	.L46:
+ 209 004c 22470040 		.word	1073760034
+ 210              		.size	CyFlashGetSpcAlgorithm, .-CyFlashGetSpcAlgorithm
+ 211              		.section	.text.CySetTemp,"ax",%progbits
+ 212              		.align	2
+ 213              		.global	CySetTemp
+ 214              		.thumb
+ 215              		.thumb_func
+ 216              		.type	CySetTemp, %function
+ 217              	CySetTemp:
+ 218              		@ args = 0, pretend = 0, frame = 0
+ 219              		@ frame_needed = 0, uses_anonymous_args = 0
+ 220 0000 38B5     		push	{r3, r4, r5, lr}
+ 221 0002 FFF7FEFF 		bl	CySpcStart
+ 222 0006 FFF7FEFF 		bl	CySpcLock
+ 223 000a 10B1     		cbz	r0, .L49
+ 224              	.L57:
+ 225 000c 0424     		movs	r4, #4
+ 226              	.L71:
+ 227 000e 2046     		mov	r0, r4
+ 228 0010 38BD     		pop	{r3, r4, r5, pc}
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 5
+
+
+ 229              	.L49:
+ 230 0012 FFF7FEFF 		bl	CySpcGetAlgorithm
+ 231 0016 0728     		cmp	r0, #7
+ 232 0018 0446     		mov	r4, r0
+ 233 001a 2BD0     		beq	.L76
+ 234 001c FFF7FEFF 		bl	CySpcUnlock
+ 235 0020 002C     		cmp	r4, #0
+ 236 0022 F4D1     		bne	.L71
+ 237              	.L64:
+ 238 0024 FFF7FEFF 		bl	CySpcStart
+ 239 0028 FFF7FEFF 		bl	CySpcLock
+ 240 002c 0028     		cmp	r0, #0
+ 241 002e EDD1     		bne	.L57
+ 242 0030 0120     		movs	r0, #1
+ 243 0032 FFF7FEFF 		bl	CySpcGetTemp
+ 244 0036 0728     		cmp	r0, #7
+ 245 0038 05D0     		beq	.L77
+ 246              	.L63:
+ 247 003a 4FF0FF34 		mov	r4, #-1
+ 248              	.L54:
+ 249 003e FFF7FEFF 		bl	CySpcUnlock
+ 250 0042 2046     		mov	r0, r4
+ 251 0044 38BD     		pop	{r3, r4, r5, pc}
+ 252              	.L77:
+ 253 0046 154C     		ldr	r4, .L78
+ 254 0048 02E0     		b	.L58
+ 255              	.L60:
+ 256 004a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 257 004c 9B07     		lsls	r3, r3, #30
+ 258 004e F4D4     		bmi	.L63
+ 259              	.L58:
+ 260 0050 0221     		movs	r1, #2
+ 261 0052 1348     		ldr	r0, .L78+4
+ 262 0054 FFF7FEFF 		bl	CySpcReadData
+ 263 0058 0228     		cmp	r0, #2
+ 264 005a F6D1     		bne	.L60
+ 265 005c 0F4C     		ldr	r4, .L78
+ 266 005e 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 267 0060 9907     		lsls	r1, r3, #30
+ 268 0062 05D4     		bmi	.L62
+ 269              	.L61:
+ 270 0064 0120     		movs	r0, #1
+ 271 0066 FFF7FEFF 		bl	CyDelayUs
+ 272 006a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 273 006c 9A07     		lsls	r2, r3, #30
+ 274 006e F9D5     		bpl	.L61
+ 275              	.L62:
+ 276 0070 0024     		movs	r4, #0
+ 277 0072 E4E7     		b	.L54
+ 278              	.L76:
+ 279 0074 094D     		ldr	r5, .L78
+ 280 0076 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 281 0078 9B07     		lsls	r3, r3, #30
+ 282 007a 05D4     		bmi	.L55
+ 283              	.L52:
+ 284 007c 0120     		movs	r0, #1
+ 285 007e FFF7FEFF 		bl	CyDelayUs
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 6
+
+
+ 286 0082 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 287 0084 9807     		lsls	r0, r3, #30
+ 288 0086 F9D5     		bpl	.L52
+ 289              	.L55:
+ 290 0088 044B     		ldr	r3, .L78
+ 291 008a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 292 008c 9507     		lsls	r5, r2, #30
+ 293 008e D6D5     		bpl	.L54
+ 294 0090 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 295 0092 9B08     		lsrs	r3, r3, #2
+ 296 0094 D3D1     		bne	.L54
+ 297 0096 FFF7FEFF 		bl	CySpcUnlock
+ 298 009a C3E7     		b	.L64
+ 299              	.L79:
+ 300              		.align	2
+ 301              	.L78:
+ 302 009c 22470040 		.word	1073760034
+ 303 00a0 00000000 		.word	dieTemperature
+ 304              		.size	CySetTemp, .-CySetTemp
+ 305              		.section	.text.CySetFlashEEBuffer,"ax",%progbits
+ 306              		.align	2
+ 307              		.global	CySetFlashEEBuffer
+ 308              		.thumb
+ 309              		.thumb_func
+ 310              		.type	CySetFlashEEBuffer, %function
+ 311              	CySetFlashEEBuffer:
+ 312              		@ args = 0, pretend = 0, frame = 0
+ 313              		@ frame_needed = 0, uses_anonymous_args = 0
+ 314 0000 08B5     		push	{r3, lr}
+ 315 0002 FFF7FEFF 		bl	CySpcStart
+ 316 0006 0020     		movs	r0, #0
+ 317 0008 08BD     		pop	{r3, pc}
+ 318              		.size	CySetFlashEEBuffer, .-CySetFlashEEBuffer
+ 319 000a 00BF     		.section	.text.CyWriteRowData,"ax",%progbits
+ 320              		.align	2
+ 321              		.global	CyWriteRowData
+ 322              		.thumb
+ 323              		.thumb_func
+ 324              		.type	CyWriteRowData, %function
+ 325              	CyWriteRowData:
+ 326              		@ args = 0, pretend = 0, frame = 8
+ 327              		@ frame_needed = 0, uses_anonymous_args = 0
+ 328 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 329 0002 3F28     		cmp	r0, #63
+ 330 0004 83B0     		sub	sp, sp, #12
+ 331 0006 0AD8     		bhi	.L112
+ 332 0008 441F     		subs	r4, r0, #5
+ 333 000a 3A2C     		cmp	r4, #58
+ 334 000c 8CBF     		ite	hi
+ 335 000e 0024     		movhi	r4, #0
+ 336 0010 0124     		movls	r4, #1
+ 337 0012 B1F5807F 		cmp	r1, #256
+ 338 0016 17D9     		bls	.L113
+ 339              	.L99:
+ 340 0018 0120     		movs	r0, #1
+ 341 001a 03B0     		add	sp, sp, #12
+ 342              		@ sp needed
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 7
+
+
+ 343 001c F0BD     		pop	{r4, r5, r6, r7, pc}
+ 344              	.L112:
+ 345 001e 4128     		cmp	r0, #65
+ 346 0020 94BF     		ite	ls
+ 347 0022 0024     		movls	r4, #0
+ 348 0024 0124     		movhi	r4, #1
+ 349 0026 8129     		cmp	r1, #129
+ 350 0028 28BF     		it	cs
+ 351 002a 0124     		movcs	r4, #1
+ 352 002c 1027     		movs	r7, #16
+ 353              	.L94:
+ 354 002e 002A     		cmp	r2, #0
+ 355 0030 F2D0     		beq	.L99
+ 356 0032 002C     		cmp	r4, #0
+ 357 0034 F0D1     		bne	.L99
+ 358 0036 1646     		mov	r6, r2
+ 359 0038 0D46     		mov	r5, r1
+ 360 003a 0446     		mov	r4, r0
+ 361 003c FFF7FEFF 		bl	CySpcLock
+ 362 0040 28B1     		cbz	r0, .L114
+ 363 0042 0420     		movs	r0, #4
+ 364              	.L109:
+ 365 0044 03B0     		add	sp, sp, #12
+ 366              		@ sp needed
+ 367 0046 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 368              	.L113:
+ 369 0048 4FF48077 		mov	r7, #256
+ 370 004c EFE7     		b	.L94
+ 371              	.L114:
+ 372 004e 3B46     		mov	r3, r7
+ 373 0050 3246     		mov	r2, r6
+ 374 0052 2946     		mov	r1, r5
+ 375 0054 2046     		mov	r0, r4
+ 376 0056 FFF7FEFF 		bl	CySpcLoadRowFull
+ 377 005a 0728     		cmp	r0, #7
+ 378 005c 04D0     		beq	.L115
+ 379              	.L86:
+ 380 005e 0190     		str	r0, [sp, #4]
+ 381 0060 FFF7FEFF 		bl	CySpcUnlock
+ 382 0064 0198     		ldr	r0, [sp, #4]
+ 383 0066 EDE7     		b	.L109
+ 384              	.L115:
+ 385 0068 164E     		ldr	r6, .L116
+ 386 006a 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 387 006c 9B07     		lsls	r3, r3, #30
+ 388 006e 05D4     		bmi	.L90
+ 389              	.L87:
+ 390 0070 0120     		movs	r0, #1
+ 391 0072 FFF7FEFF 		bl	CyDelayUs
+ 392 0076 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 393 0078 9807     		lsls	r0, r3, #30
+ 394 007a F9D5     		bpl	.L87
+ 395              	.L90:
+ 396 007c 114E     		ldr	r6, .L116
+ 397 007e 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 398 0080 9F07     		lsls	r7, r3, #30
+ 399 0082 1BD5     		bpl	.L89
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 8
+
+
+ 400 0084 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 401 0086 9B08     		lsrs	r3, r3, #2
+ 402 0088 18D1     		bne	.L89
+ 403 008a 0F4A     		ldr	r2, .L116+4
+ 404 008c 2946     		mov	r1, r5
+ 405 008e 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 406 0090 2046     		mov	r0, r4
+ 407 0092 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 408 0094 FFF7FEFF 		bl	CySpcWriteRow
+ 409 0098 0728     		cmp	r0, #7
+ 410 009a E0D1     		bne	.L86
+ 411 009c 02E0     		b	.L111
+ 412              	.L92:
+ 413 009e 0120     		movs	r0, #1
+ 414 00a0 FFF7FEFF 		bl	CyDelayUs
+ 415              	.L111:
+ 416 00a4 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 417 00a6 9907     		lsls	r1, r3, #30
+ 418 00a8 F9D5     		bpl	.L92
+ 419 00aa 064B     		ldr	r3, .L116
+ 420 00ac 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 421 00ae 9207     		lsls	r2, r2, #30
+ 422 00b0 04D5     		bpl	.L89
+ 423 00b2 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 424 00b4 9B08     		lsrs	r3, r3, #2
+ 425 00b6 01D1     		bne	.L89
+ 426 00b8 1846     		mov	r0, r3
+ 427 00ba D0E7     		b	.L86
+ 428              	.L89:
+ 429 00bc 4FF0FF30 		mov	r0, #-1
+ 430 00c0 CDE7     		b	.L86
+ 431              	.L117:
+ 432 00c2 00BF     		.align	2
+ 433              	.L116:
+ 434 00c4 22470040 		.word	1073760034
+ 435 00c8 00000000 		.word	dieTemperature
+ 436              		.size	CyWriteRowData, .-CyWriteRowData
+ 437              		.section	.text.CyWriteRowFull,"ax",%progbits
+ 438              		.align	2
+ 439              		.global	CyWriteRowFull
+ 440              		.thumb
+ 441              		.thumb_func
+ 442              		.type	CyWriteRowFull, %function
+ 443              	CyWriteRowFull:
+ 444              		@ args = 0, pretend = 0, frame = 8
+ 445              		@ frame_needed = 0, uses_anonymous_args = 0
+ 446 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 447 0002 4128     		cmp	r0, #65
+ 448 0004 83B0     		sub	sp, sp, #12
+ 449 0006 15D8     		bhi	.L131
+ 450 0008 441F     		subs	r4, r0, #5
+ 451 000a 3A2C     		cmp	r4, #58
+ 452 000c 8CBF     		ite	hi
+ 453 000e 0024     		movhi	r4, #0
+ 454 0010 0124     		movls	r4, #1
+ 455 0012 3F28     		cmp	r0, #63
+ 456 0014 0FD8     		bhi	.L119
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 9
+
+
+ 457 0016 B1F5807F 		cmp	r1, #256
+ 458 001a 11D8     		bhi	.L135
+ 459              	.L121:
+ 460 001c 82B1     		cbz	r2, .L135
+ 461 001e 7CB9     		cbnz	r4, .L135
+ 462 0020 1E46     		mov	r6, r3
+ 463 0022 1746     		mov	r7, r2
+ 464 0024 0D46     		mov	r5, r1
+ 465 0026 0446     		mov	r4, r0
+ 466 0028 FFF7FEFF 		bl	CySpcLock
+ 467 002c 58B1     		cbz	r0, .L150
+ 468 002e 0420     		movs	r0, #4
+ 469 0030 03B0     		add	sp, sp, #12
+ 470              		@ sp needed
+ 471 0032 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 472              	.L131:
+ 473 0034 0124     		movs	r4, #1
+ 474              	.L119:
+ 475 0036 8129     		cmp	r1, #129
+ 476 0038 28BF     		it	cs
+ 477 003a 0124     		movcs	r4, #1
+ 478 003c 102B     		cmp	r3, #16
+ 479 003e EDD0     		beq	.L121
+ 480              	.L135:
+ 481 0040 0120     		movs	r0, #1
+ 482              	.L147:
+ 483 0042 03B0     		add	sp, sp, #12
+ 484              		@ sp needed
+ 485 0044 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 486              	.L150:
+ 487 0046 3346     		mov	r3, r6
+ 488 0048 3A46     		mov	r2, r7
+ 489 004a 2946     		mov	r1, r5
+ 490 004c 2046     		mov	r0, r4
+ 491 004e FFF7FEFF 		bl	CySpcLoadRowFull
+ 492 0052 0728     		cmp	r0, #7
+ 493 0054 04D0     		beq	.L151
+ 494              	.L123:
+ 495 0056 0190     		str	r0, [sp, #4]
+ 496 0058 FFF7FEFF 		bl	CySpcUnlock
+ 497 005c 0198     		ldr	r0, [sp, #4]
+ 498 005e F0E7     		b	.L147
+ 499              	.L151:
+ 500 0060 164E     		ldr	r6, .L152
+ 501 0062 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 502 0064 9B07     		lsls	r3, r3, #30
+ 503 0066 05D4     		bmi	.L127
+ 504              	.L124:
+ 505 0068 0120     		movs	r0, #1
+ 506 006a FFF7FEFF 		bl	CyDelayUs
+ 507 006e 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 508 0070 9807     		lsls	r0, r3, #30
+ 509 0072 F9D5     		bpl	.L124
+ 510              	.L127:
+ 511 0074 114E     		ldr	r6, .L152
+ 512 0076 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 513 0078 9F07     		lsls	r7, r3, #30
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 10
+
+
+ 514 007a 1BD5     		bpl	.L126
+ 515 007c 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 516 007e 9B08     		lsrs	r3, r3, #2
+ 517 0080 18D1     		bne	.L126
+ 518 0082 0F4A     		ldr	r2, .L152+4
+ 519 0084 2946     		mov	r1, r5
+ 520 0086 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 521 0088 2046     		mov	r0, r4
+ 522 008a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 523 008c FFF7FEFF 		bl	CySpcWriteRow
+ 524 0090 0728     		cmp	r0, #7
+ 525 0092 E0D1     		bne	.L123
+ 526 0094 02E0     		b	.L149
+ 527              	.L129:
+ 528 0096 0120     		movs	r0, #1
+ 529 0098 FFF7FEFF 		bl	CyDelayUs
+ 530              	.L149:
+ 531 009c 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 532 009e 9907     		lsls	r1, r3, #30
+ 533 00a0 F9D5     		bpl	.L129
+ 534 00a2 064B     		ldr	r3, .L152
+ 535 00a4 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 536 00a6 9207     		lsls	r2, r2, #30
+ 537 00a8 04D5     		bpl	.L126
+ 538 00aa 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 539 00ac 9B08     		lsrs	r3, r3, #2
+ 540 00ae 01D1     		bne	.L126
+ 541 00b0 1846     		mov	r0, r3
+ 542 00b2 D0E7     		b	.L123
+ 543              	.L126:
+ 544 00b4 4FF0FF30 		mov	r0, #-1
+ 545 00b8 CDE7     		b	.L123
+ 546              	.L153:
+ 547 00ba 00BF     		.align	2
+ 548              	.L152:
+ 549 00bc 22470040 		.word	1073760034
+ 550 00c0 00000000 		.word	dieTemperature
+ 551              		.size	CyWriteRowFull, .-CyWriteRowFull
+ 552              		.section	.text.CyFlash_SetWaitCycles,"ax",%progbits
+ 553              		.align	2
+ 554              		.global	CyFlash_SetWaitCycles
+ 555              		.thumb
+ 556              		.thumb_func
+ 557              		.type	CyFlash_SetWaitCycles, %function
+ 558              	CyFlash_SetWaitCycles:
+ 559              		@ args = 0, pretend = 0, frame = 0
+ 560              		@ frame_needed = 0, uses_anonymous_args = 0
+ 561 0000 10B5     		push	{r4, lr}
+ 562 0002 0446     		mov	r4, r0
+ 563 0004 FFF7FEFF 		bl	CyEnterCriticalSection
+ 564 0008 0F2C     		cmp	r4, #15
+ 565 000a 1AD9     		bls	.L161
+ 566 000c 202C     		cmp	r4, #32
+ 567 000e 0DD9     		bls	.L162
+ 568 0010 312C     		cmp	r4, #49
+ 569 0012 27D9     		bls	.L163
+ 570 0014 422C     		cmp	r4, #66
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 11
+
+
+ 571 0016 1FD9     		bls	.L164
+ 572 0018 532C     		cmp	r4, #83
+ 573 001a 0ED8     		bhi	.L156
+ 574 001c 174A     		ldr	r2, .L165
+ 575 001e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 576 0020 03F01F03 		and	r3, r3, #31
+ 577 0024 43F02003 		orr	r3, r3, #32
+ 578 0028 1370     		strb	r3, [r2]
+ 579 002a 06E0     		b	.L156
+ 580              	.L162:
+ 581 002c 134A     		ldr	r2, .L165
+ 582 002e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 583 0030 03F01F03 		and	r3, r3, #31
+ 584 0034 43F08003 		orr	r3, r3, #128
+ 585 0038 1370     		strb	r3, [r2]
+ 586              	.L156:
+ 587 003a BDE81040 		pop	{r4, lr}
+ 588 003e FFF7FEBF 		b	CyExitCriticalSection
+ 589              	.L161:
+ 590 0042 0E4A     		ldr	r2, .L165
+ 591 0044 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 592 0046 03F01F03 		and	r3, r3, #31
+ 593 004a 43F04003 		orr	r3, r3, #64
+ 594 004e 1370     		strb	r3, [r2]
+ 595 0050 BDE81040 		pop	{r4, lr}
+ 596 0054 FFF7FEBF 		b	CyExitCriticalSection
+ 597              	.L164:
+ 598 0058 084A     		ldr	r2, .L165
+ 599 005a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 600 005c 03F01F03 		and	r3, r3, #31
+ 601 0060 1370     		strb	r3, [r2]
+ 602 0062 EAE7     		b	.L156
+ 603              	.L163:
+ 604 0064 054A     		ldr	r2, .L165
+ 605 0066 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 606 0068 03F01F03 		and	r3, r3, #31
+ 607 006c 43F0C003 		orr	r3, r3, #192
+ 608 0070 1370     		strb	r3, [r2]
+ 609 0072 BDE81040 		pop	{r4, lr}
+ 610 0076 FFF7FEBF 		b	CyExitCriticalSection
+ 611              	.L166:
+ 612 007a 00BF     		.align	2
+ 613              	.L165:
+ 614 007c 00480040 		.word	1073760256
+ 615              		.size	CyFlash_SetWaitCycles, .-CyFlash_SetWaitCycles
+ 616              		.section	.text.CyEEPROM_Start,"ax",%progbits
+ 617              		.align	2
+ 618              		.global	CyEEPROM_Start
+ 619              		.thumb
+ 620              		.thumb_func
+ 621              		.type	CyEEPROM_Start, %function
+ 622              	CyEEPROM_Start:
+ 623              		@ args = 0, pretend = 0, frame = 0
+ 624              		@ frame_needed = 0, uses_anonymous_args = 0
+ 625 0000 38B5     		push	{r3, r4, r5, lr}
+ 626 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 627 0006 0F4A     		ldr	r2, .L172
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 12
+
+
+ 628 0008 0F49     		ldr	r1, .L172+4
+ 629 000a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 630 000c 0F4C     		ldr	r4, .L172+8
+ 631 000e 43F00803 		orr	r3, r3, #8
+ 632 0012 1370     		strb	r3, [r2]
+ 633 0014 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 634 0016 C825     		movs	r5, #200
+ 635 0018 43F00803 		orr	r3, r3, #8
+ 636 001c 0B70     		strb	r3, [r1]
+ 637 001e 2570     		strb	r5, [r4]
+ 638 0020 137B     		ldrb	r3, [r2, #12]	@ zero_extendqisi2
+ 639 0022 43F01003 		orr	r3, r3, #16
+ 640 0026 1373     		strb	r3, [r2, #12]
+ 641 0028 0B7B     		ldrb	r3, [r1, #12]	@ zero_extendqisi2
+ 642 002a 02F55872 		add	r2, r2, #864
+ 643 002e 43F01003 		orr	r3, r3, #16
+ 644 0032 0B73     		strb	r3, [r1, #12]
+ 645              	.L168:
+ 646 0034 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 647 0036 9B06     		lsls	r3, r3, #26
+ 648 0038 FCD5     		bpl	.L168
+ 649 003a BDE83840 		pop	{r3, r4, r5, lr}
+ 650 003e FFF7FEBF 		b	CyExitCriticalSection
+ 651              	.L173:
+ 652 0042 00BF     		.align	2
+ 653              	.L172:
+ 654 0044 A0430040 		.word	1073759136
+ 655 0048 B0430040 		.word	1073759152
+ 656 004c 01470040 		.word	1073760001
+ 657              		.size	CyEEPROM_Start, .-CyEEPROM_Start
+ 658              		.section	.text.CyEEPROM_Stop,"ax",%progbits
+ 659              		.align	2
+ 660              		.global	CyEEPROM_Stop
+ 661              		.thumb
+ 662              		.thumb_func
+ 663              		.type	CyEEPROM_Stop, %function
+ 664              	CyEEPROM_Stop:
+ 665              		@ args = 0, pretend = 0, frame = 0
+ 666              		@ frame_needed = 0, uses_anonymous_args = 0
+ 667 0000 08B5     		push	{r3, lr}
+ 668 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 669 0006 0749     		ldr	r1, .L176
+ 670 0008 074A     		ldr	r2, .L176+4
+ 671 000a 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 672 000c 03F0EF03 		and	r3, r3, #239
+ 673 0010 0B70     		strb	r3, [r1]
+ 674 0012 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 675 0014 03F0EF03 		and	r3, r3, #239
+ 676 0018 1370     		strb	r3, [r2]
+ 677 001a BDE80840 		pop	{r3, lr}
+ 678 001e FFF7FEBF 		b	CyExitCriticalSection
+ 679              	.L177:
+ 680 0022 00BF     		.align	2
+ 681              	.L176:
+ 682 0024 AC430040 		.word	1073759148
+ 683 0028 BC430040 		.word	1073759164
+ 684              		.size	CyEEPROM_Stop, .-CyEEPROM_Stop
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccYOUepS.s 			page 13
+
+
+ 685              		.section	.text.CyEEPROM_ReadReserve,"ax",%progbits
+ 686              		.align	2
+ 687              		.global	CyEEPROM_ReadReserve
+ 688              		.thumb
+ 689              		.thumb_func
+ 690              		.type	CyEEPROM_ReadReserve, %function
+ 691              	CyEEPROM_ReadReserve:
+ 692              		@ args = 0, pretend = 0, frame = 0
+ 693              		@ frame_needed = 0, uses_anonymous_args = 0
+ 694              		@ link register save eliminated.
+ 695 0000 044B     		ldr	r3, .L182
+ 696 0002 1A46     		mov	r2, r3
+ 697 0004 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+ 698 0006 41F00101 		orr	r1, r1, #1
+ 699 000a 1970     		strb	r1, [r3]
+ 700              	.L179:
+ 701 000c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 702 000e 9B07     		lsls	r3, r3, #30
+ 703 0010 FCD5     		bpl	.L179
+ 704 0012 7047     		bx	lr
+ 705              	.L183:
+ 706              		.align	2
+ 707              	.L182:
+ 708 0014 02470040 		.word	1073760002
+ 709              		.size	CyEEPROM_ReadReserve, .-CyEEPROM_ReadReserve
+ 710              		.section	.text.CyEEPROM_ReadRelease,"ax",%progbits
+ 711              		.align	2
+ 712              		.global	CyEEPROM_ReadRelease
+ 713              		.thumb
+ 714              		.thumb_func
+ 715              		.type	CyEEPROM_ReadRelease, %function
+ 716              	CyEEPROM_ReadRelease:
+ 717              		@ args = 0, pretend = 0, frame = 0
+ 718              		@ frame_needed = 0, uses_anonymous_args = 0
+ 719              		@ link register save eliminated.
+ 720 0000 024A     		ldr	r2, .L185
+ 721 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 722 0004 03F0FE03 		and	r3, r3, #254
+ 723 0008 1370     		strb	r3, [r2]
+ 724 000a 7047     		bx	lr
+ 725              	.L186:
+ 726              		.align	2
+ 727              	.L185:
+ 728 000c 02470040 		.word	1073760002
+ 729              		.size	CyEEPROM_ReadRelease, .-CyEEPROM_ReadRelease
+ 730              		.comm	dieTemperature,2,4
+ 731              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,69 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc3F2DmH.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Bootloadable.c"
+  16              		.section	.text.Bootloadable_Load,"ax",%progbits
+  17              		.align	2
+  18              		.global	Bootloadable_Load
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	Bootloadable_Load, %function
+  22              	Bootloadable_Load:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 024B     		ldr	r3, .L2
+  27 0002 4022     		movs	r2, #64
+  28 0004 1A70     		strb	r2, [r3]
+  29 0006 FFF7FEBF 		b	CySoftwareReset
+  30              	.L3:
+  31 000a 00BF     		.align	2
+  32              	.L2:
+  33 000c FA460040 		.word	1073759994
+  34              		.size	Bootloadable_Load, .-Bootloadable_Load
+  35              		.section	.text.Bootloadable_SetFlashByte,"ax",%progbits
+  36              		.align	2
+  37              		.global	Bootloadable_SetFlashByte
+  38              		.thumb
+  39              		.thumb_func
+  40              		.type	Bootloadable_SetFlashByte, %function
+  41              	Bootloadable_SetFlashByte:
+  42              		@ args = 0, pretend = 0, frame = 256
+  43              		@ frame_needed = 0, uses_anonymous_args = 0
+  44 0000 30B5     		push	{r4, r5, lr}
+  45 0002 0446     		mov	r4, r0
+  46 0004 0D46     		mov	r5, r1
+  47 0006 C1B0     		sub	sp, sp, #260
+  48 0008 20F0FF01 		bic	r1, r0, #255
+  49 000c 4FF48072 		mov	r2, #256
+  50 0010 6846     		mov	r0, sp
+  51 0012 FFF7FEFF 		bl	memmove
+  52 0016 E3B2     		uxtb	r3, r4
+  53 0018 6A46     		mov	r2, sp
+  54 001a C4F30721 		ubfx	r1, r4, #8, #8
+  55 001e C4F30740 		ubfx	r0, r4, #16, #8
+  56 0022 0DF80350 		strb	r5, [sp, r3]
+  57 0026 FFF7FEFF 		bl	CyWriteRowData
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cc3F2DmH.s 			page 2
+
+
+  58 002a FFF7FEFF 		bl	CyFlushCache
+  59 002e 41B0     		add	sp, sp, #260
+  60              		@ sp needed
+  61 0030 30BD     		pop	{r4, r5, pc}
+  62              		.size	Bootloadable_SetFlashByte, .-Bootloadable_SetFlashByte
+  63 0032 00BF     		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

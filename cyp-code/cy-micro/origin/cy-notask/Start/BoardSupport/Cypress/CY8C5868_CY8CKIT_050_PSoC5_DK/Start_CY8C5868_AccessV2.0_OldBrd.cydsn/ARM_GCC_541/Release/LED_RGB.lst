@@ -1,0 +1,115 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccqblukc.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"LED_RGB.c"
+  16              		.section	.text.LED_RGB_Write,"ax",%progbits
+  17              		.align	2
+  18              		.global	LED_RGB_Write
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	LED_RGB_Write, %function
+  22              	LED_RGB_Write:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 044A     		ldr	r2, .L2
+  27 0002 0001     		lsls	r0, r0, #4
+  28 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  29 0006 00F07000 		and	r0, r0, #112
+  30 000a 03F08F03 		and	r3, r3, #143
+  31 000e 1843     		orrs	r0, r0, r3
+  32 0010 1070     		strb	r0, [r2]
+  33 0012 7047     		bx	lr
+  34              	.L3:
+  35              		.align	2
+  36              	.L2:
+  37 0014 00510040 		.word	1073762560
+  38              		.size	LED_RGB_Write, .-LED_RGB_Write
+  39              		.section	.text.LED_RGB_SetDriveMode,"ax",%progbits
+  40              		.align	2
+  41              		.global	LED_RGB_SetDriveMode
+  42              		.thumb
+  43              		.thumb_func
+  44              		.type	LED_RGB_SetDriveMode, %function
+  45              	LED_RGB_SetDriveMode:
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 094A     		ldr	r2, .L5
+  50 0002 00F00E00 		and	r0, r0, #14
+  51 0006 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  52 0008 0849     		ldr	r1, .L5+4
+  53 000a 03F0F103 		and	r3, r3, #241
+  54 000e 0343     		orrs	r3, r3, r0
+  55 0010 1370     		strb	r3, [r2]
+  56 0012 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+  57 0014 03F0F103 		and	r3, r3, #241
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccqblukc.s 			page 2
+
+
+  58 0018 0343     		orrs	r3, r3, r0
+  59 001a 0B70     		strb	r3, [r1]
+  60 001c 9378     		ldrb	r3, [r2, #2]	@ zero_extendqisi2
+  61 001e 03F0F103 		and	r3, r3, #241
+  62 0022 1843     		orrs	r0, r0, r3
+  63 0024 9070     		strb	r0, [r2, #2]
+  64 0026 7047     		bx	lr
+  65              	.L6:
+  66              		.align	2
+  67              	.L5:
+  68 0028 04500040 		.word	1073762308
+  69 002c 05500040 		.word	1073762309
+  70              		.size	LED_RGB_SetDriveMode, .-LED_RGB_SetDriveMode
+  71              		.section	.text.LED_RGB_Read,"ax",%progbits
+  72              		.align	2
+  73              		.global	LED_RGB_Read
+  74              		.thumb
+  75              		.thumb_func
+  76              		.type	LED_RGB_Read, %function
+  77              	LED_RGB_Read:
+  78              		@ args = 0, pretend = 0, frame = 0
+  79              		@ frame_needed = 0, uses_anonymous_args = 0
+  80              		@ link register save eliminated.
+  81 0000 024B     		ldr	r3, .L8
+  82 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+  83 0004 C0F30210 		ubfx	r0, r0, #4, #3
+  84 0008 7047     		bx	lr
+  85              	.L9:
+  86 000a 00BF     		.align	2
+  87              	.L8:
+  88 000c 01510040 		.word	1073762561
+  89              		.size	LED_RGB_Read, .-LED_RGB_Read
+  90              		.section	.text.LED_RGB_ReadDataReg,"ax",%progbits
+  91              		.align	2
+  92              		.global	LED_RGB_ReadDataReg
+  93              		.thumb
+  94              		.thumb_func
+  95              		.type	LED_RGB_ReadDataReg, %function
+  96              	LED_RGB_ReadDataReg:
+  97              		@ args = 0, pretend = 0, frame = 0
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99              		@ link register save eliminated.
+ 100 0000 024B     		ldr	r3, .L11
+ 101 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 102 0004 C0F30210 		ubfx	r0, r0, #4, #3
+ 103 0008 7047     		bx	lr
+ 104              	.L12:
+ 105 000a 00BF     		.align	2
+ 106              	.L11:
+ 107 000c 00510040 		.word	1073762560
+ 108              		.size	LED_RGB_ReadDataReg, .-LED_RGB_ReadDataReg
+ 109              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

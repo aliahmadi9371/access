@@ -1,0 +1,7 @@
+../Core/Src/IO.c:13:6:RGB	8
+../Core/Src/IO.c:82:13:Relay_Port1	2
+../Core/Src/IO.c:91:13:Relay_Port2	2
+../Core/Src/IO.c:102:9:Pins_Inputs_Read	1
+../Core/Src/IO.c:117:6:RGB_RED	2
+../Core/Src/IO.c:126:6:RGB_GREEN	2
+../Core/Src/IO.c:135:6:RGB_BLUE	2

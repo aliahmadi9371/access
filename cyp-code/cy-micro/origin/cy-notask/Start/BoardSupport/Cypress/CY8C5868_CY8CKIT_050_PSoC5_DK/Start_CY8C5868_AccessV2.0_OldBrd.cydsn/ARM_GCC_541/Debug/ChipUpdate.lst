@@ -1,0 +1,5235 @@
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"ChipUpdate.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	TCB_Task_Main,84,4
+  20              		.comm	Stack_Task_Main,8192,4
+  21              		.global	line_num
+  22              		.bss
+  23              		.align	1
+  24              		.type	line_num, %object
+  25              		.size	line_num, 2
+  26              	line_num:
+  27 0000 0000     		.space	2
+  28              		.global	i2c_counter
+  29              		.align	1
+  30              		.type	i2c_counter, %object
+  31              		.size	i2c_counter, 2
+  32              	i2c_counter:
+  33 0002 0000     		.space	2
+  34              		.global	data_length
+  35              		.align	2
+  36              		.type	data_length, %object
+  37              		.size	data_length, 4
+  38              	data_length:
+  39 0004 00000000 		.space	4
+  40              		.comm	fota_data_bytes,262,4
+  41              		.global	fota_data_index
+  42              		.align	1
+  43              		.type	fota_data_index, %object
+  44              		.size	fota_data_index, 2
+  45              	fota_data_index:
+  46 0008 0000     		.space	2
+  47              		.global	data_index
+  48 000a 0000     		.align	2
+  49              		.type	data_index, %object
+  50              		.size	data_index, 4
+  51              	data_index:
+  52 000c 00000000 		.space	4
+  53              		.global	last_percent
+  54              		.type	last_percent, %object
+  55              		.size	last_percent, 1
+  56              	last_percent:
+  57 0010 00       		.space	1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 2
+
+
+  58              		.section	.text.proc_reset_chip,"ax",%progbits
+  59              		.align	2
+  60              		.global	proc_reset_chip
+  61              		.thumb
+  62              		.thumb_func
+  63              		.type	proc_reset_chip, %function
+  64              	proc_reset_chip:
+  65              	.LFB64:
+  66              		.file 1 "ChipUpdate.c"
+   1:ChipUpdate.c  **** /*
+   2:ChipUpdate.c  ****  * proc.c
+   3:ChipUpdate.c  ****  *
+   4:ChipUpdate.c  ****  *  Created on: Jul 22, 2023
+   5:ChipUpdate.c  ****  *      Author: IroTeam
+   6:ChipUpdate.c  ****  */
+   7:ChipUpdate.c  **** #include "ChipUpdate.h"
+   8:ChipUpdate.c  **** #include "IO.h"
+   9:ChipUpdate.c  **** 
+  10:ChipUpdate.c  **** uint16_t line_num = 0;
+  11:ChipUpdate.c  **** uint16_t i2c_counter = 0;
+  12:ChipUpdate.c  **** 
+  13:ChipUpdate.c  **** unsigned int data_length = 0;
+  14:ChipUpdate.c  **** uint8_t fota_data_bytes[FOTA_ROW_SIZE * FOTA_MAX_FILE_LINE];
+  15:ChipUpdate.c  **** uint16_t fota_data_index = 0;
+  16:ChipUpdate.c  **** int	data_index = 0;
+  17:ChipUpdate.c  **** 
+  18:ChipUpdate.c  **** 
+  19:ChipUpdate.c  **** uint8_t last_percent = 0;
+  20:ChipUpdate.c  **** // ###################################################### Init Functions ##########################
+  21:ChipUpdate.c  **** //void proc_init()
+  22:ChipUpdate.c  **** //{
+  23:ChipUpdate.c  **** //    df_init_vars_all();
+  24:ChipUpdate.c  **** //
+  25:ChipUpdate.c  **** //    uint8_t byte = 0;
+  26:ChipUpdate.c  **** //	if(ee2_read_byte(EE2_1_CHIP_ADDR, &byte, 0x00) == HAL_OK){
+  27:ChipUpdate.c  **** //		if(byte == 0xFF){
+  28:ChipUpdate.c  **** //			ee2_write_init(0, 1024);
+  29:ChipUpdate.c  **** //		}
+  30:ChipUpdate.c  **** //		else{
+  31:ChipUpdate.c  **** //			UART_Debug_PutString("External EEPROM is OK\r\n");
+  32:ChipUpdate.c  **** //		}
+  33:ChipUpdate.c  **** //	}
+  34:ChipUpdate.c  **** //
+  35:ChipUpdate.c  **** //
+  36:ChipUpdate.c  **** //    // check if wdt
+  37:ChipUpdate.c  **** //
+  38:ChipUpdate.c  **** ////    init_info(0x0000, 0x07D0);
+  39:ChipUpdate.c  **** //
+  40:ChipUpdate.c  **** ////    proc_wdt();
+  41:ChipUpdate.c  **** //    UART_Debug_PutString("\r\n");
+  42:ChipUpdate.c  **** //
+  43:ChipUpdate.c  **** //
+  44:ChipUpdate.c  **** //    UART_Debug_PutString("\r\n ############################ Configurations Set ##################
+  45:ChipUpdate.c  **** //
+  46:ChipUpdate.c  **** //    led_set_color(CYA);
+  47:ChipUpdate.c  **** //
+  48:ChipUpdate.c  **** //    return;
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 3
+
+
+  49:ChipUpdate.c  **** //}
+  50:ChipUpdate.c  **** 
+  51:ChipUpdate.c  **** //void proc_wdt()
+  52:ChipUpdate.c  **** //{
+  53:ChipUpdate.c  **** //
+  54:ChipUpdate.c  **** //	if(ee2_read_wdt() == 1 && ee2_read_swt() == 1){
+  55:ChipUpdate.c  **** //
+  56:ChipUpdate.c  **** //		uint8_t res = cm_get_last_wtd();
+  57:ChipUpdate.c  **** //
+  58:ChipUpdate.c  **** //		if(res == 1){
+  59:ChipUpdate.c  **** //			cm_wtd_cnt++;
+  60:ChipUpdate.c  **** //
+  61:ChipUpdate.c  **** //			char bf[100];
+  62:ChipUpdate.c  **** //			sprintf(bf, "proc_wdt: watchdog counter = %05lu \r\n", cm_wtd_cnt);
+  63:ChipUpdate.c  **** //			UART_Debug_PutString(bf, 0);
+  64:ChipUpdate.c  **** //
+  65:ChipUpdate.c  **** //			ee2_write_wdt();
+  66:ChipUpdate.c  **** //		}
+  67:ChipUpdate.c  **** //		else if(res == 2){
+  68:ChipUpdate.c  **** //			cm_swt_cnt++;
+  69:ChipUpdate.c  **** //
+  70:ChipUpdate.c  **** //			char bf[100];
+  71:ChipUpdate.c  **** //			sprintf(bf, "proc_swt: software counter = %05lu \r\n", cm_swt_cnt);
+  72:ChipUpdate.c  **** //			UART_Debug_PutString(bf, 0);
+  73:ChipUpdate.c  **** //
+  74:ChipUpdate.c  **** //			ee2_write_swt();
+  75:ChipUpdate.c  **** //		}
+  76:ChipUpdate.c  **** //	}
+  77:ChipUpdate.c  **** //
+  78:ChipUpdate.c  **** //    return;
+  79:ChipUpdate.c  **** //}
+  80:ChipUpdate.c  **** 
+  81:ChipUpdate.c  **** // ################################################################################################
+  82:ChipUpdate.c  **** // ################################################################################################
+  83:ChipUpdate.c  **** // ###################################################### For DAS #################################
+  84:ChipUpdate.c  **** 
+  85:ChipUpdate.c  **** // ------------------------------------------------------ OTHER func ------------------------------
+  86:ChipUpdate.c  **** //void proc_reset_wdt(uint8_t reset)
+  87:ChipUpdate.c  **** //{
+  88:ChipUpdate.c  **** //    if(reset){
+  89:ChipUpdate.c  **** //        cm_wtd_cnt = 0;
+  90:ChipUpdate.c  **** //        cm_swt_cnt = 0;
+  91:ChipUpdate.c  **** //        ee2_write_swt();
+  92:ChipUpdate.c  **** //        ee2_write_wdt();
+  93:ChipUpdate.c  **** //    }
+  94:ChipUpdate.c  **** //
+  95:ChipUpdate.c  **** //    return;
+  96:ChipUpdate.c  **** //}
+  97:ChipUpdate.c  **** 
+  98:ChipUpdate.c  **** 
+  99:ChipUpdate.c  **** void proc_reset_chip(uint8_t reset_code)
+ 100:ChipUpdate.c  **** {
+  67              		.loc 1 100 0
+  68              		.cfi_startproc
+  69              		@ args = 0, pretend = 0, frame = 8
+  70              		@ frame_needed = 1, uses_anonymous_args = 0
+  71 0000 80B5     		push	{r7, lr}
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 4
+
+
+  72              		.cfi_def_cfa_offset 8
+  73              		.cfi_offset 7, -8
+  74              		.cfi_offset 14, -4
+  75 0002 82B0     		sub	sp, sp, #8
+  76              		.cfi_def_cfa_offset 16
+  77 0004 00AF     		add	r7, sp, #0
+  78              		.cfi_def_cfa_register 7
+  79 0006 0346     		mov	r3, r0
+  80 0008 FB71     		strb	r3, [r7, #7]
+ 101:ChipUpdate.c  ****     ie2_write_byte(reset_code, IE2_Loc_Reset_Code_Address);
+  81              		.loc 1 101 0
+  82 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  83 000c 1321     		movs	r1, #19
+  84 000e 1846     		mov	r0, r3
+  85 0010 FFF7FEFF 		bl	ie2_write_byte
+ 102:ChipUpdate.c  ****     CyDelay(500);
+  86              		.loc 1 102 0
+  87 0014 4FF4FA70 		mov	r0, #500
+  88 0018 FFF7FEFF 		bl	CyDelay
+ 103:ChipUpdate.c  **** //    cm_read_reset_code();
+ 104:ChipUpdate.c  **** //    CyDelay(500);
+ 105:ChipUpdate.c  ****     CyWdtClear();
+  89              		.loc 1 105 0
+  90 001c FFF7FEFF 		bl	CyWdtClear
+ 106:ChipUpdate.c  ****     CySoftwareReset();
+  91              		.loc 1 106 0
+  92 0020 FFF7FEFF 		bl	CySoftwareReset
+ 107:ChipUpdate.c  **** 
+ 108:ChipUpdate.c  ****     return;
+  93              		.loc 1 108 0
+  94 0024 00BF     		nop
+ 109:ChipUpdate.c  **** }
+  95              		.loc 1 109 0
+  96 0026 0837     		adds	r7, r7, #8
+  97              		.cfi_def_cfa_offset 8
+  98 0028 BD46     		mov	sp, r7
+  99              		.cfi_def_cfa_register 13
+ 100              		@ sp needed
+ 101 002a 80BD     		pop	{r7, pc}
+ 102              		.cfi_endproc
+ 103              	.LFE64:
+ 104              		.size	proc_reset_chip, .-proc_reset_chip
+ 105              		.section	.rodata
+ 106              		.align	2
+ 107              	.LC0:
+ 108 0000 7B534554 		.ascii	"{SET_FOT}:\000"
+ 108      5F464F54 
+ 108      7D3A00
+ 109 000b 00       		.align	2
+ 110              	.LC1:
+ 111 000c 7B534554 		.ascii	"{SET_FOT}:{\"id\":\"%02d\",\"data\":[\000"
+ 111      5F464F54 
+ 111      7D3A7B22 
+ 111      6964223A 
+ 111      22253032 
+ 112              		.align	2
+ 113              	.LC2:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 5
+
+
+ 114 002c 0D0A2023 		.ascii	"\015\012 #### NOTE: FOTA procedure STOPPED ####\015"
+ 114      23232320 
+ 114      4E4F5445 
+ 114      3A20464F 
+ 114      54412070 
+ 115 0056 0A00     		.ascii	"\012\000"
+ 116              		.align	2
+ 117              	.LC3:
+ 118 0058 75706461 		.ascii	"update_check_packet: wrong msg: \000"
+ 118      74655F63 
+ 118      6865636B 
+ 118      5F706163 
+ 118      6B65743A 
+ 119 0079 000000   		.align	2
+ 120              	.LC4:
+ 121 007c 0D0A00   		.ascii	"\015\012\000"
+ 122              		.section	.text.update_check_packet,"ax",%progbits
+ 123              		.align	2
+ 124              		.global	update_check_packet
+ 125              		.thumb
+ 126              		.thumb_func
+ 127              		.type	update_check_packet, %function
+ 128              	update_check_packet:
+ 129              	.LFB65:
+ 110:ChipUpdate.c  **** // ################################################################################################
+ 111:ChipUpdate.c  **** // ################################################################################################
+ 112:ChipUpdate.c  **** // ------------------------------------------------------ UPDATE proc -----------------------------
+ 113:ChipUpdate.c  ****             void update_check_packet(char* msg)
+ 114:ChipUpdate.c  ****             {
+ 130              		.loc 1 114 0
+ 131              		.cfi_startproc
+ 132              		@ args = 0, pretend = 0, frame = 136
+ 133              		@ frame_needed = 1, uses_anonymous_args = 0
+ 134 0000 80B5     		push	{r7, lr}
+ 135              		.cfi_def_cfa_offset 8
+ 136              		.cfi_offset 7, -8
+ 137              		.cfi_offset 14, -4
+ 138 0002 A2B0     		sub	sp, sp, #136
+ 139              		.cfi_def_cfa_offset 144
+ 140 0004 00AF     		add	r7, sp, #0
+ 141              		.cfi_def_cfa_register 7
+ 142 0006 7860     		str	r0, [r7, #4]
+ 115:ChipUpdate.c  ****                 //from LINUX --> {SET_FOT}:{"id":"00","data":["-","???","--","--","--------"]}
+ 116:ChipUpdate.c  ****                 if((memcmp((char*)&msg[0], "{SET_FOT}:", 10) == 0)){
+ 143              		.loc 1 116 0
+ 144 0008 0A22     		movs	r2, #10
+ 145 000a 1A49     		ldr	r1, .L10
+ 146 000c 7868     		ldr	r0, [r7, #4]
+ 147 000e FFF7FEFF 		bl	memcmp
+ 148 0012 0346     		mov	r3, r0
+ 149 0014 002B     		cmp	r3, #0
+ 150 0016 1FD1     		bne	.L4
+ 151              	.LBB2:
+ 117:ChipUpdate.c  **** //                    OS_TIMER_Restart(&Timer_Update);
+ 118:ChipUpdate.c  ****                     char fota[128];
+ 119:ChipUpdate.c  ****                     sprintf(fota, "{SET_FOT}:{\"id\":\"%02d\",\"data\":[", (unsigned int)MAIN_ID);
+ 152              		.loc 1 119 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 6
+
+
+ 153 0018 07F10803 		add	r3, r7, #8
+ 154 001c 0022     		movs	r2, #0
+ 155 001e 1649     		ldr	r1, .L10+4
+ 156 0020 1846     		mov	r0, r3
+ 157 0022 FFF7FEFF 		bl	sprintf
+ 120:ChipUpdate.c  ****                     if((memcmp((char*)&msg[0], fota, 29) == 0)){
+ 158              		.loc 1 120 0
+ 159 0026 07F10803 		add	r3, r7, #8
+ 160 002a 1D22     		movs	r2, #29
+ 161 002c 1946     		mov	r1, r3
+ 162 002e 7868     		ldr	r0, [r7, #4]
+ 163 0030 FFF7FEFF 		bl	memcmp
+ 164 0034 0346     		mov	r3, r0
+ 165 0036 002B     		cmp	r3, #0
+ 166 0038 18D1     		bne	.L9
+ 121:ChipUpdate.c  ****                         if(!fota_flag_start){
+ 167              		.loc 1 121 0
+ 168 003a 104B     		ldr	r3, .L10+8
+ 169 003c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 170 003e 002B     		cmp	r3, #0
+ 171 0040 06D1     		bne	.L6
+ 122:ChipUpdate.c  ****                             update_start(1, &((char*)msg)[29]);
+ 172              		.loc 1 122 0
+ 173 0042 7B68     		ldr	r3, [r7, #4]
+ 174 0044 1D33     		adds	r3, r3, #29
+ 175 0046 1946     		mov	r1, r3
+ 176 0048 0120     		movs	r0, #1
+ 177 004a FFF7FEFF 		bl	update_start
+ 178              	.LBE2:
+ 123:ChipUpdate.c  ****                         }
+ 124:ChipUpdate.c  ****                         // STOP & RESET FOTA STATE
+ 125:ChipUpdate.c  **** 						else{
+ 126:ChipUpdate.c  **** 							UART_Debug_PutString("\r\n #### NOTE: FOTA procedure STOPPED ####\r\n");
+ 127:ChipUpdate.c  **** //							qctl_ftp_reset();
+ 128:ChipUpdate.c  **** 						}
+ 129:ChipUpdate.c  ****                     }
+ 130:ChipUpdate.c  ****                 }
+ 131:ChipUpdate.c  ****                 //from LINUX --> {FOT_FOR}:{"[LINE_NUM]","[CHECKSUM"],"[DATA]"}
+ 132:ChipUpdate.c  **** //                else if((memcmp((char*)&msg[0], "{FOT_FOT}:", 10) == 0)){
+ 133:ChipUpdate.c  **** ////                    OS_TIMER_Restart(&osTimer_reset_state);
+ 134:ChipUpdate.c  **** //                    proc_fota_procedure(&((char*)msg)[10]);
+ 135:ChipUpdate.c  **** //                }
+ 136:ChipUpdate.c  ****                 else{
+ 137:ChipUpdate.c  ****                     UART_Debug_PutString("update_check_packet: wrong msg: ");
+ 138:ChipUpdate.c  ****                     UART_Debug_PutString(msg);
+ 139:ChipUpdate.c  ****                     UART_Debug_PutString("\r\n");
+ 140:ChipUpdate.c  ****                 }
+ 141:ChipUpdate.c  **** 
+ 142:ChipUpdate.c  ****                 return;
+ 179              		.loc 1 142 0
+ 180 004e 0DE0     		b	.L9
+ 181              	.L6:
+ 182              	.LBB3:
+ 126:ChipUpdate.c  **** //							qctl_ftp_reset();
+ 183              		.loc 1 126 0
+ 184 0050 0B48     		ldr	r0, .L10+12
+ 185 0052 FFF7FEFF 		bl	UART_Debug_PutString
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 7
+
+
+ 186              	.LBE3:
+ 187              		.loc 1 142 0
+ 188 0056 09E0     		b	.L9
+ 189              	.L4:
+ 137:ChipUpdate.c  ****                     UART_Debug_PutString(msg);
+ 190              		.loc 1 137 0
+ 191 0058 0A48     		ldr	r0, .L10+16
+ 192 005a FFF7FEFF 		bl	UART_Debug_PutString
+ 138:ChipUpdate.c  ****                     UART_Debug_PutString("\r\n");
+ 193              		.loc 1 138 0
+ 194 005e 7868     		ldr	r0, [r7, #4]
+ 195 0060 FFF7FEFF 		bl	UART_Debug_PutString
+ 139:ChipUpdate.c  ****                 }
+ 196              		.loc 1 139 0
+ 197 0064 0848     		ldr	r0, .L10+20
+ 198 0066 FFF7FEFF 		bl	UART_Debug_PutString
+ 199              		.loc 1 142 0
+ 200 006a 00BF     		nop
+ 201              	.L9:
+ 202 006c 00BF     		nop
+ 143:ChipUpdate.c  ****             }
+ 203              		.loc 1 143 0
+ 204 006e 8837     		adds	r7, r7, #136
+ 205              		.cfi_def_cfa_offset 8
+ 206 0070 BD46     		mov	sp, r7
+ 207              		.cfi_def_cfa_register 13
+ 208              		@ sp needed
+ 209 0072 80BD     		pop	{r7, pc}
+ 210              	.L11:
+ 211              		.align	2
+ 212              	.L10:
+ 213 0074 00000000 		.word	.LC0
+ 214 0078 0C000000 		.word	.LC1
+ 215 007c 00000000 		.word	fota_flag_start
+ 216 0080 2C000000 		.word	.LC2
+ 217 0084 58000000 		.word	.LC3
+ 218 0088 7C000000 		.word	.LC4
+ 219              		.cfi_endproc
+ 220              	.LFE65:
+ 221              		.size	update_check_packet, .-update_check_packet
+ 222              		.section	.rodata
+ 223 007f 00       		.align	2
+ 224              	.LC5:
+ 225 0080 5B00     		.ascii	"[\000"
+ 226 0082 0000     		.align	2
+ 227              	.LC6:
+ 228 0084 2200     		.ascii	"\"\000"
+ 229 0086 0000     		.align	2
+ 230              	.LC7:
+ 231 0088 5D00     		.ascii	"]\000"
+ 232 008a 0000     		.align	2
+ 233              	.LC8:
+ 234 008c 7D00     		.ascii	"}\000"
+ 235 008e 0000     		.align	2
+ 236              	.LC9:
+ 237 0090 2C00     		.ascii	",\000"
+ 238 0092 0000     		.align	2
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 8
+
+
+ 239              	.LC10:
+ 240 0094 666F7461 		.ascii	"fota_flag_start: %01X\015\012fota_folder_name: \000"
+ 240      5F666C61 
+ 240      675F7374 
+ 240      6172743A 
+ 240      20253031 
+ 241 00be 0000     		.align	2
+ 242              	.LC11:
+ 243 00c0 666F7461 		.ascii	"fota_file_numbers: %03d\015\012fota_App_lines: %03d"
+ 243      5F66696C 
+ 243      655F6E75 
+ 243      6D626572 
+ 243      733A2025 
+ 244 00ed 0D0A666F 		.ascii	"\015\012fota_App_size: %08lX\015\012fota_App_CRC: %"
+ 244      74615F41 
+ 244      70705F73 
+ 244      697A653A 
+ 244      20253038 
+ 245 0114 30386C58 		.ascii	"08lX\015\012\000"
+ 245      0D0A00
+ 246 011b 00       		.align	2
+ 247              	.LC12:
+ 248 011c 0D0A2023 		.ascii	"\015\012 #### Note: FOTA Procedure Started!!!\015\012"
+ 248      23232320 
+ 248      4E6F7465 
+ 248      3A20464F 
+ 248      54412050 
+ 249 0145 00       		.ascii	"\000"
+ 250 0146 0000     		.align	2
+ 251              	.LC13:
+ 252 0148 7B464F54 		.ascii	"{FOT_REQ}:{\"num\":\"001\"}\015\012\000"
+ 252      5F524551 
+ 252      7D3A7B22 
+ 252      6E756D22 
+ 252      3A223030 
+ 253 0162 0000     		.align	2
+ 254              	.LC14:
+ 255 0164 75706461 		.ascii	"update_procedure >> failed to put to _Queue_Send >>"
+ 255      74655F70 
+ 255      726F6365 
+ 255      64757265 
+ 255      203E3E20 
+ 256 0197 2000     		.ascii	" \000"
+ 257 0199 000000   		.align	2
+ 258              	.LC15:
+ 259 019c 0D0A2023 		.ascii	"\015\012 #### Note: FOTA Procedure FAILED!!!\015\012"
+ 259      23232320 
+ 259      4E6F7465 
+ 259      3A20464F 
+ 259      54412050 
+ 260 01c4 00       		.ascii	"\000"
+ 261 01c5 000000   		.align	2
+ 262              	.LC16:
+ 263 01c8 0D0A2023 		.ascii	"\015\012 #### Note: FOTA Procedure STOPPED!!!\015\012"
+ 263      23232320 
+ 263      4E6F7465 
+ 263      3A20464F 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 9
+
+
+ 263      54412050 
+ 264 01f1 00       		.ascii	"\000"
+ 265              		.section	.text.update_start,"ax",%progbits
+ 266              		.align	2
+ 267              		.global	update_start
+ 268              		.thumb
+ 269              		.thumb_func
+ 270              		.type	update_start, %function
+ 271              	update_start:
+ 272              	.LFB66:
+ 144:ChipUpdate.c  **** //-
+ 145:ChipUpdate.c  **** //--
+ 146:ChipUpdate.c  ****     //-
+ 147:ChipUpdate.c  ****     //--
+ 148:ChipUpdate.c  ****         //-
+ 149:ChipUpdate.c  ****         //--
+ 150:ChipUpdate.c  **** //-
+ 151:ChipUpdate.c  **** //--
+ 152:ChipUpdate.c  ****             // FYI >> WORKING
+ 153:ChipUpdate.c  ****             void update_start(uint8_t fota_flag, char* fota_data)
+ 154:ChipUpdate.c  ****             {
+ 273              		.loc 1 154 0
+ 274              		.cfi_startproc
+ 275              		@ args = 0, pretend = 0, frame = 216
+ 276              		@ frame_needed = 1, uses_anonymous_args = 0
+ 277 0000 90B5     		push	{r4, r7, lr}
+ 278              		.cfi_def_cfa_offset 12
+ 279              		.cfi_offset 4, -12
+ 280              		.cfi_offset 7, -8
+ 281              		.cfi_offset 14, -4
+ 282 0002 B9B0     		sub	sp, sp, #228
+ 283              		.cfi_def_cfa_offset 240
+ 284 0004 02AF     		add	r7, sp, #8
+ 285              		.cfi_def_cfa 7, 232
+ 286 0006 0346     		mov	r3, r0
+ 287 0008 3960     		str	r1, [r7]
+ 288 000a FB71     		strb	r3, [r7, #7]
+ 155:ChipUpdate.c  ****             //    [fota_status],[folder_name],[number_of_file],[number_of_all_lines],[Application_C
+ 156:ChipUpdate.c  ****             //    ["-","------------","---","---","--------"]}
+ 157:ChipUpdate.c  ****             	// get FOTA command from server and parse it
+ 158:ChipUpdate.c  ****             	strremove(fota_data, "[");
+ 289              		.loc 1 158 0
+ 290 000c 6B49     		ldr	r1, .L20
+ 291 000e 3868     		ldr	r0, [r7]
+ 292 0010 FFF7FEFF 		bl	strremove
+ 159:ChipUpdate.c  ****             	strremove(fota_data, "\"");
+ 293              		.loc 1 159 0
+ 294 0014 6A49     		ldr	r1, .L20+4
+ 295 0016 3868     		ldr	r0, [r7]
+ 296 0018 FFF7FEFF 		bl	strremove
+ 160:ChipUpdate.c  ****             	strremove(fota_data, "]");
+ 297              		.loc 1 160 0
+ 298 001c 6949     		ldr	r1, .L20+8
+ 299 001e 3868     		ldr	r0, [r7]
+ 300 0020 FFF7FEFF 		bl	strremove
+ 161:ChipUpdate.c  ****             	strremove(fota_data, "}");
+ 301              		.loc 1 161 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 10
+
+
+ 302 0024 6849     		ldr	r1, .L20+12
+ 303 0026 3868     		ldr	r0, [r7]
+ 304 0028 FFF7FEFF 		bl	strremove
+ 162:ChipUpdate.c  **** 
+ 163:ChipUpdate.c  ****             	char* ret = NULL;
+ 305              		.loc 1 163 0
+ 306 002c 0023     		movs	r3, #0
+ 307 002e C7F8D430 		str	r3, [r7, #212]
+ 164:ChipUpdate.c  **** 
+ 165:ChipUpdate.c  ****             	ret = strtok(fota_data, ",");
+ 308              		.loc 1 165 0
+ 309 0032 6649     		ldr	r1, .L20+16
+ 310 0034 3868     		ldr	r0, [r7]
+ 311 0036 FFF7FEFF 		bl	strtok
+ 312 003a C7F8D400 		str	r0, [r7, #212]
+ 166:ChipUpdate.c  ****             	fota_flag_start = strtol(ret, NULL, 16);
+ 313              		.loc 1 166 0
+ 314 003e 1022     		movs	r2, #16
+ 315 0040 0021     		movs	r1, #0
+ 316 0042 D7F8D400 		ldr	r0, [r7, #212]
+ 317 0046 FFF7FEFF 		bl	strtol
+ 318 004a 0346     		mov	r3, r0
+ 319 004c DAB2     		uxtb	r2, r3
+ 320 004e 604B     		ldr	r3, .L20+20
+ 321 0050 1A70     		strb	r2, [r3]
+ 167:ChipUpdate.c  **** 
+ 168:ChipUpdate.c  ****                 if(fota_flag_start == 1){
+ 322              		.loc 1 168 0
+ 323 0052 5F4B     		ldr	r3, .L20+20
+ 324 0054 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 325 0056 012B     		cmp	r3, #1
+ 326 0058 40F0A780 		bne	.L13
+ 169:ChipUpdate.c  **** 
+ 170:ChipUpdate.c  ****                     ret = strtok(NULL, ",");
+ 327              		.loc 1 170 0
+ 328 005c 5B49     		ldr	r1, .L20+16
+ 329 005e 0020     		movs	r0, #0
+ 330 0060 FFF7FEFF 		bl	strtok
+ 331 0064 C7F8D400 		str	r0, [r7, #212]
+ 171:ChipUpdate.c  ****                     strcpy(server_fota_folder_name, ret);
+ 332              		.loc 1 171 0
+ 333 0068 D7F8D410 		ldr	r1, [r7, #212]
+ 334 006c 5948     		ldr	r0, .L20+24
+ 335 006e FFF7FEFF 		bl	strcpy
+ 172:ChipUpdate.c  **** 
+ 173:ChipUpdate.c  ****                     ret = strtok(NULL, ",");
+ 336              		.loc 1 173 0
+ 337 0072 5649     		ldr	r1, .L20+16
+ 338 0074 0020     		movs	r0, #0
+ 339 0076 FFF7FEFF 		bl	strtok
+ 340 007a C7F8D400 		str	r0, [r7, #212]
+ 174:ChipUpdate.c  ****                     server_fota_file_numbers = strtol(ret, NULL, 10);
+ 341              		.loc 1 174 0
+ 342 007e 0A22     		movs	r2, #10
+ 343 0080 0021     		movs	r1, #0
+ 344 0082 D7F8D400 		ldr	r0, [r7, #212]
+ 345 0086 FFF7FEFF 		bl	strtol
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 11
+
+
+ 346 008a 0346     		mov	r3, r0
+ 347 008c 9AB2     		uxth	r2, r3
+ 348 008e 524B     		ldr	r3, .L20+28
+ 349 0090 1A80     		strh	r2, [r3]	@ movhi
+ 175:ChipUpdate.c  **** 
+ 176:ChipUpdate.c  ****                     ret = strtok(NULL, ",");
+ 350              		.loc 1 176 0
+ 351 0092 4E49     		ldr	r1, .L20+16
+ 352 0094 0020     		movs	r0, #0
+ 353 0096 FFF7FEFF 		bl	strtok
+ 354 009a C7F8D400 		str	r0, [r7, #212]
+ 177:ChipUpdate.c  ****                     server_fota_App_size = strtoul(ret, NULL, 10);
+ 355              		.loc 1 177 0
+ 356 009e 0A22     		movs	r2, #10
+ 357 00a0 0021     		movs	r1, #0
+ 358 00a2 D7F8D400 		ldr	r0, [r7, #212]
+ 359 00a6 FFF7FEFF 		bl	strtoul
+ 360 00aa 0246     		mov	r2, r0
+ 361 00ac 4B4B     		ldr	r3, .L20+32
+ 362 00ae 1A60     		str	r2, [r3]
+ 178:ChipUpdate.c  **** 
+ 179:ChipUpdate.c  ****                     ret = strtok(NULL, ",");
+ 363              		.loc 1 179 0
+ 364 00b0 4649     		ldr	r1, .L20+16
+ 365 00b2 0020     		movs	r0, #0
+ 366 00b4 FFF7FEFF 		bl	strtok
+ 367 00b8 C7F8D400 		str	r0, [r7, #212]
+ 180:ChipUpdate.c  **** 
+ 181:ChipUpdate.c  ****                     server_fota_App_CRC = strtoul(ret, NULL, 16);
+ 368              		.loc 1 181 0
+ 369 00bc 1022     		movs	r2, #16
+ 370 00be 0021     		movs	r1, #0
+ 371 00c0 D7F8D400 		ldr	r0, [r7, #212]
+ 372 00c4 FFF7FEFF 		bl	strtoul
+ 373 00c8 0246     		mov	r2, r0
+ 374 00ca 454B     		ldr	r3, .L20+36
+ 375 00cc 1A60     		str	r2, [r3]
+ 182:ChipUpdate.c  **** 
+ 183:ChipUpdate.c  ****                     if(fota_flag_start && server_fota_file_numbers && server_fota_App_size && serve
+ 376              		.loc 1 183 0
+ 377 00ce 404B     		ldr	r3, .L20+20
+ 378 00d0 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 379 00d2 002B     		cmp	r3, #0
+ 380 00d4 65D0     		beq	.L14
+ 381              		.loc 1 183 0 is_stmt 0 discriminator 1
+ 382 00d6 404B     		ldr	r3, .L20+28
+ 383 00d8 1B88     		ldrh	r3, [r3]
+ 384 00da 002B     		cmp	r3, #0
+ 385 00dc 61D0     		beq	.L14
+ 386              		.loc 1 183 0 discriminator 2
+ 387 00de 3F4B     		ldr	r3, .L20+32
+ 388 00e0 1B68     		ldr	r3, [r3]
+ 389 00e2 002B     		cmp	r3, #0
+ 390 00e4 5DD0     		beq	.L14
+ 391              		.loc 1 183 0 discriminator 3
+ 392 00e6 3E4B     		ldr	r3, .L20+36
+ 393 00e8 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 12
+
+
+ 394 00ea 002B     		cmp	r3, #0
+ 395 00ec 59D0     		beq	.L14
+ 396              	.LBB4:
+ 184:ChipUpdate.c  **** //                    	if(internal_flash_erase() == 1){
+ 185:ChipUpdate.c  ****                     		last_percent = 0;
+ 397              		.loc 1 185 0 is_stmt 1
+ 398 00ee 3D4B     		ldr	r3, .L20+40
+ 399 00f0 0022     		movs	r2, #0
+ 400 00f2 1A70     		strb	r2, [r3]
+ 186:ChipUpdate.c  ****                     		CyWdtClear();
+ 401              		.loc 1 186 0
+ 402 00f4 FFF7FEFF 		bl	CyWdtClear
+ 187:ChipUpdate.c  ****                     		char bf[200];
+ 188:ChipUpdate.c  ****             				sprintf(bf, "fota_flag_start: %01X\r\nfota_folder_name: ", fota_flag_start);
+ 403              		.loc 1 188 0
+ 404 00f8 354B     		ldr	r3, .L20+20
+ 405 00fa 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 406 00fc 1A46     		mov	r2, r3
+ 407 00fe 07F10C03 		add	r3, r7, #12
+ 408 0102 3949     		ldr	r1, .L20+44
+ 409 0104 1846     		mov	r0, r3
+ 410 0106 FFF7FEFF 		bl	sprintf
+ 189:ChipUpdate.c  ****             				strcat(bf, server_fota_folder_name);
+ 411              		.loc 1 189 0
+ 412 010a 07F10C03 		add	r3, r7, #12
+ 413 010e 3149     		ldr	r1, .L20+24
+ 414 0110 1846     		mov	r0, r3
+ 415 0112 FFF7FEFF 		bl	strcat
+ 190:ChipUpdate.c  ****             				strcat(bf, "\r\n");
+ 416              		.loc 1 190 0
+ 417 0116 07F10C03 		add	r3, r7, #12
+ 418 011a 1846     		mov	r0, r3
+ 419 011c FFF7FEFF 		bl	strlen
+ 420 0120 0346     		mov	r3, r0
+ 421 0122 1A46     		mov	r2, r3
+ 422 0124 07F10C03 		add	r3, r7, #12
+ 423 0128 1344     		add	r3, r3, r2
+ 424 012a 304A     		ldr	r2, .L20+48
+ 425 012c 1188     		ldrh	r1, [r2]	@ unaligned
+ 426 012e 9278     		ldrb	r2, [r2, #2]
+ 427 0130 1980     		strh	r1, [r3]	@ unaligned
+ 428 0132 9A70     		strb	r2, [r3, #2]
+ 191:ChipUpdate.c  ****             				UART_Debug_PutString(bf);
+ 429              		.loc 1 191 0
+ 430 0134 07F10C03 		add	r3, r7, #12
+ 431 0138 1846     		mov	r0, r3
+ 432 013a FFF7FEFF 		bl	UART_Debug_PutString
+ 192:ChipUpdate.c  **** 
+ 193:ChipUpdate.c  ****             				sprintf(bf, "fota_file_numbers: %03d\r\nfota_App_lines: %03d\r\nfota_App_size: %08l
+ 433              		.loc 1 193 0
+ 434 013e 264B     		ldr	r3, .L20+28
+ 435 0140 1B88     		ldrh	r3, [r3]
+ 436 0142 1946     		mov	r1, r3
+ 437 0144 244B     		ldr	r3, .L20+28
+ 438 0146 1B88     		ldrh	r3, [r3]
+ 439 0148 1C46     		mov	r4, r3
+ 440 014a 244B     		ldr	r3, .L20+32
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 13
+
+
+ 441 014c 1B68     		ldr	r3, [r3]
+ 442 014e 244A     		ldr	r2, .L20+36
+ 443 0150 1268     		ldr	r2, [r2]
+ 444 0152 07F10C00 		add	r0, r7, #12
+ 445 0156 0192     		str	r2, [sp, #4]
+ 446 0158 0093     		str	r3, [sp]
+ 447 015a 2346     		mov	r3, r4
+ 448 015c 0A46     		mov	r2, r1
+ 449 015e 2449     		ldr	r1, .L20+52
+ 450 0160 FFF7FEFF 		bl	sprintf
+ 194:ChipUpdate.c  ****             						server_fota_file_numbers,
+ 195:ChipUpdate.c  ****             						server_fota_file_numbers,
+ 196:ChipUpdate.c  ****             						server_fota_App_size,
+ 197:ChipUpdate.c  ****             						server_fota_App_CRC);
+ 198:ChipUpdate.c  ****             				UART_Debug_PutString(bf);
+ 451              		.loc 1 198 0
+ 452 0164 07F10C03 		add	r3, r7, #12
+ 453 0168 1846     		mov	r0, r3
+ 454 016a FFF7FEFF 		bl	UART_Debug_PutString
+ 199:ChipUpdate.c  **** 
+ 200:ChipUpdate.c  ****                     		UART_Debug_PutString("\r\n #### Note: FOTA Procedure Started!!!\r\n");
+ 455              		.loc 1 200 0
+ 456 016e 2148     		ldr	r0, .L20+56
+ 457 0170 FFF7FEFF 		bl	UART_Debug_PutString
+ 201:ChipUpdate.c  **** //                    		UART_Debug_PutString("{SET_FOT}:{\"status\":\"done\"}\r\n");
+ 202:ChipUpdate.c  **** //                    		UART_Linux_PutString("{SET_FOT}:{\"status\":\"done\"}\r\n");
+ 203:ChipUpdate.c  **** 
+ 204:ChipUpdate.c  ****                     		CyWdtClear();
+ 458              		.loc 1 204 0
+ 459 0174 FFF7FEFF 		bl	CyWdtClear
+ 205:ChipUpdate.c  ****                     		UART_Debug_PutString("{FOT_REQ}:{\"num\":\"001\"}\r\n");
+ 460              		.loc 1 205 0
+ 461 0178 1F48     		ldr	r0, .L20+60
+ 462 017a FFF7FEFF 		bl	UART_Debug_PutString
+ 206:ChipUpdate.c  **** //                			RGB_Color = 5;
+ 207:ChipUpdate.c  **** //                			RGB_Color_Old = 5;
+ 208:ChipUpdate.c  **** //                			RGB(RGB_Color); //Cypress run
+ 209:ChipUpdate.c  **** //                    		UART_Linux_PutString("{FOT_REQ}:{\"num\":\"001\"}\r\n");
+ 210:ChipUpdate.c  ****                     		if(!q_put_message(&_Queue_Send, "{FOT_REQ}:{\"num\":\"001\"}\r\n", strlen("{F
+ 463              		.loc 1 210 0
+ 464 017e 1A22     		movs	r2, #26
+ 465 0180 1D49     		ldr	r1, .L20+60
+ 466 0182 1E48     		ldr	r0, .L20+64
+ 467 0184 FFF7FEFF 		bl	q_put_message
+ 468 0188 0346     		mov	r3, r0
+ 469 018a 002B     		cmp	r3, #0
+ 470 018c 11D1     		bne	.L19
+ 211:ChipUpdate.c  **** 								UART_Debug_PutString("update_procedure >> failed to put to _Queue_Send >> ");
+ 471              		.loc 1 211 0
+ 472 018e 1C48     		ldr	r0, .L20+68
+ 473 0190 FFF7FEFF 		bl	UART_Debug_PutString
+ 212:ChipUpdate.c  **** 								UART_Debug_PutString("{FOT_REQ}:{\"num\":\"001\"}\r\n");
+ 474              		.loc 1 212 0
+ 475 0194 1848     		ldr	r0, .L20+60
+ 476 0196 FFF7FEFF 		bl	UART_Debug_PutString
+ 213:ChipUpdate.c  **** 								UART_Debug_PutString("\r\n");
+ 477              		.loc 1 213 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 14
+
+
+ 478 019a 1448     		ldr	r0, .L20+48
+ 479 019c FFF7FEFF 		bl	UART_Debug_PutString
+ 480              	.LBE4:
+ 183:ChipUpdate.c  **** //                    	if(internal_flash_erase() == 1){
+ 481              		.loc 1 183 0
+ 482 01a0 07E0     		b	.L19
+ 483              	.L14:
+ 214:ChipUpdate.c  **** 							}
+ 215:ChipUpdate.c  **** 
+ 216:ChipUpdate.c  **** //                    	}
+ 217:ChipUpdate.c  **** //                    	else{
+ 218:ChipUpdate.c  **** //                        	UART_Debug_PutString("\r\n #### Note: FOTA Procedure FAILED!!!\r\n");
+ 219:ChipUpdate.c  **** //            //            	qctl_ftp_reset();
+ 220:ChipUpdate.c  **** //                    	}
+ 221:ChipUpdate.c  ****                     }
+ 222:ChipUpdate.c  ****                     else{
+ 223:ChipUpdate.c  ****                     	UART_Debug_PutString("\r\n #### Note: FOTA Procedure FAILED!!!\r\n");
+ 484              		.loc 1 223 0
+ 485 01a2 1848     		ldr	r0, .L20+72
+ 486 01a4 FFF7FEFF 		bl	UART_Debug_PutString
+ 224:ChipUpdate.c  ****             //        	qctl_ftp_reset();
+ 225:ChipUpdate.c  ****                     }
+ 226:ChipUpdate.c  **** 
+ 227:ChipUpdate.c  ****                 }
+ 228:ChipUpdate.c  ****                 else{
+ 229:ChipUpdate.c  ****                 	UART_Debug_PutString("\r\n #### Note: FOTA Procedure STOPPED!!!\r\n");
+ 230:ChipUpdate.c  ****             //    	qctl_ftp_reset();
+ 231:ChipUpdate.c  ****                 }
+ 232:ChipUpdate.c  **** 
+ 233:ChipUpdate.c  **** 
+ 234:ChipUpdate.c  ****                 return;
+ 487              		.loc 1 234 0
+ 488 01a8 05E0     		b	.L12
+ 489              	.L13:
+ 229:ChipUpdate.c  ****             //    	qctl_ftp_reset();
+ 490              		.loc 1 229 0
+ 491 01aa 1748     		ldr	r0, .L20+76
+ 492 01ac FFF7FEFF 		bl	UART_Debug_PutString
+ 493              		.loc 1 234 0
+ 494 01b0 00E0     		b	.L17
+ 495              	.L19:
+ 183:ChipUpdate.c  **** //                    	if(internal_flash_erase() == 1){
+ 496              		.loc 1 183 0
+ 497 01b2 00BF     		nop
+ 498              	.L17:
+ 499              		.loc 1 234 0 discriminator 2
+ 500 01b4 00BF     		nop
+ 501              	.L12:
+ 235:ChipUpdate.c  ****             }
+ 502              		.loc 1 235 0
+ 503 01b6 DC37     		adds	r7, r7, #220
+ 504              		.cfi_def_cfa_offset 12
+ 505 01b8 BD46     		mov	sp, r7
+ 506              		.cfi_def_cfa_register 13
+ 507              		@ sp needed
+ 508 01ba 90BD     		pop	{r4, r7, pc}
+ 509              	.L21:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 15
+
+
+ 510              		.align	2
+ 511              	.L20:
+ 512 01bc 80000000 		.word	.LC5
+ 513 01c0 84000000 		.word	.LC6
+ 514 01c4 88000000 		.word	.LC7
+ 515 01c8 8C000000 		.word	.LC8
+ 516 01cc 90000000 		.word	.LC9
+ 517 01d0 00000000 		.word	fota_flag_start
+ 518 01d4 00000000 		.word	server_fota_folder_name
+ 519 01d8 00000000 		.word	server_fota_file_numbers
+ 520 01dc 00000000 		.word	server_fota_App_size
+ 521 01e0 00000000 		.word	server_fota_App_CRC
+ 522 01e4 00000000 		.word	last_percent
+ 523 01e8 94000000 		.word	.LC10
+ 524 01ec 7C000000 		.word	.LC4
+ 525 01f0 C0000000 		.word	.LC11
+ 526 01f4 1C010000 		.word	.LC12
+ 527 01f8 48010000 		.word	.LC13
+ 528 01fc 00000000 		.word	_Queue_Send
+ 529 0200 64010000 		.word	.LC14
+ 530 0204 9C010000 		.word	.LC15
+ 531 0208 C8010000 		.word	.LC16
+ 532              		.cfi_endproc
+ 533              	.LFE66:
+ 534              		.size	update_start, .-update_start
+ 535              		.section	.rodata
+ 536 01f2 0000     		.align	2
+ 537              	.LC17:
+ 538 01f4 6F75725F 		.ascii	"our_checksum = %04X, data_checksum = %04X\015\012\000"
+ 538      63686563 
+ 538      6B73756D 
+ 538      203D2025 
+ 538      3034582C 
+ 539              		.section	.text.check_checksum,"ax",%progbits
+ 540              		.align	2
+ 541              		.global	check_checksum
+ 542              		.thumb
+ 543              		.thumb_func
+ 544              		.type	check_checksum, %function
+ 545              	check_checksum:
+ 546              	.LFB67:
+ 236:ChipUpdate.c  **** uint8_t check_checksum(char* data, uint16_t data_checksum)
+ 237:ChipUpdate.c  **** {
+ 547              		.loc 1 237 0
+ 548              		.cfi_startproc
+ 549              		@ args = 0, pretend = 0, frame = 120
+ 550              		@ frame_needed = 1, uses_anonymous_args = 0
+ 551 0000 90B5     		push	{r4, r7, lr}
+ 552              		.cfi_def_cfa_offset 12
+ 553              		.cfi_offset 4, -12
+ 554              		.cfi_offset 7, -8
+ 555              		.cfi_offset 14, -4
+ 556 0002 9FB0     		sub	sp, sp, #124
+ 557              		.cfi_def_cfa_offset 136
+ 558 0004 00AF     		add	r7, sp, #0
+ 559              		.cfi_def_cfa_register 7
+ 560 0006 7860     		str	r0, [r7, #4]
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 16
+
+
+ 561 0008 0B46     		mov	r3, r1
+ 562 000a 7B80     		strh	r3, [r7, #2]	@ movhi
+ 238:ChipUpdate.c  **** 	uint8_t ret = 0;
+ 563              		.loc 1 238 0
+ 564 000c 0023     		movs	r3, #0
+ 565 000e 87F87730 		strb	r3, [r7, #119]
+ 239:ChipUpdate.c  **** 	uint16_t our_checksum = 0;
+ 566              		.loc 1 239 0
+ 567 0012 0023     		movs	r3, #0
+ 568 0014 A7F87430 		strh	r3, [r7, #116]	@ movhi
+ 240:ChipUpdate.c  **** 
+ 241:ChipUpdate.c  **** 	if(strlen(data) % 2 == 0){
+ 569              		.loc 1 241 0
+ 570 0018 7868     		ldr	r0, [r7, #4]
+ 571 001a FFF7FEFF 		bl	strlen
+ 572 001e 0346     		mov	r3, r0
+ 573 0020 03F00103 		and	r3, r3, #1
+ 574 0024 002B     		cmp	r3, #0
+ 575 0026 2CD1     		bne	.L23
+ 576              	.LBB5:
+ 242:ChipUpdate.c  **** 		for(uint16_t i = 0; i < strlen(data); i = i+2){
+ 577              		.loc 1 242 0
+ 578 0028 0023     		movs	r3, #0
+ 579 002a A7F87230 		strh	r3, [r7, #114]	@ movhi
+ 580 002e 20E0     		b	.L24
+ 581              	.L25:
+ 582              	.LBB6:
+ 243:ChipUpdate.c  **** 			uint16_t byte = 0;
+ 583              		.loc 1 243 0 discriminator 3
+ 584 0030 0023     		movs	r3, #0
+ 585 0032 A7F87030 		strh	r3, [r7, #112]	@ movhi
+ 244:ChipUpdate.c  **** 			byte = (uint16_t)data[i] << 8 | (uint16_t)data[i + 1];
+ 586              		.loc 1 244 0 discriminator 3
+ 587 0036 B7F87230 		ldrh	r3, [r7, #114]
+ 588 003a 7A68     		ldr	r2, [r7, #4]
+ 589 003c 1344     		add	r3, r3, r2
+ 590 003e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 591 0040 1B02     		lsls	r3, r3, #8
+ 592 0042 1AB2     		sxth	r2, r3
+ 593 0044 B7F87230 		ldrh	r3, [r7, #114]
+ 594 0048 0133     		adds	r3, r3, #1
+ 595 004a 7968     		ldr	r1, [r7, #4]
+ 596 004c 0B44     		add	r3, r3, r1
+ 597 004e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 598 0050 1BB2     		sxth	r3, r3
+ 599 0052 1343     		orrs	r3, r3, r2
+ 600 0054 1BB2     		sxth	r3, r3
+ 601 0056 A7F87030 		strh	r3, [r7, #112]	@ movhi
+ 245:ChipUpdate.c  **** 
+ 246:ChipUpdate.c  **** 			our_checksum ^= byte;
+ 602              		.loc 1 246 0 discriminator 3
+ 603 005a B7F87420 		ldrh	r2, [r7, #116]	@ movhi
+ 604 005e B7F87030 		ldrh	r3, [r7, #112]	@ movhi
+ 605 0062 5340     		eors	r3, r3, r2
+ 606 0064 A7F87430 		strh	r3, [r7, #116]	@ movhi
+ 607              	.LBE6:
+ 242:ChipUpdate.c  **** 			uint16_t byte = 0;
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 17
+
+
+ 608              		.loc 1 242 0 discriminator 3
+ 609 0068 B7F87230 		ldrh	r3, [r7, #114]	@ movhi
+ 610 006c 0233     		adds	r3, r3, #2
+ 611 006e A7F87230 		strh	r3, [r7, #114]	@ movhi
+ 612              	.L24:
+ 242:ChipUpdate.c  **** 			uint16_t byte = 0;
+ 613              		.loc 1 242 0 is_stmt 0 discriminator 1
+ 614 0072 B7F87240 		ldrh	r4, [r7, #114]
+ 615 0076 7868     		ldr	r0, [r7, #4]
+ 616 0078 FFF7FEFF 		bl	strlen
+ 617 007c 0346     		mov	r3, r0
+ 618 007e 9C42     		cmp	r4, r3
+ 619 0080 D6D3     		bcc	.L25
+ 620              	.L23:
+ 621              	.LBE5:
+ 247:ChipUpdate.c  **** 		}
+ 248:ChipUpdate.c  **** 	}
+ 249:ChipUpdate.c  **** 
+ 250:ChipUpdate.c  **** 	if(our_checksum == data_checksum){
+ 622              		.loc 1 250 0 is_stmt 1
+ 623 0082 B7F87420 		ldrh	r2, [r7, #116]
+ 624 0086 7B88     		ldrh	r3, [r7, #2]
+ 625 0088 9A42     		cmp	r2, r3
+ 626 008a 03D1     		bne	.L26
+ 251:ChipUpdate.c  **** 		ret = 1;
+ 627              		.loc 1 251 0
+ 628 008c 0123     		movs	r3, #1
+ 629 008e 87F87730 		strb	r3, [r7, #119]
+ 630 0092 0CE0     		b	.L27
+ 631              	.L26:
+ 632              	.LBB7:
+ 252:ChipUpdate.c  **** 	}
+ 253:ChipUpdate.c  **** 	else{
+ 254:ChipUpdate.c  **** 		char print[100];
+ 255:ChipUpdate.c  **** 		sprintf(print, "our_checksum = %04X, data_checksum = %04X\r\n", our_checksum, data_checksum);
+ 633              		.loc 1 255 0
+ 634 0094 B7F87420 		ldrh	r2, [r7, #116]
+ 635 0098 7B88     		ldrh	r3, [r7, #2]
+ 636 009a 07F10C00 		add	r0, r7, #12
+ 637 009e 0749     		ldr	r1, .L29
+ 638 00a0 FFF7FEFF 		bl	sprintf
+ 256:ChipUpdate.c  **** 		UART_Debug_PutString(print);
+ 639              		.loc 1 256 0
+ 640 00a4 07F10C03 		add	r3, r7, #12
+ 641 00a8 1846     		mov	r0, r3
+ 642 00aa FFF7FEFF 		bl	UART_Debug_PutString
+ 643              	.L27:
+ 644              	.LBE7:
+ 257:ChipUpdate.c  **** 	}
+ 258:ChipUpdate.c  **** 
+ 259:ChipUpdate.c  **** 	return ret;
+ 645              		.loc 1 259 0
+ 646 00ae 97F87730 		ldrb	r3, [r7, #119]	@ zero_extendqisi2
+ 260:ChipUpdate.c  **** }
+ 647              		.loc 1 260 0
+ 648 00b2 1846     		mov	r0, r3
+ 649 00b4 7C37     		adds	r7, r7, #124
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 18
+
+
+ 650              		.cfi_def_cfa_offset 12
+ 651 00b6 BD46     		mov	sp, r7
+ 652              		.cfi_def_cfa_register 13
+ 653              		@ sp needed
+ 654 00b8 90BD     		pop	{r4, r7, pc}
+ 655              	.L30:
+ 656 00ba 00BF     		.align	2
+ 657              	.L29:
+ 658 00bc F4010000 		.word	.LC17
+ 659              		.cfi_endproc
+ 660              	.LFE67:
+ 661              		.size	check_checksum, .-check_checksum
+ 662              		.section	.rodata
+ 663              		.align	2
+ 664              	.LC18:
+ 665 0220 7B00     		.ascii	"{\000"
+ 666 0222 0000     		.align	2
+ 667              	.LC19:
+ 668 0224 4C494E55 		.ascii	"LINUX_LINE_NUM: %03d >> CHECKSUM >> FAILED\015\012\000"
+ 668      585F4C49 
+ 668      4E455F4E 
+ 668      554D3A20 
+ 668      25303364 
+ 669 0251 000000   		.align	2
+ 670              	.LC20:
+ 671 0254 7B464F54 		.ascii	"{FOT_REQ}:{\"num\":\"%05d\"}\015\012\000"
+ 671      5F524551 
+ 671      7D3A7B22 
+ 671      6E756D22 
+ 671      3A222530 
+ 672 026f 00       		.align	2
+ 673              	.LC21:
+ 674 0270 52455155 		.ascii	"REQUESTED_LINE_NUM >> FALSE\015\012\000"
+ 674      45535445 
+ 674      445F4C49 
+ 674      4E455F4E 
+ 674      554D203E 
+ 675 028e 0000     		.align	2
+ 676              	.LC22:
+ 677 0290 75706461 		.ascii	"update_procedure >> wrong data >> odd \015\012\000"
+ 677      74655F70 
+ 677      726F6365 
+ 677      64757265 
+ 677      203E3E20 
+ 678 02b9 000000   		.align	2
+ 679              	.LC23:
+ 680 02bc 70726F63 		.ascii	"proc_Gw_fota_procedure >> written line: %d/%d\015\012"
+ 680      5F47775F 
+ 680      666F7461 
+ 680      5F70726F 
+ 680      63656475 
+ 681 02eb 00       		.ascii	"\000"
+ 682              		.align	2
+ 683              	.LC24:
+ 684 02ec 75706461 		.ascii	"update_procedure >> wrong data >> odd 2\015\012\000"
+ 684      74655F70 
+ 684      726F6365 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 19
+
+
+ 684      64757265 
+ 684      203E3E20 
+ 685              		.global	__aeabi_ui2d
+ 686              		.global	__aeabi_ddiv
+ 687              		.global	__aeabi_dmul
+ 688              		.global	__aeabi_d2uiz
+ 689 0316 0000     		.align	2
+ 690              	.LC25:
+ 691 0318 75706461 		.ascii	"update_procedure >> written lines : %d/%d\015\012\000"
+ 691      74655F70 
+ 691      726F6365 
+ 691      64757265 
+ 691      203E3E20 
+ 692              		.section	.text.update_procedure,"ax",%progbits
+ 693              		.align	2
+ 694              		.global	update_procedure
+ 695              		.thumb
+ 696              		.thumb_func
+ 697              		.type	update_procedure, %function
+ 698              	update_procedure:
+ 699              	.LFB68:
+ 261:ChipUpdate.c  **** 
+ 262:ChipUpdate.c  **** // ------------------------------------------------------ UPDATE proc -----------------------------
+ 263:ChipUpdate.c  **** // ------------------------------------------------------------------------------------------------
+ 264:ChipUpdate.c  **** // FYI >> WORKING
+ 265:ChipUpdate.c  **** void update_procedure(char* buff)
+ 266:ChipUpdate.c  **** {
+ 700              		.loc 1 266 0
+ 701              		.cfi_startproc
+ 702              		@ args = 0, pretend = 0, frame = 336
+ 703              		@ frame_needed = 1, uses_anonymous_args = 0
+ 704 0000 B0B5     		push	{r4, r5, r7, lr}
+ 705              		.cfi_def_cfa_offset 16
+ 706              		.cfi_offset 4, -16
+ 707              		.cfi_offset 5, -12
+ 708              		.cfi_offset 7, -8
+ 709              		.cfi_offset 14, -4
+ 710 0002 D4B0     		sub	sp, sp, #336
+ 711              		.cfi_def_cfa_offset 352
+ 712 0004 00AF     		add	r7, sp, #0
+ 713              		.cfi_def_cfa_register 7
+ 714 0006 3B1D     		adds	r3, r7, #4
+ 715 0008 1860     		str	r0, [r3]
+ 267:ChipUpdate.c  ****     // Gateway
+ 268:ChipUpdate.c  **** //	char data[50];
+ 269:ChipUpdate.c  **** //	sprintf(data, "proc_Gw_fota_procedure >> file length = %d\r\n", strlen(buff));
+ 270:ChipUpdate.c  **** 
+ 271:ChipUpdate.c  **** 	char*	linux_fotu_packet = buff;
+ 716              		.loc 1 271 0
+ 717 000a 3B1D     		adds	r3, r7, #4
+ 718 000c 1B68     		ldr	r3, [r3]
+ 719 000e C7F84831 		str	r3, [r7, #328]
+ 272:ChipUpdate.c  **** 	char*	ret = NULL;
+ 720              		.loc 1 272 0
+ 721 0012 0023     		movs	r3, #0
+ 722 0014 C7F84431 		str	r3, [r7, #324]
+ 273:ChipUpdate.c  **** 	char	req_line_buf[100] = {'\0'};
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 20
+
+
+ 723              		.loc 1 273 0
+ 724 0018 07F1D403 		add	r3, r7, #212
+ 725 001c 6422     		movs	r2, #100
+ 726 001e 0021     		movs	r1, #0
+ 727 0020 1846     		mov	r0, r3
+ 728 0022 FFF7FEFF 		bl	memset
+ 274:ChipUpdate.c  **** 
+ 275:ChipUpdate.c  **** 	strremove(linux_fotu_packet, "[");
+ 729              		.loc 1 275 0
+ 730 0026 C949     		ldr	r1, .L60
+ 731 0028 D7F84801 		ldr	r0, [r7, #328]
+ 732 002c FFF7FEFF 		bl	strremove
+ 276:ChipUpdate.c  **** 	strremove(linux_fotu_packet, "\"");
+ 733              		.loc 1 276 0
+ 734 0030 C749     		ldr	r1, .L60+4
+ 735 0032 D7F84801 		ldr	r0, [r7, #328]
+ 736 0036 FFF7FEFF 		bl	strremove
+ 277:ChipUpdate.c  **** 	strremove(linux_fotu_packet, "]");
+ 737              		.loc 1 277 0
+ 738 003a C649     		ldr	r1, .L60+8
+ 739 003c D7F84801 		ldr	r0, [r7, #328]
+ 740 0040 FFF7FEFF 		bl	strremove
+ 278:ChipUpdate.c  **** 	strremove(linux_fotu_packet, "}");
+ 741              		.loc 1 278 0
+ 742 0044 C449     		ldr	r1, .L60+12
+ 743 0046 D7F84801 		ldr	r0, [r7, #328]
+ 744 004a FFF7FEFF 		bl	strremove
+ 279:ChipUpdate.c  **** 	strremove(linux_fotu_packet, "{");
+ 745              		.loc 1 279 0
+ 746 004e C349     		ldr	r1, .L60+16
+ 747 0050 D7F84801 		ldr	r0, [r7, #328]
+ 748 0054 FFF7FEFF 		bl	strremove
+ 280:ChipUpdate.c  **** 
+ 281:ChipUpdate.c  **** 	ret = strtok(linux_fotu_packet, ",");
+ 749              		.loc 1 281 0
+ 750 0058 C149     		ldr	r1, .L60+20
+ 751 005a D7F84801 		ldr	r0, [r7, #328]
+ 752 005e FFF7FEFF 		bl	strtok
+ 753 0062 C7F84401 		str	r0, [r7, #324]
+ 282:ChipUpdate.c  **** 	uint16_t linux_line_num = strtol(ret, NULL, 10);
+ 754              		.loc 1 282 0
+ 755 0066 0A22     		movs	r2, #10
+ 756 0068 0021     		movs	r1, #0
+ 757 006a D7F84401 		ldr	r0, [r7, #324]
+ 758 006e FFF7FEFF 		bl	strtol
+ 759 0072 0346     		mov	r3, r0
+ 760 0074 A7F84231 		strh	r3, [r7, #322]	@ movhi
+ 283:ChipUpdate.c  **** 
+ 284:ChipUpdate.c  **** 	ret = strtok(NULL, ",");
+ 761              		.loc 1 284 0
+ 762 0078 B949     		ldr	r1, .L60+20
+ 763 007a 0020     		movs	r0, #0
+ 764 007c FFF7FEFF 		bl	strtok
+ 765 0080 C7F84401 		str	r0, [r7, #324]
+ 285:ChipUpdate.c  **** 	uint16_t linux_data_checksum = strtol(ret, NULL, 16);
+ 766              		.loc 1 285 0
+ 767 0084 1022     		movs	r2, #16
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 21
+
+
+ 768 0086 0021     		movs	r1, #0
+ 769 0088 D7F84401 		ldr	r0, [r7, #324]
+ 770 008c FFF7FEFF 		bl	strtol
+ 771 0090 0346     		mov	r3, r0
+ 772 0092 A7F84031 		strh	r3, [r7, #320]	@ movhi
+ 286:ChipUpdate.c  **** 
+ 287:ChipUpdate.c  **** 	ret = strtok(NULL, ",");
+ 773              		.loc 1 287 0
+ 774 0096 B249     		ldr	r1, .L60+20
+ 775 0098 0020     		movs	r0, #0
+ 776 009a FFF7FEFF 		bl	strtok
+ 777 009e C7F84401 		str	r0, [r7, #324]
+ 288:ChipUpdate.c  **** 	char* linux_update_data = ret;
+ 778              		.loc 1 288 0
+ 779 00a2 D7F84431 		ldr	r3, [r7, #324]
+ 780 00a6 C7F83C31 		str	r3, [r7, #316]
+ 289:ChipUpdate.c  **** 
+ 290:ChipUpdate.c  **** 	uint8_t checksum_rez = check_checksum(linux_update_data, linux_data_checksum);
+ 781              		.loc 1 290 0
+ 782 00aa B7F84031 		ldrh	r3, [r7, #320]
+ 783 00ae 1946     		mov	r1, r3
+ 784 00b0 D7F83C01 		ldr	r0, [r7, #316]
+ 785 00b4 FFF7FEFF 		bl	check_checksum
+ 786 00b8 0346     		mov	r3, r0
+ 787 00ba 87F83B31 		strb	r3, [r7, #315]
+ 291:ChipUpdate.c  **** 
+ 292:ChipUpdate.c  **** 	if(checksum_rez == 1){
+ 788              		.loc 1 292 0
+ 789 00be 97F83B31 		ldrb	r3, [r7, #315]	@ zero_extendqisi2
+ 790 00c2 012B     		cmp	r3, #1
+ 791 00c4 34D0     		beq	.L32
+ 792              	.LBB8:
+ 293:ChipUpdate.c  **** 		//char buf[100];
+ 294:ChipUpdate.c  **** 		//sprintf(buf, "LINUX_LINE_NUM: %03d >> CHECKSUM >> OK\r\n",linux_line_num);
+ 295:ChipUpdate.c  **** 		//UART_Debug_PutString(buf, 0);
+ 296:ChipUpdate.c  **** 	}else{
+ 297:ChipUpdate.c  **** 		char buf[100];
+ 298:ChipUpdate.c  **** 		sprintf(buf, "LINUX_LINE_NUM: %03d >> CHECKSUM >> FAILED\r\n",linux_line_num);
+ 793              		.loc 1 298 0
+ 794 00c6 B7F84221 		ldrh	r2, [r7, #322]
+ 795 00ca 07F10C03 		add	r3, r7, #12
+ 796 00ce A549     		ldr	r1, .L60+24
+ 797 00d0 1846     		mov	r0, r3
+ 798 00d2 FFF7FEFF 		bl	sprintf
+ 299:ChipUpdate.c  **** //		led_set_color(RED);
+ 300:ChipUpdate.c  **** 		sprintf(req_line_buf,"{FOT_REQ}:{\"num\":\"%05d\"}\r\n",fota_row_counter + 1);
+ 799              		.loc 1 300 0
+ 800 00d6 A44B     		ldr	r3, .L60+28
+ 801 00d8 1B88     		ldrh	r3, [r3]
+ 802 00da 5A1C     		adds	r2, r3, #1
+ 803 00dc 07F1D403 		add	r3, r7, #212
+ 804 00e0 A249     		ldr	r1, .L60+32
+ 805 00e2 1846     		mov	r0, r3
+ 806 00e4 FFF7FEFF 		bl	sprintf
+ 301:ChipUpdate.c  **** 		UART_Debug_PutString(req_line_buf);
+ 807              		.loc 1 301 0
+ 808 00e8 07F1D403 		add	r3, r7, #212
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 22
+
+
+ 809 00ec 1846     		mov	r0, r3
+ 810 00ee FFF7FEFF 		bl	UART_Debug_PutString
+ 302:ChipUpdate.c  **** //		RGB_Color = 5;
+ 303:ChipUpdate.c  **** //		RGB_Color_Old = 5;
+ 304:ChipUpdate.c  **** //		RGB(RGB_Color); //Cypress run
+ 305:ChipUpdate.c  **** //		UART_Linux_PutString(req_line_buf);
+ 306:ChipUpdate.c  **** 		if(!q_put_message(&_Queue_Send, req_line_buf, strlen(req_line_buf) + 1)){
+ 811              		.loc 1 306 0
+ 812 00f2 07F1D403 		add	r3, r7, #212
+ 813 00f6 1846     		mov	r0, r3
+ 814 00f8 FFF7FEFF 		bl	strlen
+ 815 00fc 0346     		mov	r3, r0
+ 816 00fe 0133     		adds	r3, r3, #1
+ 817 0100 1A46     		mov	r2, r3
+ 818 0102 07F1D403 		add	r3, r7, #212
+ 819 0106 1946     		mov	r1, r3
+ 820 0108 9948     		ldr	r0, .L60+36
+ 821 010a FFF7FEFF 		bl	q_put_message
+ 822 010e 0346     		mov	r3, r0
+ 823 0110 002B     		cmp	r3, #0
+ 824 0112 40F02982 		bne	.L55
+ 307:ChipUpdate.c  **** 			UART_Debug_PutString("update_procedure >> failed to put to _Queue_Send >> ");
+ 825              		.loc 1 307 0
+ 826 0116 9748     		ldr	r0, .L60+40
+ 827 0118 FFF7FEFF 		bl	UART_Debug_PutString
+ 308:ChipUpdate.c  **** 			UART_Debug_PutString(req_line_buf);
+ 828              		.loc 1 308 0
+ 829 011c 07F1D403 		add	r3, r7, #212
+ 830 0120 1846     		mov	r0, r3
+ 831 0122 FFF7FEFF 		bl	UART_Debug_PutString
+ 309:ChipUpdate.c  **** 			UART_Debug_PutString("\r\n");
+ 832              		.loc 1 309 0
+ 833 0126 9448     		ldr	r0, .L60+44
+ 834 0128 FFF7FEFF 		bl	UART_Debug_PutString
+ 310:ChipUpdate.c  **** 		}
+ 311:ChipUpdate.c  **** 
+ 312:ChipUpdate.c  **** 		return;
+ 835              		.loc 1 312 0
+ 836 012c 00BF     		nop
+ 837 012e 1BE2     		b	.L55
+ 838              	.L32:
+ 839              	.LBE8:
+ 313:ChipUpdate.c  **** 	}
+ 314:ChipUpdate.c  **** 
+ 315:ChipUpdate.c  **** 
+ 316:ChipUpdate.c  **** 	if(linux_line_num != fota_file_numbers){
+ 840              		.loc 1 316 0
+ 841 0130 924B     		ldr	r3, .L60+48
+ 842 0132 1B88     		ldrh	r3, [r3]
+ 843 0134 B7F84221 		ldrh	r2, [r7, #322]
+ 844 0138 9A42     		cmp	r2, r3
+ 845 013a 2ED0     		beq	.L35
+ 317:ChipUpdate.c  **** 		UART_Debug_PutString("REQUESTED_LINE_NUM >> FALSE\r\n"); // file number is wrong, request the sam
+ 846              		.loc 1 317 0
+ 847 013c 9048     		ldr	r0, .L60+52
+ 848 013e FFF7FEFF 		bl	UART_Debug_PutString
+ 318:ChipUpdate.c  **** //		led_set_color(RED);
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 23
+
+
+ 319:ChipUpdate.c  **** 		sprintf(req_line_buf,"{FOT_REQ}:{\"num\":\"%05d\"}\r\n",fota_row_counter + 1);
+ 849              		.loc 1 319 0
+ 850 0142 894B     		ldr	r3, .L60+28
+ 851 0144 1B88     		ldrh	r3, [r3]
+ 852 0146 5A1C     		adds	r2, r3, #1
+ 853 0148 07F1D403 		add	r3, r7, #212
+ 854 014c 8749     		ldr	r1, .L60+32
+ 855 014e 1846     		mov	r0, r3
+ 856 0150 FFF7FEFF 		bl	sprintf
+ 320:ChipUpdate.c  **** 		UART_Debug_PutString(req_line_buf);
+ 857              		.loc 1 320 0
+ 858 0154 07F1D403 		add	r3, r7, #212
+ 859 0158 1846     		mov	r0, r3
+ 860 015a FFF7FEFF 		bl	UART_Debug_PutString
+ 321:ChipUpdate.c  **** //		RGB_Color = 5;
+ 322:ChipUpdate.c  **** //		RGB_Color_Old = 5;
+ 323:ChipUpdate.c  **** //		RGB(RGB_Color); //Cypress run
+ 324:ChipUpdate.c  **** //		UART_Linux_PutString(req_line_buf);
+ 325:ChipUpdate.c  **** 		if(!q_put_message(&_Queue_Send, req_line_buf, strlen(req_line_buf) + 1)){
+ 861              		.loc 1 325 0
+ 862 015e 07F1D403 		add	r3, r7, #212
+ 863 0162 1846     		mov	r0, r3
+ 864 0164 FFF7FEFF 		bl	strlen
+ 865 0168 0346     		mov	r3, r0
+ 866 016a 0133     		adds	r3, r3, #1
+ 867 016c 1A46     		mov	r2, r3
+ 868 016e 07F1D403 		add	r3, r7, #212
+ 869 0172 1946     		mov	r1, r3
+ 870 0174 7E48     		ldr	r0, .L60+36
+ 871 0176 FFF7FEFF 		bl	q_put_message
+ 872 017a 0346     		mov	r3, r0
+ 873 017c 002B     		cmp	r3, #0
+ 874 017e 40F0F581 		bne	.L56
+ 326:ChipUpdate.c  **** 			UART_Debug_PutString("update_procedure >> failed to put to _Queue_Send >> ");
+ 875              		.loc 1 326 0
+ 876 0182 7C48     		ldr	r0, .L60+40
+ 877 0184 FFF7FEFF 		bl	UART_Debug_PutString
+ 327:ChipUpdate.c  **** 			UART_Debug_PutString(req_line_buf);
+ 878              		.loc 1 327 0
+ 879 0188 07F1D403 		add	r3, r7, #212
+ 880 018c 1846     		mov	r0, r3
+ 881 018e FFF7FEFF 		bl	UART_Debug_PutString
+ 328:ChipUpdate.c  **** 			UART_Debug_PutString("\r\n");
+ 882              		.loc 1 328 0
+ 883 0192 7948     		ldr	r0, .L60+44
+ 884 0194 FFF7FEFF 		bl	UART_Debug_PutString
+ 329:ChipUpdate.c  **** 		}
+ 330:ChipUpdate.c  **** 
+ 331:ChipUpdate.c  **** 
+ 332:ChipUpdate.c  **** 		return;
+ 885              		.loc 1 332 0
+ 886 0198 E8E1     		b	.L56
+ 887              	.L35:
+ 333:ChipUpdate.c  **** 	}
+ 334:ChipUpdate.c  **** 	else{
+ 335:ChipUpdate.c  **** 		// UART_Debug_PutString("REQUESTED_LINE_NUM >> TRUE\r\n", 0);
+ 336:ChipUpdate.c  **** //		led_set_color(OFF);
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 24
+
+
+ 337:ChipUpdate.c  **** 	}
+ 338:ChipUpdate.c  **** 
+ 339:ChipUpdate.c  **** //	UART_Debug_PutString(linux_update_data);
+ 340:ChipUpdate.c  **** //	UART_Debug_PutString("\r\n");
+ 341:ChipUpdate.c  **** 	// convert a couple of FOTA data characters to a single byte
+ 342:ChipUpdate.c  **** 	fota_data_index = 0;
+ 888              		.loc 1 342 0
+ 889 019a 7A4B     		ldr	r3, .L60+56
+ 890 019c 0022     		movs	r2, #0
+ 891 019e 1A80     		strh	r2, [r3]	@ movhi
+ 343:ChipUpdate.c  **** 
+ 344:ChipUpdate.c  **** 	if(strlen(linux_update_data) % 2 == 0){
+ 892              		.loc 1 344 0
+ 893 01a0 D7F83C01 		ldr	r0, [r7, #316]
+ 894 01a4 FFF7FEFF 		bl	strlen
+ 895 01a8 0346     		mov	r3, r0
+ 896 01aa 03F00103 		and	r3, r3, #1
+ 897 01ae 002B     		cmp	r3, #0
+ 898 01b0 45D1     		bne	.L37
+ 899              	.LBB9:
+ 345:ChipUpdate.c  **** 		for (uint32_t i = 0; i < strlen(linux_update_data); i++){
+ 900              		.loc 1 345 0
+ 901 01b2 0023     		movs	r3, #0
+ 902 01b4 C7F84C31 		str	r3, [r7, #332]
+ 903 01b8 37E0     		b	.L38
+ 904              	.L40:
+ 346:ChipUpdate.c  **** 			CyWdtClear();
+ 905              		.loc 1 346 0
+ 906 01ba FFF7FEFF 		bl	CyWdtClear
+ 347:ChipUpdate.c  **** 
+ 348:ChipUpdate.c  **** 			int_byte = (int_byte << 4) | df_hexstring_hex(linux_update_data[i]);
+ 907              		.loc 1 348 0
+ 908 01be 724B     		ldr	r3, .L60+60
+ 909 01c0 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 910 01c2 1B01     		lsls	r3, r3, #4
+ 911 01c4 5CB2     		sxtb	r4, r3
+ 912 01c6 D7F83C21 		ldr	r2, [r7, #316]
+ 913 01ca D7F84C31 		ldr	r3, [r7, #332]
+ 914 01ce 1344     		add	r3, r3, r2
+ 915 01d0 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 916 01d2 1846     		mov	r0, r3
+ 917 01d4 FFF7FEFF 		bl	df_hexstring_hex
+ 918 01d8 0346     		mov	r3, r0
+ 919 01da 5BB2     		sxtb	r3, r3
+ 920 01dc 2343     		orrs	r3, r3, r4
+ 921 01de 5BB2     		sxtb	r3, r3
+ 922 01e0 DAB2     		uxtb	r2, r3
+ 923 01e2 694B     		ldr	r3, .L60+60
+ 924 01e4 1A70     		strb	r2, [r3]
+ 349:ChipUpdate.c  **** 			int_byte_ctr++;
+ 925              		.loc 1 349 0
+ 926 01e6 694B     		ldr	r3, .L60+64
+ 927 01e8 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 928 01ea 0133     		adds	r3, r3, #1
+ 929 01ec DAB2     		uxtb	r2, r3
+ 930 01ee 674B     		ldr	r3, .L60+64
+ 931 01f0 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 25
+
+
+ 350:ChipUpdate.c  **** 			if(int_byte_ctr == 2){
+ 932              		.loc 1 350 0
+ 933 01f2 664B     		ldr	r3, .L60+64
+ 934 01f4 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 935 01f6 022B     		cmp	r3, #2
+ 936 01f8 12D1     		bne	.L39
+ 351:ChipUpdate.c  **** 				fota_data_bytes[fota_data_index] = int_byte;
+ 937              		.loc 1 351 0
+ 938 01fa 624B     		ldr	r3, .L60+56
+ 939 01fc 1B88     		ldrh	r3, [r3]
+ 940 01fe 1A46     		mov	r2, r3
+ 941 0200 614B     		ldr	r3, .L60+60
+ 942 0202 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+ 943 0204 624B     		ldr	r3, .L60+68
+ 944 0206 9954     		strb	r1, [r3, r2]
+ 352:ChipUpdate.c  **** 				fota_data_index++;
+ 945              		.loc 1 352 0
+ 946 0208 5E4B     		ldr	r3, .L60+56
+ 947 020a 1B88     		ldrh	r3, [r3]
+ 948 020c 0133     		adds	r3, r3, #1
+ 949 020e 9AB2     		uxth	r2, r3
+ 950 0210 5C4B     		ldr	r3, .L60+56
+ 951 0212 1A80     		strh	r2, [r3]	@ movhi
+ 353:ChipUpdate.c  **** 				int_byte = 0;
+ 952              		.loc 1 353 0
+ 953 0214 5C4B     		ldr	r3, .L60+60
+ 954 0216 0022     		movs	r2, #0
+ 955 0218 1A70     		strb	r2, [r3]
+ 354:ChipUpdate.c  **** 				int_byte_ctr = 0;
+ 956              		.loc 1 354 0
+ 957 021a 5C4B     		ldr	r3, .L60+64
+ 958 021c 0022     		movs	r2, #0
+ 959 021e 1A70     		strb	r2, [r3]
+ 960              	.L39:
+ 345:ChipUpdate.c  **** 			CyWdtClear();
+ 961              		.loc 1 345 0 discriminator 2
+ 962 0220 D7F84C31 		ldr	r3, [r7, #332]
+ 963 0224 0133     		adds	r3, r3, #1
+ 964 0226 C7F84C31 		str	r3, [r7, #332]
+ 965              	.L38:
+ 345:ChipUpdate.c  **** 			CyWdtClear();
+ 966              		.loc 1 345 0 is_stmt 0 discriminator 1
+ 967 022a D7F83C01 		ldr	r0, [r7, #316]
+ 968 022e FFF7FEFF 		bl	strlen
+ 969 0232 0246     		mov	r2, r0
+ 970 0234 D7F84C31 		ldr	r3, [r7, #332]
+ 971 0238 9A42     		cmp	r2, r3
+ 972 023a BED8     		bhi	.L40
+ 973 023c 2EE0     		b	.L53
+ 974              	.L37:
+ 975              	.LBE9:
+ 355:ChipUpdate.c  **** 			}
+ 356:ChipUpdate.c  **** 		}
+ 357:ChipUpdate.c  **** 	}
+ 358:ChipUpdate.c  **** 	else{
+ 359:ChipUpdate.c  **** 		UART_Debug_PutString("update_procedure >> wrong data >> odd \r\n");
+ 976              		.loc 1 359 0 is_stmt 1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 26
+
+
+ 977 023e 5548     		ldr	r0, .L60+72
+ 978 0240 FFF7FEFF 		bl	UART_Debug_PutString
+ 360:ChipUpdate.c  **** 		sprintf(req_line_buf,"{FOT_REQ}:{\"num\":\"%05d\"}\r\n",fota_row_counter + 1);
+ 979              		.loc 1 360 0
+ 980 0244 484B     		ldr	r3, .L60+28
+ 981 0246 1B88     		ldrh	r3, [r3]
+ 982 0248 5A1C     		adds	r2, r3, #1
+ 983 024a 07F1D403 		add	r3, r7, #212
+ 984 024e 4749     		ldr	r1, .L60+32
+ 985 0250 1846     		mov	r0, r3
+ 986 0252 FFF7FEFF 		bl	sprintf
+ 361:ChipUpdate.c  **** 		UART_Debug_PutString(req_line_buf);
+ 987              		.loc 1 361 0
+ 988 0256 07F1D403 		add	r3, r7, #212
+ 989 025a 1846     		mov	r0, r3
+ 990 025c FFF7FEFF 		bl	UART_Debug_PutString
+ 362:ChipUpdate.c  **** //		RGB_Color = 5;
+ 363:ChipUpdate.c  **** //		RGB_Color_Old = 5;
+ 364:ChipUpdate.c  **** //		RGB(RGB_Color); //Cypress run
+ 365:ChipUpdate.c  **** //		UART_Linux_PutString(req_line_buf);
+ 366:ChipUpdate.c  **** 		if(!q_put_message(&_Queue_Send, req_line_buf, strlen(req_line_buf) + 1)){
+ 991              		.loc 1 366 0
+ 992 0260 07F1D403 		add	r3, r7, #212
+ 993 0264 1846     		mov	r0, r3
+ 994 0266 FFF7FEFF 		bl	strlen
+ 995 026a 0346     		mov	r3, r0
+ 996 026c 0133     		adds	r3, r3, #1
+ 997 026e 1A46     		mov	r2, r3
+ 998 0270 07F1D403 		add	r3, r7, #212
+ 999 0274 1946     		mov	r1, r3
+ 1000 0276 3E48     		ldr	r0, .L60+36
+ 1001 0278 FFF7FEFF 		bl	q_put_message
+ 1002 027c 0346     		mov	r3, r0
+ 1003 027e 002B     		cmp	r3, #0
+ 1004 0280 40F07681 		bne	.L57
+ 367:ChipUpdate.c  **** 			UART_Debug_PutString("update_procedure >> failed to put to _Queue_Send >> ");
+ 1005              		.loc 1 367 0
+ 1006 0284 3B48     		ldr	r0, .L60+40
+ 1007 0286 FFF7FEFF 		bl	UART_Debug_PutString
+ 368:ChipUpdate.c  **** 			UART_Debug_PutString(req_line_buf);
+ 1008              		.loc 1 368 0
+ 1009 028a 07F1D403 		add	r3, r7, #212
+ 1010 028e 1846     		mov	r0, r3
+ 1011 0290 FFF7FEFF 		bl	UART_Debug_PutString
+ 369:ChipUpdate.c  **** 			UART_Debug_PutString("\r\n");
+ 1012              		.loc 1 369 0
+ 1013 0294 3848     		ldr	r0, .L60+44
+ 1014 0296 FFF7FEFF 		bl	UART_Debug_PutString
+ 370:ChipUpdate.c  **** 		}
+ 371:ChipUpdate.c  **** 		return;
+ 1015              		.loc 1 371 0
+ 1016 029a 69E1     		b	.L57
+ 1017              	.L53:
+ 372:ChipUpdate.c  **** 	}
+ 373:ChipUpdate.c  **** 
+ 374:ChipUpdate.c  **** 	// ##################################################
+ 375:ChipUpdate.c  **** 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 27
+
+
+ 376:ChipUpdate.c  ****     char data[100];
+ 377:ChipUpdate.c  ****     if(!internal_flash_write_row()){
+ 1018              		.loc 1 377 0
+ 1019 029c FFF7FEFF 		bl	internal_flash_write_row
+ 1020 02a0 0346     		mov	r3, r0
+ 1021 02a2 002B     		cmp	r3, #0
+ 1022 02a4 22D1     		bne	.L43
+ 378:ChipUpdate.c  **** //        led_set_color(StripLights_OFF);
+ 379:ChipUpdate.c  ****         fota_row_counter++;
+ 1023              		.loc 1 379 0
+ 1024 02a6 304B     		ldr	r3, .L60+28
+ 1025 02a8 1B88     		ldrh	r3, [r3]
+ 1026 02aa 0133     		adds	r3, r3, #1
+ 1027 02ac 9AB2     		uxth	r2, r3
+ 1028 02ae 2E4B     		ldr	r3, .L60+28
+ 1029 02b0 1A80     		strh	r2, [r3]	@ movhi
+ 380:ChipUpdate.c  ****         sprintf(data, "proc_Gw_fota_procedure >> written line: %d/%d\r\n", fota_row_counter, server
+ 1030              		.loc 1 380 0
+ 1031 02b2 2D4B     		ldr	r3, .L60+28
+ 1032 02b4 1B88     		ldrh	r3, [r3]
+ 1033 02b6 1A46     		mov	r2, r3
+ 1034 02b8 374B     		ldr	r3, .L60+76
+ 1035 02ba 1B88     		ldrh	r3, [r3]
+ 1036 02bc 07F17000 		add	r0, r7, #112
+ 1037 02c0 3649     		ldr	r1, .L60+80
+ 1038 02c2 FFF7FEFF 		bl	sprintf
+ 381:ChipUpdate.c  ****         UART_Debug_PutString(data);
+ 1039              		.loc 1 381 0
+ 1040 02c6 07F17003 		add	r3, r7, #112
+ 1041 02ca 1846     		mov	r0, r3
+ 1042 02cc FFF7FEFF 		bl	UART_Debug_PutString
+ 382:ChipUpdate.c  ****     }
+ 383:ChipUpdate.c  ****     else{
+ 384:ChipUpdate.c  ****         UART_Debug_PutString("update_procedure >> wrong data >> odd 2\r\n");
+ 385:ChipUpdate.c  **** 		sprintf(req_line_buf,"{FOT_REQ}:{\"num\":\"%05d\"}\r\n",fota_row_counter + 1);
+ 386:ChipUpdate.c  **** 		UART_Debug_PutString(req_line_buf);
+ 387:ChipUpdate.c  **** //		RGB_Color = 5;
+ 388:ChipUpdate.c  **** //		RGB_Color_Old = 5;
+ 389:ChipUpdate.c  **** //		RGB(RGB_Color); //Cypress run
+ 390:ChipUpdate.c  **** //		UART_Linux_PutString(req_line_buf);
+ 391:ChipUpdate.c  **** 		if(!q_put_message(&_Queue_Send, req_line_buf, strlen(req_line_buf) + 1)){
+ 392:ChipUpdate.c  **** 			UART_Debug_PutString("update_procedure >> failed to put to _Queue_Send >> ");
+ 393:ChipUpdate.c  **** 			UART_Debug_PutString(req_line_buf);
+ 394:ChipUpdate.c  **** 			UART_Debug_PutString("\r\n");
+ 395:ChipUpdate.c  **** 		}
+ 396:ChipUpdate.c  **** 		return;
+ 397:ChipUpdate.c  ****     }
+ 398:ChipUpdate.c  ****     
+ 399:ChipUpdate.c  ****     /*
+ 400:ChipUpdate.c  **** 	if(strlen(linux_update_data) % 2 == 0 && (strlen(linux_update_data) / 2) % 2 == 0){
+ 401:ChipUpdate.c  **** 		for(uint16_t k = 0; k < strlen(linux_update_data) / 2 ; k = k + 4){
+ 402:ChipUpdate.c  **** 			// must check size of FOTA Data and External E2 to change the Address if needed.
+ 403:ChipUpdate.c  **** 			CyWdtClear();
+ 404:ChipUpdate.c  **** 
+ 405:ChipUpdate.c  **** 			uint32_t four_bytes = fota_data_bytes[k + 3] << 24 | fota_data_bytes[k + 2] << 16 | fota_data_by
+ 406:ChipUpdate.c  **** 
+ 407:ChipUpdate.c  **** 			internal_flash_write_byte(IE2_FOTA_START_ADDRESS + data_index + k, four_bytes);
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 28
+
+
+ 408:ChipUpdate.c  **** 
+ 409:ChipUpdate.c  **** 		}
+ 410:ChipUpdate.c  **** 	}
+ 411:ChipUpdate.c  **** 	else{
+ 412:ChipUpdate.c  **** 		UART_Debug_PutString("update_procedure >> wrong data >> odd 2\r\n");
+ 413:ChipUpdate.c  **** 		sprintf(req_line_buf,"{FOT_REQ}:{\"num\":\"%05d\"}\r\n",fota_row_counter + 1);
+ 414:ChipUpdate.c  **** 		UART_Debug_PutString(req_line_buf);
+ 415:ChipUpdate.c  **** //		RGB_Color = 5;
+ 416:ChipUpdate.c  **** //		RGB_Color_Old = 5;
+ 417:ChipUpdate.c  **** //		RGB(RGB_Color); //Cypress run
+ 418:ChipUpdate.c  **** //		UART_Linux_PutString(req_line_buf);
+ 419:ChipUpdate.c  **** 		if(!q_put_message(&_Queue_Send, req_line_buf, strlen(req_line_buf) + 1)){
+ 420:ChipUpdate.c  **** 			UART_Debug_PutString("update_procedure >> failed to put to _Queue_Send >> ");
+ 421:ChipUpdate.c  **** 			UART_Debug_PutString(req_line_buf);
+ 422:ChipUpdate.c  **** 			UART_Debug_PutString("\r\n");
+ 423:ChipUpdate.c  **** 		}
+ 424:ChipUpdate.c  **** 		return;
+ 425:ChipUpdate.c  **** 	}
+ 426:ChipUpdate.c  **** 
+ 427:ChipUpdate.c  **** 	data_index += (strlen(linux_update_data) / 2);
+ 428:ChipUpdate.c  ****     */
+ 429:ChipUpdate.c  **** 
+ 430:ChipUpdate.c  **** 	fota_row_counter++;
+ 1043              		.loc 1 430 0
+ 1044 02d0 254B     		ldr	r3, .L60+28
+ 1045 02d2 1B88     		ldrh	r3, [r3]
+ 1046 02d4 0133     		adds	r3, r3, #1
+ 1047 02d6 9AB2     		uxth	r2, r3
+ 1048 02d8 234B     		ldr	r3, .L60+28
+ 1049 02da 1A80     		strh	r2, [r3]	@ movhi
+ 431:ChipUpdate.c  **** 
+ 432:ChipUpdate.c  **** 	// ##################################################
+ 433:ChipUpdate.c  **** 
+ 434:ChipUpdate.c  **** 	if(fota_row_counter == server_fota_file_numbers){
+ 1050              		.loc 1 434 0
+ 1051 02dc 224B     		ldr	r3, .L60+28
+ 1052 02de 1A88     		ldrh	r2, [r3]
+ 1053 02e0 2F4B     		ldr	r3, .L60+84
+ 1054 02e2 1B88     		ldrh	r3, [r3]
+ 1055 02e4 9A42     		cmp	r2, r3
+ 1056 02e6 40F0AB80 		bne	.L46
+ 1057 02ea 5DE0     		b	.L54
+ 1058              	.L43:
+ 384:ChipUpdate.c  **** 		sprintf(req_line_buf,"{FOT_REQ}:{\"num\":\"%05d\"}\r\n",fota_row_counter + 1);
+ 1059              		.loc 1 384 0
+ 1060 02ec 2D48     		ldr	r0, .L60+88
+ 1061 02ee FFF7FEFF 		bl	UART_Debug_PutString
+ 385:ChipUpdate.c  **** 		UART_Debug_PutString(req_line_buf);
+ 1062              		.loc 1 385 0
+ 1063 02f2 1D4B     		ldr	r3, .L60+28
+ 1064 02f4 1B88     		ldrh	r3, [r3]
+ 1065 02f6 5A1C     		adds	r2, r3, #1
+ 1066 02f8 07F1D403 		add	r3, r7, #212
+ 1067 02fc 1B49     		ldr	r1, .L60+32
+ 1068 02fe 1846     		mov	r0, r3
+ 1069 0300 FFF7FEFF 		bl	sprintf
+ 386:ChipUpdate.c  **** //		RGB_Color = 5;
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 29
+
+
+ 1070              		.loc 1 386 0
+ 1071 0304 07F1D403 		add	r3, r7, #212
+ 1072 0308 1846     		mov	r0, r3
+ 1073 030a FFF7FEFF 		bl	UART_Debug_PutString
+ 391:ChipUpdate.c  **** 			UART_Debug_PutString("update_procedure >> failed to put to _Queue_Send >> ");
+ 1074              		.loc 1 391 0
+ 1075 030e 07F1D403 		add	r3, r7, #212
+ 1076 0312 1846     		mov	r0, r3
+ 1077 0314 FFF7FEFF 		bl	strlen
+ 1078 0318 0346     		mov	r3, r0
+ 1079 031a 0133     		adds	r3, r3, #1
+ 1080 031c 1A46     		mov	r2, r3
+ 1081 031e 07F1D403 		add	r3, r7, #212
+ 1082 0322 1946     		mov	r1, r3
+ 1083 0324 1248     		ldr	r0, .L60+36
+ 1084 0326 FFF7FEFF 		bl	q_put_message
+ 1085 032a 0346     		mov	r3, r0
+ 1086 032c 002B     		cmp	r3, #0
+ 1087 032e 40F02181 		bne	.L58
+ 392:ChipUpdate.c  **** 			UART_Debug_PutString(req_line_buf);
+ 1088              		.loc 1 392 0
+ 1089 0332 1048     		ldr	r0, .L60+40
+ 1090 0334 FFF7FEFF 		bl	UART_Debug_PutString
+ 393:ChipUpdate.c  **** 			UART_Debug_PutString("\r\n");
+ 1091              		.loc 1 393 0
+ 1092 0338 07F1D403 		add	r3, r7, #212
+ 1093 033c 1846     		mov	r0, r3
+ 1094 033e FFF7FEFF 		bl	UART_Debug_PutString
+ 394:ChipUpdate.c  **** 		}
+ 1095              		.loc 1 394 0
+ 1096 0342 0D48     		ldr	r0, .L60+44
+ 1097 0344 FFF7FEFF 		bl	UART_Debug_PutString
+ 396:ChipUpdate.c  ****     }
+ 1098              		.loc 1 396 0
+ 1099 0348 14E1     		b	.L58
+ 1100              	.L61:
+ 1101 034a 00BF     		.align	2
+ 1102              	.L60:
+ 1103 034c 80000000 		.word	.LC5
+ 1104 0350 84000000 		.word	.LC6
+ 1105 0354 88000000 		.word	.LC7
+ 1106 0358 8C000000 		.word	.LC8
+ 1107 035c 20020000 		.word	.LC18
+ 1108 0360 90000000 		.word	.LC9
+ 1109 0364 24020000 		.word	.LC19
+ 1110 0368 00000000 		.word	fota_row_counter
+ 1111 036c 54020000 		.word	.LC20
+ 1112 0370 00000000 		.word	_Queue_Send
+ 1113 0374 64010000 		.word	.LC14
+ 1114 0378 7C000000 		.word	.LC4
+ 1115 037c 00000000 		.word	fota_file_numbers
+ 1116 0380 70020000 		.word	.LC21
+ 1117 0384 00000000 		.word	fota_data_index
+ 1118 0388 00000000 		.word	int_byte
+ 1119 038c 00000000 		.word	int_byte_ctr
+ 1120 0390 00000000 		.word	fota_data_bytes
+ 1121 0394 90020000 		.word	.LC22
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 30
+
+
+ 1122 0398 00000000 		.word	server_fota_App_lines
+ 1123 039c BC020000 		.word	.LC23
+ 1124 03a0 00000000 		.word	server_fota_file_numbers
+ 1125 03a4 EC020000 		.word	.LC24
+ 1126              	.L54:
+ 435:ChipUpdate.c  **** 
+ 436:ChipUpdate.c  **** //		led_set_color(BLU);
+ 437:ChipUpdate.c  **** //	    OS_TIMER_Stop(&Timer_Update);
+ 438:ChipUpdate.c  **** 
+ 439:ChipUpdate.c  **** 		fota_row_sequence = 0;
+ 1127              		.loc 1 439 0
+ 1128 03a8 764B     		ldr	r3, .L62
+ 1129 03aa 0022     		movs	r2, #0
+ 1130 03ac 1A80     		strh	r2, [r3]	@ movhi
+ 440:ChipUpdate.c  **** 		fota_row_counter = 0;
+ 1131              		.loc 1 440 0
+ 1132 03ae 764B     		ldr	r3, .L62+4
+ 1133 03b0 0022     		movs	r2, #0
+ 1134 03b2 1A80     		strh	r2, [r3]	@ movhi
+ 441:ChipUpdate.c  **** 
+ 442:ChipUpdate.c  **** 		// set FOTA FLAG to E2PROM for Bootloader and Reset Application and go to Bootloader Mode
+ 443:ChipUpdate.c  **** //		ee2_write_byte(EE2_1_CHIP_ADDR, FOTA_START, EE2_Loc_FOTA_STATUS);
+ 444:ChipUpdate.c  **** //		ee2_write_byte(EE2_1_CHIP_ADDR, server_fota_App_CRC >> 0, EE2_Loc_FOTA_CRC_BYTE0);
+ 445:ChipUpdate.c  **** //		ee2_write_byte(EE2_1_CHIP_ADDR, server_fota_App_CRC >> 8, EE2_Loc_FOTA_CRC_BYTE1);
+ 446:ChipUpdate.c  **** //		ee2_write_byte(EE2_1_CHIP_ADDR, server_fota_App_CRC >> 16, EE2_Loc_FOTA_CRC_BYTE2);
+ 447:ChipUpdate.c  **** //		ee2_write_byte(EE2_1_CHIP_ADDR, server_fota_App_CRC >> 24, EE2_Loc_FOTA_CRC_BYTE3);
+ 448:ChipUpdate.c  **** //
+ 449:ChipUpdate.c  **** //		ee2_write_byte(EE2_1_CHIP_ADDR, server_fota_App_size >> 0, EE2_Loc_FOTA_App_SIZE_BYTE0);
+ 450:ChipUpdate.c  **** //		ee2_write_byte(EE2_1_CHIP_ADDR, server_fota_App_size >> 8, EE2_Loc_FOTA_App_SIZE_BYTE1);
+ 451:ChipUpdate.c  **** //		ee2_write_byte(EE2_1_CHIP_ADDR, server_fota_App_size >> 16, EE2_Loc_FOTA_App_SIZE_BYTE2);
+ 452:ChipUpdate.c  **** //		ee2_write_byte(EE2_1_CHIP_ADDR, server_fota_App_size >> 24, EE2_Loc_FOTA_App_SIZE_BYTE3);
+ 453:ChipUpdate.c  **** 
+ 454:ChipUpdate.c  **** //		UART_Debug_PutString("{SET_FOT}:{\"status\":\"install\"}\r\n");
+ 455:ChipUpdate.c  **** //		UART_Linux_PutString("{SET_FOT}:{\"status\":\"install\"}\r\n");
+ 456:ChipUpdate.c  ****         
+ 457:ChipUpdate.c  ****         ie2_write_byte(FOTA_START, IE2_Loc_FOTA_STATUS);
+ 1135              		.loc 1 457 0
+ 1136 03b4 7021     		movs	r1, #112
+ 1137 03b6 0120     		movs	r0, #1
+ 1138 03b8 FFF7FEFF 		bl	ie2_write_byte
+ 458:ChipUpdate.c  ****         ie2_write_byte(server_fota_App_CRC >> 0, IE2_Loc_FOTA_CRC_BYTE0);
+ 1139              		.loc 1 458 0
+ 1140 03bc 734B     		ldr	r3, .L62+8
+ 1141 03be 1B68     		ldr	r3, [r3]
+ 1142 03c0 DBB2     		uxtb	r3, r3
+ 1143 03c2 7121     		movs	r1, #113
+ 1144 03c4 1846     		mov	r0, r3
+ 1145 03c6 FFF7FEFF 		bl	ie2_write_byte
+ 459:ChipUpdate.c  ****         ie2_write_byte(server_fota_App_CRC >> 8, IE2_Loc_FOTA_CRC_BYTE1);
+ 1146              		.loc 1 459 0
+ 1147 03ca 704B     		ldr	r3, .L62+8
+ 1148 03cc 1B68     		ldr	r3, [r3]
+ 1149 03ce 1B0A     		lsrs	r3, r3, #8
+ 1150 03d0 DBB2     		uxtb	r3, r3
+ 1151 03d2 7221     		movs	r1, #114
+ 1152 03d4 1846     		mov	r0, r3
+ 1153 03d6 FFF7FEFF 		bl	ie2_write_byte
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 31
+
+
+ 460:ChipUpdate.c  ****         ie2_write_byte(server_fota_App_CRC >> 16, IE2_Loc_FOTA_CRC_BYTE2);
+ 1154              		.loc 1 460 0
+ 1155 03da 6C4B     		ldr	r3, .L62+8
+ 1156 03dc 1B68     		ldr	r3, [r3]
+ 1157 03de 1B0C     		lsrs	r3, r3, #16
+ 1158 03e0 DBB2     		uxtb	r3, r3
+ 1159 03e2 7321     		movs	r1, #115
+ 1160 03e4 1846     		mov	r0, r3
+ 1161 03e6 FFF7FEFF 		bl	ie2_write_byte
+ 461:ChipUpdate.c  ****         ie2_write_byte(server_fota_App_CRC >> 24, IE2_Loc_FOTA_CRC_BYTE3);
+ 1162              		.loc 1 461 0
+ 1163 03ea 684B     		ldr	r3, .L62+8
+ 1164 03ec 1B68     		ldr	r3, [r3]
+ 1165 03ee 1B0E     		lsrs	r3, r3, #24
+ 1166 03f0 DBB2     		uxtb	r3, r3
+ 1167 03f2 7421     		movs	r1, #116
+ 1168 03f4 1846     		mov	r0, r3
+ 1169 03f6 FFF7FEFF 		bl	ie2_write_byte
+ 462:ChipUpdate.c  ****         ie2_write_byte(server_fota_App_size >> 0, IE2_Loc_FOTA_App_SIZE_BYTE0);
+ 1170              		.loc 1 462 0
+ 1171 03fa 654B     		ldr	r3, .L62+12
+ 1172 03fc 1B68     		ldr	r3, [r3]
+ 1173 03fe DBB2     		uxtb	r3, r3
+ 1174 0400 7521     		movs	r1, #117
+ 1175 0402 1846     		mov	r0, r3
+ 1176 0404 FFF7FEFF 		bl	ie2_write_byte
+ 463:ChipUpdate.c  ****         ie2_write_byte(server_fota_App_size >> 8, IE2_Loc_FOTA_App_SIZE_BYTE1);
+ 1177              		.loc 1 463 0
+ 1178 0408 614B     		ldr	r3, .L62+12
+ 1179 040a 1B68     		ldr	r3, [r3]
+ 1180 040c 1B0A     		lsrs	r3, r3, #8
+ 1181 040e DBB2     		uxtb	r3, r3
+ 1182 0410 7621     		movs	r1, #118
+ 1183 0412 1846     		mov	r0, r3
+ 1184 0414 FFF7FEFF 		bl	ie2_write_byte
+ 464:ChipUpdate.c  ****         ie2_write_byte(server_fota_App_size >> 16, IE2_Loc_FOTA_App_SIZE_BYTE2);
+ 1185              		.loc 1 464 0
+ 1186 0418 5D4B     		ldr	r3, .L62+12
+ 1187 041a 1B68     		ldr	r3, [r3]
+ 1188 041c 1B0C     		lsrs	r3, r3, #16
+ 1189 041e DBB2     		uxtb	r3, r3
+ 1190 0420 7721     		movs	r1, #119
+ 1191 0422 1846     		mov	r0, r3
+ 1192 0424 FFF7FEFF 		bl	ie2_write_byte
+ 465:ChipUpdate.c  ****         ie2_write_byte(server_fota_App_size >> 24, IE2_Loc_FOTA_App_SIZE_BYTE3);
+ 1193              		.loc 1 465 0
+ 1194 0428 594B     		ldr	r3, .L62+12
+ 1195 042a 1B68     		ldr	r3, [r3]
+ 1196 042c 1B0E     		lsrs	r3, r3, #24
+ 1197 042e DBB2     		uxtb	r3, r3
+ 1198 0430 7821     		movs	r1, #120
+ 1199 0432 1846     		mov	r0, r3
+ 1200 0434 FFF7FEFF 		bl	ie2_write_byte
+ 466:ChipUpdate.c  **** 
+ 467:ChipUpdate.c  **** 		proc_reset_chip(Reset_Code_FOTA_Done);
+ 1201              		.loc 1 467 0
+ 1202 0438 0220     		movs	r0, #2
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 32
+
+
+ 1203 043a FFF7FEFF 		bl	proc_reset_chip
+ 468:ChipUpdate.c  **** 
+ 469:ChipUpdate.c  **** 		return;
+ 1204              		.loc 1 469 0
+ 1205 043e 9CE0     		b	.L31
+ 1206              	.L46:
+ 470:ChipUpdate.c  **** 	}
+ 471:ChipUpdate.c  **** 
+ 472:ChipUpdate.c  **** 	if(fota_file_numbers != server_fota_file_numbers){
+ 1207              		.loc 1 472 0
+ 1208 0440 544B     		ldr	r3, .L62+16
+ 1209 0442 1A88     		ldrh	r2, [r3]
+ 1210 0444 544B     		ldr	r3, .L62+20
+ 1211 0446 1B88     		ldrh	r3, [r3]
+ 1212 0448 9A42     		cmp	r2, r3
+ 1213 044a 00F09580 		beq	.L59
+ 1214              	.LBB10:
+ 473:ChipUpdate.c  **** 		fota_file_numbers++;
+ 1215              		.loc 1 473 0
+ 1216 044e 514B     		ldr	r3, .L62+16
+ 1217 0450 1B88     		ldrh	r3, [r3]
+ 1218 0452 0133     		adds	r3, r3, #1
+ 1219 0454 9AB2     		uxth	r2, r3
+ 1220 0456 4F4B     		ldr	r3, .L62+16
+ 1221 0458 1A80     		strh	r2, [r3]	@ movhi
+ 474:ChipUpdate.c  **** //		led_set_color(GRE);
+ 475:ChipUpdate.c  **** 
+ 476:ChipUpdate.c  **** 		sprintf(req_line_buf,"{FOT_REQ}:{\"num\":\"%05d\"}\r\n",fota_file_numbers);
+ 1222              		.loc 1 476 0
+ 1223 045a 4E4B     		ldr	r3, .L62+16
+ 1224 045c 1B88     		ldrh	r3, [r3]
+ 1225 045e 1A46     		mov	r2, r3
+ 1226 0460 07F1D403 		add	r3, r7, #212
+ 1227 0464 4D49     		ldr	r1, .L62+24
+ 1228 0466 1846     		mov	r0, r3
+ 1229 0468 FFF7FEFF 		bl	sprintf
+ 477:ChipUpdate.c  **** 
+ 478:ChipUpdate.c  **** 
+ 479:ChipUpdate.c  **** 		uint8_t percent = (((double)fota_file_numbers) / (double)server_fota_file_numbers) * 100;
+ 1230              		.loc 1 479 0
+ 1231 046c 494B     		ldr	r3, .L62+16
+ 1232 046e 1B88     		ldrh	r3, [r3]
+ 1233 0470 1846     		mov	r0, r3
+ 1234 0472 FFF7FEFF 		bl	__aeabi_ui2d
+ 1235 0476 0446     		mov	r4, r0
+ 1236 0478 0D46     		mov	r5, r1
+ 1237 047a 474B     		ldr	r3, .L62+20
+ 1238 047c 1B88     		ldrh	r3, [r3]
+ 1239 047e 1846     		mov	r0, r3
+ 1240 0480 FFF7FEFF 		bl	__aeabi_ui2d
+ 1241 0484 0246     		mov	r2, r0
+ 1242 0486 0B46     		mov	r3, r1
+ 1243 0488 2046     		mov	r0, r4
+ 1244 048a 2946     		mov	r1, r5
+ 1245 048c FFF7FEFF 		bl	__aeabi_ddiv
+ 1246 0490 0346     		mov	r3, r0
+ 1247 0492 0C46     		mov	r4, r1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 33
+
+
+ 1248 0494 1846     		mov	r0, r3
+ 1249 0496 2146     		mov	r1, r4
+ 1250 0498 4FF00002 		mov	r2, #0
+ 1251 049c 404B     		ldr	r3, .L62+28
+ 1252 049e FFF7FEFF 		bl	__aeabi_dmul
+ 1253 04a2 0346     		mov	r3, r0
+ 1254 04a4 0C46     		mov	r4, r1
+ 1255 04a6 1846     		mov	r0, r3
+ 1256 04a8 2146     		mov	r1, r4
+ 1257 04aa FFF7FEFF 		bl	__aeabi_d2uiz
+ 1258 04ae 0346     		mov	r3, r0
+ 1259 04b0 87F83A31 		strb	r3, [r7, #314]
+ 480:ChipUpdate.c  **** 		if(last_percent != percent){
+ 1260              		.loc 1 480 0
+ 1261 04b4 3B4B     		ldr	r3, .L62+32
+ 1262 04b6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1263 04b8 97F83A21 		ldrb	r2, [r7, #314]	@ zero_extendqisi2
+ 1264 04bc 9A42     		cmp	r2, r3
+ 1265 04be 17D0     		beq	.L48
+ 1266              	.LBB11:
+ 481:ChipUpdate.c  **** 			last_percent = percent;
+ 1267              		.loc 1 481 0
+ 1268 04c0 384A     		ldr	r2, .L62+32
+ 1269 04c2 97F83A31 		ldrb	r3, [r7, #314]
+ 1270 04c6 1370     		strb	r3, [r2]
+ 482:ChipUpdate.c  **** 			char data[100];
+ 483:ChipUpdate.c  **** 			sprintf(data, "update_procedure >> written lines : %d/%d\r\n", fota_row_counter, server_fota_fil
+ 1271              		.loc 1 483 0
+ 1272 04c8 2F4B     		ldr	r3, .L62+4
+ 1273 04ca 1B88     		ldrh	r3, [r3]
+ 1274 04cc 1A46     		mov	r2, r3
+ 1275 04ce 324B     		ldr	r3, .L62+20
+ 1276 04d0 1B88     		ldrh	r3, [r3]
+ 1277 04d2 07F10C00 		add	r0, r7, #12
+ 1278 04d6 3449     		ldr	r1, .L62+36
+ 1279 04d8 FFF7FEFF 		bl	sprintf
+ 484:ChipUpdate.c  **** 			UART_Debug_PutString(data);
+ 1280              		.loc 1 484 0
+ 1281 04dc 07F10C03 		add	r3, r7, #12
+ 1282 04e0 1846     		mov	r0, r3
+ 1283 04e2 FFF7FEFF 		bl	UART_Debug_PutString
+ 485:ChipUpdate.c  **** 			UART_Debug_PutString(req_line_buf);
+ 1284              		.loc 1 485 0
+ 1285 04e6 07F1D403 		add	r3, r7, #212
+ 1286 04ea 1846     		mov	r0, r3
+ 1287 04ec FFF7FEFF 		bl	UART_Debug_PutString
+ 1288              	.L48:
+ 1289              	.LBE11:
+ 486:ChipUpdate.c  **** 		}
+ 487:ChipUpdate.c  **** 
+ 488:ChipUpdate.c  **** 		if(percent % 2 == 0){
+ 1290              		.loc 1 488 0
+ 1291 04f0 97F83A31 		ldrb	r3, [r7, #314]
+ 1292 04f4 03F00103 		and	r3, r3, #1
+ 1293 04f8 DBB2     		uxtb	r3, r3
+ 1294 04fa 002B     		cmp	r3, #0
+ 1295 04fc 0BD1     		bne	.L49
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 34
+
+
+ 489:ChipUpdate.c  **** 			RGB_Color = 5;
+ 1296              		.loc 1 489 0
+ 1297 04fe 2B4B     		ldr	r3, .L62+40
+ 1298 0500 0522     		movs	r2, #5
+ 1299 0502 1A70     		strb	r2, [r3]
+ 490:ChipUpdate.c  **** 			RGB_Color_Old = 5;
+ 1300              		.loc 1 490 0
+ 1301 0504 2A4B     		ldr	r3, .L62+44
+ 1302 0506 0522     		movs	r2, #5
+ 1303 0508 1A70     		strb	r2, [r3]
+ 491:ChipUpdate.c  **** 			RGB(RGB_Color); //Cypress run
+ 1304              		.loc 1 491 0
+ 1305 050a 284B     		ldr	r3, .L62+40
+ 1306 050c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1307 050e 1846     		mov	r0, r3
+ 1308 0510 FFF7FEFF 		bl	RGB
+ 1309 0514 0AE0     		b	.L50
+ 1310              	.L49:
+ 492:ChipUpdate.c  **** 		}
+ 493:ChipUpdate.c  **** 		else{
+ 494:ChipUpdate.c  **** 			RGB_Color = 6;
+ 1311              		.loc 1 494 0
+ 1312 0516 254B     		ldr	r3, .L62+40
+ 1313 0518 0622     		movs	r2, #6
+ 1314 051a 1A70     		strb	r2, [r3]
+ 495:ChipUpdate.c  **** 			RGB_Color_Old = 6;
+ 1315              		.loc 1 495 0
+ 1316 051c 244B     		ldr	r3, .L62+44
+ 1317 051e 0622     		movs	r2, #6
+ 1318 0520 1A70     		strb	r2, [r3]
+ 496:ChipUpdate.c  **** 			RGB(RGB_Color); //Cypress run
+ 1319              		.loc 1 496 0
+ 1320 0522 224B     		ldr	r3, .L62+40
+ 1321 0524 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1322 0526 1846     		mov	r0, r3
+ 1323 0528 FFF7FEFF 		bl	RGB
+ 1324              	.L50:
+ 497:ChipUpdate.c  **** 		}
+ 498:ChipUpdate.c  **** //		UART_Linux_PutString(req_line_buf);
+ 499:ChipUpdate.c  **** 		if(!q_put_message(&_Queue_Send, req_line_buf, strlen(req_line_buf) + 1)){
+ 1325              		.loc 1 499 0
+ 1326 052c 07F1D403 		add	r3, r7, #212
+ 1327 0530 1846     		mov	r0, r3
+ 1328 0532 FFF7FEFF 		bl	strlen
+ 1329 0536 0346     		mov	r3, r0
+ 1330 0538 0133     		adds	r3, r3, #1
+ 1331 053a 1A46     		mov	r2, r3
+ 1332 053c 07F1D403 		add	r3, r7, #212
+ 1333 0540 1946     		mov	r1, r3
+ 1334 0542 1C48     		ldr	r0, .L62+48
+ 1335 0544 FFF7FEFF 		bl	q_put_message
+ 1336 0548 0346     		mov	r3, r0
+ 1337 054a 002B     		cmp	r3, #0
+ 1338 054c 14D1     		bne	.L59
+ 500:ChipUpdate.c  **** 			UART_Debug_PutString("update_procedure >> failed to put to _Queue_Send >> ");
+ 1339              		.loc 1 500 0
+ 1340 054e 1A48     		ldr	r0, .L62+52
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 35
+
+
+ 1341 0550 FFF7FEFF 		bl	UART_Debug_PutString
+ 501:ChipUpdate.c  **** 			UART_Debug_PutString(req_line_buf);
+ 1342              		.loc 1 501 0
+ 1343 0554 07F1D403 		add	r3, r7, #212
+ 1344 0558 1846     		mov	r0, r3
+ 1345 055a FFF7FEFF 		bl	UART_Debug_PutString
+ 502:ChipUpdate.c  **** 			UART_Debug_PutString("\r\n");
+ 1346              		.loc 1 502 0
+ 1347 055e 1748     		ldr	r0, .L62+56
+ 1348 0560 FFF7FEFF 		bl	UART_Debug_PutString
+ 1349              	.LBE10:
+ 503:ChipUpdate.c  **** 		}
+ 504:ChipUpdate.c  **** 	}
+ 505:ChipUpdate.c  **** 	else {
+ 506:ChipUpdate.c  **** //		qctl_ftp_state = FTP_STATE_IDLE; // CHANGE FTP_STATE to IDLE
+ 507:ChipUpdate.c  **** 	}
+ 508:ChipUpdate.c  **** 
+ 509:ChipUpdate.c  ****     return;
+ 1350              		.loc 1 509 0
+ 1351 0564 00BF     		nop
+ 1352 0566 07E0     		b	.L59
+ 1353              	.L55:
+ 1354              	.LBB12:
+ 312:ChipUpdate.c  **** 	}
+ 1355              		.loc 1 312 0
+ 1356 0568 00BF     		nop
+ 1357 056a 06E0     		b	.L31
+ 1358              	.L56:
+ 1359              	.LBE12:
+ 332:ChipUpdate.c  **** 	}
+ 1360              		.loc 1 332 0
+ 1361 056c 00BF     		nop
+ 1362 056e 04E0     		b	.L31
+ 1363              	.L57:
+ 371:ChipUpdate.c  **** 	}
+ 1364              		.loc 1 371 0
+ 1365 0570 00BF     		nop
+ 1366 0572 02E0     		b	.L31
+ 1367              	.L58:
+ 396:ChipUpdate.c  ****     }
+ 1368              		.loc 1 396 0
+ 1369 0574 00BF     		nop
+ 1370 0576 00E0     		b	.L31
+ 1371              	.L59:
+ 1372              		.loc 1 509 0
+ 1373 0578 00BF     		nop
+ 1374              	.L31:
+ 510:ChipUpdate.c  **** }
+ 1375              		.loc 1 510 0
+ 1376 057a 07F5A877 		add	r7, r7, #336
+ 1377              		.cfi_def_cfa_offset 16
+ 1378 057e BD46     		mov	sp, r7
+ 1379              		.cfi_def_cfa_register 13
+ 1380              		@ sp needed
+ 1381 0580 B0BD     		pop	{r4, r5, r7, pc}
+ 1382              	.L63:
+ 1383 0582 00BF     		.align	2
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 36
+
+
+ 1384              	.L62:
+ 1385 0584 00000000 		.word	fota_row_sequence
+ 1386 0588 00000000 		.word	fota_row_counter
+ 1387 058c 00000000 		.word	server_fota_App_CRC
+ 1388 0590 00000000 		.word	server_fota_App_size
+ 1389 0594 00000000 		.word	fota_file_numbers
+ 1390 0598 00000000 		.word	server_fota_file_numbers
+ 1391 059c 54020000 		.word	.LC20
+ 1392 05a0 00005940 		.word	1079574528
+ 1393 05a4 00000000 		.word	last_percent
+ 1394 05a8 18030000 		.word	.LC25
+ 1395 05ac 00000000 		.word	RGB_Color
+ 1396 05b0 00000000 		.word	RGB_Color_Old
+ 1397 05b4 00000000 		.word	_Queue_Send
+ 1398 05b8 64010000 		.word	.LC14
+ 1399 05bc 7C000000 		.word	.LC4
+ 1400              		.cfi_endproc
+ 1401              	.LFE68:
+ 1402              		.size	update_procedure, .-update_procedure
+ 1403              		.global	rowAddress
+ 1404              		.bss
+ 1405 0011 00       		.align	1
+ 1406              		.type	rowAddress, %object
+ 1407              		.size	rowAddress, 2
+ 1408              	rowAddress:
+ 1409 0012 0000     		.space	2
+ 1410              		.global	arrayID
+ 1411              		.data
+ 1412              		.type	arrayID, %object
+ 1413              		.size	arrayID, 1
+ 1414              	arrayID:
+ 1415 0000 02       		.byte	2
+ 1416              		.section	.rodata
+ 1417              		.align	2
+ 1418              	.LC26:
+ 1419 0344 4A6F686E 		.ascii	"John Cena 1 is here! py chart again\015\012\000"
+ 1419      2043656E 
+ 1419      61203120 
+ 1419      69732068 
+ 1419      65726521 
+ 1420 036a 0000     		.align	2
+ 1421              	.LC27:
+ 1422 036c 202A2A2A 		.ascii	" *** John Cena 2 is here! py chart again *** \015\012"
+ 1422      204A6F68 
+ 1422      6E204365 
+ 1422      6E612032 
+ 1422      20697320 
+ 1423 039b 00       		.ascii	"\000"
+ 1424              		.align	2
+ 1425              	.LC28:
+ 1426 039c 202A2A2A 		.ascii	" *** First RowID = %04X ***\015\012\000"
+ 1426      20466972 
+ 1426      73742052 
+ 1426      6F774944 
+ 1426      203D2025 
+ 1427              		.section	.text.internal_flash_write_row,"ax",%progbits
+ 1428              		.align	2
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 37
+
+
+ 1429              		.global	internal_flash_write_row
+ 1430              		.thumb
+ 1431              		.thumb_func
+ 1432              		.type	internal_flash_write_row, %function
+ 1433              	internal_flash_write_row:
+ 1434              	.LFB69:
+ 511:ChipUpdate.c  **** 
+ 512:ChipUpdate.c  **** uint16 rowAddress = 0;
+ 513:ChipUpdate.c  **** uint8  arrayID    = 0x02;
+ 514:ChipUpdate.c  **** 
+ 515:ChipUpdate.c  **** uint8 internal_flash_write_row()
+ 516:ChipUpdate.c  **** {
+ 1435              		.loc 1 516 0
+ 1436              		.cfi_startproc
+ 1437              		@ args = 0, pretend = 0, frame = 368
+ 1438              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1439 0000 80B5     		push	{r7, lr}
+ 1440              		.cfi_def_cfa_offset 8
+ 1441              		.cfi_offset 7, -8
+ 1442              		.cfi_offset 14, -4
+ 1443 0002 DCB0     		sub	sp, sp, #368
+ 1444              		.cfi_def_cfa_offset 376
+ 1445 0004 00AF     		add	r7, sp, #0
+ 1446              		.cfi_def_cfa_register 7
+ 517:ChipUpdate.c  ****     uint8 fail = 0;
+ 1447              		.loc 1 517 0
+ 1448 0006 0023     		movs	r3, #0
+ 1449 0008 87F86F31 		strb	r3, [r7, #367]
+ 518:ChipUpdate.c  ****     uint8 dataBuff[CY_FLASH_SIZEOF_ROW];
+ 519:ChipUpdate.c  ****     uint8  crc        = fota_data_bytes[FOTA_ROW_SIZE - 1];
+ 1450              		.loc 1 519 0
+ 1451 000c 464B     		ldr	r3, .L76
+ 1452 000e 93F80531 		ldrb	r3, [r3, #261]
+ 1453 0012 87F86731 		strb	r3, [r7, #359]
+ 1454              	.LBB13:
+ 520:ChipUpdate.c  **** 
+ 521:ChipUpdate.c  ****     for(uint j = 0; j < CY_FLASH_SIZEOF_ROW; j++){  // 256
+ 1455              		.loc 1 521 0
+ 1456 0016 0023     		movs	r3, #0
+ 1457 0018 C7F86831 		str	r3, [r7, #360]
+ 1458 001c 10E0     		b	.L65
+ 1459              	.L66:
+ 522:ChipUpdate.c  ****         dataBuff[j] = fota_data_bytes[5 + j];
+ 1460              		.loc 1 522 0 discriminator 3
+ 1461 001e D7F86831 		ldr	r3, [r7, #360]
+ 1462 0022 0533     		adds	r3, r3, #5
+ 1463 0024 404A     		ldr	r2, .L76
+ 1464 0026 D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 1465 0028 07F16402 		add	r2, r7, #100
+ 1466 002c D7F86831 		ldr	r3, [r7, #360]
+ 1467 0030 1344     		add	r3, r3, r2
+ 1468 0032 0A46     		mov	r2, r1
+ 1469 0034 1A70     		strb	r2, [r3]
+ 521:ChipUpdate.c  ****         dataBuff[j] = fota_data_bytes[5 + j];
+ 1470              		.loc 1 521 0 discriminator 3
+ 1471 0036 D7F86831 		ldr	r3, [r7, #360]
+ 1472 003a 0133     		adds	r3, r3, #1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 38
+
+
+ 1473 003c C7F86831 		str	r3, [r7, #360]
+ 1474              	.L65:
+ 521:ChipUpdate.c  ****         dataBuff[j] = fota_data_bytes[5 + j];
+ 1475              		.loc 1 521 0 is_stmt 0 discriminator 1
+ 1476 0040 D7F86831 		ldr	r3, [r7, #360]
+ 1477 0044 FF2B     		cmp	r3, #255
+ 1478 0046 EAD9     		bls	.L66
+ 1479              	.LBE13:
+ 523:ChipUpdate.c  ****     }
+ 524:ChipUpdate.c  ****     OS_TASK_Delay(25);
+ 1480              		.loc 1 524 0 is_stmt 1
+ 1481 0048 1920     		movs	r0, #25
+ 1482 004a FFF7FEFF 		bl	OS_TASK_Delay
+ 525:ChipUpdate.c  ****     
+ 526:ChipUpdate.c  ****     if(rowAddress == 0){
+ 1483              		.loc 1 526 0
+ 1484 004e 374B     		ldr	r3, .L76+4
+ 1485 0050 1B88     		ldrh	r3, [r3]
+ 1486 0052 002B     		cmp	r3, #0
+ 1487 0054 2DD1     		bne	.L67
+ 1488              	.LBB14:
+ 527:ChipUpdate.c  ****         if(!ie2_write_byte(fota_data_bytes[1], IE2_Loc_FOTA_ROW_START_BYTE0)){
+ 1489              		.loc 1 527 0
+ 1490 0056 344B     		ldr	r3, .L76
+ 1491 0058 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 1492 005a 7921     		movs	r1, #121
+ 1493 005c 1846     		mov	r0, r3
+ 1494 005e FFF7FEFF 		bl	ie2_write_byte
+ 1495 0062 0346     		mov	r3, r0
+ 1496 0064 002B     		cmp	r3, #0
+ 1497 0066 02D1     		bne	.L68
+ 528:ChipUpdate.c  ****             UART_Debug_PutString("John Cena 1 is here! py chart again\r\n");
+ 1498              		.loc 1 528 0
+ 1499 0068 3148     		ldr	r0, .L76+8
+ 1500 006a FFF7FEFF 		bl	UART_Debug_PutString
+ 1501              	.L68:
+ 529:ChipUpdate.c  ****         }
+ 530:ChipUpdate.c  ****         if(!ie2_write_byte(fota_data_bytes[2], IE2_Loc_FOTA_ROW_START_BYTE1)){
+ 1502              		.loc 1 530 0
+ 1503 006e 2E4B     		ldr	r3, .L76
+ 1504 0070 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 1505 0072 7A21     		movs	r1, #122
+ 1506 0074 1846     		mov	r0, r3
+ 1507 0076 FFF7FEFF 		bl	ie2_write_byte
+ 1508 007a 0346     		mov	r3, r0
+ 1509 007c 002B     		cmp	r3, #0
+ 1510 007e 02D1     		bne	.L69
+ 531:ChipUpdate.c  ****             UART_Debug_PutString(" *** John Cena 2 is here! py chart again *** \r\n");
+ 1511              		.loc 1 531 0
+ 1512 0080 2C48     		ldr	r0, .L76+12
+ 1513 0082 FFF7FEFF 		bl	UART_Debug_PutString
+ 1514              	.L69:
+ 532:ChipUpdate.c  ****         }
+ 533:ChipUpdate.c  ****         
+ 534:ChipUpdate.c  ****         uint16 add = fota_data_bytes[1] << 8 | fota_data_bytes[2] << 0;
+ 1515              		.loc 1 534 0
+ 1516 0086 284B     		ldr	r3, .L76
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 39
+
+
+ 1517 0088 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 1518 008a 1B02     		lsls	r3, r3, #8
+ 1519 008c 1AB2     		sxth	r2, r3
+ 1520 008e 264B     		ldr	r3, .L76
+ 1521 0090 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 1522 0092 1BB2     		sxth	r3, r3
+ 1523 0094 1343     		orrs	r3, r3, r2
+ 1524 0096 1BB2     		sxth	r3, r3
+ 1525 0098 A7F86431 		strh	r3, [r7, #356]	@ movhi
+ 535:ChipUpdate.c  ****         char d[100];
+ 536:ChipUpdate.c  ****         sprintf(d, " *** First RowID = %04X ***\r\n", add);
+ 1526              		.loc 1 536 0
+ 1527 009c B7F86421 		ldrh	r2, [r7, #356]
+ 1528 00a0 3B46     		mov	r3, r7
+ 1529 00a2 2549     		ldr	r1, .L76+16
+ 1530 00a4 1846     		mov	r0, r3
+ 1531 00a6 FFF7FEFF 		bl	sprintf
+ 537:ChipUpdate.c  ****         UART_Debug_PutString(d);
+ 1532              		.loc 1 537 0
+ 1533 00aa 3B46     		mov	r3, r7
+ 1534 00ac 1846     		mov	r0, r3
+ 1535 00ae FFF7FEFF 		bl	UART_Debug_PutString
+ 1536              	.L67:
+ 1537              	.LBE14:
+ 538:ChipUpdate.c  ****     }
+ 539:ChipUpdate.c  ****         
+ 540:ChipUpdate.c  ****     if(CySetTemp() == CYRET_SUCCESS){
+ 1538              		.loc 1 540 0
+ 1539 00b2 FFF7FEFF 		bl	CySetTemp
+ 1540 00b6 0346     		mov	r3, r0
+ 1541 00b8 002B     		cmp	r3, #0
+ 1542 00ba 1DD1     		bne	.L70
+ 541:ChipUpdate.c  ****         if(internal_flash_handle_error(CyWriteRowData(arrayID, rowAddress, dataBuff))){
+ 1543              		.loc 1 541 0
+ 1544 00bc 1F4B     		ldr	r3, .L76+20
+ 1545 00be 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 1546 00c0 1A4B     		ldr	r3, .L76+4
+ 1547 00c2 1B88     		ldrh	r3, [r3]
+ 1548 00c4 07F16402 		add	r2, r7, #100
+ 1549 00c8 1946     		mov	r1, r3
+ 1550 00ca FFF7FEFF 		bl	CyWriteRowData
+ 1551 00ce 0346     		mov	r3, r0
+ 1552 00d0 1846     		mov	r0, r3
+ 1553 00d2 FFF7FEFF 		bl	internal_flash_handle_error
+ 1554 00d6 0346     		mov	r3, r0
+ 1555 00d8 002B     		cmp	r3, #0
+ 1556 00da 09D0     		beq	.L71
+ 542:ChipUpdate.c  ****             rowAddress++;
+ 1557              		.loc 1 542 0
+ 1558 00dc 134B     		ldr	r3, .L76+4
+ 1559 00de 1B88     		ldrh	r3, [r3]
+ 1560 00e0 0133     		adds	r3, r3, #1
+ 1561 00e2 9AB2     		uxth	r2, r3
+ 1562 00e4 114B     		ldr	r3, .L76+4
+ 1563 00e6 1A80     		strh	r2, [r3]	@ movhi
+ 543:ChipUpdate.c  ****             OS_TASK_Delay(10);
+ 1564              		.loc 1 543 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 40
+
+
+ 1565 00e8 0A20     		movs	r0, #10
+ 1566 00ea FFF7FEFF 		bl	OS_TASK_Delay
+ 1567 00ee 06E0     		b	.L73
+ 1568              	.L71:
+ 544:ChipUpdate.c  ****         }
+ 545:ChipUpdate.c  ****         else{
+ 546:ChipUpdate.c  ****             fail = 1;
+ 1569              		.loc 1 546 0
+ 1570 00f0 0123     		movs	r3, #1
+ 1571 00f2 87F86F31 		strb	r3, [r7, #367]
+ 1572 00f6 02E0     		b	.L73
+ 1573              	.L70:
+ 547:ChipUpdate.c  ****         }
+ 548:ChipUpdate.c  ****     }
+ 549:ChipUpdate.c  ****     else{
+ 550:ChipUpdate.c  ****         fail = 2;
+ 1574              		.loc 1 550 0
+ 1575 00f8 0223     		movs	r3, #2
+ 1576 00fa 87F86F31 		strb	r3, [r7, #367]
+ 1577              	.L73:
+ 551:ChipUpdate.c  ****     }
+ 552:ChipUpdate.c  ****         
+ 553:ChipUpdate.c  ****     if(rowAddress == 0x0100){
+ 1578              		.loc 1 553 0
+ 1579 00fe 0B4B     		ldr	r3, .L76+4
+ 1580 0100 1B88     		ldrh	r3, [r3]
+ 1581 0102 B3F5807F 		cmp	r3, #256
+ 1582 0106 08D1     		bne	.L74
+ 554:ChipUpdate.c  ****         rowAddress = 0;
+ 1583              		.loc 1 554 0
+ 1584 0108 084B     		ldr	r3, .L76+4
+ 1585 010a 0022     		movs	r2, #0
+ 1586 010c 1A80     		strh	r2, [r3]	@ movhi
+ 555:ChipUpdate.c  ****         arrayID++;
+ 1587              		.loc 1 555 0
+ 1588 010e 0B4B     		ldr	r3, .L76+20
+ 1589 0110 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1590 0112 0133     		adds	r3, r3, #1
+ 1591 0114 DAB2     		uxtb	r2, r3
+ 1592 0116 094B     		ldr	r3, .L76+20
+ 1593 0118 1A70     		strb	r2, [r3]
+ 1594              	.L74:
+ 556:ChipUpdate.c  ****     }
+ 557:ChipUpdate.c  ****  
+ 558:ChipUpdate.c  ****     return fail;
+ 1595              		.loc 1 558 0
+ 1596 011a 97F86F31 		ldrb	r3, [r7, #367]	@ zero_extendqisi2
+ 559:ChipUpdate.c  **** }
+ 1597              		.loc 1 559 0
+ 1598 011e 1846     		mov	r0, r3
+ 1599 0120 07F5B877 		add	r7, r7, #368
+ 1600              		.cfi_def_cfa_offset 8
+ 1601 0124 BD46     		mov	sp, r7
+ 1602              		.cfi_def_cfa_register 13
+ 1603              		@ sp needed
+ 1604 0126 80BD     		pop	{r7, pc}
+ 1605              	.L77:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 41
+
+
+ 1606              		.align	2
+ 1607              	.L76:
+ 1608 0128 00000000 		.word	fota_data_bytes
+ 1609 012c 00000000 		.word	rowAddress
+ 1610 0130 44030000 		.word	.LC26
+ 1611 0134 6C030000 		.word	.LC27
+ 1612 0138 9C030000 		.word	.LC28
+ 1613 013c 00000000 		.word	arrayID
+ 1614              		.cfi_endproc
+ 1615              	.LFE69:
+ 1616              		.size	internal_flash_write_row, .-internal_flash_write_row
+ 1617              		.section	.rodata
+ 1618 03ba 0000     		.align	2
+ 1619              	.LC29:
+ 1620 03bc 466C6173 		.ascii	"Flash writing already in use\015\012\000"
+ 1620      68207772 
+ 1620      6974696E 
+ 1620      6720616C 
+ 1620      72656164 
+ 1621 03db 00       		.align	2
+ 1622              	.LC30:
+ 1623 03dc 436F6D6D 		.ascii	"Command not accepted\015\012\000"
+ 1623      616E6420 
+ 1623      6E6F7420 
+ 1623      61636365 
+ 1623      70746564 
+ 1624 03f3 00       		.align	2
+ 1625              	.LC31:
+ 1626 03f4 4661696C 		.ascii	"Failure\015\012\000"
+ 1626      7572650D 
+ 1626      0A00
+ 1627              		.section	.text.internal_flash_handle_error,"ax",%progbits
+ 1628              		.align	2
+ 1629              		.global	internal_flash_handle_error
+ 1630              		.thumb
+ 1631              		.thumb_func
+ 1632              		.type	internal_flash_handle_error, %function
+ 1633              	internal_flash_handle_error:
+ 1634              	.LFB70:
+ 560:ChipUpdate.c  **** 
+ 561:ChipUpdate.c  **** uint8 internal_flash_handle_error(cystatus value)
+ 562:ChipUpdate.c  **** {
+ 1635              		.loc 1 562 0
+ 1636              		.cfi_startproc
+ 1637              		@ args = 0, pretend = 0, frame = 16
+ 1638              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1639 0000 80B5     		push	{r7, lr}
+ 1640              		.cfi_def_cfa_offset 8
+ 1641              		.cfi_offset 7, -8
+ 1642              		.cfi_offset 14, -4
+ 1643 0002 84B0     		sub	sp, sp, #16
+ 1644              		.cfi_def_cfa_offset 24
+ 1645 0004 00AF     		add	r7, sp, #0
+ 1646              		.cfi_def_cfa_register 7
+ 1647 0006 7860     		str	r0, [r7, #4]
+ 563:ChipUpdate.c  ****     uint8 ret = 0;
+ 1648              		.loc 1 563 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 42
+
+
+ 1649 0008 0023     		movs	r3, #0
+ 1650 000a FB73     		strb	r3, [r7, #15]
+ 564:ChipUpdate.c  ****     if(value == CYRET_SUCCESS){
+ 1651              		.loc 1 564 0
+ 1652 000c 7B68     		ldr	r3, [r7, #4]
+ 1653 000e 002B     		cmp	r3, #0
+ 1654 0010 02D1     		bne	.L79
+ 565:ChipUpdate.c  ****         ret = 1;
+ 1655              		.loc 1 565 0
+ 1656 0012 0123     		movs	r3, #1
+ 1657 0014 FB73     		strb	r3, [r7, #15]
+ 1658 0016 10E0     		b	.L80
+ 1659              	.L79:
+ 566:ChipUpdate.c  ****     } 
+ 567:ChipUpdate.c  ****     else if(value == CYRET_LOCKED){
+ 1660              		.loc 1 567 0
+ 1661 0018 7B68     		ldr	r3, [r7, #4]
+ 1662 001a 042B     		cmp	r3, #4
+ 1663 001c 03D1     		bne	.L81
+ 568:ChipUpdate.c  ****         UART_Debug_PutString("Flash writing already in use\r\n");
+ 1664              		.loc 1 568 0
+ 1665 001e 0948     		ldr	r0, .L84
+ 1666 0020 FFF7FEFF 		bl	UART_Debug_PutString
+ 1667 0024 09E0     		b	.L80
+ 1668              	.L81:
+ 569:ChipUpdate.c  ****     } 
+ 570:ChipUpdate.c  ****     else if(value == CYRET_CANCELED){
+ 1669              		.loc 1 570 0
+ 1670 0026 7B68     		ldr	r3, [r7, #4]
+ 1671 0028 092B     		cmp	r3, #9
+ 1672 002a 03D1     		bne	.L82
+ 571:ChipUpdate.c  ****         UART_Debug_PutString("Command not accepted\r\n");
+ 1673              		.loc 1 571 0
+ 1674 002c 0648     		ldr	r0, .L84+4
+ 1675 002e FFF7FEFF 		bl	UART_Debug_PutString
+ 1676 0032 02E0     		b	.L80
+ 1677              	.L82:
+ 572:ChipUpdate.c  ****     } 
+ 573:ChipUpdate.c  ****     else{
+ 574:ChipUpdate.c  ****         UART_Debug_PutString("Failure\r\n");
+ 1678              		.loc 1 574 0
+ 1679 0034 0548     		ldr	r0, .L84+8
+ 1680 0036 FFF7FEFF 		bl	UART_Debug_PutString
+ 1681              	.L80:
+ 575:ChipUpdate.c  ****     }
+ 576:ChipUpdate.c  ****     
+ 577:ChipUpdate.c  ****     return ret;
+ 1682              		.loc 1 577 0
+ 1683 003a FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 578:ChipUpdate.c  **** }
+ 1684              		.loc 1 578 0
+ 1685 003c 1846     		mov	r0, r3
+ 1686 003e 1037     		adds	r7, r7, #16
+ 1687              		.cfi_def_cfa_offset 8
+ 1688 0040 BD46     		mov	sp, r7
+ 1689              		.cfi_def_cfa_register 13
+ 1690              		@ sp needed
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 43
+
+
+ 1691 0042 80BD     		pop	{r7, pc}
+ 1692              	.L85:
+ 1693              		.align	2
+ 1694              	.L84:
+ 1695 0044 BC030000 		.word	.LC29
+ 1696 0048 DC030000 		.word	.LC30
+ 1697 004c F4030000 		.word	.LC31
+ 1698              		.cfi_endproc
+ 1699              	.LFE70:
+ 1700              		.size	internal_flash_handle_error, .-internal_flash_handle_error
+ 1701              		.text
+ 1702              	.Letext0:
+ 1703              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1704              		.file 3 "..\\..\\..\\..\\Inc/RTOS.h"
+ 1705              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1706              		.file 5 "Generated_Source\\PSoC5/cytypes.h"
+ 1707              		.file 6 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1708              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ 1709              		.file 8 "defines.h"
+ 1710              		.file 9 "OS_Main.h"
+ 1711              		.section	.debug_info,"",%progbits
+ 1712              	.Ldebug_info0:
+ 1713 0000 790A0000 		.4byte	0xa79
+ 1714 0004 0400     		.2byte	0x4
+ 1715 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1716 000a 04       		.byte	0x4
+ 1717 000b 01       		.uleb128 0x1
+ 1718 000c D1000000 		.4byte	.LASF148
+ 1719 0010 0C       		.byte	0xc
+ 1720 0011 0B080000 		.4byte	.LASF149
+ 1721 0015 71060000 		.4byte	.LASF150
+ 1722 0019 30000000 		.4byte	.Ldebug_ranges0+0x30
+ 1723 001d 00000000 		.4byte	0
+ 1724 0021 00000000 		.4byte	.Ldebug_line0
+ 1725 0025 02       		.uleb128 0x2
+ 1726 0026 04       		.byte	0x4
+ 1727 0027 05       		.byte	0x5
+ 1728 0028 696E7400 		.ascii	"int\000"
+ 1729 002c 03       		.uleb128 0x3
+ 1730 002d 04       		.byte	0x4
+ 1731 002e 07       		.byte	0x7
+ 1732 002f E0030000 		.4byte	.LASF0
+ 1733 0033 03       		.uleb128 0x3
+ 1734 0034 08       		.byte	0x8
+ 1735 0035 05       		.byte	0x5
+ 1736 0036 1B020000 		.4byte	.LASF1
+ 1737 003a 03       		.uleb128 0x3
+ 1738 003b 08       		.byte	0x8
+ 1739 003c 04       		.byte	0x4
+ 1740 003d 13070000 		.4byte	.LASF2
+ 1741 0041 03       		.uleb128 0x3
+ 1742 0042 01       		.byte	0x1
+ 1743 0043 06       		.byte	0x6
+ 1744 0044 29020000 		.4byte	.LASF3
+ 1745 0048 04       		.uleb128 0x4
+ 1746 0049 AD000000 		.4byte	.LASF6
+ 1747 004d 02       		.byte	0x2
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 44
+
+
+ 1748 004e 1D       		.byte	0x1d
+ 1749 004f 53000000 		.4byte	0x53
+ 1750 0053 03       		.uleb128 0x3
+ 1751 0054 01       		.byte	0x1
+ 1752 0055 08       		.byte	0x8
+ 1753 0056 D9050000 		.4byte	.LASF4
+ 1754 005a 03       		.uleb128 0x3
+ 1755 005b 02       		.byte	0x2
+ 1756 005c 05       		.byte	0x5
+ 1757 005d 14060000 		.4byte	.LASF5
+ 1758 0061 04       		.uleb128 0x4
+ 1759 0062 2C070000 		.4byte	.LASF7
+ 1760 0066 02       		.byte	0x2
+ 1761 0067 2B       		.byte	0x2b
+ 1762 0068 6C000000 		.4byte	0x6c
+ 1763 006c 03       		.uleb128 0x3
+ 1764 006d 02       		.byte	0x2
+ 1765 006e 07       		.byte	0x7
+ 1766 006f 52040000 		.4byte	.LASF8
+ 1767 0073 04       		.uleb128 0x4
+ 1768 0074 37070000 		.4byte	.LASF9
+ 1769 0078 02       		.byte	0x2
+ 1770 0079 3F       		.byte	0x3f
+ 1771 007a 7E000000 		.4byte	0x7e
+ 1772 007e 03       		.uleb128 0x3
+ 1773 007f 04       		.byte	0x4
+ 1774 0080 05       		.byte	0x5
+ 1775 0081 B0020000 		.4byte	.LASF10
+ 1776 0085 04       		.uleb128 0x4
+ 1777 0086 67030000 		.4byte	.LASF11
+ 1778 008a 02       		.byte	0x2
+ 1779 008b 41       		.byte	0x41
+ 1780 008c 90000000 		.4byte	0x90
+ 1781 0090 03       		.uleb128 0x3
+ 1782 0091 04       		.byte	0x4
+ 1783 0092 07       		.byte	0x7
+ 1784 0093 0A040000 		.4byte	.LASF12
+ 1785 0097 03       		.uleb128 0x3
+ 1786 0098 08       		.byte	0x8
+ 1787 0099 07       		.byte	0x7
+ 1788 009a 96010000 		.4byte	.LASF13
+ 1789 009e 03       		.uleb128 0x3
+ 1790 009f 04       		.byte	0x4
+ 1791 00a0 07       		.byte	0x7
+ 1792 00a1 49050000 		.4byte	.LASF14
+ 1793 00a5 05       		.uleb128 0x5
+ 1794 00a6 04       		.byte	0x4
+ 1795 00a7 06       		.uleb128 0x6
+ 1796 00a8 04       		.byte	0x4
+ 1797 00a9 AD000000 		.4byte	0xad
+ 1798 00ad 03       		.uleb128 0x3
+ 1799 00ae 01       		.byte	0x1
+ 1800 00af 08       		.byte	0x8
+ 1801 00b0 1F070000 		.4byte	.LASF15
+ 1802 00b4 06       		.uleb128 0x6
+ 1803 00b5 04       		.byte	0x4
+ 1804 00b6 53000000 		.4byte	0x53
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 45
+
+
+ 1805 00ba 06       		.uleb128 0x6
+ 1806 00bb 04       		.byte	0x4
+ 1807 00bc C0000000 		.4byte	0xc0
+ 1808 00c0 07       		.uleb128 0x7
+ 1809 00c1 AD000000 		.4byte	0xad
+ 1810 00c5 08       		.uleb128 0x8
+ 1811 00c6 48       		.byte	0x48
+ 1812 00c7 03       		.byte	0x3
+ 1813 00c8 1001     		.2byte	0x110
+ 1814 00ca B9010000 		.4byte	0x1b9
+ 1815 00ce 09       		.uleb128 0x9
+ 1816 00cf E7070000 		.4byte	.LASF16
+ 1817 00d3 03       		.byte	0x3
+ 1818 00d4 1101     		.2byte	0x111
+ 1819 00d6 90000000 		.4byte	0x90
+ 1820 00da 00       		.byte	0
+ 1821 00db 09       		.uleb128 0x9
+ 1822 00dc 52050000 		.4byte	.LASF17
+ 1823 00e0 03       		.byte	0x3
+ 1824 00e1 1201     		.2byte	0x112
+ 1825 00e3 90000000 		.4byte	0x90
+ 1826 00e7 04       		.byte	0x4
+ 1827 00e8 09       		.uleb128 0x9
+ 1828 00e9 E9040000 		.4byte	.LASF18
+ 1829 00ed 03       		.byte	0x3
+ 1830 00ee 1301     		.2byte	0x113
+ 1831 00f0 90000000 		.4byte	0x90
+ 1832 00f4 08       		.byte	0x8
+ 1833 00f5 09       		.uleb128 0x9
+ 1834 00f6 F3040000 		.4byte	.LASF19
+ 1835 00fa 03       		.byte	0x3
+ 1836 00fb 1401     		.2byte	0x114
+ 1837 00fd 90000000 		.4byte	0x90
+ 1838 0101 0C       		.byte	0xc
+ 1839 0102 09       		.uleb128 0x9
+ 1840 0103 FD040000 		.4byte	.LASF20
+ 1841 0107 03       		.byte	0x3
+ 1842 0108 1501     		.2byte	0x115
+ 1843 010a 90000000 		.4byte	0x90
+ 1844 010e 10       		.byte	0x10
+ 1845 010f 09       		.uleb128 0x9
+ 1846 0110 65050000 		.4byte	.LASF21
+ 1847 0114 03       		.byte	0x3
+ 1848 0115 1601     		.2byte	0x116
+ 1849 0117 90000000 		.4byte	0x90
+ 1850 011b 14       		.byte	0x14
+ 1851 011c 09       		.uleb128 0x9
+ 1852 011d 16050000 		.4byte	.LASF22
+ 1853 0121 03       		.byte	0x3
+ 1854 0122 1701     		.2byte	0x117
+ 1855 0124 90000000 		.4byte	0x90
+ 1856 0128 18       		.byte	0x18
+ 1857 0129 09       		.uleb128 0x9
+ 1858 012a AA030000 		.4byte	.LASF23
+ 1859 012e 03       		.byte	0x3
+ 1860 012f 1801     		.2byte	0x118
+ 1861 0131 90000000 		.4byte	0x90
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 46
+
+
+ 1862 0135 1C       		.byte	0x1c
+ 1863 0136 09       		.uleb128 0x9
+ 1864 0137 B5030000 		.4byte	.LASF24
+ 1865 013b 03       		.byte	0x3
+ 1866 013c 1901     		.2byte	0x119
+ 1867 013e 90000000 		.4byte	0x90
+ 1868 0142 20       		.byte	0x20
+ 1869 0143 09       		.uleb128 0x9
+ 1870 0144 95040000 		.4byte	.LASF25
+ 1871 0148 03       		.byte	0x3
+ 1872 0149 1A01     		.2byte	0x11a
+ 1873 014b 90000000 		.4byte	0x90
+ 1874 014f 24       		.byte	0x24
+ 1875 0150 09       		.uleb128 0x9
+ 1876 0151 B0040000 		.4byte	.LASF26
+ 1877 0155 03       		.byte	0x3
+ 1878 0156 1B01     		.2byte	0x11b
+ 1879 0158 90000000 		.4byte	0x90
+ 1880 015c 28       		.byte	0x28
+ 1881 015d 09       		.uleb128 0x9
+ 1882 015e BA040000 		.4byte	.LASF27
+ 1883 0162 03       		.byte	0x3
+ 1884 0163 1C01     		.2byte	0x11c
+ 1885 0165 90000000 		.4byte	0x90
+ 1886 0169 2C       		.byte	0x2c
+ 1887 016a 09       		.uleb128 0x9
+ 1888 016b C4040000 		.4byte	.LASF28
+ 1889 016f 03       		.byte	0x3
+ 1890 0170 1D01     		.2byte	0x11d
+ 1891 0172 90000000 		.4byte	0x90
+ 1892 0176 30       		.byte	0x30
+ 1893 0177 09       		.uleb128 0x9
+ 1894 0178 CE040000 		.4byte	.LASF29
+ 1895 017c 03       		.byte	0x3
+ 1896 017d 1E01     		.2byte	0x11e
+ 1897 017f 90000000 		.4byte	0x90
+ 1898 0183 34       		.byte	0x34
+ 1899 0184 09       		.uleb128 0x9
+ 1900 0185 C0030000 		.4byte	.LASF30
+ 1901 0189 03       		.byte	0x3
+ 1902 018a 1F01     		.2byte	0x11f
+ 1903 018c 90000000 		.4byte	0x90
+ 1904 0190 38       		.byte	0x38
+ 1905 0191 09       		.uleb128 0x9
+ 1906 0192 CB030000 		.4byte	.LASF31
+ 1907 0196 03       		.byte	0x3
+ 1908 0197 2001     		.2byte	0x120
+ 1909 0199 90000000 		.4byte	0x90
+ 1910 019d 3C       		.byte	0x3c
+ 1911 019e 09       		.uleb128 0x9
+ 1912 019f A3000000 		.4byte	.LASF32
+ 1913 01a3 03       		.byte	0x3
+ 1914 01a4 2101     		.2byte	0x121
+ 1915 01a6 90000000 		.4byte	0x90
+ 1916 01aa 40       		.byte	0x40
+ 1917 01ab 09       		.uleb128 0x9
+ 1918 01ac 3D050000 		.4byte	.LASF33
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 47
+
+
+ 1919 01b0 03       		.byte	0x3
+ 1920 01b1 2201     		.2byte	0x122
+ 1921 01b3 90000000 		.4byte	0x90
+ 1922 01b7 44       		.byte	0x44
+ 1923 01b8 00       		.byte	0
+ 1924 01b9 0A       		.uleb128 0xa
+ 1925 01ba E0020000 		.4byte	.LASF34
+ 1926 01be 03       		.byte	0x3
+ 1927 01bf 2301     		.2byte	0x123
+ 1928 01c1 C5000000 		.4byte	0xc5
+ 1929 01c5 08       		.uleb128 0x8
+ 1930 01c6 48       		.byte	0x48
+ 1931 01c7 03       		.byte	0x3
+ 1932 01c8 2501     		.2byte	0x125
+ 1933 01ca DC010000 		.4byte	0x1dc
+ 1934 01ce 09       		.uleb128 0x9
+ 1935 01cf 00000000 		.4byte	.LASF35
+ 1936 01d3 03       		.byte	0x3
+ 1937 01d4 2601     		.2byte	0x126
+ 1938 01d6 B9010000 		.4byte	0x1b9
+ 1939 01da 00       		.byte	0
+ 1940 01db 00       		.byte	0
+ 1941 01dc 0A       		.uleb128 0xa
+ 1942 01dd 1E060000 		.4byte	.LASF36
+ 1943 01e1 03       		.byte	0x3
+ 1944 01e2 2701     		.2byte	0x127
+ 1945 01e4 C5010000 		.4byte	0x1c5
+ 1946 01e8 0A       		.uleb128 0xa
+ 1947 01e9 69060000 		.4byte	.LASF37
+ 1948 01ed 03       		.byte	0x3
+ 1949 01ee 2D07     		.2byte	0x72d
+ 1950 01f0 F4010000 		.4byte	0x1f4
+ 1951 01f4 0B       		.uleb128 0xb
+ 1952 01f5 9B030000 		.4byte	.LASF61
+ 1953 01f9 54       		.byte	0x54
+ 1954 01fa 03       		.byte	0x3
+ 1955 01fb E807     		.2byte	0x7e8
+ 1956 01fd 2C030000 		.4byte	0x32c
+ 1957 0201 09       		.uleb128 0x9
+ 1958 0202 DA020000 		.4byte	.LASF38
+ 1959 0206 03       		.byte	0x3
+ 1960 0207 E907     		.2byte	0x7e9
+ 1961 0209 AD030000 		.4byte	0x3ad
+ 1962 020d 00       		.byte	0
+ 1963 020e 09       		.uleb128 0x9
+ 1964 020f A9040000 		.4byte	.LASF39
+ 1965 0213 03       		.byte	0x3
+ 1966 0214 EA07     		.2byte	0x7ea
+ 1967 0216 5D040000 		.4byte	0x45d
+ 1968 021a 04       		.byte	0x4
+ 1969 021b 09       		.uleb128 0x9
+ 1970 021c C7000000 		.4byte	.LASF40
+ 1971 0220 03       		.byte	0x3
+ 1972 0221 EB07     		.2byte	0x7eb
+ 1973 0223 A1030000 		.4byte	0x3a1
+ 1974 0227 08       		.byte	0x8
+ 1975 0228 09       		.uleb128 0x9
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 48
+
+
+ 1976 0229 84030000 		.4byte	.LASF41
+ 1977 022d 03       		.byte	0x3
+ 1978 022e EC07     		.2byte	0x7ec
+ 1979 0230 25000000 		.4byte	0x25
+ 1980 0234 0C       		.byte	0xc
+ 1981 0235 09       		.uleb128 0x9
+ 1982 0236 95070000 		.4byte	.LASF42
+ 1983 023a 03       		.byte	0x3
+ 1984 023b ED07     		.2byte	0x7ed
+ 1985 023d 90000000 		.4byte	0x90
+ 1986 0241 10       		.byte	0x10
+ 1987 0242 09       		.uleb128 0x9
+ 1988 0243 F0070000 		.4byte	.LASF43
+ 1989 0247 03       		.byte	0x3
+ 1990 0248 EE07     		.2byte	0x7ee
+ 1991 024a 90000000 		.4byte	0x90
+ 1992 024e 14       		.byte	0x14
+ 1993 024f 09       		.uleb128 0x9
+ 1994 0250 41070000 		.4byte	.LASF44
+ 1995 0254 03       		.byte	0x3
+ 1996 0255 EF07     		.2byte	0x7ef
+ 1997 0257 63040000 		.4byte	0x463
+ 1998 025b 18       		.byte	0x18
+ 1999 025c 09       		.uleb128 0x9
+ 2000 025d D6030000 		.4byte	.LASF45
+ 2001 0261 03       		.byte	0x3
+ 2002 0262 F007     		.2byte	0x7f0
+ 2003 0264 90000000 		.4byte	0x90
+ 2004 0268 1C       		.byte	0x1c
+ 2005 0269 09       		.uleb128 0x9
+ 2006 026a 4E000000 		.4byte	.LASF46
+ 2007 026e 03       		.byte	0x3
+ 2008 026f F207     		.2byte	0x7f2
+ 2009 0271 AD030000 		.4byte	0x3ad
+ 2010 0275 20       		.byte	0x20
+ 2011 0276 09       		.uleb128 0x9
+ 2012 0277 20050000 		.4byte	.LASF47
+ 2013 027b 03       		.byte	0x3
+ 2014 027c F507     		.2byte	0x7f5
+ 2015 027e BA000000 		.4byte	0xba
+ 2016 0282 24       		.byte	0x24
+ 2017 0283 09       		.uleb128 0x9
+ 2018 0284 18080000 		.4byte	.LASF48
+ 2019 0288 03       		.byte	0x3
+ 2020 0289 F807     		.2byte	0x7f8
+ 2021 028b 2C000000 		.4byte	0x2c
+ 2022 028f 28       		.byte	0x28
+ 2023 0290 09       		.uleb128 0x9
+ 2024 0291 26060000 		.4byte	.LASF49
+ 2025 0295 03       		.byte	0x3
+ 2026 0296 F907     		.2byte	0x7f9
+ 2027 0298 B4000000 		.4byte	0xb4
+ 2028 029c 2C       		.byte	0x2c
+ 2029 029d 09       		.uleb128 0x9
+ 2030 029e FD020000 		.4byte	.LASF50
+ 2031 02a2 03       		.byte	0x3
+ 2032 02a3 FC07     		.2byte	0x7fc
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 49
+
+
+ 2033 02a5 90000000 		.4byte	0x90
+ 2034 02a9 30       		.byte	0x30
+ 2035 02aa 09       		.uleb128 0x9
+ 2036 02ab 82050000 		.4byte	.LASF51
+ 2037 02af 03       		.byte	0x3
+ 2038 02b0 FD07     		.2byte	0x7fd
+ 2039 02b2 90000000 		.4byte	0x90
+ 2040 02b6 34       		.byte	0x34
+ 2041 02b7 09       		.uleb128 0x9
+ 2042 02b8 AD010000 		.4byte	.LASF52
+ 2043 02bc 03       		.byte	0x3
+ 2044 02bd 0008     		.2byte	0x800
+ 2045 02bf 90000000 		.4byte	0x90
+ 2046 02c3 38       		.byte	0x38
+ 2047 02c4 09       		.uleb128 0x9
+ 2048 02c5 3A020000 		.4byte	.LASF53
+ 2049 02c9 03       		.byte	0x3
+ 2050 02ca 0108     		.2byte	0x801
+ 2051 02cc 90000000 		.4byte	0x90
+ 2052 02d0 3C       		.byte	0x3c
+ 2053 02d1 09       		.uleb128 0x9
+ 2054 02d2 22080000 		.4byte	.LASF54
+ 2055 02d6 03       		.byte	0x3
+ 2056 02d7 0208     		.2byte	0x802
+ 2057 02d9 90000000 		.4byte	0x90
+ 2058 02dd 40       		.byte	0x40
+ 2059 02de 09       		.uleb128 0x9
+ 2060 02df A4050000 		.4byte	.LASF55
+ 2061 02e3 03       		.byte	0x3
+ 2062 02e4 0508     		.2byte	0x805
+ 2063 02e6 51040000 		.4byte	0x451
+ 2064 02ea 44       		.byte	0x44
+ 2065 02eb 09       		.uleb128 0x9
+ 2066 02ec F3010000 		.4byte	.LASF56
+ 2067 02f0 03       		.byte	0x3
+ 2068 02f1 0808     		.2byte	0x808
+ 2069 02f3 A5000000 		.4byte	0xa5
+ 2070 02f7 4C       		.byte	0x4c
+ 2071 02f8 09       		.uleb128 0x9
+ 2072 02f9 1C040000 		.4byte	.LASF57
+ 2073 02fd 03       		.byte	0x3
+ 2074 02fe 0D08     		.2byte	0x80d
+ 2075 0300 53000000 		.4byte	0x53
+ 2076 0304 50       		.byte	0x50
+ 2077 0305 09       		.uleb128 0x9
+ 2078 0306 4C020000 		.4byte	.LASF58
+ 2079 030a 03       		.byte	0x3
+ 2080 030b 0F08     		.2byte	0x80f
+ 2081 030d 53000000 		.4byte	0x53
+ 2082 0311 51       		.byte	0x51
+ 2083 0312 09       		.uleb128 0x9
+ 2084 0313 C2070000 		.4byte	.LASF59
+ 2085 0317 03       		.byte	0x3
+ 2086 0318 1008     		.2byte	0x810
+ 2087 031a 53000000 		.4byte	0x53
+ 2088 031e 52       		.byte	0x52
+ 2089 031f 0C       		.uleb128 0xc
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 50
+
+
+ 2090 0320 496400   		.ascii	"Id\000"
+ 2091 0323 03       		.byte	0x3
+ 2092 0324 1308     		.2byte	0x813
+ 2093 0326 53000000 		.4byte	0x53
+ 2094 032a 53       		.byte	0x53
+ 2095 032b 00       		.byte	0
+ 2096 032c 0A       		.uleb128 0xa
+ 2097 032d 5C070000 		.4byte	.LASF60
+ 2098 0331 03       		.byte	0x3
+ 2099 0332 2E07     		.2byte	0x72e
+ 2100 0334 38030000 		.4byte	0x338
+ 2101 0338 0B       		.uleb128 0xb
+ 2102 0339 3E040000 		.4byte	.LASF62
+ 2103 033d 10       		.byte	0x10
+ 2104 033e 03       		.byte	0x3
+ 2105 033f 4707     		.2byte	0x747
+ 2106 0341 7A030000 		.4byte	0x37a
+ 2107 0345 09       		.uleb128 0x9
+ 2108 0346 DA020000 		.4byte	.LASF38
+ 2109 034a 03       		.byte	0x3
+ 2110 034b 4807     		.2byte	0x748
+ 2111 034d A1030000 		.4byte	0x3a1
+ 2112 0351 00       		.byte	0
+ 2113 0352 09       		.uleb128 0x9
+ 2114 0353 4E000000 		.4byte	.LASF46
+ 2115 0357 03       		.byte	0x3
+ 2116 0358 4907     		.2byte	0x749
+ 2117 035a A1030000 		.4byte	0x3a1
+ 2118 035e 04       		.byte	0x4
+ 2119 035f 09       		.uleb128 0x9
+ 2120 0360 5C050000 		.4byte	.LASF63
+ 2121 0364 03       		.byte	0x3
+ 2122 0365 4A07     		.2byte	0x74a
+ 2123 0367 A7030000 		.4byte	0x3a7
+ 2124 036b 08       		.byte	0x8
+ 2125 036c 09       		.uleb128 0x9
+ 2126 036d 7F040000 		.4byte	.LASF64
+ 2127 0371 03       		.byte	0x3
+ 2128 0372 4B07     		.2byte	0x74b
+ 2129 0374 AD030000 		.4byte	0x3ad
+ 2130 0378 0C       		.byte	0xc
+ 2131 0379 00       		.byte	0
+ 2132 037a 0A       		.uleb128 0xa
+ 2133 037b 3E060000 		.4byte	.LASF65
+ 2134 037f 03       		.byte	0x3
+ 2135 0380 2F07     		.2byte	0x72f
+ 2136 0382 86030000 		.4byte	0x386
+ 2137 0386 0B       		.uleb128 0xb
+ 2138 0387 05000000 		.4byte	.LASF66
+ 2139 038b 04       		.byte	0x4
+ 2140 038c 03       		.byte	0x3
+ 2141 038d 4307     		.2byte	0x743
+ 2142 038f A1030000 		.4byte	0x3a1
+ 2143 0393 09       		.uleb128 0x9
+ 2144 0394 C7000000 		.4byte	.LASF40
+ 2145 0398 03       		.byte	0x3
+ 2146 0399 4407     		.2byte	0x744
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 51
+
+
+ 2147 039b A1030000 		.4byte	0x3a1
+ 2148 039f 00       		.byte	0
+ 2149 03a0 00       		.byte	0
+ 2150 03a1 06       		.uleb128 0x6
+ 2151 03a2 04       		.byte	0x4
+ 2152 03a3 2C030000 		.4byte	0x32c
+ 2153 03a7 06       		.uleb128 0x6
+ 2154 03a8 04       		.byte	0x4
+ 2155 03a9 7A030000 		.4byte	0x37a
+ 2156 03ad 06       		.uleb128 0x6
+ 2157 03ae 04       		.byte	0x4
+ 2158 03af E8010000 		.4byte	0x1e8
+ 2159 03b3 0B       		.uleb128 0xb
+ 2160 03b4 6C010000 		.4byte	.LASF67
+ 2161 03b8 08       		.byte	0x8
+ 2162 03b9 03       		.byte	0x3
+ 2163 03ba DA07     		.2byte	0x7da
+ 2164 03bc DB030000 		.4byte	0x3db
+ 2165 03c0 09       		.uleb128 0x9
+ 2166 03c1 2B050000 		.4byte	.LASF68
+ 2167 03c5 03       		.byte	0x3
+ 2168 03c6 DB07     		.2byte	0x7db
+ 2169 03c8 EA030000 		.4byte	0x3ea
+ 2170 03cc 00       		.byte	0
+ 2171 03cd 09       		.uleb128 0x9
+ 2172 03ce 7D000000 		.4byte	.LASF69
+ 2173 03d2 03       		.byte	0x3
+ 2174 03d3 DC07     		.2byte	0x7dc
+ 2175 03d5 06040000 		.4byte	0x406
+ 2176 03d9 04       		.byte	0x4
+ 2177 03da 00       		.byte	0
+ 2178 03db 0D       		.uleb128 0xd
+ 2179 03dc A5000000 		.4byte	0xa5
+ 2180 03e0 EA030000 		.4byte	0x3ea
+ 2181 03e4 0E       		.uleb128 0xe
+ 2182 03e5 A5000000 		.4byte	0xa5
+ 2183 03e9 00       		.byte	0
+ 2184 03ea 06       		.uleb128 0x6
+ 2185 03eb 04       		.byte	0x4
+ 2186 03ec DB030000 		.4byte	0x3db
+ 2187 03f0 0D       		.uleb128 0xd
+ 2188 03f1 A5000000 		.4byte	0xa5
+ 2189 03f5 FF030000 		.4byte	0x3ff
+ 2190 03f9 0E       		.uleb128 0xe
+ 2191 03fa FF030000 		.4byte	0x3ff
+ 2192 03fe 00       		.byte	0
+ 2193 03ff 06       		.uleb128 0x6
+ 2194 0400 04       		.byte	0x4
+ 2195 0401 05040000 		.4byte	0x405
+ 2196 0405 0F       		.uleb128 0xf
+ 2197 0406 06       		.uleb128 0x6
+ 2198 0407 04       		.byte	0x4
+ 2199 0408 F0030000 		.4byte	0x3f0
+ 2200 040c 0A       		.uleb128 0xa
+ 2201 040d DC010000 		.4byte	.LASF70
+ 2202 0411 03       		.byte	0x3
+ 2203 0412 DD07     		.2byte	0x7dd
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 52
+
+
+ 2204 0414 B3030000 		.4byte	0x3b3
+ 2205 0418 0B       		.uleb128 0xb
+ 2206 0419 1D030000 		.4byte	.LASF71
+ 2207 041d 08       		.byte	0x8
+ 2208 041e 03       		.byte	0x3
+ 2209 041f DF07     		.2byte	0x7df
+ 2210 0421 40040000 		.4byte	0x440
+ 2211 0425 09       		.uleb128 0x9
+ 2212 0426 38000000 		.4byte	.LASF72
+ 2213 042a 03       		.byte	0x3
+ 2214 042b E007     		.2byte	0x7e0
+ 2215 042d 40040000 		.4byte	0x440
+ 2216 0431 00       		.byte	0
+ 2217 0432 09       		.uleb128 0x9
+ 2218 0433 DA020000 		.4byte	.LASF38
+ 2219 0437 03       		.byte	0x3
+ 2220 0438 E107     		.2byte	0x7e1
+ 2221 043a 4B040000 		.4byte	0x44b
+ 2222 043e 04       		.byte	0x4
+ 2223 043f 00       		.byte	0
+ 2224 0440 06       		.uleb128 0x6
+ 2225 0441 04       		.byte	0x4
+ 2226 0442 46040000 		.4byte	0x446
+ 2227 0446 07       		.uleb128 0x7
+ 2228 0447 0C040000 		.4byte	0x40c
+ 2229 044b 06       		.uleb128 0x6
+ 2230 044c 04       		.byte	0x4
+ 2231 044d 18040000 		.4byte	0x418
+ 2232 0451 0A       		.uleb128 0xa
+ 2233 0452 A6070000 		.4byte	.LASF73
+ 2234 0456 03       		.byte	0x3
+ 2235 0457 E207     		.2byte	0x7e2
+ 2236 0459 18040000 		.4byte	0x418
+ 2237 045d 06       		.uleb128 0x6
+ 2238 045e 04       		.byte	0x4
+ 2239 045f DC010000 		.4byte	0x1dc
+ 2240 0463 10       		.uleb128 0x10
+ 2241 0464 90000000 		.4byte	0x90
+ 2242 0468 0A       		.uleb128 0xa
+ 2243 0469 43020000 		.4byte	.LASF74
+ 2244 046d 03       		.byte	0x3
+ 2245 046e A608     		.2byte	0x8a6
+ 2246 0470 74040000 		.4byte	0x474
+ 2247 0474 0B       		.uleb128 0xb
+ 2248 0475 65040000 		.4byte	.LASF75
+ 2249 0479 24       		.byte	0x24
+ 2250 047a 03       		.byte	0x3
+ 2251 047b A708     		.2byte	0x8a7
+ 2252 047d 03050000 		.4byte	0x503
+ 2253 0481 09       		.uleb128 0x9
+ 2254 0482 02040000 		.4byte	.LASF76
+ 2255 0486 03       		.byte	0x3
+ 2256 0487 A808     		.2byte	0x8a8
+ 2257 0489 7A030000 		.4byte	0x37a
+ 2258 048d 00       		.byte	0
+ 2259 048e 09       		.uleb128 0x9
+ 2260 048f F8010000 		.4byte	.LASF77
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 53
+
+
+ 2261 0493 03       		.byte	0x3
+ 2262 0494 A908     		.2byte	0x8a9
+ 2263 0496 B4000000 		.4byte	0xb4
+ 2264 049a 04       		.byte	0x4
+ 2265 049b 09       		.uleb128 0x9
+ 2266 049c DA020000 		.4byte	.LASF38
+ 2267 04a0 03       		.byte	0x3
+ 2268 04a1 AB08     		.2byte	0x8ab
+ 2269 04a3 03050000 		.4byte	0x503
+ 2270 04a7 08       		.byte	0x8
+ 2271 04a8 09       		.uleb128 0x9
+ 2272 04a9 91050000 		.4byte	.LASF78
+ 2273 04ad 03       		.byte	0x3
+ 2274 04ae AD08     		.2byte	0x8ad
+ 2275 04b0 2C000000 		.4byte	0x2c
+ 2276 04b4 0C       		.byte	0xc
+ 2277 04b5 09       		.uleb128 0x9
+ 2278 04b6 47030000 		.4byte	.LASF79
+ 2279 04ba 03       		.byte	0x3
+ 2280 04bb AE08     		.2byte	0x8ae
+ 2281 04bd 2C000000 		.4byte	0x2c
+ 2282 04c1 10       		.byte	0x10
+ 2283 04c2 09       		.uleb128 0x9
+ 2284 04c3 45000000 		.4byte	.LASF80
+ 2285 04c7 03       		.byte	0x3
+ 2286 04c8 AF08     		.2byte	0x8af
+ 2287 04ca 2C000000 		.4byte	0x2c
+ 2288 04ce 14       		.byte	0x14
+ 2289 04cf 09       		.uleb128 0x9
+ 2290 04d0 61060000 		.4byte	.LASF81
+ 2291 04d4 03       		.byte	0x3
+ 2292 04d5 B008     		.2byte	0x8b0
+ 2293 04d7 2C000000 		.4byte	0x2c
+ 2294 04db 18       		.byte	0x18
+ 2295 04dc 09       		.uleb128 0x9
+ 2296 04dd A2020000 		.4byte	.LASF82
+ 2297 04e1 03       		.byte	0x3
+ 2298 04e2 B108     		.2byte	0x8b1
+ 2299 04e4 2C000000 		.4byte	0x2c
+ 2300 04e8 1C       		.byte	0x1c
+ 2301 04e9 09       		.uleb128 0x9
+ 2302 04ea 86020000 		.4byte	.LASF83
+ 2303 04ee 03       		.byte	0x3
+ 2304 04ef B208     		.2byte	0x8b2
+ 2305 04f1 53000000 		.4byte	0x53
+ 2306 04f5 20       		.byte	0x20
+ 2307 04f6 0C       		.uleb128 0xc
+ 2308 04f7 496400   		.ascii	"Id\000"
+ 2309 04fa 03       		.byte	0x3
+ 2310 04fb B408     		.2byte	0x8b4
+ 2311 04fd 53000000 		.4byte	0x53
+ 2312 0501 21       		.byte	0x21
+ 2313 0502 00       		.byte	0
+ 2314 0503 06       		.uleb128 0x6
+ 2315 0504 04       		.byte	0x4
+ 2316 0505 68040000 		.4byte	0x468
+ 2317 0509 04       		.uleb128 0x4
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 54
+
+
+ 2318 050a 9E070000 		.4byte	.LASF84
+ 2319 050e 04       		.byte	0x4
+ 2320 050f 18       		.byte	0x18
+ 2321 0510 48000000 		.4byte	0x48
+ 2322 0514 04       		.uleb128 0x4
+ 2323 0515 ED020000 		.4byte	.LASF85
+ 2324 0519 04       		.byte	0x4
+ 2325 051a 24       		.byte	0x24
+ 2326 051b 61000000 		.4byte	0x61
+ 2327 051f 04       		.uleb128 0x4
+ 2328 0520 D1050000 		.4byte	.LASF86
+ 2329 0524 04       		.byte	0x4
+ 2330 0525 2C       		.byte	0x2c
+ 2331 0526 73000000 		.4byte	0x73
+ 2332 052a 04       		.uleb128 0x4
+ 2333 052b 58060000 		.4byte	.LASF87
+ 2334 052f 04       		.byte	0x4
+ 2335 0530 30       		.byte	0x30
+ 2336 0531 85000000 		.4byte	0x85
+ 2337 0535 0A       		.uleb128 0xa
+ 2338 0536 D4020000 		.4byte	.LASF88
+ 2339 053a 05       		.byte	0x5
+ 2340 053b E801     		.2byte	0x1e8
+ 2341 053d 53000000 		.4byte	0x53
+ 2342 0541 0A       		.uleb128 0xa
+ 2343 0542 18000000 		.4byte	.LASF89
+ 2344 0546 05       		.byte	0x5
+ 2345 0547 E901     		.2byte	0x1e9
+ 2346 0549 6C000000 		.4byte	0x6c
+ 2347 054d 0A       		.uleb128 0xa
+ 2348 054e 40030000 		.4byte	.LASF90
+ 2349 0552 05       		.byte	0x5
+ 2350 0553 EA01     		.2byte	0x1ea
+ 2351 0555 90000000 		.4byte	0x90
+ 2352 0559 03       		.uleb128 0x3
+ 2353 055a 04       		.byte	0x4
+ 2354 055b 04       		.byte	0x4
+ 2355 055c 7C050000 		.4byte	.LASF91
+ 2356 0560 03       		.uleb128 0x3
+ 2357 0561 08       		.byte	0x8
+ 2358 0562 04       		.byte	0x4
+ 2359 0563 F6020000 		.4byte	.LASF92
+ 2360 0567 0A       		.uleb128 0xa
+ 2361 0568 D2070000 		.4byte	.LASF93
+ 2362 056c 05       		.byte	0x5
+ 2363 056d 8A02     		.2byte	0x28a
+ 2364 056f 90000000 		.4byte	0x90
+ 2365 0573 04       		.uleb128 0x4
+ 2366 0574 96050000 		.4byte	.LASF94
+ 2367 0578 06       		.byte	0x6
+ 2368 0579 6C       		.byte	0x6c
+ 2369 057a 2C000000 		.4byte	0x2c
+ 2370 057e 11       		.uleb128 0x11
+ 2371 057f B7000000 		.4byte	.LASF95
+ 2372 0583 01       		.byte	0x1
+ 2373 0584 63       		.byte	0x63
+ 2374 0585 00000000 		.4byte	.LFB64
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 55
+
+
+ 2375 0589 2C000000 		.4byte	.LFE64-.LFB64
+ 2376 058d 01       		.uleb128 0x1
+ 2377 058e 9C       		.byte	0x9c
+ 2378 058f A2050000 		.4byte	0x5a2
+ 2379 0593 12       		.uleb128 0x12
+ 2380 0594 E7050000 		.4byte	.LASF97
+ 2381 0598 01       		.byte	0x1
+ 2382 0599 63       		.byte	0x63
+ 2383 059a 09050000 		.4byte	0x509
+ 2384 059e 02       		.uleb128 0x2
+ 2385 059f 91       		.byte	0x91
+ 2386 05a0 77       		.sleb128 -9
+ 2387 05a1 00       		.byte	0
+ 2388 05a2 11       		.uleb128 0x11
+ 2389 05a3 53030000 		.4byte	.LASF96
+ 2390 05a7 01       		.byte	0x1
+ 2391 05a8 71       		.byte	0x71
+ 2392 05a9 00000000 		.4byte	.LFB65
+ 2393 05ad 8C000000 		.4byte	.LFE65-.LFB65
+ 2394 05b1 01       		.uleb128 0x1
+ 2395 05b2 9C       		.byte	0x9c
+ 2396 05b3 DC050000 		.4byte	0x5dc
+ 2397 05b7 13       		.uleb128 0x13
+ 2398 05b8 6D736700 		.ascii	"msg\000"
+ 2399 05bc 01       		.byte	0x1
+ 2400 05bd 71       		.byte	0x71
+ 2401 05be A7000000 		.4byte	0xa7
+ 2402 05c2 03       		.uleb128 0x3
+ 2403 05c3 91       		.byte	0x91
+ 2404 05c4 F47E     		.sleb128 -140
+ 2405 05c6 14       		.uleb128 0x14
+ 2406 05c7 00000000 		.4byte	.Ldebug_ranges0+0
+ 2407 05cb 15       		.uleb128 0x15
+ 2408 05cc C1050000 		.4byte	.LASF101
+ 2409 05d0 01       		.byte	0x1
+ 2410 05d1 76       		.byte	0x76
+ 2411 05d2 DC050000 		.4byte	0x5dc
+ 2412 05d6 03       		.uleb128 0x3
+ 2413 05d7 91       		.byte	0x91
+ 2414 05d8 F87E     		.sleb128 -136
+ 2415 05da 00       		.byte	0
+ 2416 05db 00       		.byte	0
+ 2417 05dc 16       		.uleb128 0x16
+ 2418 05dd AD000000 		.4byte	0xad
+ 2419 05e1 EC050000 		.4byte	0x5ec
+ 2420 05e5 17       		.uleb128 0x17
+ 2421 05e6 9E000000 		.4byte	0x9e
+ 2422 05ea 7F       		.byte	0x7f
+ 2423 05eb 00       		.byte	0
+ 2424 05ec 11       		.uleb128 0x11
+ 2425 05ed FE010000 		.4byte	.LASF98
+ 2426 05f1 01       		.byte	0x1
+ 2427 05f2 99       		.byte	0x99
+ 2428 05f3 00000000 		.4byte	.LFB66
+ 2429 05f7 0C020000 		.4byte	.LFE66-.LFB66
+ 2430 05fb 01       		.uleb128 0x1
+ 2431 05fc 9C       		.byte	0x9c
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 56
+
+
+ 2432 05fd 46060000 		.4byte	0x646
+ 2433 0601 12       		.uleb128 0x12
+ 2434 0602 9F040000 		.4byte	.LASF99
+ 2435 0606 01       		.byte	0x1
+ 2436 0607 99       		.byte	0x99
+ 2437 0608 09050000 		.4byte	0x509
+ 2438 060c 03       		.uleb128 0x3
+ 2439 060d 91       		.byte	0x91
+ 2440 060e 9F7E     		.sleb128 -225
+ 2441 0610 12       		.uleb128 0x12
+ 2442 0611 C5010000 		.4byte	.LASF100
+ 2443 0615 01       		.byte	0x1
+ 2444 0616 99       		.byte	0x99
+ 2445 0617 A7000000 		.4byte	0xa7
+ 2446 061b 03       		.uleb128 0x3
+ 2447 061c 91       		.byte	0x91
+ 2448 061d 987E     		.sleb128 -232
+ 2449 061f 18       		.uleb128 0x18
+ 2450 0620 72657400 		.ascii	"ret\000"
+ 2451 0624 01       		.byte	0x1
+ 2452 0625 A3       		.byte	0xa3
+ 2453 0626 A7000000 		.4byte	0xa7
+ 2454 062a 02       		.uleb128 0x2
+ 2455 062b 91       		.byte	0x91
+ 2456 062c 6C       		.sleb128 -20
+ 2457 062d 19       		.uleb128 0x19
+ 2458 062e EE000000 		.4byte	.LBB4
+ 2459 0632 B2000000 		.4byte	.LBE4-.LBB4
+ 2460 0636 18       		.uleb128 0x18
+ 2461 0637 626600   		.ascii	"bf\000"
+ 2462 063a 01       		.byte	0x1
+ 2463 063b BB       		.byte	0xbb
+ 2464 063c 46060000 		.4byte	0x646
+ 2465 0640 03       		.uleb128 0x3
+ 2466 0641 91       		.byte	0x91
+ 2467 0642 A47E     		.sleb128 -220
+ 2468 0644 00       		.byte	0
+ 2469 0645 00       		.byte	0
+ 2470 0646 16       		.uleb128 0x16
+ 2471 0647 AD000000 		.4byte	0xad
+ 2472 064b 56060000 		.4byte	0x656
+ 2473 064f 17       		.uleb128 0x17
+ 2474 0650 9E000000 		.4byte	0x9e
+ 2475 0654 C7       		.byte	0xc7
+ 2476 0655 00       		.byte	0
+ 2477 0656 1A       		.uleb128 0x1a
+ 2478 0657 8C030000 		.4byte	.LASF119
+ 2479 065b 01       		.byte	0x1
+ 2480 065c EC       		.byte	0xec
+ 2481 065d 09050000 		.4byte	0x509
+ 2482 0661 00000000 		.4byte	.LFB67
+ 2483 0665 C0000000 		.4byte	.LFE67-.LFB67
+ 2484 0669 01       		.uleb128 0x1
+ 2485 066a 9C       		.byte	0x9c
+ 2486 066b F5060000 		.4byte	0x6f5
+ 2487 066f 12       		.uleb128 0x12
+ 2488 0670 69070000 		.4byte	.LASF102
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 57
+
+
+ 2489 0674 01       		.byte	0x1
+ 2490 0675 EC       		.byte	0xec
+ 2491 0676 A7000000 		.4byte	0xa7
+ 2492 067a 03       		.uleb128 0x3
+ 2493 067b 91       		.byte	0x91
+ 2494 067c FC7E     		.sleb128 -132
+ 2495 067e 12       		.uleb128 0x12
+ 2496 067f 87070000 		.4byte	.LASF103
+ 2497 0683 01       		.byte	0x1
+ 2498 0684 EC       		.byte	0xec
+ 2499 0685 14050000 		.4byte	0x514
+ 2500 0689 03       		.uleb128 0x3
+ 2501 068a 91       		.byte	0x91
+ 2502 068b FA7E     		.sleb128 -134
+ 2503 068d 18       		.uleb128 0x18
+ 2504 068e 72657400 		.ascii	"ret\000"
+ 2505 0692 01       		.byte	0x1
+ 2506 0693 EE       		.byte	0xee
+ 2507 0694 09050000 		.4byte	0x509
+ 2508 0698 02       		.uleb128 0x2
+ 2509 0699 91       		.byte	0x91
+ 2510 069a 6F       		.sleb128 -17
+ 2511 069b 15       		.uleb128 0x15
+ 2512 069c 2B000000 		.4byte	.LASF104
+ 2513 06a0 01       		.byte	0x1
+ 2514 06a1 EF       		.byte	0xef
+ 2515 06a2 14050000 		.4byte	0x514
+ 2516 06a6 02       		.uleb128 0x2
+ 2517 06a7 91       		.byte	0x91
+ 2518 06a8 6C       		.sleb128 -20
+ 2519 06a9 1B       		.uleb128 0x1b
+ 2520 06aa 28000000 		.4byte	.LBB5
+ 2521 06ae 5A000000 		.4byte	.LBE5-.LBB5
+ 2522 06b2 DB060000 		.4byte	0x6db
+ 2523 06b6 18       		.uleb128 0x18
+ 2524 06b7 6900     		.ascii	"i\000"
+ 2525 06b9 01       		.byte	0x1
+ 2526 06ba F2       		.byte	0xf2
+ 2527 06bb 14050000 		.4byte	0x514
+ 2528 06bf 02       		.uleb128 0x2
+ 2529 06c0 91       		.byte	0x91
+ 2530 06c1 6A       		.sleb128 -22
+ 2531 06c2 19       		.uleb128 0x19
+ 2532 06c3 30000000 		.4byte	.LBB6
+ 2533 06c7 38000000 		.4byte	.LBE6-.LBB6
+ 2534 06cb 15       		.uleb128 0x15
+ 2535 06cc 4E030000 		.4byte	.LASF105
+ 2536 06d0 01       		.byte	0x1
+ 2537 06d1 F3       		.byte	0xf3
+ 2538 06d2 14050000 		.4byte	0x514
+ 2539 06d6 02       		.uleb128 0x2
+ 2540 06d7 91       		.byte	0x91
+ 2541 06d8 68       		.sleb128 -24
+ 2542 06d9 00       		.byte	0
+ 2543 06da 00       		.byte	0
+ 2544 06db 19       		.uleb128 0x19
+ 2545 06dc 94000000 		.4byte	.LBB7
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 58
+
+
+ 2546 06e0 1A000000 		.4byte	.LBE7-.LBB7
+ 2547 06e4 15       		.uleb128 0x15
+ 2548 06e5 25000000 		.4byte	.LASF106
+ 2549 06e9 01       		.byte	0x1
+ 2550 06ea FE       		.byte	0xfe
+ 2551 06eb F5060000 		.4byte	0x6f5
+ 2552 06ef 03       		.uleb128 0x3
+ 2553 06f0 91       		.byte	0x91
+ 2554 06f1 847F     		.sleb128 -124
+ 2555 06f3 00       		.byte	0
+ 2556 06f4 00       		.byte	0
+ 2557 06f5 16       		.uleb128 0x16
+ 2558 06f6 AD000000 		.4byte	0xad
+ 2559 06fa 05070000 		.4byte	0x705
+ 2560 06fe 17       		.uleb128 0x17
+ 2561 06ff 9E000000 		.4byte	0x9e
+ 2562 0703 63       		.byte	0x63
+ 2563 0704 00       		.byte	0
+ 2564 0705 1C       		.uleb128 0x1c
+ 2565 0706 D8040000 		.4byte	.LASF107
+ 2566 070a 01       		.byte	0x1
+ 2567 070b 0901     		.2byte	0x109
+ 2568 070d 00000000 		.4byte	.LFB68
+ 2569 0711 C0050000 		.4byte	.LFE68-.LFB68
+ 2570 0715 01       		.uleb128 0x1
+ 2571 0716 9C       		.byte	0x9c
+ 2572 0717 0E080000 		.4byte	0x80e
+ 2573 071b 1D       		.uleb128 0x1d
+ 2574 071c 35020000 		.4byte	.LASF108
+ 2575 0720 01       		.byte	0x1
+ 2576 0721 0901     		.2byte	0x109
+ 2577 0723 A7000000 		.4byte	0xa7
+ 2578 0727 03       		.uleb128 0x3
+ 2579 0728 91       		.byte	0x91
+ 2580 0729 A47D     		.sleb128 -348
+ 2581 072b 1E       		.uleb128 0x1e
+ 2582 072c F2050000 		.4byte	.LASF109
+ 2583 0730 01       		.byte	0x1
+ 2584 0731 0F01     		.2byte	0x10f
+ 2585 0733 A7000000 		.4byte	0xa7
+ 2586 0737 02       		.uleb128 0x2
+ 2587 0738 91       		.byte	0x91
+ 2588 0739 68       		.sleb128 -24
+ 2589 073a 1F       		.uleb128 0x1f
+ 2590 073b 72657400 		.ascii	"ret\000"
+ 2591 073f 01       		.byte	0x1
+ 2592 0740 1001     		.2byte	0x110
+ 2593 0742 A7000000 		.4byte	0xa7
+ 2594 0746 02       		.uleb128 0x2
+ 2595 0747 91       		.byte	0x91
+ 2596 0748 64       		.sleb128 -28
+ 2597 0749 1E       		.uleb128 0x1e
+ 2598 074a 59020000 		.4byte	.LASF110
+ 2599 074e 01       		.byte	0x1
+ 2600 074f 1101     		.2byte	0x111
+ 2601 0751 F5060000 		.4byte	0x6f5
+ 2602 0755 03       		.uleb128 0x3
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 59
+
+
+ 2603 0756 91       		.byte	0x91
+ 2604 0757 F47E     		.sleb128 -140
+ 2605 0759 1E       		.uleb128 0x1e
+ 2606 075a 07050000 		.4byte	.LASF111
+ 2607 075e 01       		.byte	0x1
+ 2608 075f 1A01     		.2byte	0x11a
+ 2609 0761 14050000 		.4byte	0x514
+ 2610 0765 02       		.uleb128 0x2
+ 2611 0766 91       		.byte	0x91
+ 2612 0767 62       		.sleb128 -30
+ 2613 0768 1E       		.uleb128 0x1e
+ 2614 0769 21040000 		.4byte	.LASF112
+ 2615 076d 01       		.byte	0x1
+ 2616 076e 1D01     		.2byte	0x11d
+ 2617 0770 14050000 		.4byte	0x514
+ 2618 0774 02       		.uleb128 0x2
+ 2619 0775 91       		.byte	0x91
+ 2620 0776 60       		.sleb128 -32
+ 2621 0777 1E       		.uleb128 0x1e
+ 2622 0778 F9070000 		.4byte	.LASF113
+ 2623 077c 01       		.byte	0x1
+ 2624 077d 2001     		.2byte	0x120
+ 2625 077f A7000000 		.4byte	0xa7
+ 2626 0783 02       		.uleb128 0x2
+ 2627 0784 91       		.byte	0x91
+ 2628 0785 5C       		.sleb128 -36
+ 2629 0786 1E       		.uleb128 0x1e
+ 2630 0787 5F010000 		.4byte	.LASF114
+ 2631 078b 01       		.byte	0x1
+ 2632 078c 2201     		.2byte	0x122
+ 2633 078e 09050000 		.4byte	0x509
+ 2634 0792 02       		.uleb128 0x2
+ 2635 0793 91       		.byte	0x91
+ 2636 0794 5B       		.sleb128 -37
+ 2637 0795 1E       		.uleb128 0x1e
+ 2638 0796 69070000 		.4byte	.LASF102
+ 2639 079a 01       		.byte	0x1
+ 2640 079b 7801     		.2byte	0x178
+ 2641 079d F5060000 		.4byte	0x6f5
+ 2642 07a1 03       		.uleb128 0x3
+ 2643 07a2 91       		.byte	0x91
+ 2644 07a3 907E     		.sleb128 -240
+ 2645 07a5 20       		.uleb128 0x20
+ 2646 07a6 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 2647 07aa BF070000 		.4byte	0x7bf
+ 2648 07ae 1F       		.uleb128 0x1f
+ 2649 07af 62756600 		.ascii	"buf\000"
+ 2650 07b3 01       		.byte	0x1
+ 2651 07b4 2901     		.2byte	0x129
+ 2652 07b6 F5060000 		.4byte	0x6f5
+ 2653 07ba 03       		.uleb128 0x3
+ 2654 07bb 91       		.byte	0x91
+ 2655 07bc AC7D     		.sleb128 -340
+ 2656 07be 00       		.byte	0
+ 2657 07bf 1B       		.uleb128 0x1b
+ 2658 07c0 B2010000 		.4byte	.LBB9
+ 2659 07c4 8C000000 		.4byte	.LBE9-.LBB9
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 60
+
+
+ 2660 07c8 DA070000 		.4byte	0x7da
+ 2661 07cc 1F       		.uleb128 0x1f
+ 2662 07cd 6900     		.ascii	"i\000"
+ 2663 07cf 01       		.byte	0x1
+ 2664 07d0 5901     		.2byte	0x159
+ 2665 07d2 2A050000 		.4byte	0x52a
+ 2666 07d6 02       		.uleb128 0x2
+ 2667 07d7 91       		.byte	0x91
+ 2668 07d8 6C       		.sleb128 -20
+ 2669 07d9 00       		.byte	0
+ 2670 07da 19       		.uleb128 0x19
+ 2671 07db 4E040000 		.4byte	.LBB10
+ 2672 07df 16010000 		.4byte	.LBE10-.LBB10
+ 2673 07e3 1E       		.uleb128 0x1e
+ 2674 07e4 24070000 		.4byte	.LASF115
+ 2675 07e8 01       		.byte	0x1
+ 2676 07e9 DF01     		.2byte	0x1df
+ 2677 07eb 09050000 		.4byte	0x509
+ 2678 07ef 02       		.uleb128 0x2
+ 2679 07f0 91       		.byte	0x91
+ 2680 07f1 5A       		.sleb128 -38
+ 2681 07f2 19       		.uleb128 0x19
+ 2682 07f3 C0040000 		.4byte	.LBB11
+ 2683 07f7 30000000 		.4byte	.LBE11-.LBB11
+ 2684 07fb 1E       		.uleb128 0x1e
+ 2685 07fc 69070000 		.4byte	.LASF102
+ 2686 0800 01       		.byte	0x1
+ 2687 0801 E201     		.2byte	0x1e2
+ 2688 0803 F5060000 		.4byte	0x6f5
+ 2689 0807 03       		.uleb128 0x3
+ 2690 0808 91       		.byte	0x91
+ 2691 0809 AC7D     		.sleb128 -340
+ 2692 080b 00       		.byte	0
+ 2693 080c 00       		.byte	0
+ 2694 080d 00       		.byte	0
+ 2695 080e 21       		.uleb128 0x21
+ 2696 080f 6E070000 		.4byte	.LASF116
+ 2697 0813 01       		.byte	0x1
+ 2698 0814 0302     		.2byte	0x203
+ 2699 0816 35050000 		.4byte	0x535
+ 2700 081a 00000000 		.4byte	.LFB69
+ 2701 081e 40010000 		.4byte	.LFE69-.LFB69
+ 2702 0822 01       		.uleb128 0x1
+ 2703 0823 9C       		.byte	0x9c
+ 2704 0824 99080000 		.4byte	0x899
+ 2705 0828 1E       		.uleb128 0x1e
+ 2706 0829 26050000 		.4byte	.LASF117
+ 2707 082d 01       		.byte	0x1
+ 2708 082e 0502     		.2byte	0x205
+ 2709 0830 35050000 		.4byte	0x535
+ 2710 0834 02       		.uleb128 0x2
+ 2711 0835 91       		.byte	0x91
+ 2712 0836 77       		.sleb128 -9
+ 2713 0837 1E       		.uleb128 0x1e
+ 2714 0838 35040000 		.4byte	.LASF118
+ 2715 083c 01       		.byte	0x1
+ 2716 083d 0602     		.2byte	0x206
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 61
+
+
+ 2717 083f 99080000 		.4byte	0x899
+ 2718 0843 03       		.uleb128 0x3
+ 2719 0844 91       		.byte	0x91
+ 2720 0845 EC7D     		.sleb128 -276
+ 2721 0847 1F       		.uleb128 0x1f
+ 2722 0848 63726300 		.ascii	"crc\000"
+ 2723 084c 01       		.byte	0x1
+ 2724 084d 0702     		.2byte	0x207
+ 2725 084f 35050000 		.4byte	0x535
+ 2726 0853 02       		.uleb128 0x2
+ 2727 0854 91       		.byte	0x91
+ 2728 0855 6F       		.sleb128 -17
+ 2729 0856 1B       		.uleb128 0x1b
+ 2730 0857 16000000 		.4byte	.LBB13
+ 2731 085b 32000000 		.4byte	.LBE13-.LBB13
+ 2732 085f 71080000 		.4byte	0x871
+ 2733 0863 1F       		.uleb128 0x1f
+ 2734 0864 6A00     		.ascii	"j\000"
+ 2735 0866 01       		.byte	0x1
+ 2736 0867 0902     		.2byte	0x209
+ 2737 0869 73050000 		.4byte	0x573
+ 2738 086d 02       		.uleb128 0x2
+ 2739 086e 91       		.byte	0x91
+ 2740 086f 70       		.sleb128 -16
+ 2741 0870 00       		.byte	0
+ 2742 0871 19       		.uleb128 0x19
+ 2743 0872 56000000 		.4byte	.LBB14
+ 2744 0876 5C000000 		.4byte	.LBE14-.LBB14
+ 2745 087a 1F       		.uleb128 0x1f
+ 2746 087b 61646400 		.ascii	"add\000"
+ 2747 087f 01       		.byte	0x1
+ 2748 0880 1602     		.2byte	0x216
+ 2749 0882 41050000 		.4byte	0x541
+ 2750 0886 02       		.uleb128 0x2
+ 2751 0887 91       		.byte	0x91
+ 2752 0888 6C       		.sleb128 -20
+ 2753 0889 1F       		.uleb128 0x1f
+ 2754 088a 6400     		.ascii	"d\000"
+ 2755 088c 01       		.byte	0x1
+ 2756 088d 1702     		.2byte	0x217
+ 2757 088f F5060000 		.4byte	0x6f5
+ 2758 0893 03       		.uleb128 0x3
+ 2759 0894 91       		.byte	0x91
+ 2760 0895 887D     		.sleb128 -376
+ 2761 0897 00       		.byte	0
+ 2762 0898 00       		.byte	0
+ 2763 0899 16       		.uleb128 0x16
+ 2764 089a 35050000 		.4byte	0x535
+ 2765 089e A9080000 		.4byte	0x8a9
+ 2766 08a2 17       		.uleb128 0x17
+ 2767 08a3 9E000000 		.4byte	0x9e
+ 2768 08a7 FF       		.byte	0xff
+ 2769 08a8 00       		.byte	0
+ 2770 08a9 22       		.uleb128 0x22
+ 2771 08aa 87000000 		.4byte	.LASF120
+ 2772 08ae 01       		.byte	0x1
+ 2773 08af 3102     		.2byte	0x231
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 62
+
+
+ 2774 08b1 35050000 		.4byte	0x535
+ 2775 08b5 00000000 		.4byte	.LFB70
+ 2776 08b9 50000000 		.4byte	.LFE70-.LFB70
+ 2777 08bd 01       		.uleb128 0x1
+ 2778 08be 9C       		.byte	0x9c
+ 2779 08bf E2080000 		.4byte	0x8e2
+ 2780 08c3 1D       		.uleb128 0x1d
+ 2781 08c4 1F000000 		.4byte	.LASF121
+ 2782 08c8 01       		.byte	0x1
+ 2783 08c9 3102     		.2byte	0x231
+ 2784 08cb 67050000 		.4byte	0x567
+ 2785 08cf 02       		.uleb128 0x2
+ 2786 08d0 91       		.byte	0x91
+ 2787 08d1 6C       		.sleb128 -20
+ 2788 08d2 1F       		.uleb128 0x1f
+ 2789 08d3 72657400 		.ascii	"ret\000"
+ 2790 08d7 01       		.byte	0x1
+ 2791 08d8 3302     		.2byte	0x233
+ 2792 08da 35050000 		.4byte	0x535
+ 2793 08de 02       		.uleb128 0x2
+ 2794 08df 91       		.byte	0x91
+ 2795 08e0 77       		.sleb128 -9
+ 2796 08e1 00       		.byte	0
+ 2797 08e2 23       		.uleb128 0x23
+ 2798 08e3 CF010000 		.4byte	.LASF122
+ 2799 08e7 07       		.byte	0x7
+ 2800 08e8 1207     		.2byte	0x712
+ 2801 08ea EE080000 		.4byte	0x8ee
+ 2802 08ee 10       		.uleb128 0x10
+ 2803 08ef 1F050000 		.4byte	0x51f
+ 2804 08f3 24       		.uleb128 0x24
+ 2805 08f4 85040000 		.4byte	.LASF123
+ 2806 08f8 08       		.byte	0x8
+ 2807 08f9 30       		.byte	0x30
+ 2808 08fa 35050000 		.4byte	0x535
+ 2809 08fe 24       		.uleb128 0x24
+ 2810 08ff 72030000 		.4byte	.LASF124
+ 2811 0903 08       		.byte	0x8
+ 2812 0904 32       		.byte	0x32
+ 2813 0905 41050000 		.4byte	0x541
+ 2814 0909 24       		.uleb128 0x24
+ 2815 090a 0C030000 		.4byte	.LASF125
+ 2816 090e 08       		.byte	0x8
+ 2817 090f 33       		.byte	0x33
+ 2818 0910 41050000 		.4byte	0x541
+ 2819 0914 24       		.uleb128 0x24
+ 2820 0915 C2020000 		.4byte	.LASF126
+ 2821 0919 08       		.byte	0x8
+ 2822 091a 34       		.byte	0x34
+ 2823 091b 41050000 		.4byte	0x541
+ 2824 091f 24       		.uleb128 0x24
+ 2825 0920 ED030000 		.4byte	.LASF127
+ 2826 0924 08       		.byte	0x8
+ 2827 0925 37       		.byte	0x37
+ 2828 0926 4D050000 		.4byte	0x54d
+ 2829 092a 24       		.uleb128 0x24
+ 2830 092b 48070000 		.4byte	.LASF128
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 63
+
+
+ 2831 092f 08       		.byte	0x8
+ 2832 0930 38       		.byte	0x38
+ 2833 0931 4D050000 		.4byte	0x54d
+ 2834 0935 16       		.uleb128 0x16
+ 2835 0936 AD000000 		.4byte	0xad
+ 2836 093a 45090000 		.4byte	0x945
+ 2837 093e 17       		.uleb128 0x17
+ 2838 093f 9E000000 		.4byte	0x9e
+ 2839 0943 0E       		.byte	0xe
+ 2840 0944 00       		.byte	0
+ 2841 0945 24       		.uleb128 0x24
+ 2842 0946 66020000 		.4byte	.LASF129
+ 2843 094a 08       		.byte	0x8
+ 2844 094b 39       		.byte	0x39
+ 2845 094c 35090000 		.4byte	0x935
+ 2846 0950 24       		.uleb128 0x24
+ 2847 0951 64000000 		.4byte	.LASF130
+ 2848 0955 08       		.byte	0x8
+ 2849 0956 3A       		.byte	0x3a
+ 2850 0957 41050000 		.4byte	0x541
+ 2851 095b 24       		.uleb128 0x24
+ 2852 095c 8C020000 		.4byte	.LASF131
+ 2853 0960 08       		.byte	0x8
+ 2854 0961 3B       		.byte	0x3b
+ 2855 0962 41050000 		.4byte	0x541
+ 2856 0966 24       		.uleb128 0x24
+ 2857 0967 B9020000 		.4byte	.LASF132
+ 2858 096b 08       		.byte	0x8
+ 2859 096c 3D       		.byte	0x3d
+ 2860 096d 35050000 		.4byte	0x535
+ 2861 0971 24       		.uleb128 0x24
+ 2862 0972 31060000 		.4byte	.LASF133
+ 2863 0976 08       		.byte	0x8
+ 2864 0977 3E       		.byte	0x3e
+ 2865 0978 35050000 		.4byte	0x535
+ 2866 097c 24       		.uleb128 0x24
+ 2867 097d 75040000 		.4byte	.LASF134
+ 2868 0981 08       		.byte	0x8
+ 2869 0982 40       		.byte	0x40
+ 2870 0983 35050000 		.4byte	0x535
+ 2871 0987 24       		.uleb128 0x24
+ 2872 0988 B7010000 		.4byte	.LASF135
+ 2873 098c 08       		.byte	0x8
+ 2874 098d 41       		.byte	0x41
+ 2875 098e 35050000 		.4byte	0x535
+ 2876 0992 24       		.uleb128 0x24
+ 2877 0993 DB070000 		.4byte	.LASF136
+ 2878 0997 08       		.byte	0x8
+ 2879 0998 56       		.byte	0x56
+ 2880 0999 68040000 		.4byte	0x468
+ 2881 099d 25       		.uleb128 0x25
+ 2882 099e 4A060000 		.4byte	.LASF137
+ 2883 09a2 09       		.byte	0x9
+ 2884 09a3 61       		.byte	0x61
+ 2885 09a4 E8010000 		.4byte	0x1e8
+ 2886 09a8 05       		.uleb128 0x5
+ 2887 09a9 03       		.byte	0x3
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 64
+
+
+ 2888 09aa 00000000 		.4byte	TCB_Task_Main
+ 2889 09ae 16       		.uleb128 0x16
+ 2890 09af 25000000 		.4byte	0x25
+ 2891 09b3 BF090000 		.4byte	0x9bf
+ 2892 09b7 26       		.uleb128 0x26
+ 2893 09b8 9E000000 		.4byte	0x9e
+ 2894 09bc FF07     		.2byte	0x7ff
+ 2895 09be 00       		.byte	0
+ 2896 09bf 25       		.uleb128 0x25
+ 2897 09c0 54000000 		.4byte	.LASF138
+ 2898 09c4 09       		.byte	0x9
+ 2899 09c5 62       		.byte	0x62
+ 2900 09c6 AE090000 		.4byte	0x9ae
+ 2901 09ca 05       		.uleb128 0x5
+ 2902 09cb 03       		.byte	0x3
+ 2903 09cc 00000000 		.4byte	Stack_Task_Main
+ 2904 09d0 25       		.uleb128 0x25
+ 2905 09d1 9B050000 		.4byte	.LASF139
+ 2906 09d5 01       		.byte	0x1
+ 2907 09d6 0A       		.byte	0xa
+ 2908 09d7 14050000 		.4byte	0x514
+ 2909 09db 05       		.uleb128 0x5
+ 2910 09dc 03       		.byte	0x3
+ 2911 09dd 00000000 		.4byte	line_num
+ 2912 09e1 25       		.uleb128 0x25
+ 2913 09e2 B5050000 		.4byte	.LASF140
+ 2914 09e6 01       		.byte	0x1
+ 2915 09e7 0B       		.byte	0xb
+ 2916 09e8 14050000 		.4byte	0x514
+ 2917 09ec 05       		.uleb128 0x5
+ 2918 09ed 03       		.byte	0x3
+ 2919 09ee 00000000 		.4byte	i2c_counter
+ 2920 09f2 25       		.uleb128 0x25
+ 2921 09f3 8A010000 		.4byte	.LASF141
+ 2922 09f7 01       		.byte	0x1
+ 2923 09f8 0D       		.byte	0xd
+ 2924 09f9 2C000000 		.4byte	0x2c
+ 2925 09fd 05       		.uleb128 0x5
+ 2926 09fe 03       		.byte	0x3
+ 2927 09ff 00000000 		.4byte	data_length
+ 2928 0a03 16       		.uleb128 0x16
+ 2929 0a04 09050000 		.4byte	0x509
+ 2930 0a08 140A0000 		.4byte	0xa14
+ 2931 0a0c 26       		.uleb128 0x26
+ 2932 0a0d 9E000000 		.4byte	0x9e
+ 2933 0a11 0501     		.2byte	0x105
+ 2934 0a13 00       		.byte	0
+ 2935 0a14 25       		.uleb128 0x25
+ 2936 0a15 0B020000 		.4byte	.LASF142
+ 2937 0a19 01       		.byte	0x1
+ 2938 0a1a 0E       		.byte	0xe
+ 2939 0a1b 030A0000 		.4byte	0xa03
+ 2940 0a1f 05       		.uleb128 0x5
+ 2941 0a20 03       		.byte	0x3
+ 2942 0a21 00000000 		.4byte	fota_data_bytes
+ 2943 0a25 25       		.uleb128 0x25
+ 2944 0a26 04060000 		.4byte	.LASF143
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 65
+
+
+ 2945 0a2a 01       		.byte	0x1
+ 2946 0a2b 0F       		.byte	0xf
+ 2947 0a2c 14050000 		.4byte	0x514
+ 2948 0a30 05       		.uleb128 0x5
+ 2949 0a31 03       		.byte	0x3
+ 2950 0a32 00000000 		.4byte	fota_data_index
+ 2951 0a36 25       		.uleb128 0x25
+ 2952 0a37 32050000 		.4byte	.LASF144
+ 2953 0a3b 01       		.byte	0x1
+ 2954 0a3c 10       		.byte	0x10
+ 2955 0a3d 25000000 		.4byte	0x25
+ 2956 0a41 05       		.uleb128 0x5
+ 2957 0a42 03       		.byte	0x3
+ 2958 0a43 00000000 		.4byte	data_index
+ 2959 0a47 25       		.uleb128 0x25
+ 2960 0a48 6F050000 		.4byte	.LASF145
+ 2961 0a4c 01       		.byte	0x1
+ 2962 0a4d 13       		.byte	0x13
+ 2963 0a4e 09050000 		.4byte	0x509
+ 2964 0a52 05       		.uleb128 0x5
+ 2965 0a53 03       		.byte	0x3
+ 2966 0a54 00000000 		.4byte	last_percent
+ 2967 0a58 27       		.uleb128 0x27
+ 2968 0a59 C6050000 		.4byte	.LASF146
+ 2969 0a5d 01       		.byte	0x1
+ 2970 0a5e 0002     		.2byte	0x200
+ 2971 0a60 41050000 		.4byte	0x541
+ 2972 0a64 05       		.uleb128 0x5
+ 2973 0a65 03       		.byte	0x3
+ 2974 0a66 00000000 		.4byte	rowAddress
+ 2975 0a6a 27       		.uleb128 0x27
+ 2976 0a6b 7E020000 		.4byte	.LASF147
+ 2977 0a6f 01       		.byte	0x1
+ 2978 0a70 0102     		.2byte	0x201
+ 2979 0a72 35050000 		.4byte	0x535
+ 2980 0a76 05       		.uleb128 0x5
+ 2981 0a77 03       		.byte	0x3
+ 2982 0a78 00000000 		.4byte	arrayID
+ 2983 0a7c 00       		.byte	0
+ 2984              		.section	.debug_abbrev,"",%progbits
+ 2985              	.Ldebug_abbrev0:
+ 2986 0000 01       		.uleb128 0x1
+ 2987 0001 11       		.uleb128 0x11
+ 2988 0002 01       		.byte	0x1
+ 2989 0003 25       		.uleb128 0x25
+ 2990 0004 0E       		.uleb128 0xe
+ 2991 0005 13       		.uleb128 0x13
+ 2992 0006 0B       		.uleb128 0xb
+ 2993 0007 03       		.uleb128 0x3
+ 2994 0008 0E       		.uleb128 0xe
+ 2995 0009 1B       		.uleb128 0x1b
+ 2996 000a 0E       		.uleb128 0xe
+ 2997 000b 55       		.uleb128 0x55
+ 2998 000c 17       		.uleb128 0x17
+ 2999 000d 11       		.uleb128 0x11
+ 3000 000e 01       		.uleb128 0x1
+ 3001 000f 10       		.uleb128 0x10
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 66
+
+
+ 3002 0010 17       		.uleb128 0x17
+ 3003 0011 00       		.byte	0
+ 3004 0012 00       		.byte	0
+ 3005 0013 02       		.uleb128 0x2
+ 3006 0014 24       		.uleb128 0x24
+ 3007 0015 00       		.byte	0
+ 3008 0016 0B       		.uleb128 0xb
+ 3009 0017 0B       		.uleb128 0xb
+ 3010 0018 3E       		.uleb128 0x3e
+ 3011 0019 0B       		.uleb128 0xb
+ 3012 001a 03       		.uleb128 0x3
+ 3013 001b 08       		.uleb128 0x8
+ 3014 001c 00       		.byte	0
+ 3015 001d 00       		.byte	0
+ 3016 001e 03       		.uleb128 0x3
+ 3017 001f 24       		.uleb128 0x24
+ 3018 0020 00       		.byte	0
+ 3019 0021 0B       		.uleb128 0xb
+ 3020 0022 0B       		.uleb128 0xb
+ 3021 0023 3E       		.uleb128 0x3e
+ 3022 0024 0B       		.uleb128 0xb
+ 3023 0025 03       		.uleb128 0x3
+ 3024 0026 0E       		.uleb128 0xe
+ 3025 0027 00       		.byte	0
+ 3026 0028 00       		.byte	0
+ 3027 0029 04       		.uleb128 0x4
+ 3028 002a 16       		.uleb128 0x16
+ 3029 002b 00       		.byte	0
+ 3030 002c 03       		.uleb128 0x3
+ 3031 002d 0E       		.uleb128 0xe
+ 3032 002e 3A       		.uleb128 0x3a
+ 3033 002f 0B       		.uleb128 0xb
+ 3034 0030 3B       		.uleb128 0x3b
+ 3035 0031 0B       		.uleb128 0xb
+ 3036 0032 49       		.uleb128 0x49
+ 3037 0033 13       		.uleb128 0x13
+ 3038 0034 00       		.byte	0
+ 3039 0035 00       		.byte	0
+ 3040 0036 05       		.uleb128 0x5
+ 3041 0037 0F       		.uleb128 0xf
+ 3042 0038 00       		.byte	0
+ 3043 0039 0B       		.uleb128 0xb
+ 3044 003a 0B       		.uleb128 0xb
+ 3045 003b 00       		.byte	0
+ 3046 003c 00       		.byte	0
+ 3047 003d 06       		.uleb128 0x6
+ 3048 003e 0F       		.uleb128 0xf
+ 3049 003f 00       		.byte	0
+ 3050 0040 0B       		.uleb128 0xb
+ 3051 0041 0B       		.uleb128 0xb
+ 3052 0042 49       		.uleb128 0x49
+ 3053 0043 13       		.uleb128 0x13
+ 3054 0044 00       		.byte	0
+ 3055 0045 00       		.byte	0
+ 3056 0046 07       		.uleb128 0x7
+ 3057 0047 26       		.uleb128 0x26
+ 3058 0048 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 67
+
+
+ 3059 0049 49       		.uleb128 0x49
+ 3060 004a 13       		.uleb128 0x13
+ 3061 004b 00       		.byte	0
+ 3062 004c 00       		.byte	0
+ 3063 004d 08       		.uleb128 0x8
+ 3064 004e 13       		.uleb128 0x13
+ 3065 004f 01       		.byte	0x1
+ 3066 0050 0B       		.uleb128 0xb
+ 3067 0051 0B       		.uleb128 0xb
+ 3068 0052 3A       		.uleb128 0x3a
+ 3069 0053 0B       		.uleb128 0xb
+ 3070 0054 3B       		.uleb128 0x3b
+ 3071 0055 05       		.uleb128 0x5
+ 3072 0056 01       		.uleb128 0x1
+ 3073 0057 13       		.uleb128 0x13
+ 3074 0058 00       		.byte	0
+ 3075 0059 00       		.byte	0
+ 3076 005a 09       		.uleb128 0x9
+ 3077 005b 0D       		.uleb128 0xd
+ 3078 005c 00       		.byte	0
+ 3079 005d 03       		.uleb128 0x3
+ 3080 005e 0E       		.uleb128 0xe
+ 3081 005f 3A       		.uleb128 0x3a
+ 3082 0060 0B       		.uleb128 0xb
+ 3083 0061 3B       		.uleb128 0x3b
+ 3084 0062 05       		.uleb128 0x5
+ 3085 0063 49       		.uleb128 0x49
+ 3086 0064 13       		.uleb128 0x13
+ 3087 0065 38       		.uleb128 0x38
+ 3088 0066 0B       		.uleb128 0xb
+ 3089 0067 00       		.byte	0
+ 3090 0068 00       		.byte	0
+ 3091 0069 0A       		.uleb128 0xa
+ 3092 006a 16       		.uleb128 0x16
+ 3093 006b 00       		.byte	0
+ 3094 006c 03       		.uleb128 0x3
+ 3095 006d 0E       		.uleb128 0xe
+ 3096 006e 3A       		.uleb128 0x3a
+ 3097 006f 0B       		.uleb128 0xb
+ 3098 0070 3B       		.uleb128 0x3b
+ 3099 0071 05       		.uleb128 0x5
+ 3100 0072 49       		.uleb128 0x49
+ 3101 0073 13       		.uleb128 0x13
+ 3102 0074 00       		.byte	0
+ 3103 0075 00       		.byte	0
+ 3104 0076 0B       		.uleb128 0xb
+ 3105 0077 13       		.uleb128 0x13
+ 3106 0078 01       		.byte	0x1
+ 3107 0079 03       		.uleb128 0x3
+ 3108 007a 0E       		.uleb128 0xe
+ 3109 007b 0B       		.uleb128 0xb
+ 3110 007c 0B       		.uleb128 0xb
+ 3111 007d 3A       		.uleb128 0x3a
+ 3112 007e 0B       		.uleb128 0xb
+ 3113 007f 3B       		.uleb128 0x3b
+ 3114 0080 05       		.uleb128 0x5
+ 3115 0081 01       		.uleb128 0x1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 68
+
+
+ 3116 0082 13       		.uleb128 0x13
+ 3117 0083 00       		.byte	0
+ 3118 0084 00       		.byte	0
+ 3119 0085 0C       		.uleb128 0xc
+ 3120 0086 0D       		.uleb128 0xd
+ 3121 0087 00       		.byte	0
+ 3122 0088 03       		.uleb128 0x3
+ 3123 0089 08       		.uleb128 0x8
+ 3124 008a 3A       		.uleb128 0x3a
+ 3125 008b 0B       		.uleb128 0xb
+ 3126 008c 3B       		.uleb128 0x3b
+ 3127 008d 05       		.uleb128 0x5
+ 3128 008e 49       		.uleb128 0x49
+ 3129 008f 13       		.uleb128 0x13
+ 3130 0090 38       		.uleb128 0x38
+ 3131 0091 0B       		.uleb128 0xb
+ 3132 0092 00       		.byte	0
+ 3133 0093 00       		.byte	0
+ 3134 0094 0D       		.uleb128 0xd
+ 3135 0095 15       		.uleb128 0x15
+ 3136 0096 01       		.byte	0x1
+ 3137 0097 27       		.uleb128 0x27
+ 3138 0098 19       		.uleb128 0x19
+ 3139 0099 49       		.uleb128 0x49
+ 3140 009a 13       		.uleb128 0x13
+ 3141 009b 01       		.uleb128 0x1
+ 3142 009c 13       		.uleb128 0x13
+ 3143 009d 00       		.byte	0
+ 3144 009e 00       		.byte	0
+ 3145 009f 0E       		.uleb128 0xe
+ 3146 00a0 05       		.uleb128 0x5
+ 3147 00a1 00       		.byte	0
+ 3148 00a2 49       		.uleb128 0x49
+ 3149 00a3 13       		.uleb128 0x13
+ 3150 00a4 00       		.byte	0
+ 3151 00a5 00       		.byte	0
+ 3152 00a6 0F       		.uleb128 0xf
+ 3153 00a7 26       		.uleb128 0x26
+ 3154 00a8 00       		.byte	0
+ 3155 00a9 00       		.byte	0
+ 3156 00aa 00       		.byte	0
+ 3157 00ab 10       		.uleb128 0x10
+ 3158 00ac 35       		.uleb128 0x35
+ 3159 00ad 00       		.byte	0
+ 3160 00ae 49       		.uleb128 0x49
+ 3161 00af 13       		.uleb128 0x13
+ 3162 00b0 00       		.byte	0
+ 3163 00b1 00       		.byte	0
+ 3164 00b2 11       		.uleb128 0x11
+ 3165 00b3 2E       		.uleb128 0x2e
+ 3166 00b4 01       		.byte	0x1
+ 3167 00b5 3F       		.uleb128 0x3f
+ 3168 00b6 19       		.uleb128 0x19
+ 3169 00b7 03       		.uleb128 0x3
+ 3170 00b8 0E       		.uleb128 0xe
+ 3171 00b9 3A       		.uleb128 0x3a
+ 3172 00ba 0B       		.uleb128 0xb
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 69
+
+
+ 3173 00bb 3B       		.uleb128 0x3b
+ 3174 00bc 0B       		.uleb128 0xb
+ 3175 00bd 27       		.uleb128 0x27
+ 3176 00be 19       		.uleb128 0x19
+ 3177 00bf 11       		.uleb128 0x11
+ 3178 00c0 01       		.uleb128 0x1
+ 3179 00c1 12       		.uleb128 0x12
+ 3180 00c2 06       		.uleb128 0x6
+ 3181 00c3 40       		.uleb128 0x40
+ 3182 00c4 18       		.uleb128 0x18
+ 3183 00c5 9642     		.uleb128 0x2116
+ 3184 00c7 19       		.uleb128 0x19
+ 3185 00c8 01       		.uleb128 0x1
+ 3186 00c9 13       		.uleb128 0x13
+ 3187 00ca 00       		.byte	0
+ 3188 00cb 00       		.byte	0
+ 3189 00cc 12       		.uleb128 0x12
+ 3190 00cd 05       		.uleb128 0x5
+ 3191 00ce 00       		.byte	0
+ 3192 00cf 03       		.uleb128 0x3
+ 3193 00d0 0E       		.uleb128 0xe
+ 3194 00d1 3A       		.uleb128 0x3a
+ 3195 00d2 0B       		.uleb128 0xb
+ 3196 00d3 3B       		.uleb128 0x3b
+ 3197 00d4 0B       		.uleb128 0xb
+ 3198 00d5 49       		.uleb128 0x49
+ 3199 00d6 13       		.uleb128 0x13
+ 3200 00d7 02       		.uleb128 0x2
+ 3201 00d8 18       		.uleb128 0x18
+ 3202 00d9 00       		.byte	0
+ 3203 00da 00       		.byte	0
+ 3204 00db 13       		.uleb128 0x13
+ 3205 00dc 05       		.uleb128 0x5
+ 3206 00dd 00       		.byte	0
+ 3207 00de 03       		.uleb128 0x3
+ 3208 00df 08       		.uleb128 0x8
+ 3209 00e0 3A       		.uleb128 0x3a
+ 3210 00e1 0B       		.uleb128 0xb
+ 3211 00e2 3B       		.uleb128 0x3b
+ 3212 00e3 0B       		.uleb128 0xb
+ 3213 00e4 49       		.uleb128 0x49
+ 3214 00e5 13       		.uleb128 0x13
+ 3215 00e6 02       		.uleb128 0x2
+ 3216 00e7 18       		.uleb128 0x18
+ 3217 00e8 00       		.byte	0
+ 3218 00e9 00       		.byte	0
+ 3219 00ea 14       		.uleb128 0x14
+ 3220 00eb 0B       		.uleb128 0xb
+ 3221 00ec 01       		.byte	0x1
+ 3222 00ed 55       		.uleb128 0x55
+ 3223 00ee 17       		.uleb128 0x17
+ 3224 00ef 00       		.byte	0
+ 3225 00f0 00       		.byte	0
+ 3226 00f1 15       		.uleb128 0x15
+ 3227 00f2 34       		.uleb128 0x34
+ 3228 00f3 00       		.byte	0
+ 3229 00f4 03       		.uleb128 0x3
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 70
+
+
+ 3230 00f5 0E       		.uleb128 0xe
+ 3231 00f6 3A       		.uleb128 0x3a
+ 3232 00f7 0B       		.uleb128 0xb
+ 3233 00f8 3B       		.uleb128 0x3b
+ 3234 00f9 0B       		.uleb128 0xb
+ 3235 00fa 49       		.uleb128 0x49
+ 3236 00fb 13       		.uleb128 0x13
+ 3237 00fc 02       		.uleb128 0x2
+ 3238 00fd 18       		.uleb128 0x18
+ 3239 00fe 00       		.byte	0
+ 3240 00ff 00       		.byte	0
+ 3241 0100 16       		.uleb128 0x16
+ 3242 0101 01       		.uleb128 0x1
+ 3243 0102 01       		.byte	0x1
+ 3244 0103 49       		.uleb128 0x49
+ 3245 0104 13       		.uleb128 0x13
+ 3246 0105 01       		.uleb128 0x1
+ 3247 0106 13       		.uleb128 0x13
+ 3248 0107 00       		.byte	0
+ 3249 0108 00       		.byte	0
+ 3250 0109 17       		.uleb128 0x17
+ 3251 010a 21       		.uleb128 0x21
+ 3252 010b 00       		.byte	0
+ 3253 010c 49       		.uleb128 0x49
+ 3254 010d 13       		.uleb128 0x13
+ 3255 010e 2F       		.uleb128 0x2f
+ 3256 010f 0B       		.uleb128 0xb
+ 3257 0110 00       		.byte	0
+ 3258 0111 00       		.byte	0
+ 3259 0112 18       		.uleb128 0x18
+ 3260 0113 34       		.uleb128 0x34
+ 3261 0114 00       		.byte	0
+ 3262 0115 03       		.uleb128 0x3
+ 3263 0116 08       		.uleb128 0x8
+ 3264 0117 3A       		.uleb128 0x3a
+ 3265 0118 0B       		.uleb128 0xb
+ 3266 0119 3B       		.uleb128 0x3b
+ 3267 011a 0B       		.uleb128 0xb
+ 3268 011b 49       		.uleb128 0x49
+ 3269 011c 13       		.uleb128 0x13
+ 3270 011d 02       		.uleb128 0x2
+ 3271 011e 18       		.uleb128 0x18
+ 3272 011f 00       		.byte	0
+ 3273 0120 00       		.byte	0
+ 3274 0121 19       		.uleb128 0x19
+ 3275 0122 0B       		.uleb128 0xb
+ 3276 0123 01       		.byte	0x1
+ 3277 0124 11       		.uleb128 0x11
+ 3278 0125 01       		.uleb128 0x1
+ 3279 0126 12       		.uleb128 0x12
+ 3280 0127 06       		.uleb128 0x6
+ 3281 0128 00       		.byte	0
+ 3282 0129 00       		.byte	0
+ 3283 012a 1A       		.uleb128 0x1a
+ 3284 012b 2E       		.uleb128 0x2e
+ 3285 012c 01       		.byte	0x1
+ 3286 012d 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 71
+
+
+ 3287 012e 19       		.uleb128 0x19
+ 3288 012f 03       		.uleb128 0x3
+ 3289 0130 0E       		.uleb128 0xe
+ 3290 0131 3A       		.uleb128 0x3a
+ 3291 0132 0B       		.uleb128 0xb
+ 3292 0133 3B       		.uleb128 0x3b
+ 3293 0134 0B       		.uleb128 0xb
+ 3294 0135 27       		.uleb128 0x27
+ 3295 0136 19       		.uleb128 0x19
+ 3296 0137 49       		.uleb128 0x49
+ 3297 0138 13       		.uleb128 0x13
+ 3298 0139 11       		.uleb128 0x11
+ 3299 013a 01       		.uleb128 0x1
+ 3300 013b 12       		.uleb128 0x12
+ 3301 013c 06       		.uleb128 0x6
+ 3302 013d 40       		.uleb128 0x40
+ 3303 013e 18       		.uleb128 0x18
+ 3304 013f 9642     		.uleb128 0x2116
+ 3305 0141 19       		.uleb128 0x19
+ 3306 0142 01       		.uleb128 0x1
+ 3307 0143 13       		.uleb128 0x13
+ 3308 0144 00       		.byte	0
+ 3309 0145 00       		.byte	0
+ 3310 0146 1B       		.uleb128 0x1b
+ 3311 0147 0B       		.uleb128 0xb
+ 3312 0148 01       		.byte	0x1
+ 3313 0149 11       		.uleb128 0x11
+ 3314 014a 01       		.uleb128 0x1
+ 3315 014b 12       		.uleb128 0x12
+ 3316 014c 06       		.uleb128 0x6
+ 3317 014d 01       		.uleb128 0x1
+ 3318 014e 13       		.uleb128 0x13
+ 3319 014f 00       		.byte	0
+ 3320 0150 00       		.byte	0
+ 3321 0151 1C       		.uleb128 0x1c
+ 3322 0152 2E       		.uleb128 0x2e
+ 3323 0153 01       		.byte	0x1
+ 3324 0154 3F       		.uleb128 0x3f
+ 3325 0155 19       		.uleb128 0x19
+ 3326 0156 03       		.uleb128 0x3
+ 3327 0157 0E       		.uleb128 0xe
+ 3328 0158 3A       		.uleb128 0x3a
+ 3329 0159 0B       		.uleb128 0xb
+ 3330 015a 3B       		.uleb128 0x3b
+ 3331 015b 05       		.uleb128 0x5
+ 3332 015c 27       		.uleb128 0x27
+ 3333 015d 19       		.uleb128 0x19
+ 3334 015e 11       		.uleb128 0x11
+ 3335 015f 01       		.uleb128 0x1
+ 3336 0160 12       		.uleb128 0x12
+ 3337 0161 06       		.uleb128 0x6
+ 3338 0162 40       		.uleb128 0x40
+ 3339 0163 18       		.uleb128 0x18
+ 3340 0164 9642     		.uleb128 0x2116
+ 3341 0166 19       		.uleb128 0x19
+ 3342 0167 01       		.uleb128 0x1
+ 3343 0168 13       		.uleb128 0x13
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 72
+
+
+ 3344 0169 00       		.byte	0
+ 3345 016a 00       		.byte	0
+ 3346 016b 1D       		.uleb128 0x1d
+ 3347 016c 05       		.uleb128 0x5
+ 3348 016d 00       		.byte	0
+ 3349 016e 03       		.uleb128 0x3
+ 3350 016f 0E       		.uleb128 0xe
+ 3351 0170 3A       		.uleb128 0x3a
+ 3352 0171 0B       		.uleb128 0xb
+ 3353 0172 3B       		.uleb128 0x3b
+ 3354 0173 05       		.uleb128 0x5
+ 3355 0174 49       		.uleb128 0x49
+ 3356 0175 13       		.uleb128 0x13
+ 3357 0176 02       		.uleb128 0x2
+ 3358 0177 18       		.uleb128 0x18
+ 3359 0178 00       		.byte	0
+ 3360 0179 00       		.byte	0
+ 3361 017a 1E       		.uleb128 0x1e
+ 3362 017b 34       		.uleb128 0x34
+ 3363 017c 00       		.byte	0
+ 3364 017d 03       		.uleb128 0x3
+ 3365 017e 0E       		.uleb128 0xe
+ 3366 017f 3A       		.uleb128 0x3a
+ 3367 0180 0B       		.uleb128 0xb
+ 3368 0181 3B       		.uleb128 0x3b
+ 3369 0182 05       		.uleb128 0x5
+ 3370 0183 49       		.uleb128 0x49
+ 3371 0184 13       		.uleb128 0x13
+ 3372 0185 02       		.uleb128 0x2
+ 3373 0186 18       		.uleb128 0x18
+ 3374 0187 00       		.byte	0
+ 3375 0188 00       		.byte	0
+ 3376 0189 1F       		.uleb128 0x1f
+ 3377 018a 34       		.uleb128 0x34
+ 3378 018b 00       		.byte	0
+ 3379 018c 03       		.uleb128 0x3
+ 3380 018d 08       		.uleb128 0x8
+ 3381 018e 3A       		.uleb128 0x3a
+ 3382 018f 0B       		.uleb128 0xb
+ 3383 0190 3B       		.uleb128 0x3b
+ 3384 0191 05       		.uleb128 0x5
+ 3385 0192 49       		.uleb128 0x49
+ 3386 0193 13       		.uleb128 0x13
+ 3387 0194 02       		.uleb128 0x2
+ 3388 0195 18       		.uleb128 0x18
+ 3389 0196 00       		.byte	0
+ 3390 0197 00       		.byte	0
+ 3391 0198 20       		.uleb128 0x20
+ 3392 0199 0B       		.uleb128 0xb
+ 3393 019a 01       		.byte	0x1
+ 3394 019b 55       		.uleb128 0x55
+ 3395 019c 17       		.uleb128 0x17
+ 3396 019d 01       		.uleb128 0x1
+ 3397 019e 13       		.uleb128 0x13
+ 3398 019f 00       		.byte	0
+ 3399 01a0 00       		.byte	0
+ 3400 01a1 21       		.uleb128 0x21
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 73
+
+
+ 3401 01a2 2E       		.uleb128 0x2e
+ 3402 01a3 01       		.byte	0x1
+ 3403 01a4 3F       		.uleb128 0x3f
+ 3404 01a5 19       		.uleb128 0x19
+ 3405 01a6 03       		.uleb128 0x3
+ 3406 01a7 0E       		.uleb128 0xe
+ 3407 01a8 3A       		.uleb128 0x3a
+ 3408 01a9 0B       		.uleb128 0xb
+ 3409 01aa 3B       		.uleb128 0x3b
+ 3410 01ab 05       		.uleb128 0x5
+ 3411 01ac 49       		.uleb128 0x49
+ 3412 01ad 13       		.uleb128 0x13
+ 3413 01ae 11       		.uleb128 0x11
+ 3414 01af 01       		.uleb128 0x1
+ 3415 01b0 12       		.uleb128 0x12
+ 3416 01b1 06       		.uleb128 0x6
+ 3417 01b2 40       		.uleb128 0x40
+ 3418 01b3 18       		.uleb128 0x18
+ 3419 01b4 9642     		.uleb128 0x2116
+ 3420 01b6 19       		.uleb128 0x19
+ 3421 01b7 01       		.uleb128 0x1
+ 3422 01b8 13       		.uleb128 0x13
+ 3423 01b9 00       		.byte	0
+ 3424 01ba 00       		.byte	0
+ 3425 01bb 22       		.uleb128 0x22
+ 3426 01bc 2E       		.uleb128 0x2e
+ 3427 01bd 01       		.byte	0x1
+ 3428 01be 3F       		.uleb128 0x3f
+ 3429 01bf 19       		.uleb128 0x19
+ 3430 01c0 03       		.uleb128 0x3
+ 3431 01c1 0E       		.uleb128 0xe
+ 3432 01c2 3A       		.uleb128 0x3a
+ 3433 01c3 0B       		.uleb128 0xb
+ 3434 01c4 3B       		.uleb128 0x3b
+ 3435 01c5 05       		.uleb128 0x5
+ 3436 01c6 27       		.uleb128 0x27
+ 3437 01c7 19       		.uleb128 0x19
+ 3438 01c8 49       		.uleb128 0x49
+ 3439 01c9 13       		.uleb128 0x13
+ 3440 01ca 11       		.uleb128 0x11
+ 3441 01cb 01       		.uleb128 0x1
+ 3442 01cc 12       		.uleb128 0x12
+ 3443 01cd 06       		.uleb128 0x6
+ 3444 01ce 40       		.uleb128 0x40
+ 3445 01cf 18       		.uleb128 0x18
+ 3446 01d0 9642     		.uleb128 0x2116
+ 3447 01d2 19       		.uleb128 0x19
+ 3448 01d3 01       		.uleb128 0x1
+ 3449 01d4 13       		.uleb128 0x13
+ 3450 01d5 00       		.byte	0
+ 3451 01d6 00       		.byte	0
+ 3452 01d7 23       		.uleb128 0x23
+ 3453 01d8 34       		.uleb128 0x34
+ 3454 01d9 00       		.byte	0
+ 3455 01da 03       		.uleb128 0x3
+ 3456 01db 0E       		.uleb128 0xe
+ 3457 01dc 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 74
+
+
+ 3458 01dd 0B       		.uleb128 0xb
+ 3459 01de 3B       		.uleb128 0x3b
+ 3460 01df 05       		.uleb128 0x5
+ 3461 01e0 49       		.uleb128 0x49
+ 3462 01e1 13       		.uleb128 0x13
+ 3463 01e2 3F       		.uleb128 0x3f
+ 3464 01e3 19       		.uleb128 0x19
+ 3465 01e4 3C       		.uleb128 0x3c
+ 3466 01e5 19       		.uleb128 0x19
+ 3467 01e6 00       		.byte	0
+ 3468 01e7 00       		.byte	0
+ 3469 01e8 24       		.uleb128 0x24
+ 3470 01e9 34       		.uleb128 0x34
+ 3471 01ea 00       		.byte	0
+ 3472 01eb 03       		.uleb128 0x3
+ 3473 01ec 0E       		.uleb128 0xe
+ 3474 01ed 3A       		.uleb128 0x3a
+ 3475 01ee 0B       		.uleb128 0xb
+ 3476 01ef 3B       		.uleb128 0x3b
+ 3477 01f0 0B       		.uleb128 0xb
+ 3478 01f1 49       		.uleb128 0x49
+ 3479 01f2 13       		.uleb128 0x13
+ 3480 01f3 3F       		.uleb128 0x3f
+ 3481 01f4 19       		.uleb128 0x19
+ 3482 01f5 3C       		.uleb128 0x3c
+ 3483 01f6 19       		.uleb128 0x19
+ 3484 01f7 00       		.byte	0
+ 3485 01f8 00       		.byte	0
+ 3486 01f9 25       		.uleb128 0x25
+ 3487 01fa 34       		.uleb128 0x34
+ 3488 01fb 00       		.byte	0
+ 3489 01fc 03       		.uleb128 0x3
+ 3490 01fd 0E       		.uleb128 0xe
+ 3491 01fe 3A       		.uleb128 0x3a
+ 3492 01ff 0B       		.uleb128 0xb
+ 3493 0200 3B       		.uleb128 0x3b
+ 3494 0201 0B       		.uleb128 0xb
+ 3495 0202 49       		.uleb128 0x49
+ 3496 0203 13       		.uleb128 0x13
+ 3497 0204 3F       		.uleb128 0x3f
+ 3498 0205 19       		.uleb128 0x19
+ 3499 0206 02       		.uleb128 0x2
+ 3500 0207 18       		.uleb128 0x18
+ 3501 0208 00       		.byte	0
+ 3502 0209 00       		.byte	0
+ 3503 020a 26       		.uleb128 0x26
+ 3504 020b 21       		.uleb128 0x21
+ 3505 020c 00       		.byte	0
+ 3506 020d 49       		.uleb128 0x49
+ 3507 020e 13       		.uleb128 0x13
+ 3508 020f 2F       		.uleb128 0x2f
+ 3509 0210 05       		.uleb128 0x5
+ 3510 0211 00       		.byte	0
+ 3511 0212 00       		.byte	0
+ 3512 0213 27       		.uleb128 0x27
+ 3513 0214 34       		.uleb128 0x34
+ 3514 0215 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 75
+
+
+ 3515 0216 03       		.uleb128 0x3
+ 3516 0217 0E       		.uleb128 0xe
+ 3517 0218 3A       		.uleb128 0x3a
+ 3518 0219 0B       		.uleb128 0xb
+ 3519 021a 3B       		.uleb128 0x3b
+ 3520 021b 05       		.uleb128 0x5
+ 3521 021c 49       		.uleb128 0x49
+ 3522 021d 13       		.uleb128 0x13
+ 3523 021e 3F       		.uleb128 0x3f
+ 3524 021f 19       		.uleb128 0x19
+ 3525 0220 02       		.uleb128 0x2
+ 3526 0221 18       		.uleb128 0x18
+ 3527 0222 00       		.byte	0
+ 3528 0223 00       		.byte	0
+ 3529 0224 00       		.byte	0
+ 3530              		.section	.debug_aranges,"",%progbits
+ 3531 0000 4C000000 		.4byte	0x4c
+ 3532 0004 0200     		.2byte	0x2
+ 3533 0006 00000000 		.4byte	.Ldebug_info0
+ 3534 000a 04       		.byte	0x4
+ 3535 000b 00       		.byte	0
+ 3536 000c 0000     		.2byte	0
+ 3537 000e 0000     		.2byte	0
+ 3538 0010 00000000 		.4byte	.LFB64
+ 3539 0014 2C000000 		.4byte	.LFE64-.LFB64
+ 3540 0018 00000000 		.4byte	.LFB65
+ 3541 001c 8C000000 		.4byte	.LFE65-.LFB65
+ 3542 0020 00000000 		.4byte	.LFB66
+ 3543 0024 0C020000 		.4byte	.LFE66-.LFB66
+ 3544 0028 00000000 		.4byte	.LFB67
+ 3545 002c C0000000 		.4byte	.LFE67-.LFB67
+ 3546 0030 00000000 		.4byte	.LFB68
+ 3547 0034 C0050000 		.4byte	.LFE68-.LFB68
+ 3548 0038 00000000 		.4byte	.LFB69
+ 3549 003c 40010000 		.4byte	.LFE69-.LFB69
+ 3550 0040 00000000 		.4byte	.LFB70
+ 3551 0044 50000000 		.4byte	.LFE70-.LFB70
+ 3552 0048 00000000 		.4byte	0
+ 3553 004c 00000000 		.4byte	0
+ 3554              		.section	.debug_ranges,"",%progbits
+ 3555              	.Ldebug_ranges0:
+ 3556 0000 18000000 		.4byte	.LBB2
+ 3557 0004 4E000000 		.4byte	.LBE2
+ 3558 0008 50000000 		.4byte	.LBB3
+ 3559 000c 56000000 		.4byte	.LBE3
+ 3560 0010 00000000 		.4byte	0
+ 3561 0014 00000000 		.4byte	0
+ 3562 0018 C6000000 		.4byte	.LBB8
+ 3563 001c 30010000 		.4byte	.LBE8
+ 3564 0020 68050000 		.4byte	.LBB12
+ 3565 0024 6C050000 		.4byte	.LBE12
+ 3566 0028 00000000 		.4byte	0
+ 3567 002c 00000000 		.4byte	0
+ 3568 0030 00000000 		.4byte	.LFB64
+ 3569 0034 2C000000 		.4byte	.LFE64
+ 3570 0038 00000000 		.4byte	.LFB65
+ 3571 003c 8C000000 		.4byte	.LFE65
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 76
+
+
+ 3572 0040 00000000 		.4byte	.LFB66
+ 3573 0044 0C020000 		.4byte	.LFE66
+ 3574 0048 00000000 		.4byte	.LFB67
+ 3575 004c C0000000 		.4byte	.LFE67
+ 3576 0050 00000000 		.4byte	.LFB68
+ 3577 0054 C0050000 		.4byte	.LFE68
+ 3578 0058 00000000 		.4byte	.LFB69
+ 3579 005c 40010000 		.4byte	.LFE69
+ 3580 0060 00000000 		.4byte	.LFB70
+ 3581 0064 50000000 		.4byte	.LFE70
+ 3582 0068 00000000 		.4byte	0
+ 3583 006c 00000000 		.4byte	0
+ 3584              		.section	.debug_line,"",%progbits
+ 3585              	.Ldebug_line0:
+ 3586 0000 59030000 		.section	.debug_str,"MS",%progbits,1
+ 3586      02009101 
+ 3586      00000201 
+ 3586      FB0E0D00 
+ 3586      01010101 
+ 3587              	.LASF35:
+ 3588 0000 42617365 		.ascii	"Base\000"
+ 3588      00
+ 3589              	.LASF66:
+ 3590 0005 4F535F57 		.ascii	"OS_WAIT_OBJ_STRUCT\000"
+ 3590      4149545F 
+ 3590      4F424A5F 
+ 3590      53545255 
+ 3590      435400
+ 3591              	.LASF89:
+ 3592 0018 75696E74 		.ascii	"uint16\000"
+ 3592      313600
+ 3593              	.LASF121:
+ 3594 001f 76616C75 		.ascii	"value\000"
+ 3594      6500
+ 3595              	.LASF106:
+ 3596 0025 7072696E 		.ascii	"print\000"
+ 3596      7400
+ 3597              	.LASF104:
+ 3598 002b 6F75725F 		.ascii	"our_checksum\000"
+ 3598      63686563 
+ 3598      6B73756D 
+ 3598      00
+ 3599              	.LASF72:
+ 3600 0038 70546173 		.ascii	"pTaskContext\000"
+ 3600      6B436F6E 
+ 3600      74657874 
+ 3600      00
+ 3601              	.LASF80:
+ 3602 0045 6F666646 		.ascii	"offFirst\000"
+ 3602      69727374 
+ 3602      00
+ 3603              	.LASF46:
+ 3604 004e 70507265 		.ascii	"pPrev\000"
+ 3604      7600
+ 3605              	.LASF138:
+ 3606 0054 53746163 		.ascii	"Stack_Task_Main\000"
+ 3606      6B5F5461 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 77
+
+
+ 3606      736B5F4D 
+ 3606      61696E00 
+ 3607              	.LASF130:
+ 3608 0064 73657276 		.ascii	"server_fota_file_numbers\000"
+ 3608      65725F66 
+ 3608      6F74615F 
+ 3608      66696C65 
+ 3608      5F6E756D 
+ 3609              	.LASF69:
+ 3610 007d 70665265 		.ascii	"pfRestore\000"
+ 3610      73746F72 
+ 3610      6500
+ 3611              	.LASF120:
+ 3612 0087 696E7465 		.ascii	"internal_flash_handle_error\000"
+ 3612      726E616C 
+ 3612      5F666C61 
+ 3612      73685F68 
+ 3612      616E646C 
+ 3613              	.LASF32:
+ 3614 00a3 4F535F52 		.ascii	"OS_REG_PC\000"
+ 3614      45475F50 
+ 3614      4300
+ 3615              	.LASF6:
+ 3616 00ad 5F5F7569 		.ascii	"__uint8_t\000"
+ 3616      6E74385F 
+ 3616      7400
+ 3617              	.LASF95:
+ 3618 00b7 70726F63 		.ascii	"proc_reset_chip\000"
+ 3618      5F726573 
+ 3618      65745F63 
+ 3618      68697000 
+ 3619              	.LASF40:
+ 3620 00c7 70576169 		.ascii	"pWaitList\000"
+ 3620      744C6973 
+ 3620      7400
+ 3621              	.LASF148:
+ 3622 00d1 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3622      43313120 
+ 3622      352E342E 
+ 3622      31203230 
+ 3622      31363036 
+ 3623 0104 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 3623      20726576 
+ 3623      6973696F 
+ 3623      6E203233 
+ 3623      37373135 
+ 3624 0137 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 3624      66756E63 
+ 3624      74696F6E 
+ 3624      2D736563 
+ 3624      74696F6E 
+ 3625              	.LASF114:
+ 3626 015f 63686563 		.ascii	"checksum_rez\000"
+ 3626      6B73756D 
+ 3626      5F72657A 
+ 3626      00
+ 3627              	.LASF67:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 78
+
+
+ 3628 016c 4F535F45 		.ascii	"OS_EXTEND_TASK_CONTEXT_STRUCT\000"
+ 3628      5854454E 
+ 3628      445F5441 
+ 3628      534B5F43 
+ 3628      4F4E5445 
+ 3629              	.LASF141:
+ 3630 018a 64617461 		.ascii	"data_length\000"
+ 3630      5F6C656E 
+ 3630      67746800 
+ 3631              	.LASF13:
+ 3632 0196 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3632      206C6F6E 
+ 3632      6720756E 
+ 3632      7369676E 
+ 3632      65642069 
+ 3633              	.LASF52:
+ 3634 01ad 45786563 		.ascii	"ExecTotal\000"
+ 3634      546F7461 
+ 3634      6C00
+ 3635              	.LASF135:
+ 3636 01b7 5247425F 		.ascii	"RGB_Color_Old\000"
+ 3636      436F6C6F 
+ 3636      725F4F6C 
+ 3636      6400
+ 3637              	.LASF100:
+ 3638 01c5 666F7461 		.ascii	"fota_data\000"
+ 3638      5F646174 
+ 3638      6100
+ 3639              	.LASF122:
+ 3640 01cf 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3640      52784275 
+ 3640      66666572 
+ 3640      00
+ 3641              	.LASF70:
+ 3642 01dc 4F535F45 		.ascii	"OS_EXTEND_TASK_CONTEXT\000"
+ 3642      5854454E 
+ 3642      445F5441 
+ 3642      534B5F43 
+ 3642      4F4E5445 
+ 3643              	.LASF56:
+ 3644 01f3 70544C53 		.ascii	"pTLS\000"
+ 3644      00
+ 3645              	.LASF77:
+ 3646 01f8 70446174 		.ascii	"pData\000"
+ 3646      6100
+ 3647              	.LASF98:
+ 3648 01fe 75706461 		.ascii	"update_start\000"
+ 3648      74655F73 
+ 3648      74617274 
+ 3648      00
+ 3649              	.LASF142:
+ 3650 020b 666F7461 		.ascii	"fota_data_bytes\000"
+ 3650      5F646174 
+ 3650      615F6279 
+ 3650      74657300 
+ 3651              	.LASF1:
+ 3652 021b 6C6F6E67 		.ascii	"long long int\000"
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 79
+
+
+ 3652      206C6F6E 
+ 3652      6720696E 
+ 3652      7400
+ 3653              	.LASF3:
+ 3654 0229 7369676E 		.ascii	"signed char\000"
+ 3654      65642063 
+ 3654      68617200 
+ 3655              	.LASF108:
+ 3656 0235 62756666 		.ascii	"buff\000"
+ 3656      00
+ 3657              	.LASF53:
+ 3658 023a 45786563 		.ascii	"ExecLast\000"
+ 3658      4C617374 
+ 3658      00
+ 3659              	.LASF74:
+ 3660 0243 4F535F51 		.ascii	"OS_QUEUE\000"
+ 3660      55455545 
+ 3660      00
+ 3661              	.LASF58:
+ 3662 024c 54696D65 		.ascii	"TimeSliceRem\000"
+ 3662      536C6963 
+ 3662      6552656D 
+ 3662      00
+ 3663              	.LASF110:
+ 3664 0259 7265715F 		.ascii	"req_line_buf\000"
+ 3664      6C696E65 
+ 3664      5F627566 
+ 3664      00
+ 3665              	.LASF129:
+ 3666 0266 73657276 		.ascii	"server_fota_folder_name\000"
+ 3666      65725F66 
+ 3666      6F74615F 
+ 3666      666F6C64 
+ 3666      65725F6E 
+ 3667              	.LASF147:
+ 3668 027e 61727261 		.ascii	"arrayID\000"
+ 3668      79494400 
+ 3669              	.LASF83:
+ 3670 0286 496E5573 		.ascii	"InUse\000"
+ 3670      6500
+ 3671              	.LASF131:
+ 3672 028c 73657276 		.ascii	"server_fota_App_lines\000"
+ 3672      65725F66 
+ 3672      6F74615F 
+ 3672      4170705F 
+ 3672      6C696E65 
+ 3673              	.LASF82:
+ 3674 02a2 496E5072 		.ascii	"InProgressCnt\000"
+ 3674      6F677265 
+ 3674      7373436E 
+ 3674      7400
+ 3675              	.LASF10:
+ 3676 02b0 6C6F6E67 		.ascii	"long int\000"
+ 3676      20696E74 
+ 3676      00
+ 3677              	.LASF132:
+ 3678 02b9 696E745F 		.ascii	"int_byte\000"
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 80
+
+
+ 3678      62797465 
+ 3678      00
+ 3679              	.LASF126:
+ 3680 02c2 666F7461 		.ascii	"fota_row_sequence\000"
+ 3680      5F726F77 
+ 3680      5F736571 
+ 3680      75656E63 
+ 3680      6500
+ 3681              	.LASF88:
+ 3682 02d4 75696E74 		.ascii	"uint8\000"
+ 3682      3800
+ 3683              	.LASF38:
+ 3684 02da 704E6578 		.ascii	"pNext\000"
+ 3684      7400
+ 3685              	.LASF34:
+ 3686 02e0 4F535F52 		.ascii	"OS_REGS_BASE\000"
+ 3686      4547535F 
+ 3686      42415345 
+ 3686      00
+ 3687              	.LASF85:
+ 3688 02ed 75696E74 		.ascii	"uint16_t\000"
+ 3688      31365F74 
+ 3688      00
+ 3689              	.LASF92:
+ 3690 02f6 646F7562 		.ascii	"double\000"
+ 3690      6C6500
+ 3691              	.LASF50:
+ 3692 02fd 4E756D41 		.ascii	"NumActivations\000"
+ 3692      63746976 
+ 3692      6174696F 
+ 3692      6E7300
+ 3693              	.LASF125:
+ 3694 030c 666F7461 		.ascii	"fota_row_counter\000"
+ 3694      5F726F77 
+ 3694      5F636F75 
+ 3694      6E746572 
+ 3694      00
+ 3695              	.LASF71:
+ 3696 031d 4F535F45 		.ascii	"OS_EXTEND_TASK_CONTEXT_LINK_STRUCT\000"
+ 3696      5854454E 
+ 3696      445F5441 
+ 3696      534B5F43 
+ 3696      4F4E5445 
+ 3697              	.LASF90:
+ 3698 0340 75696E74 		.ascii	"uint32\000"
+ 3698      333200
+ 3699              	.LASF79:
+ 3700 0347 4D736743 		.ascii	"MsgCnt\000"
+ 3700      6E7400
+ 3701              	.LASF105:
+ 3702 034e 62797465 		.ascii	"byte\000"
+ 3702      00
+ 3703              	.LASF96:
+ 3704 0353 75706461 		.ascii	"update_check_packet\000"
+ 3704      74655F63 
+ 3704      6865636B 
+ 3704      5F706163 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 81
+
+
+ 3704      6B657400 
+ 3705              	.LASF11:
+ 3706 0367 5F5F7569 		.ascii	"__uint32_t\000"
+ 3706      6E743332 
+ 3706      5F7400
+ 3707              	.LASF124:
+ 3708 0372 666F7461 		.ascii	"fota_file_numbers\000"
+ 3708      5F66696C 
+ 3708      655F6E75 
+ 3708      6D626572 
+ 3708      7300
+ 3709              	.LASF41:
+ 3710 0384 54696D65 		.ascii	"Timeout\000"
+ 3710      6F757400 
+ 3711              	.LASF119:
+ 3712 038c 63686563 		.ascii	"check_checksum\000"
+ 3712      6B5F6368 
+ 3712      65636B73 
+ 3712      756D00
+ 3713              	.LASF61:
+ 3714 039b 4F535F54 		.ascii	"OS_TASK_STRUCT\000"
+ 3714      41534B5F 
+ 3714      53545255 
+ 3714      435400
+ 3715              	.LASF23:
+ 3716 03aa 4F535F52 		.ascii	"OS_REG_R10\000"
+ 3716      45475F52 
+ 3716      313000
+ 3717              	.LASF24:
+ 3718 03b5 4F535F52 		.ascii	"OS_REG_R11\000"
+ 3718      45475F52 
+ 3718      313100
+ 3719              	.LASF30:
+ 3720 03c0 4F535F52 		.ascii	"OS_REG_R12\000"
+ 3720      45475F52 
+ 3720      313200
+ 3721              	.LASF31:
+ 3722 03cb 4F535F52 		.ascii	"OS_REG_R14\000"
+ 3722      45475F52 
+ 3722      313400
+ 3723              	.LASF45:
+ 3724 03d6 4576656E 		.ascii	"EventMask\000"
+ 3724      744D6173 
+ 3724      6B00
+ 3725              	.LASF0:
+ 3726 03e0 756E7369 		.ascii	"unsigned int\000"
+ 3726      676E6564 
+ 3726      20696E74 
+ 3726      00
+ 3727              	.LASF127:
+ 3728 03ed 73657276 		.ascii	"server_fota_App_size\000"
+ 3728      65725F66 
+ 3728      6F74615F 
+ 3728      4170705F 
+ 3728      73697A65 
+ 3729              	.LASF76:
+ 3730 0402 57616974 		.ascii	"WaitObj\000"
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 82
+
+
+ 3730      4F626A00 
+ 3731              	.LASF12:
+ 3732 040a 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3732      20756E73 
+ 3732      69676E65 
+ 3732      6420696E 
+ 3732      7400
+ 3733              	.LASF57:
+ 3734 041c 53746174 		.ascii	"Stat\000"
+ 3734      00
+ 3735              	.LASF112:
+ 3736 0421 6C696E75 		.ascii	"linux_data_checksum\000"
+ 3736      785F6461 
+ 3736      74615F63 
+ 3736      6865636B 
+ 3736      73756D00 
+ 3737              	.LASF118:
+ 3738 0435 64617461 		.ascii	"dataBuff\000"
+ 3738      42756666 
+ 3738      00
+ 3739              	.LASF62:
+ 3740 043e 4F535F57 		.ascii	"OS_WAIT_LIST_STRUCT\000"
+ 3740      4149545F 
+ 3740      4C495354 
+ 3740      5F535452 
+ 3740      55435400 
+ 3741              	.LASF8:
+ 3742 0452 73686F72 		.ascii	"short unsigned int\000"
+ 3742      7420756E 
+ 3742      7369676E 
+ 3742      65642069 
+ 3742      6E7400
+ 3743              	.LASF75:
+ 3744 0465 4F535F51 		.ascii	"OS_QUEUE_STRUCT\000"
+ 3744      55455545 
+ 3744      5F535452 
+ 3744      55435400 
+ 3745              	.LASF134:
+ 3746 0475 5247425F 		.ascii	"RGB_Color\000"
+ 3746      436F6C6F 
+ 3746      7200
+ 3747              	.LASF64:
+ 3748 047f 70546173 		.ascii	"pTask\000"
+ 3748      6B00
+ 3749              	.LASF123:
+ 3750 0485 666F7461 		.ascii	"fota_flag_start\000"
+ 3750      5F666C61 
+ 3750      675F7374 
+ 3750      61727400 
+ 3751              	.LASF25:
+ 3752 0495 4F535F52 		.ascii	"OS_REG_LR\000"
+ 3752      45475F4C 
+ 3752      5200
+ 3753              	.LASF99:
+ 3754 049f 666F7461 		.ascii	"fota_flag\000"
+ 3754      5F666C61 
+ 3754      6700
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 83
+
+
+ 3755              	.LASF39:
+ 3756 04a9 70537461 		.ascii	"pStack\000"
+ 3756      636B00
+ 3757              	.LASF26:
+ 3758 04b0 4F535F52 		.ascii	"OS_REG_R0\000"
+ 3758      45475F52 
+ 3758      3000
+ 3759              	.LASF27:
+ 3760 04ba 4F535F52 		.ascii	"OS_REG_R1\000"
+ 3760      45475F52 
+ 3760      3100
+ 3761              	.LASF28:
+ 3762 04c4 4F535F52 		.ascii	"OS_REG_R2\000"
+ 3762      45475F52 
+ 3762      3200
+ 3763              	.LASF29:
+ 3764 04ce 4F535F52 		.ascii	"OS_REG_R3\000"
+ 3764      45475F52 
+ 3764      3300
+ 3765              	.LASF107:
+ 3766 04d8 75706461 		.ascii	"update_procedure\000"
+ 3766      74655F70 
+ 3766      726F6365 
+ 3766      64757265 
+ 3766      00
+ 3767              	.LASF18:
+ 3768 04e9 4F535F52 		.ascii	"OS_REG_R5\000"
+ 3768      45475F52 
+ 3768      3500
+ 3769              	.LASF19:
+ 3770 04f3 4F535F52 		.ascii	"OS_REG_R6\000"
+ 3770      45475F52 
+ 3770      3600
+ 3771              	.LASF20:
+ 3772 04fd 4F535F52 		.ascii	"OS_REG_R7\000"
+ 3772      45475F52 
+ 3772      3700
+ 3773              	.LASF111:
+ 3774 0507 6C696E75 		.ascii	"linux_line_num\000"
+ 3774      785F6C69 
+ 3774      6E655F6E 
+ 3774      756D00
+ 3775              	.LASF22:
+ 3776 0516 4F535F52 		.ascii	"OS_REG_R9\000"
+ 3776      45475F52 
+ 3776      3900
+ 3777              	.LASF47:
+ 3778 0520 734E616D 		.ascii	"sName\000"
+ 3778      6500
+ 3779              	.LASF117:
+ 3780 0526 6661696C 		.ascii	"fail\000"
+ 3780      00
+ 3781              	.LASF68:
+ 3782 052b 70665361 		.ascii	"pfSave\000"
+ 3782      766500
+ 3783              	.LASF144:
+ 3784 0532 64617461 		.ascii	"data_index\000"
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 84
+
+
+ 3784      5F696E64 
+ 3784      657800
+ 3785              	.LASF33:
+ 3786 053d 4F535F52 		.ascii	"OS_REG_XPSR\000"
+ 3786      45475F58 
+ 3786      50535200 
+ 3787              	.LASF14:
+ 3788 0549 73697A65 		.ascii	"sizetype\000"
+ 3788      74797065 
+ 3788      00
+ 3789              	.LASF17:
+ 3790 0552 4F535F52 		.ascii	"OS_REG_R4\000"
+ 3790      45475F52 
+ 3790      3400
+ 3791              	.LASF63:
+ 3792 055c 70576169 		.ascii	"pWaitObj\000"
+ 3792      744F626A 
+ 3792      00
+ 3793              	.LASF21:
+ 3794 0565 4F535F52 		.ascii	"OS_REG_R8\000"
+ 3794      45475F52 
+ 3794      3800
+ 3795              	.LASF145:
+ 3796 056f 6C617374 		.ascii	"last_percent\000"
+ 3796      5F706572 
+ 3796      63656E74 
+ 3796      00
+ 3797              	.LASF91:
+ 3798 057c 666C6F61 		.ascii	"float\000"
+ 3798      7400
+ 3799              	.LASF51:
+ 3800 0582 4E756D50 		.ascii	"NumPreemptions\000"
+ 3800      7265656D 
+ 3800      7074696F 
+ 3800      6E7300
+ 3801              	.LASF78:
+ 3802 0591 53697A65 		.ascii	"Size\000"
+ 3802      00
+ 3803              	.LASF94:
+ 3804 0596 75696E74 		.ascii	"uint\000"
+ 3804      00
+ 3805              	.LASF139:
+ 3806 059b 6C696E65 		.ascii	"line_num\000"
+ 3806      5F6E756D 
+ 3806      00
+ 3807              	.LASF55:
+ 3808 05a4 436F6E74 		.ascii	"ContextExtension\000"
+ 3808      65787445 
+ 3808      7874656E 
+ 3808      73696F6E 
+ 3808      00
+ 3809              	.LASF140:
+ 3810 05b5 6932635F 		.ascii	"i2c_counter\000"
+ 3810      636F756E 
+ 3810      74657200 
+ 3811              	.LASF101:
+ 3812 05c1 666F7461 		.ascii	"fota\000"
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 85
+
+
+ 3812      00
+ 3813              	.LASF146:
+ 3814 05c6 726F7741 		.ascii	"rowAddress\000"
+ 3814      64647265 
+ 3814      737300
+ 3815              	.LASF86:
+ 3816 05d1 696E7433 		.ascii	"int32_t\000"
+ 3816      325F7400 
+ 3817              	.LASF4:
+ 3818 05d9 756E7369 		.ascii	"unsigned char\000"
+ 3818      676E6564 
+ 3818      20636861 
+ 3818      7200
+ 3819              	.LASF97:
+ 3820 05e7 72657365 		.ascii	"reset_code\000"
+ 3820      745F636F 
+ 3820      646500
+ 3821              	.LASF109:
+ 3822 05f2 6C696E75 		.ascii	"linux_fotu_packet\000"
+ 3822      785F666F 
+ 3822      74755F70 
+ 3822      61636B65 
+ 3822      7400
+ 3823              	.LASF143:
+ 3824 0604 666F7461 		.ascii	"fota_data_index\000"
+ 3824      5F646174 
+ 3824      615F696E 
+ 3824      64657800 
+ 3825              	.LASF5:
+ 3826 0614 73686F72 		.ascii	"short int\000"
+ 3826      7420696E 
+ 3826      7400
+ 3827              	.LASF36:
+ 3828 061e 4F535F52 		.ascii	"OS_REGS\000"
+ 3828      45475300 
+ 3829              	.LASF49:
+ 3830 0626 70537461 		.ascii	"pStackBase\000"
+ 3830      636B4261 
+ 3830      736500
+ 3831              	.LASF133:
+ 3832 0631 696E745F 		.ascii	"int_byte_ctr\000"
+ 3832      62797465 
+ 3832      5F637472 
+ 3832      00
+ 3833              	.LASF65:
+ 3834 063e 4F535F57 		.ascii	"OS_WAIT_OBJ\000"
+ 3834      4149545F 
+ 3834      4F424A00 
+ 3835              	.LASF137:
+ 3836 064a 5443425F 		.ascii	"TCB_Task_Main\000"
+ 3836      5461736B 
+ 3836      5F4D6169 
+ 3836      6E00
+ 3837              	.LASF87:
+ 3838 0658 75696E74 		.ascii	"uint32_t\000"
+ 3838      33325F74 
+ 3838      00
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 86
+
+
+ 3839              	.LASF81:
+ 3840 0661 6F66664C 		.ascii	"offLast\000"
+ 3840      61737400 
+ 3841              	.LASF37:
+ 3842 0669 4F535F54 		.ascii	"OS_TASK\000"
+ 3842      41534B00 
+ 3843              	.LASF150:
+ 3844 0671 453A5C49 		.ascii	"E:\\IroTeam\\Developing Projects\\Cypress\\100 PIN\\"
+ 3844      726F5465 
+ 3844      616D5C44 
+ 3844      6576656C 
+ 3844      6F70696E 
+ 3845 06a0 63792D6D 		.ascii	"cy-micro\\cy-notask\\Start\\BoardSupport\\Cypress\\"
+ 3845      6963726F 
+ 3845      5C63792D 
+ 3845      6E6F7461 
+ 3845      736B5C53 
+ 3846 06ce 43593843 		.ascii	"CY8C5868_CY8CKIT_050_PSoC5_DK\\Start_CY8C5868_Acces"
+ 3846      35383638 
+ 3846      5F435938 
+ 3846      434B4954 
+ 3846      5F303530 
+ 3847 0700 7356322E 		.ascii	"sV2.0_OldBrd.cydsn\000"
+ 3847      305F4F6C 
+ 3847      64427264 
+ 3847      2E637964 
+ 3847      736E00
+ 3848              	.LASF2:
+ 3849 0713 6C6F6E67 		.ascii	"long double\000"
+ 3849      20646F75 
+ 3849      626C6500 
+ 3850              	.LASF15:
+ 3851 071f 63686172 		.ascii	"char\000"
+ 3851      00
+ 3852              	.LASF115:
+ 3853 0724 70657263 		.ascii	"percent\000"
+ 3853      656E7400 
+ 3854              	.LASF7:
+ 3855 072c 5F5F7569 		.ascii	"__uint16_t\000"
+ 3855      6E743136 
+ 3855      5F7400
+ 3856              	.LASF9:
+ 3857 0737 5F5F696E 		.ascii	"__int32_t\000"
+ 3857      7433325F 
+ 3857      7400
+ 3858              	.LASF44:
+ 3859 0741 4576656E 		.ascii	"Events\000"
+ 3859      747300
+ 3860              	.LASF128:
+ 3861 0748 73657276 		.ascii	"server_fota_App_CRC\000"
+ 3861      65725F66 
+ 3861      6F74615F 
+ 3861      4170705F 
+ 3861      43524300 
+ 3862              	.LASF60:
+ 3863 075c 4F535F57 		.ascii	"OS_WAIT_LIST\000"
+ 3863      4149545F 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 87
+
+
+ 3863      4C495354 
+ 3863      00
+ 3864              	.LASF102:
+ 3865 0769 64617461 		.ascii	"data\000"
+ 3865      00
+ 3866              	.LASF116:
+ 3867 076e 696E7465 		.ascii	"internal_flash_write_row\000"
+ 3867      726E616C 
+ 3867      5F666C61 
+ 3867      73685F77 
+ 3867      72697465 
+ 3868              	.LASF103:
+ 3869 0787 64617461 		.ascii	"data_checksum\000"
+ 3869      5F636865 
+ 3869      636B7375 
+ 3869      6D00
+ 3870              	.LASF42:
+ 3871 0795 5072696F 		.ascii	"Priority\000"
+ 3871      72697479 
+ 3871      00
+ 3872              	.LASF84:
+ 3873 079e 75696E74 		.ascii	"uint8_t\000"
+ 3873      385F7400 
+ 3874              	.LASF73:
+ 3875 07a6 4F535F45 		.ascii	"OS_EXTEND_TASK_CONTEXT_LINK\000"
+ 3875      5854454E 
+ 3875      445F5441 
+ 3875      534B5F43 
+ 3875      4F4E5445 
+ 3876              	.LASF59:
+ 3877 07c2 54696D65 		.ascii	"TimeSliceReload\000"
+ 3877      536C6963 
+ 3877      6552656C 
+ 3877      6F616400 
+ 3878              	.LASF93:
+ 3879 07d2 63797374 		.ascii	"cystatus\000"
+ 3879      61747573 
+ 3879      00
+ 3880              	.LASF136:
+ 3881 07db 5F517565 		.ascii	"_Queue_Send\000"
+ 3881      75655F53 
+ 3881      656E6400 
+ 3882              	.LASF16:
+ 3883 07e7 436F756E 		.ascii	"Counters\000"
+ 3883      74657273 
+ 3883      00
+ 3884              	.LASF43:
+ 3885 07f0 42617365 		.ascii	"BasePrio\000"
+ 3885      5072696F 
+ 3885      00
+ 3886              	.LASF113:
+ 3887 07f9 6C696E75 		.ascii	"linux_update_data\000"
+ 3887      785F7570 
+ 3887      64617465 
+ 3887      5F646174 
+ 3887      6100
+ 3888              	.LASF149:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc7EN6Cu.s 			page 88
+
+
+ 3889 080b 43686970 		.ascii	"ChipUpdate.c\000"
+ 3889      55706461 
+ 3889      74652E63 
+ 3889      00
+ 3890              	.LASF48:
+ 3891 0818 53746163 		.ascii	"StackSize\000"
+ 3891      6B53697A 
+ 3891      6500
+ 3892              	.LASF54:
+ 3893 0822 4C6F6164 		.ascii	"Load\000"
+ 3893      00
+ 3894              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

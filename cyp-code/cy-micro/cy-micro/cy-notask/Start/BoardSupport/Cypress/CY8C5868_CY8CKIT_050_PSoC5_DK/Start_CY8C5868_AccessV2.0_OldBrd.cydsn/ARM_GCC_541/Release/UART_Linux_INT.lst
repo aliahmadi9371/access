@@ -1,0 +1,159 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cccJdbxP.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"UART_Linux_INT.c"
+  16              		.section	.text.UART_Linux_RXISR,"ax",%progbits
+  17              		.align	2
+  18              		.global	UART_Linux_RXISR
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	UART_Linux_RXISR, %function
+  22              	UART_Linux_RXISR:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+  26 0004 1E48     		ldr	r0, .L17
+  27 0006 1F49     		ldr	r1, .L17+4
+  28 0008 1F4F     		ldr	r7, .L17+8
+  29 000a 204A     		ldr	r2, .L17+12
+  30 000c 204E     		ldr	r6, .L17+16
+  31 000e 214C     		ldr	r4, .L17+20
+  32 0010 DFF888C0 		ldr	ip, .L17+28
+  33 0014 204D     		ldr	r5, .L17+24
+  34 0016 4FF0010E 		mov	lr, #1
+  35              	.L7:
+  36 001a 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+  37 001c DBB2     		uxtb	r3, r3
+  38 001e 13F01E09 		ands	r9, r3, #30
+  39 0022 05D0     		beq	.L2
+  40 0024 91F80080 		ldrb	r8, [r1]	@ zero_extendqisi2
+  41 0028 49EA0808 		orr	r8, r9, r8
+  42 002c 81F80080 		strb	r8, [r1]
+  43              	.L2:
+  44 0030 9B06     		lsls	r3, r3, #26
+  45 0032 01D4     		bmi	.L16
+  46 0034 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+  47              	.L16:
+  48 0038 97F80080 		ldrb	r8, [r7]	@ zero_extendqisi2
+  49 003c 1388     		ldrh	r3, [r2]
+  50 003e 5FFA88F8 		uxtb	r8, r8
+  51 0042 9BB2     		uxth	r3, r3
+  52 0044 06F80380 		strb	r8, [r6, r3]
+  53 0048 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  54 004a 4FF00008 		mov	r8, #0
+  55 004e 0BB1     		cbz	r3, .L4
+  56 0050 8CF800E0 		strb	lr, [ip]
+  57              	.L4:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cccJdbxP.s 			page 2
+
+
+  58 0054 1388     		ldrh	r3, [r2]
+  59 0056 0133     		adds	r3, r3, #1
+  60 0058 9BB2     		uxth	r3, r3
+  61 005a 1380     		strh	r3, [r2]	@ movhi
+  62 005c 1388     		ldrh	r3, [r2]
+  63 005e 9BB2     		uxth	r3, r3
+  64 0060 B3F5806F 		cmp	r3, #1024
+  65 0064 28BF     		it	cs
+  66 0066 A2F80080 		strhcs	r8, [r2]	@ movhi
+  67 006a B2F80080 		ldrh	r8, [r2]
+  68 006e 2B88     		ldrh	r3, [r5]
+  69 0070 1FFA88F8 		uxth	r8, r8
+  70 0074 9BB2     		uxth	r3, r3
+  71 0076 9845     		cmp	r8, r3
+  72 0078 CFD1     		bne	.L7
+  73 007a 84F800E0 		strb	lr, [r4]
+  74 007e CCE7     		b	.L7
+  75              	.L18:
+  76              		.align	2
+  77              	.L17:
+  78 0080 65640040 		.word	1073767525
+  79 0084 00000000 		.word	UART_Linux_errorStatus
+  80 0088 45640040 		.word	1073767493
+  81 008c 00000000 		.word	UART_Linux_rxBufferWrite
+  82 0090 00000000 		.word	UART_Linux_rxBuffer
+  83 0094 00000000 		.word	UART_Linux_rxBufferLoopDetect
+  84 0098 00000000 		.word	UART_Linux_rxBufferRead
+  85 009c 00000000 		.word	UART_Linux_rxBufferOverflow
+  86              		.size	UART_Linux_RXISR, .-UART_Linux_RXISR
+  87              		.section	.text.UART_Linux_TXISR,"ax",%progbits
+  88              		.align	2
+  89              		.global	UART_Linux_TXISR
+  90              		.thumb
+  91              		.thumb_func
+  92              		.type	UART_Linux_TXISR, %function
+  93              	UART_Linux_TXISR:
+  94              		@ args = 0, pretend = 0, frame = 0
+  95              		@ frame_needed = 0, uses_anonymous_args = 0
+  96 0000 164A     		ldr	r2, .L29
+  97 0002 1748     		ldr	r0, .L29+4
+  98 0004 1388     		ldrh	r3, [r2]
+  99 0006 0188     		ldrh	r1, [r0]
+ 100 0008 9BB2     		uxth	r3, r3
+ 101 000a 9942     		cmp	r1, r3
+ 102 000c 24D0     		beq	.L27
+ 103 000e F0B5     		push	{r4, r5, r6, r7, lr}
+ 104 0010 1449     		ldr	r1, .L29+8
+ 105 0012 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 106 0014 03F00403 		and	r3, r3, #4
+ 107 0018 03F0FF06 		and	r6, r3, #255
+ 108 001c DBB9     		cbnz	r3, .L19
+ 109 001e 1746     		mov	r7, r2
+ 110 0020 114D     		ldr	r5, .L29+12
+ 111 0022 124C     		ldr	r4, .L29+16
+ 112 0024 02E0     		b	.L23
+ 113              	.L28:
+ 114 0026 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\cccJdbxP.s 			page 3
+
+
+ 115 0028 5B07     		lsls	r3, r3, #29
+ 116 002a 14D4     		bmi	.L19
+ 117              	.L23:
+ 118 002c 1388     		ldrh	r3, [r2]
+ 119 002e 9BB2     		uxth	r3, r3
+ 120 0030 B3F5806F 		cmp	r3, #1024
+ 121 0034 28BF     		it	cs
+ 122 0036 3E80     		strhcs	r6, [r7]	@ movhi
+ 123 0038 1388     		ldrh	r3, [r2]
+ 124 003a 9BB2     		uxth	r3, r3
+ 125 003c EB5C     		ldrb	r3, [r5, r3]	@ zero_extendqisi2
+ 126 003e DBB2     		uxtb	r3, r3
+ 127 0040 2370     		strb	r3, [r4]
+ 128 0042 1388     		ldrh	r3, [r2]
+ 129 0044 B0F800E0 		ldrh	lr, [r0]
+ 130 0048 0133     		adds	r3, r3, #1
+ 131 004a 9BB2     		uxth	r3, r3
+ 132 004c 1380     		strh	r3, [r2]	@ movhi
+ 133 004e 1388     		ldrh	r3, [r2]
+ 134 0050 9BB2     		uxth	r3, r3
+ 135 0052 9E45     		cmp	lr, r3
+ 136 0054 E7D1     		bne	.L28
+ 137              	.L19:
+ 138 0056 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 139              	.L27:
+ 140 0058 7047     		bx	lr
+ 141              	.L30:
+ 142 005a 00BF     		.align	2
+ 143              	.L29:
+ 144 005c 00000000 		.word	UART_Linux_txBufferRead
+ 145 0060 00000000 		.word	UART_Linux_txBufferWrite
+ 146 0064 66650040 		.word	1073767782
+ 147 0068 00000000 		.word	UART_Linux_txBuffer
+ 148 006c 46650040 		.word	1073767750
+ 149              		.size	UART_Linux_TXISR, .-UART_Linux_TXISR
+ 150              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

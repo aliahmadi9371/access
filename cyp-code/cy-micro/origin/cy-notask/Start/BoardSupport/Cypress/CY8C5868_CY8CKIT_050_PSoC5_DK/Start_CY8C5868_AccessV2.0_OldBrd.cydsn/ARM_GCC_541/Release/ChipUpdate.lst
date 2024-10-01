@@ -1,0 +1,1094 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"ChipUpdate.c"
+  16              		.section	.text.proc_reset_chip,"ax",%progbits
+  17              		.align	2
+  18              		.global	proc_reset_chip
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	proc_reset_chip, %function
+  22              	proc_reset_chip:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 08B5     		push	{r3, lr}
+  26 0002 1321     		movs	r1, #19
+  27 0004 FFF7FEFF 		bl	ie2_write_byte
+  28 0008 4FF4FA70 		mov	r0, #500
+  29 000c FFF7FEFF 		bl	CyDelay
+  30 0010 FFF7FEFF 		bl	CyWdtClear
+  31 0014 BDE80840 		pop	{r3, lr}
+  32 0018 FFF7FEBF 		b	CySoftwareReset
+  33              		.size	proc_reset_chip, .-proc_reset_chip
+  34              		.section	.text.update_start,"ax",%progbits
+  35              		.align	2
+  36              		.global	update_start
+  37              		.thumb
+  38              		.thumb_func
+  39              		.type	update_start, %function
+  40              	update_start:
+  41              		@ args = 0, pretend = 0, frame = 200
+  42              		@ frame_needed = 0, uses_anonymous_args = 0
+  43 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  44 0002 0C46     		mov	r4, r1
+  45 0004 B5B0     		sub	sp, sp, #212
+  46 0006 4A49     		ldr	r1, .L24
+  47 0008 2046     		mov	r0, r4
+  48 000a FFF7FEFF 		bl	strremove
+  49 000e 2046     		mov	r0, r4
+  50 0010 4849     		ldr	r1, .L24+4
+  51 0012 FFF7FEFF 		bl	strremove
+  52 0016 2046     		mov	r0, r4
+  53 0018 4749     		ldr	r1, .L24+8
+  54 001a FFF7FEFF 		bl	strremove
+  55 001e 2046     		mov	r0, r4
+  56 0020 4649     		ldr	r1, .L24+12
+  57 0022 FFF7FEFF 		bl	strremove
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 2
+
+
+  58 0026 2046     		mov	r0, r4
+  59 0028 4549     		ldr	r1, .L24+16
+  60 002a FFF7FEFF 		bl	strtok
+  61 002e 1022     		movs	r2, #16
+  62 0030 0021     		movs	r1, #0
+  63 0032 FFF7FEFF 		bl	strtol
+  64 0036 434C     		ldr	r4, .L24+20
+  65 0038 C0B2     		uxtb	r0, r0
+  66 003a 0128     		cmp	r0, #1
+  67 003c 2070     		strb	r0, [r4]
+  68 003e 04D0     		beq	.L22
+  69 0040 4148     		ldr	r0, .L24+24
+  70 0042 FFF7FEFF 		bl	UART_Debug_PutString
+  71              	.L3:
+  72 0046 35B0     		add	sp, sp, #212
+  73              		@ sp needed
+  74 0048 F0BD     		pop	{r4, r5, r6, r7, pc}
+  75              	.L22:
+  76 004a 3D49     		ldr	r1, .L24+16
+  77 004c 0020     		movs	r0, #0
+  78 004e FFF7FEFF 		bl	strtok
+  79 0052 0146     		mov	r1, r0
+  80 0054 3D48     		ldr	r0, .L24+28
+  81 0056 FFF7FEFF 		bl	strcpy
+  82 005a 3949     		ldr	r1, .L24+16
+  83 005c 0020     		movs	r0, #0
+  84 005e FFF7FEFF 		bl	strtok
+  85 0062 0A22     		movs	r2, #10
+  86 0064 0021     		movs	r1, #0
+  87 0066 FFF7FEFF 		bl	strtol
+  88 006a 394D     		ldr	r5, .L24+32
+  89 006c 3449     		ldr	r1, .L24+16
+  90 006e 2880     		strh	r0, [r5]	@ movhi
+  91 0070 0020     		movs	r0, #0
+  92 0072 FFF7FEFF 		bl	strtok
+  93 0076 0A22     		movs	r2, #10
+  94 0078 0021     		movs	r1, #0
+  95 007a FFF7FEFF 		bl	strtoul
+  96 007e 354E     		ldr	r6, .L24+36
+  97 0080 2F49     		ldr	r1, .L24+16
+  98 0082 3060     		str	r0, [r6]
+  99 0084 0020     		movs	r0, #0
+ 100 0086 FFF7FEFF 		bl	strtok
+ 101 008a 1022     		movs	r2, #16
+ 102 008c 0021     		movs	r1, #0
+ 103 008e FFF7FEFF 		bl	strtoul
+ 104 0092 314F     		ldr	r7, .L24+40
+ 105 0094 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 106 0096 3860     		str	r0, [r7]
+ 107 0098 23B1     		cbz	r3, .L5
+ 108 009a 2B88     		ldrh	r3, [r5]
+ 109 009c 13B1     		cbz	r3, .L5
+ 110 009e 3368     		ldr	r3, [r6]
+ 111 00a0 03B1     		cbz	r3, .L5
+ 112 00a2 20B9     		cbnz	r0, .L23
+ 113              	.L5:
+ 114 00a4 2D48     		ldr	r0, .L24+44
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 3
+
+
+ 115 00a6 FFF7FEFF 		bl	UART_Debug_PutString
+ 116 00aa 35B0     		add	sp, sp, #212
+ 117              		@ sp needed
+ 118 00ac F0BD     		pop	{r4, r5, r6, r7, pc}
+ 119              	.L23:
+ 120 00ae 2C4B     		ldr	r3, .L24+48
+ 121 00b0 0022     		movs	r2, #0
+ 122 00b2 1A70     		strb	r2, [r3]
+ 123 00b4 FFF7FEFF 		bl	CyWdtClear
+ 124 00b8 2278     		ldrb	r2, [r4]	@ zero_extendqisi2
+ 125 00ba 2A49     		ldr	r1, .L24+52
+ 126 00bc 02A8     		add	r0, sp, #8
+ 127 00be FFF7FEFF 		bl	sprintf
+ 128 00c2 02A8     		add	r0, sp, #8
+ 129 00c4 FFF7FEFF 		bl	strlen
+ 130 00c8 02AB     		add	r3, sp, #8
+ 131 00ca 2049     		ldr	r1, .L24+28
+ 132 00cc 1844     		add	r0, r0, r3
+ 133 00ce FFF7FEFF 		bl	stpcpy
+ 134 00d2 0346     		mov	r3, r0
+ 135 00d4 244C     		ldr	r4, .L24+56
+ 136 00d6 02A8     		add	r0, sp, #8
+ 137 00d8 2188     		ldrh	r1, [r4]	@ unaligned
+ 138 00da A278     		ldrb	r2, [r4, #2]	@ zero_extendqisi2
+ 139 00dc 1980     		strh	r1, [r3]	@ unaligned
+ 140 00de 9A70     		strb	r2, [r3, #2]
+ 141 00e0 FFF7FEFF 		bl	UART_Debug_PutString
+ 142 00e4 2B88     		ldrh	r3, [r5]
+ 143 00e6 3968     		ldr	r1, [r7]
+ 144 00e8 3268     		ldr	r2, [r6]
+ 145 00ea 0191     		str	r1, [sp, #4]
+ 146 00ec 0092     		str	r2, [sp]
+ 147 00ee 1F49     		ldr	r1, .L24+60
+ 148 00f0 1A46     		mov	r2, r3
+ 149 00f2 02A8     		add	r0, sp, #8
+ 150 00f4 FFF7FEFF 		bl	sprintf
+ 151 00f8 02A8     		add	r0, sp, #8
+ 152 00fa FFF7FEFF 		bl	UART_Debug_PutString
+ 153 00fe 1C48     		ldr	r0, .L24+64
+ 154 0100 FFF7FEFF 		bl	UART_Debug_PutString
+ 155 0104 FFF7FEFF 		bl	CyWdtClear
+ 156 0108 1A48     		ldr	r0, .L24+68
+ 157 010a FFF7FEFF 		bl	UART_Debug_PutString
+ 158 010e 1A22     		movs	r2, #26
+ 159 0110 1849     		ldr	r1, .L24+68
+ 160 0112 1948     		ldr	r0, .L24+72
+ 161 0114 FFF7FEFF 		bl	q_put_message
+ 162 0118 0028     		cmp	r0, #0
+ 163 011a 94D1     		bne	.L3
+ 164 011c 1748     		ldr	r0, .L24+76
+ 165 011e FFF7FEFF 		bl	UART_Debug_PutString
+ 166 0122 1448     		ldr	r0, .L24+68
+ 167 0124 FFF7FEFF 		bl	UART_Debug_PutString
+ 168 0128 2046     		mov	r0, r4
+ 169 012a FFF7FEFF 		bl	UART_Debug_PutString
+ 170 012e 8AE7     		b	.L3
+ 171              	.L25:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 4
+
+
+ 172              		.align	2
+ 173              	.L24:
+ 174 0130 00000000 		.word	.LC0
+ 175 0134 04000000 		.word	.LC1
+ 176 0138 08000000 		.word	.LC2
+ 177 013c 0C000000 		.word	.LC3
+ 178 0140 10000000 		.word	.LC4
+ 179 0144 00000000 		.word	fota_flag_start
+ 180 0148 4C010000 		.word	.LC12
+ 181 014c 00000000 		.word	server_fota_folder_name
+ 182 0150 00000000 		.word	server_fota_file_numbers
+ 183 0154 00000000 		.word	server_fota_App_size
+ 184 0158 00000000 		.word	server_fota_App_CRC
+ 185 015c 20010000 		.word	.LC11
+ 186 0160 00000000 		.word	.LANCHOR0
+ 187 0164 14000000 		.word	.LC5
+ 188 0168 40000000 		.word	.LC6
+ 189 016c 44000000 		.word	.LC7
+ 190 0170 A0000000 		.word	.LC8
+ 191 0174 CC000000 		.word	.LC9
+ 192 0178 00000000 		.word	_Queue_Send
+ 193 017c E8000000 		.word	.LC10
+ 194              		.size	update_start, .-update_start
+ 195              		.section	.text.update_check_packet,"ax",%progbits
+ 196              		.align	2
+ 197              		.global	update_check_packet
+ 198              		.thumb
+ 199              		.thumb_func
+ 200              		.type	update_check_packet, %function
+ 201              	update_check_packet:
+ 202              		@ args = 0, pretend = 0, frame = 128
+ 203              		@ frame_needed = 0, uses_anonymous_args = 0
+ 204 0000 10B5     		push	{r4, lr}
+ 205 0002 0A22     		movs	r2, #10
+ 206 0004 A0B0     		sub	sp, sp, #128
+ 207 0006 1549     		ldr	r1, .L32
+ 208 0008 0446     		mov	r4, r0
+ 209 000a FFF7FEFF 		bl	memcmp
+ 210 000e A0B9     		cbnz	r0, .L27
+ 211 0010 0246     		mov	r2, r0
+ 212 0012 1349     		ldr	r1, .L32+4
+ 213 0014 6846     		mov	r0, sp
+ 214 0016 FFF7FEFF 		bl	sprintf
+ 215 001a 6946     		mov	r1, sp
+ 216 001c 1D22     		movs	r2, #29
+ 217 001e 2046     		mov	r0, r4
+ 218 0020 FFF7FEFF 		bl	memcmp
+ 219 0024 38B9     		cbnz	r0, .L26
+ 220 0026 0F4B     		ldr	r3, .L32+8
+ 221 0028 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 222 002a 8BB9     		cbnz	r3, .L29
+ 223 002c 04F11D01 		add	r1, r4, #29
+ 224 0030 0120     		movs	r0, #1
+ 225 0032 FFF7FEFF 		bl	update_start
+ 226              	.L26:
+ 227 0036 20B0     		add	sp, sp, #128
+ 228              		@ sp needed
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 5
+
+
+ 229 0038 10BD     		pop	{r4, pc}
+ 230              	.L27:
+ 231 003a 0B48     		ldr	r0, .L32+12
+ 232 003c FFF7FEFF 		bl	UART_Debug_PutString
+ 233 0040 2046     		mov	r0, r4
+ 234 0042 FFF7FEFF 		bl	UART_Debug_PutString
+ 235 0046 0948     		ldr	r0, .L32+16
+ 236 0048 FFF7FEFF 		bl	UART_Debug_PutString
+ 237 004c 20B0     		add	sp, sp, #128
+ 238              		@ sp needed
+ 239 004e 10BD     		pop	{r4, pc}
+ 240              	.L29:
+ 241 0050 0748     		ldr	r0, .L32+20
+ 242 0052 FFF7FEFF 		bl	UART_Debug_PutString
+ 243 0056 20B0     		add	sp, sp, #128
+ 244              		@ sp needed
+ 245 0058 10BD     		pop	{r4, pc}
+ 246              	.L33:
+ 247 005a 00BF     		.align	2
+ 248              	.L32:
+ 249 005c 78010000 		.word	.LC13
+ 250 0060 84010000 		.word	.LC14
+ 251 0064 00000000 		.word	fota_flag_start
+ 252 0068 D0010000 		.word	.LC16
+ 253 006c 40000000 		.word	.LC6
+ 254 0070 A4010000 		.word	.LC15
+ 255              		.size	update_check_packet, .-update_check_packet
+ 256              		.section	.text.check_checksum,"ax",%progbits
+ 257              		.align	2
+ 258              		.global	check_checksum
+ 259              		.thumb
+ 260              		.thumb_func
+ 261              		.type	check_checksum, %function
+ 262              	check_checksum:
+ 263              		@ args = 0, pretend = 0, frame = 104
+ 264              		@ frame_needed = 0, uses_anonymous_args = 0
+ 265 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 266 0004 9AB0     		sub	sp, sp, #104
+ 267 0006 8846     		mov	r8, r1
+ 268 0008 0746     		mov	r7, r0
+ 269 000a FFF7FEFF 		bl	strlen
+ 270 000e 10F00106 		ands	r6, r0, #1
+ 271 0012 14D1     		bne	.L38
+ 272 0014 10B3     		cbz	r0, .L39
+ 273 0016 3446     		mov	r4, r6
+ 274 0018 3246     		mov	r2, r6
+ 275              	.L36:
+ 276 001a BD19     		adds	r5, r7, r6
+ 277 001c 6D78     		ldrb	r5, [r5, #1]	@ zero_extendqisi2
+ 278 001e BE5D     		ldrb	r6, [r7, r6]	@ zero_extendqisi2
+ 279 0020 0234     		adds	r4, r4, #2
+ 280 0022 45EA0625 		orr	r5, r5, r6, lsl #8
+ 281 0026 A4B2     		uxth	r4, r4
+ 282 0028 6A40     		eors	r2, r2, r5
+ 283 002a A042     		cmp	r0, r4
+ 284 002c 92B2     		uxth	r2, r2
+ 285 002e 2646     		mov	r6, r4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 6
+
+
+ 286 0030 F3D8     		bhi	.L36
+ 287 0032 4245     		cmp	r2, r8
+ 288 0034 06D1     		bne	.L43
+ 289              	.L40:
+ 290 0036 0120     		movs	r0, #1
+ 291 0038 1AB0     		add	sp, sp, #104
+ 292              		@ sp needed
+ 293 003a BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 294              	.L38:
+ 295 003e 0022     		movs	r2, #0
+ 296              	.L35:
+ 297 0040 4245     		cmp	r2, r8
+ 298 0042 F8D0     		beq	.L40
+ 299              	.L43:
+ 300 0044 4346     		mov	r3, r8
+ 301 0046 0649     		ldr	r1, .L44
+ 302 0048 01A8     		add	r0, sp, #4
+ 303 004a FFF7FEFF 		bl	sprintf
+ 304 004e 01A8     		add	r0, sp, #4
+ 305 0050 FFF7FEFF 		bl	UART_Debug_PutString
+ 306 0054 0020     		movs	r0, #0
+ 307 0056 1AB0     		add	sp, sp, #104
+ 308              		@ sp needed
+ 309 0058 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 310              	.L39:
+ 311 005c 0246     		mov	r2, r0
+ 312 005e EFE7     		b	.L35
+ 313              	.L45:
+ 314              		.align	2
+ 315              	.L44:
+ 316 0060 F4010000 		.word	.LC17
+ 317              		.size	check_checksum, .-check_checksum
+ 318              		.section	.text.internal_flash_write_row,"ax",%progbits
+ 319              		.align	2
+ 320              		.global	internal_flash_write_row
+ 321              		.thumb
+ 322              		.thumb_func
+ 323              		.type	internal_flash_write_row, %function
+ 324              	internal_flash_write_row:
+ 325              		@ args = 0, pretend = 0, frame = 360
+ 326              		@ frame_needed = 0, uses_anonymous_args = 0
+ 327 0000 30B5     		push	{r4, r5, lr}
+ 328 0002 2F4D     		ldr	r5, .L64
+ 329 0004 DBB0     		sub	sp, sp, #364
+ 330 0006 691D     		adds	r1, r5, #5
+ 331 0008 4FF48072 		mov	r2, #256
+ 332 000c 1AA8     		add	r0, sp, #104
+ 333 000e 2D4C     		ldr	r4, .L64+4
+ 334 0010 FFF7FEFF 		bl	memcpy
+ 335 0014 1920     		movs	r0, #25
+ 336 0016 FFF7FEFF 		bl	OS_TASK_Delay
+ 337 001a 6388     		ldrh	r3, [r4, #2]
+ 338 001c 83B1     		cbz	r3, .L59
+ 339 001e FFF7FEFF 		bl	CySetTemp
+ 340 0022 30B3     		cbz	r0, .L60
+ 341              	.L56:
+ 342 0024 0220     		movs	r0, #2
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 7
+
+
+ 343              	.L50:
+ 344 0026 6388     		ldrh	r3, [r4, #2]
+ 345 0028 264A     		ldr	r2, .L64+4
+ 346 002a B3F5807F 		cmp	r3, #256
+ 347 002e 05D1     		bne	.L57
+ 348 0030 2549     		ldr	r1, .L64+8
+ 349 0032 0024     		movs	r4, #0
+ 350 0034 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 351 0036 5480     		strh	r4, [r2, #2]	@ movhi
+ 352 0038 0133     		adds	r3, r3, #1
+ 353 003a 0B70     		strb	r3, [r1]
+ 354              	.L57:
+ 355 003c 5BB0     		add	sp, sp, #364
+ 356              		@ sp needed
+ 357 003e 30BD     		pop	{r4, r5, pc}
+ 358              	.L59:
+ 359 0040 7921     		movs	r1, #121
+ 360 0042 6878     		ldrb	r0, [r5, #1]	@ zero_extendqisi2
+ 361 0044 FFF7FEFF 		bl	ie2_write_byte
+ 362 0048 50B3     		cbz	r0, .L61
+ 363              	.L48:
+ 364 004a 7A21     		movs	r1, #122
+ 365 004c A878     		ldrb	r0, [r5, #2]	@ zero_extendqisi2
+ 366 004e FFF7FEFF 		bl	ie2_write_byte
+ 367 0052 08B3     		cbz	r0, .L62
+ 368              	.L49:
+ 369 0054 AB78     		ldrb	r3, [r5, #2]	@ zero_extendqisi2
+ 370 0056 6A78     		ldrb	r2, [r5, #1]	@ zero_extendqisi2
+ 371 0058 1C49     		ldr	r1, .L64+12
+ 372 005a 43EA0222 		orr	r2, r3, r2, lsl #8
+ 373 005e 01A8     		add	r0, sp, #4
+ 374 0060 FFF7FEFF 		bl	sprintf
+ 375 0064 01A8     		add	r0, sp, #4
+ 376 0066 FFF7FEFF 		bl	UART_Debug_PutString
+ 377 006a FFF7FEFF 		bl	CySetTemp
+ 378 006e 0028     		cmp	r0, #0
+ 379 0070 D8D1     		bne	.L56
+ 380              	.L60:
+ 381 0072 154B     		ldr	r3, .L64+8
+ 382 0074 1AAA     		add	r2, sp, #104
+ 383 0076 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 384 0078 6188     		ldrh	r1, [r4, #2]
+ 385 007a FFF7FEFF 		bl	CyWriteRowData
+ 386 007e 114A     		ldr	r2, .L64+4
+ 387 0080 0546     		mov	r5, r0
+ 388 0082 88B1     		cbz	r0, .L51
+ 389 0084 0428     		cmp	r0, #4
+ 390 0086 17D0     		beq	.L63
+ 391 0088 0928     		cmp	r0, #9
+ 392 008a 0CBF     		ite	eq
+ 393 008c 1048     		ldreq	r0, .L64+16
+ 394 008e 1148     		ldrne	r0, .L64+20
+ 395 0090 FFF7FEFF 		bl	UART_Debug_PutString
+ 396              	.L53:
+ 397 0094 0120     		movs	r0, #1
+ 398 0096 C6E7     		b	.L50
+ 399              	.L62:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 8
+
+
+ 400 0098 0F48     		ldr	r0, .L64+24
+ 401 009a FFF7FEFF 		bl	UART_Debug_PutString
+ 402 009e D9E7     		b	.L49
+ 403              	.L61:
+ 404 00a0 0E48     		ldr	r0, .L64+28
+ 405 00a2 FFF7FEFF 		bl	UART_Debug_PutString
+ 406 00a6 D0E7     		b	.L48
+ 407              	.L51:
+ 408 00a8 5388     		ldrh	r3, [r2, #2]
+ 409 00aa 0A20     		movs	r0, #10
+ 410 00ac 0133     		adds	r3, r3, #1
+ 411 00ae 5380     		strh	r3, [r2, #2]	@ movhi
+ 412 00b0 FFF7FEFF 		bl	OS_TASK_Delay
+ 413 00b4 2846     		mov	r0, r5
+ 414 00b6 B6E7     		b	.L50
+ 415              	.L63:
+ 416 00b8 0948     		ldr	r0, .L64+32
+ 417 00ba FFF7FEFF 		bl	UART_Debug_PutString
+ 418 00be E9E7     		b	.L53
+ 419              	.L65:
+ 420              		.align	2
+ 421              	.L64:
+ 422 00c0 00000000 		.word	fota_data_bytes
+ 423 00c4 00000000 		.word	.LANCHOR0
+ 424 00c8 00000000 		.word	.LANCHOR1
+ 425 00cc 78020000 		.word	.LC20
+ 426 00d0 B8020000 		.word	.LC22
+ 427 00d4 D0020000 		.word	.LC23
+ 428 00d8 48020000 		.word	.LC19
+ 429 00dc 20020000 		.word	.LC18
+ 430 00e0 98020000 		.word	.LC21
+ 431              		.size	internal_flash_write_row, .-internal_flash_write_row
+ 432              		.global	__aeabi_ui2d
+ 433              		.global	__aeabi_ddiv
+ 434              		.global	__aeabi_dmul
+ 435              		.global	__aeabi_d2uiz
+ 436              		.section	.text.update_procedure,"ax",%progbits
+ 437              		.align	2
+ 438              		.global	update_procedure
+ 439              		.thumb
+ 440              		.thumb_func
+ 441              		.type	update_procedure, %function
+ 442              	update_procedure:
+ 443              		@ args = 0, pretend = 0, frame = 200
+ 444              		@ frame_needed = 0, uses_anonymous_args = 0
+ 445 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 446 0004 0446     		mov	r4, r0
+ 447 0006 B3B0     		sub	sp, sp, #204
+ 448 0008 6422     		movs	r2, #100
+ 449 000a 0021     		movs	r1, #0
+ 450 000c 6846     		mov	r0, sp
+ 451 000e FFF7FEFF 		bl	memset
+ 452 0012 A249     		ldr	r1, .L122
+ 453 0014 2046     		mov	r0, r4
+ 454 0016 FFF7FEFF 		bl	strremove
+ 455 001a A149     		ldr	r1, .L122+4
+ 456 001c 2046     		mov	r0, r4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 9
+
+
+ 457 001e FFF7FEFF 		bl	strremove
+ 458 0022 A049     		ldr	r1, .L122+8
+ 459 0024 2046     		mov	r0, r4
+ 460 0026 FFF7FEFF 		bl	strremove
+ 461 002a 9F49     		ldr	r1, .L122+12
+ 462 002c 2046     		mov	r0, r4
+ 463 002e FFF7FEFF 		bl	strremove
+ 464 0032 9E49     		ldr	r1, .L122+16
+ 465 0034 2046     		mov	r0, r4
+ 466 0036 FFF7FEFF 		bl	strremove
+ 467 003a 9D49     		ldr	r1, .L122+20
+ 468 003c 2046     		mov	r0, r4
+ 469 003e FFF7FEFF 		bl	strtok
+ 470 0042 0A22     		movs	r2, #10
+ 471 0044 0021     		movs	r1, #0
+ 472 0046 FFF7FEFF 		bl	strtol
+ 473 004a 9949     		ldr	r1, .L122+20
+ 474 004c 0646     		mov	r6, r0
+ 475 004e 0020     		movs	r0, #0
+ 476 0050 FFF7FEFF 		bl	strtok
+ 477 0054 1022     		movs	r2, #16
+ 478 0056 0021     		movs	r1, #0
+ 479 0058 FFF7FEFF 		bl	strtol
+ 480 005c 9449     		ldr	r1, .L122+20
+ 481 005e 1FFA80F8 		uxth	r8, r0
+ 482 0062 0020     		movs	r0, #0
+ 483 0064 FFF7FEFF 		bl	strtok
+ 484 0068 0546     		mov	r5, r0
+ 485 006a FFF7FEFF 		bl	strlen
+ 486 006e 10F00107 		ands	r7, r0, #1
+ 487 0072 1DD1     		bne	.L87
+ 488 0074 0028     		cmp	r0, #0
+ 489 0076 00F0D680 		beq	.L88
+ 490 007a 3946     		mov	r1, r7
+ 491 007c 3A46     		mov	r2, r7
+ 492              	.L68:
+ 493 007e EB19     		adds	r3, r5, r7
+ 494 0080 5C78     		ldrb	r4, [r3, #1]	@ zero_extendqisi2
+ 495 0082 EB5D     		ldrb	r3, [r5, r7]	@ zero_extendqisi2
+ 496 0084 0231     		adds	r1, r1, #2
+ 497 0086 89B2     		uxth	r1, r1
+ 498 0088 44EA0324 		orr	r4, r4, r3, lsl #8
+ 499 008c 6240     		eors	r2, r2, r4
+ 500 008e 8842     		cmp	r0, r1
+ 501 0090 92B2     		uxth	r2, r2
+ 502 0092 0F46     		mov	r7, r1
+ 503 0094 F3D8     		bhi	.L68
+ 504 0096 9045     		cmp	r8, r2
+ 505 0098 0DD1     		bne	.L117
+ 506              	.L69:
+ 507 009a DFF84CA2 		ldr	r10, .L122+76
+ 508 009e B6B2     		uxth	r6, r6
+ 509 00a0 BAF80030 		ldrh	r3, [r10]
+ 510 00a4 B342     		cmp	r3, r6
+ 511 00a6 35D0     		beq	.L118
+ 512 00a8 8248     		ldr	r0, .L122+24
+ 513              	.L107:
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 10
+
+
+ 514 00aa FFF7FEFF 		bl	UART_Debug_PutString
+ 515 00ae 0FE0     		b	.L113
+ 516              	.L87:
+ 517 00b0 0022     		movs	r2, #0
+ 518              	.L67:
+ 519 00b2 9045     		cmp	r8, r2
+ 520 00b4 F1D0     		beq	.L69
+ 521              	.L117:
+ 522 00b6 8049     		ldr	r1, .L122+28
+ 523 00b8 4346     		mov	r3, r8
+ 524 00ba 19A8     		add	r0, sp, #100
+ 525 00bc FFF7FEFF 		bl	sprintf
+ 526 00c0 19A8     		add	r0, sp, #100
+ 527 00c2 FFF7FEFF 		bl	UART_Debug_PutString
+ 528 00c6 19A8     		add	r0, sp, #100
+ 529 00c8 B2B2     		uxth	r2, r6
+ 530 00ca 7C49     		ldr	r1, .L122+32
+ 531 00cc FFF7FEFF 		bl	sprintf
+ 532              	.L113:
+ 533 00d0 7B4B     		ldr	r3, .L122+36
+ 534 00d2 7C49     		ldr	r1, .L122+40
+ 535 00d4 1A88     		ldrh	r2, [r3]
+ 536 00d6 6846     		mov	r0, sp
+ 537 00d8 0132     		adds	r2, r2, #1
+ 538 00da FFF7FEFF 		bl	sprintf
+ 539 00de 6846     		mov	r0, sp
+ 540 00e0 FFF7FEFF 		bl	UART_Debug_PutString
+ 541              	.L110:
+ 542 00e4 6846     		mov	r0, sp
+ 543 00e6 FFF7FEFF 		bl	strlen
+ 544 00ea 6946     		mov	r1, sp
+ 545 00ec 421C     		adds	r2, r0, #1
+ 546 00ee 7648     		ldr	r0, .L122+44
+ 547 00f0 FFF7FEFF 		bl	q_put_message
+ 548 00f4 10B1     		cbz	r0, .L119
+ 549              	.L66:
+ 550 00f6 33B0     		add	sp, sp, #204
+ 551              		@ sp needed
+ 552 00f8 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 553              	.L119:
+ 554 00fc 7348     		ldr	r0, .L122+48
+ 555 00fe FFF7FEFF 		bl	UART_Debug_PutString
+ 556 0102 6846     		mov	r0, sp
+ 557 0104 FFF7FEFF 		bl	UART_Debug_PutString
+ 558 0108 7148     		ldr	r0, .L122+52
+ 559 010a FFF7FEFF 		bl	UART_Debug_PutString
+ 560 010e 33B0     		add	sp, sp, #204
+ 561              		@ sp needed
+ 562 0110 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 563              	.L118:
+ 564 0114 DFF8D891 		ldr	r9, .L122+84
+ 565 0118 0023     		movs	r3, #0
+ 566 011a 2846     		mov	r0, r5
+ 567 011c A9F80430 		strh	r3, [r9, #4]	@ movhi
+ 568 0120 FFF7FEFF 		bl	strlen
+ 569 0124 10F00104 		ands	r4, r0, #1
+ 570 0128 2CD1     		bne	.L73
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 11
+
+
+ 571 012a 05F1FF38 		add	r8, r5, #-1
+ 572 012e 694F     		ldr	r7, .L122+56
+ 573 0130 694E     		ldr	r6, .L122+60
+ 574 0132 02E0     		b	.L74
+ 575              	.L75:
+ 576 0134 FFF7FEFF 		bl	strlen
+ 577 0138 0134     		adds	r4, r4, #1
+ 578              	.L74:
+ 579 013a 8442     		cmp	r4, r0
+ 580 013c 24D2     		bcs	.L120
+ 581 013e FFF7FEFF 		bl	CyWdtClear
+ 582 0142 3B78     		ldrb	r3, [r7]	@ zero_extendqisi2
+ 583 0144 18F8010F 		ldrb	r0, [r8, #1]!	@ zero_extendqisi2
+ 584 0148 1B01     		lsls	r3, r3, #4
+ 585 014a 4FFA83FB 		sxtb	fp, r3
+ 586 014e FFF7FEFF 		bl	df_hexstring_hex
+ 587 0152 3278     		ldrb	r2, [r6]	@ zero_extendqisi2
+ 588 0154 4BEA0000 		orr	r0, fp, r0
+ 589 0158 0132     		adds	r2, r2, #1
+ 590 015a D2B2     		uxtb	r2, r2
+ 591 015c C3B2     		uxtb	r3, r0
+ 592 015e 022A     		cmp	r2, #2
+ 593 0160 3B70     		strb	r3, [r7]
+ 594 0162 3270     		strb	r2, [r6]
+ 595 0164 2846     		mov	r0, r5
+ 596 0166 E5D1     		bne	.L75
+ 597 0168 B9F80420 		ldrh	r2, [r9, #4]
+ 598 016c 5B49     		ldr	r1, .L122+64
+ 599 016e 4FF0000E 		mov	lr, #0
+ 600 0172 8B54     		strb	r3, [r1, r2]
+ 601 0174 0132     		adds	r2, r2, #1
+ 602 0176 A9F80420 		strh	r2, [r9, #4]	@ movhi
+ 603 017a 87F800E0 		strb	lr, [r7]
+ 604 017e 86F800E0 		strb	lr, [r6]
+ 605 0182 D7E7     		b	.L75
+ 606              	.L73:
+ 607 0184 5648     		ldr	r0, .L122+68
+ 608 0186 90E7     		b	.L107
+ 609              	.L120:
+ 610 0188 FFF7FEFF 		bl	internal_flash_write_row
+ 611 018c 0246     		mov	r2, r0
+ 612 018e 0028     		cmp	r0, #0
+ 613 0190 4BD1     		bne	.L79
+ 614 0192 4B4C     		ldr	r4, .L122+36
+ 615 0194 534D     		ldr	r5, .L122+72
+ 616 0196 2388     		ldrh	r3, [r4]
+ 617 0198 2988     		ldrh	r1, [r5]
+ 618 019a 0133     		adds	r3, r3, #1
+ 619 019c 9BB2     		uxth	r3, r3
+ 620 019e 8B42     		cmp	r3, r1
+ 621 01a0 2380     		strh	r3, [r4]	@ movhi
+ 622 01a2 44D0     		beq	.L121
+ 623 01a4 BAF80030 		ldrh	r3, [r10]
+ 624 01a8 4F4E     		ldr	r6, .L122+76
+ 625 01aa 9942     		cmp	r1, r3
+ 626 01ac A3D0     		beq	.L66
+ 627 01ae 0133     		adds	r3, r3, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 12
+
+
+ 628 01b0 9BB2     		uxth	r3, r3
+ 629 01b2 1A46     		mov	r2, r3
+ 630 01b4 4349     		ldr	r1, .L122+40
+ 631 01b6 6846     		mov	r0, sp
+ 632 01b8 3380     		strh	r3, [r6]	@ movhi
+ 633 01ba FFF7FEFF 		bl	sprintf
+ 634 01be 3088     		ldrh	r0, [r6]
+ 635 01c0 FFF7FEFF 		bl	__aeabi_ui2d
+ 636 01c4 2F88     		ldrh	r7, [r5]
+ 637 01c6 8246     		mov	r10, r0
+ 638 01c8 3846     		mov	r0, r7
+ 639 01ca 8B46     		mov	fp, r1
+ 640 01cc FFF7FEFF 		bl	__aeabi_ui2d
+ 641 01d0 0246     		mov	r2, r0
+ 642 01d2 0B46     		mov	r3, r1
+ 643 01d4 5046     		mov	r0, r10
+ 644 01d6 5946     		mov	r1, fp
+ 645 01d8 FFF7FEFF 		bl	__aeabi_ddiv
+ 646 01dc 434B     		ldr	r3, .L122+80
+ 647 01de 0022     		movs	r2, #0
+ 648 01e0 FFF7FEFF 		bl	__aeabi_dmul
+ 649 01e4 FFF7FEFF 		bl	__aeabi_d2uiz
+ 650 01e8 99F80030 		ldrb	r3, [r9]	@ zero_extendqisi2
+ 651 01ec C5B2     		uxtb	r5, r0
+ 652 01ee AB42     		cmp	r3, r5
+ 653 01f0 3F4E     		ldr	r6, .L122+84
+ 654 01f2 0CD0     		beq	.L82
+ 655 01f4 3B46     		mov	r3, r7
+ 656 01f6 2288     		ldrh	r2, [r4]
+ 657 01f8 3E49     		ldr	r1, .L122+88
+ 658 01fa 19A8     		add	r0, sp, #100
+ 659 01fc 3570     		strb	r5, [r6]
+ 660 01fe FFF7FEFF 		bl	sprintf
+ 661 0202 19A8     		add	r0, sp, #100
+ 662 0204 FFF7FEFF 		bl	UART_Debug_PutString
+ 663 0208 6846     		mov	r0, sp
+ 664 020a FFF7FEFF 		bl	UART_Debug_PutString
+ 665              	.L82:
+ 666 020e EB07     		lsls	r3, r5, #31
+ 667 0210 54BF     		ite	pl
+ 668 0212 0523     		movpl	r3, #5
+ 669 0214 0623     		movmi	r3, #6
+ 670 0216 3849     		ldr	r1, .L122+92
+ 671 0218 384A     		ldr	r2, .L122+96
+ 672 021a 1846     		mov	r0, r3
+ 673 021c 0B70     		strb	r3, [r1]
+ 674 021e 1370     		strb	r3, [r2]
+ 675 0220 FFF7FEFF 		bl	RGB
+ 676 0224 5EE7     		b	.L110
+ 677              	.L88:
+ 678 0226 0246     		mov	r2, r0
+ 679 0228 43E7     		b	.L67
+ 680              	.L79:
+ 681 022a 3548     		ldr	r0, .L122+100
+ 682 022c 3DE7     		b	.L107
+ 683              	.L121:
+ 684 022e 354B     		ldr	r3, .L122+104
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 13
+
+
+ 685 0230 354D     		ldr	r5, .L122+108
+ 686 0232 7021     		movs	r1, #112
+ 687 0234 0120     		movs	r0, #1
+ 688 0236 2280     		strh	r2, [r4]	@ movhi
+ 689 0238 1A80     		strh	r2, [r3]	@ movhi
+ 690 023a FFF7FEFF 		bl	ie2_write_byte
+ 691 023e 2878     		ldrb	r0, [r5]	@ zero_extendqisi2
+ 692 0240 7121     		movs	r1, #113
+ 693 0242 FFF7FEFF 		bl	ie2_write_byte
+ 694 0246 6878     		ldrb	r0, [r5, #1]	@ zero_extendqisi2
+ 695 0248 7221     		movs	r1, #114
+ 696 024a 304C     		ldr	r4, .L122+112
+ 697 024c FFF7FEFF 		bl	ie2_write_byte
+ 698 0250 A878     		ldrb	r0, [r5, #2]	@ zero_extendqisi2
+ 699 0252 7321     		movs	r1, #115
+ 700 0254 FFF7FEFF 		bl	ie2_write_byte
+ 701 0258 E878     		ldrb	r0, [r5, #3]	@ zero_extendqisi2
+ 702 025a 7421     		movs	r1, #116
+ 703 025c FFF7FEFF 		bl	ie2_write_byte
+ 704 0260 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 705 0262 7521     		movs	r1, #117
+ 706 0264 FFF7FEFF 		bl	ie2_write_byte
+ 707 0268 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 708 026a 7621     		movs	r1, #118
+ 709 026c FFF7FEFF 		bl	ie2_write_byte
+ 710 0270 A078     		ldrb	r0, [r4, #2]	@ zero_extendqisi2
+ 711 0272 7721     		movs	r1, #119
+ 712 0274 FFF7FEFF 		bl	ie2_write_byte
+ 713 0278 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 714 027a 7821     		movs	r1, #120
+ 715 027c FFF7FEFF 		bl	ie2_write_byte
+ 716 0280 1321     		movs	r1, #19
+ 717 0282 0220     		movs	r0, #2
+ 718 0284 FFF7FEFF 		bl	ie2_write_byte
+ 719 0288 4FF4FA70 		mov	r0, #500
+ 720 028c FFF7FEFF 		bl	CyDelay
+ 721 0290 FFF7FEFF 		bl	CyWdtClear
+ 722 0294 FFF7FEFF 		bl	CySoftwareReset
+ 723 0298 2DE7     		b	.L66
+ 724              	.L123:
+ 725 029a 00BF     		.align	2
+ 726              	.L122:
+ 727 029c 00000000 		.word	.LC0
+ 728 02a0 04000000 		.word	.LC1
+ 729 02a4 08000000 		.word	.LC2
+ 730 02a8 0C000000 		.word	.LC3
+ 731 02ac DC020000 		.word	.LC24
+ 732 02b0 10000000 		.word	.LC4
+ 733 02b4 2C030000 		.word	.LC27
+ 734 02b8 F4010000 		.word	.LC17
+ 735 02bc E0020000 		.word	.LC25
+ 736 02c0 00000000 		.word	fota_row_counter
+ 737 02c4 10030000 		.word	.LC26
+ 738 02c8 00000000 		.word	_Queue_Send
+ 739 02cc E8000000 		.word	.LC10
+ 740 02d0 40000000 		.word	.LC6
+ 741 02d4 00000000 		.word	int_byte
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 14
+
+
+ 742 02d8 00000000 		.word	int_byte_ctr
+ 743 02dc 00000000 		.word	fota_data_bytes
+ 744 02e0 4C030000 		.word	.LC28
+ 745 02e4 00000000 		.word	server_fota_file_numbers
+ 746 02e8 00000000 		.word	fota_file_numbers
+ 747 02ec 00005940 		.word	1079574528
+ 748 02f0 00000000 		.word	.LANCHOR0
+ 749 02f4 A4030000 		.word	.LC30
+ 750 02f8 00000000 		.word	RGB_Color
+ 751 02fc 00000000 		.word	RGB_Color_Old
+ 752 0300 78030000 		.word	.LC29
+ 753 0304 00000000 		.word	fota_row_sequence
+ 754 0308 00000000 		.word	server_fota_App_CRC
+ 755 030c 00000000 		.word	server_fota_App_size
+ 756              		.size	update_procedure, .-update_procedure
+ 757              		.section	.text.internal_flash_handle_error,"ax",%progbits
+ 758              		.align	2
+ 759              		.global	internal_flash_handle_error
+ 760              		.thumb
+ 761              		.thumb_func
+ 762              		.type	internal_flash_handle_error, %function
+ 763              	internal_flash_handle_error:
+ 764              		@ args = 0, pretend = 0, frame = 0
+ 765              		@ frame_needed = 0, uses_anonymous_args = 0
+ 766 0000 50B1     		cbz	r0, .L128
+ 767 0002 0428     		cmp	r0, #4
+ 768 0004 08B5     		push	{r3, lr}
+ 769 0006 09D0     		beq	.L131
+ 770 0008 0928     		cmp	r0, #9
+ 771 000a 0CBF     		ite	eq
+ 772 000c 0648     		ldreq	r0, .L132
+ 773 000e 0748     		ldrne	r0, .L132+4
+ 774 0010 FFF7FEFF 		bl	UART_Debug_PutString
+ 775 0014 0020     		movs	r0, #0
+ 776 0016 08BD     		pop	{r3, pc}
+ 777              	.L128:
+ 778 0018 0120     		movs	r0, #1
+ 779 001a 7047     		bx	lr
+ 780              	.L131:
+ 781 001c 0448     		ldr	r0, .L132+8
+ 782 001e FFF7FEFF 		bl	UART_Debug_PutString
+ 783 0022 0020     		movs	r0, #0
+ 784 0024 08BD     		pop	{r3, pc}
+ 785              	.L133:
+ 786 0026 00BF     		.align	2
+ 787              	.L132:
+ 788 0028 B8020000 		.word	.LC22
+ 789 002c D0020000 		.word	.LC23
+ 790 0030 98020000 		.word	.LC21
+ 791              		.size	internal_flash_handle_error, .-internal_flash_handle_error
+ 792              		.global	arrayID
+ 793              		.global	rowAddress
+ 794              		.global	last_percent
+ 795              		.global	data_index
+ 796              		.global	fota_data_index
+ 797              		.comm	fota_data_bytes,262,4
+ 798              		.global	data_length
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 15
+
+
+ 799              		.global	i2c_counter
+ 800              		.global	line_num
+ 801              		.comm	Stack_Task_Main,8192,4
+ 802              		.comm	TCB_Task_Main,56,4
+ 803              		.data
+ 804              		.set	.LANCHOR1,. + 0
+ 805              		.type	arrayID, %object
+ 806              		.size	arrayID, 1
+ 807              	arrayID:
+ 808 0000 02       		.byte	2
+ 809              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 810              		.align	2
+ 811              	.LC0:
+ 812 0000 5B00     		.ascii	"[\000"
+ 813 0002 0000     		.space	2
+ 814              	.LC1:
+ 815 0004 2200     		.ascii	"\"\000"
+ 816 0006 0000     		.space	2
+ 817              	.LC2:
+ 818 0008 5D00     		.ascii	"]\000"
+ 819 000a 0000     		.space	2
+ 820              	.LC3:
+ 821 000c 7D00     		.ascii	"}\000"
+ 822 000e 0000     		.space	2
+ 823              	.LC4:
+ 824 0010 2C00     		.ascii	",\000"
+ 825 0012 0000     		.space	2
+ 826              	.LC5:
+ 827 0014 666F7461 		.ascii	"fota_flag_start: %01X\015\012fota_folder_name: \000"
+ 827      5F666C61 
+ 827      675F7374 
+ 827      6172743A 
+ 827      20253031 
+ 828 003e 0000     		.space	2
+ 829              	.LC6:
+ 830 0040 0D0A00   		.ascii	"\015\012\000"
+ 831 0043 00       		.space	1
+ 832              	.LC7:
+ 833 0044 666F7461 		.ascii	"fota_file_numbers: %03d\015\012fota_App_lines: %03d"
+ 833      5F66696C 
+ 833      655F6E75 
+ 833      6D626572 
+ 833      733A2025 
+ 834 0071 0D0A666F 		.ascii	"\015\012fota_App_size: %08lX\015\012fota_App_CRC: %"
+ 834      74615F41 
+ 834      70705F73 
+ 834      697A653A 
+ 834      20253038 
+ 835 0098 30386C58 		.ascii	"08lX\015\012\000"
+ 835      0D0A00
+ 836 009f 00       		.space	1
+ 837              	.LC8:
+ 838 00a0 0D0A2023 		.ascii	"\015\012 #### Note: FOTA Procedure Started!!!\015\012"
+ 838      23232320 
+ 838      4E6F7465 
+ 838      3A20464F 
+ 838      54412050 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 16
+
+
+ 839 00c9 00       		.ascii	"\000"
+ 840 00ca 0000     		.space	2
+ 841              	.LC9:
+ 842 00cc 7B464F54 		.ascii	"{FOT_REQ}:{\"num\":\"001\"}\015\012\000"
+ 842      5F524551 
+ 842      7D3A7B22 
+ 842      6E756D22 
+ 842      3A223030 
+ 843 00e6 0000     		.space	2
+ 844              	.LC10:
+ 845 00e8 75706461 		.ascii	"update_procedure >> failed to put to _Queue_Send >>"
+ 845      74655F70 
+ 845      726F6365 
+ 845      64757265 
+ 845      203E3E20 
+ 846 011b 2000     		.ascii	" \000"
+ 847 011d 000000   		.space	3
+ 848              	.LC11:
+ 849 0120 0D0A2023 		.ascii	"\015\012 #### Note: FOTA Procedure FAILED!!!\015\012"
+ 849      23232320 
+ 849      4E6F7465 
+ 849      3A20464F 
+ 849      54412050 
+ 850 0148 00       		.ascii	"\000"
+ 851 0149 000000   		.space	3
+ 852              	.LC12:
+ 853 014c 0D0A2023 		.ascii	"\015\012 #### Note: FOTA Procedure STOPPED!!!\015\012"
+ 853      23232320 
+ 853      4E6F7465 
+ 853      3A20464F 
+ 853      54412050 
+ 854 0175 00       		.ascii	"\000"
+ 855 0176 0000     		.space	2
+ 856              	.LC13:
+ 857 0178 7B534554 		.ascii	"{SET_FOT}:\000"
+ 857      5F464F54 
+ 857      7D3A00
+ 858 0183 00       		.space	1
+ 859              	.LC14:
+ 860 0184 7B534554 		.ascii	"{SET_FOT}:{\"id\":\"%02d\",\"data\":[\000"
+ 860      5F464F54 
+ 860      7D3A7B22 
+ 860      6964223A 
+ 860      22253032 
+ 861              	.LC15:
+ 862 01a4 0D0A2023 		.ascii	"\015\012 #### NOTE: FOTA procedure STOPPED ####\015"
+ 862      23232320 
+ 862      4E4F5445 
+ 862      3A20464F 
+ 862      54412070 
+ 863 01ce 0A00     		.ascii	"\012\000"
+ 864              	.LC16:
+ 865 01d0 75706461 		.ascii	"update_check_packet: wrong msg: \000"
+ 865      74655F63 
+ 865      6865636B 
+ 865      5F706163 
+ 865      6B65743A 
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 17
+
+
+ 866 01f1 000000   		.space	3
+ 867              	.LC17:
+ 868 01f4 6F75725F 		.ascii	"our_checksum = %04X, data_checksum = %04X\015\012\000"
+ 868      63686563 
+ 868      6B73756D 
+ 868      203D2025 
+ 868      3034582C 
+ 869              	.LC18:
+ 870 0220 4A6F686E 		.ascii	"John Cena 1 is here! py chart again\015\012\000"
+ 870      2043656E 
+ 870      61203120 
+ 870      69732068 
+ 870      65726521 
+ 871 0246 0000     		.space	2
+ 872              	.LC19:
+ 873 0248 202A2A2A 		.ascii	" *** John Cena 2 is here! py chart again *** \015\012"
+ 873      204A6F68 
+ 873      6E204365 
+ 873      6E612032 
+ 873      20697320 
+ 874 0277 00       		.ascii	"\000"
+ 875              	.LC20:
+ 876 0278 202A2A2A 		.ascii	" *** First RowID = %04X ***\015\012\000"
+ 876      20466972 
+ 876      73742052 
+ 876      6F774944 
+ 876      203D2025 
+ 877 0296 0000     		.space	2
+ 878              	.LC21:
+ 879 0298 466C6173 		.ascii	"Flash writing already in use\015\012\000"
+ 879      68207772 
+ 879      6974696E 
+ 879      6720616C 
+ 879      72656164 
+ 880 02b7 00       		.space	1
+ 881              	.LC22:
+ 882 02b8 436F6D6D 		.ascii	"Command not accepted\015\012\000"
+ 882      616E6420 
+ 882      6E6F7420 
+ 882      61636365 
+ 882      70746564 
+ 883 02cf 00       		.space	1
+ 884              	.LC23:
+ 885 02d0 4661696C 		.ascii	"Failure\015\012\000"
+ 885      7572650D 
+ 885      0A00
+ 886 02da 0000     		.space	2
+ 887              	.LC24:
+ 888 02dc 7B00     		.ascii	"{\000"
+ 889 02de 0000     		.space	2
+ 890              	.LC25:
+ 891 02e0 4C494E55 		.ascii	"LINUX_LINE_NUM: %03d >> CHECKSUM >> FAILED\015\012\000"
+ 891      585F4C49 
+ 891      4E455F4E 
+ 891      554D3A20 
+ 891      25303364 
+ 892 030d 000000   		.space	3
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 18
+
+
+ 893              	.LC26:
+ 894 0310 7B464F54 		.ascii	"{FOT_REQ}:{\"num\":\"%05d\"}\015\012\000"
+ 894      5F524551 
+ 894      7D3A7B22 
+ 894      6E756D22 
+ 894      3A222530 
+ 895 032b 00       		.space	1
+ 896              	.LC27:
+ 897 032c 52455155 		.ascii	"REQUESTED_LINE_NUM >> FALSE\015\012\000"
+ 897      45535445 
+ 897      445F4C49 
+ 897      4E455F4E 
+ 897      554D203E 
+ 898 034a 0000     		.space	2
+ 899              	.LC28:
+ 900 034c 75706461 		.ascii	"update_procedure >> wrong data >> odd \015\012\000"
+ 900      74655F70 
+ 900      726F6365 
+ 900      64757265 
+ 900      203E3E20 
+ 901 0375 000000   		.space	3
+ 902              	.LC29:
+ 903 0378 75706461 		.ascii	"update_procedure >> wrong data >> odd 2\015\012\000"
+ 903      74655F70 
+ 903      726F6365 
+ 903      64757265 
+ 903      203E3E20 
+ 904 03a2 0000     		.space	2
+ 905              	.LC30:
+ 906 03a4 75706461 		.ascii	"update_procedure >> written lines : %d/%d\015\012\000"
+ 906      74655F70 
+ 906      726F6365 
+ 906      64757265 
+ 906      203E3E20 
+ 907              		.bss
+ 908              		.align	2
+ 909              		.set	.LANCHOR0,. + 0
+ 910              		.type	last_percent, %object
+ 911              		.size	last_percent, 1
+ 912              	last_percent:
+ 913 0000 00       		.space	1
+ 914 0001 00       		.space	1
+ 915              		.type	rowAddress, %object
+ 916              		.size	rowAddress, 2
+ 917              	rowAddress:
+ 918 0002 0000     		.space	2
+ 919              		.type	fota_data_index, %object
+ 920              		.size	fota_data_index, 2
+ 921              	fota_data_index:
+ 922 0004 0000     		.space	2
+ 923 0006 0000     		.space	2
+ 924              		.type	data_index, %object
+ 925              		.size	data_index, 4
+ 926              	data_index:
+ 927 0008 00000000 		.space	4
+ 928              		.type	data_length, %object
+ 929              		.size	data_length, 4
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccmTEC7w.s 			page 19
+
+
+ 930              	data_length:
+ 931 000c 00000000 		.space	4
+ 932              		.type	i2c_counter, %object
+ 933              		.size	i2c_counter, 2
+ 934              	i2c_counter:
+ 935 0010 0000     		.space	2
+ 936              		.type	line_num, %object
+ 937              		.size	line_num, 2
+ 938              	line_num:
+ 939 0012 0000     		.space	2
+ 940              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

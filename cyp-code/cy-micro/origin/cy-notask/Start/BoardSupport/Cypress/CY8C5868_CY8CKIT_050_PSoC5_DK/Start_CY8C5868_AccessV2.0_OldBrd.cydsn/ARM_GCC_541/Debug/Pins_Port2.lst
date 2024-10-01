@@ -1,0 +1,1182 @@
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Pins_Port2.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Pins_Port2_Write,"ax",%progbits
+  20              		.align	2
+  21              		.global	Pins_Port2_Write
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Pins_Port2_Write, %function
+  25              	Pins_Port2_Write:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\Pins_Port2.c"
+   1:Generated_Source\PSoC5/Pins_Port2.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Pins_Port2.c **** * File Name: Pins_Port2.c  
+   3:Generated_Source\PSoC5/Pins_Port2.c **** * Version 2.20
+   4:Generated_Source\PSoC5/Pins_Port2.c **** *
+   5:Generated_Source\PSoC5/Pins_Port2.c **** * Description:
+   6:Generated_Source\PSoC5/Pins_Port2.c **** *  This file contains API to enable firmware control of a Pins component.
+   7:Generated_Source\PSoC5/Pins_Port2.c **** *
+   8:Generated_Source\PSoC5/Pins_Port2.c **** * Note:
+   9:Generated_Source\PSoC5/Pins_Port2.c **** *
+  10:Generated_Source\PSoC5/Pins_Port2.c **** ********************************************************************************
+  11:Generated_Source\PSoC5/Pins_Port2.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  12:Generated_Source\PSoC5/Pins_Port2.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  13:Generated_Source\PSoC5/Pins_Port2.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  14:Generated_Source\PSoC5/Pins_Port2.c **** * the software package with which this file was provided.
+  15:Generated_Source\PSoC5/Pins_Port2.c **** *******************************************************************************/
+  16:Generated_Source\PSoC5/Pins_Port2.c **** 
+  17:Generated_Source\PSoC5/Pins_Port2.c **** #include "cytypes.h"
+  18:Generated_Source\PSoC5/Pins_Port2.c **** #include "Pins_Port2.h"
+  19:Generated_Source\PSoC5/Pins_Port2.c **** 
+  20:Generated_Source\PSoC5/Pins_Port2.c **** /* APIs are not generated for P15[7:6] on PSoC 5 */
+  21:Generated_Source\PSoC5/Pins_Port2.c **** #if !(CY_PSOC5A &&\
+  22:Generated_Source\PSoC5/Pins_Port2.c **** 	 Pins_Port2__PORT == 15 && ((Pins_Port2__MASK & 0xC0) != 0))
+  23:Generated_Source\PSoC5/Pins_Port2.c **** 
+  24:Generated_Source\PSoC5/Pins_Port2.c **** 
+  25:Generated_Source\PSoC5/Pins_Port2.c **** /*******************************************************************************
+  26:Generated_Source\PSoC5/Pins_Port2.c **** * Function Name: Pins_Port2_Write
+  27:Generated_Source\PSoC5/Pins_Port2.c **** ****************************************************************************//**
+  28:Generated_Source\PSoC5/Pins_Port2.c **** *
+  29:Generated_Source\PSoC5/Pins_Port2.c **** * \brief Writes the value to the physical port (data output register), masking
+  30:Generated_Source\PSoC5/Pins_Port2.c **** *  and shifting the bits appropriately. 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 2
+
+
+  31:Generated_Source\PSoC5/Pins_Port2.c **** *
+  32:Generated_Source\PSoC5/Pins_Port2.c **** * The data output register controls the signal applied to the physical pin in 
+  33:Generated_Source\PSoC5/Pins_Port2.c **** * conjunction with the drive mode parameter. This function avoids changing 
+  34:Generated_Source\PSoC5/Pins_Port2.c **** * other bits in the port by using the appropriate method (read-modify-write or
+  35:Generated_Source\PSoC5/Pins_Port2.c **** * bit banding).
+  36:Generated_Source\PSoC5/Pins_Port2.c **** *
+  37:Generated_Source\PSoC5/Pins_Port2.c **** * <b>Note</b> This function should not be used on a hardware digital output pin 
+  38:Generated_Source\PSoC5/Pins_Port2.c **** * as it is driven by the hardware signal attached to it.
+  39:Generated_Source\PSoC5/Pins_Port2.c **** *
+  40:Generated_Source\PSoC5/Pins_Port2.c **** * \param value
+  41:Generated_Source\PSoC5/Pins_Port2.c **** *  Value to write to the component instance.
+  42:Generated_Source\PSoC5/Pins_Port2.c **** *
+  43:Generated_Source\PSoC5/Pins_Port2.c **** * \return 
+  44:Generated_Source\PSoC5/Pins_Port2.c **** *  None 
+  45:Generated_Source\PSoC5/Pins_Port2.c **** *
+  46:Generated_Source\PSoC5/Pins_Port2.c **** * \sideeffect
+  47:Generated_Source\PSoC5/Pins_Port2.c **** *  If you use read-modify-write operations that are not atomic; the Interrupt 
+  48:Generated_Source\PSoC5/Pins_Port2.c **** *  Service Routines (ISR) can cause corruption of this function. An ISR that 
+  49:Generated_Source\PSoC5/Pins_Port2.c **** *  interrupts this function and performs writes to the Pins component data 
+  50:Generated_Source\PSoC5/Pins_Port2.c **** *  register can cause corrupted port data. To avoid this issue, you should 
+  51:Generated_Source\PSoC5/Pins_Port2.c **** *  either use the Per-Pin APIs (primary method) or disable interrupts around 
+  52:Generated_Source\PSoC5/Pins_Port2.c **** *  this function.
+  53:Generated_Source\PSoC5/Pins_Port2.c **** *
+  54:Generated_Source\PSoC5/Pins_Port2.c **** * \funcusage
+  55:Generated_Source\PSoC5/Pins_Port2.c **** *  \snippet Pins_Port2_SUT.c usage_Pins_Port2_Write
+  56:Generated_Source\PSoC5/Pins_Port2.c **** *******************************************************************************/
+  57:Generated_Source\PSoC5/Pins_Port2.c **** void Pins_Port2_Write(uint8 value)
+  58:Generated_Source\PSoC5/Pins_Port2.c **** {
+  28              		.loc 1 58 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 16
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 80B4     		push	{r7}
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 7, -4
+  36 0002 85B0     		sub	sp, sp, #20
+  37              		.cfi_def_cfa_offset 24
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  40 0006 0346     		mov	r3, r0
+  41 0008 FB71     		strb	r3, [r7, #7]
+  59:Generated_Source\PSoC5/Pins_Port2.c ****     uint8 staticBits = (Pins_Port2_DR & (uint8)(~Pins_Port2_MASK));
+  42              		.loc 1 59 0
+  43 000a 0B4B     		ldr	r3, .L2
+  44 000c 1B78     		ldrb	r3, [r3]
+  45 000e DBB2     		uxtb	r3, r3
+  46 0010 23F07003 		bic	r3, r3, #112
+  47 0014 FB73     		strb	r3, [r7, #15]
+  60:Generated_Source\PSoC5/Pins_Port2.c ****     Pins_Port2_DR = staticBits | ((uint8)(value << Pins_Port2_SHIFT) & Pins_Port2_MASK);
+  48              		.loc 1 60 0
+  49 0016 0849     		ldr	r1, .L2
+  50 0018 FB79     		ldrb	r3, [r7, #7]
+  51 001a 1B01     		lsls	r3, r3, #4
+  52 001c DBB2     		uxtb	r3, r3
+  53 001e 03F07003 		and	r3, r3, #112
+  54 0022 DAB2     		uxtb	r2, r3
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 3
+
+
+  55 0024 FB7B     		ldrb	r3, [r7, #15]
+  56 0026 1343     		orrs	r3, r3, r2
+  57 0028 DBB2     		uxtb	r3, r3
+  58 002a 0B70     		strb	r3, [r1]
+  61:Generated_Source\PSoC5/Pins_Port2.c **** }
+  59              		.loc 1 61 0
+  60 002c 00BF     		nop
+  61 002e 1437     		adds	r7, r7, #20
+  62              		.cfi_def_cfa_offset 4
+  63 0030 BD46     		mov	sp, r7
+  64              		.cfi_def_cfa_register 13
+  65              		@ sp needed
+  66 0032 80BC     		pop	{r7}
+  67              		.cfi_restore 7
+  68              		.cfi_def_cfa_offset 0
+  69 0034 7047     		bx	lr
+  70              	.L3:
+  71 0036 00BF     		.align	2
+  72              	.L2:
+  73 0038 60510040 		.word	1073762656
+  74              		.cfi_endproc
+  75              	.LFE0:
+  76              		.size	Pins_Port2_Write, .-Pins_Port2_Write
+  77              		.section	.text.Pins_Port2_SetDriveMode,"ax",%progbits
+  78              		.align	2
+  79              		.global	Pins_Port2_SetDriveMode
+  80              		.thumb
+  81              		.thumb_func
+  82              		.type	Pins_Port2_SetDriveMode, %function
+  83              	Pins_Port2_SetDriveMode:
+  84              	.LFB1:
+  62:Generated_Source\PSoC5/Pins_Port2.c **** 
+  63:Generated_Source\PSoC5/Pins_Port2.c **** 
+  64:Generated_Source\PSoC5/Pins_Port2.c **** /*******************************************************************************
+  65:Generated_Source\PSoC5/Pins_Port2.c **** * Function Name: Pins_Port2_SetDriveMode
+  66:Generated_Source\PSoC5/Pins_Port2.c **** ****************************************************************************//**
+  67:Generated_Source\PSoC5/Pins_Port2.c **** *
+  68:Generated_Source\PSoC5/Pins_Port2.c **** * \brief Sets the drive mode for each of the Pins component's pins.
+  69:Generated_Source\PSoC5/Pins_Port2.c **** * 
+  70:Generated_Source\PSoC5/Pins_Port2.c **** * <b>Note</b> This affects all pins in the Pins component instance. Use the
+  71:Generated_Source\PSoC5/Pins_Port2.c **** * Per-Pin APIs if you wish to control individual pin's drive modes.
+  72:Generated_Source\PSoC5/Pins_Port2.c **** *
+  73:Generated_Source\PSoC5/Pins_Port2.c **** * \param mode
+  74:Generated_Source\PSoC5/Pins_Port2.c **** *  Mode for the selected signals. Valid options are documented in 
+  75:Generated_Source\PSoC5/Pins_Port2.c **** *  \ref driveMode.
+  76:Generated_Source\PSoC5/Pins_Port2.c **** *
+  77:Generated_Source\PSoC5/Pins_Port2.c **** * \return
+  78:Generated_Source\PSoC5/Pins_Port2.c **** *  None
+  79:Generated_Source\PSoC5/Pins_Port2.c **** *
+  80:Generated_Source\PSoC5/Pins_Port2.c **** * \sideeffect
+  81:Generated_Source\PSoC5/Pins_Port2.c **** *  If you use read-modify-write operations that are not atomic, the ISR can
+  82:Generated_Source\PSoC5/Pins_Port2.c **** *  cause corruption of this function. An ISR that interrupts this function 
+  83:Generated_Source\PSoC5/Pins_Port2.c **** *  and performs writes to the Pins component Drive Mode registers can cause 
+  84:Generated_Source\PSoC5/Pins_Port2.c **** *  corrupted port data. To avoid this issue, you should either use the Per-Pin
+  85:Generated_Source\PSoC5/Pins_Port2.c **** *  APIs (primary method) or disable interrupts around this function.
+  86:Generated_Source\PSoC5/Pins_Port2.c **** *
+  87:Generated_Source\PSoC5/Pins_Port2.c **** * \funcusage
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 4
+
+
+  88:Generated_Source\PSoC5/Pins_Port2.c **** *  \snippet Pins_Port2_SUT.c usage_Pins_Port2_SetDriveMode
+  89:Generated_Source\PSoC5/Pins_Port2.c **** *******************************************************************************/
+  90:Generated_Source\PSoC5/Pins_Port2.c **** void Pins_Port2_SetDriveMode(uint8 mode)
+  91:Generated_Source\PSoC5/Pins_Port2.c **** {
+  85              		.loc 1 91 0
+  86              		.cfi_startproc
+  87              		@ args = 0, pretend = 0, frame = 8
+  88              		@ frame_needed = 1, uses_anonymous_args = 0
+  89              		@ link register save eliminated.
+  90 0000 80B4     		push	{r7}
+  91              		.cfi_def_cfa_offset 4
+  92              		.cfi_offset 7, -4
+  93 0002 83B0     		sub	sp, sp, #12
+  94              		.cfi_def_cfa_offset 16
+  95 0004 00AF     		add	r7, sp, #0
+  96              		.cfi_def_cfa_register 7
+  97 0006 0346     		mov	r3, r0
+  98 0008 FB71     		strb	r3, [r7, #7]
+  92:Generated_Source\PSoC5/Pins_Port2.c **** 	CyPins_SetPinDriveMode(Pins_Port2_0, mode);
+  99              		.loc 1 92 0
+ 100 000a 1C49     		ldr	r1, .L5
+ 101 000c 1B4B     		ldr	r3, .L5
+ 102 000e 1B78     		ldrb	r3, [r3]
+ 103 0010 DBB2     		uxtb	r3, r3
+ 104 0012 5BB2     		sxtb	r3, r3
+ 105 0014 23F00E03 		bic	r3, r3, #14
+ 106 0018 5AB2     		sxtb	r2, r3
+ 107 001a 97F90730 		ldrsb	r3, [r7, #7]
+ 108 001e 03F00E03 		and	r3, r3, #14
+ 109 0022 5BB2     		sxtb	r3, r3
+ 110 0024 1343     		orrs	r3, r3, r2
+ 111 0026 5BB2     		sxtb	r3, r3
+ 112 0028 DBB2     		uxtb	r3, r3
+ 113 002a 0B70     		strb	r3, [r1]
+  93:Generated_Source\PSoC5/Pins_Port2.c **** 	CyPins_SetPinDriveMode(Pins_Port2_1, mode);
+ 114              		.loc 1 93 0
+ 115 002c 1449     		ldr	r1, .L5+4
+ 116 002e 144B     		ldr	r3, .L5+4
+ 117 0030 1B78     		ldrb	r3, [r3]
+ 118 0032 DBB2     		uxtb	r3, r3
+ 119 0034 5BB2     		sxtb	r3, r3
+ 120 0036 23F00E03 		bic	r3, r3, #14
+ 121 003a 5AB2     		sxtb	r2, r3
+ 122 003c 97F90730 		ldrsb	r3, [r7, #7]
+ 123 0040 03F00E03 		and	r3, r3, #14
+ 124 0044 5BB2     		sxtb	r3, r3
+ 125 0046 1343     		orrs	r3, r3, r2
+ 126 0048 5BB2     		sxtb	r3, r3
+ 127 004a DBB2     		uxtb	r3, r3
+ 128 004c 0B70     		strb	r3, [r1]
+  94:Generated_Source\PSoC5/Pins_Port2.c **** 	CyPins_SetPinDriveMode(Pins_Port2_2, mode);
+ 129              		.loc 1 94 0
+ 130 004e 0D49     		ldr	r1, .L5+8
+ 131 0050 0C4B     		ldr	r3, .L5+8
+ 132 0052 1B78     		ldrb	r3, [r3]
+ 133 0054 DBB2     		uxtb	r3, r3
+ 134 0056 5BB2     		sxtb	r3, r3
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 5
+
+
+ 135 0058 23F00E03 		bic	r3, r3, #14
+ 136 005c 5AB2     		sxtb	r2, r3
+ 137 005e 97F90730 		ldrsb	r3, [r7, #7]
+ 138 0062 03F00E03 		and	r3, r3, #14
+ 139 0066 5BB2     		sxtb	r3, r3
+ 140 0068 1343     		orrs	r3, r3, r2
+ 141 006a 5BB2     		sxtb	r3, r3
+ 142 006c DBB2     		uxtb	r3, r3
+ 143 006e 0B70     		strb	r3, [r1]
+  95:Generated_Source\PSoC5/Pins_Port2.c **** }
+ 144              		.loc 1 95 0
+ 145 0070 00BF     		nop
+ 146 0072 0C37     		adds	r7, r7, #12
+ 147              		.cfi_def_cfa_offset 4
+ 148 0074 BD46     		mov	sp, r7
+ 149              		.cfi_def_cfa_register 13
+ 150              		@ sp needed
+ 151 0076 80BC     		pop	{r7}
+ 152              		.cfi_restore 7
+ 153              		.cfi_def_cfa_offset 0
+ 154 0078 7047     		bx	lr
+ 155              	.L6:
+ 156 007a 00BF     		.align	2
+ 157              	.L5:
+ 158 007c 34500040 		.word	1073762356
+ 159 0080 35500040 		.word	1073762357
+ 160 0084 36500040 		.word	1073762358
+ 161              		.cfi_endproc
+ 162              	.LFE1:
+ 163              		.size	Pins_Port2_SetDriveMode, .-Pins_Port2_SetDriveMode
+ 164              		.section	.text.Pins_Port2_Read,"ax",%progbits
+ 165              		.align	2
+ 166              		.global	Pins_Port2_Read
+ 167              		.thumb
+ 168              		.thumb_func
+ 169              		.type	Pins_Port2_Read, %function
+ 170              	Pins_Port2_Read:
+ 171              	.LFB2:
+  96:Generated_Source\PSoC5/Pins_Port2.c **** 
+  97:Generated_Source\PSoC5/Pins_Port2.c **** 
+  98:Generated_Source\PSoC5/Pins_Port2.c **** /*******************************************************************************
+  99:Generated_Source\PSoC5/Pins_Port2.c **** * Function Name: Pins_Port2_Read
+ 100:Generated_Source\PSoC5/Pins_Port2.c **** ****************************************************************************//**
+ 101:Generated_Source\PSoC5/Pins_Port2.c **** *
+ 102:Generated_Source\PSoC5/Pins_Port2.c **** * \brief Reads the associated physical port (pin status register) and masks 
+ 103:Generated_Source\PSoC5/Pins_Port2.c **** *  the required bits according to the width and bit position of the component
+ 104:Generated_Source\PSoC5/Pins_Port2.c **** *  instance. 
+ 105:Generated_Source\PSoC5/Pins_Port2.c **** *
+ 106:Generated_Source\PSoC5/Pins_Port2.c **** * The pin's status register returns the current logic level present on the 
+ 107:Generated_Source\PSoC5/Pins_Port2.c **** * physical pin.
+ 108:Generated_Source\PSoC5/Pins_Port2.c **** *
+ 109:Generated_Source\PSoC5/Pins_Port2.c **** * \return 
+ 110:Generated_Source\PSoC5/Pins_Port2.c **** *  The current value for the pins in the component as a right justified number.
+ 111:Generated_Source\PSoC5/Pins_Port2.c **** *
+ 112:Generated_Source\PSoC5/Pins_Port2.c **** * \funcusage
+ 113:Generated_Source\PSoC5/Pins_Port2.c **** *  \snippet Pins_Port2_SUT.c usage_Pins_Port2_Read  
+ 114:Generated_Source\PSoC5/Pins_Port2.c **** *******************************************************************************/
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 6
+
+
+ 115:Generated_Source\PSoC5/Pins_Port2.c **** uint8 Pins_Port2_Read(void)
+ 116:Generated_Source\PSoC5/Pins_Port2.c **** {
+ 172              		.loc 1 116 0
+ 173              		.cfi_startproc
+ 174              		@ args = 0, pretend = 0, frame = 0
+ 175              		@ frame_needed = 1, uses_anonymous_args = 0
+ 176              		@ link register save eliminated.
+ 177 0000 80B4     		push	{r7}
+ 178              		.cfi_def_cfa_offset 4
+ 179              		.cfi_offset 7, -4
+ 180 0002 00AF     		add	r7, sp, #0
+ 181              		.cfi_def_cfa_register 7
+ 117:Generated_Source\PSoC5/Pins_Port2.c ****     return (Pins_Port2_PS & Pins_Port2_MASK) >> Pins_Port2_SHIFT;
+ 182              		.loc 1 117 0
+ 183 0004 054B     		ldr	r3, .L9
+ 184 0006 1B78     		ldrb	r3, [r3]
+ 185 0008 DBB2     		uxtb	r3, r3
+ 186 000a 03F07003 		and	r3, r3, #112
+ 187 000e 1B09     		lsrs	r3, r3, #4
+ 188 0010 DBB2     		uxtb	r3, r3
+ 118:Generated_Source\PSoC5/Pins_Port2.c **** }
+ 189              		.loc 1 118 0
+ 190 0012 1846     		mov	r0, r3
+ 191 0014 BD46     		mov	sp, r7
+ 192              		.cfi_def_cfa_register 13
+ 193              		@ sp needed
+ 194 0016 80BC     		pop	{r7}
+ 195              		.cfi_restore 7
+ 196              		.cfi_def_cfa_offset 0
+ 197 0018 7047     		bx	lr
+ 198              	.L10:
+ 199 001a 00BF     		.align	2
+ 200              	.L9:
+ 201 001c 61510040 		.word	1073762657
+ 202              		.cfi_endproc
+ 203              	.LFE2:
+ 204              		.size	Pins_Port2_Read, .-Pins_Port2_Read
+ 205              		.section	.text.Pins_Port2_ReadDataReg,"ax",%progbits
+ 206              		.align	2
+ 207              		.global	Pins_Port2_ReadDataReg
+ 208              		.thumb
+ 209              		.thumb_func
+ 210              		.type	Pins_Port2_ReadDataReg, %function
+ 211              	Pins_Port2_ReadDataReg:
+ 212              	.LFB3:
+ 119:Generated_Source\PSoC5/Pins_Port2.c **** 
+ 120:Generated_Source\PSoC5/Pins_Port2.c **** 
+ 121:Generated_Source\PSoC5/Pins_Port2.c **** /*******************************************************************************
+ 122:Generated_Source\PSoC5/Pins_Port2.c **** * Function Name: Pins_Port2_ReadDataReg
+ 123:Generated_Source\PSoC5/Pins_Port2.c **** ****************************************************************************//**
+ 124:Generated_Source\PSoC5/Pins_Port2.c **** *
+ 125:Generated_Source\PSoC5/Pins_Port2.c **** * \brief Reads the associated physical port's data output register and masks 
+ 126:Generated_Source\PSoC5/Pins_Port2.c **** *  the correct bits according to the width and bit position of the component 
+ 127:Generated_Source\PSoC5/Pins_Port2.c **** *  instance. 
+ 128:Generated_Source\PSoC5/Pins_Port2.c **** *
+ 129:Generated_Source\PSoC5/Pins_Port2.c **** * The data output register controls the signal applied to the physical pin in 
+ 130:Generated_Source\PSoC5/Pins_Port2.c **** * conjunction with the drive mode parameter. This is not the same as the 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 7
+
+
+ 131:Generated_Source\PSoC5/Pins_Port2.c **** * preferred Pins_Port2_Read() API because the 
+ 132:Generated_Source\PSoC5/Pins_Port2.c **** * Pins_Port2_ReadDataReg() reads the data register instead of the status 
+ 133:Generated_Source\PSoC5/Pins_Port2.c **** * register. For output pins this is a useful function to determine the value 
+ 134:Generated_Source\PSoC5/Pins_Port2.c **** * just written to the pin.
+ 135:Generated_Source\PSoC5/Pins_Port2.c **** *
+ 136:Generated_Source\PSoC5/Pins_Port2.c **** * \return 
+ 137:Generated_Source\PSoC5/Pins_Port2.c **** *  The current value of the data register masked and shifted into a right 
+ 138:Generated_Source\PSoC5/Pins_Port2.c **** *  justified number for the component instance.
+ 139:Generated_Source\PSoC5/Pins_Port2.c **** *
+ 140:Generated_Source\PSoC5/Pins_Port2.c **** * \funcusage
+ 141:Generated_Source\PSoC5/Pins_Port2.c **** *  \snippet Pins_Port2_SUT.c usage_Pins_Port2_ReadDataReg 
+ 142:Generated_Source\PSoC5/Pins_Port2.c **** *******************************************************************************/
+ 143:Generated_Source\PSoC5/Pins_Port2.c **** uint8 Pins_Port2_ReadDataReg(void)
+ 144:Generated_Source\PSoC5/Pins_Port2.c **** {
+ 213              		.loc 1 144 0
+ 214              		.cfi_startproc
+ 215              		@ args = 0, pretend = 0, frame = 0
+ 216              		@ frame_needed = 1, uses_anonymous_args = 0
+ 217              		@ link register save eliminated.
+ 218 0000 80B4     		push	{r7}
+ 219              		.cfi_def_cfa_offset 4
+ 220              		.cfi_offset 7, -4
+ 221 0002 00AF     		add	r7, sp, #0
+ 222              		.cfi_def_cfa_register 7
+ 145:Generated_Source\PSoC5/Pins_Port2.c ****     return (Pins_Port2_DR & Pins_Port2_MASK) >> Pins_Port2_SHIFT;
+ 223              		.loc 1 145 0
+ 224 0004 054B     		ldr	r3, .L13
+ 225 0006 1B78     		ldrb	r3, [r3]
+ 226 0008 DBB2     		uxtb	r3, r3
+ 227 000a 03F07003 		and	r3, r3, #112
+ 228 000e 1B09     		lsrs	r3, r3, #4
+ 229 0010 DBB2     		uxtb	r3, r3
+ 146:Generated_Source\PSoC5/Pins_Port2.c **** }
+ 230              		.loc 1 146 0
+ 231 0012 1846     		mov	r0, r3
+ 232 0014 BD46     		mov	sp, r7
+ 233              		.cfi_def_cfa_register 13
+ 234              		@ sp needed
+ 235 0016 80BC     		pop	{r7}
+ 236              		.cfi_restore 7
+ 237              		.cfi_def_cfa_offset 0
+ 238 0018 7047     		bx	lr
+ 239              	.L14:
+ 240 001a 00BF     		.align	2
+ 241              	.L13:
+ 242 001c 60510040 		.word	1073762656
+ 243              		.cfi_endproc
+ 244              	.LFE3:
+ 245              		.size	Pins_Port2_ReadDataReg, .-Pins_Port2_ReadDataReg
+ 246              		.section	.text.Pins_Port2_SetInterruptMode,"ax",%progbits
+ 247              		.align	2
+ 248              		.global	Pins_Port2_SetInterruptMode
+ 249              		.thumb
+ 250              		.thumb_func
+ 251              		.type	Pins_Port2_SetInterruptMode, %function
+ 252              	Pins_Port2_SetInterruptMode:
+ 253              	.LFB4:
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 8
+
+
+ 147:Generated_Source\PSoC5/Pins_Port2.c **** 
+ 148:Generated_Source\PSoC5/Pins_Port2.c **** 
+ 149:Generated_Source\PSoC5/Pins_Port2.c **** /* If interrupt is connected for this Pins component */ 
+ 150:Generated_Source\PSoC5/Pins_Port2.c **** #if defined(Pins_Port2_INTSTAT) 
+ 151:Generated_Source\PSoC5/Pins_Port2.c **** 
+ 152:Generated_Source\PSoC5/Pins_Port2.c ****     /*******************************************************************************
+ 153:Generated_Source\PSoC5/Pins_Port2.c ****     * Function Name: Pins_Port2_SetInterruptMode
+ 154:Generated_Source\PSoC5/Pins_Port2.c ****     ****************************************************************************//**
+ 155:Generated_Source\PSoC5/Pins_Port2.c ****     *
+ 156:Generated_Source\PSoC5/Pins_Port2.c ****     * \brief Configures the interrupt mode for each of the Pins component's
+ 157:Generated_Source\PSoC5/Pins_Port2.c ****     *  pins. Alternatively you may set the interrupt mode for all the pins
+ 158:Generated_Source\PSoC5/Pins_Port2.c ****     *  specified in the Pins component.
+ 159:Generated_Source\PSoC5/Pins_Port2.c ****     *
+ 160:Generated_Source\PSoC5/Pins_Port2.c ****     *  <b>Note</b> The interrupt is port-wide and therefore any enabled pin
+ 161:Generated_Source\PSoC5/Pins_Port2.c ****     *  interrupt may trigger it.
+ 162:Generated_Source\PSoC5/Pins_Port2.c ****     *
+ 163:Generated_Source\PSoC5/Pins_Port2.c ****     * \param position
+ 164:Generated_Source\PSoC5/Pins_Port2.c ****     *  The pin position as listed in the Pins component. You may OR these to be 
+ 165:Generated_Source\PSoC5/Pins_Port2.c ****     *  able to configure the interrupt mode of multiple pins within a Pins 
+ 166:Generated_Source\PSoC5/Pins_Port2.c ****     *  component. Or you may use Pins_Port2_INTR_ALL to configure the
+ 167:Generated_Source\PSoC5/Pins_Port2.c ****     *  interrupt mode of all the pins in the Pins component.       
+ 168:Generated_Source\PSoC5/Pins_Port2.c ****     *  - Pins_Port2_0_INTR       (First pin in the list)
+ 169:Generated_Source\PSoC5/Pins_Port2.c ****     *  - Pins_Port2_1_INTR       (Second pin in the list)
+ 170:Generated_Source\PSoC5/Pins_Port2.c ****     *  - ...
+ 171:Generated_Source\PSoC5/Pins_Port2.c ****     *  - Pins_Port2_INTR_ALL     (All pins in Pins component)
+ 172:Generated_Source\PSoC5/Pins_Port2.c ****     *
+ 173:Generated_Source\PSoC5/Pins_Port2.c ****     * \param mode
+ 174:Generated_Source\PSoC5/Pins_Port2.c ****     *  Interrupt mode for the selected pins. Valid options are documented in
+ 175:Generated_Source\PSoC5/Pins_Port2.c ****     *  \ref intrMode.
+ 176:Generated_Source\PSoC5/Pins_Port2.c ****     *
+ 177:Generated_Source\PSoC5/Pins_Port2.c ****     * \return 
+ 178:Generated_Source\PSoC5/Pins_Port2.c ****     *  None
+ 179:Generated_Source\PSoC5/Pins_Port2.c ****     *  
+ 180:Generated_Source\PSoC5/Pins_Port2.c ****     * \sideeffect
+ 181:Generated_Source\PSoC5/Pins_Port2.c ****     *  It is recommended that the interrupt be disabled before calling this 
+ 182:Generated_Source\PSoC5/Pins_Port2.c ****     *  function to avoid unintended interrupt requests. Note that the interrupt
+ 183:Generated_Source\PSoC5/Pins_Port2.c ****     *  type is port wide, and therefore will trigger for any enabled pin on the 
+ 184:Generated_Source\PSoC5/Pins_Port2.c ****     *  port.
+ 185:Generated_Source\PSoC5/Pins_Port2.c ****     *
+ 186:Generated_Source\PSoC5/Pins_Port2.c ****     * \funcusage
+ 187:Generated_Source\PSoC5/Pins_Port2.c ****     *  \snippet Pins_Port2_SUT.c usage_Pins_Port2_SetInterruptMode
+ 188:Generated_Source\PSoC5/Pins_Port2.c ****     *******************************************************************************/
+ 189:Generated_Source\PSoC5/Pins_Port2.c ****     void Pins_Port2_SetInterruptMode(uint16 position, uint16 mode)
+ 190:Generated_Source\PSoC5/Pins_Port2.c ****     {
+ 254              		.loc 1 190 0
+ 255              		.cfi_startproc
+ 256              		@ args = 0, pretend = 0, frame = 8
+ 257              		@ frame_needed = 1, uses_anonymous_args = 0
+ 258              		@ link register save eliminated.
+ 259 0000 80B4     		push	{r7}
+ 260              		.cfi_def_cfa_offset 4
+ 261              		.cfi_offset 7, -4
+ 262 0002 83B0     		sub	sp, sp, #12
+ 263              		.cfi_def_cfa_offset 16
+ 264 0004 00AF     		add	r7, sp, #0
+ 265              		.cfi_def_cfa_register 7
+ 266 0006 0346     		mov	r3, r0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 9
+
+
+ 267 0008 0A46     		mov	r2, r1
+ 268 000a FB80     		strh	r3, [r7, #6]	@ movhi
+ 269 000c 1346     		mov	r3, r2	@ movhi
+ 270 000e BB80     		strh	r3, [r7, #4]	@ movhi
+ 191:Generated_Source\PSoC5/Pins_Port2.c **** 		if((position & Pins_Port2_0_INTR) != 0u) 
+ 271              		.loc 1 191 0
+ 272 0010 FB88     		ldrh	r3, [r7, #6]
+ 273 0012 03F01003 		and	r3, r3, #16
+ 274 0016 002B     		cmp	r3, #0
+ 275 0018 03D0     		beq	.L16
+ 192:Generated_Source\PSoC5/Pins_Port2.c **** 		{ 
+ 193:Generated_Source\PSoC5/Pins_Port2.c **** 			 Pins_Port2_0_INTTYPE_REG = (uint8)mode; 
+ 276              		.loc 1 193 0
+ 277 001a 0D4B     		ldr	r3, .L20
+ 278 001c BA88     		ldrh	r2, [r7, #4]	@ movhi
+ 279 001e D2B2     		uxtb	r2, r2
+ 280 0020 1A70     		strb	r2, [r3]
+ 281              	.L16:
+ 194:Generated_Source\PSoC5/Pins_Port2.c **** 		} 
+ 195:Generated_Source\PSoC5/Pins_Port2.c **** 		if((position & Pins_Port2_1_INTR) != 0u) 
+ 282              		.loc 1 195 0
+ 283 0022 FB88     		ldrh	r3, [r7, #6]
+ 284 0024 03F02003 		and	r3, r3, #32
+ 285 0028 002B     		cmp	r3, #0
+ 286 002a 03D0     		beq	.L17
+ 196:Generated_Source\PSoC5/Pins_Port2.c **** 		{ 
+ 197:Generated_Source\PSoC5/Pins_Port2.c **** 			 Pins_Port2_1_INTTYPE_REG = (uint8)mode; 
+ 287              		.loc 1 197 0
+ 288 002c 094B     		ldr	r3, .L20+4
+ 289 002e BA88     		ldrh	r2, [r7, #4]	@ movhi
+ 290 0030 D2B2     		uxtb	r2, r2
+ 291 0032 1A70     		strb	r2, [r3]
+ 292              	.L17:
+ 198:Generated_Source\PSoC5/Pins_Port2.c **** 		} 
+ 199:Generated_Source\PSoC5/Pins_Port2.c **** 		if((position & Pins_Port2_2_INTR) != 0u) 
+ 293              		.loc 1 199 0
+ 294 0034 FB88     		ldrh	r3, [r7, #6]
+ 295 0036 03F04003 		and	r3, r3, #64
+ 296 003a 002B     		cmp	r3, #0
+ 297 003c 03D0     		beq	.L19
+ 200:Generated_Source\PSoC5/Pins_Port2.c **** 		{ 
+ 201:Generated_Source\PSoC5/Pins_Port2.c **** 			 Pins_Port2_2_INTTYPE_REG = (uint8)mode; 
+ 298              		.loc 1 201 0
+ 299 003e 064B     		ldr	r3, .L20+8
+ 300 0040 BA88     		ldrh	r2, [r7, #4]	@ movhi
+ 301 0042 D2B2     		uxtb	r2, r2
+ 302 0044 1A70     		strb	r2, [r3]
+ 303              	.L19:
+ 202:Generated_Source\PSoC5/Pins_Port2.c **** 		}
+ 203:Generated_Source\PSoC5/Pins_Port2.c ****     }
+ 304              		.loc 1 203 0
+ 305 0046 00BF     		nop
+ 306 0048 0C37     		adds	r7, r7, #12
+ 307              		.cfi_def_cfa_offset 4
+ 308 004a BD46     		mov	sp, r7
+ 309              		.cfi_def_cfa_register 13
+ 310              		@ sp needed
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 10
+
+
+ 311 004c 80BC     		pop	{r7}
+ 312              		.cfi_restore 7
+ 313              		.cfi_def_cfa_offset 0
+ 314 004e 7047     		bx	lr
+ 315              	.L21:
+ 316              		.align	2
+ 317              	.L20:
+ 318 0050 34450040 		.word	1073759540
+ 319 0054 35450040 		.word	1073759541
+ 320 0058 36450040 		.word	1073759542
+ 321              		.cfi_endproc
+ 322              	.LFE4:
+ 323              		.size	Pins_Port2_SetInterruptMode, .-Pins_Port2_SetInterruptMode
+ 324              		.section	.text.Pins_Port2_ClearInterrupt,"ax",%progbits
+ 325              		.align	2
+ 326              		.global	Pins_Port2_ClearInterrupt
+ 327              		.thumb
+ 328              		.thumb_func
+ 329              		.type	Pins_Port2_ClearInterrupt, %function
+ 330              	Pins_Port2_ClearInterrupt:
+ 331              	.LFB5:
+ 204:Generated_Source\PSoC5/Pins_Port2.c ****     
+ 205:Generated_Source\PSoC5/Pins_Port2.c ****     
+ 206:Generated_Source\PSoC5/Pins_Port2.c ****     /*******************************************************************************
+ 207:Generated_Source\PSoC5/Pins_Port2.c ****     * Function Name: Pins_Port2_ClearInterrupt
+ 208:Generated_Source\PSoC5/Pins_Port2.c ****     ****************************************************************************//**
+ 209:Generated_Source\PSoC5/Pins_Port2.c ****     *
+ 210:Generated_Source\PSoC5/Pins_Port2.c ****     * \brief Clears any active interrupts attached with the component and returns 
+ 211:Generated_Source\PSoC5/Pins_Port2.c ****     *  the value of the interrupt status register allowing determination of which
+ 212:Generated_Source\PSoC5/Pins_Port2.c ****     *  pins generated an interrupt event.
+ 213:Generated_Source\PSoC5/Pins_Port2.c ****     *
+ 214:Generated_Source\PSoC5/Pins_Port2.c ****     * \return 
+ 215:Generated_Source\PSoC5/Pins_Port2.c ****     *  The right-shifted current value of the interrupt status register. Each pin 
+ 216:Generated_Source\PSoC5/Pins_Port2.c ****     *  has one bit set if it generated an interrupt event. For example, bit 0 is 
+ 217:Generated_Source\PSoC5/Pins_Port2.c ****     *  for pin 0 and bit 1 is for pin 1 of the Pins component.
+ 218:Generated_Source\PSoC5/Pins_Port2.c ****     *  
+ 219:Generated_Source\PSoC5/Pins_Port2.c ****     * \sideeffect
+ 220:Generated_Source\PSoC5/Pins_Port2.c ****     *  Clears all bits of the physical port's interrupt status register, not just
+ 221:Generated_Source\PSoC5/Pins_Port2.c ****     *  those associated with the Pins component.
+ 222:Generated_Source\PSoC5/Pins_Port2.c ****     *
+ 223:Generated_Source\PSoC5/Pins_Port2.c ****     * \funcusage
+ 224:Generated_Source\PSoC5/Pins_Port2.c ****     *  \snippet Pins_Port2_SUT.c usage_Pins_Port2_ClearInterrupt
+ 225:Generated_Source\PSoC5/Pins_Port2.c ****     *******************************************************************************/
+ 226:Generated_Source\PSoC5/Pins_Port2.c ****     uint8 Pins_Port2_ClearInterrupt(void)
+ 227:Generated_Source\PSoC5/Pins_Port2.c ****     {
+ 332              		.loc 1 227 0
+ 333              		.cfi_startproc
+ 334              		@ args = 0, pretend = 0, frame = 0
+ 335              		@ frame_needed = 1, uses_anonymous_args = 0
+ 336              		@ link register save eliminated.
+ 337 0000 80B4     		push	{r7}
+ 338              		.cfi_def_cfa_offset 4
+ 339              		.cfi_offset 7, -4
+ 340 0002 00AF     		add	r7, sp, #0
+ 341              		.cfi_def_cfa_register 7
+ 228:Generated_Source\PSoC5/Pins_Port2.c ****         return (Pins_Port2_INTSTAT & Pins_Port2_MASK) >> Pins_Port2_SHIFT;
+ 342              		.loc 1 228 0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 11
+
+
+ 343 0004 054B     		ldr	r3, .L24
+ 344 0006 1B78     		ldrb	r3, [r3]
+ 345 0008 DBB2     		uxtb	r3, r3
+ 346 000a 03F07003 		and	r3, r3, #112
+ 347 000e 1B09     		lsrs	r3, r3, #4
+ 348 0010 DBB2     		uxtb	r3, r3
+ 229:Generated_Source\PSoC5/Pins_Port2.c ****     }
+ 349              		.loc 1 229 0
+ 350 0012 1846     		mov	r0, r3
+ 351 0014 BD46     		mov	sp, r7
+ 352              		.cfi_def_cfa_register 13
+ 353              		@ sp needed
+ 354 0016 80BC     		pop	{r7}
+ 355              		.cfi_restore 7
+ 356              		.cfi_def_cfa_offset 0
+ 357 0018 7047     		bx	lr
+ 358              	.L25:
+ 359 001a 00BF     		.align	2
+ 360              	.L24:
+ 361 001c 86450040 		.word	1073759622
+ 362              		.cfi_endproc
+ 363              	.LFE5:
+ 364              		.size	Pins_Port2_ClearInterrupt, .-Pins_Port2_ClearInterrupt
+ 365              		.text
+ 366              	.Letext0:
+ 367              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 368              		.section	.debug_info,"",%progbits
+ 369              	.Ldebug_info0:
+ 370 0000 6D010000 		.4byte	0x16d
+ 371 0004 0400     		.2byte	0x4
+ 372 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 373 000a 04       		.byte	0x4
+ 374 000b 01       		.uleb128 0x1
+ 375 000c 31000000 		.4byte	.LASF24
+ 376 0010 0C       		.byte	0xc
+ 377 0011 02020000 		.4byte	.LASF25
+ 378 0015 59010000 		.4byte	.LASF26
+ 379 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 380 001d 00000000 		.4byte	0
+ 381 0021 00000000 		.4byte	.Ldebug_line0
+ 382 0025 02       		.uleb128 0x2
+ 383 0026 01       		.byte	0x1
+ 384 0027 06       		.byte	0x6
+ 385 0028 95020000 		.4byte	.LASF0
+ 386 002c 02       		.uleb128 0x2
+ 387 002d 01       		.byte	0x1
+ 388 002e 08       		.byte	0x8
+ 389 002f ED000000 		.4byte	.LASF1
+ 390 0033 02       		.uleb128 0x2
+ 391 0034 02       		.byte	0x2
+ 392 0035 05       		.byte	0x5
+ 393 0036 7C020000 		.4byte	.LASF2
+ 394 003a 02       		.uleb128 0x2
+ 395 003b 02       		.byte	0x2
+ 396 003c 07       		.byte	0x7
+ 397 003d 2E010000 		.4byte	.LASF3
+ 398 0041 02       		.uleb128 0x2
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 12
+
+
+ 399 0042 04       		.byte	0x4
+ 400 0043 05       		.byte	0x5
+ 401 0044 8C020000 		.4byte	.LASF4
+ 402 0048 02       		.uleb128 0x2
+ 403 0049 04       		.byte	0x4
+ 404 004a 07       		.byte	0x7
+ 405 004b 1C010000 		.4byte	.LASF5
+ 406 004f 02       		.uleb128 0x2
+ 407 0050 08       		.byte	0x8
+ 408 0051 05       		.byte	0x5
+ 409 0052 58020000 		.4byte	.LASF6
+ 410 0056 02       		.uleb128 0x2
+ 411 0057 08       		.byte	0x8
+ 412 0058 07       		.byte	0x7
+ 413 0059 3C020000 		.4byte	.LASF7
+ 414 005d 03       		.uleb128 0x3
+ 415 005e 04       		.byte	0x4
+ 416 005f 05       		.byte	0x5
+ 417 0060 696E7400 		.ascii	"int\000"
+ 418 0064 02       		.uleb128 0x2
+ 419 0065 04       		.byte	0x4
+ 420 0066 07       		.byte	0x7
+ 421 0067 2F020000 		.4byte	.LASF8
+ 422 006b 04       		.uleb128 0x4
+ 423 006c 86020000 		.4byte	.LASF9
+ 424 0070 02       		.byte	0x2
+ 425 0071 E801     		.2byte	0x1e8
+ 426 0073 2C000000 		.4byte	0x2c
+ 427 0077 04       		.uleb128 0x4
+ 428 0078 FB010000 		.4byte	.LASF10
+ 429 007c 02       		.byte	0x2
+ 430 007d E901     		.2byte	0x1e9
+ 431 007f 3A000000 		.4byte	0x3a
+ 432 0083 02       		.uleb128 0x2
+ 433 0084 04       		.byte	0x4
+ 434 0085 04       		.byte	0x4
+ 435 0086 E7000000 		.4byte	.LASF11
+ 436 008a 02       		.uleb128 0x2
+ 437 008b 08       		.byte	0x8
+ 438 008c 04       		.byte	0x4
+ 439 008d E0000000 		.4byte	.LASF12
+ 440 0091 02       		.uleb128 0x2
+ 441 0092 01       		.byte	0x1
+ 442 0093 08       		.byte	0x8
+ 443 0094 66020000 		.4byte	.LASF13
+ 444 0098 04       		.uleb128 0x4
+ 445 0099 FB000000 		.4byte	.LASF14
+ 446 009d 02       		.byte	0x2
+ 447 009e 9202     		.2byte	0x292
+ 448 00a0 A4000000 		.4byte	0xa4
+ 449 00a4 05       		.uleb128 0x5
+ 450 00a5 6B000000 		.4byte	0x6b
+ 451 00a9 06       		.uleb128 0x6
+ 452 00aa 6B020000 		.4byte	.LASF15
+ 453 00ae 01       		.byte	0x1
+ 454 00af 39       		.byte	0x39
+ 455 00b0 00000000 		.4byte	.LFB0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 13
+
+
+ 456 00b4 3C000000 		.4byte	.LFE0-.LFB0
+ 457 00b8 01       		.uleb128 0x1
+ 458 00b9 9C       		.byte	0x9c
+ 459 00ba DB000000 		.4byte	0xdb
+ 460 00be 07       		.uleb128 0x7
+ 461 00bf BF000000 		.4byte	.LASF17
+ 462 00c3 01       		.byte	0x1
+ 463 00c4 39       		.byte	0x39
+ 464 00c5 6B000000 		.4byte	0x6b
+ 465 00c9 02       		.uleb128 0x2
+ 466 00ca 91       		.byte	0x91
+ 467 00cb 6F       		.sleb128 -17
+ 468 00cc 08       		.uleb128 0x8
+ 469 00cd D5000000 		.4byte	.LASF27
+ 470 00d1 01       		.byte	0x1
+ 471 00d2 3B       		.byte	0x3b
+ 472 00d3 6B000000 		.4byte	0x6b
+ 473 00d7 02       		.uleb128 0x2
+ 474 00d8 91       		.byte	0x91
+ 475 00d9 77       		.sleb128 -9
+ 476 00da 00       		.byte	0
+ 477 00db 06       		.uleb128 0x6
+ 478 00dc 41010000 		.4byte	.LASF16
+ 479 00e0 01       		.byte	0x1
+ 480 00e1 5A       		.byte	0x5a
+ 481 00e2 00000000 		.4byte	.LFB1
+ 482 00e6 88000000 		.4byte	.LFE1-.LFB1
+ 483 00ea 01       		.uleb128 0x1
+ 484 00eb 9C       		.byte	0x9c
+ 485 00ec FF000000 		.4byte	0xff
+ 486 00f0 07       		.uleb128 0x7
+ 487 00f1 53020000 		.4byte	.LASF18
+ 488 00f5 01       		.byte	0x1
+ 489 00f6 5A       		.byte	0x5a
+ 490 00f7 6B000000 		.4byte	0x6b
+ 491 00fb 02       		.uleb128 0x2
+ 492 00fc 91       		.byte	0x91
+ 493 00fd 77       		.sleb128 -9
+ 494 00fe 00       		.byte	0
+ 495 00ff 09       		.uleb128 0x9
+ 496 0100 C5000000 		.4byte	.LASF19
+ 497 0104 01       		.byte	0x1
+ 498 0105 73       		.byte	0x73
+ 499 0106 6B000000 		.4byte	0x6b
+ 500 010a 00000000 		.4byte	.LFB2
+ 501 010e 20000000 		.4byte	.LFE2-.LFB2
+ 502 0112 01       		.uleb128 0x1
+ 503 0113 9C       		.byte	0x9c
+ 504 0114 09       		.uleb128 0x9
+ 505 0115 00000000 		.4byte	.LASF20
+ 506 0119 01       		.byte	0x1
+ 507 011a 8F       		.byte	0x8f
+ 508 011b 6B000000 		.4byte	0x6b
+ 509 011f 00000000 		.4byte	.LFB3
+ 510 0123 20000000 		.4byte	.LFE3-.LFB3
+ 511 0127 01       		.uleb128 0x1
+ 512 0128 9C       		.byte	0x9c
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 14
+
+
+ 513 0129 06       		.uleb128 0x6
+ 514 012a 00010000 		.4byte	.LASF21
+ 515 012e 01       		.byte	0x1
+ 516 012f BD       		.byte	0xbd
+ 517 0130 00000000 		.4byte	.LFB4
+ 518 0134 5C000000 		.4byte	.LFE4-.LFB4
+ 519 0138 01       		.uleb128 0x1
+ 520 0139 9C       		.byte	0x9c
+ 521 013a 5B010000 		.4byte	0x15b
+ 522 013e 07       		.uleb128 0x7
+ 523 013f 26020000 		.4byte	.LASF22
+ 524 0143 01       		.byte	0x1
+ 525 0144 BD       		.byte	0xbd
+ 526 0145 77000000 		.4byte	0x77
+ 527 0149 02       		.uleb128 0x2
+ 528 014a 91       		.byte	0x91
+ 529 014b 76       		.sleb128 -10
+ 530 014c 07       		.uleb128 0x7
+ 531 014d 53020000 		.4byte	.LASF18
+ 532 0151 01       		.byte	0x1
+ 533 0152 BD       		.byte	0xbd
+ 534 0153 77000000 		.4byte	0x77
+ 535 0157 02       		.uleb128 0x2
+ 536 0158 91       		.byte	0x91
+ 537 0159 74       		.sleb128 -12
+ 538 015a 00       		.byte	0
+ 539 015b 09       		.uleb128 0x9
+ 540 015c 17000000 		.4byte	.LASF23
+ 541 0160 01       		.byte	0x1
+ 542 0161 E2       		.byte	0xe2
+ 543 0162 6B000000 		.4byte	0x6b
+ 544 0166 00000000 		.4byte	.LFB5
+ 545 016a 20000000 		.4byte	.LFE5-.LFB5
+ 546 016e 01       		.uleb128 0x1
+ 547 016f 9C       		.byte	0x9c
+ 548 0170 00       		.byte	0
+ 549              		.section	.debug_abbrev,"",%progbits
+ 550              	.Ldebug_abbrev0:
+ 551 0000 01       		.uleb128 0x1
+ 552 0001 11       		.uleb128 0x11
+ 553 0002 01       		.byte	0x1
+ 554 0003 25       		.uleb128 0x25
+ 555 0004 0E       		.uleb128 0xe
+ 556 0005 13       		.uleb128 0x13
+ 557 0006 0B       		.uleb128 0xb
+ 558 0007 03       		.uleb128 0x3
+ 559 0008 0E       		.uleb128 0xe
+ 560 0009 1B       		.uleb128 0x1b
+ 561 000a 0E       		.uleb128 0xe
+ 562 000b 55       		.uleb128 0x55
+ 563 000c 17       		.uleb128 0x17
+ 564 000d 11       		.uleb128 0x11
+ 565 000e 01       		.uleb128 0x1
+ 566 000f 10       		.uleb128 0x10
+ 567 0010 17       		.uleb128 0x17
+ 568 0011 00       		.byte	0
+ 569 0012 00       		.byte	0
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 15
+
+
+ 570 0013 02       		.uleb128 0x2
+ 571 0014 24       		.uleb128 0x24
+ 572 0015 00       		.byte	0
+ 573 0016 0B       		.uleb128 0xb
+ 574 0017 0B       		.uleb128 0xb
+ 575 0018 3E       		.uleb128 0x3e
+ 576 0019 0B       		.uleb128 0xb
+ 577 001a 03       		.uleb128 0x3
+ 578 001b 0E       		.uleb128 0xe
+ 579 001c 00       		.byte	0
+ 580 001d 00       		.byte	0
+ 581 001e 03       		.uleb128 0x3
+ 582 001f 24       		.uleb128 0x24
+ 583 0020 00       		.byte	0
+ 584 0021 0B       		.uleb128 0xb
+ 585 0022 0B       		.uleb128 0xb
+ 586 0023 3E       		.uleb128 0x3e
+ 587 0024 0B       		.uleb128 0xb
+ 588 0025 03       		.uleb128 0x3
+ 589 0026 08       		.uleb128 0x8
+ 590 0027 00       		.byte	0
+ 591 0028 00       		.byte	0
+ 592 0029 04       		.uleb128 0x4
+ 593 002a 16       		.uleb128 0x16
+ 594 002b 00       		.byte	0
+ 595 002c 03       		.uleb128 0x3
+ 596 002d 0E       		.uleb128 0xe
+ 597 002e 3A       		.uleb128 0x3a
+ 598 002f 0B       		.uleb128 0xb
+ 599 0030 3B       		.uleb128 0x3b
+ 600 0031 05       		.uleb128 0x5
+ 601 0032 49       		.uleb128 0x49
+ 602 0033 13       		.uleb128 0x13
+ 603 0034 00       		.byte	0
+ 604 0035 00       		.byte	0
+ 605 0036 05       		.uleb128 0x5
+ 606 0037 35       		.uleb128 0x35
+ 607 0038 00       		.byte	0
+ 608 0039 49       		.uleb128 0x49
+ 609 003a 13       		.uleb128 0x13
+ 610 003b 00       		.byte	0
+ 611 003c 00       		.byte	0
+ 612 003d 06       		.uleb128 0x6
+ 613 003e 2E       		.uleb128 0x2e
+ 614 003f 01       		.byte	0x1
+ 615 0040 3F       		.uleb128 0x3f
+ 616 0041 19       		.uleb128 0x19
+ 617 0042 03       		.uleb128 0x3
+ 618 0043 0E       		.uleb128 0xe
+ 619 0044 3A       		.uleb128 0x3a
+ 620 0045 0B       		.uleb128 0xb
+ 621 0046 3B       		.uleb128 0x3b
+ 622 0047 0B       		.uleb128 0xb
+ 623 0048 27       		.uleb128 0x27
+ 624 0049 19       		.uleb128 0x19
+ 625 004a 11       		.uleb128 0x11
+ 626 004b 01       		.uleb128 0x1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 16
+
+
+ 627 004c 12       		.uleb128 0x12
+ 628 004d 06       		.uleb128 0x6
+ 629 004e 40       		.uleb128 0x40
+ 630 004f 18       		.uleb128 0x18
+ 631 0050 9742     		.uleb128 0x2117
+ 632 0052 19       		.uleb128 0x19
+ 633 0053 01       		.uleb128 0x1
+ 634 0054 13       		.uleb128 0x13
+ 635 0055 00       		.byte	0
+ 636 0056 00       		.byte	0
+ 637 0057 07       		.uleb128 0x7
+ 638 0058 05       		.uleb128 0x5
+ 639 0059 00       		.byte	0
+ 640 005a 03       		.uleb128 0x3
+ 641 005b 0E       		.uleb128 0xe
+ 642 005c 3A       		.uleb128 0x3a
+ 643 005d 0B       		.uleb128 0xb
+ 644 005e 3B       		.uleb128 0x3b
+ 645 005f 0B       		.uleb128 0xb
+ 646 0060 49       		.uleb128 0x49
+ 647 0061 13       		.uleb128 0x13
+ 648 0062 02       		.uleb128 0x2
+ 649 0063 18       		.uleb128 0x18
+ 650 0064 00       		.byte	0
+ 651 0065 00       		.byte	0
+ 652 0066 08       		.uleb128 0x8
+ 653 0067 34       		.uleb128 0x34
+ 654 0068 00       		.byte	0
+ 655 0069 03       		.uleb128 0x3
+ 656 006a 0E       		.uleb128 0xe
+ 657 006b 3A       		.uleb128 0x3a
+ 658 006c 0B       		.uleb128 0xb
+ 659 006d 3B       		.uleb128 0x3b
+ 660 006e 0B       		.uleb128 0xb
+ 661 006f 49       		.uleb128 0x49
+ 662 0070 13       		.uleb128 0x13
+ 663 0071 02       		.uleb128 0x2
+ 664 0072 18       		.uleb128 0x18
+ 665 0073 00       		.byte	0
+ 666 0074 00       		.byte	0
+ 667 0075 09       		.uleb128 0x9
+ 668 0076 2E       		.uleb128 0x2e
+ 669 0077 00       		.byte	0
+ 670 0078 3F       		.uleb128 0x3f
+ 671 0079 19       		.uleb128 0x19
+ 672 007a 03       		.uleb128 0x3
+ 673 007b 0E       		.uleb128 0xe
+ 674 007c 3A       		.uleb128 0x3a
+ 675 007d 0B       		.uleb128 0xb
+ 676 007e 3B       		.uleb128 0x3b
+ 677 007f 0B       		.uleb128 0xb
+ 678 0080 27       		.uleb128 0x27
+ 679 0081 19       		.uleb128 0x19
+ 680 0082 49       		.uleb128 0x49
+ 681 0083 13       		.uleb128 0x13
+ 682 0084 11       		.uleb128 0x11
+ 683 0085 01       		.uleb128 0x1
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 17
+
+
+ 684 0086 12       		.uleb128 0x12
+ 685 0087 06       		.uleb128 0x6
+ 686 0088 40       		.uleb128 0x40
+ 687 0089 18       		.uleb128 0x18
+ 688 008a 9742     		.uleb128 0x2117
+ 689 008c 19       		.uleb128 0x19
+ 690 008d 00       		.byte	0
+ 691 008e 00       		.byte	0
+ 692 008f 00       		.byte	0
+ 693              		.section	.debug_aranges,"",%progbits
+ 694 0000 44000000 		.4byte	0x44
+ 695 0004 0200     		.2byte	0x2
+ 696 0006 00000000 		.4byte	.Ldebug_info0
+ 697 000a 04       		.byte	0x4
+ 698 000b 00       		.byte	0
+ 699 000c 0000     		.2byte	0
+ 700 000e 0000     		.2byte	0
+ 701 0010 00000000 		.4byte	.LFB0
+ 702 0014 3C000000 		.4byte	.LFE0-.LFB0
+ 703 0018 00000000 		.4byte	.LFB1
+ 704 001c 88000000 		.4byte	.LFE1-.LFB1
+ 705 0020 00000000 		.4byte	.LFB2
+ 706 0024 20000000 		.4byte	.LFE2-.LFB2
+ 707 0028 00000000 		.4byte	.LFB3
+ 708 002c 20000000 		.4byte	.LFE3-.LFB3
+ 709 0030 00000000 		.4byte	.LFB4
+ 710 0034 5C000000 		.4byte	.LFE4-.LFB4
+ 711 0038 00000000 		.4byte	.LFB5
+ 712 003c 20000000 		.4byte	.LFE5-.LFB5
+ 713 0040 00000000 		.4byte	0
+ 714 0044 00000000 		.4byte	0
+ 715              		.section	.debug_ranges,"",%progbits
+ 716              	.Ldebug_ranges0:
+ 717 0000 00000000 		.4byte	.LFB0
+ 718 0004 3C000000 		.4byte	.LFE0
+ 719 0008 00000000 		.4byte	.LFB1
+ 720 000c 88000000 		.4byte	.LFE1
+ 721 0010 00000000 		.4byte	.LFB2
+ 722 0014 20000000 		.4byte	.LFE2
+ 723 0018 00000000 		.4byte	.LFB3
+ 724 001c 20000000 		.4byte	.LFE3
+ 725 0020 00000000 		.4byte	.LFB4
+ 726 0024 5C000000 		.4byte	.LFE4
+ 727 0028 00000000 		.4byte	.LFB5
+ 728 002c 20000000 		.4byte	.LFE5
+ 729 0030 00000000 		.4byte	0
+ 730 0034 00000000 		.4byte	0
+ 731              		.section	.debug_line,"",%progbits
+ 732              	.Ldebug_line0:
+ 733 0000 C3000000 		.section	.debug_str,"MS",%progbits,1
+ 733      02004700 
+ 733      00000201 
+ 733      FB0E0D00 
+ 733      01010101 
+ 734              	.LASF20:
+ 735 0000 50696E73 		.ascii	"Pins_Port2_ReadDataReg\000"
+ 735      5F506F72 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 18
+
+
+ 735      74325F52 
+ 735      65616444 
+ 735      61746152 
+ 736              	.LASF23:
+ 737 0017 50696E73 		.ascii	"Pins_Port2_ClearInterrupt\000"
+ 737      5F506F72 
+ 737      74325F43 
+ 737      6C656172 
+ 737      496E7465 
+ 738              	.LASF24:
+ 739 0031 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 739      43313120 
+ 739      352E342E 
+ 739      31203230 
+ 739      31363036 
+ 740 0064 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 740      20726576 
+ 740      6973696F 
+ 740      6E203233 
+ 740      37373135 
+ 741 0097 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 741      66756E63 
+ 741      74696F6E 
+ 741      2D736563 
+ 741      74696F6E 
+ 742              	.LASF17:
+ 743 00bf 76616C75 		.ascii	"value\000"
+ 743      6500
+ 744              	.LASF19:
+ 745 00c5 50696E73 		.ascii	"Pins_Port2_Read\000"
+ 745      5F506F72 
+ 745      74325F52 
+ 745      65616400 
+ 746              	.LASF27:
+ 747 00d5 73746174 		.ascii	"staticBits\000"
+ 747      69634269 
+ 747      747300
+ 748              	.LASF12:
+ 749 00e0 646F7562 		.ascii	"double\000"
+ 749      6C6500
+ 750              	.LASF11:
+ 751 00e7 666C6F61 		.ascii	"float\000"
+ 751      7400
+ 752              	.LASF1:
+ 753 00ed 756E7369 		.ascii	"unsigned char\000"
+ 753      676E6564 
+ 753      20636861 
+ 753      7200
+ 754              	.LASF14:
+ 755 00fb 72656738 		.ascii	"reg8\000"
+ 755      00
+ 756              	.LASF21:
+ 757 0100 50696E73 		.ascii	"Pins_Port2_SetInterruptMode\000"
+ 757      5F506F72 
+ 757      74325F53 
+ 757      6574496E 
+ 757      74657272 
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 19
+
+
+ 758              	.LASF5:
+ 759 011c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 759      20756E73 
+ 759      69676E65 
+ 759      6420696E 
+ 759      7400
+ 760              	.LASF3:
+ 761 012e 73686F72 		.ascii	"short unsigned int\000"
+ 761      7420756E 
+ 761      7369676E 
+ 761      65642069 
+ 761      6E7400
+ 762              	.LASF16:
+ 763 0141 50696E73 		.ascii	"Pins_Port2_SetDriveMode\000"
+ 763      5F506F72 
+ 763      74325F53 
+ 763      65744472 
+ 763      6976654D 
+ 764              	.LASF26:
+ 765 0159 453A5C49 		.ascii	"E:\\IroTeam\\Developing Projects\\Cypress\\100 PIN\\"
+ 765      726F5465 
+ 765      616D5C44 
+ 765      6576656C 
+ 765      6F70696E 
+ 766 0188 63792D6D 		.ascii	"cy-micro\\cy-notask\\Start\\BoardSupport\\Cypress\\"
+ 766      6963726F 
+ 766      5C63792D 
+ 766      6E6F7461 
+ 766      736B5C53 
+ 767 01b6 43593843 		.ascii	"CY8C5868_CY8CKIT_050_PSoC5_DK\\Start_CY8C5868_Acces"
+ 767      35383638 
+ 767      5F435938 
+ 767      434B4954 
+ 767      5F303530 
+ 768 01e8 7356322E 		.ascii	"sV2.0_OldBrd.cydsn\000"
+ 768      305F4F6C 
+ 768      64427264 
+ 768      2E637964 
+ 768      736E00
+ 769              	.LASF10:
+ 770 01fb 75696E74 		.ascii	"uint16\000"
+ 770      313600
+ 771              	.LASF25:
+ 772 0202 47656E65 		.ascii	"Generated_Source\\PSoC5\\Pins_Port2.c\000"
+ 772      72617465 
+ 772      645F536F 
+ 772      75726365 
+ 772      5C50536F 
+ 773              	.LASF22:
+ 774 0226 706F7369 		.ascii	"position\000"
+ 774      74696F6E 
+ 774      00
+ 775              	.LASF8:
+ 776 022f 756E7369 		.ascii	"unsigned int\000"
+ 776      676E6564 
+ 776      20696E74 
+ 776      00
+ARM GAS  C:\Users\IroTeam\AppData\Local\Temp\cc6iqY6A.s 			page 20
+
+
+ 777              	.LASF7:
+ 778 023c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 778      206C6F6E 
+ 778      6720756E 
+ 778      7369676E 
+ 778      65642069 
+ 779              	.LASF18:
+ 780 0253 6D6F6465 		.ascii	"mode\000"
+ 780      00
+ 781              	.LASF6:
+ 782 0258 6C6F6E67 		.ascii	"long long int\000"
+ 782      206C6F6E 
+ 782      6720696E 
+ 782      7400
+ 783              	.LASF13:
+ 784 0266 63686172 		.ascii	"char\000"
+ 784      00
+ 785              	.LASF15:
+ 786 026b 50696E73 		.ascii	"Pins_Port2_Write\000"
+ 786      5F506F72 
+ 786      74325F57 
+ 786      72697465 
+ 786      00
+ 787              	.LASF2:
+ 788 027c 73686F72 		.ascii	"short int\000"
+ 788      7420696E 
+ 788      7400
+ 789              	.LASF9:
+ 790 0286 75696E74 		.ascii	"uint8\000"
+ 790      3800
+ 791              	.LASF4:
+ 792 028c 6C6F6E67 		.ascii	"long int\000"
+ 792      20696E74 
+ 792      00
+ 793              	.LASF0:
+ 794 0295 7369676E 		.ascii	"signed char\000"
+ 794      65642063 
+ 794      68617200 
+ 795              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

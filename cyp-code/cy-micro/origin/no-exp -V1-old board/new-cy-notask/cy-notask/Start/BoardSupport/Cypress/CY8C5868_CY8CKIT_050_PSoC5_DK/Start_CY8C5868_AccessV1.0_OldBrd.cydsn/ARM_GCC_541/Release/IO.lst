@@ -1,0 +1,98 @@
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccl2bFq9.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"IO.c"
+  16              		.section	.text.RGB,"ax",%progbits
+  17              		.align	2
+  18              		.global	RGB
+  19              		.thumb
+  20              		.thumb_func
+  21              		.type	RGB, %function
+  22              	RGB:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 0628     		cmp	r0, #6
+  27 0002 05D8     		bhi	.L2
+  28 0004 DFE800F0 		tbb	[pc, r0]
+  29              	.L4:
+  30 0008 04       		.byte	(.L2-.L4)/2
+  31 0009 0D       		.byte	(.L5-.L4)/2
+  32 000a 10       		.byte	(.L6-.L4)/2
+  33 000b 13       		.byte	(.L7-.L4)/2
+  34 000c 16       		.byte	(.L8-.L4)/2
+  35 000d 07       		.byte	(.L9-.L4)/2
+  36 000e 0A       		.byte	(.L10-.L4)/2
+  37 000f 00       		.p2align 1
+  38              	.L2:
+  39 0010 0020     		movs	r0, #0
+  40 0012 FFF7FEBF 		b	LED_RGB_Write
+  41              	.L9:
+  42 0016 0220     		movs	r0, #2
+  43 0018 FFF7FEBF 		b	LED_RGB_Write
+  44              	.L10:
+  45 001c 0420     		movs	r0, #4
+  46 001e FFF7FEBF 		b	LED_RGB_Write
+  47              	.L5:
+  48 0022 0620     		movs	r0, #6
+  49 0024 FFF7FEBF 		b	LED_RGB_Write
+  50              	.L6:
+  51 0028 0520     		movs	r0, #5
+  52 002a FFF7FEBF 		b	LED_RGB_Write
+  53              	.L7:
+  54 002e 0320     		movs	r0, #3
+  55 0030 FFF7FEBF 		b	LED_RGB_Write
+  56              	.L8:
+  57 0034 0120     		movs	r0, #1
+ARM GAS  C:\Users\ali\AppData\Local\Temp\ccl2bFq9.s 			page 2
+
+
+  58 0036 FFF7FEBF 		b	LED_RGB_Write
+  59              		.size	RGB, .-RGB
+  60 003a 00BF     		.section	.text.Relay_Port1,"ax",%progbits
+  61              		.align	2
+  62              		.global	Relay_Port1
+  63              		.thumb
+  64              		.thumb_func
+  65              		.type	Relay_Port1, %function
+  66              	Relay_Port1:
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69              		@ link register save eliminated.
+  70 0000 08B9     		cbnz	r0, .L14
+  71 0002 FFF7FEBF 		b	Relay_Port1_Write
+  72              	.L14:
+  73 0006 0120     		movs	r0, #1
+  74 0008 FFF7FEBF 		b	Relay_Port1_Write
+  75              		.size	Relay_Port1, .-Relay_Port1
+  76              		.section	.text.Relay_Port2,"ax",%progbits
+  77              		.align	2
+  78              		.global	Relay_Port2
+  79              		.thumb
+  80              		.thumb_func
+  81              		.type	Relay_Port2, %function
+  82              	Relay_Port2:
+  83              		@ args = 0, pretend = 0, frame = 0
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85              		@ link register save eliminated.
+  86 0000 08B9     		cbnz	r0, .L17
+  87 0002 FFF7FEBF 		b	Relay_Port2_Write
+  88              	.L17:
+  89 0006 0120     		movs	r0, #1
+  90 0008 FFF7FEBF 		b	Relay_Port2_Write
+  91              		.size	Relay_Port2, .-Relay_Port2
+  92              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
